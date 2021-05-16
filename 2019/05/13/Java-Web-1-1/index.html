@@ -1,0 +1,497 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Java Web入门 | 平心de小屋</title><meta name="keywords" content="Java,Web"><meta name="author" content="平心"><meta name="copyright" content="平心"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="什么是Web?Web在计算机网页开发设计中就是网页的意思。网页是网站中的一个页面，我们平常浏览网站时，看到的都是一个一个的页面，通常它们都是HTML格式的。网页可以展示文字、图片、媒体等内容，而这些都是需要通过浏览器来阅读。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Java Web入门">
+<meta property="og:url" content="https://pingxin0521.gitee.io/2019/05/13/Java-Web-1-1/index.html">
+<meta property="og:site_name" content="平心de小屋">
+<meta property="og:description" content="什么是Web?Web在计算机网页开发设计中就是网页的意思。网页是网站中的一个页面，我们平常浏览网站时，看到的都是一个一个的页面，通常它们都是HTML格式的。网页可以展示文字、图片、媒体等内容，而这些都是需要通过浏览器来阅读。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://i.loli.net/2020/05/08/gGE57HRvpcKPfDY.jpg">
+<meta property="article:published_time" content="2019-05-13T00:18:59.000Z">
+<meta property="article:modified_time" content="2019-07-31T09:13:34.000Z">
+<meta property="article:author" content="平心">
+<meta property="article:tag" content="Java">
+<meta property="article:tag" content="Web">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.loli.net/2020/05/08/gGE57HRvpcKPfDY.jpg"><link rel="shortcut icon" href="https://s2.ax1x.com/2020/02/11/1ovFOA.png"><link rel="canonical" href="https://pingxin0521.gitee.io/2019/05/13/Java-Web-1-1/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"search.xml","languages":{"hits_empty":"找不到您查询的内容：${query}"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    jQuery: 'https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js',
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+    },
+    fancybox: {
+      js: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css'
+    }
+  },
+  isPhotoFigcaption: true,
+  islazyload: true,
+  isanchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'Java Web入门',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2019-07-31 17:13:34'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    })(window)</script><meta name="generator" content="Hexo 5.4.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="author-avatar"><img class="avatar-img" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://s2.ax1x.com/2020/02/11/1ovw6J.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data"><div class="data-item is-center"><div class="data-item-link"><a href="/archives/"><div class="headline">文章</div><div class="length-num">449</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/tags/"><div class="headline">标签</div><div class="length-num">77</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/categories/"><div class="headline">分类</div><div class="length-num">68</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fa fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fa fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://i.loli.net/2020/05/08/gGE57HRvpcKPfDY.jpg')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">平心de小屋</a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fa fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fa fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">Java Web入门</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2019-05-13T00:18:59.000Z" title="发表于 2019-05-13 08:18:59">2019-05-13</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2019-07-31T09:13:34.000Z" title="更新于 2019-07-31 17:13:34">2019-07-31</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/Java/">Java</a><i class="fas fa-angle-right post-meta-separator"></i><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/Java/Web/">Web</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">10.5k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>41分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="Java Web入门"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h4 id="什么是Web"><a href="#什么是Web" class="headerlink" title="什么是Web?"></a>什么是Web?</h4><p>Web在计算机网页开发设计中就是网页的意思。网页是网站中的一个页面，我们平常浏览网站时，看到的都是一个一个的页面，通常它们都是<strong>HTML</strong>格式的。网页可以展示文字、图片、媒体等内容，而这些都是需要通过浏览器来阅读。</p>
+<span id="more"></span>
+
+<h4 id="Web应用程序的工作原理？"><a href="#Web应用程序的工作原理？" class="headerlink" title="Web应用程序的工作原理？"></a>Web应用程序的工作原理？</h4><p>Web应用程序大体上可以分为两种，<strong>静态网站</strong>和<strong>动态网站</strong>。</p>
+<p>早期的Web应用主要是静态页面的浏览，即静态网站。这些网站使用<strong>HTML</strong>描写，通常来说随着html代码的生成，页面的内容和显示效果就基本上不会发生变化了——除非你修改页面代码。这些代码放在Web服务器上，用户使用浏览器通过<strong>HTTP协议</strong>请求服务器上的Web页面，服务器上的Web服务器接受到用户的请求处理后，再发送给客户端浏览器，显示给用户。整个过程就像下图：</p>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2019/05/14/5cda48b41b1bb27213.png" alt="1.png"></p>
+<p>而动态网页则不然，页面代码虽然没有变，但是显示的内容却是可以随着时间、环境或者数据库操作的结果而发生改变的。这些网站通常使用<strong>HTML</strong>和<strong>动态脚本语言（入JSP、ASP或者是PHP等）</strong>编写，并将编写后的程序部署到Web服务器上，由Web服务器堆动态脚本代码进行处理，并转化成浏览器可以解析的<strong>HTML</strong>代码，返回给客户端浏览器，显示给用户。</p>
+<p><strong>值得一提的是：</strong>动态网页并非是那些带有动画效果的网页，而是指具有交互性、内容可以自动更新，并且内容会根据访问的时间和访问者而改变的网页。这里所说的交互性是指网页可以根据用户的要求动态改变或响应。<br> 由此可见，静态网页就像是老式的手机，只能使用系统自带的铃声和功能，而动态网页就像是现代的手机，可以自行添加/删除或者说更改铃声和其他一些设置。</p>
+<h3 id="Web的发展历程"><a href="#Web的发展历程" class="headerlink" title="Web的发展历程"></a>Web的发展历程</h3><p>自从1989年由 <strong>Tim Berners-Lee(蒂姆·伯纳斯·李)</strong> 发明了 <strong>World Wide Web</strong> 以来，Web 主要精力了3个阶段，分别是静态文档阶段（指代 Web 1.0）、动态网页阶段（指代 Web 1.5）和 Web 2.0 阶段。</p>
+<h4 id="静态文档阶段"><a href="#静态文档阶段" class="headerlink" title="静态文档阶段"></a>静态文档阶段</h4><p>处理静态文档阶段的 Web ，主要是用于静态 Web 页面的浏览。用户通过客户端的 Web 浏览器可以访问 Internet 上各个 Web 站点。在每个 Web 站点上，保存着提前编写好的 HTML 格式的 Web 页，以及各 Web 页之间可以实现跳转的超文本链接。通常情况下，这些 Web 页都是通过 HTML 语言编写的。由于受低版本 HTML 语言和旧式浏览器的制约，Web 页面只能包括单纯的文本内容，浏览器页只能显示呆板的文字信息，不过这已经基本满足了建立 Web 站点的初衷，实现了信息资源共享。</p>
+<p>随着互联网技术的不断发展以及网上信息呈几何倍数的增长，人们逐渐发现手工编写包含所有信息和内容的页面，对人力和物理都是一种极大的浪费，而且几乎变得难以实现。另外，这样的页面也无法实现各种动态的交互功能。这就促使了 Web 技术进入了发展的第二阶段——动态网页阶段。</p>
+<h4 id="动态网页阶段"><a href="#动态网页阶段" class="headerlink" title="动态网页阶段"></a>动态网页阶段</h4><p>为了克服静态页面的不足，人们将传统单机环境下的编程技术与 Web 技术相结合，从而形成新的网络编程技术。网络编程技术通过在传统的静态网页中加入各种程序和逻辑控制，从而实现动态和个性化的交流与互动。我们将这种使用网络编程技术创建的页面称为动态页面。动态页面的后缀通常是**.jsp、.php、和.asp<strong>等，而静态页面的后缀通常是</strong>.htm、.html和.shtml**等。</p>
+<h4 id="Web-2-0-阶段"><a href="#Web-2-0-阶段" class="headerlink" title="Web 2.0 阶段"></a>Web 2.0 阶段</h4><p>随着互联网技术的不断发展，又提出了一种新的互联网模式——Web 2.0。这种模式更加以用户为中心，通过网络应用（ Web Applications ）促进网络上人与人间的信息交换和协同合作。</p>
+<p>Web 2.0 技术主要包括：博客（ BLOG ）、微博（ Twitter ）、维基百科全书（ Wiki ）、即时信息（ IM ）等。</p>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2019/05/14/5cda49007a56b61485.png" alt="2.png"></p>
+<h3 id="网络程序开发的体系结构"><a href="#网络程序开发的体系结构" class="headerlink" title="网络程序开发的体系结构"></a>网络程序开发的体系结构</h3><p>随着 Web 2.0 时代的到来，互联网的网络架构已经从传统的 C/S 架构转变为更加方便、快捷的 B/S 架构，B/S 架构大大简化了用户使用网络应用的难度，这种人人都能上网、人人都能使用网络上提供的服务的方法也进一步推动了互联网的繁荣。</p>
+<p>理解 C/S 和 B/S 可以通过一些实际的例子。C/S 就像是桌面 QQ 等一些<strong>运行在桌面的程序，</strong>，在<strong>服务端主要就是一个数据库，把所有业务逻辑以及界面的渲染操作交给客户端</strong>去完成。而 B/S 就是我们的浏览器，<strong>把业务逻辑交给服务端完成，客户端仅仅只做界面渲染和数据交换。</strong></p>
+<p>B/S 架构带来了以下两个方面的好处：</p>
+<ul>
+<li><strong>客户端使用同一的浏览器（ Browser ）。</strong>由于浏览器具有统一性，它不需要特殊的配置和网络连接，有效的屏蔽了不同服务提供商提供给用户使用服务的差异性。另外，最重要的一点，浏览器的交互特性使得用户使用它非常简便，而且用户行为的可继承性非常强，也就是用户只要学会了上网，不管使用的是哪一个应用，一旦学会了，在使用其他互联网服务时同样具有了使用经验，因为它们都是基于同样的浏览器操作界面。</li>
+<li><strong>服务端（ Server ）基于统一的 HTTP 。</strong>和传统的 C/S 架构使用自定义的应用层协议不同，B/S 价格使用的都是统一的 HTTP。使用同一的 HTTP 也为服务提供商简化了开发模式，使得服务器开发者可以采用相对规范的开发模式，这样可以大大节省开发成本。由于使用统一的 HTTP，所以基于 HTTP 的服务器就有很多，如 <strong>IIS、Tomcat</strong> 等，这些服务器可以直接拿来使用，不需要服务开发者单独来开发。不仅如此，连开发服务的通用框架都不需要单独开发，服务开发者只需要关注提供服务的应用逻辑，其他一切平台和框架都可以直接拿来使用，所以 B/S 架构同样简化了服务器提供者的开发，从而出现了越来越多的互联网服务。</li>
+</ul>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2019/05/14/5cda4940be2a883957.png" alt="3.png"></p>
+<h4 id="B-S-网络架构概述"><a href="#B-S-网络架构概述" class="headerlink" title="B/S 网络架构概述"></a>B/S 网络架构概述</h4><p>B/S 网络架构从前端到后端都得到了简化，基于统一的应用层协议 HTTP 来交互数据，与大多数传统 C/S 互联网应用程序采用的长连接的交互模式不同，<strong>HTTP 采用无状态的短连接的通信方式，</strong>通常情况下，一次请求就完成了一次数据交互，通常也对应一个业务逻辑，然后这次通信连接就断开了。采用这种方式是为了能够同时服务更多的用户，因为当前互联网应用每天都会处理上亿的用户请求，不可能每个用户访问一次后就一直保持这个连接。</p>
+<p>基于 HTTP 本身的特点，目前的 B/S 网络架构大多采用 <strong>CDN</strong> 的架构设计（如上图），既要满足海量用户的访问请求，又要保持用户请求的快速响应，所以现在的网络架构也越来越复杂。</p>
+<p>当一个用户在浏览器里输入 <em><a target="_blank" rel="noopener" href="http://www.taobao.com/">www.taobao.com</a></em> 这个 URL 时，将会发生很多操作。首先它会请求 DNS 吧这个域名解析成对应的 IP 地址，然后根据这个 IP 地址在互联网上找到相对应的服务器，向这个服务器发起一个 get 请求，由这个服务器决定返回默认的数据资源给访问的用户。在服务器端实际上还有很复杂的业务逻辑：服务器可能有很多台，到底指定哪一台服务器来处理请求，这需要一个负载均衡设备来平均分配所有用户的请求；还有请求的数据是存储在分布式缓存里还是一个静态文件中，或是在数据库里；当数据返回浏览器时，浏览器解析数据发现还有一些静态资源（ 如 CSS 、JS 或者图片 ）时又会发起另外的 HTTP 请求，而这些请求很可能会在 CDN 上，那么 CDN 服务器又会处理这个用户的请求，大体上一个用户请求会设计这么多的操作。每一个细节都会影响这个请求最终是否会成功。</p>
+<p>不管网络架构如何变化，时钟有一些固定不变的原则需要遵守。</p>
+<ul>
+<li> <strong>互联网上所有资源都要用一个 URL 来表示。</strong>URL 就是同意资源定位符，如果你要发布一个服务或者一个资源到互联网上，让别人能够访问到，那么你首先必须要有一个在世界上独一无二的 URL 。<strong>不要小看这个 URL ，它几乎包含了整个互联网的架构精髓。</strong> </li>
+<li> <strong>必须基于 HTTP 与服务端交互。</strong>不管你要访问的事国内的还是国外的数据，是文本数据还是流媒体，都必须按照套路出牌，也就是都得采用统一打招呼的方式，这样人家才会明白你要的是什么。</li>
+<li> <strong>数据展示必须在浏览器中进行。</strong>当你获取到数据资源后，必须在浏览器上才能恢复它的容貌。</li>
+</ul>
+<p>只要满足上面的几点，一个互联网应用基本上就能正确地运行起来了，当然这里面还有很多细节。</p>
+<h3 id="相关技术"><a href="#相关技术" class="headerlink" title="相关技术"></a>相关技术</h3><p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2019/05/14/5cda4bc639e7945784.png" alt="4.png"></p>
+<h4 id="项目结构"><a href="#项目结构" class="headerlink" title="项目结构"></a>项目结构</h4><p>maven推荐包结构：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">├── pom.xml</span><br><span class="line">└── src</span><br><span class="line">    ├── main</span><br><span class="line">    │   ├── java //后端逻辑代码</span><br><span class="line">    │   │   └── mygroup</span><br><span class="line">    │   │       ├── controller</span><br><span class="line">    │   │       │   ├── HomeController.java</span><br><span class="line">    │   │       │   └── PersonController.java</span><br><span class="line">    │   │       ├── dao</span><br><span class="line">    │   │       │   └── PersonDao.java</span><br><span class="line">    │   │       └── model</span><br><span class="line">    │   │           └── Person.java</span><br><span class="line">    │   ├── resources //后端使用到的资源文件</span><br><span class="line">    │   │   ├── db.properties</span><br><span class="line">    │   │   ├── log4j.xml</span><br><span class="line">    │   │   └── META-INF</span><br><span class="line">    │   │       └── persistence.xml</span><br><span class="line">    │   └── webapp //网站前端,所有Web资源（包括HTML，JSP和图形文件等等）</span><br><span class="line">    │       ├── index.html</span><br><span class="line">    │       ├── META-INF </span><br><span class="line">    │       │   ├── context.xml</span><br><span class="line">    │       │   └── MANIFEST.MF</span><br><span class="line">    │       ├── resources //前端需要使用的资源:图片、css、js</span><br><span class="line">    │       │   └── css</span><br><span class="line">    │       │       └── screen.css</span><br><span class="line">    │       └── WEB-INF//对于Web应用程序，此目录包含支持的Web资源，</span><br><span class="line">    						//包含web.xml文件以classes和lib目录</span><br><span class="line">    │           ├── spring</span><br><span class="line">    │           │   ├── app</span><br><span class="line">    │           │   │   ├── controllers.xml</span><br><span class="line">    │           │   │   └── servlet-context.xml</span><br><span class="line">    │           │   ├── db.xml</span><br><span class="line">    │           │   └── root-context.xml</span><br><span class="line">    │           ├── views</span><br><span class="line">    │           │   ├── edit.jsp</span><br><span class="line">    │           │   ├── home.jsp</span><br><span class="line">    │           │   └── list.jsp</span><br><span class="line">    │           └── web.xml</span><br><span class="line">    └── test //测试</span><br><span class="line">        ├── java</span><br><span class="line">        │   └── mygroup</span><br><span class="line">        │       ├── controller</span><br><span class="line">        │       │   ├── DataInitializer.java</span><br><span class="line">        │       │   ├── HomeControllerTest.java</span><br><span class="line">        │       │   └── PersonControllerTest.java</span><br><span class="line">        │       └── dao</span><br><span class="line">        │           └── PersonDaoTest.java</span><br><span class="line">        └── resources</span><br><span class="line">            ├── db.properties</span><br><span class="line">            ├── log4j.xml</span><br><span class="line">            ├── test-context.xml</span><br><span class="line">            └── test-db.xml</span><br></pre></td></tr></table></figure>
+
+<h3 id="web-xml文件"><a href="#web-xml文件" class="headerlink" title="web.xml文件"></a>web.xml文件</h3><h4 id="加载过程"><a href="#加载过程" class="headerlink" title="加载过程"></a>加载过程</h4><p>简单说一下，web.xml的加载过程。当我们启动一个WEB项目容器时，容器包括(JBoss,Tomcat等)。首先会去读取web.xml配置文件里的配置，当这一步骤没有出错并且完成之后，项目才能正常的被启动起来。</p>
+<p>启动WEB项目的时候，容器首先会去读取web.xml配置文件中的两个节点：<code>&lt;listener&gt; &lt;/listener&gt;</code>和<code>&lt;context-param&gt; &lt;/context-param&gt;</code></p>
+<p>紧接着，容器创建一个ServletContext(application),这个web项目的所有部分都将共享这个上下文。容器以<code>&lt;context-param&gt;&lt;/context-param&gt;</code>的name作为键，value作为值，将其转化为键值对，存入ServletContext。　　</p>
+<p>容器创建<code>&lt;listener&gt;&lt;/listener&gt;</code>中的类实例，根据配置的class类路径<code>&lt;listener-class&gt;</code>来创建监听，在监听中会有初始化方法，启动Web应用时，系统调用Listener的该方法 contextInitialized(ServletContextEvent args)，在这个方法中获得：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ServletContext application =ServletContextEvent.getServletContext();</span><br><span class="line">context-param的值= application.getInitParameter(&quot;context-param的键&quot;);</span><br></pre></td></tr></table></figure>
+
+<p>得到这个context-param的值之后，你就可以做一些操作了。</p>
+<p>举例：你可能想在项目启动之前就打开数据库，那么这里就可以在&lt;context-param&gt;中设置数据库的连接方式（驱动、url、user、password），在监听类中初始化数据库的连接。这个监听是自己写的一个类，除了初始化方法，它还有销毁方法，用于关闭应用前释放资源。比如:说数据库连接的关闭，此时，调用contextDestroyed(ServletContextEvent args)，关闭Web应用时，系统调用Listener的该方法。</p>
+<p>接着，容器会读取&lt;filter&gt;&lt;/filter&gt;，根据指定的类路径来实例化过滤器。</p>
+<p>以上都是在WEB项目还没有完全启动起来的时候就已经完成了的工作。如果系统中有Servlet，则Servlet是在第一次发起请求的时候被实例化的，而且一般不会被容器销毁，它可以服务于多个用户的请求。所以，Servlet的初始化都要比上面提到的那几个要迟。总的来说，web.xml的加载顺序是: &lt;context-param&gt;-&gt; &lt;listener&gt; -&gt; &lt;filter&gt; -&gt; &lt;servlet&gt;。其中，如果web.xml中出现了相同的元素，则按照在配置文件中出现的先后顺序来加载。</p>
+<h4 id="XML文档有效性检查"><a href="#XML文档有效性检查" class="headerlink" title="XML文档有效性检查"></a>XML文档有效性检查</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;!DOCTYPE web-app PUBLIC</span><br><span class="line"> &quot;-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN&quot;</span><br><span class="line"> &quot;http://java.sun.com/dtd/web-app_2_3.dtd&quot; &gt;</span><br></pre></td></tr></table></figure>
+
+<p>这段代码指定文件类型定义(DTD)，可以通过它检查XML文档的有效性。下面显示的&lt;!DOCTYPE&gt;元素有几个特性，这些特性告诉我们关于DTD的信息： </p>
+<ul>
+<li><p> web-app定义该文档(部署描述符，不是DTD文件)的根元素 </p>
+</li>
+<li><p>PUBLIC意味着DTD文件可以被公开使用 </p>
+</li>
+<li><p>“ -//Sun Microsystems, Inc.//DTD Web Application 2.3//EN”意味着DTD由Sun Microsystems, Inc.维护。该信息也表示它描述的文档类型是DTD Web Application 2.3，而且DTD是用英文书写的。 </p>
+</li>
+<li><p> URL”<a target="_blank" rel="noopener" href="http://java.sun.com/dtd/web-app_2_3.dtd&quot;%E8%A1%A8%E7%A4%BAD%E6%96%87%E4%BB%B6%E7%9A%84%E4%BD%8D%E7%BD%AE%E3%80%82">http://java.sun.com/dtd/web-app_2_3.dtd&quot;表示D文件的位置。</a></p>
+</li>
+</ul>
+<h4 id="1-web应用名称设置"><a href="#1-web应用名称设置" class="headerlink" title="1.web应用名称设置"></a>1.web应用名称设置</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;display-name&gt;应用名称&lt;/display-name&gt;</span><br></pre></td></tr></table></figure>
+
+<h4 id="2-web应用描述"><a href="#2-web应用描述" class="headerlink" title="2.web应用描述"></a>2.web应用描述</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;description&gt;应用描述&lt;/description&gt;</span><br></pre></td></tr></table></figure>
+
+<h4 id="3-配置监听器"><a href="#3-配置监听器" class="headerlink" title="3.配置监听器"></a>3.配置监听器</h4><p>&lt;listener&gt;为web应用程序定义监听器，监听器用来监听各种事件，比如：application和session事件，所有的监听器按照相同的方式定义，功能取决去它们各自实现的接口，常用的Web事件接口有如下几个：</p>
+<ol>
+<li>ServletContextListener：用于监听Web应用的启动和关闭；</li>
+<li>ServletContextAttributeListener：用于监听ServletContext范围（application）内属性的改变；</li>
+<li>ServletRequestListener：用于监听用户的请求；</li>
+<li> ServletRequestAttributeListener：用于监听ServletRequest范围（request）内属性的改变；</li>
+<li>HttpSessionListener：用于监听用户session的开始和结束；</li>
+<li> HttpSessionAttributeListener：用于监听HttpSession范围（session）内属性的改变。</li>
+</ol>
+<p>&lt;listener&gt;主要用于监听Web应用事件，其中有两个比较重要的WEB应用事件：<strong>应用的启动和停止（</strong>starting<br>up or shutting down<strong>）</strong>和<strong>Session</strong>的创建和失效（<strong>created or destroyed</strong>）。</p>
+<p>应用启动事件发生在应用第一次被Servlet容器装载和启动的时候；停止事件发生在Web应用停止的时候。Session创建事件发生在每次一个新的session创建的时候，类似地Session失效事件发生在每次一个Session失效的时候。为了使用这些Web应用事件做些有用的事情，我们必须创建和使用一些特殊的“监听类”。</p>
+<p>它们是实现了以下两个接口中任何一个接口的简单java类：javax.servlet.ServletContextListener或javax.servlet.http.HttpSessionListener，如果想让你的类监听应用的启动和停止事件，你就得实现ServletContextListener接口；想让你的类去监听Session的创建和失效事件，那你就得实现HttpSessionListener接口。</p>
+<p><strong>Listener配置</strong></p>
+<p>配置Listener只要向Web应用注册Listener实现类即可，无序配置参数之类的东西，因为Listener获取的是Web应用ServletContext（application）的配置参数。为Web应用配置Listener的两种方式：</p>
+<ol>
+<li><p>使用@WebListener修饰Listener实现类即可。</p>
+</li>
+<li><p>在web.xml文档中使用&lt;listener&gt;进行配置。</p>
+</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">&lt;!-- 日志监听 --&gt;</span><br><span class="line"></span><br><span class="line">&lt;listener&gt;</span><br><span class="line">    &lt;listener-class&gt;org.springframework.web.util.Log4jConfigListener&lt;/listener-class&gt;</span><br><span class="line">  &lt;/listener&gt;</span><br><span class="line"></span><br><span class="line">&lt;!--  配置日志文件地址--&gt;</span><br><span class="line"></span><br><span class="line">&lt;context-param&gt;</span><br><span class="line">    &lt;param-name&gt;log4jConfigLocation&lt;/param-name&gt;</span><br><span class="line">    &lt;param-value&gt;/WEB-INF/classes/META-INF/log4j.properties&lt;/param-value&gt;</span><br><span class="line">  &lt;/context-param&gt;</span><br><span class="line"></span><br><span class="line">&lt;context-param&gt;</span><br><span class="line">    &lt;param-name&gt;log4jRefreshInterval&lt;/param-name&gt;</span><br><span class="line">    &lt;param-value&gt;120000&lt;/param-value&gt;</span><br><span class="line">  &lt;/context-param&gt;</span><br></pre></td></tr></table></figure>
+
+
+<p>log4jRefreshInterval 该设置作用为容器会每120秒自动扫描log4j的配置文件，改变日志级别时不需要重启服务器。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;!-- 自动装载ApplicationContext的配置信息 --&gt;</span><br><span class="line"></span><br><span class="line">&lt;listener&gt;</span><br><span class="line">    &lt;listener-class&gt;org.springframework.web.context.ContextLoaderListener&lt;/listener-class&gt;</span><br><span class="line">&lt;/listener&gt;</span><br></pre></td></tr></table></figure>
+
+<p>spring 提供了ServletContentListener的一个实现类ContextLoaderListener监听器，在启动tomcat容器时，该类的作用是自动装载ApplicationContext的配置信息，如果没有设置ContextLoaderListener的初始参数会使用默认参数web-inf路径下的application,xml文件，如果需要读取多个配置文件或修改默认路径，可以利用context-param设置：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&lt;context-param&gt;</span><br><span class="line">    &lt;param-name&gt;contextConfigLocation&lt;/param-name&gt;</span><br><span class="line">    &lt;param-value&gt;classpath:applicationContext*.xml&lt;/param-value&gt;</span><br><span class="line">&lt;/context-param&gt;</span><br><span class="line"></span><br><span class="line">&lt;!-- 解决可能出现的内存泄漏问题--&gt;</span><br><span class="line">  &lt;listener&gt;</span><br><span class="line">    &lt;listener-class&gt;org.springframework.web.util.IntrospectorCleanupListener&lt;/listener-class&gt;</span><br><span class="line">  &lt;/listener&gt;</span><br></pre></td></tr></table></figure>
+
+<h4 id="4-设置应用的环境参数"><a href="#4-设置应用的环境参数" class="headerlink" title="4.设置应用的环境参数"></a>4.设置应用的环境参数</h4><p>该参数可以在jsp中通过方法获取，也可以在java代码中获取，放在监听器后面</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;context-param&gt;</span><br><span class="line">    &lt;param-name&gt;contextConfigLocation&lt;/param-name&gt;</span><br><span class="line">    &lt;param-value&gt;classpath:applicationContext*.xml&lt;/param-value&gt;</span><br><span class="line">&lt;/context-param&gt;</span><br></pre></td></tr></table></figure>
+
+<p>在jsp中获取可以用{initparam.contextConfigLocation}获取对应的value值</p>
+<p>在代码中可以通过string param=getservletContent().getParamter(‘contextConfigLocation’);获取</p>
+<h4 id="5-设置web应用的过滤器"><a href="#5-设置web应用的过滤器" class="headerlink" title="5.设置web应用的过滤器"></a>5.设置web应用的过滤器</h4><p>Filter可认为是Servle的一种“加强版”，主要用于对用户请求request进行预处理，也可以对Response进行后处理，是个典型的处理链。使用Filter的完整流程是：Filter对用户请求进行预处理，接着将请求HttpServletRequest交给Servlet进行处理并生成响应，最后Filter再对服务器响应HttpServletResponse进行后处理。Filter与Servlet具有完全相同的生命周期，且Filter也可以通过&lt;init-param&gt;来配置初始化参数，获取Filter的初始化参数则使用FilterConfig的getInitParameter()。</p>
+<p>换种说法，Servlet里有request和response两个对象，Filter能够在一个request到达Servlet之前预处理request，也可以在离开Servlet时处理response，Filter其实是一个Servlet链。以下是Filter的一些常见应用场合，</p>
+<ol>
+<li>认证Filter</li>
+<li>日志和审核Filter</li>
+<li>图片转换Filter</li>
+<li>数据压缩Filter</li>
+<li>密码Filter</li>
+<li>令牌Filter</li>
+<li>触发资源访问事件的Filter</li>
+<li>XSLT Filter</li>
+<li>媒体类型链Filter</li>
+</ol>
+<p>Filter可负责拦截多个请求或响应；一个请求或响应也可被多个Filter拦截。创建一个Filter只需两步:</p>
+<ol>
+<li>创建Filter处理类</li>
+<li> Web.xml文件中配置Filter</li>
+</ol>
+<p>Filter必须实现javax.servlet.Filter接口，在该接口中定义了三个方法：</p>
+<ol>
+<li>void init(FilterConfig config)：用于完成Filter的初始化。FilteConfig用于访问Filter的配置信息。</li>
+<li>void destroy()：用于Filter销毁前，完成某些资源的回收。</li>
+<li>void doFilter(ServletRequest request,ServletResponse response,FilterChain chain)：实现过滤功能的核心方法，该方法就是对每个请求及响应增加额外的处理。该方法实现对用户请求request进行预处理，也可以实现对服务器响应response进行后处理—它们的分界线为是否调用了chain.doFilter(request，response)，执行该方法之前，即对用户请求request进行预处理，执行该方法之后，即对服务器响应response进行后处理。</li>
+</ol>
+<h5 id="Filter配置："><a href="#Filter配置：" class="headerlink" title="Filter配置："></a>Filter配置：</h5><p>Filter可认为是Servlet的“增强版”，因此Filter配置与Servlet的配置非常相似，需要配置两部分：配置Filter名称和Filter拦截器URL模式。区别在于Servlet通常只配置一个URL，而Filter可以同时配置多个请求的URL。配置Filter有两种方式：</p>
+<ol>
+<li><p>在Filter类中通过Annotation进行配置。</p>
+</li>
+<li><p>在web.xml文件中通过配置文件进行配置。</p>
+</li>
+</ol>
+<p> 我们使用的是web.xml这种配置方式，下面重点介绍&lt;filter&gt;内包含的一些元素。<br> &lt;filter&gt;用于指定Web容器中的过滤器，可包含&lt;filter-name&gt;、&lt;filter-class&gt;、&lt;init-param&gt;、&lt;icon&gt;、&lt;display-name&gt;、&lt;description&gt;。</p>
+<ol>
+<li><p>&lt;filter-name&gt;用来定义过滤器的名称，该名称在整个程序中都必须唯一。</p>
+</li>
+<li><p>&lt;filter-class&gt;元素指定过滤器类的完全限定的名称，即Filter的实现类。</p>
+</li>
+<li><p>&lt;init-param&gt;为Filter配置参数，与&lt;context-param&gt;具有相同的元素描述符&lt;param-name&gt;和&lt;param-value&gt;。</p>
+</li>
+<li><p>&lt;filter-mapping&gt;元素用来声明Web应用中的过滤器映射，过滤器被映射到一个servlet或一个URL  模式。这个过滤器的&lt;filter&gt;和&lt;filter-mapping&gt;必须具有相同的&lt;filter-name&gt;，指定该Filter所拦截的URL。过滤是按照部署描述符的&lt;filter-mapping&gt;出现的顺序执行的。</p>
+</li>
+</ol>
+<p>字符集过滤器，用于处理项目中的乱码问题</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">&lt;filter&gt;</span><br><span class="line">   &lt;filter-name&gt;characterEncodingFilter&lt;/filter-name&gt;</span><br><span class="line">   &lt;filter-class&gt;org.springframework.web.filter.CharacterEncodingFilter&lt;/filter-class&gt;</span><br><span class="line">   &lt;init-param&gt;</span><br><span class="line">     &lt;param-name&gt;encoding&lt;/param-name&gt;</span><br><span class="line">     &lt;param-value&gt;UTF-8&lt;/param-value&gt;</span><br><span class="line">   &lt;/init-param&gt;</span><br><span class="line">   &lt;init-param&gt;</span><br><span class="line">     &lt;param-name&gt;forceEncoding&lt;/param-name&gt;</span><br><span class="line">     &lt;param-value&gt;true&lt;/param-value&gt;</span><br><span class="line">   &lt;/init-param&gt;</span><br><span class="line"> &lt;/filter&gt;</span><br><span class="line"> &lt;filter-mapping&gt;</span><br><span class="line">   &lt;filter-name&gt;characterEncodingFilter&lt;/filter-name&gt;</span><br><span class="line">   &lt;url-pattern&gt;/*&lt;/url-pattern&gt;</span><br><span class="line"> &lt;/filter-mapping&gt;</span><br></pre></td></tr></table></figure>
+
+<p>encoding 作用为设置解析请求的编码方式为utf-8</p>
+<p>forceEncoding=true 的意思是无论客户端请求是否包含编码必须使用过滤器里的编码方式解析请求</p>
+<p>filter-mapping 设置的是该过滤器过滤的url范围，即当符合情况的url需要经过该过滤器处理</p>
+<p><strong>缓存控制</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&lt;filter&gt;  </span><br><span class="line">    &lt;filter-name&gt;NoCache Filter&lt;/filter-name&gt;  </span><br><span class="line">    &lt;filter-class&gt;com.yonyou.mcloud.cas.client.authentication.NoCacheFilter&lt;/filter-class&gt;  </span><br><span class="line">&lt;/filter&gt;  </span><br><span class="line">  &lt;filter-mapping&gt;  </span><br><span class="line">&lt;filter-name&gt;NoCache Filter&lt;/filter-name&gt;  </span><br><span class="line">&lt;!—表示对URL全部过滤--&gt;  </span><br><span class="line">    &lt;url-pattern&gt;/*&lt;/url-pattern&gt;  </span><br><span class="line">&lt;/filter-mapping&gt;</span><br></pre></td></tr></table></figure>
+
+<p><strong>登录认证</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">&lt;!-- 认证过滤器 --&gt;  </span><br><span class="line">  &lt;filter&gt;  </span><br><span class="line">    &lt;filter-name&gt;CAS Authentication Filter&lt;/filter-name&gt;  </span><br><span class="line">&lt;filter-class&gt;com.yonyou.mcloud.cas.client.authentication.ExpandAuthenticationFilter&lt;/filter-class&gt;  </span><br><span class="line">&lt;init-param&gt;  </span><br><span class="line">      &lt;param-name&gt;casServerLoginUrl&lt;/param-name&gt;  </span><br><span class="line">      &lt;param-value&gt;https://dev.yonyou.com:443/sso-server/login&lt;/param-value&gt;  </span><br><span class="line">    &lt;/init-param&gt;  </span><br><span class="line">    &lt;init-param&gt;  </span><br><span class="line">      &lt;!--这里的server是服务端的IP --&gt;  </span><br><span class="line">      &lt;param-name&gt;serverName&lt;/param-name&gt;  </span><br><span class="line">      &lt;param-value&gt;http://10.1.215.40:80&lt;/param-value&gt;  </span><br><span class="line">    &lt;/init-param&gt;  </span><br><span class="line">  &lt;/filter&gt;  </span><br><span class="line">  &lt;filter-mapping&gt;  </span><br><span class="line">     &lt;filter-name&gt;CAS Authentication Filter&lt;/filter-name&gt;  </span><br><span class="line">     &lt;url-pattern&gt;/*&lt;/url-pattern&gt;  </span><br><span class="line">  &lt;/filter-mapping&gt;</span><br></pre></td></tr></table></figure>
+
+<p> 登录认证，未登录用户导向CAS Server进行认证。</p>
+<p><strong>单点登出</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">&lt;filter&gt;  </span><br><span class="line">      &lt;filter-name&gt;CAS Single Sign Out Filter&lt;/filter-name&gt;  </span><br><span class="line">      &lt;filter-class&gt;org.jasig.cas.client.session.SingleSignOutFilter&lt;/filter-class&gt;  </span><br><span class="line">&lt;/filter&gt;  </span><br><span class="line">&lt;filter-mapping&gt;  </span><br><span class="line">      &lt;filter-name&gt;CAS Single Sign Out Filter&lt;/filter-name&gt;  </span><br><span class="line">       &lt;url-pattern&gt;/*&lt;/url-pattern&gt;  </span><br><span class="line">&lt;/filter-mapping&gt;  </span><br><span class="line">&lt;listener&gt;  </span><br><span class="line">      &lt;listener-class&gt;org.jasig.cas.client.session.SingleSignOutHttpSessionListener&lt;/listener-class&gt;  </span><br><span class="line">&lt;/listener&gt;</span><br></pre></td></tr></table></figure>
+
+<p>CAS Server通知CAS Client，删除session，注销登录信息。</p>
+<p><strong>封装request</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&lt;filter&gt;  </span><br><span class="line">    &lt;filter-name&gt;CAS HttpServletRequest Wrapper Filter&lt;/filter-name&gt;  </span><br><span class="line">    &lt;filter-class&gt;org.jasig.cas.client.util.HttpServletRequestWrapperFilter&lt;/filter-class&gt;  </span><br><span class="line">&lt;/filter&gt;  </span><br><span class="line">&lt;filter-mapping&gt;  </span><br><span class="line">    &lt;filter-name&gt;CAS HttpServletRequest Wrapper Filter&lt;/filter-name&gt;  </span><br><span class="line">    &lt;url-pattern&gt;/*&lt;/url-pattern&gt;  </span><br><span class="line">&lt;/filter-mapping&gt;</span><br></pre></td></tr></table></figure>
+
+<p> 封装request, 支持getUserPrincipal等方法。</p>
+<p> <strong>存放Assertion到ThreadLocal中</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&lt;filter&gt;  </span><br><span class="line">    &lt;filter-name&gt;CAS Assertion Thread Local Filter&lt;/filter-name&gt;  </span><br><span class="line">    &lt;filter-class&gt;org.jasig.cas.client.util.AssertionThreadLocalFilter&lt;/filter-class&gt;  </span><br><span class="line">&lt;/filter&gt;  </span><br><span class="line">&lt;filter-mapping&gt;  </span><br><span class="line">    &lt;filter-name&gt;CAS Assertion Thread Local Filter&lt;/filter-name&gt;  </span><br><span class="line">    &lt;url-pattern&gt;/*&lt;/url-pattern&gt;  </span><br><span class="line">&lt;/filter-mapping&gt;</span><br></pre></td></tr></table></figure>
+
+<p><strong>禁用浏览器缓存</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&lt;filter&gt;  </span><br><span class="line">    &lt;filter-name&gt;NoCache Filter&lt;/filter-name&gt;  </span><br><span class="line">    &lt;filter-class&gt;com.yonyou.mcloud.cas.client.authentication.NoCacheFilter&lt;/filter-class&gt;  </span><br><span class="line"> &lt;/filter&gt;  </span><br><span class="line"> &lt;filter-mapping&gt;  </span><br><span class="line">    &lt;filter-name&gt;NoCache Filter&lt;/filter-name&gt;  </span><br><span class="line">    &lt;url-pattern&gt;/*&lt;/url-pattern&gt;  </span><br><span class="line"> &lt;/filter-mapping&gt;</span><br></pre></td></tr></table></figure>
+
+<p><strong>CAS Client向CAS Server进行ticket验证</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line">&lt;!-- 验证ST/PT过滤器 --&gt;  </span><br><span class="line">&lt;filter&gt;  </span><br><span class="line">   &lt;filter-name&gt;CAS Validation Filter&lt;/filter-name&gt;  </span><br><span class="line">    &lt;filter-class&gt;org.jasig.cas.client.validation.Cas20ProxyReceivingTicketValidationFilter&lt;/filter-class&gt;  </span><br><span class="line">   &lt;init-param&gt;  </span><br><span class="line">      &lt;param-name&gt;casServerUrlPrefix&lt;/param-name&gt;  </span><br><span class="line">      &lt;param-value&gt;https://dev.yonyou.com:443/sso-server&lt;/param-value&gt;  </span><br><span class="line">   &lt;/init-param&gt;  </span><br><span class="line">   &lt;init-param&gt;  </span><br><span class="line">      &lt;param-name&gt;serverName&lt;/param-name&gt;  </span><br><span class="line">      &lt;param-value&gt;http://10.1.215.40:80&lt;/param-value&gt;  </span><br><span class="line">   &lt;/init-param&gt;  </span><br><span class="line">   &lt;init-param&gt;  </span><br><span class="line">      &lt;param-name&gt;proxyCallbackUrl&lt;/param-name&gt;  </span><br><span class="line">      &lt;param-value&gt;https://dev.yonyou.com:443/business/proxyCallback&lt;/param-value&gt;  </span><br><span class="line">   &lt;/init-param&gt;  </span><br><span class="line">   &lt;init-param&gt;  </span><br><span class="line">      &lt;param-name&gt;proxyReceptorUrl&lt;/param-name&gt;  </span><br><span class="line">      &lt;param-value&gt;/proxyCallback&lt;/param-value&gt;  </span><br><span class="line">   &lt;/init-param&gt;  </span><br><span class="line">   &lt;init-param&gt;  </span><br><span class="line">      &lt;param-name&gt;proxyGrantingTicketStorageClass&lt;/param-name&gt;  </span><br><span class="line">&lt;param-value&gt;com.yonyou.mcloud.cas.client.proxy.MemcachedBackedProxyGrantingTicketStorageImpl&lt;/param-value&gt;  </span><br><span class="line">   &lt;/init-param&gt;  </span><br><span class="line">   &lt;!-- 解决中文问题 --&gt;  </span><br><span class="line">   &lt;init-param&gt;  </span><br><span class="line">      &lt;param-name&gt;encoding&lt;/param-name&gt;  </span><br><span class="line">      &lt;param-value&gt;UTF-8&lt;/param-value&gt;  </span><br><span class="line">   &lt;/init-param&gt;  </span><br><span class="line">&lt;/filter&gt;  </span><br><span class="line">&lt;filter-mapping&gt;  </span><br><span class="line">    &lt;filter-name&gt;CAS Validation Filter&lt;/filter-name&gt;  </span><br><span class="line">    &lt;url-pattern&gt;/proxyCallback&lt;/url-pattern&gt;  </span><br><span class="line">&lt;/filter-mapping&gt;  </span><br><span class="line">&lt;filter-mapping&gt;  </span><br><span class="line">    &lt;filter-name&gt;CAS Validation Filter&lt;/filter-name&gt;  </span><br><span class="line">    &lt;url-pattern&gt;/*&lt;/url-pattern&gt;  </span><br><span class="line">&lt;/filter-mapping&gt;</span><br></pre></td></tr></table></figure>
+
+<p><strong>请求转换为标准的http方法</strong></p>
+<p>浏览器form表单只支持get和post请求，而delete，put等method并不支持，spring3.0添加了一个过滤器，可以将这些请求转换为标准的http方法，似的支持get，post，put，delete，请求，该过滤器为HiddenHttpMethodFilter。HiddenHttpMethodFilter必须放在DispatcherServlet之前。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&lt;filter&gt;</span><br><span class="line">    &lt;filter-name&gt;HttpMethodFilter&lt;/filter-name&gt;</span><br><span class="line">    &lt;filter-class&gt;org.springframework.web.filter.HiddenHttpMethodFilter&lt;/filter-class&gt;</span><br><span class="line">  &lt;/filter&gt;</span><br><span class="line">  &lt;filter-mapping&gt;</span><br><span class="line">    &lt;filter-name&gt;HttpMethodFilter&lt;/filter-name&gt;</span><br><span class="line">    &lt;url-pattern&gt;/*&lt;/url-pattern&gt;</span><br><span class="line">  &lt;/filter-mapping&gt;</span><br></pre></td></tr></table></figure>
+
+<h4 id="6-servlet配置"><a href="#6-servlet配置" class="headerlink" title="6.servlet配置"></a>6.servlet配置</h4><p>Servlet通常称为服务器端小程序，是运行在服务器端的程序，用于处理及响应客户的请求。Servlet是个特殊的java类，继承于HttpServlet。客户端通常只有GET和POST两种请求方式，Servlet为了响应则两种请求，必须重写doGet()和doPost()方法。大部分时候，Servlet对于所有的请求响应都是完全一样的，此时只需要重写service()方法即可响应客户端的所有请求。</p>
+<p>另外，HttpServlet有两个方法：</p>
+<ol>
+<li>init(ServletConfig config)：创建Servlet实例时，调用该方法的初始化Servlet资源。</li>
+<li>destroy()：销毁Servlet实例时，自动调用该方法的回收资源。</li>
+</ol>
+<p>通常无需重写init()和destroy()两个方法，除非需要在初始化Servlet时，完成某些资源初始化的方法，才考虑重写init()方法，如果重写了init()方法，应在重写该方法的第一行调用super.init(config)，该方法将调用HttpServlet的init()方法。如果需要在销毁Servlet之前，先完成某些资源的回收，比如关闭数据库连接，才需要重写destory方法()。</p>
+<p>Servlet的生命周期：<br>创建Servlet实例有两个时机：</p>
+<ol>
+<li>客户端第一次请求某个Servlet时，系统创建该Servlet的实例，大部分Servlet都是这种Servlet。</li>
+<li>Web应用启动时立即创建Servlet实例，即load-on-start Servlet。</li>
+</ol>
+<p>每个Servlet的运行都遵循如下生命周期：</p>
+<ol>
+<li>创建Servlet实例。</li>
+<li>Web容器调用Servlet的init()方法，对Servlet进行初始化。</li>
+<li> Servlet初始化后，将一直存在于容器中，用于响应客户端请求，如果客户端发送GET请求，容器调用Servlet的doGet()方法处理并响应请求；如果客户端发送POST请求，容器调用Servlet的doPost()方法处理并响应请求。或者统一使用service()方法处理来响应用户请求。</li>
+<li>Web容器决定销毁Servlet时，先调用Servlet的destory()方法，通常在关闭Web应用时销毁Servlet实例。</li>
+</ol>
+<h5 id="Servlet配置"><a href="#Servlet配置" class="headerlink" title="Servlet配置"></a>Servlet配置</h5><p>为了让Servlet能响应用户请求，还必须将Servlet配置在web应用中，配置Servlet需要修改web.xml文件。从Servlet3.0开始，配置Servlet有两种方式：</p>
+<ol>
+<li>在Servlet类中使用@WebServlet Annotation进行配置。</li>
+<li>在web.xml文件中进行配置。</li>
+</ol>
+<p>我们用web.xml文件来配置Servlet，需要配置&lt;servlet&gt;和&lt;servlet-mapping&gt;。&lt;servlet&gt;用来声明一个Servlet。&lt;icon&gt;、&lt;display-name&gt;和&lt;description&gt;元素的用法和&lt;filter&gt;的用法相同。&lt;init-param&gt;元素与&lt;context-param&gt;元素具有相同的元素描述符，可以使用&lt;init-param&gt;子元素将初始化参数名和参数值传递给Servlet，访问Servlet配置参数通过ServletConfig对象来完成，ServletConfig提供如下方法：<br>java.lang.String.getInitParameter(java.lang.String name)：用于获取初始化参数<br>ServletConfig获取配置参数的方法和ServletContext获取配置参数的方法完全一样，只是ServletConfig是取得当前Servlet的配置参数，而ServletContext是获取整个Web应用的配置参数。</p>
+<ol>
+<li><p>&lt;description&gt;、&lt;display-name&gt;和&lt;icon&gt;</p>
+<ul>
+<li><p>&lt;description&gt;：为Servlet指定一个文本描述。</p>
+</li>
+<li><p>&lt;display-name&gt;：为Servlet提供一个简短的名字被某些工具显示。</p>
+</li>
+<li><p>&lt;icon&gt;：为Servlet指定一个图标，在图形管理工具中表示该Servlet。</p>
+</li>
+</ul>
+</li>
+<li><p>&lt;servlet-name&gt;、&lt;servlet-class&gt;和&lt;jsp-file&gt;元素</p>
+<p>&lt;servlet&gt;必须含有&lt;servlet-name&gt;和&lt;servlet-class&gt;，或者&lt;servlet-name&gt;和&lt;jsp-file&gt;。 描述如下：</p>
+<ul>
+<li><p>&lt;servlet-name&gt;用来定义servlet的名称，该名称在整个应用中必须是惟一的。</p>
+</li>
+<li><p>&lt;servlet-class&gt;用来指定servlet的完全限定的名称。</p>
+</li>
+<li><p>&lt;jsp-file&gt;用来指定应用中JSP文件的完整路径。这个完整路径必须由/开始。</p>
+</li>
+</ul>
+</li>
+<li><p>&lt;load-on-startup&gt;<br>如果load-on-startup元素存在，而且也指定了jsp-file元素，则JSP文件会被重新编译成Servlet，同时产生的Servlet也被载入内存。&lt;load-on-startup&gt;的内容可以为空，或者是一个整数。这个值表示由Web容器载入内存的顺序。<br>举个例子：如果有两个Servlet元素都含有&lt;load-on-startup&gt;子元素，则&lt;load-on-startup&gt;子元素值较小的Servlet将先被加载。如果&lt;load-on-startup&gt;子元素值为空或负值，则由Web容器决定什么时候加载Servlet。如果两个Servlet的&lt;load-on-startup&gt;子元素值相同，则由Web容器决定先加载哪一个Servlet。<code>&lt;load-on-startup&gt;1&lt;/load-on-startup&gt;</code>表示启动容器时，初始化Servlet。</p>
+</li>
+<li><p>&lt;servlet-mapping&gt;<br>&lt;servlet-mapping&gt;含有&lt;servlet-name&gt;和&lt;url-pattern&gt;</p>
+<ul>
+<li>&lt;servlet-name&gt;：Servlet的名字，唯一性和一致性，与&lt;servlet&gt;元素中声明的名字一致。</li>
+<li>&lt;url-pattern&gt;：指定相对于Servlet的URL的路径。该路径相对于web应用程序上下文的根路径。&lt;servlet-mapping&gt;将URL模式映射到某个Servlet，即该Servlet处理的URL。</li>
+</ul>
+</li>
+<li><p>加载Servlet的过程<br>容器的Context对象对请求路径(URL)做出处理，去掉请求URL的上下文路径后，按路径映射规则和Servlet映射路径（&lt;url- pattern&gt;）做匹配，如果匹配成功，则调用这个Servlet处理请求。 </p>
+</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">&lt;servlet&gt;</span><br><span class="line">    &lt;servlet-name&gt;test&lt;/servlet-name&gt;</span><br><span class="line">    &lt;servlet-class&gt;org.springframework.web.servlet.DispatcherServlet&lt;/servlet-class&gt;</span><br><span class="line">    &lt;init-param&gt;</span><br><span class="line">      &lt;param-name&gt;contextConfigLocation&lt;/param-name&gt;</span><br><span class="line">      &lt;param-value&gt;classpath:spring-mvc.xml&lt;/param-value&gt;</span><br><span class="line">    &lt;/init-param&gt;</span><br><span class="line">    &lt;load-on-startup&gt;1&lt;/load-on-startup&gt;</span><br><span class="line">  &lt;/servlet&gt;</span><br><span class="line">  &lt;servlet-mapping&gt;</span><br><span class="line">    &lt;servlet-name&gt;test&lt;/servlet-name&gt;</span><br><span class="line">    &lt;url-pattern&gt;/&lt;/url-pattern&gt;</span><br><span class="line">  &lt;/servlet-mapping&gt;</span><br></pre></td></tr></table></figure>
+
+<p><strong>配置缺省Servlet</strong><br>如果某个Servlet的映射路径仅仅为一个正斜杠（/），那么这个Servlet就成为当前Web应用程序的缺省Servlet。<br>凡是在web.xml文件中找不到匹配的&lt;servlet-mapping&gt;元素的URL，它们的访问请求都将交给缺省Servlet处理，也就是说，缺省Servlet用于处理所有其他Servlet都不处理的访问请求。</p>
+<p><strong>classpath和classpath*区别：</strong>同名资源存在时，classpath只从第一个符合条件的classpath中加载资源，而classpath<em>会从所有的classpath中加载符合条件的资源。classpath</em>，需要遍历所有的classpath，效率肯定比不上classpath，因此在项目设计的初期就尽量规划好资源文件所在的路径，避免使用classpath*来加载。</p>
+<h4 id="7-进行session失效时间设定，单位为分钟"><a href="#7-进行session失效时间设定，单位为分钟" class="headerlink" title="7.进行session失效时间设定，单位为分钟"></a>7.进行session失效时间设定，单位为分钟</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;session-config&gt;</span><br><span class="line">    &lt;session-timeout&gt;30&lt;/session-timeout&gt;</span><br><span class="line"> &lt;/session-config&gt;</span><br></pre></td></tr></table></figure>
+
+<h4 id="8-设置项目欢迎页"><a href="#8-设置项目欢迎页" class="headerlink" title="8.设置项目欢迎页"></a>8.设置项目欢迎页</h4><p>&lt;welcome-file-list&gt;包含一个子元素&lt;welcome-file&gt;，&lt;welcome-file&gt;用来指定首页文件名称。&lt;welcome-file-list&gt;元素可以包含一个或多个&lt;welcome-file&gt;子元素。如果在第一个&lt;welcome-file&gt;元素中没有找到指定的文件，Web容器就会尝试显示第二个，以此类推。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;!-- 配置在web.xml中的一个欢迎页，用于当用户在url中输入工程名称或者输入web容器url（如http://localhost:8080/或http://localhost:8080/test/）时直接跳转的页面--&gt;</span><br><span class="line">&lt;welcome-file-list&gt;</span><br><span class="line">&lt;welcome-file&gt;login.jsp&lt;/welcome-file&gt;</span><br><span class="line">&lt;/welcome-file-list&gt;</span><br></pre></td></tr></table></figure>
+
+<h4 id="9-配置错误页"><a href="#9-配置错误页" class="headerlink" title="9.配置错误页"></a>9.配置错误页</h4><p>当出现404错误时跳转错误页面</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;error-page&gt;</span><br><span class="line">    &lt;error-code&gt;404&lt;/error-code&gt;</span><br><span class="line">    &lt;location&gt;/error.jsp&lt;/location&gt;</span><br><span class="line">  &lt;/error-page&gt;</span><br></pre></td></tr></table></figure>
+
+<h4 id="10-jsp配置"><a href="#10-jsp配置" class="headerlink" title="10.jsp配置"></a>10.jsp配置</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;jsp-config&gt;</span><br><span class="line">    &lt;jsp-property-group&gt;</span><br><span class="line">      &lt;url-pattern&gt;*.jsp&lt;/url-pattern&gt;</span><br><span class="line">      &lt;trim-directive-whitespaces&gt;true&lt;/trim-directive-whitespaces&gt;</span><br><span class="line">    &lt;/jsp-property-group&gt;</span><br><span class="line">  &lt;/jsp-config&gt;</span><br></pre></td></tr></table></figure>
+
+<p>&lt;jsp-property-group&gt;元素主要子元素</p>
+<p>&lt;description&gt;：设定的说明；</p>
+<p>&lt;display-name&gt;：设定名称；</p>
+<p>&lt;url-pattern&gt;：设定值所影响的范围，如：/CH2 或 /*.jsp；</p>
+<p>&lt;el-ignored&gt;：若为true，表示不支持EL 语法；</p>
+<p>&lt;scripting-invalid&gt;：若为true，表示不支持&lt;% scripting %&gt;语法；</p>
+<p>&lt;page-encoding&gt;：设定JSP 网页的编码；</p>
+<p>&lt;include-prelude&gt;：设置JSP 网页的抬头，扩展名为.jspf；</p>
+<p>&lt;include-coda&gt;：设置JSP 网页的结尾，扩展名为.jspf。</p>
+<p>trim-directive-whitespaces=true，作用是删除页面中的多余的空格</p>
+<h4 id="11-预防xss攻击"><a href="#11-预防xss攻击" class="headerlink" title="11.预防xss攻击"></a>11.预防xss攻击</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;context-param&gt;</span><br><span class="line">    &lt;param-name&gt;defaultHtmlEscape&lt;/param-name&gt;</span><br><span class="line">    &lt;param-value&gt;true&lt;/param-value&gt;</span><br><span class="line">  &lt;/context-param&gt;</span><br></pre></td></tr></table></figure>
+
+<h4 id="12-验证码web配置"><a href="#12-验证码web配置" class="headerlink" title="12.验证码web配置"></a>12.验证码web配置</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br></pre></td><td class="code"><pre><span class="line">&lt;servlet&gt;</span><br><span class="line">   &lt;servlet-name&gt;Kaptcha&lt;/servlet-name&gt;</span><br><span class="line">   &lt;servlet-class&gt;com.linkage.eduselfapp.core.kaptcha.KaptchaServlet&lt;/servlet-class&gt;</span><br><span class="line">   &lt;init-param&gt;</span><br><span class="line">     &lt;param-name&gt;kaptcha.border&lt;/param-name&gt;</span><br><span class="line">     &lt;param-value&gt;no&lt;/param-value&gt;</span><br><span class="line">   &lt;/init-param&gt;</span><br><span class="line">   &lt;init-param&gt;</span><br><span class="line">     &lt;param-name&gt;kaptcha.textproducer.font.color&lt;/param-name&gt;</span><br><span class="line">     &lt;param-value&gt;black&lt;/param-value&gt;</span><br><span class="line">   &lt;/init-param&gt;</span><br><span class="line">   &lt;init-param&gt;</span><br><span class="line">     &lt;param-name&gt;kaptcha.textproducer.char.length&lt;/param-name&gt;</span><br><span class="line">     &lt;param-value&gt;5&lt;/param-value&gt;</span><br><span class="line">   &lt;/init-param&gt;</span><br><span class="line">   &lt;init-param&gt;</span><br><span class="line">     &lt;param-name&gt;kaptcha.textproducer.font.size&lt;/param-name&gt;</span><br><span class="line">     &lt;param-value&gt;25&lt;/param-value&gt;</span><br><span class="line">   &lt;/init-param&gt;</span><br><span class="line">   &lt;init-param&gt;</span><br><span class="line">     &lt;param-name&gt;kaptcha.image.width&lt;/param-name&gt;</span><br><span class="line">     &lt;param-value&gt;90&lt;/param-value&gt;</span><br><span class="line">   &lt;/init-param&gt;</span><br><span class="line">   &lt;init-param&gt;</span><br><span class="line">     &lt;param-name&gt;kaptcha.image.height&lt;/param-name&gt;</span><br><span class="line">     &lt;param-value&gt;45&lt;/param-value&gt;</span><br><span class="line">   &lt;/init-param&gt;</span><br><span class="line">   &lt;init-param&gt;</span><br><span class="line">     &lt;param-name&gt;kaptcha.textproducer.char.space&lt;/param-name&gt;</span><br><span class="line">     &lt;param-value&gt;2&lt;/param-value&gt;</span><br><span class="line">   &lt;/init-param&gt;</span><br><span class="line">   &lt;init-param&gt;</span><br><span class="line">     &lt;param-name&gt;kaptcha.textproducer.char.string&lt;/param-name&gt;</span><br><span class="line">     &lt;param-value&gt;23456789&lt;/param-value&gt;</span><br><span class="line">   &lt;/init-param&gt;</span><br><span class="line">   &lt;init-param&gt;</span><br><span class="line">     &lt;param-name&gt;kaptcha.textproducer.font.names&lt;/param-name&gt;</span><br><span class="line">     &lt;param-value&gt;??,Arial,Courier&lt;/param-value&gt;</span><br><span class="line">   &lt;/init-param&gt;</span><br><span class="line">   &lt;init-param&gt;</span><br><span class="line">     &lt;param-name&gt;kaptcha.obscurificator.impl&lt;/param-name&gt;</span><br><span class="line">     &lt;param-value&gt;com.google.code.kaptcha.impl.ShadowGimpy&lt;/param-value&gt;</span><br><span class="line">   &lt;/init-param&gt;</span><br><span class="line">   &lt;init-param&gt;</span><br><span class="line">     &lt;param-name&gt;kaptcha.noise.impl&lt;/param-name&gt;</span><br><span class="line">     &lt;param-value&gt;com.google.code.kaptcha.impl.NoNoise&lt;/param-value&gt;</span><br><span class="line">   &lt;/init-param&gt;</span><br><span class="line"> &lt;/servlet&gt;</span><br><span class="line"> &lt;servlet-mapping&gt;</span><br><span class="line">   &lt;servlet-name&gt;Kaptcha&lt;/servlet-name&gt;</span><br><span class="line">   &lt;url-pattern&gt;/kaptcha.jpg&lt;/url-pattern&gt;</span><br><span class="line"> &lt;/servlet-mapping&gt;</span><br></pre></td></tr></table></figure>
+
+<h4 id="13-设置访问权限"><a href="#13-设置访问权限" class="headerlink" title="13.设置访问权限"></a>13.设置访问权限</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">&lt;security-constraint&gt;</span><br><span class="line">    &lt;web-resource-collection&gt;</span><br><span class="line">      &lt;web-resource-name&gt;web&lt;/web-resource-name&gt;</span><br><span class="line">      &lt;url-pattern&gt;/*&lt;/url-pattern&gt;</span><br><span class="line">      &lt;http-method&gt;PUT&lt;/http-method&gt;</span><br><span class="line">      &lt;http-method&gt;DELETE&lt;/http-method&gt;</span><br><span class="line">      &lt;http-method&gt;HEAD&lt;/http-method&gt;</span><br><span class="line">      &lt;http-method&gt;OPTIONS&lt;/http-method&gt;</span><br><span class="line">      &lt;http-method&gt;TRACE&lt;/http-method&gt;</span><br><span class="line">    &lt;/web-resource-collection&gt;</span><br><span class="line">    &lt;auth-constraint/&gt;</span><br><span class="line">  &lt;/security-constraint&gt;</span><br><span class="line">  &lt;login-config&gt;</span><br><span class="line">    &lt;auth-method&gt;BASIC&lt;/auth-method&gt;</span><br><span class="line">  &lt;/login-config&gt;</span><br></pre></td></tr></table></figure>
+
+<p>&lt;security-constraint&gt; 的子元素 &lt;http-method&gt; 是可选的，如果没有 &lt;http-method&gt; 元素，这表示将禁止所有 HTTP 方法访问相应的资源。<br>子元素 &lt;auth-constraint&gt; 需要和 &lt;login-config&gt; 相配合使用，但可以被单独使用。如果没有 &lt;auth-constraint&gt; 子元素，这表明任何身份的用户都可以访问相应的资源。也就是说，如果 &lt;security-constraint&gt; 中没有 &lt;auth-constraint&gt; 子元素的话，配置实际上是不起中用的。如果加入了 &lt;auth-constraint&gt; 子元素，但是其内容为空，这表示所有身份的用户都被禁止访问相应的资源。</p>
+<p>security-constriaint元素的用途是用来指示服务器使用何种验证方法了.此元素在web.xml中应该出现在login-config 的紧前面</p>
+<p>login-config 为设置http规范，base64</p>
+<h3 id="war包"><a href="#war包" class="headerlink" title="war包"></a>war包</h3><p><strong>JAR包 ：</strong></p>
+<p>JAR 文件格式以流行的 ZIP 文件格式为基础。</p>
+<p>与 ZIP 文件不同的是，JAR 文件不仅用于压缩和发布，而且还用于部署和封装库、组件和插件程序，并可被像编译器和 JVM 这样的工具直接使用。</p>
+<p>JAR 文件与 ZIP 文件唯一的区别就是在 JAR 文件的内容中，包含了一个 META-INF/MANIFEST.MF 文件，这个文件是在生成 JAR 文件的时候自动创建的。</p>
+<p>作用：</p>
+<p>作为工具包和类库；这个是最基本的作用，在大型项目中，一般会依赖N多JAR包。作为应用工程和扩展的构建单元；开发大型应用的时候，一般会将应用分成几个单元，每个单元用jar包封装，并相互依赖。作为组件、applet  或者插件程序的部署单位；用于打包与组件相关联的辅助资源。</p>
+<p>典型的jar包内部结构如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">tools.jar </span><br><span class="line">  |  resource.xml                    // 资源配置文件 </span><br><span class="line">  |  other.xml </span><br><span class="line">  | </span><br><span class="line">  |— META-INF           </span><br><span class="line">               MANIFEST.MF          // jar包的描述文件 </span><br><span class="line">  |— com                            // 类的包目录 </span><br><span class="line">         |—test  </span><br><span class="line">                   util.class       // java类文件</span><br></pre></td></tr></table></figure>
+
+<p><strong>WAR包 :</strong></p>
+<p>WAR(Web Archive file)网络应用程序文件，是与平台无关的文件格式，它允许将许多文件组合成一个压缩文件。war专用在web方面 。JAVA WEB工程，都是打成WAR包进行发布。</p>
+<p>典型的war包内部结构如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">webapp.war </span><br><span class="line">  |    index.jsp </span><br><span class="line">  | </span><br><span class="line">  |— images </span><br><span class="line">  |— META-INF </span><br><span class="line">  |— WEB-INF </span><br><span class="line">          |   web.xml                   // WAR包的描述文件 </span><br><span class="line">          | </span><br><span class="line">          |— classes </span><br><span class="line">          |          action.class       // java类文件，编译后的字节码</span><br><span class="line">          | </span><br><span class="line">          |— lib </span><br><span class="line">                    other.jar           // 依赖的jar包 </span><br><span class="line">                    share.jar</span><br></pre></td></tr></table></figure>
+
+<p><strong>EAR包：</strong></p>
+<p>JAR（Java Archive，Java 归档文件）是与平台无关的文件格式，它允许将许多文件组合成一个压缩文件。</p>
+<p>为 J2EE 应用程序创建的 JAR 文件是 EAR 文件（企业 JAR 文件）。</p>
+<p>针对企业级项目，实际上EAR包中包含WAR包和几个企业级项目的配置文件而已，一般服务器选择WebSphere等，都会使用EAR包。</p>
+<p>典型的ear包内部结构如下</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">app.ear </span><br><span class="line">   |   ejb.jar                // ejb-jar包 </span><br><span class="line">   |   other.jar              // 普通的jar包 </span><br><span class="line">   |   webapp.war         　　// war包 </span><br><span class="line">   | </span><br><span class="line">   |—META-INF </span><br><span class="line">          application.xml 　 // EAR描述文件</span><br></pre></td></tr></table></figure>
+
+<p>WEB标准包是war方式，J2EE标准包使用的是ear方式，区别就在与你必须在支持j2ee的环境下才能使用ear方式，比如在tomcat中就不能使用ear方式，但是在weblogic中两种都可以，ear方式所包含的范围比war方式广很多，就好比一个大圆里面的小圆，是包含与被包含关系。</p>
+<h3 id="技术名称及官网"><a href="#技术名称及官网" class="headerlink" title="技术名称及官网"></a>技术名称及官网</h3><p>Spring Framework Spring容器 <a target="_blank" rel="noopener" href="http://projects.spring.io/spring-framework/">http://projects.spring.io/spring-framework/</a></p>
+<p>Spring MVC框架 <a target="_blank" rel="noopener" href="http://docs.spring.io/spring/docs/current/spring-framework-reference/htmlsingle/#mvc">http://docs.spring.io/spring/docs/current/spring-framework-reference/htmlsingle/#mvc</a></p>
+<p>Apache Shiro 安全框架 <a target="_blank" rel="noopener" href="http://shiro.apache.org/">http://shiro.apache.org/</a></p>
+<p>Spring session 分布式Session管理 <a target="_blank" rel="noopener" href="http://projects.spring.io/spring-session/">http://projects.spring.io/spring-session/</a></p>
+<p>MyBatis ORM框架 <a target="_blank" rel="noopener" href="http://www.mybatis.org/mybatis-3/zh/index.html">http://www.mybatis.org/mybatis-3/zh/index.html</a></p>
+<p>MyBatis Generator 代码生成 <a target="_blank" rel="noopener" href="http://www.mybatis.org/generator/index.html">http://www.mybatis.org/generator/index.html</a></p>
+<p>PageHelper MyBatis物理分页插件 <a target="_blank" rel="noopener" href="http://git.oschina.net/free/Mybatis_PageHelper">http://git.oschina.net/free/Mybatis_PageHelper</a></p>
+<p>Druid 数据库连接池 <a target="_blank" rel="noopener" href="https://github.com/alibaba/druid">https://github.com/alibaba/druid</a></p>
+<p>FluentValidator 校验框架 <a target="_blank" rel="noopener" href="https://github.com/neoremind/fluent-validator">https://github.com/neoremind/fluent-validator</a></p>
+<p>Thymeleaf 模板引擎 <a target="_blank" rel="noopener" href="http://www.thymeleaf.org/">http://www.thymeleaf.org/</a></p>
+<p>Velocity 模板引擎 <a target="_blank" rel="noopener" href="http://velocity.apache.org/">http://velocity.apache.org/</a></p>
+<p>ZooKeeper 分布式协调服务 <a target="_blank" rel="noopener" href="http://zookeeper.apache.org/">http://zookeeper.apache.org/</a></p>
+<p>Dubbo 分布式服务框架 <a target="_blank" rel="noopener" href="http://dubbo.io/">http://dubbo.io/</a></p>
+<p>TBSchedule &amp; elastic-job 分布式调度框架 <a target="_blank" rel="noopener" href="https://github.com/dangdangdotcom/elastic-job">https://github.com/dangdangdotcom/elastic-job</a></p>
+<p>Redis 分布式缓存数据库 <a target="_blank" rel="noopener" href="https://redis.io/">https://redis.io/</a></p>
+<p>Solr &amp; Elasticsearch 分布式全文搜索引擎 <a target="_blank" rel="noopener" href="http://lucene.apache.org/solr/">http://lucene.apache.org/solr/</a></p>
+<p>Java初高级一起学习分享，喜欢可以我的学习群64弍46衣3凌9，或加资料群69似64陆0吧3    <a target="_blank" rel="noopener" href="https://www.elastic.co/">https://www.elastic.co/</a></p>
+<p>Quartz 作业调度框架 <a target="_blank" rel="noopener" href="http://www.quartz-scheduler.org/">http://www.quartz-scheduler.org/</a></p>
+<p>Ehcache 进程内缓存框架 <a target="_blank" rel="noopener" href="http://www.ehcache.org/">http://www.ehcache.org/</a></p>
+<p>ActiveMQ 消息队列 <a target="_blank" rel="noopener" href="http://activemq.apache.org/">http://activemq.apache.org/</a></p>
+<p>JStorm 实时流式计算框架 <a target="_blank" rel="noopener" href="http://jstorm.io/">http://jstorm.io/</a></p>
+<p>FastDFS 分布式文件系统 <a target="_blank" rel="noopener" href="https://github.com/happyfish100/fastdfs">https://github.com/happyfish100/fastdfs</a></p>
+<p>Log4J 日志组件 <a target="_blank" rel="noopener" href="http://logging.apache.org/log4j/1.2/">http://logging.apache.org/log4j/1.2/</a></p>
+<p>Swagger2 接口测试框架 <a target="_blank" rel="noopener" href="http://swagger.io/">http://swagger.io/</a></p>
+<p>sequence 分布式高效ID生产 <a target="_blank" rel="noopener" href="http://git.oschina.net/yu120/sequence">http://git.oschina.net/yu120/sequence</a></p>
+<p>AliOSS &amp; Qiniu &amp; QcloudCOS 云存储  <a target="_blank" rel="noopener" href="https://www.aliyun.com/product/oss/">https://www.aliyun.com/product/oss/</a> <a target="_blank" rel="noopener" href="http://www.qiniu.com/https://www.qcloud.com/product/cos">http://www.qiniu.com/https://www.qcloud.com/product/cos</a></p>
+<p>Protobuf &amp; json 数据序列化 <a target="_blank" rel="noopener" href="https://github.com/google/protobuf">https://github.com/google/protobuf</a></p>
+<p>Jenkins 持续集成工具 <a target="_blank" rel="noopener" href="https://jenkins.io/index.html">https://jenkins.io/index.html</a></p>
+<p>Maven 项目构建管理  <a target="_blank" rel="noopener" href="http://maven.apache.org/">http://maven.apache.org/</a></p>
+<h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><ol>
+<li><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/9719bdaa38a1">Java Web——Web概述</a></li>
+<li><a target="_blank" rel="noopener" href="https://hck.iteye.com/blog/1751951">Java中的JAR/EAR/WAR包的文件夹结构说明</a></li>
+</ol>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">平心</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://pingxin0521.gitee.io/2019/05/13/Java-Web-1-1/">https://pingxin0521.gitee.io/2019/05/13/Java-Web-1-1/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://pingxin0521.gitee.io" target="_blank">平心de小屋</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/Java/">Java</a><a class="post-meta__tags" href="/tags/Web/">Web</a></div><div class="post_share"><div class="social-share" data-image="https://i.loli.net/2020/05/08/gGE57HRvpcKPfDY.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2019/05/13/Java-%E6%97%A5%E5%BF%97-7/"><img class="prev-cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/PFDRNxj93taz6pw.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">日志框架--slf4j</div></div></a></div><div class="next-post pull-right"><a href="/2019/05/12/Java-%E6%97%A5%E5%BF%97-1/"><img class="next-cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/7dHvepmfYOLWTrX.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">日志框架--JUL</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span> 相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2019/05/17/Java-Web-1-2/" title="Java Web相关问题"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/PFDRNxj93taz6pw.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2019-12-30</div><div class="title">Java Web相关问题</div></div></a></div><div><a href="/2019/05/17/Java-Web-1-3/" title="Cookie、Session、token"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/PFDRNxj93taz6pw.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2020-02-14</div><div class="title">Cookie、Session、token</div></div></a></div><div><a href="/2019/05/16/Java-Web-2-2/" title="Java servlet (二)"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/gGE57HRvpcKPfDY.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2019-12-13</div><div class="title">Java servlet (二)</div></div></a></div><div><a href="/2019/05/30/Java-Web-2-3/" title="Java servlet 源码分析(四)"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/7dHvepmfYOLWTrX.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2019-12-18</div><div class="title">Java servlet 源码分析(四)</div></div></a></div><div><a href="/2019/05/18/Java-Web-2-4/" title="Java servlet 3.0 (三)"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/vCnKyoFJZ1g4XYR.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2019-12-18</div><div class="title">Java servlet 3.0 (三)</div></div></a></div><div><a href="/2019/05/16/Java-Web-3-1/" title="Java JSP (一)"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/gGE57HRvpcKPfDY.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2019-05-21</div><div class="title">Java JSP (一)</div></div></a></div></div></div><hr/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div class="vcomment" id="vcomment"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="card-info-avatar is-center"><img class="avatar-img" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://s2.ax1x.com/2020/02/11/1ovw6J.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/><div class="author-info__name">平心</div><div class="author-info__description">年轻人的life、learn and think</div></div><div class="card-info-data"><div class="card-info-data-item is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">449</div></a></div><div class="card-info-data-item is-center"><a href="/tags/"><div class="headline">标签</div><div class="length-num">77</div></a></div><div class="card-info-data-item is-center"><a href="/categories/"><div class="headline">分类</div><div class="length-num">68</div></a></div></div><a class="button--animated" id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/hanyunpeng0521"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/hanyunpeng0521" target="_blank" title="Github"><i class="fa fa-github"></i></a><a class="social-icon" href="mailto:m13839441583@163.com" target="_blank" title="Email"><i class="fa fa-envelope"></i></a><a class="social-icon" href="/atom.xml" target="_blank" title=""><i class="fa fa-rss"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn card-announcement-animation"></i><span>公告</span></div><div class="announcement_content">为什么呢？开始提问吧</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BB%80%E4%B9%88%E6%98%AFWeb"><span class="toc-number">1.</span> <span class="toc-text">什么是Web?</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Web%E5%BA%94%E7%94%A8%E7%A8%8B%E5%BA%8F%E7%9A%84%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86%EF%BC%9F"><span class="toc-number">2.</span> <span class="toc-text">Web应用程序的工作原理？</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Web%E7%9A%84%E5%8F%91%E5%B1%95%E5%8E%86%E7%A8%8B"><span class="toc-number"></span> <span class="toc-text">Web的发展历程</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%9D%99%E6%80%81%E6%96%87%E6%A1%A3%E9%98%B6%E6%AE%B5"><span class="toc-number">1.</span> <span class="toc-text">静态文档阶段</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%8A%A8%E6%80%81%E7%BD%91%E9%A1%B5%E9%98%B6%E6%AE%B5"><span class="toc-number">2.</span> <span class="toc-text">动态网页阶段</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Web-2-0-%E9%98%B6%E6%AE%B5"><span class="toc-number">3.</span> <span class="toc-text">Web 2.0 阶段</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BD%91%E7%BB%9C%E7%A8%8B%E5%BA%8F%E5%BC%80%E5%8F%91%E7%9A%84%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84"><span class="toc-number"></span> <span class="toc-text">网络程序开发的体系结构</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#B-S-%E7%BD%91%E7%BB%9C%E6%9E%B6%E6%9E%84%E6%A6%82%E8%BF%B0"><span class="toc-number">1.</span> <span class="toc-text">B&#x2F;S 网络架构概述</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%9B%B8%E5%85%B3%E6%8A%80%E6%9C%AF"><span class="toc-number"></span> <span class="toc-text">相关技术</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%A1%B9%E7%9B%AE%E7%BB%93%E6%9E%84"><span class="toc-number">1.</span> <span class="toc-text">项目结构</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#web-xml%E6%96%87%E4%BB%B6"><span class="toc-number"></span> <span class="toc-text">web.xml文件</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%8A%A0%E8%BD%BD%E8%BF%87%E7%A8%8B"><span class="toc-number">1.</span> <span class="toc-text">加载过程</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#XML%E6%96%87%E6%A1%A3%E6%9C%89%E6%95%88%E6%80%A7%E6%A3%80%E6%9F%A5"><span class="toc-number">2.</span> <span class="toc-text">XML文档有效性检查</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#1-web%E5%BA%94%E7%94%A8%E5%90%8D%E7%A7%B0%E8%AE%BE%E7%BD%AE"><span class="toc-number">3.</span> <span class="toc-text">1.web应用名称设置</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-web%E5%BA%94%E7%94%A8%E6%8F%8F%E8%BF%B0"><span class="toc-number">4.</span> <span class="toc-text">2.web应用描述</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-%E9%85%8D%E7%BD%AE%E7%9B%91%E5%90%AC%E5%99%A8"><span class="toc-number">5.</span> <span class="toc-text">3.配置监听器</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-%E8%AE%BE%E7%BD%AE%E5%BA%94%E7%94%A8%E7%9A%84%E7%8E%AF%E5%A2%83%E5%8F%82%E6%95%B0"><span class="toc-number">6.</span> <span class="toc-text">4.设置应用的环境参数</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#5-%E8%AE%BE%E7%BD%AEweb%E5%BA%94%E7%94%A8%E7%9A%84%E8%BF%87%E6%BB%A4%E5%99%A8"><span class="toc-number">7.</span> <span class="toc-text">5.设置web应用的过滤器</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#Filter%E9%85%8D%E7%BD%AE%EF%BC%9A"><span class="toc-number">7.1.</span> <span class="toc-text">Filter配置：</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#6-servlet%E9%85%8D%E7%BD%AE"><span class="toc-number">8.</span> <span class="toc-text">6.servlet配置</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#Servlet%E9%85%8D%E7%BD%AE"><span class="toc-number">8.1.</span> <span class="toc-text">Servlet配置</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#7-%E8%BF%9B%E8%A1%8Csession%E5%A4%B1%E6%95%88%E6%97%B6%E9%97%B4%E8%AE%BE%E5%AE%9A%EF%BC%8C%E5%8D%95%E4%BD%8D%E4%B8%BA%E5%88%86%E9%92%9F"><span class="toc-number">9.</span> <span class="toc-text">7.进行session失效时间设定，单位为分钟</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#8-%E8%AE%BE%E7%BD%AE%E9%A1%B9%E7%9B%AE%E6%AC%A2%E8%BF%8E%E9%A1%B5"><span class="toc-number">10.</span> <span class="toc-text">8.设置项目欢迎页</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#9-%E9%85%8D%E7%BD%AE%E9%94%99%E8%AF%AF%E9%A1%B5"><span class="toc-number">11.</span> <span class="toc-text">9.配置错误页</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#10-jsp%E9%85%8D%E7%BD%AE"><span class="toc-number">12.</span> <span class="toc-text">10.jsp配置</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#11-%E9%A2%84%E9%98%B2xss%E6%94%BB%E5%87%BB"><span class="toc-number">13.</span> <span class="toc-text">11.预防xss攻击</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#12-%E9%AA%8C%E8%AF%81%E7%A0%81web%E9%85%8D%E7%BD%AE"><span class="toc-number">14.</span> <span class="toc-text">12.验证码web配置</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#13-%E8%AE%BE%E7%BD%AE%E8%AE%BF%E9%97%AE%E6%9D%83%E9%99%90"><span class="toc-number">15.</span> <span class="toc-text">13.设置访问权限</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#war%E5%8C%85"><span class="toc-number"></span> <span class="toc-text">war包</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8A%80%E6%9C%AF%E5%90%8D%E7%A7%B0%E5%8F%8A%E5%AE%98%E7%BD%91"><span class="toc-number"></span> <span class="toc-text">技术名称及官网</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8F%82%E8%80%83"><span class="toc-number"></span> <span class="toc-text">参考</span></a></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2021/05/15/node-2-4/" title="Egg.js -- 为企业级框架和应用而生"><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/okfOw28KlZFbE7z.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Egg.js -- 为企业级框架和应用而生"/></a><div class="content"><a class="title" href="/2021/05/15/node-2-4/" title="Egg.js -- 为企业级框架和应用而生">Egg.js -- 为企业级框架和应用而生</a><time datetime="2021-05-15T10:18:59.000Z" title="发表于 2021-05-15 18:18:59">2021-05-15</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/04/30/node-2-3/" title="Koa -- 基于Node.js平台的下一代Web开发框架"><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/HjVAdIuT7bZJypS.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Koa -- 基于Node.js平台的下一代Web开发框架"/></a><div class="content"><a class="title" href="/2021/04/30/node-2-3/" title="Koa -- 基于Node.js平台的下一代Web开发框架">Koa -- 基于Node.js平台的下一代Web开发框架</a><time datetime="2021-04-30T10:18:59.000Z" title="发表于 2021-04-30 18:18:59">2021-04-30</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/04/01/node-2-1/" title="Node.JS web开发前置知识"><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/gGE57HRvpcKPfDY.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Node.JS web开发前置知识"/></a><div class="content"><a class="title" href="/2021/04/01/node-2-1/" title="Node.JS web开发前置知识">Node.JS web开发前置知识</a><time datetime="2021-04-01T03:18:59.000Z" title="发表于 2021-04-01 11:18:59">2021-04-01</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2020/12/26/%E5%91%A8%E8%AE%B0-10-1/" title="第十一周--谷歌浏览器插件"><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/gGE57HRvpcKPfDY.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="第十一周--谷歌浏览器插件"/></a><div class="content"><a class="title" href="/2020/12/26/%E5%91%A8%E8%AE%B0-10-1/" title="第十一周--谷歌浏览器插件">第十一周--谷歌浏览器插件</a><time datetime="2020-12-26T10:18:59.000Z" title="发表于 2020-12-26 18:18:59">2020-12-26</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2020/12/26/%E5%91%A8%E8%AE%B0-10-0/" title="第十一周--浏览器技术"><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/vCnKyoFJZ1g4XYR.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="第十一周--浏览器技术"/></a><div class="content"><a class="title" href="/2020/12/26/%E5%91%A8%E8%AE%B0-10-0/" title="第十一周--浏览器技术">第十一周--浏览器技术</a><time datetime="2020-12-26T06:18:59.000Z" title="发表于 2020-12-26 14:18:59">2020-12-26</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2019 - 2021 By 平心</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div id="local-search"><div class="search-dialog"><div class="search-dialog__title" id="local-search-title">本地搜索</div><div id="local-input-panel"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div></div><hr/><div id="local-search-results"></div><span class="search-close-button"><i class="fas fa-times"></i></span></div><div id="search-mask"></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload/dist/lazyload.iife.min.js"></script><script src="/js/search/local-search.js"></script><div class="js-pjax"><script>function loadValine () {
+  function initValine () {
+    const valine = new Valine(Object.assign({
+      el: '#vcomment',
+      appId: '4lfIXzqxaC1ONs0MJO4oHu07-gzGzoHsz',
+      appKey: 'qw99Bw8FD0KVKU9m457CwWsr',
+      placeholder: 'Please leave your footprints',
+      avatar: 'monsterid',
+      meta: 'nick,mail,link'.split(','),
+      pageSize: '10',
+      lang: 'zh-CN',
+      recordIP: true,
+      serverURLs: '',
+      emojiCDN: '',
+      emojiMaps: "",
+      enableQQ: true,
+      path: window.location.pathname,
+      requiredFields: ["nick,mail"],
+      visitor: false
+    }, null))
+  }
+
+  if (typeof Valine === 'function') initValine() 
+  else getScript('https://cdn.jsdelivr.net/npm/valine/dist/Valine.min.js').then(initValine)
+}
+
+if ('Valine' === 'Valine' || !false) {
+  if (false) btf.loadComment(document.getElementById('vcomment'),loadValine)
+  else setTimeout(loadValine, 0)
+} else {
+  function loadOtherComment () {
+    loadValine()
+  }
+}</script></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>

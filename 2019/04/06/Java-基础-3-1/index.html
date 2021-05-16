@@ -1,0 +1,428 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Java 集合类(一) | 平心de小屋</title><meta name="keywords" content="Java"><meta name="author" content="平心"><meta name="copyright" content="平心"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="在编写java程序中，我们最常用的除了八种基本数据类型，String对象外还有一个集合类，在我们的的程序中到处充斥着集合类的身影！java中集合大家族的成员实在是太丰富了，有常用的ArrayList、HashMap、HashSet，也有不常用的Stack、Queue，有线程安全的Vector、HashTable，也有线程不安全的LinkedList、TreeMap等等！">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Java 集合类(一)">
+<meta property="og:url" content="https://pingxin0521.gitee.io/2019/04/06/Java-%E5%9F%BA%E7%A1%80-3-1/index.html">
+<meta property="og:site_name" content="平心de小屋">
+<meta property="og:description" content="在编写java程序中，我们最常用的除了八种基本数据类型，String对象外还有一个集合类，在我们的的程序中到处充斥着集合类的身影！java中集合大家族的成员实在是太丰富了，有常用的ArrayList、HashMap、HashSet，也有不常用的Stack、Queue，有线程安全的Vector、HashTable，也有线程不安全的LinkedList、TreeMap等等！">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://i.loli.net/2020/05/08/gGE57HRvpcKPfDY.jpg">
+<meta property="article:published_time" content="2019-04-06T00:18:59.000Z">
+<meta property="article:modified_time" content="2019-11-05T11:52:00.181Z">
+<meta property="article:author" content="平心">
+<meta property="article:tag" content="Java">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.loli.net/2020/05/08/gGE57HRvpcKPfDY.jpg"><link rel="shortcut icon" href="https://s2.ax1x.com/2020/02/11/1ovFOA.png"><link rel="canonical" href="https://pingxin0521.gitee.io/2019/04/06/Java-%E5%9F%BA%E7%A1%80-3-1/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"search.xml","languages":{"hits_empty":"找不到您查询的内容：${query}"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    jQuery: 'https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js',
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+    },
+    fancybox: {
+      js: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css'
+    }
+  },
+  isPhotoFigcaption: true,
+  islazyload: true,
+  isanchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'Java 集合类(一)',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2019-11-05 19:52:00'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    })(window)</script><meta name="generator" content="Hexo 5.4.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="author-avatar"><img class="avatar-img" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://s2.ax1x.com/2020/02/11/1ovw6J.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data"><div class="data-item is-center"><div class="data-item-link"><a href="/archives/"><div class="headline">文章</div><div class="length-num">449</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/tags/"><div class="headline">标签</div><div class="length-num">77</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/categories/"><div class="headline">分类</div><div class="length-num">68</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fa fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fa fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://i.loli.net/2020/05/08/gGE57HRvpcKPfDY.jpg')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">平心de小屋</a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fa fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fa fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">Java 集合类(一)</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2019-04-06T00:18:59.000Z" title="发表于 2019-04-06 08:18:59">2019-04-06</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2019-11-05T11:52:00.181Z" title="更新于 2019-11-05 19:52:00">2019-11-05</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/Java/">Java</a><i class="fas fa-angle-right post-meta-separator"></i><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/Java/%E5%9F%BA%E7%A1%80/">基础</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">9.3k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>30分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="Java 集合类(一)"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><p>在编写java程序中，我们最常用的除了八种基本数据类型，String对象外还有一个集合类，在我们的的程序中到处充斥着集合类的身影！java中集合大家族的成员实在是太丰富了，有常用的ArrayList、HashMap、HashSet，也有不常用的Stack、Queue，有线程安全的Vector、HashTable，也有线程不安全的LinkedList、TreeMap等等！</p>
+<span id="more"></span>
+
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2019/06/25/5d11cf909d22a28956.jpg" alt="1.jpg"></p>
+<p>数组（可以存储基本数据类型）是用来存现对象的一种容器，但是数组的长度固定，不适合在对象数量未知的情况下使用。</p>
+<p>集合（只能存储对象，对象类型可以不一样）的长度可变，可在多数情况下使用。</p>
+<ol>
+<li><p>Iterator：Collection（值）、Map（键值对）；</p>
+</li>
+<li><p>Collection：Set（无序不重复）、List（有序可重复）、Queue；</p>
+</li>
+<li><p>Set：HashSet（基于HashMap实现）、LinkedHashSet（继承自HashSet）、TreeSet（底层基于HashMap实现，升序排列）；</p>
+</li>
+<li><p>List：ArrayList（基于数组实现，默认初始容量为10，增速1.5倍）、Vector（初始容量为10，增速2倍）、Stack（继承自Vector）、LinkedList（基于链表实现）；</p>
+</li>
+<li><p>Map：HashMap、HashTable、TreeMap（基于红黑树实现，按key值排序）；</p>
+</li>
+<li><p>线程安全的集合类：（喂，SHE），Vector、Stack、HashTable、Enumeration。以及使用Collections.synchronizedXXX()包装的安全集合。</p>
+</li>
+<li><p>不论Collection的实际类型如何，它都支持一个iterator()的方法，该方法返回一个迭代子，使用该迭代子即可逐一访问Collection中每一个元素。典型的用法如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Iterator it = collection.iterator(); <span class="comment">// 获得一个迭代子</span></span><br><span class="line"><span class="keyword">while</span>(it.hasNext()) &#123;</span><br><span class="line">Object obj = it.next(); <span class="comment">// 得到下一个元素</span></span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>List还提供一个listIterator()方法，返回一个 ListIterator接口（实现Iterator），和标准的Iterator接口相比，ListIterator多了一些add()之类的方法，允许添加，删除，设定元素，还能向前或向后遍历。</p>
+</li>
+<li><p>快速失败（Fail-Fast）机制：它是Java集合的一种错误检测机制。<strong>当多个线程对集合进行结构上的改变的操作时，有可能会产生fail-fast机制。记住是有可能，而不是一定。</strong>例如：假设存在两个线程（线程1、线程2），线程1通过Iterator在遍历集合A中的元素，在某个时候线程2修改了集合A的结构（是结构上面的修改，而不是简单的修改集合元素的内容），那么这个时候程序就会抛出 ConcurrentModificationException 异常，从而产生fail-fast机制。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        Vector&lt;Integer&gt; vector=<span class="keyword">new</span> Vector&lt;&gt;();</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">10</span>; i++) &#123;</span><br><span class="line">            vector.add(i);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        Thread t1=<span class="keyword">new</span> Thread(<span class="keyword">new</span> Runnable() &#123;</span><br><span class="line">            <span class="meta">@Override</span></span><br><span class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">                System.out.println(vector);</span><br><span class="line">                Iterator&lt;Integer&gt; iterator =</span><br><span class="line">                        vector.iterator();</span><br><span class="line">                <span class="keyword">while</span> (iterator.hasNext())</span><br><span class="line">                &#123;</span><br><span class="line">                    System.out.println(iterator.next());</span><br><span class="line">                    <span class="keyword">try</span> &#123;</span><br><span class="line">                        Thread.sleep(<span class="number">1000</span>);</span><br><span class="line">                    &#125; <span class="keyword">catch</span> (InterruptedException e) &#123;</span><br><span class="line">                        e.printStackTrace();</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">                System.out.println(vector);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line">        Thread t2=<span class="keyword">new</span> Thread(<span class="keyword">new</span> Runnable() &#123;</span><br><span class="line">            <span class="meta">@Override</span></span><br><span class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">                System.out.println(vector);</span><br><span class="line">                vector.add(<span class="number">100</span>);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line">        t1.start();</span><br><span class="line">        t2.start();</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure></li>
+</ol>
+<h3 id="Collection接口"><a href="#Collection接口" class="headerlink" title="Collection接口"></a>Collection接口</h3><p>Collection接口是最基本的集合接口，它不提供直接的实现，Java SDK提供的类都是继承自Collection的“子接口”如List和Set。Collection所代表的是一种规则，它所包含的元素都必须遵循一条或者多条规则。如有些允许重复而有些则不能重复、有些必须要按照顺序插入而有些则是散列，有些支持排序但是有些则不支持。</p>
+<p>在Java中所有实现了Collection接口的类都必须提供两套标准的构造函数，一个是无参，用于创建一个空的Collection，一个是带有Collection参数的有参构造函数，用于创建一个新的Collection，这个新的Collection与传入进来的Collection具备相同的元素。</p>
+<p>Collection接口是Set、List和Queue接口的父接口，基本操作包括：</p>
+<ul>
+<li>add(Object o)：增加元素</li>
+<li>addAll(Collection c)：将另一个集合内的成员添加到该集合</li>
+<li>clear()：清除集合内所有对象</li>
+<li>contains(Object o)：是否包含指定元素</li>
+<li>containsAll(Collection c)：是否包含集合c中的所有元素</li>
+<li>iterator()：返回Iterator对象，用于遍历集合中的元素</li>
+<li>remove(Object o)：移除元素</li>
+<li>removeAll(Collection c)：相当于减集合c</li>
+<li>retainAll(Collection c)：相当于求与c的交集</li>
+<li>size()：返回元素个数</li>
+<li>toArray()：把集合转换为一个数组</li>
+</ul>
+<p>Collection的遍历可以使用Iterator接口或者是foreach循环来实现</p>
+<p><strong>为什么Collection的遍历可以使用Iterator接口或者是foreach循环来实现</strong></p>
+<p>容器之间的关系：</p>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2019/04/12/5cafdf96557d4.jpg" alt="容器分类.jpg"></p>
+<p>可以看到Collection可以产生Iterator，那么Iterator又是如何工作的呢？</p>
+<p>Iterator有三个函数：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">boolean hasNext();//指向的集合是否有下一个元素</span><br><span class="line">E next(); //获取指向集合的元素，并指向下一元素</span><br><span class="line">void remove();</span><br></pre></td></tr></table></figure>
+
+<p>以下例子是利用了Iterator接口的着三个方法，实现遍历ArrayList&lt;String&gt;类型。<br>一开始迭代器在所有元素的左边，调用next()之后，迭代器移到第一个和第二个元素之间，next()方法返回迭代器刚刚经过的元素。<br>hasNext()若返回True，则表明接下来还有元素，迭代器不在尾部。<br>remove()方法必须和next方法一起使用，功能是去除刚刚next方法返回的元素。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> java.util.ArrayList;</span><br><span class="line"><span class="keyword">import</span> java.util.Collection;</span><br><span class="line"><span class="keyword">import</span> java.util.Iterator;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ForEachDemo</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String... arg)</span> </span>&#123;</span><br><span class="line">        Collection&lt;String&gt; a = <span class="keyword">new</span> ArrayList&lt;String&gt;();</span><br><span class="line">        a.add(<span class="string">&quot;Bob&quot;</span>);</span><br><span class="line">        a.add(<span class="string">&quot;Alice&quot;</span>);</span><br><span class="line">        a.add(<span class="string">&quot;Lisy&quot;</span>);</span><br><span class="line"></span><br><span class="line">        Iterator&lt;String&gt; iterator = a.iterator();</span><br><span class="line">        <span class="keyword">while</span> (iterator.hasNext()) &#123;</span><br><span class="line">            String ele = iterator.next();</span><br><span class="line">            System.out.println(ele);<span class="comment">//Bob  Alice  Lisy    </span></span><br><span class="line">        &#125;</span><br><span class="line">        System.out.println(a);<span class="comment">//[Bob, Alice, Lisy]  </span></span><br><span class="line">        iterator = a.iterator();</span><br><span class="line">        iterator.next();</span><br><span class="line">        iterator.remove();</span><br><span class="line">        System.out.println(a);<span class="comment">//[Alice, Lisy]  </span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>for-each循环可以与任何实现了Iterable接口的对象一起工作。</p>
+<p>Iterable接口只有一个方法，就是返回一个Iterator。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Iterator&lt;T&gt; iterator();</span><br></pre></td></tr></table></figure>
+
+<p>而java.util.Collection接口继承java.lang.Iterable，故标准类库中的任何集合都可以使用for-each循环,也可以使用iterator()来返回iterator。</p>
+<p><strong>为什么一定要去实现Iterable这个接口呢？ 为什么不直接实现Iterator接口呢？</strong></p>
+<p>看一下JDK中的集合类，比如List一族或者Set一族，都是继承了Iterable接口，但并不直接继承Iterator接口。</p>
+<p>仔细想一下这么做是有道理的。因为Iterator接口的核心方法next()或者hasNext()，是依赖于迭代器的当前迭代位置的。</p>
+<p>如果Collection直接继承Iterator接口，势必导致集合对象中包含当前迭代位置的数据(指针)。当集合在不同方法间被传递时，由于当前迭代位置不可预置，那么next()方法的结果会变成不可预知。除非再为Iterator接口添加一个reset()方法，用来重置当前迭代位置。但即时这样，Collection也只能同时存在一个当前迭代位置。</p>
+<p>而Iterable则不然，<strong>每次调用都会返回一个从头开始计数的迭代器。多个迭代器是互不干扰的</strong>。</p>
+<p>通过上面的框架图，其各个类、接口如下：</p>
+<ul>
+<li>Collection：Collection 层次结构 中的根接口。它表示一组对象，这些对象也称为 collection 的元素。对于Collection而言，它不提供任何直接的实现，所有的实现全部由它的子类负责。</li>
+<li>AbstractCollection：提供 Collection 接口的骨干实现，以最大限度地减少了实现此接口所需的工作。对于我们而言要实现一个不可修改的 collection，只需扩展此类，并提供 iterator 和 size 方法的实现。但要实现可修改的 collection，就必须另外重写此类的 add 方法（否则，会抛出 UnsupportedOperationException），iterator 方法返回的迭代器还必须另外实现其 remove 方法。</li>
+<li>Iterator：迭代器。</li>
+<li>ListIterator：系列表迭代器，允许程序员按任一方向遍历列表、迭代期间修改列表，并获得迭代器在列表中的当前位置。</li>
+<li>List：继承于Collection的接口。它代表着有序的队列。</li>
+<li>AbstractList：List 接口的骨干实现，以最大限度地减少实现“随机访问”数据存储（如数组）支持的该接口所需的工作。</li>
+<li>Queue：队列。提供队列基本的插入、获取、检查操作。</li>
+<li>Deque：一个线性 collection，支持在两端插入和移除元素。大多数 Deque 实现对于它们能够包含的元素数没有固定限制，但此接口既支持有容量限制的双端队列，也支持没有固定大小限制的双端队列。</li>
+<li>AbstractSequentialList：提供了 List 接口的骨干实现，从而最大限度地减少了实现受“连续访问”数据存储（如链接列表）支持的此接口所需的工作。从某种意义上说，此类与在列表的列表迭代器上实现“随机访问”方法。</li>
+<li>LinkedList：List 接口的链接列表实现。它实现所有可选的列表操作。</li>
+<li>ArrayList：List 接口的大小可变数组的实现。它实现了所有可选列表操作，并允许包括 null 在内的所有元素。除了实现 List 接口外，此类还提供一些方法来操作内部用来存储列表的数组的大小。</li>
+<li>Vector：实现可增长的对象数组。与数组一样，它包含可以使用整数索引进行访问的组件。</li>
+<li>Stack：后进先出（LIFO）的对象堆栈。它通过五个操作对类 Vector 进行了扩展 ，允许将向量视为堆栈。</li>
+<li>Enumeration：枚举，实现了该接口的对象，它生成一系列元素，一次生成一个。连续调用 nextElement 方法将返回一系列的连续元素。这种传统接口已被迭代器取代，虽然Enumeration 还未被遗弃，但在现代代码中已经被很少使用了。尽管如此，它还是使用在诸如Vector和Properties这些传统类所定义的方法中，除此之外，还用在一些API类，并且在应用程序中也广泛被使用。</li>
+<li>Map：“键值”对映射的抽象接口。该映射不包括重复的键，一个键对应一个值。</li>
+<li>SortedMap：有序的键值对接口，继承Map接口。</li>
+<li>NavigableMap：继承SortedMap，具有了针对给定搜索目标返回最接近匹配项的导航方法的接口。</li>
+<li>AbstractMap：实现了Map中的绝大部分函数接口。它减少了“Map的实现类”的重复编码。</li>
+<li>Dictionary：任何可将键映射到相应值的类的抽象父类。目前被Map接口取代。</li>
+<li>TreeMap：有序散列表，实现SortedMap 接口，底层通过红黑树实现。</li>
+<li>HashMap：是基于“拉链法”实现的散列表。底层采用“数组+链表”实现。</li>
+<li>WeakHashMap：基于“拉链法”实现的散列表。</li>
+<li>HashTable：基于“拉链法”实现的散列表。</li>
+</ul>
+<h3 id="List"><a href="#List" class="headerlink" title="List"></a>List</h3><p>List接口为Collection直接接口。List所代表的是有序的Collection，即它用某种特定的插入顺序来维护元素顺序。用户可以对列表中每个元素的插入位置进行精确地控制，同时可以根据元素的整数索引（在列表中的位置）访问元素，并搜索列表中的元素。实现List接口的集合主要有：ArrayList、LinkedList、Vector、Stack。</p>
+<p>List子接口是有序集合，所以与Set相比，增加了与索引位置相关的操作：</p>
+<ul>
+<li>add(int index, Object o)：在指定位置插入元素</li>
+<li>addAll(int index, Collection c)：…</li>
+<li>get(int index)：取得指定位置元素</li>
+<li>indexOf(Obejct o)：返回对象o在集合中第一次出现的位置</li>
+<li>lastIndexOf(Object o)：…</li>
+<li>remove(int index)：删除并返回指定位置的元素</li>
+<li>set(int index, Object o)：替换指定位置元素</li>
+<li>subList(int fromIndex, int endIndex)：返回子集合</li>
+</ul>
+<h4 id="ArrayList"><a href="#ArrayList" class="headerlink" title="ArrayList"></a>ArrayList</h4><p>ArrayList是一个动态数组，也是我们最常用的集合。它允许任何符合规则的元素插入甚至包括null。每一个ArrayList都有一个初始容量（10），该容量代表了数组的大小。随着容器中的元素不断增加，容器的大小也会随着增加。在每次向容器中增加元素的同时都会进行容量检查，当快溢出时，就会进行扩容操作。所以如果我们明确所插入元素的多少，最好指定一个初始容量值，避免过多的进行扩容操作而浪费时间、效率。</p>
+<p>size、isEmpty、get、set、iterator 和 listIterator 操作都以固定时间运行。add 操作以分摊的固定时间运行，也就是说，添加 n 个元素需要 O(n) 时间（由于要考虑到扩容，所以这不只是添加元素会带来分摊固定时间开销那样简单）。</p>
+<p>ArrayList擅长于随机访问。同时ArrayList是非同步的。如果多个线程同时访问一个ArrayList实例，而其中至少一个线程从结构上修改了列表，那么它必须保持外部同步。所以为了保证同步，最好的办法是在创建时完成，以防止意外对列表进行不同步的访问：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">List list = Collections.synchronizedList(new ArrayList(...));</span><br></pre></td></tr></table></figure>
+
+<p>ArrayList是实现List接口的，底层采用数组实现，所以它的操作基本上都是基于对数组的操作。</p>
+<p>ArrayList提供了三个构造函数：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">ArrayList()：默认构造函数，提供初始容量为10的空列表。</span><br><span class="line">ArrayList(int initialCapacity)：构造一个具有指定初始容量的空列表。</span><br><span class="line">ArrayList(Collection&lt;? extends E&gt; c)：构造一个包含指定 collection 的元素的列表，这些元素是按照该 collection 的迭代器返回它们的顺序排列的。</span><br></pre></td></tr></table></figure>
+
+<p>ArrayList提供了add(E e)、add(int index, E element)、addAll(Collection&lt;? extends E&gt; c)、addAll(int index, Collection&lt;? extends E&gt; c)、set(int index, E element)这个五个方法来实现ArrayList增加。允许null值。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">add(E e)：将指定的元素添加到此列表的尾部。</span><br><span class="line">add(int index, E element)：将指定的元素插入此列表中的指定位置</span><br><span class="line">addAll(Collection&lt;? extends E&gt; c)：按照指定 collection 的迭代器所返回的元素顺序，将该 collection 中的所有元素添加到此列表的尾部。</span><br><span class="line">addAll(int index, Collection&lt;? extends E&gt; c)：从指定的位置开始，将指定 collection 中的所有元素插入到此列表中。</span><br><span class="line">set(int index, E element)：用指定的元素替代此列表中指定位置上的元素。</span><br></pre></td></tr></table></figure>
+
+<p>ArrayList提供了remove(int index)、remove(Object o)、removeRange(int fromIndex, int toIndex)、removeAll()四个方法进行元素的删除。</p>
+<p>ArrayList提供了get(int index)用读取ArrayList中的元素。由于ArrayList是动态数组，所以我们完全可以根据下标来获取ArrayList中的元素，而且速度还比较快，故<strong>ArrayList长于随机访问</strong></p>
+<p>在前面就提过ArrayList每次新增元素时都会需要进行容量检测判断，若新增元素后元素的个数会超过ArrayList的容量，就会进行扩容操作来满足新增元素的需求，扩容步长为1.5。所以当我们清楚知道业务数据量或者需要插入大量元素前，我可以使用ensureCapacity来手动增加ArrayList实例的容量，以减少递增式再分配的数量。</p>
+<p>处理这个ensureCapacity()这个扩容数组外，ArrayList还给我们提供了将底层数组的容量调整为当前列表保存的实际元素的大小的功能。它可以通过trimToSize()方法来实现。该方法可以最小化ArrayList实例的存储量。</p>
+<h4 id="LinkedList"><a href="#LinkedList" class="headerlink" title="LinkedList"></a>LinkedList</h4><p>同样实现List接口的LinkedList与ArrayList不同，ArrayList是一个动态数组，而LinkedList是一个双向链表。所以它除了有ArrayList的基本操作方法外还额外提供了get，remove，insert方法在LinkedList的首部或尾部。<strong>这些操作使LinkedList可被用作堆栈（stack），队列（queue）或双向队列（deque）。</strong></p>
+<p>由于实现的方式不同，LinkedList不能随机访问，它所有的操作都是要<strong>按照双重链表的需要执行</strong>。在列表中索引的操作将从开头或结尾遍历列表（从靠近指定索引的一端）。这样做的好处就是可以通过较低的代价在List中进行插入和删除操作。</p>
+<p>与ArrayList一样，LinkedList也是<strong>非同步的</strong>。如果多个线程同时访问一个List，则必须自己实现访问同步。一种解决方法是在创建List时构造一个同步的List：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">List list = Collections.synchronizedList(<span class="keyword">new</span> LinkedList(...));</span><br></pre></td></tr></table></figure>
+
+<p>除了实现 List 接口外，LinkedList 类还为在列表的开头及结尾 get、remove 和 insert 元素提供了统一的命名方法。这些操作允许将链接列表用作堆栈、队列或双端队列。</p>
+<p>此类实现 Deque 接口，为 add、poll 提供先进先出队列操作，以及其他堆栈和双端队列操作。</p>
+<p>所有操作都是按照双重链接列表的需要执行的。在列表中编索引的操作将从开头或结尾遍历列表（从靠近指定索引的一端）。</p>
+<p>LinkedList提高了两个构造方法：LinkedLis()和LinkedList(Collection&lt;? extends E&gt; c)。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">LinkedList()构造一个空列表。里面没有任何元素，仅仅只是将header节点的前一个元素、后一个元素都指向自身。</span><br><span class="line">LinkedList(Collection&lt;? extends E&gt; c)： 构造一个包含指定 collection 中的元素的列表，这些元素按其 collection 的迭代器返回的顺序排列。该构造函数首先会调用LinkedList()，构造一个空列表，然后调用了addAll()方法将Collection中的所有元素添加到列表中。</span><br></pre></td></tr></table></figure>
+
+<p>增加方法：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"> add(E e): 将指定元素添加到此列表的结尾，该方法调用addBefore方法，然后直接返回true，对于addBefore()而已，它为LinkedList的私有方法。</span><br><span class="line">add(int index, E element)：在此列表中指定的位置插入指定的元素。</span><br><span class="line">addAll(Collection&lt;? extends E&gt; c)：添加指定 collection 中的所有元素到此列表的结尾，顺序是指定 collection 的迭代器返回这些元素的顺序。</span><br><span class="line">addAll(int index, Collection&lt;? extends E&gt; c)：将指定 collection 中的所有元素从指定位置开始插入此列表。</span><br><span class="line">AddFirst(E e): 将指定元素插入此列表的开头。</span><br><span class="line">addLast(E e): 将指定元素添加到此列表的结尾。</span><br></pre></td></tr></table></figure>
+
+<p> 移除方法：</p>
+ <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"> remove(Object o)：从此列表中移除首次出现的指定元素（如果存在）。 该方法首先会判断移除的元素是否为null，然后迭代这个链表找到该元素节点，最后调用remove(Entry&lt;E&gt; e)，remove(Entry&lt;E&gt; e)为私有方法，是LinkedList中所有移除方法的基础方法</span><br><span class="line"> clear()： 从此列表中移除所有元素。</span><br><span class="line">remove()：获取并移除此列表的头（第一个元素）。</span><br><span class="line">remove(int index)：移除此列表中指定位置处的元素。</span><br><span class="line">remove(Objec o)：从此列表中移除首次出现的指定元素（如果存在）。</span><br><span class="line">removeFirst()：移除并返回此列表的第一个元素。</span><br><span class="line">removeFirstOccurrence(Object o)：从此列表中移除第一次出现的指定元素（从头部到尾部遍历列表时）。</span><br><span class="line">removeLast()：移除并返回此列表的最后一个元素。</span><br><span class="line">removeLastOccurrence(Object o)：从此列表中移除最后一次出现的指定元素（从头部到尾部遍历列表时）。</span><br></pre></td></tr></table></figure>
+
+<p>查找方法：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">get(int index)：返回此列表中指定位置处的元素。</span><br><span class="line">getFirst()：返回此列表的第一个元素。</span><br><span class="line">getLast()：返回此列表的最后一个元素。</span><br><span class="line">indexOf(Object o)：返回此列表中首次出现的指定元素的索引，如果此列表中不包含该元素，则返回 -1。</span><br><span class="line">lastIndexOf(Object o)：返回此列表中最后出现的指定元素的索引，如果此列表中不包含该元素，则返回 -1。</span><br></pre></td></tr></table></figure>
+
+
+
+<p><strong>Aarraylist和Linkedlist</strong></p>
+<ol>
+<li>ArrayList是实现了基于动态数组的数据结构，LinkedList基于链表的数据结构。</li>
+<li>对于随机访问get和set，ArrayList觉得优于LinkedList，因为LinkedList要移动指针。</li>
+<li>对于新增和删除操作add和remove，LinedList比较占优势，因为ArrayList要移动数据。<br>这一点要看实际情况的。<strong>若只对单条数据插入或删除，ArrayList的速度反而优于LinkedList。但若是批量随机的插入删除数据，LinkedList的速度大大优于ArrayList</strong>. 因为ArrayList每插入一条数据，要移动插入点及之后的所有数据。</li>
+</ol>
+<h4 id="Vector"><a href="#Vector" class="headerlink" title="Vector"></a>Vector</h4><p>与ArrayList相似，但是Vector是同步的。所以说Vector是<strong>线程安全的动态数组</strong>。它的操作与ArrayList几乎一样。</p>
+<p><strong>Vector和ArrayList</strong></p>
+<ol>
+<li>vector是线程同步的，所以它也是线程安全的，而arraylist是线程异步的，是不安全的。如果不考虑到线程的安全因素，一般用arraylist效率比较高。</li>
+<li>如果集合中的元素的数目大于目前集合数组的长度时，vector增长率为目前数组长度的100%,而arraylist增长率为目前数组长度的50%.如过在集合中使用数据量比较大的数据，用vector有一定的优势。</li>
+<li>如果查找一个指定位置的数据，vector和arraylist使用的时间是相同的，都是0(1),这个时候使用vector和arraylist都可以。而如果移动一个指定位置的数据花费的时间为0(n-i)n为总长度，这个时候就应该考虑到使用linklist,因为它移动一个指定位置的数据所花费的时间为0(1),而查询一个指定位置的数据时花费的时间为0(i)。</li>
+</ol>
+<p>ArrayList 和Vector是采用数组方式存储数据，此数组元素数大于实际存储的数据以便增加和插入元素，都允许直接序号索引元素，但是插入数据要设计到数组元素移动等内存操作，所以索引数据快插入数据慢，Vector由于使用了synchronized方法（线程安全）所以性能上比ArrayList要差，LinkedList使用双向链表实现存储，按序号索引数据需要进行向前或向后遍历，但是插入数据时只需要记录本项的前后项即可，所以插入数度较快！</p>
+<p><strong>不推荐使用Vector类，即使需要考虑同步，即也可以通过其它方法实现。同样我们也可以通过ArrayDeque类或LinkedList类实现“栈”的相关功能。所以Vector与子类Stack，建议放进历史吧</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">ArrayList&lt;Integer&gt; list = <span class="keyword">new</span> ArrayList&lt;Integer&gt;();</span><br><span class="line">list.iterator();</span><br><span class="line">list.listIterator();</span><br><span class="line">Collections.synchronizedList(list);</span><br><span class="line"></span><br><span class="line">LinkedList&lt;Integer&gt; linkedList=<span class="keyword">new</span> LinkedList&lt;Integer&gt;();</span><br><span class="line"><span class="comment">//栈</span></span><br><span class="line">linkedList.push(<span class="number">1</span>);</span><br><span class="line">linkedList.pop();</span><br><span class="line"><span class="comment">//队列</span></span><br><span class="line">linkedList.offer(<span class="number">2</span>);</span><br><span class="line">linkedList.poll();</span><br><span class="line"></span><br><span class="line"><span class="comment">//双向队列</span></span><br><span class="line">linkedList.offerFirst(<span class="number">3</span>);</span><br><span class="line">linkedList.pollFirst();</span><br><span class="line"></span><br><span class="line">linkedList.offerLast(<span class="number">4</span>);</span><br><span class="line">linkedList.pollLast();</span><br><span class="line"></span><br><span class="line"><span class="comment">//使用信号量进行加锁，synchronize加锁mutex变量，默认为集合的this</span></span><br><span class="line">Collections.synchronizedList(linkedList);</span><br><span class="line"></span><br><span class="line">linkedList.forEach(System.out::println);</span><br><span class="line"></span><br><span class="line">Vector&lt;Integer&gt; vector=<span class="keyword">new</span> Vector&lt;&gt;();</span><br></pre></td></tr></table></figure>
+
+<h4 id="Stack"><a href="#Stack" class="headerlink" title="Stack"></a>Stack</h4><p> Stack继承自Vector，实现一个后进先出的堆栈。Stack提供5个额外的方法使得Vector得以被当作堆栈使用。基本的push和pop 方法，还有peek方法得到栈顶的元素，empty方法测试堆栈是否为空，search方法检测一个元素在堆栈中的位置。Stack刚创建后是空栈。</p>
+<h3 id="Map接口"><a href="#Map接口" class="headerlink" title="Map接口"></a>Map接口</h3><p>Map与List、Set接口不同，它是由一系列键值对组成的集合，提供了key到Value的映射。同时它也没有继承Collection。在Map中它保证了key与value之间的一一对应关系。也就是说一个key对应一个value，所以它不能存在相同的key值，当然value值可以相同。实现map的有：HashMap、TreeMap、HashTable、Properties、EnumMap。</p>
+<p>JDK1.8 之前 HashMap 由 <strong>数组+链表</strong> 组成的（<strong>“链表散列”</strong> 即数组和链表的结合体），数组是 HashMap 的主体，链表则是主要为了解决哈希冲突而存在的（HashMap 采用 <strong>“拉链法也就是链地址法”</strong> 解决冲突），如果定位到的数组位置不含链表（当前  entry 的 next 指向 null  ）,那么对于查找，添加等操作很快，仅需一次寻址即可；如果定位到的数组包含链表，对于添加操作，其时间复杂度依然为 O(1)，因为最新的 Entry  会插入链表头部，急需要简单改变引用链即可，而对于查找操作来讲，此时就需要遍历链表，然后通过 key 对象的 equals 方法逐一比对查找.</p>
+<blockquote>
+<p>所谓 <strong>“拉链法”</strong> 就是将链表和数组相结合。也就是说创建一个链表数组，数组中每一格就是一个链表。若遇到哈希冲突，则将冲突的值加到链表中即可。</p>
+</blockquote>
+<p>相比于之前的版本， JDK1.8之后在解决哈希冲突时有了较大的变化，当链表长度大于阈值（默认为8）时，将链表转化为红黑树，以减少搜索时间。</p>
+<blockquote>
+<p>TreeMap、TreeSet以及JDK1.8之后的HashMap底层都用到了红黑树。红黑树就是为了解决二叉查找树的缺陷，因为二叉查找树在某些情况下会退化成一个线性结构。</p>
+</blockquote>
+<h4 id="HashMap"><a href="#HashMap" class="headerlink" title="HashMap"></a>HashMap</h4><p>以哈希表数据结构实现，查找对象时通过哈希函数计算其位置，它是为快速查询而设计的，其内部定义了一个hash表数组（Entry[] table），元素会通过哈希转换函数将元素的哈希地址转换成数组中存放的索引，如果有冲突，则使用<strong>散列链表的形式将所有相同哈希地址的元素串起来</strong>，可能通过查看HashMap.Entry的源码它是一个单链表结构。</p>
+<h4 id="TreeMap"><a href="#TreeMap" class="headerlink" title="TreeMap"></a>TreeMap</h4><p>键以某种排序规则排序，内部以red-black（红-黑）树数据结构实现，实现了SortedMap接口</p>
+<p><strong>HashMap与TreeMap</strong></p>
+<ol>
+<li><p>HashMap通过hashcode对其内容进行快速查找，而TreeMap中所有的元素都保持着某种固定的顺序，如果你需要得到一个有序的结果你就应该使用TreeMap。HashMap中元素的排列顺序是不固定的）。</p>
+</li>
+<li><p>HashMap通过hashcode对其内容进行快速查找，而TreeMap中所有的元素都保持着某种固定的顺序，如果你需要得到一个有序的结果你就应该使用TreeMap（HashMap中元素的排列顺序是不固定的）。集合框架”提供两种常规的Map实现：HashMap和TreeMap (TreeMap实现SortedMap接口)。</p>
+</li>
+<li><p>在Map 中插入、删除和定位元素，HashMap 是最好的选择。但如果您要按自然顺序或自定义顺序遍历键，那么TreeMap会更好。使用HashMap要求添加的键类明确定义了hashCode()和 equals()的实现。 这个TreeMap没有调优选项，因为该树总处于平衡状态。</p>
+</li>
+</ol>
+<h4 id="HashTable"><a href="#HashTable" class="headerlink" title="HashTable"></a>HashTable</h4><p>也是以哈希表数据结构实现的，解决冲突时与HashMap也一样也是采用了<strong>散列链表</strong>的形式，不过性能比HashMap要低</p>
+<p><strong>hashtable与hashmap</strong></p>
+<ol>
+<li><strong>线程是否安全：</strong> HashMap 是非线程安全的，HashTable 是线程安全的；HashTable 内部的方法基本都经过 <code>synchronized</code> 修饰。（如果你要保证线程安全的话就使用 ConcurrentHashMap 吧！）；</li>
+<li><strong>效率：</strong> 因为线程安全的问题，HashMap 要比 HashTable 效率高一点。另外，HashTable 基本被淘汰，不要在代码中使用它；</li>
+<li><strong>对Null key 和Null value的支持：</strong> HashMap 中，null 可以作为键，这样的键只有一个，可以有一个或多个键所对应的值为 null，但是在 HashTable 中 put 进的键值只要有一个 null，直接抛NullPointerException。</li>
+<li><strong>初始容量大小和每次扩充容量大小的不同 ：</strong> ①创建时如果不指定容量初始值，Hashtable  默认的初始大小为11，之后每次扩充，容量变为原来的2n+1。HashMap  默认的初始化大小为16。之后每次扩充，容量变为原来的2倍。②创建时如果给定了容量初始值，那么 Hashtable 会直接使用你给定的大小，而  HashMap 会将其扩充为2的幂次方大小。也就是说 HashMap 总是使用2的幂作为哈希表的大小,后面会介绍到为什么是2的幂次方。</li>
+<li><strong>底层数据结构：</strong> JDK1.8 以后的 HashMap 在解决哈希冲突时有了较大的变化，当链表长度大于阈值（默认为8）时，将链表转化为红黑树，以减少搜索时间。Hashtable 没有这样的机制。</li>
+</ol>
+<p>对于在Map中插入、删除和定位元素这类操作，HashMap是最好的选择。然而，假如你需要对一个有序的key集合进行遍历，TreeMap是更好的选择。基于你的collection的大小，也许向HashMap中添加元素会更快，将map换为TreeMap进行有序key的遍历。</p>
+<p><strong>Map优化</strong></p>
+<p>使用一个较大的数组让元素能够均匀分布。在Map有两个会影响到其效率，一是容器的初始化大小、二是负载因子。</p>
+<p>在哈希映射表中，内部数组中的每个位置称作“存储桶”(bucket)，而可用的存储桶数（即内部数组的大小）称作容量 (capacity)，我们为了使Map对象能够有效地处理任意数的元素，将Map设计成可以调整自身的大小。我们知道当Map中的元素达到一定量的时候就会调整容器自身的大小，但是这个调整大小的过程其开销是非常大的。调整大小需要将原来所有的元素插入到新数组中。我们知道index = hash(key) % length。这样可能会导致原先冲突的键不在冲突，不冲突的键现在冲突的，重新计算、调整、插入的过程开销是非常大的，效率也比较低下。所以，如果我们开始知道Map的预期大小值，将Map调整的足够大，则可以大大减少甚至不需要重新调整大小，这很有可能会提高速度。</p>
+<p>为了确认何时需要调整Map容器，Map使用了一个额外的参数并且粗略计算存储容器的密度。在Map调整大小之前，使用”负载因子”来指示Map将会承担的“负载量”，也就是它的负载程度，当容器中元素的数量达到了这个“负载量”，则Map将会进行扩容操作。负载因子、容量、Map大小之间的关系如下：负载因子 * 容量 &gt; map大小  —–&gt;调整Map大小。</p>
+<p>例如：如果负载因子大小为0.75（HashMap的默认值），默认容量为11，则 11 * 0.75 = 8.25 = 8，所以当我们容器中插入第八个元素的时候，Map就会调整大小。</p>
+<p>负载因子本身就是在控件和时间之间的折衷。当我使用较小的负载因子时，虽然降低了冲突的可能性，使得单个链表的长度减小了，加快了访问和更新的速度，但是它占用了更多的控件，使得数组中的大部分控件没有得到利用，元素分布比较稀疏，同时由于Map频繁的调整大小，可能会降低性能。但是如果负载因子过大，会使得元素分布比较紧凑，导致产生冲突的可能性加大，从而访问、更新速度较慢。所以我们一般推荐不更改负载因子的值，采用默认值0.75.</p>
+<h3 id="Set"><a href="#Set" class="headerlink" title="Set"></a>Set</h3><p>Set是一种不包括重复元素的Collection。它维持它自己的内部排序，所以随机访问没有任何意义。与List一样，它同样运行null的存在但是仅有一个。由于Set接口的特殊性，所有传入Set集合中的元素都必须不同，同时要注意任何可变对象，如果在对集合中元素进行操作时，导致e1.equals(e2)==true，则必定会产生某些问题。实现了Set接口的集合有：EnumSet、HashSet、TreeSet。</p>
+<h4 id="EnumSet"><a href="#EnumSet" class="headerlink" title="EnumSet"></a>EnumSet</h4><p>是枚举的专用Set。所有的元素都是枚举类型。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// EnumSet - a modern replacement for bit fields - Page 160</span></span><br><span class="line"><span class="keyword">import</span> java.util.*;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Text</span> </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="class"><span class="keyword">enum</span> <span class="title">Style</span> </span>&#123; BOLD, ITALIC, UNDERLINE, STRIKETHROUGH &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Any Set could be passed in, but EnumSet is clearly best</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">applyStyles</span><span class="params">(Set&lt;Style&gt; styles)</span> </span>&#123;</span><br><span class="line">        <span class="comment">// Body goes here</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Sample use</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        Text text = <span class="keyword">new</span> Text();</span><br><span class="line">        text.applyStyles(EnumSet.of(Style.BOLD, Style.ITALIC));</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="HashSet"><a href="#HashSet" class="headerlink" title="HashSet"></a>HashSet</h4><p>HashSet堪称查询速度最快的集合，因为其内部是以HashCode来实现的。它内部元素的顺序是由哈希码来决定的，所以它<strong>不保证set 的迭代顺序</strong>；特别是它<strong>不保证该顺序恒久不变</strong>。</p>
+<p>特点：</p>
+<ul>
+<li>不能保证元素的排列顺序，加入的元素要特别注意hashCode()方法的实现。</li>
+<li>HashSet<strong>不是同步</strong>的，多线程访问同一步HashSet对象时，需要手工同步。</li>
+<li>集合元素值<strong>可以是null</strong>。</li>
+</ul>
+<h4 id="LinkedHashSet"><a href="#LinkedHashSet" class="headerlink" title="LinkedHashSet"></a>LinkedHashSet</h4><p>LinkedHashSet类也是根据元素的hashCode值来决定元素的存储位置，但它同时使用链表维护元素的次序。与HashSet相比，特点：</p>
+<ul>
+<li>对集合迭代时，按增加顺序返回元素。</li>
+<li>性能略低于HashSet，因为需要维护元素的插入顺序。但迭代访问元素时会有好性能，因为它采用链表维护内部顺序。</li>
+</ul>
+<h4 id="SortedSet接口及TreeSet实现类"><a href="#SortedSet接口及TreeSet实现类" class="headerlink" title="SortedSet接口及TreeSet实现类"></a>SortedSet接口及TreeSet实现类</h4><p>基于TreeMap，生成一个总是处于排序状态的set，内部以TreeMap来实现。它是使用元素的自然顺序对元素进行排序，或者根据创建Set 时提供的 Comparator 进行排序，具体取决于使用的构造方法。</p>
+<p>TreeSet类是SortedSet接口的实现类。因为需要排序，所以<strong>性能肯定差于HashSet</strong>。与HashSet相比，额外增加的方法有：</p>
+<ul>
+<li>first()：返回第一个元素</li>
+<li>last()：返回最后一个元素</li>
+<li>lower(Object o)：返回指定元素之前的元素</li>
+<li>higher(Obect o)：返回指定元素之后的元素</li>
+<li>subSet(fromElement, toElement)：返回子集合</li>
+</ul>
+<p>可以定义比较器（Comparator）来实现自定义的排序。默认自然升序排序。</p>
+<h3 id="Queue"><a href="#Queue" class="headerlink" title="Queue"></a>Queue</h3><p>队列，它主要分为两大类，一类是阻塞式队列，队列满了以后再插入元素则会抛出异常，主要包括ArrayBlockQueue、PriorityBlockingQueue、LinkedBlockingQueue。另一种队列则是双端队列，支持在头、尾两端插入和移除元素，主要包括：ArrayDeque、LinkedBlockingDeque、LinkedList。</p>
+<p>Queue用于模拟队列这种数据结构，实现“FIFO”等数据结构。通常，队列不允许随机访问队列中的元素。</p>
+<p>Queue 接口并未定义阻塞队列的方法，而这在并发编程中是很常见的。BlockingQueue 接口定义了那些等待元素出现或等待队列中有可用空间的方法，这些方法扩展了此接口。</p>
+<p>Queue 实现通常不允许插入 null 元素，尽管某些实现（如 LinkedList）并不禁止插入 null。即使在允许 null 的实现中，也不应该将 null 插入到 Queue 中，因为 null 也用作 poll 方法的一个特殊返回值，表明队列不包含元素。</p>
+<p>基本操作：</p>
+<ul>
+<li>boolean add(E e) : 将元素加入到队尾，不建议使用</li>
+<li>boolean offer(E e): 将指定的元素插入此队列（如果立即可行且不会违反容量限制），当使用有容量限制的队列时，此方法通常要优于 add(E)，后者可能无法插入元素，而只是抛出一个异常。推荐使用此方法取代add</li>
+<li>E remove(): 获取头部元素并且删除元素，不建议使用</li>
+<li>E poll(): 获取头部元素并且删除元素，队列为空返回null；推荐使用此方法取代remove</li>
+<li>E element(): 获取但是不移除此队列的头</li>
+<li>E peek(): 获取队列头部元素却不删除元素，队列为空返回null</li>
+</ul>
+<h4 id="PriorityQueue"><a href="#PriorityQueue" class="headerlink" title="PriorityQueue"></a>PriorityQueue</h4><p>PriorityQueue保存队列元素的顺序并不是按照加入队列的顺序，而是按队列元素的大小重新排序。当调用peek()或者是poll()方法时，返回的是队列中最小的元素。当然你可以与TreeSet一样，可以自定义排序。</p>
+<h4 id="Deque子接口与ArrayDeque类"><a href="#Deque子接口与ArrayDeque类" class="headerlink" title="Deque子接口与ArrayDeque类"></a>Deque子接口与ArrayDeque类</h4><p>Deque代表一个双端队列，可以当作一个双端队列使用，也可以当作“栈”来使用，因为它包含出栈pop()与入栈push()方法。</p>
+<p>ArrayDeque类为Deque的实现类，数组方式实现。方法有：</p>
+<ul>
+<li>addFirst(Object o)：元素增加至队列开头</li>
+<li>addLast(Object o)：元素增加至队列末尾</li>
+<li>poolFirst()：获取并删除队列第一个元素，队列为空返回null</li>
+<li>poolLast()：获取并删除队列最后一个元素，队列为空返回null</li>
+<li>pop()：“栈”方法，出栈，相当于removeFirst()</li>
+<li>push(Object o)：“栈”方法，入栈，相当于addFirst()</li>
+<li>removeFirst()：获取并删除队列第一个元素</li>
+<li>removeLast()：获取并删除队列最后一个元素</li>
+</ul>
+<h4 id="实现List接口与Deque接口的LinkedList类"><a href="#实现List接口与Deque接口的LinkedList类" class="headerlink" title="实现List接口与Deque接口的LinkedList类"></a>实现List接口与Deque接口的LinkedList类</h4><p>LinkedList类是List接口的实现类，同时它也实现了Deque接口。因此它也可以当做一个双端队列来用，也可以当作“栈”来使用。并且，它是以链表的形式来实现的，这样的结果是它的随机访问集合中的元素时性能较差，但插入与删除操作性能非常出色。</p>
+<h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><ol>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/dengcl/p/8046739.html"> 40个Java集合面试问题和答案 </a></li>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/WPF0414/p/9885619.html">合集</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/e6076b43fdfb">面试必备：30个Java集合面试问题及答案</a></li>
+</ol>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">平心</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://pingxin0521.gitee.io/2019/04/06/Java-%E5%9F%BA%E7%A1%80-3-1/">https://pingxin0521.gitee.io/2019/04/06/Java-%E5%9F%BA%E7%A1%80-3-1/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://pingxin0521.gitee.io" target="_blank">平心de小屋</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/Java/">Java</a></div><div class="post_share"><div class="social-share" data-image="https://i.loli.net/2020/05/08/gGE57HRvpcKPfDY.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2019/04/06/Java-%E5%9F%BA%E7%A1%80-3-2/"><img class="prev-cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/PFDRNxj93taz6pw.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">Java 集合类 (二)</div></div></a></div><div class="next-post pull-right"><a href="/2019/04/05/Java-%E5%9F%BA%E7%A1%80-4-2/"><img class="next-cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/vCnKyoFJZ1g4XYR.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">Java Swing程序设计（二）</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span> 相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2019/07/12/Java-SpringBoot-1-4-2/" title="Spring boot 数据访问 MongoDB"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/okfOw28KlZFbE7z.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2020-01-25</div><div class="title">Spring boot 数据访问 MongoDB</div></div></a></div><div><a href="/2019/12/10/Java-SpringBoot-1-6-1/" title="Spring boot 消息队列(使用RabbitMQ)"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/7dHvepmfYOLWTrX.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2020-02-09</div><div class="title">Spring boot 消息队列(使用RabbitMQ)</div></div></a></div><div><a href="/2019/05/30/Java-SpringCloud-0-0/" title="Spring Cloud 入门 (一)"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/7dHvepmfYOLWTrX.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2020-12-27</div><div class="title">Spring Cloud 入门 (一)</div></div></a></div><div><a href="/2019/11/01/Java-SpringCloud-3-0/" title="Spring Cloud 组件之Hystrix (五)"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/vCnKyoFJZ1g4XYR.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2020-12-27</div><div class="title">Spring Cloud 组件之Hystrix (五)</div></div></a></div><div><a href="/2019/10/27/Java-SpringCloud-6-0/" title="微服务组件--分布式追踪系统"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/PFDRNxj93taz6pw.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2020-12-27</div><div class="title">微服务组件--分布式追踪系统</div></div></a></div><div><a href="/2019/11/03/Java-SpringCloud-6-2/" title="SpringCloud组件之Spring Cloud Sleuth (八)"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/gGE57HRvpcKPfDY.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2020-12-27</div><div class="title">SpringCloud组件之Spring Cloud Sleuth (八)</div></div></a></div></div></div><hr/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div class="vcomment" id="vcomment"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="card-info-avatar is-center"><img class="avatar-img" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://s2.ax1x.com/2020/02/11/1ovw6J.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/><div class="author-info__name">平心</div><div class="author-info__description">年轻人的life、learn and think</div></div><div class="card-info-data"><div class="card-info-data-item is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">449</div></a></div><div class="card-info-data-item is-center"><a href="/tags/"><div class="headline">标签</div><div class="length-num">77</div></a></div><div class="card-info-data-item is-center"><a href="/categories/"><div class="headline">分类</div><div class="length-num">68</div></a></div></div><a class="button--animated" id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/hanyunpeng0521"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/hanyunpeng0521" target="_blank" title="Github"><i class="fa fa-github"></i></a><a class="social-icon" href="mailto:m13839441583@163.com" target="_blank" title="Email"><i class="fa fa-envelope"></i></a><a class="social-icon" href="/atom.xml" target="_blank" title=""><i class="fa fa-rss"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn card-announcement-animation"></i><span>公告</span></div><div class="announcement_content">为什么呢？开始提问吧</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#Collection%E6%8E%A5%E5%8F%A3"><span class="toc-number">1.</span> <span class="toc-text">Collection接口</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#List"><span class="toc-number">2.</span> <span class="toc-text">List</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#ArrayList"><span class="toc-number">2.1.</span> <span class="toc-text">ArrayList</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#LinkedList"><span class="toc-number">2.2.</span> <span class="toc-text">LinkedList</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Vector"><span class="toc-number">2.3.</span> <span class="toc-text">Vector</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Stack"><span class="toc-number">2.4.</span> <span class="toc-text">Stack</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Map%E6%8E%A5%E5%8F%A3"><span class="toc-number">3.</span> <span class="toc-text">Map接口</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#HashMap"><span class="toc-number">3.1.</span> <span class="toc-text">HashMap</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#TreeMap"><span class="toc-number">3.2.</span> <span class="toc-text">TreeMap</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#HashTable"><span class="toc-number">3.3.</span> <span class="toc-text">HashTable</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Set"><span class="toc-number">4.</span> <span class="toc-text">Set</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#EnumSet"><span class="toc-number">4.1.</span> <span class="toc-text">EnumSet</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#HashSet"><span class="toc-number">4.2.</span> <span class="toc-text">HashSet</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#LinkedHashSet"><span class="toc-number">4.3.</span> <span class="toc-text">LinkedHashSet</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#SortedSet%E6%8E%A5%E5%8F%A3%E5%8F%8ATreeSet%E5%AE%9E%E7%8E%B0%E7%B1%BB"><span class="toc-number">4.4.</span> <span class="toc-text">SortedSet接口及TreeSet实现类</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Queue"><span class="toc-number">5.</span> <span class="toc-text">Queue</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#PriorityQueue"><span class="toc-number">5.1.</span> <span class="toc-text">PriorityQueue</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Deque%E5%AD%90%E6%8E%A5%E5%8F%A3%E4%B8%8EArrayDeque%E7%B1%BB"><span class="toc-number">5.2.</span> <span class="toc-text">Deque子接口与ArrayDeque类</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%AE%9E%E7%8E%B0List%E6%8E%A5%E5%8F%A3%E4%B8%8EDeque%E6%8E%A5%E5%8F%A3%E7%9A%84LinkedList%E7%B1%BB"><span class="toc-number">5.3.</span> <span class="toc-text">实现List接口与Deque接口的LinkedList类</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8F%82%E8%80%83"><span class="toc-number">6.</span> <span class="toc-text">参考</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2021/05/15/node-2-4/" title="Egg.js -- 为企业级框架和应用而生"><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/okfOw28KlZFbE7z.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Egg.js -- 为企业级框架和应用而生"/></a><div class="content"><a class="title" href="/2021/05/15/node-2-4/" title="Egg.js -- 为企业级框架和应用而生">Egg.js -- 为企业级框架和应用而生</a><time datetime="2021-05-15T10:18:59.000Z" title="发表于 2021-05-15 18:18:59">2021-05-15</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/04/30/node-2-3/" title="Koa -- 基于Node.js平台的下一代Web开发框架"><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/HjVAdIuT7bZJypS.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Koa -- 基于Node.js平台的下一代Web开发框架"/></a><div class="content"><a class="title" href="/2021/04/30/node-2-3/" title="Koa -- 基于Node.js平台的下一代Web开发框架">Koa -- 基于Node.js平台的下一代Web开发框架</a><time datetime="2021-04-30T10:18:59.000Z" title="发表于 2021-04-30 18:18:59">2021-04-30</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/04/01/node-2-1/" title="Node.JS web开发前置知识"><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/gGE57HRvpcKPfDY.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Node.JS web开发前置知识"/></a><div class="content"><a class="title" href="/2021/04/01/node-2-1/" title="Node.JS web开发前置知识">Node.JS web开发前置知识</a><time datetime="2021-04-01T03:18:59.000Z" title="发表于 2021-04-01 11:18:59">2021-04-01</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2020/12/26/%E5%91%A8%E8%AE%B0-10-1/" title="第十一周--谷歌浏览器插件"><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/gGE57HRvpcKPfDY.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="第十一周--谷歌浏览器插件"/></a><div class="content"><a class="title" href="/2020/12/26/%E5%91%A8%E8%AE%B0-10-1/" title="第十一周--谷歌浏览器插件">第十一周--谷歌浏览器插件</a><time datetime="2020-12-26T10:18:59.000Z" title="发表于 2020-12-26 18:18:59">2020-12-26</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2020/12/26/%E5%91%A8%E8%AE%B0-10-0/" title="第十一周--浏览器技术"><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/vCnKyoFJZ1g4XYR.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="第十一周--浏览器技术"/></a><div class="content"><a class="title" href="/2020/12/26/%E5%91%A8%E8%AE%B0-10-0/" title="第十一周--浏览器技术">第十一周--浏览器技术</a><time datetime="2020-12-26T06:18:59.000Z" title="发表于 2020-12-26 14:18:59">2020-12-26</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2019 - 2021 By 平心</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div id="local-search"><div class="search-dialog"><div class="search-dialog__title" id="local-search-title">本地搜索</div><div id="local-input-panel"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div></div><hr/><div id="local-search-results"></div><span class="search-close-button"><i class="fas fa-times"></i></span></div><div id="search-mask"></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload/dist/lazyload.iife.min.js"></script><script src="/js/search/local-search.js"></script><div class="js-pjax"><script>function loadValine () {
+  function initValine () {
+    const valine = new Valine(Object.assign({
+      el: '#vcomment',
+      appId: '4lfIXzqxaC1ONs0MJO4oHu07-gzGzoHsz',
+      appKey: 'qw99Bw8FD0KVKU9m457CwWsr',
+      placeholder: 'Please leave your footprints',
+      avatar: 'monsterid',
+      meta: 'nick,mail,link'.split(','),
+      pageSize: '10',
+      lang: 'zh-CN',
+      recordIP: true,
+      serverURLs: '',
+      emojiCDN: '',
+      emojiMaps: "",
+      enableQQ: true,
+      path: window.location.pathname,
+      requiredFields: ["nick,mail"],
+      visitor: false
+    }, null))
+  }
+
+  if (typeof Valine === 'function') initValine() 
+  else getScript('https://cdn.jsdelivr.net/npm/valine/dist/Valine.min.js').then(initValine)
+}
+
+if ('Valine' === 'Valine' || !false) {
+  if (false) btf.loadComment(document.getElementById('vcomment'),loadValine)
+  else setTimeout(loadValine, 0)
+} else {
+  function loadOtherComment () {
+    loadValine()
+  }
+}</script></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>

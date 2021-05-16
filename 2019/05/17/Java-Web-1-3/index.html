@@ -1,0 +1,438 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Cookie、Session、token | 平心de小屋</title><meta name="keywords" content="Java,Web"><meta name="author" content="平心"><meta name="copyright" content="平心"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="会话（Session）跟踪是Web程序中常用的技术，用来跟踪用户的整个会话。常用的会话跟踪技术是Cookie与Session。Cookie通过在客户端记录信息确定用户身份，Session通过在服务器端记录信息确定用户身份。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Cookie、Session、token">
+<meta property="og:url" content="https://pingxin0521.gitee.io/2019/05/17/Java-Web-1-3/index.html">
+<meta property="og:site_name" content="平心de小屋">
+<meta property="og:description" content="会话（Session）跟踪是Web程序中常用的技术，用来跟踪用户的整个会话。常用的会话跟踪技术是Cookie与Session。Cookie通过在客户端记录信息确定用户身份，Session通过在服务器端记录信息确定用户身份。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://i.loli.net/2020/05/08/PFDRNxj93taz6pw.jpg">
+<meta property="article:published_time" content="2019-05-17T00:18:59.000Z">
+<meta property="article:modified_time" content="2020-02-14T06:23:50.459Z">
+<meta property="article:author" content="平心">
+<meta property="article:tag" content="Java">
+<meta property="article:tag" content="Web">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.loli.net/2020/05/08/PFDRNxj93taz6pw.jpg"><link rel="shortcut icon" href="https://s2.ax1x.com/2020/02/11/1ovFOA.png"><link rel="canonical" href="https://pingxin0521.gitee.io/2019/05/17/Java-Web-1-3/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"search.xml","languages":{"hits_empty":"找不到您查询的内容：${query}"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    jQuery: 'https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js',
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+    },
+    fancybox: {
+      js: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css'
+    }
+  },
+  isPhotoFigcaption: true,
+  islazyload: true,
+  isanchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'Cookie、Session、token',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2020-02-14 14:23:50'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    })(window)</script><meta name="generator" content="Hexo 5.4.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="author-avatar"><img class="avatar-img" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://s2.ax1x.com/2020/02/11/1ovw6J.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data"><div class="data-item is-center"><div class="data-item-link"><a href="/archives/"><div class="headline">文章</div><div class="length-num">449</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/tags/"><div class="headline">标签</div><div class="length-num">77</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/categories/"><div class="headline">分类</div><div class="length-num">68</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fa fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fa fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://i.loli.net/2020/05/08/PFDRNxj93taz6pw.jpg')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">平心de小屋</a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fa fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fa fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">Cookie、Session、token</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2019-05-17T00:18:59.000Z" title="发表于 2019-05-17 08:18:59">2019-05-17</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2020-02-14T06:23:50.459Z" title="更新于 2020-02-14 14:23:50">2020-02-14</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/Java/">Java</a><i class="fas fa-angle-right post-meta-separator"></i><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/Java/Web/">Web</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">7.8k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>25分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="Cookie、Session、token"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><p>会话（Session）跟踪是Web程序中常用的技术，用来<strong>跟踪用户的整个会话</strong>。常用的会话跟踪技术是Cookie与Session。<strong>Cookie通过在客户端记录信息确定用户身份</strong>，<strong>Session通过在服务器端记录信息确定用户身份</strong>。</p>
+<span id="more"></span>
+
+<p><strong>http是一个无状态协议</strong></p>
+<p>什么是无状态呢？就是说这一次请求和上一次请求是没有任何关系的，互不认识的，没有关联的。这种无状态的的好处是快速。坏处是假如我们想要把<code>www.zhihu.com/login.html</code>和<code>www.zhihu.com/index.html</code>关联起来，必须使用某些手段和工具</p>
+<p><strong>cookie和session</strong></p>
+<p>由于http的无状态性，为了使某个域名下的所有网页能够共享某些数据，session和cookie出现了。客户端访问服务器的流程如下</p>
+<ul>
+<li><p>首先，客户端会发送一个http请求到服务器端。</p>
+</li>
+<li><p>服务器端接受客户端请求后，建立一个session，并发送一个http响应到客户端，这个响应头，其中就包含Set-Cookie头部。该头部包含了sessionId。Set-Cookie格式如下:<br><code>Set-Cookie: value[; expires=date][; domain=domain][; path=path][; secure]</code></p>
+</li>
+<li><p>在客户端发起的第二次请求，假如服务器给了set-Cookie，浏览器会自动在请求头中添加cookie</p>
+</li>
+<li><p>服务器接收请求，分解cookie，验证信息，核对成功后返回response给客户端</p>
+</li>
+</ul>
+<p><strong>注意</strong></p>
+<ul>
+<li>cookie只是实现session的其中一种方案。虽然是最常用的，但并不是唯一的方法。禁用cookie后还有其他方法存储，比如放在url中</li>
+<li>现在大多都是Session + Cookie，但是只用session不用cookie，或是只用cookie，不用session在理论上都可以保持会话状态。可是实际中因为多种原因，一般不会单独使用</li>
+<li>用session只需要在客户端保存一个id，实际上大量数据都是保存在服务端。如果全部用cookie，数据量大的时候客户端是没有那么多空间的。</li>
+<li>如果只用cookie不用session，那么账户信息全部保存在客户端，一旦被劫持，全部信息都会泄露。并且客户端数据量变大，网络传输的数据量也会变大</li>
+</ul>
+<p><strong>小结</strong></p>
+<p><strong>简而言之, session 有如用户信息档案表, 里面包含了用户的认证信息和登录状态等信息. 而 cookie 就是用户通行证</strong></p>
+<h4 id="cookies"><a href="#cookies" class="headerlink" title="cookies"></a>cookies</h4><p>HTTP cookies，通常称之为“cookie”，已经存在很长时间了，但是仍然没有被充分理解。首要问题是存在许多误解，认为 cookie 是后门程序或病毒，却忽视了其工作原理。第二个问题是，对于 cookie 的操作缺少统一的接口。尽管存在这些问题，cookie 仍旧在 Web 开发中扮演者重要的角色，以至于如果没有出现相应的代替品就消失的话，我们许多喜欢的 Web 应用将变的不可用。</p>
+<p>简单地说，cookie 就是浏览器储存在用户电脑上的一小段文本文件。cookie 是纯文本格式，不包含任何可执行的代码。一个 Web 页面或服务器告知浏览器按照一定规范来储存这些信息，并在随后的请求中将这些信息发送至服务器，Web 服务器就可以使用这些信息来识别不同的用户。大多数需要登录的网站在用户验证成功之后都会设置一个 cookie，只要这个 cookie 存在并可以，用户就可以自由浏览这个网站的任意页面。再次说明，cookie 只包含数据，就其本身而言并不有害。</p>
+<ol>
+<li><p>创建 cookie</p>
+<p>Web 服务器通过发送一个称为 <code>Set-Cookie</code> 的 HTTP 消息头来创建一个 cookie，<code>Set-Cookie</code> 消息头是一个字符串，其格式如下（中括号中的部分是可选的）：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Set-Cookie: value[; expires=date][; domain=domain][; path=path][; secure]</span><br></pre></td></tr></table></figure>
+
+<p>消息头的第一部分，value 部分，通常是一个 <code>name=value</code> 格式的字符串。事实上，这种格式是原始规范中指定的格式，但是浏览器并不会对 cookie 值按照此格式来验证。实际上，你可以指定一个不含等号的字符串，它同样会被存储。然而，最常用的使用方式是按照 <code>name=value</code> 格式来指定 cookie 的值（大多数接口只支持该格式）。</p>
+<p>当存在一个 cookie，并允许设置可选项，该 cookie 的值会在随后的每次请求中被发送至服务器，cookie 的值被存储在名为 Cookie 的 HTTP 消息头中，并且只包含了 cookie 的值，忽略全部设置选项。例如：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Cookie: value</span><br></pre></td></tr></table></figure>
+
+<p>通过 <code>Set-Cookie</code> 指定的可选项只会在浏览器端使用，而不会被发送至服务器端。发送至服务器的 cookie 的值与通过 <code>Set-Cookie</code> 指定的值完全一样，不会有进一步的解析或转码操作。如果请求中包含多个 cookie，它们将会被分号和空格分开，例如：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Cookie: value1; value2; name1=value1</span><br></pre></td></tr></table></figure>
+
+<p>服务器端框架通常包含解析 cookie 的方法，可以通过编程的方式获取 cookie 的值。</p>
+</li>
+<li><p>cookie 编码</p>
+<p>对于 cookie 的值进行编码一直都存在一些困惑。普遍认为 cookie 的值必须经过 URL 编码，但其实这是一个谬论，尽管通常都这么做。原始规范中明确指出只有三个字符必须进行编码：<strong>分号、逗号和空格</strong>，规范中还提到可以进行 URL 编码，但并不是必须，在 RFC 中没有提及任何编码。然而，几乎所有的实现都对 cookie 的值进行了一系列的 URL 编码。对于 <code>name=value</code> 格式，通常会对 <code>name</code> 和 <code>value</code> 分别进行编码，而不对等号 <code>=</code> 进行编码操作。</p>
+</li>
+<li><p>过期时间选项</p>
+<p>紧跟 cookie 值后面的每个选项都以分号和空格分开，每个选择都指定了 cookie 在什么情况下应该被发送至服务器。第一个选项是过期时间（expires），指定了 cookie 何时不会再被发送至服务器，随后浏览器将删除该 cookie。该选项的值是一个 <code>Wdy, DD-Mon-YYYY HH:MM:SS GMT</code> 日期格式的值，例如：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Set-Cookie: name=Nicholas; expires=Sat, 02 May 2009 23:38:25 GMT</span><br></pre></td></tr></table></figure>
+
+<p>没有设置 <code>expires</code> 选项时，cookie 的生命周期仅限于当前会话中，关闭浏览器意味着这次会话的结束，所以会话 cookie 仅存在于浏览器打开状态之下。这就是为什么为什么当你登录一个 Web 应用时经常会看到一个复选框，询问你是否记住登录信息：如果你勾选了复选框，那么一个 <code>expires</code> 选项会被附加到登录 cookie 中。如果 <code>expires</code> 设置了一个过去的时间点，那么这个 cookie 会被立即删掉。</p>
+</li>
+<li><p>domain 选项</p>
+<p>下一个选项是 <code>domain</code>，指定了 cookie 将要被发送至哪个或哪些域中。默认情况下，<code>domain</code> 会被设置为创建该 cookie 的页面所在的域名，所以当给相同域名发送请求时该 cookie 会被发送至服务器。例如，本博中 cookie 的默认值将是 <code>bubkoo.com</code>。<code>domain</code> 选项可用来扩充 cookie 可发送域的数量，例如：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Set-Cookie: name=Nicholas; domain=nczonline.net</span><br></pre></td></tr></table></figure>
+
+<p>像 Yahoo! 这种大型网站，都会有许多 name.yahoo.com 形式的站点（例如：my.yahoo.com, finance.yahoo.com 等等）。将一个 cookie 的 <code>domain</code> 选项设置为 <code>yahoo.com</code>，就可以将该 cookie 的值发送至所有这些站点。浏览器会把 <code>domain</code> 的值与请求的域名做一个尾部比较（即从字符串的尾部开始比较），并将匹配的 cookie 发送至服务器。</p>
+<p><code>domain</code> 选项的值必须是发送 <code>Set-Cookie</code> 消息头的主机名的一部分，例如我不能在 google.com 上设置一个 cookie，因为这会产生安全问题。不合法的 <code>domain</code> 选择将直接被忽略。</p>
+</li>
+<li><p>path 选项</p>
+<p>另一个控制 <code>Cookie</code> 消息头发送时机的选项是 <code>path</code> 选项，和 <code>domain</code> 选项类似，<code>path</code> 选项指定了请求的资源 URL 中必须存在指定的路径时，才会发送<code>Cookie</code> 消息头。这个比较通常是将 <code>path</code> 选项的值与请求的 URL 从头开始逐字符比较完成的。如果字符匹配，则发送 <code>Cookie</code> 消息头，例如：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Set-Cookie:name=Nicholas;path=/blog</span><br></pre></td></tr></table></figure>
+
+<p>在这个例子中，<code>path</code> 选项值会与 <code>/blog</code>，<code>/blogrool</code> 等等相匹配；任何以 <code>/blog</code> 开头的选项都是合法的。需要注意的是，只有在 <code>domain</code> 选项核实完毕之后才会对 <code>path</code> 属性进行比较。<code>path</code> 属性的默认值是发送 <code>Set-Cookie</code> 消息头所对应的 URL 中的 <code>path</code> 部分。</p>
+</li>
+<li><p>secure 选项<br>最后一个选项是 <code>secure</code>。不像其它选项，该选项只是一个标记而没有值。只有当一个请求通过 SSL 或 HTTPS 创建时，包含 <code>secure</code> 选项的 cookie 才能被发送至服务器。这种 cookie 的内容具有很高的价值，如果以纯文本形式传递很有可能被篡改，例如：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Set-Cookie: name=Nicholas; secure</span><br></pre></td></tr></table></figure>
+
+<p>事实上，机密且敏感的信息绝不应该在 cookie 中存储或传输，因为 cookie 的整个机制原本都是不安全的。默认情况下，在 HTTPS 链接上传输的 cookie 都会被自动添加上 <code>secure</code> 选项。</p>
+</li>
+</ol>
+<p><strong>Cookie 的维护和生命周期</strong></p>
+<p>在一个 cookie 中可以指定任意数量的选项，并且这些选项可以是任意顺序，例如：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Set-Cookie:name=Nicholas; domain=nczonline.net; path=/blog</span><br></pre></td></tr></table></figure>
+
+<p>这个 cookie 有四个标识符：cookie 的 <code>name</code>，<code>domain</code>，<code>path</code>，<code>secure</code> 标记。要想改变这个 cookie 的值，需要发送另一个具有相同 cookie <code>name</code>，<code>domain</code>，<code>path</code> 的 <code>Set-Cookie</code> 消息头。例如：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Set-Cookie: name=Greg; domain=nczonline.net; path=/blog</span><br></pre></td></tr></table></figure>
+
+<p>这将覆盖原来 cookie 的值。但是，修改 cookie 选项的任意一项都将创建一个完全不同的新 cookie，例如：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Set-Cookie: name=Nicholas; domain=nczonline.net; path=/</span><br></pre></td></tr></table></figure>
+
+<p>这个消息头返回之后，会同时存在两个名为 “name” 的不同的 cookie。如果你访问 <code>www.nczonline.net/blog</code> 下的一个页面，以下的消息头将被包含进来：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Cookie: name=Greg; name=Nicholas</span><br></pre></td></tr></table></figure>
+
+<p>在这个消息头中存在了两个名为 “name” 的 cookie，<code>path</code> 值越详细则 cookie 越靠前。 按照 <code>domain-path-secure</code> 的顺序，设置越详细的 cookie 在字符串中越靠前。假设我在 <code>ww.nczonline.net/blog</code> 下用默认选项创建了另一个 cookie：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Set-Cookie: name=Mike</span><br></pre></td></tr></table></figure>
+
+<p>那么返回的消息头现在则变为：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Cookie: name=Mike; name=Greg; name=Nicholas</span><br></pre></td></tr></table></figure>
+
+<p>以 “Mike” 作为值的 cookie 使用了域名（<code>www.nczonline.net</code>）作为其 <code>domain</code> 值并且以全路径（<code>/blog</code>）作为其 <code>path</code> 值，则它较其它两个 cookie 更加详细。</p>
+<p><strong>使用失效日期</strong></p>
+<p>当 cookie 创建时指定了失效日期，这个失效日期则关联了以 <code>name-domain-path-secure</code> 为标识的 cookie。要改变一个 cookie 的失效日期，你必须指定同样的组合。当改变一个 cookie 的值时，你不必每次都设置失效日期，因为它不是 cookie 标识信息的组成部分。例如：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Set-Cookie:name=Mike;expires=Sat,03 May 2025 17:44:22 GMT</span><br></pre></td></tr></table></figure>
+
+<p>现在已经设置了 cookie 的失效日期，所以下次我想要改变 cookie 的值时，我只需要使用它的名字：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Set-Cookie:name=Matt</span><br></pre></td></tr></table></figure>
+
+<p>cookie 的失效日期并没有改变，因为 cookie 的标识符是相同的。实际上，只有你手工的改变 cookie 的失效日期，否则其失效日期不会改变。这意味着在同一个会话中，一个会话 cookie 可以变成一个持久化 cookie（一个可以在多个会话中存在的），反之则不可。为了要将一个持久化 cookie 变为一个会话 cookie，你必须删除这个持久化 cookie，这只要设置它的失效日期为过去某个时间之后再创建一个同名的会话 cookie 就可以实现。</p>
+<p>需要记得的是失效日期是以浏览器运行的电脑上的系统时间为基准进行核实的。没有任何办法来来验证这个系统时间是否和服务器的时间同步，所以当服务器时间和浏览器所处系统时间存在差异时这样的设置会出现错误。</p>
+<p><strong>cookie 自动删除</strong></p>
+<p>cookie 会被浏览器自动删除，通常存在以下几种原因：</p>
+<ul>
+<li>会话 cooke (Session cookie) 在会话结束时（浏览器关闭）会被删除</li>
+<li>持久化 cookie（Persistent cookie）在到达失效日期时会被删除</li>
+<li>如果浏览器中的 cookie 数量达到限制，那么 cookie 会被删除以为新建的 cookie 创建空间。</li>
+</ul>
+<p>对于自动删除来说，Cookie 管理显得十分重要，因为这些删除都是无意识的。</p>
+<p><strong>Cookie 限制条件</strong></p>
+<p>cookie 存在许多限制条件，来阻止 cookie 滥用并保护浏览器和服务器免受一些负面影响。有两种 cookie 限制条件：cookie 的属性和 cookie 的总大小。原始规范中限定每个域名下不超过 20 个 cookie，早期的浏览器都遵循该规范，并且在 IE7 中有更近一步的提升。在微软的一次更新中，他们在 IE7 中增加 cookie 的限制数量到 50 个，与此同时 Opera 限定 cookie 数量为 30 个，Safari 和 Chrome 对与每个域名下的 cookie 个数没有限制。</p>
+<p>发向服务器的所有 cookie 的最大数量（空间）仍旧维持原始规范中所指出的：4KB。所有超出该限制的 cookie 都会被截掉并且不会发送至服务器。</p>
+<p><strong>Subcookies</strong></p>
+<p>鉴于 cookie 的数量存在限制，开发者提出 subcookies 的观点来增加 cookie 的存储量。Subcookies 是存储在一个 cookie 值中的一些 <code>name-value</code> 对，通常与以下格式类似：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">name=a=b&amp;c=d&amp;e=f&amp;g=h</span><br></pre></td></tr></table></figure>
+
+<p>这种方式允许在单个 cookie 中保存多个 <code>name-value</code> 对，而不会超出浏览器 cookie 数量的限制。通过这种方式创建 cookie 的负面影响是，需要自定义解析方式来提取这些值，相比较而言 cookie 的格式会更为简单。服务器端框架已开始支持 subcookies 的存储。</p>
+<p><strong>JavaScript 中的 cookie</strong></p>
+<p>在 JavaScript 中通过 <code>document.cookie</code> 属性，你可以创建、维护和删除 cookie。创建 cookie 时该属性等同于 <code>Set-Cookie</code> 消息头，而在读取 cookie 时则等同于 <code>Cookie</code> 消息头。在创建一个 cookie 时，你需要使用和 <code>Set-Cookie</code> 期望格式相同的字符串：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">document.cookie=&quot;name=Nicholas;domain=nczonline.net;path=/&quot;;</span><br></pre></td></tr></table></figure>
+
+<p>设置 <code>document.cookie</code> 属性的值并不会删除存储在页面中的所有 cookie。它只简单的创建或修改字符串中指定的 cookie。下次发送一个请求到服务器时，通过 <code>document.cookie</code> 设置的 cookie 会和其它通过 <code>Set-Cookie</code> 消息头设置的 cookie 一并发送至服务器。这些 cookie 并没有什么明确的不同之处。</p>
+<p>要使用 JavaScript 提取 cookie 的值，只需要从 <code>document.cookie</code> 中读取即可。返回的字符串与 <code>Cookie</code> 消息头中的字符串格式相同，所以多个 cookie 会被分号和字符串分割。例如：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">name1=Greg; name2=Nicholas</span><br></pre></td></tr></table></figure>
+
+<p>鉴于此，你需要手工解析这个 cookie 字符串来提取真实的 cookie 数据。</p>
+<p>通过访问 <code>document.cookie</code> 返回的 cookie 遵循发向服务器的 cookie 一样的访问规则。要通过 JavaScript 访问 cookie，该页面和 cookie 必须在相同的域中，有相同的 <code>path</code>，有相同的安全级别。</p>
+<p>注意：一旦 cookie 通过 JavaScript 设置后便不能提取它的选项，所以你将不能知道 <code>domain</code>，<code>path</code>，<code>expires</code> 日期或 <code>secure</code> 标记。</p>
+<p><strong>cookie确切的说分为两大类</strong>：会话cookie和持久化cookie。</p>
+<p><strong>会话cookie</strong>是存放在客户端浏览器的内存中，他的生命周期和浏览器是一致的，当浏览器关闭会话cookie也就消失了</p>
+<p><strong>持久化cookie</strong>是存放在客户端硬盘中，持久化cookie的生命周期是我们在设置cookie时候设置的那个保存时间，session的信息是通过sessionid获取的，而sessionid是存放在会话cookie当中的，当浏览器关闭的时候会话cookie消失，所以sessionid也就消失了，但是session的信息还存在服务器端，只是查不到所谓的session但它并不是不存在。所以session在服务器关闭的时候，或者是sessio过期，又或者调用了invalidate()，再或者是session中的某一条数据消失调用session.removeAttribute()方法，session在通过调用session.getsession来创建的。</p>
+<h4 id="Session"><a href="#Session" class="headerlink" title="Session"></a>Session</h4><p>session机制是一种服务器端的机制，服务器使用一种类似于散列表的结构(也可能就是使用散列表)来保存信息。但程序需要为某个客户端的请求创建一个session的时候，服务器首先检查这个客户端的请求里是否包含了一个session标识 —— 称为session id。</p>
+<p>如果已经包含一个session id则说明以前已经为此客户创建过session，服务器就按照session id把这个session检索出来使用(如果检索不到，可能会新建一个，这种情况可能出现在服务端已经删除了该用户对应的session对象，但用户人为地在请求的URL后面附加上一个JSESSION的参数)。</p>
+<p>如果客户请求不包含session id，则为此客户创建一个session并且生成一个与此session相关联的session id，这个session id将在本次响应中返回给客户端保存。</p>
+<blockquote>
+<p>cookie机制采用的是在客户端保持状态的方案，而session机制采用的是在服务器端保持状态的方案。 </p>
+</blockquote>
+<p><strong>Cookie和Session、SessionID的关系</strong></p>
+<p>sessionid 是一个会话的 key，浏览器第一次访问服务器会在服务器端生成一个 session，有一个 sessionID 和它对应，并返回给浏览器，这个 sessionID 会被保存在浏览器的会话 cookie 中。tomcat 生成的 sessionID 叫做 jsessionID。</p>
+<p>sessionID 在访问 tomcat 服务器 HttpServletRequest 的 getSession(true) 的时候创建，tomcat 的 ManagerBase 类提供创建sessionID 的方法：随机数+时间+jvmid。Tomcat 的 StandardManager 类将 session 存储在内存中，也可以持久化到 file，数据库，memcache，redis等。</p>
+<p>客户端只保存 sessionID 到 cookie 中，而不会保存 session。session 不会因为浏览器的关闭而删除，只能通过程序调用 HttpSession.invalidate() 或超时才能销毁。</p>
+<ol>
+<li><p>session 的 id 是从哪里来的，sessionID 是如何使用的？</p>
+<p>当客户端第一次请求 session 对象时候，服务器会为客户端创建一个 session，并将通过特殊算法算出一个 session 的 ID，用来标识该 session 对象。</p>
+</li>
+<li><p>session 存放在哪里？</p>
+<p>服务器端的内存中。不过 session 可以通过特殊的方式做持久化管理（memcache，redis）。</p>
+</li>
+<li><p>session在下列情况下被删除</p>
+<ul>
+<li>程序调用HttpSession.invalidate()</li>
+<li>距离上一次收到客户端发送的session id时间间隔超过了session的最大有效时间</li>
+<li>服务器进程被停止</li>
+</ul>
+<p>注意：</p>
+<ul>
+<li>客户端只保存 sessionID 到 cookie 中，而不会保存 session。</li>
+<li>关闭浏览器只会使存储在客户端浏览器内存中的session cookie失效，不会使服务器端的session对象失效，同样也不会使已经保存到硬盘上的持久化cookie消失。</li>
+</ul>
+</li>
+<li><p>session cookie和session对象的生命周期是一样的吗</p>
+<p> 当用户关闭了浏览器虽然session cookie已经消失，但session对象仍然保存在服务器端。</p>
+</li>
+<li><p>Session 在何时创建呢？</p>
+<p> 一个常见的错误是以为session在有客户端访问时就被创建，然而事实是直到某server端程序(如Servlet)调用HttpServletRequest.getSession(true)这样的语句时才会被创建。</p>
+<p>在创建了Session的同时，服务器会为该Session生成唯一的Session id，而这个Session id在随后的请求中会被用来重新获得已经创建的Session；在Session被创建之后，就可以调用Session相关的方法往Session中增加内容了，而这些内容只会保存在服务器中，发到客户端的只有Session id；当客户端再次发送请求的时候，会将这个Session id带上，服务器接受到请求之后就会依据Session id找到相应的Session，从而再次使用之。</p>
+</li>
+<li><p>打开两个浏览器窗口访问应用程序会使用同一个session还是不同的session？</p>
+<p>通常session cookie是不能跨窗口使用的，当你新开了一个浏览器窗口进入相同页面时，系统会赋予你一个新的session id，这样我们信息共享的目的就达不到了。</p>
+<p>此时我们可以先把session id保存在persistent cookie中(通过设置session的最大有效时间)，然后在新窗口中读出来，就可以得到上一个窗口的session id了，这样通过session cookie和persistent cookie的结合我们就可以实现了跨窗口的会话跟踪。</p>
+</li>
+</ol>
+<p><strong>过程(服务端session + 客户端 sessionId)</strong></p>
+<ol>
+<li><p>用户向服务器发送用户名和密码</p>
+</li>
+<li><p>服务器验证通过后,在当前对话(session)里面保存相关数据,比如用户角色, 登陆时间等;</p>
+</li>
+<li><p>服务器向用户返回一个<code>session_id</code>, 写入用户的<code>cookie</code></p>
+</li>
+<li><p>用户随后的每一次请求, 都会通过<code>cookie</code>, 将<code>session_id</code>传回服务器</p>
+</li>
+<li><p>服务端收到 <code>session_id</code>, 找到前期保存的数据, 由此得知用户的身份</p>
+</li>
+</ol>
+<p><strong>客户端用cookie保存了sessionID时</strong></p>
+<p>客户端用cookie保存了sessionID，当我们请求服务器的时候，会把这个sessionID一起发给服务器，服务器会到内存中搜索对应的sessionID，如果找到了对应的 sessionID，说明我们处于登录状态，有相应的权限；如果没有找到对应的sessionID，这说明：要么是我们把浏览器关掉了（后面会说明为什么），要么session超时了（没有请求服务器超过20分钟），session被服务器清除了，则服务器会给你分配一个新的sessionID。你得重新登录并把这个新的sessionID保存在cookie中。</p>
+<p>在没有把浏览器关掉的时候（这个时候假如已经把sessionID保存在cookie中了）这个sessionID会一直保存在浏览器中，每次请求的时候都会把这个sessionID提交到服务器，所以服务器认为我们是登录的；当然，如果太长时间没有请求服务器，服务器会认为我们已经所以把浏览器关掉了，这个时候服务器会把该sessionID从内存中清除掉，这个时候如果我们再去请求服务器，sessionID已经不存在了，所以服务器并没有在内存中找到对应的 sessionID，所以会再产生一个新的sessionID，这个时候一般我们又要再登录一次。</p>
+<p><strong>客户端没有用cookie保存sessionID时</strong></p>
+<p>这个时候如果我们请求服务器，因为没有提交sessionID上来，服务器会认为你是一个全新的请求，服务器会给你分配一个新的sessionID，这就是 为什么我们每次打开一个新的浏览器的时候（无论之前我们有没有登录过）都会产生一个新的sessionID（或者是会让我们重新登录）。</p>
+<p>当我们一旦把浏览器关掉后，再打开浏览器再请求该页面，它会让我们登录，这是为什么？我们明明已经登录了，而且还没有超时，sessionID肯定还在服务器上的，为什么现在我们又要再一次登录呢？这是因为我们关掉浏览再请求的时候，我们提交的信息没有把刚才的sessionID一起提交到服务器，所以服务器不知道我们是同一个人，所以这时服务器又为我们分配一个新的sessionID，打个比方：浏览器就好像一个要去银行开户的人，而服务器就好比银行， 这个要去银行开户的人这个时候显然没有帐号（sessionID），所以到银行后，银行工作人员问有没有帐号，他说没有，这个时候银行就会为他开通一个帐号（sessionID）。所以可以这么说，每次打开一个新的浏览器去请求的一个页面的时候，服务器都会认为，这是一个新的请求，他为你分配一个新的sessionID。</p>
+<p><strong>存在的问题:扩展性不好</strong></p>
+<p>单机当然没问题， 如果是服务器集群， 或者是跨域的服务导向架构， 这就要求session数据共享，每台服务器都能够读取session。</p>
+<p>举例来说， A网站和B网站是同一家公司的关联服务。现在要求，用户只要在其中一个网站登录，再访问另一个网站就会自动登录，请问怎么实现？这个问题就是如何实现单点登录的问题</p>
+<ol>
+<li><p>Nginx ip_hash 策略，服务端使用 Nginx 代理，每个请求按访问 IP 的 hash 分配，这样来自同一 IP 固定访问一个后台服务器，避免了在服务器 A 创建 Session，第二次分发到服务器 B 的现象。</p>
+</li>
+<li><p>Session复制：任何一个服务器上的 Session 发生改变（增删改），该节点会把这个 Session 的所有内容序列化，然后广播给所有其它节点。</p>
+</li>
+<li><p>共享Session：将Session Id 集中存储到一个地方，所有的机器都来访问这个地方的数据。这种方案的优点是架构清晰，缺点是工程量比较大。另外，持久层万一挂了，就会单点失败；</p>
+</li>
+</ol>
+<p>另一种方案是服务器索性不保存session数据了，所有数据就保存在客户端，每次请求都发回服务器。这种方案就是接下来要介绍的基于Token的验证;</p>
+<h4 id="token"><a href="#token" class="headerlink" title="token"></a>token</h4><p>token 也称作令牌，由uid+time+sign[+固定参数]<br>token 的认证方式类似于<strong>临时的证书签名</strong>, 并且是一种服务端无状态的认证方式, 非常适合于 REST API 的场景. 所谓无状态就是服务端并不会保存身份认证相关的数据。</p>
+<p><strong>组成</strong></p>
+<ul>
+<li>uid: 用户唯一身份标识</li>
+<li>time: 当前时间的时间戳</li>
+<li>sign: 签名, 使用 hash/encrypt 压缩成定长的十六进制字符串，以防止第三方恶意拼接</li>
+<li>固定参数(可选): 将一些常用的固定参数加入到 token 中是为了避免重复查库</li>
+</ul>
+<p><strong>存放</strong></p>
+<p>token在客户端一般存放于localStorage，cookie，或sessionStorage中。在服务器一般存于数据库中</p>
+<p><strong>token认证流程</strong></p>
+<p>token 的认证流程与cookie很相似</p>
+<ul>
+<li>用户登录，成功后服务器返回Token给客户端。</li>
+<li>客户端收到数据后保存在客户端</li>
+<li>客户端再次访问服务器，将token放入headers中</li>
+<li>服务器端采用filter过滤器校验。校验成功则返回请求数据，校验失败则返回错误码</li>
+</ul>
+<p><strong>过程</strong></p>
+<ol>
+<li>用户通过用户名和密码发送请求</li>
+<li>程序验证</li>
+<li>程序返回一个签名的token给客户端</li>
+<li>客户端储存token, 并且每次用每次发送请求</li>
+<li>服务端验证Token并返回数据</li>
+</ol>
+<p><strong>token可以抵抗csrf，cookie+session不行</strong></p>
+<p>假如用户正在登陆银行网页，同时登陆了攻击者的网页，并且银行网页未对csrf攻击进行防护。攻击者就可以在网页放一个表单，该表单提交src为<code>http://www.bank.com/api/transfer</code>，body为<code>count=1000&amp;to=Tom</code>。倘若是session+cookie，用户打开网页的时候就已经转给Tom1000元了.因为form 发起的 POST 请求并不受到浏览器同源策略的限制，因此可以任意地使用其他域的 Cookie 向其他域发送 POST 请求，形成 CSRF 攻击。在post请求的瞬间，cookie会被浏览器自动添加到请求头中。但token不同，token是开发者为了防范csrf而特别设计的令牌，浏览器不会自动添加到headers里，攻击者也无法访问用户的token，所以提交的表单无法通过服务器过滤，也就无法形成攻击。</p>
+<p><strong>分布式情况下的session和token</strong></p>
+<p>我们已经知道session时有状态的，一般存于服务器内存或硬盘中，当服务器采用分布式或集群时，session就会面对负载均衡问题。</p>
+<ul>
+<li>负载均衡多服务器的情况，不好确认当前用户是否登录，因为多服务器不共享session。这个问题也可以将session存在一个服务器中来解决，但是就不能完全达到负载均衡的效果。当今的几种<a target="_blank" rel="noopener" href="http://blog.51cto.com/zhibeiwang/1965018">解决session负载均衡</a>的方法。</li>
+</ul>
+<p>而token是无状态的，token字符串里就保存了所有的用户信息</p>
+<ul>
+<li>客户端登陆传递信息给服务端，服务端收到后把用户信息加密（token）传给客户端，客户端将token存放于localStroage等容器中。客户端每次访问都传递token，服务端解密token，就知道这个用户是谁了。通过cpu加解密，服务端就不需要存储session占用存储空间，就很好的解决负载均衡多服务器的问题了。 这个方法叫做[JWT(Json Web Token)](<a target="_blank" rel="noopener" href="https://huanqiang.wang/2017/12/28/JWT">https://huanqiang.wang/2017/12/28/JWT</a> 介绍/)</li>
+</ul>
+<h4 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h4><ul>
+<li>session存储于服务器，可以理解为一个状态列表，拥有一个唯一识别符号sessionId，通常存放于cookie中。服务器收到cookie后解析出sessionId，再去session列表中查找，才能找到相应session。依赖cookie</li>
+<li>cookie类似一个令牌，装有sessionId，存储在客户端，浏览器通常会自动添加。</li>
+<li>token也类似一个令牌，无状态，用户信息都被加密到token中，服务器收到token后解密就可知道是哪个用户。需要开发者手动添加。</li>
+<li>jwt只是一个跨域认证的方案</li>
+</ul>
+<h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><ol>
+<li><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/bd1be47a16c1">Cookie、Session、Token那点事儿</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/c33f5777c2eb">cookie,token验证的区别</a></li>
+<li><a target="_blank" rel="noopener" href="https://segmentfault.com/q/1010000016504003">有了cookie为什么需要session</a></li>
+<li><a target="_blank" rel="noopener" href="https://segmentfault.com/q/1010000000713614">CSRF Token的设计是否有其必要性</a></li>
+<li><a target="_blank" rel="noopener" href="https://junyiseo.com/php/757.html">cookie,token,session三者的问题和解决方案</a></li>
+<li><a target="_blank" rel="noopener" href="http://blog.51cto.com/zhibeiwang/1965018">负载均衡集群中的session解决方案</a></li>
+<li>[JWT介绍](<a target="_blank" rel="noopener" href="https://huanqiang.wang/2017/12/28/JWT">https://huanqiang.wang/2017/12/28/JWT</a> 介绍/)</li>
+<li><a target="_blank" rel="noopener" href="http://www.ruanyifeng.com/blog/2018/07/json_web_token-tutorial.html">Json Web Token 入门教程</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/9a561b36e9f3">Cookie和Session的使用和区别</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.liangzl.com/get-article-detail-16019.html">彻底理解cookie,session,token</a></li>
+<li><a target="_blank" rel="noopener" href="https://links.jianshu.com/go?to=http://www.ruanyifeng.com/blog/2018/07/json_web_token-tutorial.html">JSON Web Token 入门教程</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/bd1be47a16c1">Cookie、Session、Token那点事儿（原创）</a></li>
+<li><a target="_blank" rel="noopener" href="https://links.jianshu.com/go?to=https://www.cnblogs.com/lyzg/p/6067766.html">3种web会话管理的方式</a></li>
+<li><a target="_blank" rel="noopener" href="https://links.jianshu.com/go?to=https://juejin.im/post/5cd9037ee51d456e5c5babca">你真的了解 Cookie 和 Session 吗</a></li>
+<li><a target="_blank" rel="noopener" href="https://links.jianshu.com/go?to=https://zhuanlan.zhihu.com/p/38942172">不要用JWT替代session管理（上）：全面了解Token,JWT,OAuth,SAML,SSO</a></li>
+</ol>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">平心</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://pingxin0521.gitee.io/2019/05/17/Java-Web-1-3/">https://pingxin0521.gitee.io/2019/05/17/Java-Web-1-3/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://pingxin0521.gitee.io" target="_blank">平心de小屋</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/Java/">Java</a><a class="post-meta__tags" href="/tags/Web/">Web</a></div><div class="post_share"><div class="social-share" data-image="https://i.loli.net/2020/05/08/PFDRNxj93taz6pw.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2019/05/17/Java-Web-1-2/"><img class="prev-cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/PFDRNxj93taz6pw.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">Java Web相关问题</div></div></a></div><div class="next-post pull-right"><a href="/2019/05/17/Java-Web-3-2/"><img class="next-cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/7dHvepmfYOLWTrX.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">Java JSP (二)</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span> 相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2019/05/17/Java-Web-1-2/" title="Java Web相关问题"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/PFDRNxj93taz6pw.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2019-12-30</div><div class="title">Java Web相关问题</div></div></a></div><div><a href="/2019/05/16/Java-Web-2-2/" title="Java servlet (二)"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/gGE57HRvpcKPfDY.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2019-12-13</div><div class="title">Java servlet (二)</div></div></a></div><div><a href="/2019/05/13/Java-Web-1-1/" title="Java Web入门"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/gGE57HRvpcKPfDY.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2019-07-31</div><div class="title">Java Web入门</div></div></a></div><div><a href="/2019/05/30/Java-Web-2-3/" title="Java servlet 源码分析(四)"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/7dHvepmfYOLWTrX.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2019-12-18</div><div class="title">Java servlet 源码分析(四)</div></div></a></div><div><a href="/2019/05/18/Java-Web-2-4/" title="Java servlet 3.0 (三)"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/vCnKyoFJZ1g4XYR.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2019-12-18</div><div class="title">Java servlet 3.0 (三)</div></div></a></div><div><a href="/2019/05/16/Java-Web-3-1/" title="Java JSP (一)"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/gGE57HRvpcKPfDY.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2019-05-21</div><div class="title">Java JSP (一)</div></div></a></div></div></div><hr/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div class="vcomment" id="vcomment"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="card-info-avatar is-center"><img class="avatar-img" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://s2.ax1x.com/2020/02/11/1ovw6J.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/><div class="author-info__name">平心</div><div class="author-info__description">年轻人的life、learn and think</div></div><div class="card-info-data"><div class="card-info-data-item is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">449</div></a></div><div class="card-info-data-item is-center"><a href="/tags/"><div class="headline">标签</div><div class="length-num">77</div></a></div><div class="card-info-data-item is-center"><a href="/categories/"><div class="headline">分类</div><div class="length-num">68</div></a></div></div><a class="button--animated" id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/hanyunpeng0521"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/hanyunpeng0521" target="_blank" title="Github"><i class="fa fa-github"></i></a><a class="social-icon" href="mailto:m13839441583@163.com" target="_blank" title="Email"><i class="fa fa-envelope"></i></a><a class="social-icon" href="/atom.xml" target="_blank" title=""><i class="fa fa-rss"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn card-announcement-animation"></i><span>公告</span></div><div class="announcement_content">为什么呢？开始提问吧</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#cookies"><span class="toc-number">1.</span> <span class="toc-text">cookies</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Session"><span class="toc-number">2.</span> <span class="toc-text">Session</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#token"><span class="toc-number">3.</span> <span class="toc-text">token</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%80%BB%E7%BB%93"><span class="toc-number">4.</span> <span class="toc-text">总结</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8F%82%E8%80%83"><span class="toc-number"></span> <span class="toc-text">参考</span></a></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2021/05/15/node-2-4/" title="Egg.js -- 为企业级框架和应用而生"><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/okfOw28KlZFbE7z.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Egg.js -- 为企业级框架和应用而生"/></a><div class="content"><a class="title" href="/2021/05/15/node-2-4/" title="Egg.js -- 为企业级框架和应用而生">Egg.js -- 为企业级框架和应用而生</a><time datetime="2021-05-15T10:18:59.000Z" title="发表于 2021-05-15 18:18:59">2021-05-15</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/04/30/node-2-3/" title="Koa -- 基于Node.js平台的下一代Web开发框架"><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/HjVAdIuT7bZJypS.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Koa -- 基于Node.js平台的下一代Web开发框架"/></a><div class="content"><a class="title" href="/2021/04/30/node-2-3/" title="Koa -- 基于Node.js平台的下一代Web开发框架">Koa -- 基于Node.js平台的下一代Web开发框架</a><time datetime="2021-04-30T10:18:59.000Z" title="发表于 2021-04-30 18:18:59">2021-04-30</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/04/01/node-2-1/" title="Node.JS web开发前置知识"><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/gGE57HRvpcKPfDY.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Node.JS web开发前置知识"/></a><div class="content"><a class="title" href="/2021/04/01/node-2-1/" title="Node.JS web开发前置知识">Node.JS web开发前置知识</a><time datetime="2021-04-01T03:18:59.000Z" title="发表于 2021-04-01 11:18:59">2021-04-01</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2020/12/26/%E5%91%A8%E8%AE%B0-10-1/" title="第十一周--谷歌浏览器插件"><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/gGE57HRvpcKPfDY.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="第十一周--谷歌浏览器插件"/></a><div class="content"><a class="title" href="/2020/12/26/%E5%91%A8%E8%AE%B0-10-1/" title="第十一周--谷歌浏览器插件">第十一周--谷歌浏览器插件</a><time datetime="2020-12-26T10:18:59.000Z" title="发表于 2020-12-26 18:18:59">2020-12-26</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2020/12/26/%E5%91%A8%E8%AE%B0-10-0/" title="第十一周--浏览器技术"><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/vCnKyoFJZ1g4XYR.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="第十一周--浏览器技术"/></a><div class="content"><a class="title" href="/2020/12/26/%E5%91%A8%E8%AE%B0-10-0/" title="第十一周--浏览器技术">第十一周--浏览器技术</a><time datetime="2020-12-26T06:18:59.000Z" title="发表于 2020-12-26 14:18:59">2020-12-26</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2019 - 2021 By 平心</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div id="local-search"><div class="search-dialog"><div class="search-dialog__title" id="local-search-title">本地搜索</div><div id="local-input-panel"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div></div><hr/><div id="local-search-results"></div><span class="search-close-button"><i class="fas fa-times"></i></span></div><div id="search-mask"></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload/dist/lazyload.iife.min.js"></script><script src="/js/search/local-search.js"></script><div class="js-pjax"><script>function loadValine () {
+  function initValine () {
+    const valine = new Valine(Object.assign({
+      el: '#vcomment',
+      appId: '4lfIXzqxaC1ONs0MJO4oHu07-gzGzoHsz',
+      appKey: 'qw99Bw8FD0KVKU9m457CwWsr',
+      placeholder: 'Please leave your footprints',
+      avatar: 'monsterid',
+      meta: 'nick,mail,link'.split(','),
+      pageSize: '10',
+      lang: 'zh-CN',
+      recordIP: true,
+      serverURLs: '',
+      emojiCDN: '',
+      emojiMaps: "",
+      enableQQ: true,
+      path: window.location.pathname,
+      requiredFields: ["nick,mail"],
+      visitor: false
+    }, null))
+  }
+
+  if (typeof Valine === 'function') initValine() 
+  else getScript('https://cdn.jsdelivr.net/npm/valine/dist/Valine.min.js').then(initValine)
+}
+
+if ('Valine' === 'Valine' || !false) {
+  if (false) btf.loadComment(document.getElementById('vcomment'),loadValine)
+  else setTimeout(loadValine, 0)
+} else {
+  function loadOtherComment () {
+    loadValine()
+  }
+}</script></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>

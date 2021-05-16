@@ -1,0 +1,343 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>压力测试--JMeter | 平心de小屋</title><meta name="keywords" content="测试"><meta name="author" content="平心"><meta name="copyright" content="平心"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="性能测试知识点一:Java程序员为什么要学习性能测试 项目正式上线之前,需要针对各种极限条件进行测试 玩转JMeter，炫耀装X必备 掌握性能测试可以给自己的简历添加亮点，提升面试成功率">
+<meta property="og:type" content="article">
+<meta property="og:title" content="压力测试--JMeter">
+<meta property="og:url" content="https://pingxin0521.gitee.io/2020/04/29/%E6%B5%8B%E8%AF%95-3-0/index.html">
+<meta property="og:site_name" content="平心de小屋">
+<meta property="og:description" content="性能测试知识点一:Java程序员为什么要学习性能测试 项目正式上线之前,需要针对各种极限条件进行测试 玩转JMeter，炫耀装X必备 掌握性能测试可以给自己的简历添加亮点，提升面试成功率">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://i.loli.net/2020/05/08/PFDRNxj93taz6pw.jpg">
+<meta property="article:published_time" content="2020-04-29T10:18:59.000Z">
+<meta property="article:modified_time" content="2020-07-19T08:29:03.985Z">
+<meta property="article:author" content="平心">
+<meta property="article:tag" content="测试">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.loli.net/2020/05/08/PFDRNxj93taz6pw.jpg"><link rel="shortcut icon" href="https://s2.ax1x.com/2020/02/11/1ovFOA.png"><link rel="canonical" href="https://pingxin0521.gitee.io/2020/04/29/%E6%B5%8B%E8%AF%95-3-0/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"search.xml","languages":{"hits_empty":"找不到您查询的内容：${query}"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    jQuery: 'https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js',
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+    },
+    fancybox: {
+      js: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css'
+    }
+  },
+  isPhotoFigcaption: true,
+  islazyload: true,
+  isanchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '压力测试--JMeter',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2020-07-19 16:29:03'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    })(window)</script><meta name="generator" content="Hexo 5.4.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="author-avatar"><img class="avatar-img" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://s2.ax1x.com/2020/02/11/1ovw6J.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data"><div class="data-item is-center"><div class="data-item-link"><a href="/archives/"><div class="headline">文章</div><div class="length-num">449</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/tags/"><div class="headline">标签</div><div class="length-num">77</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/categories/"><div class="headline">分类</div><div class="length-num">68</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fa fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fa fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://i.loli.net/2020/05/08/PFDRNxj93taz6pw.jpg')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">平心de小屋</a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fa fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fa fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">压力测试--JMeter</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2020-04-29T10:18:59.000Z" title="发表于 2020-04-29 18:18:59">2020-04-29</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2020-07-19T08:29:03.985Z" title="更新于 2020-07-19 16:29:03">2020-07-19</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E6%B5%8B%E8%AF%95/">测试</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">2k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>6分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="压力测试--JMeter"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h4 id="性能测试"><a href="#性能测试" class="headerlink" title="性能测试"></a>性能测试</h4><h5 id="知识点一-Java程序员为什么要学习性能测试"><a href="#知识点一-Java程序员为什么要学习性能测试" class="headerlink" title="知识点一:Java程序员为什么要学习性能测试"></a>知识点一:Java程序员为什么要学习性能测试</h5><ol>
+<li>项目正式上线之前,需要针对各种极限条件进行测试</li>
+<li>玩转JMeter，炫耀装X必备</li>
+<li>掌握性能测试可以给自己的简历添加亮点，提升面试成功率</li>
+</ol>
+<span id="more"></span>
+
+<h5 id="知识点二-性能测试的概念"><a href="#知识点二-性能测试的概念" class="headerlink" title="知识点二:性能测试的概念"></a>知识点二:性能测试的概念</h5><ol>
+<li><strong>性能测试：</strong>是通过自动化的测试工具模拟多种正常、峰值以及异常负载条件来对系统的各项性能指标进行测试。<strong>负载测试</strong>和<strong>压力测试</strong>都属于性能测试，两者可以结合进行。</li>
+<li><strong>负载测试：</strong>通过负载测试，确定在各种工作负载下系统的性能，目标是测试当负载逐渐增加时，系统各项性能指标的变化情况。</li>
+<li><strong>压力测试：</strong>压力测试是通过确定一个系统的瓶颈或者不能接受的性能点，来获得系统能提供的最大服务级别的测试。它与负载测试的主要区别在于目的不同，确定一个最大的服务级别。</li>
+</ol>
+<h5 id="知识点三-常见的性能测试场景"><a href="#知识点三-常见的性能测试场景" class="headerlink" title="知识点三:常见的性能测试场景"></a>知识点三:常见的性能测试场景</h5><ol>
+<li><p><strong>并发性能测试：</strong>并发性能测试的过程是一个负载测试和压力测试的过程，即逐渐增加负载，直到系统的瓶颈或者不能接收的性能点，通过综合分析交易执行指标和资源监控指标来确定系统并发性能的过程。</p>
+</li>
+<li><p><strong>疲劳强度测试：</strong>疲劳测试是采用系统稳定运行情况下能够支持的最大并发用户数，持续执行一段时间业务，通过综合分析交易执行指标和资源监控指标来确定系统处理最大工作量强度性能的过程。</p>
+</li>
+<li><p><strong>大数据量测试：</strong>大数据量测试可以分为两种类型：针对某些系统存储、传输、统计、查询等业务进行大数据量的独立数据量测试；与压力性能测试、负载性能测试、疲劳性能测试相结合的综合数据量测试方案。</p>
+</li>
+<li><p><strong>速度测试：</strong>速度测试主要是针对关键有速度要求的业务进行测速度，可以在多次测试的基础上求平均值。</p>
+</li>
+</ol>
+<h3 id="JMeter"><a href="#JMeter" class="headerlink" title="JMeter"></a>JMeter</h3><p>JMeter是一个桌面应用程序，可以用于执行功能测试和负载测试。虽然JMeter应用程序本身被设计为纯Java应用程序，但是它可以用于执行任何类型的web应用程序的负载测试。应用程序的最初意图是测试Apache Tomcat的性能，它基本上是一个web服务器。多年来，Jmeter随着用户界面的改进和其他特性的改进，使它成为企业web应用程序的一个可行的性能测试和负载测试工具。</p>
+<p>在官网 <a target="_blank" rel="noopener" href="http://jmeter.apache.org/">http://jmeter.apache.org/</a> 下载JMeter，解压到本地</p>
+<p>安装：直接解压zip文件</p>
+<p>启动: 运行bin目录中的ApacheJMeter.jar文件</p>
+<h4 id="入门"><a href="#入门" class="headerlink" title="入门"></a>入门</h4><p>目标:对某个功能(自己随便找个接口)进行压力测试</p>
+<p>JMeter里面的元件很多，逻辑控制器，配置元件，定时器，Sampler，监听器等等，先给出一个实例，慢慢了解元件的使用方法。测试一个网站，我们至少需要：用户，发送请求，查看结果这三个过程。</p>
+<ol>
+<li> 新建测试计划</li>
+</ol>
+<p>   <img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://s1.ax1x.com/2020/05/28/tecorQ.png" alt="tecorQ.png"></p>
+<ol start="2">
+<li><p>添加线程组（用户）</p>
+<p>在“测试计划”上右键，选择“添加”—“Thread Users”—“线程组”</p>
+<p>其中，对我们有影响的参数是线程数（设置发送请求的用户数目），Ramp-up period： 每个请求发生的总时间间隔，单位是秒，循环次数（请求发生的重复次数）。如果我们需要JMeter模拟五个请求者（也就是五个线程），每个请求者连续请求两次</p>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://s1.ax1x.com/2020/05/28/tehFg0.png" alt="tehFg0.png"></p>
+</li>
+<li><p>添加请求</p>
+<p>我们要访问一个网页，比如是百度首页，则是http请求，则添加http请求，在线程组上右键—“添加”—“Sampler”—“HTTP请求”</p>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://s1.ax1x.com/2020/05/28/tehVDU.png" alt="tehVDU.png"></p>
+</li>
+<li><p>添加监视器</p>
+<p>监视器的种类很多，根据自己的需要添加，我们选择“查看结果树”。在线程组上右键—“添加”—“监视器”—“查看结果树”</p>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://s1.ax1x.com/2020/05/28/tehnUJ.png" alt="tehnUJ.png"></p>
+<p>也可以使用聚合报告,对测试结果进行分析</p>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://s1.ax1x.com/2020/05/28/tehQ81.png" alt="tehQ81.png"></p>
+</li>
+</ol>
+<table>
+<thead>
+<tr>
+<th>Lable</th>
+<th>解释</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>样本</td>
+<td>总测试数量</td>
+</tr>
+<tr>
+<td>平均值</td>
+<td>单个请求的平均响应时间</td>
+</tr>
+<tr>
+<td>中位数</td>
+<td>50%用户的响应时间</td>
+</tr>
+<tr>
+<td>90%百分位、95%百分位、99%百分位</td>
+<td>90%、95%、99%用户的响应时间</td>
+</tr>
+<tr>
+<td>最小值</td>
+<td>最小的响应时间</td>
+</tr>
+<tr>
+<td>最大值</td>
+<td>最大的响应时间</td>
+</tr>
+<tr>
+<td>异常%</td>
+<td>请求异常所占的百分比</td>
+</tr>
+<tr>
+<td>吞吐量</td>
+<td>每秒完成的请求数，吞吐量=请求数/总时间</td>
+</tr>
+<tr>
+<td>接收</td>
+<td>每秒从服务器端接收到的数据量</td>
+</tr>
+<tr>
+<td>发送</td>
+<td>每秒从客户端发送的请求的数量</td>
+</tr>
+</tbody></table>
+<h4 id="使用Jmeter的ForEach控制器实现网页爬虫"><a href="#使用Jmeter的ForEach控制器实现网页爬虫" class="headerlink" title="使用Jmeter的ForEach控制器实现网页爬虫"></a>使用Jmeter的ForEach控制器实现网页爬虫</h4><h5 id="1-目标"><a href="#1-目标" class="headerlink" title="1.目标:"></a>1.目标:</h5><p>​    使用Jmeter获取网络图片，并存到本地文件中</p>
+<h5 id="2-步骤"><a href="#2-步骤" class="headerlink" title="2.步骤:"></a>2.步骤:</h5><p>​    <strong>2.1 新建测试计划，创建线程组</strong></p>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://s1.ax1x.com/2020/05/28/tehGDO.png" alt="tehGDO.png"></p>
+<p>​    <strong>2.2 在线程组下，新建一个Http请求取样器，访问 <a target="_blank" rel="noopener" href="https://dp.pconline.com.cn//list/all_t5.html%E7%BD%91%E5%9D%80">https://dp.pconline.com.cn//list/all_t5.html网址</a></strong></p>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://s1.ax1x.com/2020/05/28/tehdPA.png" alt="tehdPA.png"></p>
+<p>​    <strong>2.3 通过对响应信息的分析，我们发现，要获取的图片路径就是img标签的src，要获取的图片名称就是a标签的title</strong></p>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://s1.ax1x.com/2020/05/28/tehBxP.png" alt="tehBxP.png"></p>
+<p>​    <strong>2.4 在Http请求取样器下面，分别创建两个XPath提取器，用于解析响应结果</strong></p>
+<p>​           第一个:解析图片链接，具体的XPath表达式为:<code>//a/img/@src</code></p>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://s1.ax1x.com/2020/05/28/tehrKf.png" alt="tehrKf.png"></p>
+<p>​        第二个:解析图片标题，具体的XPath表达式为:<code>//a/@title</code></p>
+<p>​     <strong>2.5 在线程组下添加一个调试取样器</strong></p>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://s1.ax1x.com/2020/05/28/tehyqS.png" alt="tehyqS.png"></p>
+<p>​     <strong>2.6 添加查看结果树，并且运行，观察调试取样器的结果;图片路径的变量名是”src_数字”，总图片数量的变量名是”src_matchNr”，而图片名的变量名为”title_数字”</strong></p>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://s1.ax1x.com/2020/05/28/teh25j.png" alt="teh25j.png"></p>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://s1.ax1x.com/2020/05/28/te4YQ0.png" alt="te4YQ0.png"></p>
+<p>​     <strong>2.7 在线程组下添加一个循环控制器，用于循环遍历获取图片,循环次数为${src_matchNr}</strong></p>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://s1.ax1x.com/2020/05/28/te4wo4.png" alt="te4wo4.png"></p>
+<p>​     <strong>2.8 在循环控制器下添加一个计数器，用于获取每次循环的序号”num”</strong></p>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://s1.ax1x.com/2020/05/28/te46Qx.png" alt="te46Qx.png"></p>
+<p>​        <strong>2.9 在循环控制器下添加一个Http请求取样器</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">请求的名字为&quot;title_数字&quot;，使用$&#123;__V(title_$&#123;num&#125;)&#125;&quot;可以获取到</span><br><span class="line">请求路径为&quot;src_数字&quot;，使用$&#123;__V(src_$&#123;num&#125;)&#125;可以获取到</span><br></pre></td></tr></table></figure>
+
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://s1.ax1x.com/2020/05/28/te4gOK.png" alt="te4gOK.png"></p>
+<p>​       <strong>2.10 在Http请求取样器下添加一个”BeanShell后置处理程序”，将图片写入本地文件</strong></p>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://s1.ax1x.com/2020/05/28/te4WwD.png" alt="te4WwD.png"></p>
+<p><strong>要执行的脚本如下</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">prev.setDataEncoding(&quot;UTF-8&quot;);</span><br><span class="line">byte[] result = prev.getResponseData();</span><br><span class="line">String fileName = &quot;c:\\\aa\\\_$&#123;__V(title_$&#123;num&#125;)&#125;.jpg&quot;;</span><br><span class="line">File file = new File(fileName);</span><br><span class="line">FileOutputStream out = new FileOutputStream(file);</span><br><span class="line">out.write(result);</span><br><span class="line">out.close();</span><br></pre></td></tr></table></figure>
+
+<p>​     <strong>2.11 在查看结果树、和本地文件夹查看结果</strong></p>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://s1.ax1x.com/2020/05/28/te47lt.png" alt="te47lt.png"></p>
+<h4 id="测试数据库服务器"><a href="#测试数据库服务器" class="headerlink" title="测试数据库服务器"></a>测试数据库服务器</h4><p>测试mysql数据库插入数据的性能</p>
+<ol>
+<li><p>新建测试计划，添加线程组，并且加入mysql驱动的jar包</p>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://s1.ax1x.com/2020/05/28/teT91A.png" alt="teT91A.png"></p>
+</li>
+<li><p>在线程组下添加JDBC Configuration配置元件，进行JDBC的配置</p>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://s1.ax1x.com/2020/05/28/teTk0f.png" alt="teTk0f.png"></p>
+</li>
+<li><p>在线程组下添加一个计数器，记录每次执行的序号，存放到遍历num中</p>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://s1.ax1x.com/2020/05/28/teTacR.png" alt="teTacR.png"></p>
+</li>
+<li><p>在线程组下添加一个JDBC  Request</p>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://s1.ax1x.com/2020/05/28/teTq3j.png" alt="teTq3j.png"></p>
+</li>
+<li><p>添加查看结果树，观察执行结果；或者是添加聚合报告进行分析</p>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://s1.ax1x.com/2020/05/28/te7pUU.png" alt="te7pUU.png"></p>
+</li>
+</ol>
+<h4 id="使用Jmeter打造百万条数据"><a href="#使用Jmeter打造百万条数据" class="headerlink" title="使用Jmeter打造百万条数据"></a>使用Jmeter打造百万条数据</h4><p>因测试去求，要打造100W用户数据，通过用户名、手机号、密码可以新增用户，其中要求用户名和密码不能重复</p>
+<ol>
+<li><p>创建测试计划，添加线程组</p>
+</li>
+<li><p>在线程组下添加一个循环控制器，循环100W次</p>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://s1.ax1x.com/2020/05/28/teXwGT.png" alt="teXwGT.png"></p>
+<p>要执行的脚本如下:</p>
+<pre><code>phone=$&#123;__Random(111111111,999999999,)&#125;;
+String a =String.valueOf(phone);
+phone=$&#123;__Random(3,9,)&#125;;
+String b =String.valueOf(phone);
+a=1+b+a;
+String account=&quot;Ge&quot;+a;
+vars.put(&quot;phone&quot;,a);
+vars.put(&quot;account&quot;,account);
+</code></pre>
+</li>
+<li><p>在循环控制器下添加一个Http请求，用于添加用户</p>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://s1.ax1x.com/2020/05/28/teXrM4.png" alt="teXrM4.png"></p>
+</li>
+</ol>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">平心</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://pingxin0521.gitee.io/2020/04/29/%E6%B5%8B%E8%AF%95-3-0/">https://pingxin0521.gitee.io/2020/04/29/%E6%B5%8B%E8%AF%95-3-0/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://pingxin0521.gitee.io" target="_blank">平心de小屋</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E6%B5%8B%E8%AF%95/">测试</a></div><div class="post_share"><div class="social-share" data-image="https://i.loli.net/2020/05/08/PFDRNxj93taz6pw.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2020/05/03/%E6%B6%88%E6%81%AF%E4%B8%AD%E9%97%B4%E4%BB%B6-2-1/"><img class="prev-cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/okfOw28KlZFbE7z.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">消息中间件--ActiveMQ 入门</div></div></a></div><div class="next-post pull-right"><a href="/2020/04/29/%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0-3-0/"><img class="next-cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/vCnKyoFJZ1g4XYR.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">微服务架构实战 阅读笔记</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span> 相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2020/07/18/测试-2-1/" title="高并发测试框架--jcstress"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/vCnKyoFJZ1g4XYR.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2020-07-19</div><div class="title">高并发测试框架--jcstress</div></div></a></div><div><a href="/2020/06/29/测试-3-1/" title="基准测试--JMH"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/7dHvepmfYOLWTrX.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2020-07-19</div><div class="title">基准测试--JMH</div></div></a></div><div><a href="/2020/04/27/测试-1-1/" title="测试--Junit （一）"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/gGE57HRvpcKPfDY.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2020-05-16</div><div class="title">测试--Junit （一）</div></div></a></div><div><a href="/2019/05/27/测试-1-2/" title="测试--Junit （二）"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/HjVAdIuT7bZJypS.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2020-05-16</div><div class="title">测试--Junit （二）</div></div></a></div><div><a href="/2020/04/29/测试-1-3/" title="mock测试--Mockito"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/HjVAdIuT7bZJypS.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2020-05-16</div><div class="title">mock测试--Mockito</div></div></a></div></div></div><hr/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div class="vcomment" id="vcomment"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="card-info-avatar is-center"><img class="avatar-img" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://s2.ax1x.com/2020/02/11/1ovw6J.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/><div class="author-info__name">平心</div><div class="author-info__description">年轻人的life、learn and think</div></div><div class="card-info-data"><div class="card-info-data-item is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">449</div></a></div><div class="card-info-data-item is-center"><a href="/tags/"><div class="headline">标签</div><div class="length-num">77</div></a></div><div class="card-info-data-item is-center"><a href="/categories/"><div class="headline">分类</div><div class="length-num">68</div></a></div></div><a class="button--animated" id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/hanyunpeng0521"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/hanyunpeng0521" target="_blank" title="Github"><i class="fa fa-github"></i></a><a class="social-icon" href="mailto:m13839441583@163.com" target="_blank" title="Email"><i class="fa fa-envelope"></i></a><a class="social-icon" href="/atom.xml" target="_blank" title=""><i class="fa fa-rss"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn card-announcement-animation"></i><span>公告</span></div><div class="announcement_content">为什么呢？开始提问吧</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%80%A7%E8%83%BD%E6%B5%8B%E8%AF%95"><span class="toc-number">1.</span> <span class="toc-text">性能测试</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E7%9F%A5%E8%AF%86%E7%82%B9%E4%B8%80-Java%E7%A8%8B%E5%BA%8F%E5%91%98%E4%B8%BA%E4%BB%80%E4%B9%88%E8%A6%81%E5%AD%A6%E4%B9%A0%E6%80%A7%E8%83%BD%E6%B5%8B%E8%AF%95"><span class="toc-number">1.1.</span> <span class="toc-text">知识点一:Java程序员为什么要学习性能测试</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E7%9F%A5%E8%AF%86%E7%82%B9%E4%BA%8C-%E6%80%A7%E8%83%BD%E6%B5%8B%E8%AF%95%E7%9A%84%E6%A6%82%E5%BF%B5"><span class="toc-number">1.2.</span> <span class="toc-text">知识点二:性能测试的概念</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E7%9F%A5%E8%AF%86%E7%82%B9%E4%B8%89-%E5%B8%B8%E8%A7%81%E7%9A%84%E6%80%A7%E8%83%BD%E6%B5%8B%E8%AF%95%E5%9C%BA%E6%99%AF"><span class="toc-number">1.3.</span> <span class="toc-text">知识点三:常见的性能测试场景</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#JMeter"><span class="toc-number"></span> <span class="toc-text">JMeter</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%85%A5%E9%97%A8"><span class="toc-number">1.</span> <span class="toc-text">入门</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8Jmeter%E7%9A%84ForEach%E6%8E%A7%E5%88%B6%E5%99%A8%E5%AE%9E%E7%8E%B0%E7%BD%91%E9%A1%B5%E7%88%AC%E8%99%AB"><span class="toc-number">2.</span> <span class="toc-text">使用Jmeter的ForEach控制器实现网页爬虫</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#1-%E7%9B%AE%E6%A0%87"><span class="toc-number">2.1.</span> <span class="toc-text">1.目标:</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#2-%E6%AD%A5%E9%AA%A4"><span class="toc-number">2.2.</span> <span class="toc-text">2.步骤:</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%B5%8B%E8%AF%95%E6%95%B0%E6%8D%AE%E5%BA%93%E6%9C%8D%E5%8A%A1%E5%99%A8"><span class="toc-number">3.</span> <span class="toc-text">测试数据库服务器</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8Jmeter%E6%89%93%E9%80%A0%E7%99%BE%E4%B8%87%E6%9D%A1%E6%95%B0%E6%8D%AE"><span class="toc-number">4.</span> <span class="toc-text">使用Jmeter打造百万条数据</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2021/05/15/node-2-4/" title="Egg.js -- 为企业级框架和应用而生"><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/okfOw28KlZFbE7z.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Egg.js -- 为企业级框架和应用而生"/></a><div class="content"><a class="title" href="/2021/05/15/node-2-4/" title="Egg.js -- 为企业级框架和应用而生">Egg.js -- 为企业级框架和应用而生</a><time datetime="2021-05-15T10:18:59.000Z" title="发表于 2021-05-15 18:18:59">2021-05-15</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/04/30/node-2-3/" title="Koa -- 基于Node.js平台的下一代Web开发框架"><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/HjVAdIuT7bZJypS.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Koa -- 基于Node.js平台的下一代Web开发框架"/></a><div class="content"><a class="title" href="/2021/04/30/node-2-3/" title="Koa -- 基于Node.js平台的下一代Web开发框架">Koa -- 基于Node.js平台的下一代Web开发框架</a><time datetime="2021-04-30T10:18:59.000Z" title="发表于 2021-04-30 18:18:59">2021-04-30</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/04/01/node-2-1/" title="Node.JS web开发前置知识"><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/gGE57HRvpcKPfDY.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Node.JS web开发前置知识"/></a><div class="content"><a class="title" href="/2021/04/01/node-2-1/" title="Node.JS web开发前置知识">Node.JS web开发前置知识</a><time datetime="2021-04-01T03:18:59.000Z" title="发表于 2021-04-01 11:18:59">2021-04-01</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2020/12/26/%E5%91%A8%E8%AE%B0-10-1/" title="第十一周--谷歌浏览器插件"><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/gGE57HRvpcKPfDY.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="第十一周--谷歌浏览器插件"/></a><div class="content"><a class="title" href="/2020/12/26/%E5%91%A8%E8%AE%B0-10-1/" title="第十一周--谷歌浏览器插件">第十一周--谷歌浏览器插件</a><time datetime="2020-12-26T10:18:59.000Z" title="发表于 2020-12-26 18:18:59">2020-12-26</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2020/12/26/%E5%91%A8%E8%AE%B0-10-0/" title="第十一周--浏览器技术"><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/vCnKyoFJZ1g4XYR.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="第十一周--浏览器技术"/></a><div class="content"><a class="title" href="/2020/12/26/%E5%91%A8%E8%AE%B0-10-0/" title="第十一周--浏览器技术">第十一周--浏览器技术</a><time datetime="2020-12-26T06:18:59.000Z" title="发表于 2020-12-26 14:18:59">2020-12-26</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2019 - 2021 By 平心</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div id="local-search"><div class="search-dialog"><div class="search-dialog__title" id="local-search-title">本地搜索</div><div id="local-input-panel"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div></div><hr/><div id="local-search-results"></div><span class="search-close-button"><i class="fas fa-times"></i></span></div><div id="search-mask"></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload/dist/lazyload.iife.min.js"></script><script src="/js/search/local-search.js"></script><div class="js-pjax"><script>function loadValine () {
+  function initValine () {
+    const valine = new Valine(Object.assign({
+      el: '#vcomment',
+      appId: '4lfIXzqxaC1ONs0MJO4oHu07-gzGzoHsz',
+      appKey: 'qw99Bw8FD0KVKU9m457CwWsr',
+      placeholder: 'Please leave your footprints',
+      avatar: 'monsterid',
+      meta: 'nick,mail,link'.split(','),
+      pageSize: '10',
+      lang: 'zh-CN',
+      recordIP: true,
+      serverURLs: '',
+      emojiCDN: '',
+      emojiMaps: "",
+      enableQQ: true,
+      path: window.location.pathname,
+      requiredFields: ["nick,mail"],
+      visitor: false
+    }, null))
+  }
+
+  if (typeof Valine === 'function') initValine() 
+  else getScript('https://cdn.jsdelivr.net/npm/valine/dist/Valine.min.js').then(initValine)
+}
+
+if ('Valine' === 'Valine' || !false) {
+  if (false) btf.loadComment(document.getElementById('vcomment'),loadValine)
+  else setTimeout(loadValine, 0)
+} else {
+  function loadOtherComment () {
+    loadValine()
+  }
+}</script></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>

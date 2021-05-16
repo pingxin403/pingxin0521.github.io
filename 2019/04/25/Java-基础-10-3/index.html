@@ -1,0 +1,252 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>java 字符集 | 平心de小屋</title><meta name="keywords" content="Java"><meta name="author" content="平心"><meta name="copyright" content="平心"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="概念字符集(character set)是一个系统支持的所有抽象字符的集合。字符(character)就是各种文字和符号，包括国家文字、标点符号、图形符号、数字等。 大家都知道，在计算机中只有二进制数字，如何存储和读取数据，全看如何编码,编码方式的不同，会影响数据的解析。可以通过浏览器来举个简单的例子：打开浏览器–》设置（或者其他）–》编码，更改为随便一个，就可以发现网页变得全是乱码了。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="java 字符集">
+<meta property="og:url" content="https://pingxin0521.gitee.io/2019/04/25/Java-%E5%9F%BA%E7%A1%80-10-3/index.html">
+<meta property="og:site_name" content="平心de小屋">
+<meta property="og:description" content="概念字符集(character set)是一个系统支持的所有抽象字符的集合。字符(character)就是各种文字和符号，包括国家文字、标点符号、图形符号、数字等。 大家都知道，在计算机中只有二进制数字，如何存储和读取数据，全看如何编码,编码方式的不同，会影响数据的解析。可以通过浏览器来举个简单的例子：打开浏览器–》设置（或者其他）–》编码，更改为随便一个，就可以发现网页变得全是乱码了。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://i.loli.net/2020/05/08/okfOw28KlZFbE7z.jpg">
+<meta property="article:published_time" content="2019-04-25T07:18:59.000Z">
+<meta property="article:modified_time" content="2019-04-27T15:41:08.000Z">
+<meta property="article:author" content="平心">
+<meta property="article:tag" content="Java">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.loli.net/2020/05/08/okfOw28KlZFbE7z.jpg"><link rel="shortcut icon" href="https://s2.ax1x.com/2020/02/11/1ovFOA.png"><link rel="canonical" href="https://pingxin0521.gitee.io/2019/04/25/Java-%E5%9F%BA%E7%A1%80-10-3/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"search.xml","languages":{"hits_empty":"找不到您查询的内容：${query}"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    jQuery: 'https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js',
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+    },
+    fancybox: {
+      js: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css'
+    }
+  },
+  isPhotoFigcaption: true,
+  islazyload: true,
+  isanchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'java 字符集',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2019-04-27 23:41:08'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    })(window)</script><meta name="generator" content="Hexo 5.4.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="author-avatar"><img class="avatar-img" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://s2.ax1x.com/2020/02/11/1ovw6J.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data"><div class="data-item is-center"><div class="data-item-link"><a href="/archives/"><div class="headline">文章</div><div class="length-num">449</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/tags/"><div class="headline">标签</div><div class="length-num">77</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/categories/"><div class="headline">分类</div><div class="length-num">68</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fa fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fa fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://i.loli.net/2020/05/08/okfOw28KlZFbE7z.jpg')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">平心de小屋</a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fa fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fa fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">java 字符集</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2019-04-25T07:18:59.000Z" title="发表于 2019-04-25 15:18:59">2019-04-25</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2019-04-27T15:41:08.000Z" title="更新于 2019-04-27 23:41:08">2019-04-27</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/Java/">Java</a><i class="fas fa-angle-right post-meta-separator"></i><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/Java/%E5%9F%BA%E7%A1%80/">基础</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">3k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>11分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="java 字符集"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h3 id="概念"><a href="#概念" class="headerlink" title="概念"></a>概念</h3><p>字符集(character set)是一个系统支持的所有抽象字符的集合。字符(character)就是各种文字和符号，包括国家文字、标点符号、图形符号、数字等。</p>
+<p>大家都知道，在计算机中只有二进制数字，如何存储和读取数据，全看如何编码,编码方式的不同，会影响数据的解析。可以通过浏览器来举个简单的例子：打开浏览器–》设置（或者其他）–》编码，更改为随便一个，就可以发现网页变得全是乱码了。</p>
+<span id="more"></span>
+
+<p>如果仅仅是抽象的字符集，其实是顾名思义的，但是我们常说的字符集，其实是指编码字符集(coded character set)，比如: Unicode、ASCII、GB2312、GBK等等。什么是编码字符集呢？编码字符集是指，这个字符集里的每一个字符，都对应到唯一的一个代码值，这些代码值叫做 <strong>代码点</strong> (code point)，可以看做是这个字符在编码字符集里的序号，字符在给定的编码方式下的二进制比特序列称为代码单元(code unit)。在Unicode字符集中，字母A对应的数值是十六进制下的0041，书写时前面加U+，所以Unicode里A的代码点是U+0041。</p>
+<p>常见的编码字符集有：</p>
+<ul>
+<li>Unicode：也叫统一字符集，它包含了几乎世界上所有的已经发现且需要使用的字符（如中文、日文、英文、德文等）。</li>
+<li>ASCII：早期的计算机系统只能处理英文，所以ASCII也就成为了计算机的缺省字符集，包含了英文所需要的所有字符。</li>
+<li>GB2312：中文字符集，包含ASCII字符集。ASCII部分用单字节表示，剩余部分用双字节表示。</li>
+<li>GBK：GB2312的扩展，完整包含了GB2312的所有内容。</li>
+<li>GB18030：GBK字符集的超集，常叫大汉字字符集，也叫CJK（Chinese，Japanese，Korea）字符集，包含了中、日、韩三国语言中的所有字符。</li>
+</ul>
+<p>字符编码(character encoding)，是编码字符集的字符和实际的存储值之间的转换关系。常见的编码方式有：UTF-8(Unicode字符集的编码方式)、UTF-16(Unicode字符集的编码方式)、UTF-32(Unicode字符集的编码方式)、ASCII(ASCII字符集的编码方式)等。</p>
+<h3 id="Java的字符编码和字符集"><a href="#Java的字符编码和字符集" class="headerlink" title="Java的字符编码和字符集"></a>Java的字符编码和字符集</h3><p>Java中char类型是16位无符号基本数据类型，用来存储Unicode字符。字符数据类型的范围为0到65535，可以存储65536个不同的Unicode字符，这在起初Unicode字符集不是很大的时候，是没问题的。然而随着Unicode字符集的增长，已经超过65536个了，根据Unicode标准，现在Unicode代码点的合法范围是U+0000到U+10FFFF，U+0000到U+FFFF称为Basic Multilingual Plane(BMP)，代码点大于U+FFFF的字符称为增补字符。</p>
+<p>Java如何解决这个问题的呢？</p>
+<p>Java的char类型使用UTF-16编码描述一个代码单元。在这种表现形式下，增补字符用一对代码单元编码，即2个char，其中，第一个值取值自<code>\uD800-\uDBFF</code>(高代理项范围)，第二个值取值自<code>\uDC00-\uDFFF</code>(低代理项范围)。Unicode规定，U+D800到U+DFFF的值不对应于任何字符，为代理区。因此，UTF-16利用保留下来的0xD800-0xDFFF区段的码位来对增补字符进行编码。具体的UTF-16编码格式，可见<a target="_blank" rel="noopener" href="https://www.cnblogs.com/dragon2012/p/5020259.html">这篇文章</a>。</p>
+<p>所以，char值表示BMP代码点，包括代理项代码点和UTF-16编码的代码单元。而int值可以表示所有的Unicode代码点，包括增补代码点。int的21个低位表示Unicode代码点，且11个高位必须为0。</p>
+<p>Java字符串由char序列组成，上面我们已经说过，char数据类型是一个采用UTF-16编码表示Unicode代码点的代码单元，大多数的常用Unicode字符使用一个代码单元就可以表示，而增补字符需要一对代码单元表示。我们所熟知的String类型的length方法，它返回的是UTF-16编码表示的给定字符串的代码单元的数量，如果想要得到代码点的数量，可以调用codePointCount()方法，charAt方法返回位于指定位置的代码单元，codePointAt方法则返回指定位置的代码点。详细可见<a target="_blank" rel="noopener" href="https://www.cnblogs.com/vinozly/p/5155304.html">这篇文章</a>。</p>
+<p>Java代码需要编译成class文件后由JVM运行，在class文件里，字符串使用UTF-8编码，保存于常量池中。</p>
+<p>什么是Java的默认字符集呢？在Java里，如果没有指定Charset的时候，比如new String(byte[] bytes)，都会调用Charset.defaultCharset()的方法，该字符集默认跟操作系统字符集一致，也可以通过-Dfile.encoding=叉叉叉来手动设定，这个方法的具体实现如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">public static Charset defaultCharset() &#123;</span><br><span class="line">        if (defaultCharset == null) &#123;</span><br><span class="line">	    synchronized (Charset.class) &#123;</span><br><span class="line">		java.security.PrivilegedAction pa =</span><br><span class="line">		    new GetPropertyAction(&quot;file.encoding&quot;);</span><br><span class="line">		String csn = (String)AccessController.doPrivileged(pa);</span><br><span class="line">		Charset cs = lookup(csn);</span><br><span class="line">		if (cs != null)</span><br><span class="line">		    defaultCharset = cs;</span><br><span class="line">                else</span><br><span class="line">		    defaultCharset = forName(&quot;UTF-8&quot;);</span><br><span class="line">            &#125;</span><br><span class="line">	&#125;</span><br><span class="line">	return defaultCharset;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<p>可以看到，defaultCharset只能被赋值一次，所以System.setProperty(“file.encoding”, “叉叉叉”)并不能改变默认编码。</p>
+<p>来看一个具体的例子，在Windows下，打印System.getProperty(“file.encoding”)结果是GBK，在Ubuntu结果是UTF-8。</p>
+<p>现在创建一个文本文件，使用UTF-8编码，内容如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">测试文本。</span><br></pre></td></tr></table></figure>
+<p>代码：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">import java.io.File;</span><br><span class="line">import java.io.FileNotFoundException;</span><br><span class="line">import java.io.FileReader;</span><br><span class="line">import java.io.IOException;</span><br><span class="line"></span><br><span class="line">public class EncodingTest &#123;</span><br><span class="line"></span><br><span class="line">	public static void main(String[] args) &#123;</span><br><span class="line">		// TODO Auto-generated method stub</span><br><span class="line">		try &#123;</span><br><span class="line">			System.out.println(System.getProperty(&quot;file.encoding&quot;));</span><br><span class="line">			FileReader fr = new FileReader(new File(&quot;test.txt&quot;));</span><br><span class="line">			System.out.println((char) fr.read());</span><br><span class="line">			fr.close();</span><br><span class="line">		&#125; catch (FileNotFoundException e) &#123;</span><br><span class="line">			// TODO Auto-generated catch block</span><br><span class="line">			e.printStackTrace();</span><br><span class="line">		&#125; catch (IOException e) &#123;</span><br><span class="line">			// TODO Auto-generated catch block</span><br><span class="line">			e.printStackTrace();</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>命令行执行<code>javac EncodingTest.java</code>和<code>java  -Dfile.encoding=GBK EncodingTest</code>，打印出如下结果：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">GBK</span><br><span class="line">**</span><br></pre></td></tr></table></figure>
+<p>通过<code>java -Dfile.encoding=UTF-8 EncodingTest</code>，我们就打印出了正确的文本：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">UTF-8</span><br><span class="line">测</span><br></pre></td></tr></table></figure>
+
+
+<p>Java Web项目中的乱码问题，可参考：<a target="_blank" rel="noopener" href="https://blog.csdn.net/u013905744/article/details/52456417">https://blog.csdn.net/u013905744/article/details/52456417</a>。</p>
+<h4 id="指定编码下字符串所占的字节数"><a href="#指定编码下字符串所占的字节数" class="headerlink" title="指定编码下字符串所占的字节数"></a>指定编码下字符串所占的字节数</h4><p>在业务开发中一个常见的需求是计算字符串在指定编码方式下所占用的字节数，如上面所看到的，Java中可以使用string.getBytes(charsetName).length来实现。在前面的知识的基础上，我们来看下面的几个例子：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">import java.io.UnsupportedEncodingException;</span><br><span class="line"></span><br><span class="line">public class MyTest &#123;</span><br><span class="line"></span><br><span class="line">    public static void main(String[] args) throws UnsupportedEncodingException &#123;</span><br><span class="line">        String str = &quot;a&quot;;</span><br><span class="line">        System.out.println(str.getBytes(&quot;UTF-8&quot;).length);</span><br><span class="line">        String str2 = &quot;中&quot;;</span><br><span class="line">        System.out.println(str2.getBytes(&quot;UTF-8&quot;).length);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>输出：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">1</span><br><span class="line">3</span><br></pre></td></tr></table></figure>
+<p>这个例子中分别输出了只包含一个英文字符的字符串和只包含一个汉字的字符串在UTF-8编码下所占的字节数，可以看到一个英文占用1个字节，一个汉字占用了3个字节。这个例子非常简单。具体的UTF-8编码的字节数和Unicode代码点的对应关系可见下表：</p>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2019/04/26/5cc2c60d74ca9.png" alt="1.png"></p>
+<p>现在，我们把UTF-8编码换成UTF-16编码看看会输出什么：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">String str = &quot;a&quot;;</span><br><span class="line">System.out.println(str.getBytes(&quot;UTF-16&quot;).length);</span><br><span class="line">String str2 = &quot;中&quot;;</span><br><span class="line">System.out.println(str2.getBytes(&quot;UTF-16&quot;).length);</span><br></pre></td></tr></table></figure>
+<p>输出：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">4</span><br><span class="line">4</span><br></pre></td></tr></table></figure>
+<p>可以看到，输出都是4字节，这似乎和前面讲的不一致，因为不管是’a’还是’中’，它们都是Unicode基本多语言平面内的字符，应该占用2字节才对，为什么会是4呢？</p>
+<p>我们继续增加几个字符看下字节数：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">String str = &quot;a&quot;;</span><br><span class="line">System.out.println(str.getBytes(&quot;UTF-16&quot;).length);</span><br><span class="line">str = &quot;ab&quot;;</span><br><span class="line">System.out.println(str.getBytes(&quot;UTF-16&quot;).length);</span><br><span class="line">str = &quot;abc&quot;;</span><br><span class="line">System.out.println(str.getBytes(&quot;UTF-16&quot;).length);</span><br><span class="line">String str2 = &quot;中&quot;;</span><br><span class="line">System.out.println(str2.getBytes(&quot;UTF-16&quot;).length);</span><br><span class="line">str2 = &quot;中华&quot;;</span><br><span class="line">System.out.println(str2.getBytes(&quot;UTF-16&quot;).length);</span><br><span class="line">str2 = &quot;中华人&quot;;</span><br><span class="line">System.out.println(str2.getBytes(&quot;UTF-16&quot;).length);</span><br></pre></td></tr></table></figure>
+<p>输出</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">4</span><br><span class="line">6</span><br><span class="line">8</span><br><span class="line">4</span><br><span class="line">6</span><br><span class="line">8</span><br></pre></td></tr></table></figure>
+
+<p>可以看到，每加一个BMP平面内的字符，字符串占用的总字节数会多2，这说明确实每个BMP平面内的字符在UTF-16下占用了两个字节，但为什么一开始只有一个字符的时候，占用长度是4呢？我们打印几个只包含一个字符的字符串的UTF-16编码字节序列出来看看，看看里面除了字符本身的编码序列外还有些啥。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">String str = &quot;a&quot;;</span><br><span class="line">byte[] bytes = str.getBytes(&quot;UTF-16&quot;);</span><br><span class="line">for(byte byt: bytes)&#123;</span><br><span class="line">    System.out.print(byt + &quot; &quot;);</span><br><span class="line">&#125;</span><br><span class="line">System.out.println();</span><br><span class="line">String str2 = &quot;中&quot;;</span><br><span class="line">byte[] bytes2 = str2.getBytes(&quot;UTF-16&quot;);</span><br><span class="line">for(byte byt: bytes2)&#123;</span><br><span class="line">    System.out.print(byt + &quot; &quot;);</span><br><span class="line">&#125;</span><br><span class="line">System.out.println();</span><br><span class="line">String str3 = &quot; &quot;;</span><br><span class="line">byte[] bytes3 = str3.getBytes(&quot;UTF-16&quot;);</span><br><span class="line">for(byte byt: bytes3)&#123;</span><br><span class="line">    System.out.print(byt + &quot; &quot;);</span><br><span class="line">&#125;</span><br><span class="line">System.out.println();</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>结果：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">-2 -1 0 97</span><br><span class="line">-2 -1 78 45</span><br><span class="line">-2 -1 0 32</span><br></pre></td></tr></table></figure>
+<p>这里分别输出了只包含一个英文字符’a’、一个汉字’中’、一个空格的字符串在UTF-16编码下的字节序列，显而易见的，它们的前两个字节是相同的—-十六进制下的FEFF，第三个字节与第四个字节的组合正是字符本身在UTF-16下的代码单元。那这里为什么会冒出一个0xFEFF呢？原来这个0xFEFF叫做“零宽度非换行空格”(ZERO WIDTH NO-BREAK SPACE)，它用来标识编码顺序是“大头方式”(Big endian)还是“小头方式”(Little endian)。以字符’中’为例，它的Unicode代码点是4E2D，存储时4E在前，2D在后，就是Big endian；2D在前，4E在后，就是Little endian。FEFF表示存储采用大头方式，FFFE表示使用小头方式。</p>
+<p>最后我们再看看Unicode增补字符在UTF-16下所占的字节数：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">int ch = 0x2F81A;</span><br><span class="line">System.out.println(new String(Character.toChars(ch)).getBytes(&quot;UTF-16&quot;).length);</span><br></pre></td></tr></table></figure>
+<p>输出：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">6</span><br></pre></td></tr></table></figure>
+<p>因为多了编码顺序标识，所以这里是2+4=6，与我们之前所说的增补字符集占用4个字节符合。这里需要注意的是增补字符的书写方式，Character.toChars(int codePoint)方法可以根据指定的Unicode代码点返回其在UTF-16表现形式下的char数组，我们可以用它来获得增补字符的UTF-16代码单元。</p>
+<h4 id="Charset"><a href="#Charset" class="headerlink" title="Charset"></a>Charset</h4><p>jdk1.4提供了Charset类来处理字节序列和字符序列（字符串）的转换关系，使用Charset类能够创建编码器和解码器。</p>
+<p>首先，获取Charset对象需要提供字符集的名称，如GBK。我们通过Charset类打印JDK支持的所有字符集。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">// 获取Java支持的全部字符集</span><br><span class="line">SortedMap&lt;String,Charset&gt;  map = Charset.availableCharsets();</span><br><span class="line">for (String alias : map.keySet())</span><br><span class="line">&#123;</span><br><span class="line">	// 输出字符集的别名</span><br><span class="line">	System.out.println(alias);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>接下来使用编码器将CharBuffer中的字符序列转换为字节序列ByteBuffer。<br>CharBuffer和ByteBuffer是java NIO中的IO操作类。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">// 创建简体中文对应的Charset</span><br><span class="line">Charset charset = Charset.forName(&quot;GBK&quot;);</span><br><span class="line">// 获取charset对象对应的编码器</span><br><span class="line">CharsetEncoder charsetEncoder = charset.newEncoder();</span><br><span class="line">// 创建一个CharBuffer对象</span><br><span class="line">CharBuffer charBuffer = CharBuffer.allocate(20);</span><br><span class="line">charBuffer.put(&quot;一个人的能力永远高不过他的信念&quot;);</span><br><span class="line">charBuffer.flip();</span><br><span class="line">// 将CharBuffer中的字符序列转换成字节序列</span><br><span class="line">ByteBuffer byteBuffer = null;</span><br><span class="line">try &#123;</span><br><span class="line">    byteBuffer = charsetEncoder.encode(charBuffer);</span><br><span class="line">    // 循环访问ByteBuffer中的每个字节</span><br><span class="line">    for (int i = 0; i &lt; byteBuffer.limit(); i++) &#123;</span><br><span class="line">        System.out.print(byteBuffer.get(i) + &quot; &quot;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125; catch (CharacterCodingException e) &#123;</span><br><span class="line">    e.printStackTrace();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>然后使用解码器将ByteBuffer中的字节序列转换为字符序列CharBuffer（字符串）。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">// 创建简体中文对应的Charset</span><br><span class="line">Charset charset = Charset.forName(&quot;GBK&quot;);</span><br><span class="line">// 获取charset对象对应的编码器</span><br><span class="line">CharsetDecoder charsetDecoder = charset.newDecoder();</span><br><span class="line">// 创建一个ByteBuffer对象</span><br><span class="line">ByteBuffer byteBuffer = ByteBuffer.allocate(50);</span><br><span class="line">byteBuffer.put(&quot;一个人的能力永远高不过他的信念&quot;.getBytes(&quot;GBK&quot;));</span><br><span class="line">byteBuffer.flip();</span><br><span class="line"></span><br><span class="line">// 将ByteBuffer的数据解码成字符序列</span><br><span class="line">System.out.println(charsetDecoder.decode(byteBuffer));</span><br></pre></td></tr></table></figure>
+
+<p>上面就是编码器和解码器的思路，具体应用的话应该考虑更多，比如转换失败的处理等。</p>
+<p>参考：</p>
+<ol>
+<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/nlznlz/article/details/80950596">结合Java详谈字符编码和字符集</a></li>
+<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_36691683/article/details/81608244">java Charset（字符集）类的操作</a></li>
+</ol>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">平心</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://pingxin0521.gitee.io/2019/04/25/Java-%E5%9F%BA%E7%A1%80-10-3/">https://pingxin0521.gitee.io/2019/04/25/Java-%E5%9F%BA%E7%A1%80-10-3/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://pingxin0521.gitee.io" target="_blank">平心de小屋</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/Java/">Java</a></div><div class="post_share"><div class="social-share" data-image="https://i.loli.net/2020/05/08/okfOw28KlZFbE7z.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2019/04/25/Android-%E5%9F%BA%E7%A1%80-1/"><img class="prev-cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/7dHvepmfYOLWTrX.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">Android 应用程序构成</div></div></a></div><div class="next-post pull-right"><a href="/2019/04/25/Java-%E9%AB%98%E7%BA%A7-2-2/"><img class="next-cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/vCnKyoFJZ1g4XYR.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">Java  正则表达式</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span> 相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2019/07/12/Java-SpringBoot-1-4-2/" title="Spring boot 数据访问 MongoDB"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/okfOw28KlZFbE7z.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2020-01-25</div><div class="title">Spring boot 数据访问 MongoDB</div></div></a></div><div><a href="/2019/12/10/Java-SpringBoot-1-6-1/" title="Spring boot 消息队列(使用RabbitMQ)"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/7dHvepmfYOLWTrX.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2020-02-09</div><div class="title">Spring boot 消息队列(使用RabbitMQ)</div></div></a></div><div><a href="/2019/05/30/Java-SpringCloud-0-0/" title="Spring Cloud 入门 (一)"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/7dHvepmfYOLWTrX.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2020-12-27</div><div class="title">Spring Cloud 入门 (一)</div></div></a></div><div><a href="/2019/11/01/Java-SpringCloud-3-0/" title="Spring Cloud 组件之Hystrix (五)"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/vCnKyoFJZ1g4XYR.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2020-12-27</div><div class="title">Spring Cloud 组件之Hystrix (五)</div></div></a></div><div><a href="/2019/10/27/Java-SpringCloud-6-0/" title="微服务组件--分布式追踪系统"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/PFDRNxj93taz6pw.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2020-12-27</div><div class="title">微服务组件--分布式追踪系统</div></div></a></div><div><a href="/2019/11/03/Java-SpringCloud-6-2/" title="SpringCloud组件之Spring Cloud Sleuth (八)"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/gGE57HRvpcKPfDY.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2020-12-27</div><div class="title">SpringCloud组件之Spring Cloud Sleuth (八)</div></div></a></div></div></div><hr/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div class="vcomment" id="vcomment"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="card-info-avatar is-center"><img class="avatar-img" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://s2.ax1x.com/2020/02/11/1ovw6J.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/><div class="author-info__name">平心</div><div class="author-info__description">年轻人的life、learn and think</div></div><div class="card-info-data"><div class="card-info-data-item is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">449</div></a></div><div class="card-info-data-item is-center"><a href="/tags/"><div class="headline">标签</div><div class="length-num">77</div></a></div><div class="card-info-data-item is-center"><a href="/categories/"><div class="headline">分类</div><div class="length-num">68</div></a></div></div><a class="button--animated" id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/hanyunpeng0521"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/hanyunpeng0521" target="_blank" title="Github"><i class="fa fa-github"></i></a><a class="social-icon" href="mailto:m13839441583@163.com" target="_blank" title="Email"><i class="fa fa-envelope"></i></a><a class="social-icon" href="/atom.xml" target="_blank" title=""><i class="fa fa-rss"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn card-announcement-animation"></i><span>公告</span></div><div class="announcement_content">为什么呢？开始提问吧</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%A6%82%E5%BF%B5"><span class="toc-number">1.</span> <span class="toc-text">概念</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Java%E7%9A%84%E5%AD%97%E7%AC%A6%E7%BC%96%E7%A0%81%E5%92%8C%E5%AD%97%E7%AC%A6%E9%9B%86"><span class="toc-number">2.</span> <span class="toc-text">Java的字符编码和字符集</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%8C%87%E5%AE%9A%E7%BC%96%E7%A0%81%E4%B8%8B%E5%AD%97%E7%AC%A6%E4%B8%B2%E6%89%80%E5%8D%A0%E7%9A%84%E5%AD%97%E8%8A%82%E6%95%B0"><span class="toc-number">2.1.</span> <span class="toc-text">指定编码下字符串所占的字节数</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Charset"><span class="toc-number">2.2.</span> <span class="toc-text">Charset</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2021/05/15/node-2-4/" title="Egg.js -- 为企业级框架和应用而生"><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/okfOw28KlZFbE7z.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Egg.js -- 为企业级框架和应用而生"/></a><div class="content"><a class="title" href="/2021/05/15/node-2-4/" title="Egg.js -- 为企业级框架和应用而生">Egg.js -- 为企业级框架和应用而生</a><time datetime="2021-05-15T10:18:59.000Z" title="发表于 2021-05-15 18:18:59">2021-05-15</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/04/30/node-2-3/" title="Koa -- 基于Node.js平台的下一代Web开发框架"><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/HjVAdIuT7bZJypS.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Koa -- 基于Node.js平台的下一代Web开发框架"/></a><div class="content"><a class="title" href="/2021/04/30/node-2-3/" title="Koa -- 基于Node.js平台的下一代Web开发框架">Koa -- 基于Node.js平台的下一代Web开发框架</a><time datetime="2021-04-30T10:18:59.000Z" title="发表于 2021-04-30 18:18:59">2021-04-30</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/04/01/node-2-1/" title="Node.JS web开发前置知识"><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/gGE57HRvpcKPfDY.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Node.JS web开发前置知识"/></a><div class="content"><a class="title" href="/2021/04/01/node-2-1/" title="Node.JS web开发前置知识">Node.JS web开发前置知识</a><time datetime="2021-04-01T03:18:59.000Z" title="发表于 2021-04-01 11:18:59">2021-04-01</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2020/12/26/%E5%91%A8%E8%AE%B0-10-1/" title="第十一周--谷歌浏览器插件"><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/gGE57HRvpcKPfDY.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="第十一周--谷歌浏览器插件"/></a><div class="content"><a class="title" href="/2020/12/26/%E5%91%A8%E8%AE%B0-10-1/" title="第十一周--谷歌浏览器插件">第十一周--谷歌浏览器插件</a><time datetime="2020-12-26T10:18:59.000Z" title="发表于 2020-12-26 18:18:59">2020-12-26</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2020/12/26/%E5%91%A8%E8%AE%B0-10-0/" title="第十一周--浏览器技术"><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/vCnKyoFJZ1g4XYR.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="第十一周--浏览器技术"/></a><div class="content"><a class="title" href="/2020/12/26/%E5%91%A8%E8%AE%B0-10-0/" title="第十一周--浏览器技术">第十一周--浏览器技术</a><time datetime="2020-12-26T06:18:59.000Z" title="发表于 2020-12-26 14:18:59">2020-12-26</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2019 - 2021 By 平心</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div id="local-search"><div class="search-dialog"><div class="search-dialog__title" id="local-search-title">本地搜索</div><div id="local-input-panel"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div></div><hr/><div id="local-search-results"></div><span class="search-close-button"><i class="fas fa-times"></i></span></div><div id="search-mask"></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload/dist/lazyload.iife.min.js"></script><script src="/js/search/local-search.js"></script><div class="js-pjax"><script>function loadValine () {
+  function initValine () {
+    const valine = new Valine(Object.assign({
+      el: '#vcomment',
+      appId: '4lfIXzqxaC1ONs0MJO4oHu07-gzGzoHsz',
+      appKey: 'qw99Bw8FD0KVKU9m457CwWsr',
+      placeholder: 'Please leave your footprints',
+      avatar: 'monsterid',
+      meta: 'nick,mail,link'.split(','),
+      pageSize: '10',
+      lang: 'zh-CN',
+      recordIP: true,
+      serverURLs: '',
+      emojiCDN: '',
+      emojiMaps: "",
+      enableQQ: true,
+      path: window.location.pathname,
+      requiredFields: ["nick,mail"],
+      visitor: false
+    }, null))
+  }
+
+  if (typeof Valine === 'function') initValine() 
+  else getScript('https://cdn.jsdelivr.net/npm/valine/dist/Valine.min.js').then(initValine)
+}
+
+if ('Valine' === 'Valine' || !false) {
+  if (false) btf.loadComment(document.getElementById('vcomment'),loadValine)
+  else setTimeout(loadValine, 0)
+} else {
+  function loadOtherComment () {
+    loadValine()
+  }
+}</script></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>

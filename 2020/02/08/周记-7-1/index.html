@@ -1,0 +1,263 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>第八周--DDOS攻击 | 平心de小屋</title><meta name="keywords" content="周记"><meta name="author" content="平心"><meta name="copyright" content="平心"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="本周速记方法论 本周来学习一下  RBAC DDOS攻击">
+<meta property="og:type" content="article">
+<meta property="og:title" content="第八周--DDOS攻击">
+<meta property="og:url" content="https://pingxin0521.gitee.io/2020/02/08/%E5%91%A8%E8%AE%B0-7-1/index.html">
+<meta property="og:site_name" content="平心de小屋">
+<meta property="og:description" content="本周速记方法论 本周来学习一下  RBAC DDOS攻击">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://i.loli.net/2020/05/08/PFDRNxj93taz6pw.jpg">
+<meta property="article:published_time" content="2020-02-08T10:18:59.000Z">
+<meta property="article:modified_time" content="2020-02-08T07:24:04.515Z">
+<meta property="article:author" content="平心">
+<meta property="article:tag" content="周记">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.loli.net/2020/05/08/PFDRNxj93taz6pw.jpg"><link rel="shortcut icon" href="https://s2.ax1x.com/2020/02/11/1ovFOA.png"><link rel="canonical" href="https://pingxin0521.gitee.io/2020/02/08/%E5%91%A8%E8%AE%B0-7-1/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"search.xml","languages":{"hits_empty":"找不到您查询的内容：${query}"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    jQuery: 'https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js',
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+    },
+    fancybox: {
+      js: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css'
+    }
+  },
+  isPhotoFigcaption: true,
+  islazyload: true,
+  isanchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '第八周--DDOS攻击',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2020-02-08 15:24:04'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    })(window)</script><meta name="generator" content="Hexo 5.4.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="author-avatar"><img class="avatar-img" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://s2.ax1x.com/2020/02/11/1ovw6J.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data"><div class="data-item is-center"><div class="data-item-link"><a href="/archives/"><div class="headline">文章</div><div class="length-num">449</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/tags/"><div class="headline">标签</div><div class="length-num">77</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/categories/"><div class="headline">分类</div><div class="length-num">68</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fa fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fa fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://i.loli.net/2020/05/08/PFDRNxj93taz6pw.jpg')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">平心de小屋</a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fa fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fa fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">第八周--DDOS攻击</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2020-02-08T10:18:59.000Z" title="发表于 2020-02-08 18:18:59">2020-02-08</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2020-02-08T07:24:04.515Z" title="更新于 2020-02-08 15:24:04">2020-02-08</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E5%91%A8%E8%AE%B0/">周记</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">2.6k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>8分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="第八周--DDOS攻击"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h4 id="本周速记"><a href="#本周速记" class="headerlink" title="本周速记"></a>本周速记</h4><p><strong>方法论</strong></p>
+<p>本周来学习一下</p>
+<ol>
+<li>RBAC</li>
+<li>DDOS攻击</li>
+</ol>
+<span id="more"></span>
+
+<h3 id="DDOS攻击"><a href="#DDOS攻击" class="headerlink" title="DDOS攻击"></a>DDOS攻击</h3><p>DDoS（Distributed Denial of Service，分布式拒绝服务）攻击的主要目的是让指定目标无法提供正常服务，甚至从互联网上消失，是目前最强大、最难防御的攻击之一。DDoS，常见网络和应用层的攻击经过长时间的对抗研究，对协议和报文内容的分析，已经形成了成熟的解决方案。</p>
+<p>但随着用户对安全性要求的增强，以及一些政策性的强制性要求（比如苹果appstore对HTTPS的强制要求），越来越多的网络服务主动或被动的将自己的服务由HTTP切换到HTTPS。HTTPS协议在网络上传输加密的报文，传统的内容检测技术失去了效果；由于处理HTTPS连接的巨大资源消耗，让HTTPS的DDoS攻击成本较低，危害性却较大。</p>
+<h4 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h4><p>DDoS的攻击原理，往简单说，其实就是利用TCP/UDP协议规律，通过占用协议栈资源或者发起大流量拥塞，达到消耗目标机器性能或者网络的目的，下面我们先简单回顾TCP“三次握手”与“四次挥手”以及UDP通信流程。</p>
+<p><strong>TCP三次握手与四次挥手</strong></p>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://s2.ax1x.com/2020/02/08/1RBwHs.png" alt="1RBwHs.png"></p>
+<p><strong>TCP建立连接：三次握手</strong></p>
+<p>1.client: syn</p>
+<p>2.server: syn+ack</p>
+<p>3.client: ack</p>
+<p><strong>TCP断开连接：四次挥手</strong></p>
+<p>1.client: fin</p>
+<p>2.server: ack</p>
+<p>3.server: fin</p>
+<p>4.client: ack</p>
+<p><strong>UDP通信流程</strong></p>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="http://www.aodun.com.cn/static/img/sol/tech6.jpg" alt="img"></p>
+<p>根据上图可发现，UDP通信是无连接、不可靠的，数据是直接传输的，并没有协商的过程。</p>
+<p><strong>攻击原理与攻击危害</strong></p>
+<p>按照攻击对象的不同，将攻击原理和攻击危害的分析分成3类，分别是攻击网络带宽资源、应用以及系统。</p>
+<ul>
+<li><p>攻击网络带宽资源：</p>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://s2.ax1x.com/2020/02/08/1RBWDJ.png" alt="1RBWDJ.png"></p>
+</li>
+<li><p>攻击系统资源：</p>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://s2.ax1x.com/2020/02/08/1RBHgO.png" alt="1RBHgO.png"></p>
+</li>
+<li><p>攻击应用资源：</p>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://s2.ax1x.com/2020/02/08/1RBxUI.png" alt="1RBxUI.png"></p>
+</li>
+</ul>
+<h4 id="HTTP的DDoS攻击防护"><a href="#HTTP的DDoS攻击防护" class="headerlink" title="HTTP的DDoS攻击防护"></a>HTTP的DDoS攻击防护</h4><ol>
+<li><p>保证服务器系统的安全</p>
+<p>首先要确保服务器软件没有任何漏洞，防止攻击者入侵。确保服务器采用最新系统，并打上安全补丁。在服务器上删除未使用的服务，关闭未使用的端口。对于服务器上运行的网站，确保其打了最新的补丁，没有安全漏洞。</p>
+</li>
+<li><p>隐藏服务器的真实IP地址</p>
+<p>不要把域名直接解析到服务器的真实IP地址，不能让服务器真实IP泄漏，服务器前端加CDN中转（免费的CDN一般能防止5G左右的DDOS），如果资金充裕的话，可以购买高防的盾机，用于隐藏服务器真实IP，域名解析使用CDN的IP，所有解析的子域名都使用CDN的IP地址。此外，服务器上部署的其他域名也不能使用真实IP解析，全部都使用CDN来解析。</p>
+</li>
+<li><p>使用反向代理</p>
+</li>
+</ol>
+<h4 id="HTTPS的DDoS攻击防护"><a href="#HTTPS的DDoS攻击防护" class="headerlink" title="HTTPS的DDoS攻击防护"></a>HTTPS的DDoS攻击防护</h4><p>传统的HTTP协议采用明文传输信息，存在被窃听和篡改的风险；SSL/TLS提供了身份验证、信息机密性和完整性校验功能。HTTPS基于HTTP开发，使用SSL/TLS进行加密的信息交互，在交互协议上使用了TCP、SSL/TLS和HTTP三种常见的协议。</p>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://s2.ax1x.com/2020/02/08/1RDZan.png" alt="1RDZan.png"></p>
+<p>针对HTTPS的DDoS攻击也主要从TCP协议、SSL/TLS协议和HTTP协议三个方面来进行的，下面分别介绍。</p>
+<ol>
+<li><p>TCP协议的攻击<br>此类攻击比较常见，即是普通的针对HTTPS服务器发起的SYN-Flood、ACK-Flood等，用以消耗服务器的TCP连接等资源。这类攻击不涉及HTTPS特有的协议，所有承载在TCP协议之上的服务都可能收到此类攻击。</p>
+</li>
+<li><p>SSL/TLS协议的攻击<br>SSL/TLS握手过程涉及非对称加密算法，对称加密算法和散列算法，其中非对称加解密是非常重量的计算消耗性工作。而大部分非对称加密算法在实际使用中，服务器的计算量远大于客户端，下面以最常使用的非对称加密算法RSA介绍，其原理如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">1.    选择一对不同的、位数差不多且足够大的素数p和q；</span><br><span class="line">2.    计算n=p*q；</span><br><span class="line">3.    计算φ(n)=(p−1)(q−1);</span><br><span class="line">4.    取一个与φ(n)互质的数e，1&lt;e&lt;φ(n);</span><br><span class="line">5.    计算d，使得d*e≡1modφ(n)；</span><br><span class="line">6.    公钥为（n，e），私钥为（n，d）；</span><br><span class="line">7.    消息m加密c=m^e mod n, 解密为m=c^d mod n</span><br></pre></td></tr></table></figure>
+
+<p>SSL/TLS使用RSA算法进行密钥交换的过程如下：</p>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://s2.ax1x.com/2020/02/08/1RD0MD.png" alt="1RD0MD.png"></p>
+<p>客户端加密随机数m，计算c=m^e mod n并将c发送给服务器，服务器解密随机数m=c^d mod n；如果e和d大小差不多的话，那么客户端和服务器的计算量是基本对等的。但现实中e和d大小差别很大，e一般是一个固定的小素数，当前普遍使用65537(0x10001)，而根据e计算出来的d就是一个很大的值</p>
+<p>根据RSA算法第7步流程，服务器的解密消耗远大于客户端。一方面基于历史原因，e不能设置的过大（最大为32位数）；另一方面为了安全性考虑，d又不能选择的太小，一般和n的位数差不多。</p>
+<p>虽然有算法来大量减小服务器计算m的CPU消耗，但经过实际测试，使用RSA2048作SSL/TLS密钥交换算法时，服务器在SSL/TLS握手阶段的CPU消耗大约是客户端的6倍。</p>
+<p>根据上面描述的握手不对称性，攻击者通过不断与服务器新建SSL/TLS握手，或建立SSL/TLS后不断的重协商密钥（比如著名的THC-SSL-DOS），即可以较小代价将服务器打瘫。更严重者，客户端可以不用计算c，而是提前准备一个c’，让服务器做大量无效但昂贵的计算后，才发现本次SSL/TLS通信失败。这种情况下，极少量的攻击者即可让服务器假死。</p>
+</li>
+<li><p>HTTP协议的攻击<br>针对HTTP协议的攻击涉及两个方面：一方面通过发送大量加密或提前准备的垃圾HTTP加密报文，以消耗服务器对称解密性能；另一个方面消耗服务器处理HTTP连接或附加的其他数据库等资源；</p>
+</li>
+</ol>
+<h5 id="HTTPS的DDoS防护思路"><a href="#HTTPS的DDoS防护思路" class="headerlink" title="HTTPS的DDoS防护思路"></a>HTTPS的DDoS防护思路</h5><p>针对HTTPS的DDoS攻击，HTTPS的DDoS防护也先从TCP、SSL/TLS和HTTPS协议三个方向来讨论。另外，HTTPS防护是一个系统性的工程，涉及到SSL证书管理等工作</p>
+<ol>
+<li>TCP协议攻击的防护<br>经过多年的防护积累，业界针对TCP协议的DDoS攻击有比较丰富的防护算法。针对TCP-Flood，绿盟科技抗DDoS产品有自研的反向探测算法，不用断正常流量的连接，也能有效识别虚假源。针对肉鸡发起的攻击可通过针对源限速或根据绿盟科技的威胁情报做过滤。</li>
+<li>SSL/TLS协议攻击的防护<br>SSL/TLS攻击通常是攻击源已经通过了TCP协议防护，是一个真实的客户端。单独考虑SSL/TLS协议的计算型攻击，没有太好的办法。在DDoS防护设备上，可根据客户端发起密钥交换的次数来识别异常客户端，此方法对THC-SSL-DOS还比较有效。</li>
+<li>HTTP协议攻击的防护<br>针对HTTP协议的攻击，业界有一些通用的HTTP防护算法，比如302跳转、JavaScript验证和图片验证等，以将正常用户和肉鸡程序区分。但HTTP防护算法需要得到解密后的HTTP明文信息，防护设备需要跟踪与客户端的每个HTTPS连接，最终还是回到SSL/TLS性能问题。</li>
+<li>通用HTTPS防护的问题<br>当前针对HTTPS使用的SSL/TLS协议及之上的DDoS防护一般是做代理防护，比如CDN厂商，通过庞大的集群，消化掉攻击流量。待防护的HTTPS服务器将证书和私钥交给DDoS防护代理方，客户端对服务器的访问转化为：客户端访问防护代理方，然后防护代理方再访问服务器（HTTPS或HTTP都可），客户端和服务器的通信内容在防护代理方是明文的，防护代理方可以通过报文内容分析做进一步的防护。这种防护方法存在的问题在于：<ul>
+<li>用户需要将自己服务器使用的证书和私钥提供给防护代理方；</li>
+<li>客户端和服务器的通信内容对防护代理方是明文可见的，失去了HTTPS的机密性原则。</li>
+</ul>
+</li>
+</ol>
+<p><strong>优化的HTTPS防护</strong></p>
+<p>HTTPS服务器提供的是应用层服务，SSL/TLS连接只是HTTP业务访问之前的中间步骤，正常用户不会只做SSL/TLS连接，而不进行后续的HTTP加密报文交互。对于多次SSL/TLS连接后，仍不能通过HTTP算法验证的客户端，后续报文直接丢弃或将其加入黑名单。通过这种HTTPS交互全局视图，将攻击者逐步排除。</p>
+<p>验证流程如下：客户首先在ADS设备上导入需防护HTTPS服务器的SSL证书和私钥（一般导入一对和服务器上不一样的证书私钥，不导入的话，将使用ADS自带的缺省SSL证书私钥）；当HTTPS攻击发生时，ADS截获客户端的HTTPS连接，通过SSL和HTTP算法验证客户端的合法性；验证通过的合法客户端后续报文，ADS直接放行其与服务器通信。</p>
+<p>相对于完全代理方式，ADS针对HTTPS的DDoS防护的优点：</p>
+<ul>
+<li>ADS可以对HTTPS业务报文解密后，基于现有丰富的HTTP算法来防护 HTTPS攻击；</li>
+<li>客户导入的证书，只是为了让浏览器不告警，客户可以导入一个和服务器上不一样的证书，比如域名验证(DV)证书，这样即可规避一些法律政策问题；</li>
+<li>ADS也可只做客户端合法性验证，不对流量进行解密防护。</li>
+</ul>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">平心</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://pingxin0521.gitee.io/2020/02/08/%E5%91%A8%E8%AE%B0-7-1/">https://pingxin0521.gitee.io/2020/02/08/%E5%91%A8%E8%AE%B0-7-1/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://pingxin0521.gitee.io" target="_blank">平心de小屋</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E5%91%A8%E8%AE%B0/">周记</a></div><div class="post_share"><div class="social-share" data-image="https://i.loli.net/2020/05/08/PFDRNxj93taz6pw.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2020/02/14/%E6%95%B0%E6%8D%AE%E5%BA%93-Redis-1-6/"><img class="prev-cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/gGE57HRvpcKPfDY.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">Redis 应用场景示例</div></div></a></div><div class="next-post pull-right"><a href="/2020/02/07/%E5%91%A8%E8%AE%B0-7-0/"><img class="next-cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/okfOw28KlZFbE7z.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">第八周--RBAC</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span> 相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2019/11/14/周记-0-0/" title="何为道？"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/gGE57HRvpcKPfDY.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2019-12-15</div><div class="title">何为道？</div></div></a></div><div><a href="/2019/11/14/周记-0-1/" title="第一周--云原生"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/vCnKyoFJZ1g4XYR.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2020-01-04</div><div class="title">第一周--云原生</div></div></a></div><div><a href="/2019/11/15/周记-0-2/" title="第一周--混合云"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/PFDRNxj93taz6pw.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2019-11-15</div><div class="title">第一周--混合云</div></div></a></div><div><a href="/2019/11/14/周记-0-3/" title="第一周--DevOps"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/HjVAdIuT7bZJypS.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2019-11-21</div><div class="title">第一周--DevOps</div></div></a></div><div><a href="/2020/12/26/周记-10-1/" title="第十一周--谷歌浏览器插件"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/gGE57HRvpcKPfDY.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2020-12-26</div><div class="title">第十一周--谷歌浏览器插件</div></div></a></div><div><a href="/2019/11/18/周记-1-1/" title="第二周--BT和BT种子"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/PFDRNxj93taz6pw.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2019-11-28</div><div class="title">第二周--BT和BT种子</div></div></a></div></div></div><hr/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div class="vcomment" id="vcomment"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="card-info-avatar is-center"><img class="avatar-img" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://s2.ax1x.com/2020/02/11/1ovw6J.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/><div class="author-info__name">平心</div><div class="author-info__description">年轻人的life、learn and think</div></div><div class="card-info-data"><div class="card-info-data-item is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">449</div></a></div><div class="card-info-data-item is-center"><a href="/tags/"><div class="headline">标签</div><div class="length-num">77</div></a></div><div class="card-info-data-item is-center"><a href="/categories/"><div class="headline">分类</div><div class="length-num">68</div></a></div></div><a class="button--animated" id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/hanyunpeng0521"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/hanyunpeng0521" target="_blank" title="Github"><i class="fa fa-github"></i></a><a class="social-icon" href="mailto:m13839441583@163.com" target="_blank" title="Email"><i class="fa fa-envelope"></i></a><a class="social-icon" href="/atom.xml" target="_blank" title=""><i class="fa fa-rss"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn card-announcement-animation"></i><span>公告</span></div><div class="announcement_content">为什么呢？开始提问吧</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%9C%AC%E5%91%A8%E9%80%9F%E8%AE%B0"><span class="toc-number">1.</span> <span class="toc-text">本周速记</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#DDOS%E6%94%BB%E5%87%BB"><span class="toc-number"></span> <span class="toc-text">DDOS攻击</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%8E%9F%E7%90%86"><span class="toc-number">1.</span> <span class="toc-text">原理</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#HTTP%E7%9A%84DDoS%E6%94%BB%E5%87%BB%E9%98%B2%E6%8A%A4"><span class="toc-number">2.</span> <span class="toc-text">HTTP的DDoS攻击防护</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#HTTPS%E7%9A%84DDoS%E6%94%BB%E5%87%BB%E9%98%B2%E6%8A%A4"><span class="toc-number">3.</span> <span class="toc-text">HTTPS的DDoS攻击防护</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#HTTPS%E7%9A%84DDoS%E9%98%B2%E6%8A%A4%E6%80%9D%E8%B7%AF"><span class="toc-number">3.1.</span> <span class="toc-text">HTTPS的DDoS防护思路</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2021/05/15/node-2-4/" title="Egg.js -- 为企业级框架和应用而生"><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/okfOw28KlZFbE7z.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Egg.js -- 为企业级框架和应用而生"/></a><div class="content"><a class="title" href="/2021/05/15/node-2-4/" title="Egg.js -- 为企业级框架和应用而生">Egg.js -- 为企业级框架和应用而生</a><time datetime="2021-05-15T10:18:59.000Z" title="发表于 2021-05-15 18:18:59">2021-05-15</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/04/30/node-2-3/" title="Koa -- 基于Node.js平台的下一代Web开发框架"><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/HjVAdIuT7bZJypS.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Koa -- 基于Node.js平台的下一代Web开发框架"/></a><div class="content"><a class="title" href="/2021/04/30/node-2-3/" title="Koa -- 基于Node.js平台的下一代Web开发框架">Koa -- 基于Node.js平台的下一代Web开发框架</a><time datetime="2021-04-30T10:18:59.000Z" title="发表于 2021-04-30 18:18:59">2021-04-30</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/04/01/node-2-1/" title="Node.JS web开发前置知识"><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/gGE57HRvpcKPfDY.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Node.JS web开发前置知识"/></a><div class="content"><a class="title" href="/2021/04/01/node-2-1/" title="Node.JS web开发前置知识">Node.JS web开发前置知识</a><time datetime="2021-04-01T03:18:59.000Z" title="发表于 2021-04-01 11:18:59">2021-04-01</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2020/12/26/%E5%91%A8%E8%AE%B0-10-1/" title="第十一周--谷歌浏览器插件"><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/gGE57HRvpcKPfDY.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="第十一周--谷歌浏览器插件"/></a><div class="content"><a class="title" href="/2020/12/26/%E5%91%A8%E8%AE%B0-10-1/" title="第十一周--谷歌浏览器插件">第十一周--谷歌浏览器插件</a><time datetime="2020-12-26T10:18:59.000Z" title="发表于 2020-12-26 18:18:59">2020-12-26</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2020/12/26/%E5%91%A8%E8%AE%B0-10-0/" title="第十一周--浏览器技术"><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/vCnKyoFJZ1g4XYR.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="第十一周--浏览器技术"/></a><div class="content"><a class="title" href="/2020/12/26/%E5%91%A8%E8%AE%B0-10-0/" title="第十一周--浏览器技术">第十一周--浏览器技术</a><time datetime="2020-12-26T06:18:59.000Z" title="发表于 2020-12-26 14:18:59">2020-12-26</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2019 - 2021 By 平心</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div id="local-search"><div class="search-dialog"><div class="search-dialog__title" id="local-search-title">本地搜索</div><div id="local-input-panel"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div></div><hr/><div id="local-search-results"></div><span class="search-close-button"><i class="fas fa-times"></i></span></div><div id="search-mask"></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload/dist/lazyload.iife.min.js"></script><script src="/js/search/local-search.js"></script><div class="js-pjax"><script>function loadValine () {
+  function initValine () {
+    const valine = new Valine(Object.assign({
+      el: '#vcomment',
+      appId: '4lfIXzqxaC1ONs0MJO4oHu07-gzGzoHsz',
+      appKey: 'qw99Bw8FD0KVKU9m457CwWsr',
+      placeholder: 'Please leave your footprints',
+      avatar: 'monsterid',
+      meta: 'nick,mail,link'.split(','),
+      pageSize: '10',
+      lang: 'zh-CN',
+      recordIP: true,
+      serverURLs: '',
+      emojiCDN: '',
+      emojiMaps: "",
+      enableQQ: true,
+      path: window.location.pathname,
+      requiredFields: ["nick,mail"],
+      visitor: false
+    }, null))
+  }
+
+  if (typeof Valine === 'function') initValine() 
+  else getScript('https://cdn.jsdelivr.net/npm/valine/dist/Valine.min.js').then(initValine)
+}
+
+if ('Valine' === 'Valine' || !false) {
+  if (false) btf.loadComment(document.getElementById('vcomment'),loadValine)
+  else setTimeout(loadValine, 0)
+} else {
+  function loadOtherComment () {
+    loadValine()
+  }
+}</script></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>

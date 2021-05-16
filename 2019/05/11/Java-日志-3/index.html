@@ -1,0 +1,445 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>日志框架--Log4j2 | 平心de小屋</title><meta name="keywords" content="Java,日志"><meta name="author" content="平心"><meta name="copyright" content="平心"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="Log4j2log4j2与log4j1发生了很大的变化，不兼容。log4j1仅仅作为一个实际的日志框架，slf4j、commons-logging作为门面，统一各种日志框架的混乱格局，现在log4j2也想跳出来充当门面了，也想统一大家了。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="日志框架--Log4j2">
+<meta property="og:url" content="https://pingxin0521.gitee.io/2019/05/11/Java-%E6%97%A5%E5%BF%97-3/index.html">
+<meta property="og:site_name" content="平心de小屋">
+<meta property="og:description" content="Log4j2log4j2与log4j1发生了很大的变化，不兼容。log4j1仅仅作为一个实际的日志框架，slf4j、commons-logging作为门面，统一各种日志框架的混乱格局，现在log4j2也想跳出来充当门面了，也想统一大家了。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://i.loli.net/2020/05/08/gGE57HRvpcKPfDY.jpg">
+<meta property="article:published_time" content="2019-05-11T04:18:59.000Z">
+<meta property="article:modified_time" content="2019-06-01T07:41:20.000Z">
+<meta property="article:author" content="平心">
+<meta property="article:tag" content="Java">
+<meta property="article:tag" content="日志">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.loli.net/2020/05/08/gGE57HRvpcKPfDY.jpg"><link rel="shortcut icon" href="https://s2.ax1x.com/2020/02/11/1ovFOA.png"><link rel="canonical" href="https://pingxin0521.gitee.io/2019/05/11/Java-%E6%97%A5%E5%BF%97-3/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"search.xml","languages":{"hits_empty":"找不到您查询的内容：${query}"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    jQuery: 'https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js',
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+    },
+    fancybox: {
+      js: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css'
+    }
+  },
+  isPhotoFigcaption: true,
+  islazyload: true,
+  isanchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '日志框架--Log4j2',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2019-06-01 15:41:20'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    })(window)</script><meta name="generator" content="Hexo 5.4.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="author-avatar"><img class="avatar-img" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://s2.ax1x.com/2020/02/11/1ovw6J.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data"><div class="data-item is-center"><div class="data-item-link"><a href="/archives/"><div class="headline">文章</div><div class="length-num">449</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/tags/"><div class="headline">标签</div><div class="length-num">77</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/categories/"><div class="headline">分类</div><div class="length-num">68</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fa fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fa fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://i.loli.net/2020/05/08/gGE57HRvpcKPfDY.jpg')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">平心de小屋</a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fa fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fa fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">日志框架--Log4j2</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2019-05-11T04:18:59.000Z" title="发表于 2019-05-11 12:18:59">2019-05-11</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2019-06-01T07:41:20.000Z" title="更新于 2019-06-01 15:41:20">2019-06-01</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/Java/">Java</a><i class="fas fa-angle-right post-meta-separator"></i><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/Java/%E6%97%A5%E5%BF%97/">日志</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">8.5k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>32分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="日志框架--Log4j2"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h3 id="Log4j2"><a href="#Log4j2" class="headerlink" title="Log4j2"></a><a target="_blank" rel="noopener" href="http://logging.apache.org/log4j/2.x/">Log4j2</a></h3><p>log4j2与log4j1发生了很大的变化，不兼容。log4j1仅仅作为一个实际的日志框架，slf4j、commons-logging作为门面，统一各种日志框架的混乱格局，现在log4j2也想跳出来充当门面了，也想统一大家了。</p>
+<span id="more"></span>
+
+<h4 id="Log4j2的特性及改进"><a href="#Log4j2的特性及改进" class="headerlink" title="Log4j2的特性及改进"></a>Log4j2的特性及改进</h4><ul>
+<li><p>API分离：<code>Log4j2将API与实现分离开来</code>。开发人员现在可以很清楚地知道能够使用哪些没有兼容问题的类和方法，同时又允许通过自己实现来增强功能。</p>
+</li>
+<li><p>改进的性能：<code>Log4j2的性能在某些关键领域比Log4j 1.x更快</code>，而且大多数情况下与Logback相当。</p>
+</li>
+<li><p>多个API支持：Log4j2提供最棒的性能的同时，还<code>支持SLF4J和公共日志记录API</code>。</p>
+</li>
+<li><p>自动配置加载：像Logback一样，一旦配置发生改变，<code>Log4j2可以自动载入这些更改后的配置信息</code>，又与Logback不同，配置发生改变时不会丢失任何日志事件。</p>
+</li>
+<li><p>高级过滤功能：与Logback类似，<code>Log4j2可以支持基于上下文数据、标记，正则表达式以及日志事件中的其他组件的过滤</code>。Log4j2能够专门指定适用于所有的事件，无论这些事件在传入Loggers之前还是正在传给appenders。另外，过滤器还可以与Loggers关联起来。与Logback不同的是，Filter公共类可以用于任何情况。</p>
+</li>
+<li><p>插件架构：<code>所有可以配置的组件都以Log4j插件的形式来定义</code>。同样地，不需要修改任何Log4j代码就可以创建新的Appender、Layout、Pattern Convert 等等。Log4j自动识别预定义的插件，如果在配置中引用到这些插件，Log4j就自动载入使用。</p>
+</li>
+<li><p>属性支持：<code>属性可以在配置文件中引用，也可以直接替代或传入潜在的组件，属性在这些组件中能够动态解析</code>。属性可以是配置文件，系统属性，环境变量，线程上下文映射以及事件中的数据中定义的值。用户可以通过增加自己的Lookup插件来定制自己的属性。</p>
+</li>
+<li><p><strong>更为先进的API（Modern API）</strong>在这之前，程序员们以如下方式进行日志记录：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">if(logger.isDebugEnabled()) &#123;</span><br><span class="line">       logger.debug(&quot;Hi, &quot; + u.getA() + “ “ + u.getB());</span><br><span class="line">   &#125;</span><br><span class="line">  </span><br></pre></td></tr></table></figure>
+
+<p>许多人都会抱怨上述代码的可读性太差了。<code>如果有人忘记写if语句，程序输出中会多出很多不必要的字符串</code>。现在，Java虚拟机（JVM）也许对字符串的打印和输出进行了很多优化，但是难道我们仅仅依靠JVM优化来解决上述问题？log4j 2.0开发团队鉴于以上考虑对API进行了完善。现在你可以这样写代码：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">logger.debug(&quot;Hi, &#123;&#125; &#123;&#125;&quot;, u.getA(), u.getB());</span><br></pre></td></tr></table></figure>
+
+<p>和其它一些流行的日志框架一样， <strong>新的API也支持变量参数的占位符功能</strong>。</p>
+</li>
+<li><p><strong>log4j 2.0还支持其它一些很棒的功能，像Markers和flow tracing</strong>：</p>
+</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">private Logger logger = LogManager.getLogger(MyApp.class.getName());</span><br><span class="line">private static final Marker QUERY_MARKER = MarkerManager.getMarker(&quot;SQL&quot;);</span><br><span class="line">...</span><br><span class="line">public String doQuery(String table) &#123;</span><br><span class="line">    logger.entry(param);</span><br><span class="line">    logger.debug(QUERY_MARKER, &quot;SELECT * FROM &#123;&#125;&quot;, table);</span><br><span class="line">    return logger.exit();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><code>Markers可以帮助你很快地找到具体的日志项（Log Entries）</code>。而在某个方法的开头和结尾调用Flow Traces中的一些方法，你可以在日志文件中看到很多新的跟踪层次的日志项，也就是说，<code>你的程序工作流（Program Flow）被记录下来了</code>。下面是Flow Traces的一些例子：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">19:08:07.056 TRACE com.test.TestService 19 retrieveMessage - entry</span><br><span class="line">19:08:07.060 TRACE com.test.TestService 46 getKey - entry</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><strong>插件式的架构</strong>：<code>log4j 2.0支持插件式的架构</code>。你可以根据需要自行扩展log4j 2.0，这非常简单。首先，你要为你的扩展建立好命名空间，然后告诉log4j 2.0在哪能够找到它。</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;configuration … packages=&quot;de.grobmeier.examples.log4j2.plugins&quot;&gt;</span><br></pre></td></tr></table></figure>
+
+<p>根据上述配置，<code>log4j 2将会在de.grobmeier.examples.log4j2.plugins包中找寻你的扩展插件</code>。如果你建立了多个命名空间，没关系，用逗号分隔就可以了。</p>
+<p>下面是一个简单的扩展插件：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">@Plugin(name = &quot;Sandbox&quot;, type = &quot;Core&quot;, elementType = &quot;appender&quot;)</span><br><span class="line">public class SandboxAppender extends AppenderBase &#123;</span><br><span class="line"></span><br><span class="line">    private SandboxAppender(String name, Filter filter) &#123;</span><br><span class="line">        super(name, filter, null);</span><br><span class="line">    &#125;</span><br><span class="line"> </span><br><span class="line">    public void append(LogEvent event) &#123;</span><br><span class="line">        System.out.println(event.getMessage().getFormattedMessage());</span><br><span class="line">    &#125;</span><br><span class="line"> </span><br><span class="line">    @PluginFactory</span><br><span class="line">    public static SandboxAppender createAppender(</span><br><span class="line">         @PluginAttr(&quot;name&quot;) String name,</span><br><span class="line">         @PluginElement(&quot;filters&quot;) Filter filter) &#123;</span><br><span class="line">        return new SandboxAppender(name, filter);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>上面标有<code>@PluginFactory注解的方法是一个工厂</code>，它的两个参数直接从配置文件读取。我用@PluginAttr和@PluginElement进行了实现。</p>
+<p>剩下的就非常简单了。<strong>由于我写的是一个Appender，因此得继承AppenderBase这个类。该类必须实现append()方法，从而进行实际的逻辑处理。除了Appender，你甚至可以实现自己的Logger和Filter</strong>。</p>
+<ul>
+<li><strong>强大的配置功能（Powerful Configuration）</strong> log4j 2的配置变得非常简单。如果你习惯了之前的配置方式，也不用担心，你只要花很少的时间就可以从之前的方式转换到新的方式。请看下面的配置：</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span><br><span class="line">&lt;configuration status=&quot;OFF&quot;&gt;</span><br><span class="line">    &lt;appenders&gt;</span><br><span class="line">        &lt;Console name=&quot;Console&quot; target=&quot;SYSTEM_OUT&quot;&gt;</span><br><span class="line">            &lt;PatternLayout pattern=&quot;%d&#123;HH:mm:ss.SSS&#125; [%t] %-5level %logger&#123;36&#125; - %msg%n&quot;/&gt;</span><br><span class="line">        &lt;/Console&gt;</span><br><span class="line">    &lt;/appenders&gt;</span><br><span class="line">    &lt;loggers&gt;</span><br><span class="line">        &lt;logger name=&quot;com.foo.Bar&quot; level=&quot;trace&quot; additivity=&quot;false&quot;&gt;</span><br><span class="line">            &lt;appender-ref ref=&quot;Console&quot;/&gt;</span><br><span class="line">        &lt;/logger&gt;</span><br><span class="line">        &lt;root level=&quot;error&quot;&gt;</span><br><span class="line">            &lt;appender-ref ref=&quot;Console&quot;/&gt;</span><br><span class="line">        &lt;/root&gt;</span><br><span class="line">    &lt;/loggers&gt;</span><br><span class="line">&lt;/configuration&gt;</span><br></pre></td></tr></table></figure>
+
+<p>上面说的只是一部分改进，<strong>你还可以自动重新加载配置文件</strong>：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span><br><span class="line">&lt;configuration monitorInterval=&quot;30&quot;&gt;</span><br><span class="line">    ...</span><br><span class="line">&lt;/configuration&gt;</span><br></pre></td></tr></table></figure>
+
+<p>监控的时间间隔单位为秒，最小值是5。这意味着，log4j 2在配置改变的情况下可以重新配置日志记录行为。如果值设置为0或负数，log4j 2不会对配置变更进行监测。<code>最为称道的一点是：不像其它日志框架， log4j 2.0在重新配置的时候不会丢失之前的日志记录</code>。</p>
+<p>还有一个非常不错的改进，那就是：<strong>同XML相比，如果你更加喜欢JSON，你可以自由地进行基于JSON的配置了</strong>：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    &quot;configuration&quot;: &#123;</span><br><span class="line">        &quot;appenders&quot;: &#123;</span><br><span class="line">            &quot;Console&quot;: &#123;</span><br><span class="line">                &quot;name&quot;: &quot;STDOUT&quot;,</span><br><span class="line">                &quot;PatternLayout&quot;: &#123;</span><br><span class="line">                    &quot;pattern&quot;: &quot;%m%n&quot;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;,</span><br><span class="line">        &quot;loggers&quot;: &#123;</span><br><span class="line">            &quot;logger&quot;: &#123;</span><br><span class="line">                &quot;name&quot;: &quot;EventLogger&quot;,</span><br><span class="line">                &quot;level&quot;: &quot;info&quot;,</span><br><span class="line">                &quot;additivity&quot;: &quot;false&quot;,</span><br><span class="line">                &quot;appender-ref&quot;: &#123;</span><br><span class="line">                    &quot;ref&quot;: &quot;Routing&quot;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;,</span><br><span class="line">            &quot;root&quot;: &#123;</span><br><span class="line">                &quot;level&quot;: &quot;error&quot;,</span><br><span class="line">                &quot;appender-ref&quot;: &#123;</span><br><span class="line">                    &quot;ref&quot;: &quot;STDOUT&quot;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><strong>Java 5 并发性（Concurrency）</strong></li>
+</ul>
+<p>有一段文档是这样描述的：<code>“log4j 2利用Java 5中的并发特性支持，尽可能地执行最低层次的加锁...”</code>。Apache log4j 2.0解决了许多在log4j 1.x中仍然存留的死锁问题。如果你的程序仍然饱受内存泄漏的折磨，请毫不犹豫地试一下log4j 2.0。</p>
+<h4 id="简单使用"><a href="#简单使用" class="headerlink" title="简单使用"></a>简单使用</h4><p>log4j2分成2个部分：</p>
+<ul>
+<li>log4j-api： 作为日志接口层，用于统一底层日志系统</li>
+<li>log4j-core : 作为上述日志接口的实现，是一个实际的日志框架</li>
+</ul>
+<p>需要使用的Maven依赖：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">&lt;dependencies&gt;</span><br><span class="line">  &lt;dependency&gt;</span><br><span class="line">    &lt;groupId&gt;org.apache.logging.log4j&lt;/groupId&gt;</span><br><span class="line">    &lt;artifactId&gt;log4j-api&lt;/artifactId&gt;</span><br><span class="line">    &lt;version&gt;2.11.2&lt;/version&gt;</span><br><span class="line">  &lt;/dependency&gt;</span><br><span class="line">  &lt;dependency&gt;</span><br><span class="line">    &lt;groupId&gt;org.apache.logging.log4j&lt;/groupId&gt;</span><br><span class="line">    &lt;artifactId&gt;log4j-core&lt;/artifactId&gt;</span><br><span class="line">    &lt;version&gt;2.11.2&lt;/version&gt;</span><br><span class="line">  &lt;/dependency&gt;</span><br><span class="line">&lt;/dependencies&gt;</span><br></pre></td></tr></table></figure>
+
+<p>使用方式：</p>
+<ul>
+<li>第一步：编写log4j2.xml配置文件（目前log4j2只支持xml json yuml，不再支持properties文件）</li>
+</ul>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">Configuration</span> <span class="attr">status</span>=<span class="string">&quot;WARN&quot;</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">Appenders</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">Console</span> <span class="attr">name</span>=<span class="string">&quot;Console&quot;</span> <span class="attr">target</span>=<span class="string">&quot;SYSTEM_OUT&quot;</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">PatternLayout</span> <span class="attr">pattern</span>=<span class="string">&quot;%d&#123;HH:mm:ss.SSS&#125; [%t] %-5level %logger&#123;36&#125; - %msg%n&quot;</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">Console</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">Appenders</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">Loggers</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">Root</span> <span class="attr">level</span>=<span class="string">&quot;debug&quot;</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">AppenderRef</span> <span class="attr">ref</span>=<span class="string">&quot;Console&quot;</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">Root</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">Loggers</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">Configuration</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>第二步： 使用方式</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">private static final Logger logger=LogManager.getLogger(Log4j2Test.class);</span><br><span class="line">public static void main(String[] args)&#123;</span><br><span class="line">    if(logger.isTraceEnabled())&#123;</span><br><span class="line">        logger.debug(&quot;log4j trace message&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">    if(logger.isDebugEnabled())&#123;</span><br><span class="line">        logger.debug(&quot;log4j debug message&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">    if(logger.isInfoEnabled())&#123;</span><br><span class="line">        logger.debug(&quot;log4j info message&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>和log4j1是不同的。此时Logger是log4j-api中定义的接口，而log4j1中的Logger则是类。</p>
+<h4 id="使用过程简单分析"><a href="#使用过程简单分析" class="headerlink" title="使用过程简单分析"></a>使用过程简单分析</h4><ol>
+<li>获取底层使用的<code>LoggerContextFactory</code>：同样LogManager的类加载会去寻找log4j-api定义的LoggerContextFactory接口的底层实现，获取方式有三种：</li>
+</ol>
+<ul>
+<li><p>第一种： <code>尝试从jar中寻找log4j2.component.properties文件</code>，如果配置了log4j2.loggerContextFactory则使用该LoggerContextFactory</p>
+</li>
+<li><p>第二种：如果没找到，尝试从jar包中寻找<code>META-INF/log4j-provider.properties</code>文件，如log4j-core-2.2中就有该文件</p>
+<p>如果找到多个，<code>取优先级最高的</code>（该文件中指定了LoggerContextFactory，同时指定了优先级FactoryPriority），如log4j-core-2.2中log4j-provider.properties的文件内容如下：</p>
+</li>
+</ul>
+ <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">LoggerContextFactory = org.apache.logging.log4j.core.impl.Log4jContextFactory</span><br><span class="line">Log4jAPIVersion = 2.1.0</span><br><span class="line">FactoryPriority= 10</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>第三种情况：上述方式还没找到，就使用<code>默认的SimpleLoggerContextFactory</code></li>
+</ul>
+<ol start="2">
+<li><p>使用LoggerContextFactory获取<code>LoggerContext</code></p>
+</li>
+<li><p>根据LoggerContext获取<code>Logger</code>，以log4j-core为例：会首先判断LoggerContext是否被初始化过了，没有则进行初始化</p>
+</li>
+<li><p>获取ConfigurationFactory,从配置中获取和插件中获取（log4j-core核心包中有三个YamlConfigurationFactory、 JsonConfigurationFactory、XmlConfigurationFactory）</p>
+</li>
+</ol>
+<p>以上文的案例中，会使用XmlConfigurationFactory来加载log4j2.xml配置文件，<code>LoggerContext初始化后，就可以获取或者创建Logger了</code></p>
+<h4 id="主要对象总结"><a href="#主要对象总结" class="headerlink" title="主要对象总结"></a>主要对象总结</h4><ul>
+<li>LogManager： 它的类加载会去寻找LoggerContextFactory接口的底层实现，会从jar包中的配置文件中寻找，如上面所述</li>
+<li>LoggerContextFactory ： 用于创建LoggerContext，不同的日志实现系统会有不同的实现，如log4j-core中的实现为Log4jContextFactory</li>
+<li>PropertyConfigurator: 用于解析log4j.properties文件</li>
+<li>LoggerContext : 它包含了配置信息，并能创建log4j-api定义的Logger接口实例，并缓存这些实例</li>
+<li>ConfigurationFactory：上述LoggerContext解析配置文件，需要用到ConfigurationFactory，目前有三个YamlConfigurationFactory、JsonConfigurationFactory、XmlConfigurationFactory，分别解析yuml  json xml形式的配置文件</li>
+</ul>
+<h3 id="Log4j2日志级别"><a href="#Log4j2日志级别" class="headerlink" title="Log4j2日志级别"></a>Log4j2日志级别</h3><p>在log4j2中，一共有五种log level，分别为TRACE, DEBUG,INFO, WARN, ERROR 以及FATAL。详细描述如下：</p>
+<ul>
+<li>FATAL：用在极端的情形中，即<code>必须马上获得注意的情况</code>。这个程度的错误通常需要触发运维工程师的寻呼机。</li>
+<li>ERROR：显示一个错误，或一个通用的错误情况，但还<code>不至于会将系统挂起</code>。这种<code>程度的错误一般会触发邮件的发送</code>，将消息发送到alert list中，运维人员可以在文档中记录这个bug并提交。</li>
+<li>WARN：不一定是一个bug，但是有人可能会想要知道这一情况。<code>如果有人在读log文件，他们通常会希望读到系统出现的任何警告</code>。</li>
+<li>INFO：用于<code>基本的、高层次</code>的诊断信息。在长时间运行的代码段开始运行及结束运行时应该产生消息，以便知道现在系统在干什么。但是这样的信息不宜太过频繁。</li>
+<li>DEBUG：用于<code>协助低层次的调试</code>。</li>
+<li>TRACE：用于<code>展现程序执行的轨迹</code>。</li>
+</ul>
+<h3 id="概念介绍"><a href="#概念介绍" class="headerlink" title="概念介绍"></a>概念介绍</h3><h4 id="Logger层次关系"><a href="#Logger层次关系" class="headerlink" title="Logger层次关系"></a>Logger层次关系</h4><p>相比于纯粹的System.out.println方式，使用logging API的最首要以及最重要的优势是可以<code>在禁用一些log语句块的同时允许其他的语句块的输出</code>。这一能力建立在一种假设之上，即所有在应用中可能出现的logging语句可以按照开发者定义的标准分成不同的类型。</p>
+<p>在Log4j 1.x版本时，<strong>Logger的层次是靠Logger类之间的关系来维护的</strong>。但在Log4j2中， <strong>Logger的层次则是靠LoggerConfig对象之间的关系来维护的</strong>。</p>
+<p><code>Logger和LoggerConfig均是有名称的实体</code>。Logger的命名是大小写敏感的，并且服从如下的分层命名规则。（与java包的层级关系类似）。例如：com.foo是com.foo.Bar的父级；java是java.util的父级，是java.util.vector的祖先。</p>
+<p><code>root LoggerConfig位于LoggerConfig层级关系的最顶层</code>。它将永远存在与任何LoggerConfig层次中。任何一个希望与root LoggerConfig相关联的Logger可以通过如下方式获得：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Logger logger = LogManager.getLogger(LogManager.ROOT_LOGGER_NAME);</span><br></pre></td></tr></table></figure>
+
+<p>其他的Logger实例可以调用LogManager.getLogger 静态方法并传入想要得到的Logger的名称来获得。</p>
+<h4 id="LoggerContext"><a href="#LoggerContext" class="headerlink" title="LoggerContext"></a>LoggerContext</h4><p>LoggerContext在Logging System中扮演了锚点的角色。根据情况的不同，一个应用可能同时存在于多个有效的LoggerContext中。在同一LoggerContext下，log system是互通的。如：Standalone Application、Web Applications、Java EE Applications、”Shared” Web Applications 和REST Service Containers，就是不同广度范围的log上下文环境。</p>
+<h4 id="Configuration"><a href="#Configuration" class="headerlink" title="Configuration"></a>Configuration</h4><p> 每一个LoggerContext都有一个有效的Configuration。Configuration包含了所有的Appenders、上下文范围内的过滤器、LoggerConfigs以及StrSubstitutor.的引用。在重配置期间，新与旧的Configuration将同时存在。当所有的Logger对象都被重定向到新的Configuration对象后，旧的Configuration对象将被停用和丢弃。</p>
+<h4 id="Logger"><a href="#Logger" class="headerlink" title="Logger"></a>Logger</h4><p> 如前面所述， Loggers 是通过调用LogManager.getLogger方法获得的。<code>Logger对象本身并不实行任何实际的动作。它只是拥有一个name 以及与一个LoggerConfig相关联</code>。它继承了AbstractLogger类并实现了所需的方法。<code>当Configuration改变时，Logger将会与另外的LoggerConfig相关联，从而改变这个Logger的行为</code>。</p>
+<p>获得Logger,使用相同的名称参数来调用getLogger方法将获得来自同一个Logger的引用。如：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Logger x = Logger.getLogger(&quot;wombat&quot;);</span><br><span class="line"></span><br><span class="line">Logger y = Logger.getLogger(&quot;wombat&quot;); // x和y指向的是同一个Logger对象。</span><br></pre></td></tr></table></figure>
+
+<p><strong>log4j环境的配置是在应用的启动阶段完成的。优先进行的方式是通过读取配置文件来完成</strong>。</p>
+<p><code>log4j使采用类名（包括完整路径）来定义Logger 名变得很容易</code>。这是一个很有用且很直接的Logger命名方式。使用这种方式命名可以很容易的定位这个log message产生的类的位置。当然，log4j也支持任意string的命名方式以满足开发者的需要。不过，<code>使用类名来定义Logger名仍然是最为推崇的一种Logger命名方式</code>。</p>
+<h4 id="LoggerConfig"><a href="#LoggerConfig" class="headerlink" title="LoggerConfig"></a>LoggerConfig</h4><p><code>当Logger在configuration中被描述时，LoggerConfig对象将被创建</code>。<code>LoggerConfig包含了一组过滤器</code>。LogEvent在被传往Appender之前将先经过这些过滤器。<code>过滤器中包含了一组Appender的引用</code>。<code>Appender则是用来处理这些LogEvent的</code>。</p>
+<p><code>每一个LoggerConfig会被指定一个Log级别</code>。可用的Log级别包括TRACE, DEBUG,INFO, WARN, ERROR 以及FATAL。需要注意的是，在log4j2中，Log的级别是一个Enum型变量，是不能继承或者修改的。<code>如果希望获得更多的分割粒度，可用考虑使用Markers来替代</code>。</p>
+<p>在Log4j 1.x 和Logback 中都有“层次继承”这么个概念。但是<code>在log4j2中，由于Logger和LoggerConfig是两种不同的对象，因此“层次继承”的概念实现起来跟Log4j 1.x 和Logback不同</code>。具体情况下面的五个例子：</p>
+<ol>
+<li><p>可用看到，应用中的LoggerConfig只有root这一种。因此，对于所有的Logger而言，都只能与该LoggerConfig相关联而没有别的选择。</p>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2019/05/18/5cdfe9c4e262833285.jpg" alt="1.jpg"></p>
+</li>
+<li><p>在例子二中可以看到，有5种不同的LoggerConfig存在于应用中，而每一个Logger都被与最匹配的LoggerConfig相关联着，并且拥有不同的Log Level。</p>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2019/05/18/5cdfe9ca61e8073192.jpg" alt="2.jpg"></p>
+</li>
+<li><p>可以看到Logger root、X、X.Y.Z都找到了与各种名称相同的LoggerConfig。而LoggerX.Y没有与其名称相完全相同的LoggerConfig。怎么办呢？它最后选择了X作为它的LoggerConfig，<code>因为X LoggerConfig拥有与其最长的匹配度</code>。</p>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2019/05/18/5cdfe9d36808456372.jpg" alt="3.jpg"></p>
+</li>
+<li><p>可以看到，现在应用中有两个配置好的LoggerConfig：root和X。而Logger有四个：root、X、X.Y、X.Y.Z。其中，root和X都能找到完全匹配的LoggerConfig，而X.Y和X.Y.Z则没有完全匹配的LoggerConfig，那么它们将选择哪个LoggerConfig作为自己的LoggerConfig呢？由图上可知，它们都选择了X而不是root作为自己的LoggerConfig，<code>因为在名称上，X拥有最长的匹配度</code>。</p>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2019/05/18/5cdfe9d388c2d57319.jpg" alt="4.jpg"></p>
+</li>
+<li><p>可以看到，现在应用中有三个配置好的LoggerConfig，分别为：root、X、X.Y。同时，有四个Logger，分别为：root、X、X.Y以及X.YZ。其中，名字能完全匹配的是root、X、X.Y。那么剩下的X.YZ应该匹配X还是匹配X.Y呢？答案是X。<code>因为匹配是按照标记点（即“.”）来进行的，只有两个标记点之间的字串完全匹配才算，否则将取上一段完全匹配的字串的长度作为最终匹配长度</code>。</p>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2019/05/18/5cdfe9d38b61b95592.jpg" alt="5.jpg"></p>
+</li>
+</ol>
+<h4 id="Filter"><a href="#Filter" class="headerlink" title="Filter"></a>Filter</h4><p>与防火墙过滤的规则相似，<code>log4j2的过滤器也将返回三类状态：Accept（接受）, Deny（拒绝） 或Neutral（中立）</code>。其中，Accept意味着不用再调用其他过滤器了，这个LogEvent将被执行；Deny意味着马上忽略这个event，并将此event的控制权交还给过滤器的调用者；Neutral则意味着这个event应该传递给别的过滤器，如果再没有别的过滤器可以传递了，那么就由现在这个过滤器来处理。</p>
+<h4 id="Appender"><a href="#Appender" class="headerlink" title="Appender"></a>Appender</h4><p>由logger的不同来决定一个logging request是被禁用还是启用只是log4j2的情景之一。log4j2还允许将logging   request中log信息打印到不同的目的地中。在log4j2的世界里，不同的输出位置被称为Appender。目前，Appender可以是console、文件、远程socket服务器、Apache  Flume、JMS以及远程 UNIX 系统日志守护进程。<code>一个Logger可以绑定多个不同的Appender</code>。</p>
+<p><code>可以调用当前Configuration的addLoggerAppender函数来为一个Logger增加</code>。如果不存在一个与Logger名称相对应的LoggerConfig，那么相应的LoggerConfig将被创建，并且新增加的Appender将被添加到此新建的LoggerConfig中。尔后，所有的Loggers将会被通知更新自己的LoggerConfig引用（PS：<code>一个Logger的LoggerConfig引用是根据名称的匹配长度来决定的，当新的LoggerConfig被创建后，会引发一轮配对洗牌</code>）。</p>
+<p>在某一个Logger中被启用的logging request将被转发到该Logger相关联的的所有Appenders上，<code>并且还会被转发到LoggerConfig的父级的Appenders上</code>。</p>
+<p>这样会产生一连串的遗传效应。例如，对LoggerConfig  B来说，它的父级为A，A的父级为root。如果在root中定义了一个Appender为console，那么所有启用了的logging  request都会在console中打印出来。另外，如果LoggerConfig  A定义了一个文件作为Appender，那么使用LoggerConfig A和LoggerConfig B的logger 的logging  request都会在该文件中打印，并且同时在console中打印。</p>
+<p>如果想避免这种遗传效应的话，可以在configuration文件中做如下设置：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">additivity=&quot;false&quot; // 默认为true</span><br></pre></td></tr></table></figure>
+
+<p>这样，就可以关闭Appender的遗传效应了。</p>
+<h4 id="Layout"><a href="#Layout" class="headerlink" title="Layout"></a>Layout</h4><p>通常，用户不止希望能定义log输出的位置，还希望可以定义输出的格式。这就可以<code>通过将Appender与一个layout相关联来实现</code>。Log4j中定义了一种类似C语言printf函数的打印格式，如”%r [%t] %-5p %c - %m%n” 格式在真实环境下会打印类似如下的信息：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">176 [main] INFO  org.foo.Bar - Located nearest gas station.</span><br></pre></td></tr></table></figure>
+
+<p>其中，各个字段的含义分别是：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">%r 指的是程序运行至输出这句话所经过的时间（以毫秒为单位）；</span><br><span class="line">%t 指的是发起这一log request的线程；</span><br><span class="line">%c 指的是log的level；</span><br><span class="line">%m 指的是log request语句携带的message；</span><br><span class="line">%n 为换行符；</span><br></pre></td></tr></table></figure>
+
+<h3 id="Log4j2的LogEvent分析"><a href="#Log4j2的LogEvent分析" class="headerlink" title="Log4j2的LogEvent分析"></a>Log4j2的LogEvent分析</h3><h4 id="如何产生LogEvent"><a href="#如何产生LogEvent" class="headerlink" title="如何产生LogEvent"></a>如何产生LogEvent</h4><p>调用Logger对象的info、error、trace等函数时，就会产生LogEvent。LogEvent跟LoggerConfig一样，也是由Level的。LogEvent的Level主要是用在Event传递时，判断在哪里停下。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">import org.apache.logging.log4j.LogManager;</span><br><span class="line">import org.apache.logging.log4j.Logger;</span><br><span class="line">public class Test &#123;</span><br><span class="line">    private static Logger logger = LogManager.getLogger(&quot;HelloWorld&quot;);</span><br><span class="line">    public static void main(String[] args)&#123;</span><br><span class="line">        Test.logger.info(&quot;hello,world&quot;);</span><br><span class="line">        Test.logger.error(&quot;There is a error here&quot;);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>如代码中所示，这样就产生了两个LogEvent。</p>
+<h4 id="LogEvent的传递是怎样的"><a href="#LogEvent的传递是怎样的" class="headerlink" title="LogEvent的传递是怎样的"></a>LogEvent的传递是怎样的</h4><p>我们在IDE中运行一下这个程序，看看会有什么输出。发现，只有ERROR的语句输出了，那么INFO的语句呢？</p>
+<p>不着急，先来看看工程目录结构,可以看到，工程中没有写入任何的配置文件。所以，application应该是使用了默认的LoggerConfig Level。那么默认的Level是多少呢？<code>默认的输出地是console，默认的级别是ERROR级别</code>。</p>
+<p>那么，为什么默认ERROR级别会导致INFO级别的信息被拦截呢？看如下表格：</p>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2019/05/18/5cdfeaafbe1ba11998.jpg" alt="7.jpg"></p>
+<p>左边竖栏是Event的Level，右边横栏是LoggerConfig的Level。Yes的意思就是这个event可以通过filter，no的意思就是不能通过filter。</p>
+<p>可以看到，INFO级别的Event是无法被ERROR级别的LoggerConfig的filter接受的。所以，INFO信息不会被输出。</p>
+<h3 id="Log4j2的配置文件重定位"><a href="#Log4j2的配置文件重定位" class="headerlink" title="Log4j2的配置文件重定位"></a>Log4j2的配置文件重定位</h3><p>如果想要改变默认的配置，那么就需要configuration file。Log4j的配置是写在log4j.properties文件里面，但是<code>Log4j2就只能写在XML和JSON文件里了</code>。</p>
+<p><strong>（1）放在classpath（src）下，以log4j2.xml命名</strong>：使用Log4j2的一般都约定俗成的写一个log4j2.xml放在src目录下使用。这一点没有争议。</p>
+<p><strong>（2）将配置文件放到别处</strong>：在系统工程里面，将log4j2的配置文件放到src目录底下很不方便。如果能把工程中用到的所有配置文件都放在一个文件夹里面，当然就更整齐更好管理了。但是想要实现这一点，前提就是Log4j2的配置文件能重新定位到别处去，而不是放在classpath底下。</p>
+<p>如果没有设置”log4j.configurationFile” system property的话，<code>application将在classpath中按照如下查找顺序来找配置文件</code>：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">log4j2-test.json 或log4j2-test.jsn文件</span><br><span class="line"></span><br><span class="line">　　log4j2-test.xml文件</span><br><span class="line"></span><br><span class="line">　　log4j2.json 或log4j2.jsn文件</span><br><span class="line"></span><br><span class="line">　　log4j2.xml文件</span><br></pre></td></tr></table></figure>
+
+<p>这就是为什么在src目录底下放log4j2.xml文件可以被识别的原因了。<code>如果想将配置文件重命名并放到别处，就需要设置系统属性log4j.configurationFile</code>。设置的方式是在VM arguments中写入该属性的key和value：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">-Dlog4j.configurationFile=&quot;D:\learning\blog\20130115\config\LogConfig.xml&quot;</span><br></pre></td></tr></table></figure>
+
+<p>测试的java程序如上文，在此不再重复。</p>
+<h3 id="默认配置"><a href="#默认配置" class="headerlink" title="默认配置"></a>默认配置</h3><p>本来以为Log4J2应该有一个默认的配置文件的，不过好像没有找到（通过DefaultConfiguration，初始化一个最小化配置），下面这个配置文件等同于缺省配置：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;  </span><br><span class="line">&lt;configuration status=&quot;OFF&quot;&gt;  </span><br><span class="line">    &lt;appenders&gt;  </span><br><span class="line">        &lt;Console name=&quot;Console&quot; target=&quot;SYSTEM_OUT&quot;&gt;  </span><br><span class="line">            &lt;PatternLayout pattern=&quot;%d&#123;HH:mm:ss.SSS&#125; [%t] %-5level %logger&#123;36&#125; - %msg%n&quot;/&gt;  </span><br><span class="line">        &lt;/Console&gt;  </span><br><span class="line">    &lt;/appenders&gt;  </span><br><span class="line">    &lt;loggers&gt;  </span><br><span class="line">        &lt;root level=&quot;error&quot;&gt;  </span><br><span class="line">            &lt;appender-ref ref=&quot;Console&quot;/&gt;  </span><br><span class="line">        &lt;/root&gt;  </span><br><span class="line">    &lt;/loggers&gt;  </span><br><span class="line">&lt;/configuration&gt;</span><br></pre></td></tr></table></figure>
+
+<h3 id="第一个配置例子"><a href="#第一个配置例子" class="headerlink" title="第一个配置例子"></a>第一个配置例子</h3><p>配置Log4j 2可以有四种方法(其中任何一种都可以):</p>
+<ol>
+<li>通过一个格式为<code>XML或JSON</code>的配置文件。</li>
+<li>以编程方式,通过创建一个<code>ConfigurationFactory工厂和Configuration实现</code>。</li>
+<li>以编程方式,通过调用<code>api暴露</code>在配置界面添加组件的默认配置。</li>
+<li>以编程方式,通过调用<code>Logger内部类</code>上的方法。</li>
+</ol>
+<p>注意,与Log4j 1.x不一样的地方,公开的Log4j 2 API没有提供任何添加、修改或删除 appender和过滤器或者操作配置文件的方法。</p>
+<p><code>Log4j能够自动配置本身在初始化期间</code>。当Log4j启动它将定位所有的ConfigurationFactory插件和安排然后在加权从最高到最低。<code>Log4j包含两个ConfigurationFactory实现,一个用于JSON和XML</code>。加载配置文件流程如下：</p>
+<ol>
+<li>Log4j将检查“Log4j的配置文件“系统属性,如果设置,将<code>尝试加载配置使用 ConfigurationFactory 匹配的文件扩展</code>。</li>
+<li>如果<code>没有系统属性设置JSON ConfigurationFactory log4j2-test将寻找</code>. json或 log4j2-test.json在类路径中。</li>
+<li>如果<code>没有这样的文件发现XML ConfigurationFactory log4j2-test将寻找</code>. xml在 类路径。</li>
+<li>如果<code>一个测试文件无法找到JSON ConfigurationFactory log4j2将寻找</code>. log4j2.json或 在类路径中。</li>
+<li>如果<code>一个JSON文件无法找到XML ConfigurationFactory将试图定位 log4j2</code>。 xml在类路径中。</li>
+<li>如果<code>没有配置文件可以找到了 DefaultConfiguration 将被使用</code>。 这将导致日志输出到控制台。</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span><br><span class="line">&lt;configuration status=&quot;OFF&quot;&gt;</span><br><span class="line">    &lt;appenders&gt;</span><br><span class="line">        &lt;Console name=&quot;Console&quot; target=&quot;SYSTEM_OUT&quot;&gt;</span><br><span class="line">            &lt;PatternLayout pattern=&quot;%d&#123;yyyy-MM-dd HH:mm:ss.SSS&#125; [%t] %-5level %logger&#123;36&#125; - %msg%n&quot;/&gt;</span><br><span class="line">        &lt;/Console&gt;</span><br><span class="line">    &lt;/appenders&gt;</span><br><span class="line">    &lt;loggers&gt;</span><br><span class="line">        &lt;!--我们只让这个logger输出trace信息，其他的都是error级别--&gt;</span><br><span class="line">        &lt;!--</span><br><span class="line">        additivity开启的话，由于这个logger也是满足root的，所以会被打印两遍。</span><br><span class="line">        不过root logger 的level是error，为什么Bar 里面的trace信息也被打印两遍呢</span><br><span class="line">        --&gt;</span><br><span class="line">        &lt;logger name=&quot;cn.lsw.base.log4j2.Hello&quot; level=&quot;trace&quot; additivity=&quot;false&quot;&gt;</span><br><span class="line">            &lt;appender-ref ref=&quot;Console&quot;/&gt;</span><br><span class="line">        &lt;/logger&gt;</span><br><span class="line">        &lt;root level=&quot;error&quot;&gt;</span><br><span class="line">            &lt;appender-ref ref=&quot;Console&quot;/&gt;</span><br><span class="line">        &lt;/root&gt;</span><br><span class="line">    &lt;/loggers&gt;</span><br><span class="line">&lt;/configuration&gt;</span><br></pre></td></tr></table></figure>
+
+<p>我们这里看到了配置文件里面是name很重要，没错，这个name可不能随便起（其实可以随便起）。这个机制意思很简单。就是类似于java  package一样，比如我们的一个包：cn.lsw.base.log4j2。而且，可以发现我们前面生成Logger对象的时候，命名都是通过  Hello.class.getName(); 这样的方法，为什么要这样呢？</p>
+<p> 很简单，因为有所谓的Logger 继承的问题。比如  如果你给cn.lsw.base定义了一个logger，那么他也适用于cn.lsw.base.lgo4j2这个logger。<code>名称的继承是通过点（.）分隔的</code>。然后你可以猜测上面loggers里面有一个子节点不是logger而是root，而且这个root没有name属性。这个root相当于根节点。你所有的logger都适用与这个logger，所以，即使你在很多类里面通过类名.class.getName()   得到很多的logger，而且没有在配置文件的loggers下面做配置，他们也都能够输出，<code>因为他们都继承了root的log配置</code>。</p>
+<p>我们上面的这个配置文件里面还定义了一个logger，他的名称是 cn.lsw.base.log4j2.Hello  ，这个名称其实就是通过前面的Hello.class.getName();  得到的，我们为了给他单独做配置，这里就生成对于这个类的logger，上面的配置基本的意思是只有cn.lsw.base.log4j2.Hello  这个logger输出trace信息，也就是他的日志级别是trace，其他的logger则继承root的日志配置，日志级别是error，只能打印出ERROR及以上级别的日志。</p>
+<p>如果这里logger  的name属性改成cn.lsw.base，则这个包下面的所有logger都会继承这个log配置（这里的包是log4j的logger  name的“包”的含义，不是java的包，你非要给Hello生成一个名称为“myhello”的logger，他也就没法继承cn.lsw.base这个配置了。</p>
+<p>那有人就要问了，他不是也应该继承了root的配置了么，那么会不会输出两遍呢？我们在配置文件中给了解释，<code>如果你设置了additivity=&quot;false&quot;，就不会输出两遍</code>。</p>
+<h3 id="复杂一点的配置"><a href="#复杂一点的配置" class="headerlink" title="复杂一点的配置"></a>复杂一点的配置</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span><br><span class="line"> &lt;!--</span><br><span class="line">     Configuration后面的status，这个用于设置log4j2自身内部的信息输出，可以不设置，当设置成trace时，你会看到log4j2内部各种详细输出。 </span><br><span class="line"> --&gt;</span><br><span class="line"> &lt;!--</span><br><span class="line">     monitorInterval：Log4j能够自动检测修改配置 文件和重新配置本身，设置间隔秒数。</span><br><span class="line"> --&gt;</span><br><span class="line"> &lt;configuration status=&quot;error&quot; monitorInterval=”30″&gt;</span><br><span class="line">     &lt;!--先定义所有的appender--&gt;</span><br><span class="line">     &lt;appenders&gt;</span><br><span class="line">         &lt;!--这个输出控制台的配置--&gt;</span><br><span class="line">         &lt;Console name=&quot;Console&quot; target=&quot;SYSTEM_OUT&quot;&gt;</span><br><span class="line">             &lt;!--控制台只输出level及以上级别的信息（onMatch），其他的直接拒绝（onMismatch）--&gt;</span><br><span class="line">             &lt;ThresholdFilter level=&quot;trace&quot; onMatch=&quot;ACCEPT&quot; onMismatch=&quot;DENY&quot;/&gt;</span><br><span class="line">             &lt;!--这个都知道是输出日志的格式--&gt;</span><br><span class="line">             &lt;PatternLayout pattern=&quot;%d&#123;HH:mm:ss.SSS&#125; %-5level %class&#123;36&#125; %L %M - %msg%xEx%n&quot;/&gt;</span><br><span class="line">         &lt;/Console&gt;</span><br><span class="line">         &lt;!--文件会打印出所有信息，这个log每次运行程序会自动清空，由append属性决定，这个也挺有用的，适合临时测试用--&gt;</span><br><span class="line">         &lt;File name=&quot;log&quot; fileName=&quot;log/test.log&quot; append=&quot;false&quot;&gt;</span><br><span class="line">             &lt;PatternLayout pattern=&quot;%d&#123;HH:mm:ss.SSS&#125; %-5level %class&#123;36&#125; %L %M - %msg%xEx%n&quot;/&gt;</span><br><span class="line">         &lt;/File&gt; </span><br><span class="line">         &lt;!-- 这个会打印出所有的信息，每次大小超过size，则这size大小的日志会自动存入按年份-月份建立的文件夹下面并进行压缩，作为存档--&gt;</span><br><span class="line">         &lt;RollingFile name=&quot;RollingFile&quot; fileName=&quot;logs/app.log&quot;</span><br><span class="line">                  filePattern=&quot;log/$$&#123;date:yyyy-MM&#125;/app-%d&#123;MM-dd-yyyy&#125;-%i.log.gz&quot;&gt;</span><br><span class="line">             &lt;PatternLayout pattern=&quot;%d&#123;yyyy-MM-dd &#x27;at&#x27; HH:mm:ss z&#125; %-5level %class&#123;36&#125; %L %M - %msg%xEx%n&quot;/&gt;</span><br><span class="line">             &lt;SizeBasedTriggeringPolicy size=&quot;50MB&quot;/&gt;</span><br><span class="line">             &lt;!-- DefaultRolloverStrategy属性如不设置，则默认为最多同一文件夹下7个文件，这里设置了20 --&gt;</span><br><span class="line">             &lt;DefaultRolloverStrategy max=&quot;20&quot;/&gt;</span><br><span class="line">         &lt;/RollingFile&gt;</span><br><span class="line">     &lt;/appenders&gt;</span><br><span class="line">     &lt;!--然后定义logger，只有定义了logger并引入的appender，appender才会生效--&gt;</span><br><span class="line">     &lt;loggers&gt;</span><br><span class="line">         &lt;!--建立一个默认的root的logger--&gt;</span><br><span class="line">         &lt;root level=&quot;trace&quot;&gt;</span><br><span class="line">             &lt;appender-ref ref=&quot;RollingFile&quot;/&gt;</span><br><span class="line">             &lt;appender-ref ref=&quot;Console&quot;/&gt;</span><br><span class="line">         &lt;/root&gt; </span><br><span class="line">     &lt;/loggers&gt;</span><br><span class="line"> &lt;/configuration&gt; </span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p><strong>扩展组件</strong></p>
+<ol>
+<li>ConsoleAppender：输出结果到System.out或是System.err。</li>
+<li>FileAppender：输出结果到指定文件，同时可以指定输出数据的格式。append=“false”指定不追加到文件末尾</li>
+<li>RollingFileAppender：自动追加日志信息到文件中，直至文件达到预定的大小，然后自动重新生成另外一个文件来记录之后的日志。</li>
+</ol>
+<p><strong>过滤标签</strong></p>
+<ol>
+<li>ThresholdFilter：用来过滤指定优先级的事件。</li>
+<li>TimeFilter：设置start和end，来指定接收日志信息的时间区间。</li>
+</ol>
+<h4 id="Appender之Syslog配置"><a href="#Appender之Syslog配置" class="headerlink" title="Appender之Syslog配置"></a>Appender之Syslog配置</h4><p>log4j2中对syslog的简单配置，这里就不重复展示log4j2.xml了：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;Syslog name=&quot;SYSLOG&quot; host=&quot;localhost&quot; port=&quot;514&quot; protocol=&quot;UDP&quot; facility=&quot;LOCAL3&quot;/&gt;</span><br></pre></td></tr></table></figure>
+
+<p>host是指你将要把日志写到的目标机器，可以是ip（本地ip或远程ip，远程ip在实际项目中很常见，有专门的日志服务器来存储日志），也可以使用主机名，如果是本地，还可以使用localhost或127.0.0.1。</p>
+<p>Port指定端口，默认514，参见/etc/rsyslog.conf（以Fedora系统为例，下同）。protocol指定传输协议，这里是UDP，<code>facility是可选项</code>，后面可以看到用法。</p>
+<p><strong>Syslog及Syslog-ng相关配置（Fedora）</strong></p>
+<p>运行程序之前，需要修改：<code>/etc/rsyslog.conf</code>。</p>
+<p>把这两行前的#去掉，即取消注释：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">#$ModLoad imudp</span><br><span class="line">#$UDPServerRun 514</span><br></pre></td></tr></table></figure>
+
+<p>这里启用udp监听，514是默认监听端口，重启syslog：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">service syslog restart</span><br></pre></td></tr></table></figure>
+
+<p>大部分日志会默认写到/var/log/messages中，如果不想写到这个文件里，可以按下面修改，这样local3的日志就会写到app.log中。这里的local3即 log4j2.xml中facility的配置。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">*.info;mail.none;authpriv.none;cron.none;local3.none                /var/log/messages</span><br></pre></td></tr></table></figure>
+
+<p>新增一行：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">local3.*                                                            /var/log/app.log</span><br></pre></td></tr></table></figure>
+
+<p>除了使用自带的syslog，我们<code>也可以使用syslog的替代品，比如syslog-ng</code>，这对于log4j2.xml配置没有影响。 安装：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum install syslog-ng</span><br></pre></td></tr></table></figure>
+
+<p>启动：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">service syslog-ng start</span><br></pre></td></tr></table></figure>
+
+<p>其配置文件为：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/etc/syslog-ng/syslog-ng.conf</span><br></pre></td></tr></table></figure>
+
+<p>启动前把source一节中这一行取消注释即可：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">#udp(ip(0.0.0.0) port(514));</span><br></pre></td></tr></table></figure>
+
+<p>这个端口会和syslog冲突，可以使用别的端口比如50014，同时修改log4j2.xml中的port属性。另外提一下，使用非默认端口，要求log4j版本在1.2.15或以上。</p>
+<p>syslog-ng本身也可以设置把日志送到远程机器上，在源机器上的syslog-ng.conf中添加：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">destination d_remote1 &#123;udp(153.65.171.73 port(514));&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>这表示源机器上的syslog-ng会把接收到的日志送到远程主机153.65.171.73的514端口上，只要保证153.65.171.73上的syslog-ng正常运行并监听对应的端口即可。</p>
+<h3 id="Log4j2与Spring集成"><a href="#Log4j2与Spring集成" class="headerlink" title="Log4j2与Spring集成"></a>Log4j2与Spring集成</h3><p>web.xml配置：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span><br><span class="line">&lt;web-app version=&quot;2.5&quot; xmlns=&quot;http://java.sun.com/xml/ns/javaee&quot;</span><br><span class="line">    xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;</span><br><span class="line">    xsi:schemaLocation=&quot;http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd&quot;&gt;</span><br><span class="line">    &lt;context-param&gt;</span><br><span class="line">        &lt;param-name&gt;contextConfigLocation&lt;/param-name&gt;</span><br><span class="line">        &lt;param-value&gt;/WEB-INF/spring/root-context.xml&lt;/param-value&gt;</span><br><span class="line">    &lt;/context-param&gt;</span><br><span class="line">    &lt;listener&gt;</span><br><span class="line">        &lt;listener-class&gt;org.springframework.web.context.ContextLoaderListener&lt;/listener-class&gt;</span><br><span class="line">    &lt;/listener&gt;</span><br><span class="line"></span><br><span class="line">    &lt;!-- log4j2-begin --&gt;</span><br><span class="line">    &lt;listener&gt;</span><br><span class="line">        &lt;listener-class&gt;org.apache.logging.log4j.web.Log4jServletContextListener&lt;/listener-class&gt;</span><br><span class="line">    &lt;/listener&gt;</span><br><span class="line">    &lt;filter&gt;</span><br><span class="line">        &lt;filter-name&gt;log4jServletFilter&lt;/filter-name&gt;</span><br><span class="line">        &lt;filter-class&gt;org.apache.logging.log4j.web.Log4jServletFilter&lt;/filter-class&gt;</span><br><span class="line">    &lt;/filter&gt;</span><br><span class="line">    &lt;filter-mapping&gt;</span><br><span class="line">        &lt;filter-name&gt;log4jServletFilter&lt;/filter-name&gt;</span><br><span class="line">        &lt;url-pattern&gt;/*&lt;/url-pattern&gt;</span><br><span class="line">        &lt;dispatcher&gt;REQUEST&lt;/dispatcher&gt;</span><br><span class="line">        &lt;dispatcher&gt;FORWARD&lt;/dispatcher&gt;</span><br><span class="line">        &lt;dispatcher&gt;INCLUDE&lt;/dispatcher&gt;</span><br><span class="line">        &lt;dispatcher&gt;ERROR&lt;/dispatcher&gt;</span><br><span class="line">    &lt;/filter-mapping&gt;</span><br><span class="line">    &lt;!-- log4j2-end --&gt;</span><br><span class="line">    </span><br><span class="line">    &lt;filter&gt;</span><br><span class="line">        &lt;filter-name&gt;CharacterEncodingFilter&lt;/filter-name&gt;</span><br><span class="line">        &lt;filter-class&gt;org.springframework.web.filter.CharacterEncodingFilter&lt;/filter-class&gt;</span><br><span class="line">        &lt;init-param&gt;</span><br><span class="line">            &lt;param-name&gt;encoding&lt;/param-name&gt;</span><br><span class="line">            &lt;param-value&gt;utf-8&lt;/param-value&gt;</span><br><span class="line">        &lt;/init-param&gt;</span><br><span class="line">    &lt;/filter&gt;</span><br><span class="line">    &lt;filter-mapping&gt;</span><br><span class="line">        &lt;filter-name&gt;CharacterEncodingFilter&lt;/filter-name&gt;</span><br><span class="line">        &lt;url-pattern&gt;/*&lt;/url-pattern&gt;</span><br><span class="line">    &lt;/filter-mapping&gt;</span><br><span class="line">    &lt;servlet&gt;</span><br><span class="line">        &lt;servlet-name&gt;appServlet&lt;/servlet-name&gt;</span><br><span class="line">        &lt;servlet-class&gt;org.springframework.web.servlet.DispatcherServlet&lt;/servlet-class&gt;</span><br><span class="line">        &lt;init-param&gt;</span><br><span class="line">            &lt;param-name&gt;contextConfigLocation&lt;/param-name&gt;</span><br><span class="line">            &lt;param-value&gt;/WEB-INF/spring/appServlet/servlet-context.xml&lt;/param-value&gt;</span><br><span class="line">        &lt;/init-param&gt;</span><br><span class="line">        &lt;load-on-startup&gt;1&lt;/load-on-startup&gt;</span><br><span class="line">    &lt;/servlet&gt;</span><br><span class="line">    &lt;servlet-mapping&gt;</span><br><span class="line">        &lt;servlet-name&gt;appServlet&lt;/servlet-name&gt;</span><br><span class="line">        &lt;url-pattern&gt;/&lt;/url-pattern&gt;</span><br><span class="line">    &lt;/servlet-mapping&gt;</span><br><span class="line">&lt;/web-app&gt;</span><br></pre></td></tr></table></figure></article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">平心</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://pingxin0521.gitee.io/2019/05/11/Java-%E6%97%A5%E5%BF%97-3/">https://pingxin0521.gitee.io/2019/05/11/Java-%E6%97%A5%E5%BF%97-3/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://pingxin0521.gitee.io" target="_blank">平心de小屋</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/Java/">Java</a><a class="post-meta__tags" href="/tags/%E6%97%A5%E5%BF%97/">日志</a></div><div class="post_share"><div class="social-share" data-image="https://i.loli.net/2020/05/08/gGE57HRvpcKPfDY.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2019/05/11/Java-%E6%97%A5%E5%BF%97-2/"><img class="prev-cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/okfOw28KlZFbE7z.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">日志框架--Log4j</div></div></a></div><div class="next-post pull-right"><a href="/2019/05/10/Java-%E9%AB%98%E7%BA%A7-1-2-1/"><img class="next-cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/7dHvepmfYOLWTrX.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">Java AQS原理</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span> 相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2019/05/13/Java-日志-7/" title="日志框架--slf4j"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/PFDRNxj93taz6pw.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2019-05-20</div><div class="title">日志框架--slf4j</div></div></a></div><div><a href="/2019/05/12/Java-日志-1/" title="日志框架--JUL"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/7dHvepmfYOLWTrX.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2019-05-20</div><div class="title">日志框架--JUL</div></div></a></div><div><a href="/2019/05/11/Java-日志-5/" title="日志框架--logback"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/okfOw28KlZFbE7z.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2019-06-01</div><div class="title">日志框架--logback</div></div></a></div><div><a href="/2019/05/13/Java-日志-4/" title="日志框架--总结"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/7dHvepmfYOLWTrX.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2019-12-24</div><div class="title">日志框架--总结</div></div></a></div><div><a href="/2019/05/12/Java-日志-6/" title="日志框架--JCL"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/gGE57HRvpcKPfDY.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2019-05-20</div><div class="title">日志框架--JCL</div></div></a></div><div><a href="/2019/05/11/Java-日志-2/" title="日志框架--Log4j"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/okfOw28KlZFbE7z.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2019-06-01</div><div class="title">日志框架--Log4j</div></div></a></div></div></div><hr/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div class="vcomment" id="vcomment"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="card-info-avatar is-center"><img class="avatar-img" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://s2.ax1x.com/2020/02/11/1ovw6J.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/><div class="author-info__name">平心</div><div class="author-info__description">年轻人的life、learn and think</div></div><div class="card-info-data"><div class="card-info-data-item is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">449</div></a></div><div class="card-info-data-item is-center"><a href="/tags/"><div class="headline">标签</div><div class="length-num">77</div></a></div><div class="card-info-data-item is-center"><a href="/categories/"><div class="headline">分类</div><div class="length-num">68</div></a></div></div><a class="button--animated" id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/hanyunpeng0521"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/hanyunpeng0521" target="_blank" title="Github"><i class="fa fa-github"></i></a><a class="social-icon" href="mailto:m13839441583@163.com" target="_blank" title="Email"><i class="fa fa-envelope"></i></a><a class="social-icon" href="/atom.xml" target="_blank" title=""><i class="fa fa-rss"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn card-announcement-animation"></i><span>公告</span></div><div class="announcement_content">为什么呢？开始提问吧</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#Log4j2"><span class="toc-number">1.</span> <span class="toc-text">Log4j2</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Log4j2%E7%9A%84%E7%89%B9%E6%80%A7%E5%8F%8A%E6%94%B9%E8%BF%9B"><span class="toc-number">1.1.</span> <span class="toc-text">Log4j2的特性及改进</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%AE%80%E5%8D%95%E4%BD%BF%E7%94%A8"><span class="toc-number">1.2.</span> <span class="toc-text">简单使用</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8%E8%BF%87%E7%A8%8B%E7%AE%80%E5%8D%95%E5%88%86%E6%9E%90"><span class="toc-number">1.3.</span> <span class="toc-text">使用过程简单分析</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%B8%BB%E8%A6%81%E5%AF%B9%E8%B1%A1%E6%80%BB%E7%BB%93"><span class="toc-number">1.4.</span> <span class="toc-text">主要对象总结</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Log4j2%E6%97%A5%E5%BF%97%E7%BA%A7%E5%88%AB"><span class="toc-number">2.</span> <span class="toc-text">Log4j2日志级别</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%A6%82%E5%BF%B5%E4%BB%8B%E7%BB%8D"><span class="toc-number">3.</span> <span class="toc-text">概念介绍</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Logger%E5%B1%82%E6%AC%A1%E5%85%B3%E7%B3%BB"><span class="toc-number">3.1.</span> <span class="toc-text">Logger层次关系</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#LoggerContext"><span class="toc-number">3.2.</span> <span class="toc-text">LoggerContext</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Configuration"><span class="toc-number">3.3.</span> <span class="toc-text">Configuration</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Logger"><span class="toc-number">3.4.</span> <span class="toc-text">Logger</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#LoggerConfig"><span class="toc-number">3.5.</span> <span class="toc-text">LoggerConfig</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Filter"><span class="toc-number">3.6.</span> <span class="toc-text">Filter</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Appender"><span class="toc-number">3.7.</span> <span class="toc-text">Appender</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Layout"><span class="toc-number">3.8.</span> <span class="toc-text">Layout</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Log4j2%E7%9A%84LogEvent%E5%88%86%E6%9E%90"><span class="toc-number">4.</span> <span class="toc-text">Log4j2的LogEvent分析</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%A6%82%E4%BD%95%E4%BA%A7%E7%94%9FLogEvent"><span class="toc-number">4.1.</span> <span class="toc-text">如何产生LogEvent</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#LogEvent%E7%9A%84%E4%BC%A0%E9%80%92%E6%98%AF%E6%80%8E%E6%A0%B7%E7%9A%84"><span class="toc-number">4.2.</span> <span class="toc-text">LogEvent的传递是怎样的</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Log4j2%E7%9A%84%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6%E9%87%8D%E5%AE%9A%E4%BD%8D"><span class="toc-number">5.</span> <span class="toc-text">Log4j2的配置文件重定位</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%BB%98%E8%AE%A4%E9%85%8D%E7%BD%AE"><span class="toc-number">6.</span> <span class="toc-text">默认配置</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%AC%AC%E4%B8%80%E4%B8%AA%E9%85%8D%E7%BD%AE%E4%BE%8B%E5%AD%90"><span class="toc-number">7.</span> <span class="toc-text">第一个配置例子</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%A4%8D%E6%9D%82%E4%B8%80%E7%82%B9%E7%9A%84%E9%85%8D%E7%BD%AE"><span class="toc-number">8.</span> <span class="toc-text">复杂一点的配置</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Appender%E4%B9%8BSyslog%E9%85%8D%E7%BD%AE"><span class="toc-number">8.1.</span> <span class="toc-text">Appender之Syslog配置</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Log4j2%E4%B8%8ESpring%E9%9B%86%E6%88%90"><span class="toc-number">9.</span> <span class="toc-text">Log4j2与Spring集成</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2021/05/15/node-2-4/" title="Egg.js -- 为企业级框架和应用而生"><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/okfOw28KlZFbE7z.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Egg.js -- 为企业级框架和应用而生"/></a><div class="content"><a class="title" href="/2021/05/15/node-2-4/" title="Egg.js -- 为企业级框架和应用而生">Egg.js -- 为企业级框架和应用而生</a><time datetime="2021-05-15T10:18:59.000Z" title="发表于 2021-05-15 18:18:59">2021-05-15</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/04/30/node-2-3/" title="Koa -- 基于Node.js平台的下一代Web开发框架"><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/HjVAdIuT7bZJypS.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Koa -- 基于Node.js平台的下一代Web开发框架"/></a><div class="content"><a class="title" href="/2021/04/30/node-2-3/" title="Koa -- 基于Node.js平台的下一代Web开发框架">Koa -- 基于Node.js平台的下一代Web开发框架</a><time datetime="2021-04-30T10:18:59.000Z" title="发表于 2021-04-30 18:18:59">2021-04-30</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/04/01/node-2-1/" title="Node.JS web开发前置知识"><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/gGE57HRvpcKPfDY.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Node.JS web开发前置知识"/></a><div class="content"><a class="title" href="/2021/04/01/node-2-1/" title="Node.JS web开发前置知识">Node.JS web开发前置知识</a><time datetime="2021-04-01T03:18:59.000Z" title="发表于 2021-04-01 11:18:59">2021-04-01</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2020/12/26/%E5%91%A8%E8%AE%B0-10-1/" title="第十一周--谷歌浏览器插件"><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/gGE57HRvpcKPfDY.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="第十一周--谷歌浏览器插件"/></a><div class="content"><a class="title" href="/2020/12/26/%E5%91%A8%E8%AE%B0-10-1/" title="第十一周--谷歌浏览器插件">第十一周--谷歌浏览器插件</a><time datetime="2020-12-26T10:18:59.000Z" title="发表于 2020-12-26 18:18:59">2020-12-26</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2020/12/26/%E5%91%A8%E8%AE%B0-10-0/" title="第十一周--浏览器技术"><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/vCnKyoFJZ1g4XYR.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="第十一周--浏览器技术"/></a><div class="content"><a class="title" href="/2020/12/26/%E5%91%A8%E8%AE%B0-10-0/" title="第十一周--浏览器技术">第十一周--浏览器技术</a><time datetime="2020-12-26T06:18:59.000Z" title="发表于 2020-12-26 14:18:59">2020-12-26</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2019 - 2021 By 平心</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div id="local-search"><div class="search-dialog"><div class="search-dialog__title" id="local-search-title">本地搜索</div><div id="local-input-panel"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div></div><hr/><div id="local-search-results"></div><span class="search-close-button"><i class="fas fa-times"></i></span></div><div id="search-mask"></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload/dist/lazyload.iife.min.js"></script><script src="/js/search/local-search.js"></script><div class="js-pjax"><script>function loadValine () {
+  function initValine () {
+    const valine = new Valine(Object.assign({
+      el: '#vcomment',
+      appId: '4lfIXzqxaC1ONs0MJO4oHu07-gzGzoHsz',
+      appKey: 'qw99Bw8FD0KVKU9m457CwWsr',
+      placeholder: 'Please leave your footprints',
+      avatar: 'monsterid',
+      meta: 'nick,mail,link'.split(','),
+      pageSize: '10',
+      lang: 'zh-CN',
+      recordIP: true,
+      serverURLs: '',
+      emojiCDN: '',
+      emojiMaps: "",
+      enableQQ: true,
+      path: window.location.pathname,
+      requiredFields: ["nick,mail"],
+      visitor: false
+    }, null))
+  }
+
+  if (typeof Valine === 'function') initValine() 
+  else getScript('https://cdn.jsdelivr.net/npm/valine/dist/Valine.min.js').then(initValine)
+}
+
+if ('Valine' === 'Valine' || !false) {
+  if (false) btf.loadComment(document.getElementById('vcomment'),loadValine)
+  else setTimeout(loadValine, 0)
+} else {
+  function loadOtherComment () {
+    loadValine()
+  }
+}</script></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>

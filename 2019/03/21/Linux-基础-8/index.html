@@ -1,0 +1,362 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Linux-文件查找和压缩 | 平心de小屋</title><meta name="keywords" content="Linux"><meta name="author" content="平心"><meta name="copyright" content="平心"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="前言前面我们介绍了文本处理命令，本章我们就来学一下文件查找。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Linux-文件查找和压缩">
+<meta property="og:url" content="https://pingxin0521.gitee.io/2019/03/21/Linux-%E5%9F%BA%E7%A1%80-8/index.html">
+<meta property="og:site_name" content="平心de小屋">
+<meta property="og:description" content="前言前面我们介绍了文本处理命令，本章我们就来学一下文件查找。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://i.loli.net/2020/05/08/PFDRNxj93taz6pw.jpg">
+<meta property="article:published_time" content="2019-03-21T13:55:22.000Z">
+<meta property="article:modified_time" content="2019-10-21T13:11:59.517Z">
+<meta property="article:author" content="平心">
+<meta property="article:tag" content="Linux">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.loli.net/2020/05/08/PFDRNxj93taz6pw.jpg"><link rel="shortcut icon" href="https://s2.ax1x.com/2020/02/11/1ovFOA.png"><link rel="canonical" href="https://pingxin0521.gitee.io/2019/03/21/Linux-%E5%9F%BA%E7%A1%80-8/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"search.xml","languages":{"hits_empty":"找不到您查询的内容：${query}"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    jQuery: 'https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js',
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+    },
+    fancybox: {
+      js: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css'
+    }
+  },
+  isPhotoFigcaption: true,
+  islazyload: true,
+  isanchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'Linux-文件查找和压缩',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2019-10-21 21:11:59'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    })(window)</script><meta name="generator" content="Hexo 5.4.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="author-avatar"><img class="avatar-img" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://s2.ax1x.com/2020/02/11/1ovw6J.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data"><div class="data-item is-center"><div class="data-item-link"><a href="/archives/"><div class="headline">文章</div><div class="length-num">449</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/tags/"><div class="headline">标签</div><div class="length-num">77</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/categories/"><div class="headline">分类</div><div class="length-num">68</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fa fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fa fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://i.loli.net/2020/05/08/PFDRNxj93taz6pw.jpg')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">平心de小屋</a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fa fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fa fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">Linux-文件查找和压缩</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2019-03-21T13:55:22.000Z" title="发表于 2019-03-21 21:55:22">2019-03-21</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2019-10-21T13:11:59.517Z" title="更新于 2019-10-21 21:11:59">2019-10-21</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/Linux/">Linux</a><i class="fas fa-angle-right post-meta-separator"></i><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/Linux/%E5%9F%BA%E7%A1%80/">基础</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">7.2k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>26分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="Linux-文件查找和压缩"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>前面我们介绍了文本处理命令，本章我们就来学一下文件查找。</p>
+<span id="more"></span>
+
+<p>在文件系统上查找符合条件的文件，linux上常用的实现工具有locate和find。其中locate是基于事先建立的索引库，并不能实时查找，使用模糊查找，查找速度快；find是实时查找工具，通过遍历指定起始路径下文件系统层级结构完成文件查找，特点是查找速度略慢、精确查找、实时查找。</p>
+<h3 id="locate"><a href="#locate" class="headerlink" title="locate"></a>locate</h3><p> <strong>locate</strong>(locate) 命令用来查找文件或目录(是mlocate的命令)。 locate命令要比find -name快得多，原因在于它不搜索具体目录，而是搜索一个数据库/var/lib/mlocate/mlocate.db 。这个数据库中含有本地所有文件信息。Linux系统自动创建这个数据库，并且每天自动更新一次，因此，我们在用whereis和locate 查找文件时，有时会找到已经被删除的数据，或者刚刚建立文件，却无法查找到，原因就是因为数据库文件没有被更新。为了避免这种情况，可以在使用locate之前，先使用updatedb命令，手动更新数据库。整个locate工作其实是由四部分组成的:</p>
+<ol>
+<li><p>/usr/bin/updatedb   主要用来更新数据库，通过crontab自动完成的</p>
+</li>
+<li><p>/usr/bin/locate         查询文件位置</p>
+</li>
+<li><p>/etc/updatedb.conf   updatedb的配置文件</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">PRUNE_BIND_MOUNTS = &quot;yes&quot;</span><br><span class="line">PRUNEFS = &quot;9p afs anon_inodefs auto autofs bdev binfmt_misc cgroup cifs coda configfs cpuset debugfs devpts ecryptfs exofs fuse fuse.sshfs fusectl gfs gfs2 gpfs hugetlbfs inotifyfs iso9660 jffs2 lustre mqueue ncpfs nfs nfs4 nfsd pipefs proc ramfs rootfs rpc_pipefs securityfs selinuxfs sfs sockfs sysfs tmpfs ubifs udf usbfs fuse.glusterfs ceph fuse.ceph&quot;</span><br><span class="line">PRUNENAMES = &quot;.git .hg .svn&quot;</span><br><span class="line">PRUNEPATHS = &quot;/afs /media /mnt /net /sfs /tmp /udev /var/cache/ccache /var/lib/yum/yumdb /var/spool/cups /var/spool/squid /var/tmp /var/lib/ceph&quot;</span><br><span class="line"></span><br><span class="line">#PRUNE_BIND_MOUNTS = &quot;yes&quot;&#x27;</span><br><span class="line">#开启搜索限制</span><br><span class="line">#PRUNEFS = </span><br><span class="line">#搜索时，不搜索的文件系统</span><br><span class="line">#PRUNENAMES=</span><br><span class="line">#搜索时，不搜索的文件类型</span><br><span class="line">#PRUNEPATHS=</span><br><span class="line">#搜索时，不搜索的路径</span><br></pre></td></tr></table></figure></li>
+<li><p>/var/lib/mlocate/mlocate.db  存放文件信息的文件</p>
+</li>
+</ol>
+<p>语法：<code>locate [options]... [PATTERN]...</code></p>
+<p>选项：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">-b：只匹配路径中的基名；</span><br><span class="line">-c：统计出共有多少个符合条件的文件；</span><br><span class="line">-i, --ignore-case      忽略大小写</span><br><span class="line">-r, --regexp REGEXP    使用基本正则表达式</span><br><span class="line">      --regex            使用扩展正则表达式</span><br></pre></td></tr></table></figure>
+
+<p>注意：索引构建过程需要遍历整个根文件系统，极消耗资源；</p>
+<h3 id="find"><a href="#find" class="headerlink" title="find"></a>find</h3><p>因为Linux下面一切皆文件，经常需要搜索某些文件来编写，所以对于linux来说find是一条很重要的命令。linux下面的find指令用于在目录结构中搜索文件，并执行指定的操作。它提供了相当多的查找条件，功能很强大。在不指定查找目录的情况下，find会在对整个系统进行遍历。即使系统中含有网络文件系统，find命令在该文件系统中同样有效。 在运行一个非常消耗资源的find命令时，很多人都倾向于把它放在后台执行，因为遍历一个大的文件系统可能会花费很长的时间。</p>
+<p>语法：<code>find [查找目录] [查找规则] [查找完后的操作] </code></p>
+<p>即：<code>find pathname -option [-print -exec -ok …]</code></p>
+<p>命令参数<br>（1）pathname：表示所要查找的目录路径,例如”.”表示当前目录，”/”表示根目录。<br>（2）-print:将find找到的文件输出到标准输出。<br>（3）-exec:对找到的文件执行exec这个参数所指定的shell命令，相应的形式为：-exec command {} ; 将查到的文件进行command操作，”{}”就代替查到的文件。</p>
+<p>注意：<br>1）”{}”和”\”之间有一个空格。</p>
+<p>2）-ok:和-exec的作用相同，只不过-ok更加安全一点，在执行每一个命令之前，系统会让用户确定是否执行。</p>
+<p><strong>(1). 最基础的打印操作</strong></p>
+<p>find命令默认接的命令是-print，它默认以\n将找到的文件分隔。可以使用-print0来使用\0分隔，这样就不会分行了。但是一定要注意，-print0针对的是\n转\0，如果查找的文件名本身就含有空格，则find后-print0仍然会显示空格文件。所以-print0实现的是\n转\0的标记，可以使用其他工具将\0标记替换掉，如xargs，tr等。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">[root@xuexi tmp]# mkdir /tmp/a</span><br><span class="line">[root@xuexi tmp]# touch /tmp/a/&#123;1..5&#125;.log</span><br><span class="line">[root@xuexi tmp]# find /tmp/a   # 等价于find /tmp/a  -print，表示搜索/tmp/a目录</span><br><span class="line">/tmp/a</span><br><span class="line">/tmp/a/4.log</span><br><span class="line">/tmp/a/2.log</span><br><span class="line">/tmp/a/5.log</span><br><span class="line">/tmp/a/1.log</span><br><span class="line">/tmp/a/3.log</span><br><span class="line">[root@xuexi tmp]# find /tmp/a -print0    </span><br><span class="line">/tmp/a/tmp/a/4.log/tmp/a/2.log/tmp/a/5.log/tmp/a/1.log/tmp/a/3.log</span><br></pre></td></tr></table></figure>
+
+<p><strong>(2).文件名搜索：-name或-path</strong></p>
+<p>-name可以对文件的basename进行匹配，-path可以对文件的dirname+basename。查找的文件名最好使用引号包围，可以配合通配符进行查找。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">[root@xuexi tmp]# find /tmp -name &quot;*.log&quot;</span><br><span class="line">/tmp/screen.log</span><br><span class="line">/tmp/x.log</span><br><span class="line">/tmp/timing.log</span><br><span class="line">/tmp/a/4.log</span><br><span class="line">/tmp/a/2.log</span><br><span class="line">/tmp/a/5.log</span><br><span class="line">/tmp/a/1.log</span><br><span class="line">/tmp/a/3.log</span><br><span class="line">/tmp/b.log</span><br></pre></td></tr></table></figure>
+
+<p>但不能在-name的模式中使用”/“，除非文件名中包含了字符”/“，否则将匹配不到任何东西，因为-name只对basename进行匹配。例如，想要匹配/tmp目录下某包含字符a的目录下的log文件。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">shell&gt; find /tmp -name &#x27;*a*/*.log&#x27;</span><br><span class="line">find: warning: Unix filenames usually don&#x27;t contain slashes (though pathnames do).  That means that &#x27;-name ‘*a*/*.log’&#x27; will probably evaluate to</span><br><span class="line">false all the time on this system.  You might find the &#x27;-wholename&#x27; test more useful, or perhaps &#x27;-samefile&#x27;.  Alternatively, if you are using GNU grep,</span><br><span class="line"> you could use &#x27;find ... -print0 | grep -FzZ ‘*a*/*.log’&#x27;.</span><br></pre></td></tr></table></figure>
+
+<p>所以想要在指定目录下搜索某目录中的某文件，应该使用-path而不是-name。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[root@server2 tmp]# find /tmp -path &#x27;*a*/*.log&#x27;</span><br><span class="line">/tmp/abc/axyz.log</span><br></pre></td></tr></table></figure>
+
+<p>注意，配合通配符[]时应该注意是基于字符顺序的，大小写字母的顺序是a-z –&gt; A-Z，指定[a-z]表示小写字母a-z，同理[A-Z]，而[a-zA-Z]和[a-Z]都表示所有大小写字母。当然还可以指定[a-A]表示a-z外加一个A。</p>
+<p>字母的处理顺序较容易理解，关于数字的处理方法，见下面的示例。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">[root@xuexi test]# ls</span><br><span class="line">11.sh  1.sh  22.sh  2.sh  3.sh</span><br><span class="line">[root@xuexi test]# find -name &quot;[1-2].sh&quot;</span><br><span class="line">./2.sh</span><br><span class="line">./1.sh</span><br><span class="line">[root@xuexi test]# find -name &quot;[1-23].sh&quot;</span><br><span class="line">./2.sh</span><br><span class="line">./3.sh</span><br><span class="line">./1.sh</span><br><span class="line">[root@xuexi test]# touch 0.sh</span><br><span class="line">[root@xuexi test]# find -name &quot;[1-20].sh&quot;</span><br><span class="line">./2.sh</span><br><span class="line">./0.sh</span><br><span class="line">./1.sh</span><br><span class="line">[root@xuexi test]# find -name &quot;[1-22-3].sh&quot;</span><br><span class="line">./2.sh</span><br><span class="line">./3.sh</span><br><span class="line">./1.sh</span><br></pre></td></tr></table></figure>
+
+<p>从上面结果可以看出，其实[]只能匹配单个字符，[0-9]表示0-9的数字，[1-20]表示[1-2]外加一个0，[1-23]表示[1-2]外加一个3，[1-22-3]表示[1-2]或[2-3]，迷惑点就是看上去是大于10的整数，其实是两个或者更多的单个数字组合体。也可以用这种方法表示多种匹配：[1-2,2-3]。</p>
+<p><strong>(3). 根据文件类型搜索：-type</strong></p>
+<p>一般需要搜索的文件类型就只有普通文件(f)，目录(d)，链接文件(l)。</p>
+<p>例如，搜索普通文件类的文件，且名称为a开头的sh文件。</p>
+<p>[root@xuexi test]# find /tmp -type f -name “a*.sh”</p>
+<p>搜索目录类文件，且目录名以a开头。</p>
+<p>[root@xuexi test]# find /tmp -type d -name “a*”</p>
+<p><strong>(4). 根据文件的时间戳搜索：-atime/-mtime/-ctime</strong></p>
+<p>例如搜索/tmp下3天内修改过内容的sh文件，因为是文件内容，所以不考虑搜索目录。</p>
+<p>find /tmp -type f -mtime -3 -name “*.sh”</p>
+<p>至于为什么是”-3”，见后面find理论部分内容。</p>
+<p><strong>(5). 根据文件大小搜索：-size</strong></p>
+<p>例如搜索/tmp下大于100K的sh文件。</p>
+<p>find /tmp -type f -size +100k -name ‘*.sh’</p>
+<p><strong>(6). 根据权限搜索：-perm</strong></p>
+<p>例如搜索/tmp下所有者具有可读可写可执行权限的sh文件。</p>
+<p>find /tmp -type f -perm -0700 -name ‘*.sh’</p>
+<p><strong>(7). 搜索空文件</strong></p>
+<p>空文件可以是没有任何内容的普通文件，也可以是没有任何内容的目录。</p>
+<p>例如搜索目录中没有文件的空目录。</p>
+<p>find /tmp -type d -empty</p>
+<p><strong>(8). 搜索到文件后并删除</strong></p>
+<p>例如搜索到/tmp下的”.tmp”文件然后删除。</p>
+<p>find /tmp -type f -name “*.tmp” -exec rm -rf ‘{}’;</p>
+<p>但是这是极不安全的方法，因为如果文件名有空白字符的话，会造成误删除，例如文件名为”a xy.tmp”，则直接-exec rm -rf ‘{}’将会删除a和xy.tmp和”a xy.tmp”，也就是说a这个文件或目录被误删除了。</p>
+<p><strong>(9). 搜索指定日期范围的文件，例如搜索/test下2017-06-03到2017-06-06之间修改过的文件</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">find /test -type f -newermt 2017-06-03 -a ! -newermt 2017-06-06</span><br></pre></td></tr></table></figure>
+
+<p>或者，创建两个临时文件，并用touch修改这两个文件的修改时间，然后<code>find -newer</code>去参照这两个文件</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">touch -m -d 2017-06-03 tmp1.txt</span><br><span class="line">touch -m -d 2017-06-06 tmp2.txt</span><br><span class="line">find /test -type f -newer tmp1.txt -a ! -newer tmp2.txt</span><br></pre></td></tr></table></figure>
+
+<p>不过这样会把tmp2.txt也搜索出来，因为newer搜索的是比xxx文件更新，取反则表示更旧或时间相同。</p>
+<p><strong>(10).并行加速搜索</strong></p>
+<p>有时候，想要搜索的内容并不知道在哪里，这时我们会从根”/“开始搜索，这样的搜索速度可能会稍微长那么一点点。为了加速搜索，使用xargs的并行功能。例如，搜索”/“下的所有”Find.pm”结尾的文件：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ls --hide proc / | xargs -i -P 0 find /&#123;&#125; -type f -name &quot;*Find.pm&quot;</span><br></pre></td></tr></table></figure>
+
+<p>可以使用time命令看看cpu利用率：149%</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> /usr/bin/time bash -c <span class="string">&#x27;ls --hide proc / | xargs -i -P 0 find /&#123;&#125; -type f -name &quot;*Find.pm&quot;&#x27;</span></span></span><br><span class="line">/perlapp/perl-5.26.2/cpan/Pod-Parser/lib/Pod/Find.pm</span><br><span class="line">/perlapp/perl-5.26.2/ext/File-Find/lib/File/Find.pm</span><br><span class="line">/usr/share/perl5/vendor_perl/Pod/Find.pm</span><br><span class="line">/usr/share/perl5/File/Find.pm</span><br><span class="line">0.04user 0.25system 0:00.19elapsed 149%CPU (0avgtext+0avgdata 5492maxresident)k</span><br><span class="line">0inputs+0outputs (0major+12685minor)pagefaults 0swaps</span><br></pre></td></tr></table></figure>
+
+
+
+<p>find首先对整个命令行进行语法解析，并应用给定的options，然后定位到搜索路径path下开始对路径下的文件或子目录进行表达式评估或测试，评估或测试的过程是按照表达式的顺序从左向右进行的(此处不考虑操作符的影响)，如果最终表达式的表达式评估为true，则输出(默认)该文件的全路径名。</p>
+<p>对于find来说，一个非常重要的概念：find的搜索机制是根据表达式返回的true/false决定的，每搜索一次都判断一次是否能确定最终评估结果为true，只有评估的最终结果为true才算是找到，并切入到下一个搜索点。</p>
+<p><strong>expression operators</strong></p>
+<p>操作符控制表达式运算方式。确切的说，是控制expression中的options/tests/actions的运算方式，无论是options、tests还是actions，它们都可以给定多个，例如find /tmp -type f -name “*.log” -exec ls ‘{}’ ; -print，该find中给定了两个test，两个action，它们之间从前向后按顺序进行评估，所以如果想要改变运算逻辑，需要使用操作符来控制。</p>
+<p>注意，理解and和or的评估方式非常重要，很可能写在and或or后面的表达式不起作用，而导致跟想象中的结果不一样。</p>
+<p>下面的操作符优先级从高到低。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">------------------------------------------------------------------------------------</span><br><span class="line">( expr )         ：优先级最高。为防止括号被shell解释(进入子shell)，所以需要转义，即\(...\)</span><br><span class="line">------------------------------------------------------------------------------------</span><br><span class="line">! expr           ：对expr的true和false结果取反。同样需要使用引号包围</span><br><span class="line">------------------------------------------------------------------------------------</span><br><span class="line">-not expr        ：等价于&quot;! expr&quot;</span><br><span class="line">------------------------------------------------------------------------------------</span><br><span class="line">expr1 expr2      ：等同于and操作符。</span><br><span class="line">------------------------------------------------------------------------------------</span><br><span class="line">expr1 -a expr2   ：等同于and操作符。</span><br><span class="line">------------------------------------------------------------------------------------</span><br><span class="line">expr1 -and expr2 ：首先要求expr1为true，然后expr2以expr1搜索的结果为基础继续检测，然后再返回</span><br><span class="line">                 ：检测值为true的文件。因为expr2是以expr1结果为基础的，所以如果expr1返回</span><br><span class="line">                 ：false，则expr2直接被忽略而不会进行任何操作</span><br><span class="line">------------------------------------------------------------------------------------</span><br><span class="line">expr1 -o expr2   ：等同于or操作符</span><br><span class="line">------------------------------------------------------------------------------------</span><br><span class="line">expr1 -or expr2  ：只有expr1为假时才评估expr2。</span><br><span class="line">------------------------------------------------------------------------------------</span><br><span class="line">expr1 , expr2    ：逗号操作符表示列表的意思，expr1和expr2都会被评估，但expr1的true或false是被</span><br><span class="line">                 ：无视的，只有expr2的结果才是最终状态值。</span><br></pre></td></tr></table></figure>
+
+<p><strong>expression-options</strong></p>
+<p>options总是返回true。除了”-daystart”，options会影响所有指定的test表达式部分，哪怕是test部分写在options的前面。这是因为options是在命令行被解析完后立即处理的，而test是在检测到文件后才处理的。对于”-daystart”这个选项，它们仅仅影响写在它们后面的test部分，因此，建议将任何options部分写在expression的最前面，若不如此，会给出一个警告信息。</p>
+<p>选项：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">-daystart：指定以每天的开始(凌晨零点)计算关于天的时间，用于改变时间类(-amin,-atime,-cmin,-ctime,-mmin和-mtime)</span><br><span class="line">         ：的计算方式。默认天的计算是从24小时前计算的。例如，当前时间为5月3日17:00，要求搜索出2天内修改过的文件，默认</span><br><span class="line">         ：搜索文件的起点是5月1日17:00，如果使用-daystart，则搜索文件的起点是是5月1日00:00。</span><br><span class="line">         ：注意，该选项只会影响写在它后面的test表达式。</span><br><span class="line">---------------------------------------------------------------------------------------------------</span><br><span class="line">-depth   ：搜索到目录时，先处理目录中的文件(子目录)，再处理目录本身。对于&quot;-delete&quot;这个action，它隐含&quot;-depth&quot;选项。</span><br><span class="line">---------------------------------------------------------------------------------------------------</span><br><span class="line">-maxdepth levels：指定tests和actions作用的最大目录深度，只能为非负整数。可以简单理解为目录搜索深度，但并非如此。当</span><br><span class="line">                ：前path目录的层次为1，所以若指定-maxdepth 0将得不到任何结果。</span><br><span class="line">---------------------------------------------------------------------------------------------------</span><br><span class="line">-mindepth levels：tests和actions不会应用于小于指定深度的目录，&quot;-mindepth 1&quot;表示应用于所有的文件。</span><br></pre></td></tr></table></figure>
+
+<p><strong>expression-tests</strong></p>
+<p>ind解析完命令行语法之后，开始搜索文件，在搜索过程中，每次检测到的文件都会被test expression进行测试，符合条件的将被保留。</p>
+<p>数值部分可以设置为以下3种模式：n可以是小数。</p>
+<blockquote>
+<p>+n：大于n</p>
+<p>-n：小于n</p>
+<p>n ：精确的等于n</p>
+</blockquote>
+<p>对于文件大小而言，文件的大小是精确的，指定100KB，则比对的值必定是100KB。此时(+ -)n和字面意思是一样的。但对于时间而言，时间是有时间段的，例如指定前第四天，第四天也整整占用了一天，所以(+ -)n和文件大小的计算方法是不一样的。</p>
+<p>find在计算以天数为单位的时间时，默认会转换为24小时制，除非同时指定了”-daystart”这个选项，这在前面已经解释过了。例如当前时间为5月3号17:00，那么计算”atime +1”的时候，真正计算的是24*1=24小时之前，也就是5月2号17:00以前被访问过，若指定了”-daystart”，则计算的是5月2号00:00之前被访问过。</p>
+<p>具体的选项如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">-type X：根据文件类型来搜索</span><br><span class="line">    · b：块设备文件</span><br><span class="line">    · c：字符设备文件</span><br><span class="line">    · d：目录</span><br><span class="line">    · p：命名管道文件(FIFO文件)</span><br><span class="line">    · f：普通文件</span><br><span class="line">    · l：符号链接文件，即软链接文件</span><br><span class="line">    · s：套接字文件(socket)</span><br></pre></td></tr></table></figure>
+
+<p>【文件大小或内容类测试条件】</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">-size n[cwbkMG]：根据文件大小来搜索，可以是(+ -)n，单位可以是：</span><br><span class="line">            · b：512字节的(默认单位)</span><br><span class="line">            · c：1字节的</span><br><span class="line">            · w：2字节</span><br><span class="line">            · k：1024字节</span><br><span class="line">            · M：1024k</span><br><span class="line">            · G：1024M</span><br><span class="line">empty：空文件，对于目录来说，则是空目录</span><br></pre></td></tr></table></figure>
+
+<p>【文件名或路径名匹配类测试条件】</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">------------------------------------------------------------------------------------------------</span><br><span class="line">-name pattern   | 文件的basename(不包括其前导目录的纯文件名)能被通配符模式的pattern匹配到。由于前导目录被移除，</span><br><span class="line">                | 所以find对包含&quot;/&quot;的pattern是绝对不可能匹配到内容的，例如&quot;-name a/b&quot;的结果一定是空且会给出</span><br><span class="line">                | 警告信息，若要匹配这样的文件，可考虑使用&quot;-path&quot;或&quot;-name b&quot;。需要注意的是，在find中的通配元</span><br><span class="line">                | 字符&quot;*&quot;、&quot;?&quot;和&quot;[]&quot;是能够匹配以点开头的文件的，之所以要在此说明这一点，是因为在bash中，这些通</span><br><span class="line">                | 配元字符默认是无法匹配&quot;.&quot;开头的文件的，例如&quot;cp ~/* /tmp&quot;不会把隐藏文件也拷贝走。若要忽略一个</span><br><span class="line">                | 目录及其内的文件，可以配合&quot;-prune&quot;，它会跳过整个目录而不对此目录做任何检查。注意pattern要用</span><br><span class="line">                | 引号包围防止被shell解释               </span><br><span class="line">----------------|-------------------------------------------------------------------------------</span><br><span class="line">-iname pattern  | 不区分大小的&quot;-name&quot;               </span><br><span class="line">----------------|-------------------------------------------------------------------------------</span><br><span class="line">-path pattern   | 文件名能被通配符模式的pattern匹配到。此模式下，通配元字符&quot;*&quot;、&quot;?&quot;和&quot;[]&quot;不认为字符&quot;/&quot;或&quot;.&quot;是</span><br><span class="line">                | 特殊字符，也就是说这两个字符也在通配范围内，所以能匹配这两个字符。例如find . -path &quot;./sr*sc&quot;</span><br><span class="line">                | 可以匹配到名为&quot;./src/misc&quot;的目录。find会将&quot;-path&quot;的pattern与文件的dirname和basename的结</span><br><span class="line">                | 合体进行比较，由于dirname和basename的结合体不包含尾随&quot;/&quot;，所以如果pattern中指定了尾随&quot;/&quot;是</span><br><span class="line">                | 不可能匹配到任何东西的，例如find /tmp -path &quot;/tmp/ab*/&quot;，实际上它会给出警告信息，提示</span><br><span class="line">                | pattern以&quot;/&quot;结尾。使用&quot;-path&quot;的时候，一定要注意&quot;-path&quot;后指定的路径起点属于</span><br><span class="line">                | &quot;find path expression&quot;的path内，例如&quot;find /bar -path /foo/bar/myfile -print&quot;不可能</span><br><span class="line">                | 匹配到任何东西。若要忽略目录及其内文件，可配合&quot;-prune&quot;，它会跳过整个目录而不对此目录做检查。如</span><br><span class="line">                | &quot;find . -path ./src/emacs -prune -o -print&quot;将跳过对目录&quot;./src/emacs&quot;的检查。</span><br><span class="line">                | 注意pattern要用引号包围防止被shell解释                              </span><br><span class="line">----------------|---------------------------------------------------------------------------------</span><br><span class="line">-ipath pattern  | 不区分大小写的&quot;-path&quot;                        </span><br><span class="line">----------------|---------------------------------------------------------------------------------</span><br><span class="line">-regex pattern  | 文件名能被正则表达式pattern匹配到的文件。正则匹配会匹配整个路径，例如要匹配文件名为&quot;./fubar3&quot;</span><br><span class="line">                | 的文件，可以使用&quot;.*bar.&quot;或&quot;.*b.*3&quot;，但不能是&quot;f.*r3&quot;，默认find使用的正则类型是Emacs正则，</span><br><span class="line">                | 但可以使用-regextype来改变正则类型                            </span><br><span class="line">----------------|---------------------------------------------------------------------------------</span><br><span class="line">-iregex pattern | 不区分大小写的&quot;-regex&quot;</span><br></pre></td></tr></table></figure>
+
+<p>【权限类测试条件】</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">-perm mode | 精确匹配给定权限的文件。&quot;-perm g=w&quot;将只匹配权限为0020的文件。当然，也可以写成三位数字的权限模式</span><br><span class="line">-----------|-------------------------------------------------------------------------------------</span><br><span class="line">-perm -mode| 匹配完全包含给定权限的文件，这是最可能用上的权限匹配方式。例如给定的权限&quot;-0766&quot;，则只能匹配&quot;N767&quot;、</span><br><span class="line">           | &quot;N777&quot;和&quot;N776&quot;这几种权限的文件，如果使用字符模式的权限，则必须指定u/g/o/a，例如&quot;-perm -u+x,a+r&quot;</span><br><span class="line">           | 表示至少所有人都有读权限，且所有者有执行权限的文件</span><br><span class="line">-----------|-------------------------------------------------------------------------------------</span><br><span class="line">-perm /mode| 匹配任意给定权限位的权限，例如&quot;-perm /640&quot;可以匹配出600，040,700,740等等，只要文件权限的任意位能</span><br><span class="line">           | 包含给定权限的任意一位就满足</span><br><span class="line">-----------|-------------------------------------------------------------------------------------</span><br><span class="line">-perm +mode| 由于某些原因，此匹配模式被替换为&quot;-perm /mode&quot;，所以此模式已经废弃</span><br><span class="line">-----------|-------------------------------------------------------------------------------------</span><br><span class="line">-executable| 具有可执行权限的文件。它会考虑acl等的特殊权限，只要是可执行就满足。它会忽略掉-perm的测试</span><br><span class="line">-----------|-------------------------------------------------------------------------------------</span><br><span class="line">-readable  | 具有可读权限的文件。它会考虑acl等的特殊权限，只要是可读就满足。它会忽略掉-perm的测试</span><br><span class="line">-----------|-------------------------------------------------------------------------------------</span><br><span class="line">-writable  | 具有可写权限的文件。它会考虑acl等的特殊权限，只要是可写就满足。它会忽略掉-perm的测试(不是writeable)</span><br></pre></td></tr></table></figure>
+
+<p>【所有者所属组类测试条件】</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">-gid n      ：gid为n的文件</span><br><span class="line">-group gname：组名为gname的文件</span><br><span class="line">-uid n      ：文件的所有者的uid为n</span><br><span class="line">-user uname ：文件的所有者为uname，也可以指定uid</span><br><span class="line">-nogroup    ：匹配那些所属组为数字格式的gid，且此gid没有对应组名的文件</span><br><span class="line">-nouser     ：匹配那些所有者为数字格式的uid，且此uid没有对应用户名的文件</span><br></pre></td></tr></table></figure>
+
+<p>【时间戳类测试条件】</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">-anewer file：atime比mtime更接近现在的文件。也就是说，文件修改过之后被访问过</span><br><span class="line">-cnewer file：ctime比mtime更接近现在的文件</span><br><span class="line">-newer  file：比给定文件的mtime更接近现在的文件。</span><br><span class="line">-newer[acm]t TIME：atime/ctime/mtime比时间戳TIME更新的文件</span><br><span class="line">-amin  n：文件的atime在范围n分钟内改变过。注意，n可以是(+ -)n，例如-amin +3表示在3分钟以前</span><br><span class="line">-cmin  n：文件的ctime在范围n分钟内改变过</span><br><span class="line">-mmin  n：文件的mtime在范围n分钟内改变过</span><br><span class="line">-atime n：文件的atime在范围24*n小时内改变过</span><br><span class="line">-ctime n：文件的ctime在范围24*n小时内改变过</span><br><span class="line">-mtime n：文件的mtime在范围24*n小时内改变过</span><br><span class="line">-used  n：最近一次ctime改变n天范围内，atime改变过的文件，即atime比ctime晚n天的文件，可以是(+ -)n</span><br></pre></td></tr></table></figure>
+
+<p>【软硬链接类测试条件】</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">-samefile name：找出指定文件同indoe的文件，即其硬链接文件</span><br><span class="line">-inum  n：inode号为n的文件，可用来找出硬链接文件。但使用&quot;-samefile&quot;比此方式更方便</span><br><span class="line">-links n：有n个软链接的文件</span><br></pre></td></tr></table></figure>
+
+<p>【杂项测试】</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">-false：总是返回false，这选项有奇用</span><br><span class="line">-true ：总是返回true，这选项有奇用</span><br></pre></td></tr></table></figure>
+
+<p><strong>expression-actions</strong></p>
+<p>actions部分一般都是执行某些命令，或实现某些功能。这部分是find的command line部分。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">-delete        | 删除文件，如果删除成功则返回true，如果删除失败，将给出错误信息。&quot;-delete&quot;动作隐含&quot;-depth&quot;。</span><br><span class="line">---------------------------------------------------------------------------------------------------</span><br><span class="line">-exec command ;| 注意有个分号&quot;;&quot;结尾，该action是用于执行给定的命令。如果命令的返回状态码为0则该action返回true。</span><br><span class="line">               | command后面的所有内容都被当作command的参数，直到分号&quot;;&quot;为止，其中参数部分使用字符串&quot;&#123;&#125;&quot;时，它</span><br><span class="line">               | 表示find找到的文件名，即在执行命令时，&quot;&#123;&#125;&quot;会被逐一替换为find到的文件名，&quot;&#123;&#125;&quot;可以出现在参数中的</span><br><span class="line">               | 任何位置，只要出现，它都会被文件名替换。</span><br><span class="line">               | 注意，分号&quot;;&quot;需要转义，即&quot;\;&quot;，如有需要，可以将&quot;&#123;&#125;&quot;用引号包围起来</span><br><span class="line">---------------|-----------------------------------------------------------------------------------</span><br><span class="line">-ok command ;  | 类似于-exec，但在执行命令前会交互式进行询问，如果不同意，则不执行命令并返回false，如果同意，则执</span><br><span class="line">               | 行命令，但执行的命令是从/dev/null读取输入的</span><br><span class="line">---------------|-----------------------------------------------------------------------------------</span><br><span class="line">-print | 总是返回true。这是默认的action，输出搜索到文件的全路径名，并尾随换行符&quot;\n&quot;。由于在使用&quot;-print&quot;时所有的结</span><br><span class="line">       | 果都有换行符，如果直接将结果通过管道传递给管道右边的程序，应该要考虑到这一点：文件名中有空白字符(换行符、制表</span><br><span class="line">       | 符、空格)将会被右边程序误分解，如文件&quot;ab c.txt&quot;将被认为是ab和c.txt两个文件，如不想被此分解影响，可考虑使</span><br><span class="line">       | 用&quot;-print0&quot;替代&quot;-print&quot;将所有换行符替换为&quot;\0&quot;</span><br><span class="line">-------|-------------------------------------------------------------------------------------------</span><br><span class="line">-printf| 输出格式太多，所以具体用法见man文档</span><br><span class="line">-------|-------------------------------------------------------------------------------------------</span><br><span class="line">-print0| 总是返回true。输出搜索到文件的全路径名，并尾随空字符&quot;\0&quot;。由于尾随的是空字符，所以管道传递给右边的程序，然后</span><br><span class="line">       | 只需对这个空字符进行识别分隔就能保证文件名不会因为其中的空白字符被误分解</span><br><span class="line">---------------------------------------------------------------------------------------------------</span><br><span class="line">-prune | 不进入目录，所以可用于忽略目录，但不会忽略普通文件。没有给定-depth时，总是返回true，如果给定-depth，则直接</span><br><span class="line">       | 返回false，所以-delete(隐含了-depth)是不能和-prune一起使用的</span><br><span class="line">-------|-------------------------------------------------------------------------------------------</span><br><span class="line">-ls    | 总是返回true。将找到的文件以&quot;ls -dils&quot;的格式打印出来，其中文件的size部分以KB为单位</span><br></pre></td></tr></table></figure>
+
+<p>一定要注意，<strong>action是可以写在tests表达式前面的，它并不一定是在test表达式之后执行</strong>。</p>
+<p>参考：<a target="_blank" rel="noopener" href="https://www.cnblogs.com/f-ck-need-u/p/6995529.html">Linux find运行机制详解</a></p>
+<h4 id="练习题"><a href="#练习题" class="headerlink" title="练习题"></a>练习题</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line">1、找出/tmp目录下属主为非root的所有文件；</span><br><span class="line">[hyp@localhost ~]$ find /tmp -not -user  root -ls</span><br><span class="line">2、找出/tmp目录下文件名中不包含fstab字符串的文件；</span><br><span class="line">[hyp@localhost ~]$ sudo find /tmp -not -name &quot;*fstab*&quot; -ls</span><br><span class="line">3、找出/tmp目录下属主为非root，而且文件名不包含fstab字符串的文件；</span><br><span class="line">[hyp@localhost ~]$ sudo find /tmp  \( ! -name &quot;*fstab*&quot; -a ! -user root \) -ls</span><br><span class="line">[hyp@localhost ~]$ sudo find /tmp !  \(  -name &quot;*fstab*&quot; -o  -user root \) -ls</span><br><span class="line"></span><br><span class="line">1、查找/var目录下属主为root，且属组为mail的所有文件或目录；</span><br><span class="line">	~]# find /var -user root -a -group mail -ls</span><br><span class="line"></span><br><span class="line">2、查找/usr目录下不属于root, bin或hadoop的所有文件或目录；用两种方法；</span><br><span class="line">	~]# find /usr -not -user root -a -not -user bin -a -not -user hadoop</span><br><span class="line">	~]# find /usr -not \( -user root -o -user bin -o -user hadoop \) -ls</span><br><span class="line"></span><br><span class="line">3、查找/etc目录下最近一周内其内容修改过，且属主不是root用户也不是hadoop用户的文件或目录；</span><br><span class="line">	~]# find /etc -mtime -7 -a -not \( -user root -o -user hadoop \) -ls</span><br><span class="line">	~]# find /etc -mtime -7 -a -not -user root -a -not -user hadoop -ls</span><br><span class="line"></span><br><span class="line">4、查找当前系统上没有属或属组，且最近一周内曾被访问过的文件或目录；</span><br><span class="line">	~]# find  /  \( -nouser -o -nogroup \)  -atime  -7  -ls</span><br><span class="line"></span><br><span class="line">5、查找/etc目录下大于1M且类型为普通文件的所有文件；</span><br><span class="line">	~]# find /etc -size +1M -type f -exec ls -lh &#123;&#125; \;</span><br><span class="line"></span><br><span class="line">6、查找/etc目录下所有用户都没有写权限的文件；</span><br><span class="line">	~]# find /etc -not -perm /222 -type f -ls					</span><br><span class="line"></span><br><span class="line">7、查找/etc目录至少有一类用户没有执行权限的文件；</span><br><span class="line">	~]# find /etc -not -perm -111 -type f -ls</span><br><span class="line"></span><br><span class="line">8、查找/etc/init.d/目录下，所有用户都有执行权限，且其它用户有写权限的所有文件；</span><br><span class="line">	~]# find /etc -perm -113 -type f -ls</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h3 id="文件打包和压缩"><a href="#文件打包和压缩" class="headerlink" title="文件打包和压缩"></a>文件打包和压缩</h3><p>压缩的目的是用时间来换空间。总的来说，linux上常用的压缩包和对应命令如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">compress/uncompress, .Z</span><br><span class="line">gzip/gunzip,  .gz</span><br><span class="line">bzip2/bunzip2,  .bz2</span><br><span class="line">xz/unxz,  .xz</span><br><span class="line">zip/unzip  .zip</span><br><span class="line">tar, cpio  归档</span><br></pre></td></tr></table></figure>
+
+<p>下面先介绍压缩命令：</p>
+<p>1、<code>.gz</code></p>
+<p>涉及命令gzip、gunzip、 zcat，gzip可用于解压缩，gunzip用于解压，zcat用于查看压缩文件信息。</p>
+<p>语法：gzip  [OPTION]…  FILE…</p>
+<p>选项：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">-d：解压缩，相当于gunzip；</span><br><span class="line">-#：指定压缩比，默认是6；数字越大压缩比越大（1-9）；</span><br><span class="line">-c：将压缩结果输出至标准输出；</span><br></pre></td></tr></table></figure>
+
+
+<p>常用：gzip  -c  FILE &gt; /PATH/TO/SOMEFILE.gz</p>
+<p>2、<code>.bz2</code></p>
+<p>涉及命令bzip2、bunzip2、bzcat，</p>
+<p>语法：bzip2  [OPTION]…  FILE…</p>
+<p>选项：-d：解压缩<br>    -#：指定压缩比；默认是6；数字越大压缩比越大（1-9）；<br>    -k：keep，保留原文件；</p>
+<p>3、 <code>.xz</code></p>
+<p>涉及命令xz、unxz、xzcat，</p>
+<p>语法：xz  [OPTION]…  FILE…</p>
+<p>选项：-d：解压缩<br>       -#：指定压缩比；默认是6；数字越大压缩比越大（1-9）；<br>       -k：保留原文件；</p>
+<p>4、<code>.zip</code></p>
+<p>涉及命令zip、unzip</p>
+<p>语法：zip  [OPTION]…  FILE…</p>
+<p>选项：<br>       -#：指定压缩比；默认是6；数字越大压缩比越大（1-9）；</p>
+<p>5、<code>.gz</code></p>
+<p>涉及命令gzip、gunzip。</p>
+<h4 id="tar"><a href="#tar" class="headerlink" title="tar"></a>tar</h4><p>打包命令，语法：<code>tar  [OPTION]...  FILE...</code></p>
+<p>(1) 创建归档<br>    -c -f /PATH/TO/SOMEFILE.tar  FILE…<br>    -cf /PATH/TO/SOMEFILE.tar  FILE…</p>
+<p>(2) 展开归档<br>    -xf  /PATH/FROM/SOMEFILE.tar<br>    -xf  /PATH/FROM/SOMEFILE.tar  -C  /PATH/TO/SOMEDIR</p>
+<p>(3) 查看归档文件的文件列表<br>    -tf  /PATH/TO/SOMEFILE.tar</p>
+<p>归档完成后通常需要压缩，结果此前的压缩工具，就能实现压缩多个文件了；<br>(4) 归档压缩<br>    -z：gzip2<br>        -zcf   /PATH/TO/SOMEFILE.tar.gz  FILE…<br>        解压缩并展开归档：-zxf  /PATH/TO/SOMEFILE.tar.gz<br>    -j：bzip2<br>        -jcf 归档并压缩<br>        -jxf 解压缩并展开归档<br>    -J: xz<br>        -Jcf 归档并压缩<br>        -Jxf 解压缩并展开归档</p>
+<h4 id="常见解压-压缩命令"><a href="#常见解压-压缩命令" class="headerlink" title="常见解压/压缩命令"></a>常见解压/压缩命令</h4><p>tar<br>解包：tar xvf FileName.tar<br>打包：tar cvf FileName.tar DirName<br>（注：tar是打包，不是压缩！）</p>
+<p>.gz<br>解压1：gunzip FileName.gz<br>解压2：gzip -d FileName.gz<br>压缩：gzip FileName</p>
+<p>.tar.gz 和 .tgz<br>解压：tar zxvf FileName.tar.gz<br>压缩：tar zcvf FileName.tar.gz DirName</p>
+<p>.bz2<br>解压1：bzip2 -d FileName.bz2<br>解压2：bunzip2 FileName.bz2<br>压缩： bzip2 -z FileName</p>
+<p>.tar.bz2<br>解压：tar jxvf FileName.tar.bz2<br>压缩：tar jcvf FileName.tar.bz2 DirName</p>
+<p>.bz<br>解压1：bzip2 -d FileName.bz<br>解压2：bunzip2 FileName.bz<br>压缩：未知</p>
+<p>.tar.bz<br>解压：tar jxvf FileName.tar.bz<br>压缩：未知</p>
+<p>.Z<br>解压：uncompress FileName.Z<br>压缩：compress FileName</p>
+<p>.tar.Z<br>解压：tar Zxvf FileName.tar.Z<br>压缩：tar Zcvf FileName.tar.Z DirName</p>
+<p>.zip<br>解压：unzip FileName.zip<br>压缩：zip FileName.zip DirName</p>
+<p>.rar<br>解压：rar x FileName.rar<br>压缩：rar a FileName.rar DirName</p>
+<blockquote>
+<p>中文解压有乱码,指定编码集：unzip -O CP936 xxx.zip</p>
+</blockquote>
+<p>.tar.xz<br>解压： tar xvJf  xxx.tar.xz<br>压缩： 只要先 tar cvf xxx.tar xxx/ 这样创建xxx.tar文件先，然后使用 xz -z xxx.tar 来将 xxx.tar压缩成为 xxx.tar.xz</p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">平心</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://pingxin0521.gitee.io/2019/03/21/Linux-%E5%9F%BA%E7%A1%80-8/">https://pingxin0521.gitee.io/2019/03/21/Linux-%E5%9F%BA%E7%A1%80-8/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://pingxin0521.gitee.io" target="_blank">平心de小屋</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/Linux/">Linux</a></div><div class="post_share"><div class="social-share" data-image="https://i.loli.net/2020/05/08/PFDRNxj93taz6pw.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2019/03/22/Linux-%E5%9F%BA%E7%A1%80-9/"><img class="prev-cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/PFDRNxj93taz6pw.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">Linux-程序管理</div></div></a></div><div class="next-post pull-right"><a href="/2019/03/21/%E5%B7%A5%E5%85%B7-Git-5/"><img class="next-cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/PFDRNxj93taz6pw.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">Git设置SSH key</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span> 相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2019/05/22/Linux-Ubuntu-4/" title="Ubuntu 点滴笔记"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/PFDRNxj93taz6pw.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2019-10-18</div><div class="title">Ubuntu 点滴笔记</div></div></a></div><div><a href="/2019/03/23/Linux-基础-12/" title="Linux-服务管理"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/PFDRNxj93taz6pw.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2019-04-03</div><div class="title">Linux-服务管理</div></div></a></div><div><a href="/2019/03/20/Linux-基础-5/" title="Linux-文本处理三剑客--grep"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/HjVAdIuT7bZJypS.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2019-10-10</div><div class="title">Linux-文本处理三剑客--grep</div></div></a></div><div><a href="/2019/03/20/Linux-基础-6/" title="Linux-文本处理三剑客--sed"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/okfOw28KlZFbE7z.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2019-10-10</div><div class="title">Linux-文本处理三剑客--sed</div></div></a></div><div><a href="/2019/03/20/Linux-基础-7/" title="Linux-文本处理三剑客--awk"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/vCnKyoFJZ1g4XYR.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2019-10-10</div><div class="title">Linux-文本处理三剑客--awk</div></div></a></div><div><a href="/2019/05/26/Linux-脚本-3/" title="Linux-expect"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/okfOw28KlZFbE7z.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2019-10-09</div><div class="title">Linux-expect</div></div></a></div></div></div><hr/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div class="vcomment" id="vcomment"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="card-info-avatar is-center"><img class="avatar-img" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://s2.ax1x.com/2020/02/11/1ovw6J.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/><div class="author-info__name">平心</div><div class="author-info__description">年轻人的life、learn and think</div></div><div class="card-info-data"><div class="card-info-data-item is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">449</div></a></div><div class="card-info-data-item is-center"><a href="/tags/"><div class="headline">标签</div><div class="length-num">77</div></a></div><div class="card-info-data-item is-center"><a href="/categories/"><div class="headline">分类</div><div class="length-num">68</div></a></div></div><a class="button--animated" id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/hanyunpeng0521"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/hanyunpeng0521" target="_blank" title="Github"><i class="fa fa-github"></i></a><a class="social-icon" href="mailto:m13839441583@163.com" target="_blank" title="Email"><i class="fa fa-envelope"></i></a><a class="social-icon" href="/atom.xml" target="_blank" title=""><i class="fa fa-rss"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn card-announcement-animation"></i><span>公告</span></div><div class="announcement_content">为什么呢？开始提问吧</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%89%8D%E8%A8%80"><span class="toc-number">1.</span> <span class="toc-text">前言</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#locate"><span class="toc-number">2.</span> <span class="toc-text">locate</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#find"><span class="toc-number">3.</span> <span class="toc-text">find</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%BB%83%E4%B9%A0%E9%A2%98"><span class="toc-number">3.1.</span> <span class="toc-text">练习题</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%96%87%E4%BB%B6%E6%89%93%E5%8C%85%E5%92%8C%E5%8E%8B%E7%BC%A9"><span class="toc-number">4.</span> <span class="toc-text">文件打包和压缩</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#tar"><span class="toc-number">4.1.</span> <span class="toc-text">tar</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%B8%B8%E8%A7%81%E8%A7%A3%E5%8E%8B-%E5%8E%8B%E7%BC%A9%E5%91%BD%E4%BB%A4"><span class="toc-number">4.2.</span> <span class="toc-text">常见解压&#x2F;压缩命令</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2021/05/15/node-2-4/" title="Egg.js -- 为企业级框架和应用而生"><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/okfOw28KlZFbE7z.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Egg.js -- 为企业级框架和应用而生"/></a><div class="content"><a class="title" href="/2021/05/15/node-2-4/" title="Egg.js -- 为企业级框架和应用而生">Egg.js -- 为企业级框架和应用而生</a><time datetime="2021-05-15T10:18:59.000Z" title="发表于 2021-05-15 18:18:59">2021-05-15</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/04/30/node-2-3/" title="Koa -- 基于Node.js平台的下一代Web开发框架"><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/HjVAdIuT7bZJypS.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Koa -- 基于Node.js平台的下一代Web开发框架"/></a><div class="content"><a class="title" href="/2021/04/30/node-2-3/" title="Koa -- 基于Node.js平台的下一代Web开发框架">Koa -- 基于Node.js平台的下一代Web开发框架</a><time datetime="2021-04-30T10:18:59.000Z" title="发表于 2021-04-30 18:18:59">2021-04-30</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/04/01/node-2-1/" title="Node.JS web开发前置知识"><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/gGE57HRvpcKPfDY.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Node.JS web开发前置知识"/></a><div class="content"><a class="title" href="/2021/04/01/node-2-1/" title="Node.JS web开发前置知识">Node.JS web开发前置知识</a><time datetime="2021-04-01T03:18:59.000Z" title="发表于 2021-04-01 11:18:59">2021-04-01</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2020/12/26/%E5%91%A8%E8%AE%B0-10-1/" title="第十一周--谷歌浏览器插件"><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/gGE57HRvpcKPfDY.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="第十一周--谷歌浏览器插件"/></a><div class="content"><a class="title" href="/2020/12/26/%E5%91%A8%E8%AE%B0-10-1/" title="第十一周--谷歌浏览器插件">第十一周--谷歌浏览器插件</a><time datetime="2020-12-26T10:18:59.000Z" title="发表于 2020-12-26 18:18:59">2020-12-26</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2020/12/26/%E5%91%A8%E8%AE%B0-10-0/" title="第十一周--浏览器技术"><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/vCnKyoFJZ1g4XYR.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="第十一周--浏览器技术"/></a><div class="content"><a class="title" href="/2020/12/26/%E5%91%A8%E8%AE%B0-10-0/" title="第十一周--浏览器技术">第十一周--浏览器技术</a><time datetime="2020-12-26T06:18:59.000Z" title="发表于 2020-12-26 14:18:59">2020-12-26</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2019 - 2021 By 平心</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div id="local-search"><div class="search-dialog"><div class="search-dialog__title" id="local-search-title">本地搜索</div><div id="local-input-panel"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div></div><hr/><div id="local-search-results"></div><span class="search-close-button"><i class="fas fa-times"></i></span></div><div id="search-mask"></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload/dist/lazyload.iife.min.js"></script><script src="/js/search/local-search.js"></script><div class="js-pjax"><script>function loadValine () {
+  function initValine () {
+    const valine = new Valine(Object.assign({
+      el: '#vcomment',
+      appId: '4lfIXzqxaC1ONs0MJO4oHu07-gzGzoHsz',
+      appKey: 'qw99Bw8FD0KVKU9m457CwWsr',
+      placeholder: 'Please leave your footprints',
+      avatar: 'monsterid',
+      meta: 'nick,mail,link'.split(','),
+      pageSize: '10',
+      lang: 'zh-CN',
+      recordIP: true,
+      serverURLs: '',
+      emojiCDN: '',
+      emojiMaps: "",
+      enableQQ: true,
+      path: window.location.pathname,
+      requiredFields: ["nick,mail"],
+      visitor: false
+    }, null))
+  }
+
+  if (typeof Valine === 'function') initValine() 
+  else getScript('https://cdn.jsdelivr.net/npm/valine/dist/Valine.min.js').then(initValine)
+}
+
+if ('Valine' === 'Valine' || !false) {
+  if (false) btf.loadComment(document.getElementById('vcomment'),loadValine)
+  else setTimeout(loadValine, 0)
+} else {
+  function loadOtherComment () {
+    loadValine()
+  }
+}</script></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>

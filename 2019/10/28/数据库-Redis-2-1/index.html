@@ -1,0 +1,431 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Redis 持久化、日志、慢查询、数据导入导出 | 平心de小屋</title><meta name="keywords" content="数据库,NoSQL,Redis"><meta name="author" content="平心"><meta name="copyright" content="平心"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="Redis高可用概述在 Web 服务器中，高可用 是指服务器可以 正常访问 的时间，衡量的标准是在 多长时间 内可以提供正常服务（99.9%、99.99%、99.999% 等等）。在 Redis 层面，高可用 的含义要宽泛一些，除了保证提供 正常服务（如 主从分离、快速容灾技术 等），还需要考虑 数据容量扩展、数据安全 等等。 在 Redis 中，实现 高可用 的技术主要包括 持久化、复制、哨兵">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Redis 持久化、日志、慢查询、数据导入导出">
+<meta property="og:url" content="https://pingxin0521.gitee.io/2019/10/28/%E6%95%B0%E6%8D%AE%E5%BA%93-Redis-2-1/index.html">
+<meta property="og:site_name" content="平心de小屋">
+<meta property="og:description" content="Redis高可用概述在 Web 服务器中，高可用 是指服务器可以 正常访问 的时间，衡量的标准是在 多长时间 内可以提供正常服务（99.9%、99.99%、99.999% 等等）。在 Redis 层面，高可用 的含义要宽泛一些，除了保证提供 正常服务（如 主从分离、快速容灾技术 等），还需要考虑 数据容量扩展、数据安全 等等。 在 Redis 中，实现 高可用 的技术主要包括 持久化、复制、哨兵">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://i.loli.net/2020/05/08/gGE57HRvpcKPfDY.jpg">
+<meta property="article:published_time" content="2019-10-28T12:18:59.000Z">
+<meta property="article:modified_time" content="2019-11-29T06:27:12.484Z">
+<meta property="article:author" content="平心">
+<meta property="article:tag" content="数据库">
+<meta property="article:tag" content="NoSQL">
+<meta property="article:tag" content="Redis">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.loli.net/2020/05/08/gGE57HRvpcKPfDY.jpg"><link rel="shortcut icon" href="https://s2.ax1x.com/2020/02/11/1ovFOA.png"><link rel="canonical" href="https://pingxin0521.gitee.io/2019/10/28/%E6%95%B0%E6%8D%AE%E5%BA%93-Redis-2-1/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"search.xml","languages":{"hits_empty":"找不到您查询的内容：${query}"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    jQuery: 'https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js',
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+    },
+    fancybox: {
+      js: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css'
+    }
+  },
+  isPhotoFigcaption: true,
+  islazyload: true,
+  isanchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'Redis 持久化、日志、慢查询、数据导入导出',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2019-11-29 14:27:12'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    })(window)</script><meta name="generator" content="Hexo 5.4.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="author-avatar"><img class="avatar-img" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://s2.ax1x.com/2020/02/11/1ovw6J.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data"><div class="data-item is-center"><div class="data-item-link"><a href="/archives/"><div class="headline">文章</div><div class="length-num">449</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/tags/"><div class="headline">标签</div><div class="length-num">77</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/categories/"><div class="headline">分类</div><div class="length-num">68</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fa fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fa fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://i.loli.net/2020/05/08/gGE57HRvpcKPfDY.jpg')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">平心de小屋</a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fa fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fa fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">Redis 持久化、日志、慢查询、数据导入导出</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2019-10-28T12:18:59.000Z" title="发表于 2019-10-28 20:18:59">2019-10-28</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2019-11-29T06:27:12.484Z" title="更新于 2019-11-29 14:27:12">2019-11-29</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/NoSQL/">NoSQL</a><i class="fas fa-angle-right post-meta-separator"></i><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/NoSQL/Redis/">Redis</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">6.4k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>21分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="Redis 持久化、日志、慢查询、数据导入导出"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h4 id="Redis高可用概述"><a href="#Redis高可用概述" class="headerlink" title="Redis高可用概述"></a>Redis高可用概述</h4><p>在 <code>Web</code> 服务器中，<strong>高可用</strong> 是指服务器可以 <strong>正常访问</strong> 的时间，衡量的标准是在 <strong>多长时间</strong> 内可以提供正常服务（<code>99.9%</code>、<code>99.99%</code>、<code>99.999%</code> 等等）。在 <code>Redis</code> 层面，<strong>高可用</strong> 的含义要宽泛一些，除了保证提供 <strong>正常服务</strong>（如 <strong>主从分离</strong>、<strong>快速容灾技术</strong> 等），还需要考虑 <strong>数据容量扩展</strong>、<strong>数据安全</strong> 等等。</p>
+<p>在 <code>Redis</code> 中，实现 <strong>高可用</strong> 的技术主要包括 <strong>持久化</strong>、<strong>复制</strong>、<strong>哨兵</strong> 和 <strong>集群</strong>，下面简单说明它们的作用，以及解决了什么样的问题：</p>
+<span id="more"></span>
+
+<ul>
+<li><strong>持久化</strong>：持久化是 <strong>最简单的</strong> 高可用方法。它的主要作用是 <strong>数据备份</strong>，即将数据存储在 <strong>硬盘</strong>，保证数据不会因进程退出而丢失。</li>
+<li><strong>复制</strong>：复制是高可用 <code>Redis</code> 的基础，<strong>哨兵</strong> 和 <strong>集群</strong> 都是在 <strong>复制基础</strong> 上实现高可用的。复制主要实现了数据的多机备份以及对于读操作的负载均衡和简单的故障恢复。缺陷是故障恢复无法自动化、写操作无法负载均衡、存储能力受到单机的限制。</li>
+<li><strong>哨兵</strong>：在复制的基础上，哨兵实现了 <strong>自动化</strong> 的 <strong>故障恢复</strong>。缺陷是 <strong>写操作</strong> 无法 <strong>负载均衡</strong>，<strong>存储能力</strong> 受到 <strong>单机</strong> 的限制。</li>
+<li><strong>集群</strong>：通过集群，<code>Redis</code> 解决了 <strong>写操作</strong> 无法 <strong>负载均衡</strong> 以及 <strong>存储能力</strong> 受到 <strong>单机限制</strong> 的问题，实现了较为 <strong>完善</strong> 的 <strong>高可用方案</strong>。</li>
+</ul>
+<h3 id="持久化"><a href="#持久化" class="headerlink" title="持久化"></a>持久化</h3><p>Redis有两种持久化的方式：快照（RDB文件）和追加式文件（AOF文件）</p>
+<ol>
+<li>RDB持久化方式是在一个特定的间隔保存某个时间点的一个数据快照。（默认模式）</li>
+<li>以日志的形式来记录每个写操作，将Redis执行过的所有写指令记录下来(读操作不记录)，只许追加文件但不可以改写文件，redis启动之初会读取该文件重新构建数据，换言之，redis重启的话就根据日志文件的内容将写指令从前到后执行一次以完成数据的恢复工作 。</li>
+</ol>
+<p>注意：Redis的持久化是可以禁用的，两种方式的持久化是可以同时存在的，但是当Redis重启时，AOF文件会被优先用于重建数据。</p>
+<h4 id="RDB"><a href="#RDB" class="headerlink" title="RDB"></a>RDB</h4><h5 id="what"><a href="#what" class="headerlink" title="what"></a>what</h5><p>在指定的时间间隔内将内存中的数据集快照写入磁盘，也就是行话讲的Snapshot快照，它恢复时是将快照文件直接读到内存里。</p>
+<p>Redis会单独创建（fork）一个子进程来进行持久化，会先将数据写入到一个临时文件中，待持久化过程都结束了，再用这个临时文件替换上次持久化好的文件。</p>
+<p>整个过程中，主进程是不进行任何IO操作的，这就确保了如果需要进行大规模数据的恢复时还能有极高的性能。</p>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2019/11/23/uypnDFcsKt23QMl.png" alt="UTOOLS1574523010635.png"></p>
+<h5 id="where"><a href="#where" class="headerlink" title="where"></a>where</h5><p>默认Redis会把快照文件存储为当前目录下一个名为<strong>dump.rdb</strong>的文件。要修改文件的存储路径和名称，可以通过修改配置文件redis.conf实现：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"># RDB文件名，默认为dump.rdb。</span><br><span class="line">dbfilename dump.rdb</span><br><span class="line"></span><br><span class="line"># 文件存放的目录，AOF文件同样存放在此目录下。默认为当前工作目录。</span><br><span class="line">dir ./</span><br></pre></td></tr></table></figure>
+
+<h5 id="redis-conf如何配置"><a href="#redis-conf如何配置" class="headerlink" title="redis.conf如何配置"></a>redis.conf如何配置</h5><p>保存点可以设置多个，Redis的配置文件就默认设置了3个保存点：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"># 以下配置表示的条件：</span><br><span class="line"># 服务器在900秒之内被修改了1次</span><br><span class="line">save 900 1</span><br><span class="line"># 服务器在300秒之内被修改了10次</span><br><span class="line">save 300 10</span><br><span class="line"># 服务器在60秒之内被修改了10000次</span><br><span class="line">save 60 10000</span><br><span class="line"></span><br><span class="line">#如果想禁用快照保存的功能，可以通过注释掉所有&quot;save&quot;配置达到，或者在最后一条&quot;save&quot;配置后添加如下的配置：</span><br><span class="line">save &quot;&quot;</span><br></pre></td></tr></table></figure>
+
+<h5 id="如何启动快照"><a href="#如何启动快照" class="headerlink" title="如何启动快照"></a>如何启动快照</h5><p>有四种方式：</p>
+<ol>
+<li>在<strong>配置文件</strong>中你配置保存点，而不是save “”，当达到要求会进行快照。</li>
+<li><strong>SAVE</strong>命令：SAVE命令会使用同步的方式生成RDB快照文件，这意味着在这个过程中会阻塞所有其他客户端的请求。因此不建议在生产环境使用这个命令。</li>
+<li><strong>BGSAVE</strong>命令：BGSAVE命令使用后台的方式保存RDB文件，调用此命令后，会立刻返回OK返回码。Redis会产生一个子进程进行处理并立刻恢复对客户端的服务。在客户端我们可以使用LASTSAVE命令查看操作是否成功</li>
+<li><strong>执行flushall</strong>命令，也会产生dump.rdb文件，但里面是空的，无意义。</li>
+</ol>
+<p>注意：配置文件里禁用了快照生成功能不影响SAVE和BGSAVE命令的效果。</p>
+<h4 id="AOF"><a href="#AOF" class="headerlink" title="AOF"></a>AOF</h4><h5 id="what-1"><a href="#what-1" class="headerlink" title="what"></a>what</h5><p>以日志的形式来记录每个写操作，将Redis执行过的所有写指令记录下来(读操作不记录)，只许追加文件但不可以改写文件，redis启动之初会读取该文件重新构建数据，换言之，redis重启的话就根据日志文件的内容将写指令从前到后执行一次以完成数据的恢复工作 。</p>
+<p>注意：Aof保存的是<strong>appendonly.aof</strong>文件</p>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2019/11/23/pPqHvXz5hSytU9o.png" alt="UTOOLS1574523165000.png"></p>
+<h5 id="AOF启动、修复、恢复"><a href="#AOF启动、修复、恢复" class="headerlink" title="AOF启动、修复、恢复"></a>AOF启动、修复、恢复</h5><ol>
+<li><p>正常启动<br>修改默认的<code>appendonly no</code>，改为yes（因为redis默认是RDB持久化，所以这里需要在redis.conf手动开启）</p>
+</li>
+<li><p>如果启动失败，有可能是你的appendonly.aof有误（比如因为磁盘满了，命令只写了一半到日志文件里，我们也可以用redis-check-aof这个工具很简单的进行修复。）</p>
+<p>具体做法：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">redis-check-aof --fix进行修复</span><br></pre></td></tr></table></figure></li>
+</ol>
+<h5 id="同步策略"><a href="#同步策略" class="headerlink" title="同步策略"></a>同步策略</h5><p>它有三种同步策略<strong>：</strong>appendfsync always(每修改同步), appendfsync everysec(每秒同步)， appendfsync no （不同步）</p>
+<ol>
+<li><p>appendfsync always(每修改同步)： 同步持久化 每次发生数据变更会被立即记录到磁盘 性能较差但数据完整性比较好。</p>
+</li>
+<li><p>appendfsync everysec(每秒同步)：异步操作，每秒记录. 如果发生灾难，您可能会丢失1秒的数据。</p>
+</li>
+<li><p>appendfsync no （不同步）：从不同步。</p>
+</li>
+</ol>
+<p>官方建议使用默认配置每秒同步，它既快速又安全。这个always策略在实践中非常缓慢， 没有办法做得fsync比现在更快。</p>
+<h5 id="AOF重写"><a href="#AOF重写" class="headerlink" title="AOF重写"></a>AOF重写</h5><p>AOF采用文件追加方式，文件会越来越大为避免出现此种情况，新增了重写机制,当AOF文件的大小超过所设定的阈值时，Redis就会启动AOF文件的内容压缩，</p>
+<p>只保留可以恢复数据的最小指令集.</p>
+<p><strong>重写原理</strong></p>
+<p>AOF文件持续增长而过大时，会fork出一条新进程来将文件重写(也是先写临时文件最后再rename)，遍历新进程的内存中数据，每条记录有一条的Set语句。重写aof文件的操作，并没有读取旧的aof文件，</p>
+<p>而是将整个内存中的数据库内容用命令的方式重写了一个新的aof文件，这点和快照有点类似</p>
+<p><strong>触发机制</strong></p>
+<p>Redis会记录上次重写时的AOF大小，默认配置是当AOF文件大小是上次rewrite后大小的一倍且文件大于64M时触发（redis默认是64M进行重新一次，而实际生产环境这里至少要2G）</p>
+<h4 id="RDB和AOF优缺点"><a href="#RDB和AOF优缺点" class="headerlink" title="RDB和AOF优缺点"></a>RDB和AOF优缺点</h4><p><strong>RDB的优点</strong></p>
+<ol>
+<li>比起AOF，在数据量比较大的情况下，RDB的启动速度更快。</li>
+<li>RDB文件是一个很简洁的单文件，它保存了某个时间点的Redis数据，很适合用于做备份。</li>
+<li>RDB很适合用于灾备。单文件很方便就能传输到远程的服务器上。</li>
+<li>RDB的性能很好，需要进行持久化时，主进程会fork一个子进程出来，然后把持久化的工作交给子进程，自己不会有相关的I/O操作。</li>
+</ol>
+<p><strong>RDB缺点</strong></p>
+<ol>
+<li>RDB容易造成数据的丢失。假设每5分钟保存一次快照，如果Redis因为某些原因不能正常工作，那么从上次产生快照到Redis出现问题这段时间的数据就会丢失了。</li>
+<li>RDB使用fork()产生子进程进行数据的持久化，如果数据比较大的话可能就会花费点时间，造成Redis停止服务几毫秒。</li>
+</ol>
+<p><strong>AOF优点</strong></p>
+<ol>
+<li><p>该机制可以带来更高的数据安全性，即数据持久性。Redis中提供了3中同步策略，即每秒同步、每修改同步和不同步。事实上，每秒同步也是异步完成的，其效率也是非常高的，如果发生灾难，您只可能会丢失1秒的数据。</p>
+</li>
+<li><p>AOF日志文件是一个纯追加的文件。就算服务器突然Crash，也不会出现日志的定位或者损坏问题。甚至如果因为某些原因（例如磁盘满了）命令只写了一半到日志文件里，我们也可以用redis-check-aof这个工具很简单的进行修复。</p>
+</li>
+<li><p>当AOF文件太大时，Redis会自动在后台进行重写。重写很安全，因为重写是在一个新的文件上进行，同时Redis会继续往旧的文件追加数据。</p>
+</li>
+</ol>
+<p><strong>AOF缺点</strong></p>
+<ol>
+<li><p>在相同的数据集下，AOF文件的大小一般会比RDB文件大。</p>
+</li>
+<li><p>在某些fsync策略下，AOF的速度会比RDB慢。通常fsync设置为每秒一次就能获得比较高的性能，而在禁止fsync的情况下速度可以达到RDB的水平。</p>
+</li>
+</ol>
+<h4 id="RDB和AOF建议"><a href="#RDB和AOF建议" class="headerlink" title="RDB和AOF建议"></a>RDB和AOF建议</h4><p>官方建议：是同时开启两种持久化策略。因为有时需要RDB快照是进行数据库备份，更快重启以及发生AOF引擎错误的解决办法。（换句话就是通过RDB来多备份一份数据总是好的）</p>
+<p>因为RDB文件只用作后备用途，建议只在Slave上持久化RDB文件，而且只要15分钟备份一次就够了，只保留save 900 1这条规则。</p>
+<p>如果选择AOF，只要硬盘许可，应该尽量减少AOF rewrite的频率。因为一是带来了持续的IO，二是AOF rewrite的最后将rewrite过程中产生的新数据写到新文件造成的阻塞几乎是不可避免的。</p>
+<p>AOF重写的基础大小默认值64M太小了，可以设到5G以上。</p>
+<h6 id="Redis-4-0-混合持久化"><a href="#Redis-4-0-混合持久化" class="headerlink" title="Redis 4.0 混合持久化"></a>Redis 4.0 混合持久化</h6><p>重启 Redis 时，我们很少使用 rdb 来恢复内存状态，因为会丢失大量数据。我们通常使用 AOF 日志重放，但是重放 AOF 日志性能相对 rdb 来说要慢很多，这样在 Redis 实例很大的情况下，启动需要花费很长的时间。 Redis 4.0 为了解决这个问题，带来了一个新的持久化选项——混合持久化。</p>
+<p>AOF在重写(aof文件里可能有太多没用指令，所以aof会定期根据内存的最新数据生成aof文件)时将重写这一刻之前的内存rdb快照文件的内容和增量的 AOF修改内存数据的命令日志文件存在一起，都写入新的aof文件，新的文件一开始不叫appendonly.aof，等到重写完新的AOF文件才会进行改名，原子的覆盖原有的AOF文件，完成新旧两个AOF文件的替换；</p>
+<p>aof 根据配置规则在后台自动重写，也可以人为执行命令bgrewriteaof重写AOF。 于是在 Redis 重启的时候，可以先加载 rdb 的内容，然后再重放增量 AOF 日志就可以完全替代之前的 AOF 全量文件重放，重启效率因此大幅得到提升。</p>
+<h6 id="开启混合持久化："><a href="#开启混合持久化：" class="headerlink" title="开启混合持久化："></a>开启混合持久化：</h6><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">aof-<span class="keyword">use</span>-<span class="title">rdb</span>-<span class="title">preamble</span> <span class="title">yes</span></span><br></pre></td></tr></table></figure>
+
+<h6 id="混合持久化aof文件结构"><a href="#混合持久化aof文件结构" class="headerlink" title="混合持久化aof文件结构"></a>混合持久化aof文件结构</h6><p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2019/11/24/EzGcY84UlyNegZ9.png" alt="UTOOLS1574598990040.png"></p>
+<h6 id="缓存淘汰策略-解决数据热点问题-："><a href="#缓存淘汰策略-解决数据热点问题-：" class="headerlink" title="缓存淘汰策略(解决数据热点问题)："></a>缓存淘汰策略(解决数据热点问题)：</h6><p>当 Redis 内存超出物理内存限制时，内存的数据会开始和磁盘产生频繁的交换 (swap)。交换会让 Redis 的性能急剧下降，对于访问量比较频繁的 Redis 来说，这样龟速的存取效率基本上等于不可用。</p>
+<p>在生产环境中我们是不允许 Redis 出现交换行为的，为了限制最大使用内存，Redis 提供了配置参数 maxmemory 来限制内存超出期望大小。</p>
+<p>当实际内存超出 maxmemory 时，Redis 提供了几种可选策略 (maxmemory-policy) 来让用户自己决定该如何腾出新的空间以继续提供读写服务。</p>
+<p><strong>noeviction：</strong></p>
+<p>不会继续服务写请求 (DEL 请求可以继续服务)，读请求可以继续进行。这样可以保证不会丢失数据，但是会让线上的业务不能持续进行。这是默认的淘汰策略。</p>
+<p><strong>volatile-lru：</strong><br> 尝试淘汰设置了过期时间的 key，最少使用的 key 优先被淘汰。没有设置过期时间的 key 不会被淘汰，这样可以保证需要持久化的数据不会突然丢失。</p>
+<p><strong>volatile-ttl：</strong><br> 跟上面一样，除了淘汰的策略不是 LRU，而是 key 的剩余寿命 ttl 的值，ttl 越小越优先被淘汰。</p>
+<p><strong>volatile-random：</strong><br> 跟上面一样，不过淘汰的 key 是过期 key 集合中随机的 key。</p>
+<p><strong>allkeys-lru：</strong><br> 区别于 volatile-lru，这个策略要淘汰的 key 对象是全体的 key 集合，而不只是过期的 key 集合。这意味着没有设置过期时间的 key 也会被淘汰。<br> allkeys-random跟上面一样，不过淘汰的策略是随机的 key。</p>
+<p><strong>volatile-xxx ：</strong><br> 策略只会针对带过期时间的 key 进行淘汰，allkeys-xxx 策略会对所有的 key 进行淘汰。如果你只是拿 Redis 做缓存，那应该使用 allkeys-xxx，客户端写缓存时不必携带过期时间。如果你还想同时使用 Redis 的持久化功能，那就使用 volatile-xxx 策略，这样可以保留没有设置过期时间的 key，它们是永久的 key 不会被 LRU 算法淘汰。</p>
+<h3 id="日志"><a href="#日志" class="headerlink" title="日志"></a>日志</h3><p>redis在默认情况下，是不会生成日志文件的，所以需要配置</p>
+<ol>
+<li>打开redis.conf文件</li>
+<li>找到 logfile 行，添加输入日志路径</li>
+<li>找到loglevel，Redis4默认的设置为notice，开发测试阶段可以用debug（日志内容较多一般不建议使用），生产模式一般选用notice<ul>
+<li> debug：会打印出很多信息，适用于开发和测试阶段</li>
+<li>verbose（冗长的）：包含很多不太有用的信息，但比debug要清爽一些</li>
+<li>notice：适用于生产模式</li>
+<li>warning : 警告信息</li>
+</ul>
+</li>
+</ol>
+<h4 id="慢查询日志"><a href="#慢查询日志" class="headerlink" title="慢查询日志"></a>慢查询日志</h4><p>许多存储系统（例如MySQL）提供慢查询日志帮助开发和运维人员定位系统存在的慢操作。</p>
+<p>所谓<strong>慢查询日志就是系统在命令执行前后计算每条命令的执行时间，当超过预设阈值，</strong></p>
+<p><strong>就将这条命令的相关信息（例如：发生时间、耗时、命令的详细信息）记录下来</strong>，Redis也提供了类似的功能</p>
+<p>Redis客户端执行一条命令分为4个部分：</p>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2019/11/24/sIbFmki3YgGWe5z.png" alt="UTOOLS1574582580052.png"></p>
+<ol>
+<li>发送命令</li>
+<li>排队</li>
+<li>执行命令</li>
+<li>返回结果</li>
+</ol>
+<p>注意：<strong>慢查询只会记录执行命令的时间，没有慢查询并不代表客户端没有超时问题</strong>。</p>
+<h5 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h5><p>首先我们需要知道redis的慢查询日志有什么用？日常在使用redis的时候为什么要用慢查询日志？</p>
+<ul>
+<li><p>第一个问题：慢查询日志是为了记录执行时间超过给定时长的redis命令请求</p>
+</li>
+<li><p>第二个问题：让使用者更好地监视和找出在业务中一些慢redis操作，找到更好的优化方法</p>
+</li>
+</ul>
+<p>在Redis中，关于慢查询有两个设置–慢查询<strong>最大超时时间</strong>和<strong>慢查询最大日志数</strong>。</p>
+<ol>
+<li><p>可以通过修改配置文件或者直接在交互模式下输入以下命令来设置慢查询的时间限制，当超过这个时间，查询的记录就会加入到日志文件中。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">CONFIG  SET  slowlog-log-slower-than  num</span><br></pre></td></tr></table></figure>
+
+<p>设置超过多少微妙的查询为慢查询，并且将这些慢查询加入到日志文件中，num的单位为<strong>毫秒</strong>，windows下redis的默认慢查询时10000微妙即10毫秒。</p>
+</li>
+<li><p>可以通过设置最大数量限制日志中保存的慢查询日志的数量，此设置在交互模式下的命令如下</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">CONFIG  SET  slowlog-max-len  num</span><br></pre></td></tr></table></figure>
+
+<p>设置日志的最大数量，num无单位值，windows下redis默认慢查询日志的记录数量为128条。</p>
+<p>如果<strong>slowlog-log-slower-than=0</strong>，<strong>那么系统会记录所有的命令</strong>；如果<strong>slowlog-log-slower-than&lt;0</strong>，<strong>那么对任何命令都不会记录</strong>。</p>
+</li>
+</ol>
+<p>在配置完成后执行</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">config rewrite</span><br></pre></td></tr></table></figure>
+
+<p>如果要Redis将配置持久化到本地配置文件，要执行config rewrite命令，它会重写配置文件。</p>
+<p>CONFIG 命令会使redis客户端自行去寻找redis的.conf 配置文件，找到对应的配置项进行修改。</p>
+<p>因此可以直接修改配置文件中的：<code>slowlog-log-slower-than  num</code>和<code>slowlog-max-len  num</code></p>
+<h5 id="操作"><a href="#操作" class="headerlink" title="操作"></a>操作</h5><ol>
+<li><p>那么接下来，如何查看慢查询呢？</p>
+<p>又是进入交互模式下，命令很简单。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">slowlog get [n]</span><br><span class="line"><span class="meta">#</span><span class="bash">（当然也可以用小写，redis客户端对大小写没有太严格的限制）</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">127.0.0.1:6379[1]&gt; SLOWLOG GET</span><br><span class="line">1  #表示日志唯一标识符uid</span><br><span class="line">1574517963 #命令执行时系统的时间戳</span><br><span class="line">12304 #命令执行的时长，以微妙来计算</span><br><span class="line">FLUSHALL #命令和命令的参数</span><br><span class="line">127.0.0.1:36390 #对应的客户端地址</span><br><span class="line"></span><br><span class="line">0</span><br><span class="line">1574492783</span><br><span class="line">312948</span><br><span class="line">FLUSHALL</span><br><span class="line">127.0.0.1:56634</span><br></pre></td></tr></table></figure>
+
+<p>可以看到每个慢查询日志有4个属性组成，分别是慢查询日志的识别id、发生时间戳、命令耗时、执行命令和参数。</p>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2019/11/24/wEvxBNDuQVjTp3c.png" alt="UTOOLS1574582828291.png"></p>
+</li>
+<li><p>获取慢查询日志列表当前的长度</p>
+<p>命令：<code>slowlog len</code></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">127.0.0.1:6379&gt; slowlog len</span><br><span class="line">(integer) 2</span><br></pre></td></tr></table></figure></li>
+<li><p>慢查询日志重置</p>
+<p>命令：<code>slowlog reset</code></p>
+<p>实际是对慢查询日志列表做清理操作。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">127.0.0.1:6379&gt; slowlog len</span><br><span class="line">(integer) 6</span><br><span class="line">127.0.0.1:6379&gt; slowlog reset</span><br><span class="line">OK</span><br><span class="line">127.0.0.1:6379&gt; slowlog len</span><br><span class="line">(integer) 1</span><br><span class="line">#为什么还有1个，因为阈值设的比较小，slowlog reset就属于慢查询。</span><br></pre></td></tr></table></figure></li>
+</ol>
+<h5 id="注意事项"><a href="#注意事项" class="headerlink" title="注意事项"></a>注意事项</h5><p>慢查询功能可以有效的帮助我们找到Redis可能存在的瓶颈，但在实际使用过程中要注意以下几点：</p>
+<ol>
+<li><p>slowlog-max-len配置建议：线上建议调大慢查询列表，记录慢查询时Redis会对长命令做截断操作，并不会占用大量内存。</p>
+<p><strong>增大慢查询列表可以减缓慢查询被剔除的可能</strong>。</p>
+</li>
+<li><p>slowlog-log-slower-than配置建议：默认值超过10毫秒判定为慢查询，需要根据Redis并发量调整该值。</p>
+<p>由于Redis采用单线程响应命令，对于高流量的场景，如果命令执行时间在1毫秒以上，那么Redis最多可以支撑OPS不到1000，因此对于高OPS的场景的Redis建议设置1毫秒。</p>
+</li>
+<li><p><strong>慢查询只记录命令执行时间，并不包括命令排队和网络传输时间</strong>。因此客户端执行命令的时间会大于命令实际执行的时间。</p>
+<p>因为命令执行排队机制，慢查询会导致其他命令级联阻塞，因此当客户端出现请求超时，</p>
+<p>需要检查该时间点是否有对应的慢查询，从而分析出是否为慢查询导致的命令级联阻塞。</p>
+</li>
+<li><p>由于慢查询日志是一个先进先出的队列，也就是说如果慢查询比较多的情况下，可能会丢失部分慢查询命令，</p>
+<p>为了防止这种情况发生，可以定期执行slowlog get命令将慢查询日志持久化到其他存储中（例如，MySQL），</p>
+</li>
+</ol>
+<p>　　然后可以制作出可视化界面进行查询。</p>
+<h3 id="数据导入导出"><a href="#数据导入导出" class="headerlink" title="数据导入导出"></a>数据导入导出</h3><h4 id="redis-dump方式"><a href="#redis-dump方式" class="headerlink" title="redis-dump方式"></a>redis-dump方式</h4><ol>
+<li><p>安装redis-dump工具</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash">  sudo apt install ruby -y</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> gem sources --add https://gems.ruby-china.com/ --remove https://rubygems.org/</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> gem sources -l</span></span><br><span class="line">https://gems.ruby-china.com</span><br><span class="line"><span class="meta">#</span><span class="bash"> 确保只有 gems.ruby-china.com</span></span><br><span class="line"><span class="meta">$</span><span class="bash">  sudo gem install redis-dump -V</span></span><br></pre></td></tr></table></figure></li>
+<li><p>导出</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ redis-dump -u :password@127.0.0.1:6379 &gt; back.json</span><br></pre></td></tr></table></figure></li>
+<li><p>导入</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cat back.json | redis-load -u :password@127.0.0.1:6379</span><br></pre></td></tr></table></figure></li>
+</ol>
+<h4 id="aof导入方式"><a href="#aof导入方式" class="headerlink" title="aof导入方式"></a>aof导入方式</h4><ol>
+<li><p>源实例生成aof数据</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"># 清空上文目标实例全部数据</span><br><span class="line">$ redis-cli  -a password flushall</span><br><span class="line">OK</span><br><span class="line"># 源实例开启aof功能，将在dir目录下生成appendonly.aof文件</span><br><span class="line">$ redis-cli -a password config set appendonly yes</span><br><span class="line">OK</span><br></pre></td></tr></table></figure></li>
+<li><p>目标实例导入aof数据</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"># 假设appendonly.aof就在当前路径下</span><br><span class="line">$ redis-cli - -a password --pipe &lt; appendonly.aof</span><br><span class="line">All data transferred. Waiting for the last reply...</span><br><span class="line">Last reply received from server.</span><br><span class="line">errors: 0, replies: 5 # 源实例关闭aof功能</span><br><span class="line"></span><br><span class="line">$ redis-cli  -a password config set appendonly no</span><br><span class="line">OK</span><br></pre></td></tr></table></figure></li>
+</ol>
+<h4 id="rdb文件迁移方式"><a href="#rdb文件迁移方式" class="headerlink" title="rdb文件迁移方式"></a>rdb文件迁移方式</h4><ol>
+<li><p>关闭要迁移到的服务器的redis的aof日志功能（我的要迁移到的是本机的redis6380.conf）</p>
+<p>vim redis.conf，将 <code>appendonly yes</code> 修改为 <code>appendonly no</code></p>
+</li>
+<li><p>我们先看一下当前redis的数据，并将数据用save命令固化到rdb文件中</p>
+</li>
+<li><p>杀掉当前redis的进程，否则下一步的复制rdb文件，rdb处于打开的状态，复制的文件，会占用同样的句柄</p>
+</li>
+<li><p>复制当前redis的rdb文件，名字为你要迁移的redis的rdb文件名,记住，一定要杀掉当前redis的进程，还有关闭要迁移的服务器的aof功能（如果不关闭aof，默认用aof文件来恢复数据）</p>
+</li>
+</ol>
+<p>以上就是在不同的redis之间进行rdb的数据迁移，思路就是，复制rdb文件，然后让要迁移的redis加载这个rdb文件就ok了</p>
+<h4 id="源实例db0迁移至目标实例db1"><a href="#源实例db0迁移至目标实例db1" class="headerlink" title="源实例db0迁移至目标实例db1"></a>源实例db0迁移至目标实例db1</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> cat redis_mv.sh</span></span><br><span class="line"><span class="meta">#</span><span class="bash">!/bin/bash</span></span><br><span class="line">redis-cli -h 127.0.0.1 -p 6379 -a password -n 0 keys &quot;*&quot; | while read key do redis-cli -h 127.0.0.1 -p 6379 -a password -n 0 --raw dump $key | perl -pe &#x27;chomp if eof&#x27; | redis-cli -h 202.102.221.12 -p 6379 -a password -n 1 -x restore $key 0 echo &quot;migrate key $key&quot; done</span><br></pre></td></tr></table></figure>
+
+<h4 id="从MySQL导出数据到Redis"><a href="#从MySQL导出数据到Redis" class="headerlink" title="从MySQL导出数据到Redis"></a>从MySQL导出数据到Redis</h4><ol>
+<li><p>当向Redis中一次性导入大数据时,可以将所有的插入命令写到一个txt文件中，如插入 key-value</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">SET test0 abc</span><br><span class="line">SET test1 bcd</span><br><span class="line">SET test3 abcd</span><br></pre></td></tr></table></figure>
+
+<p>或者</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sadd miaopai M44xschlTD19MkDL zoPKSNHdMiwz41tM sDSF-A6w6ewLuYLs BLsKbF6JmRjvMEf~ cWGJTDIa-DjfZClg17C6mA__ kHMb23MaqpohIVsM KZDTlh1aOWFjIbsW</span><br></pre></td></tr></table></figure>
+
+<p>每个SET命令前要留一个空格，保存为data.txt,然后使用 redis的客户端 redis-cli的管道传输(redis的版本要大于2.6)<br>linux下使用命令：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cat data.txt | redis-cli --pipe</span><br><span class="line">cat sadd.txt | redis-cli --pipe -a password</span><br></pre></td></tr></table></figure>
+
+<p>成功的话就会出现如下结果：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">All data transferred. Waiting for the last reply...</span><br><span class="line">Last reply received from server.</span><br><span class="line">errors: 0, replies: 3</span><br></pre></td></tr></table></figure></li>
+<li><p>使用符合redis协议格式的数据,虽然第一种方法比较方便，不过存在的问题是，有时redis无法正确解释数据，所有推荐的第二种方式,此协议数据的格式如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">*3&lt;cr&gt;&lt;lf&gt;</span><br><span class="line">$3&lt;cr&gt;&lt;lf&gt;</span><br><span class="line">SET&lt;cr&gt;&lt;lf&gt;</span><br><span class="line">$3&lt;cr&gt;&lt;lf&gt;</span><br><span class="line">key&lt;cr&gt;&lt;lf&gt;</span><br><span class="line">$5&lt;cr&gt;&lt;lf&gt;</span><br><span class="line">value&lt;cr&gt;&lt;lf&gt;</span><br></pre></td></tr></table></figure>
+
+<p>意义如下：<br> 第一行： <code>*3</code> : 星号*是规定格式；3是参数的个数(如上：SET、key、value) ；<code>&lt;cr&gt;</code>是<code>&#39;\r&#39;</code>；<code> &lt;lf&gt;</code>是<code>&#39;\n&#39;</code>。<code>\r\n</code>代表回车换行。<br> 第二、三行： <code>$3&lt;cr&gt;&lt;lf&gt;</code>  : $是规定格式；3是对应命令SET的长度(3个字母)；<code>&lt;cr&gt;&lt;lf&gt;</code>同上<br> 所以上述格式又可写成：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">*3\r\n<span class="variable">$3</span>\r\nSET\r\n<span class="variable">$3</span>\r\nkey\r\n<span class="variable">$5</span>\r\nvalue\r\n　</span><br></pre></td></tr></table></figure></li>
+<li><p>使用mysql一次性导入大量数据的原理是一样的,将数据按上述协议的格式导出来，然后再通过redis-cli –pipe导入</p>
+<p>建表语句：</p>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">CREATE TABLE events_all_time (  </span><br><span class="line">  <span class="keyword">id</span> <span class="keyword">int</span>(<span class="number">11</span>) <span class="keyword">unsigned</span> NOT <span class="literal">NULL</span> AUTO_INCREMENT,  </span><br><span class="line">  action varchar(<span class="number">255</span>) NOT <span class="literal">NULL</span>,  </span><br><span class="line">  count <span class="keyword">int</span>(<span class="number">11</span>) NOT <span class="literal">NULL</span> DEFAULT <span class="number">0</span>,  </span><br><span class="line">  PRIMARY KEY (<span class="keyword">id</span>),  </span><br><span class="line">  UNIQUE KEY uniq_action (action)  </span><br><span class="line">); </span><br></pre></td></tr></table></figure>
+
+<p>准备在每行数据中执行的redis命令如下：<br> <code>HSET events_all_time [action] [count]</code> ,使用了redis哈希的数据类型。<br> 按照以上redis命令规则，创建一个events_to_redis.sql文件，内容是用来生成redis数据协议格式的SQL：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">-- events_to_redis.sql  </span><br><span class="line">SELECT CONCAT(  </span><br><span class="line">  &quot;*4\r\n&quot;,  </span><br><span class="line">  &#x27;$&#x27;, LENGTH(redis_cmd), &#x27;\r\n&#x27;,  </span><br><span class="line">  redis_cmd, &#x27;\r\n&#x27;,  </span><br><span class="line">  &#x27;$&#x27;, LENGTH(redis_key), &#x27;\r\n&#x27;,  </span><br><span class="line">  redis_key, &#x27;\r\n&#x27;,  </span><br><span class="line">  &#x27;$&#x27;, LENGTH(hkey), &#x27;\r\n&#x27;,  </span><br><span class="line">  hkey, &#x27;\r\n&#x27;,  </span><br><span class="line">  &#x27;$&#x27;, LENGTH(hval), &#x27;\r\n&#x27;,  </span><br><span class="line">  hval, &#x27;\r&#x27; </span><br><span class="line">)  </span><br><span class="line">FROM (  </span><br><span class="line">  SELECT </span><br><span class="line">  &#x27;HSET&#x27; as redis_cmd,  </span><br><span class="line">  &#x27;events_all_time&#x27; AS redis_key,  </span><br><span class="line">  action AS hkey,  </span><br><span class="line">  count AS hval  </span><br><span class="line">  FROM events_all_time  </span><br><span class="line">) AS t </span><br></pre></td></tr></table></figure>
+
+<p>用下面的命令执行：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql -h47.98.40.244 -uhyp -ppassword  test --skip-column-names --raw &lt; events_to_redis.sql | redis-cli --pipe</span><br></pre></td></tr></table></figure>
+
+<p>很重要的mysql参数说明：<br> –raw: 使mysql不转换字段值中的换行符。<br> –skip-column-names: 使mysql输出的每行中不包含列名。</p>
+</li>
+<li><p>使用java读文本，写入redis</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">Pipeline p = redis.pipelined();</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">loadDictionary</span><span class="params">(<span class="keyword">final</span> URL dictionaryUrl)</span> <span class="keyword">throws</span> IOException </span>&#123;</span><br><span class="line">    InputStreamReader inputStreamReader = <span class="keyword">new</span> InputStreamReader(dictionaryUrl.openStream());</span><br><span class="line">    BufferedReader reader = <span class="keyword">new</span> BufferedReader(inputStreamReader);</span><br><span class="line">    String word;</span><br><span class="line">    <span class="keyword">while</span>((word = reader.readLine()) != <span class="keyword">null</span>) &#123;</span><br><span class="line">        word = word.trim();</span><br><span class="line">        <span class="comment">// Add the word if the word does not start with #</span></span><br><span class="line">        <span class="keyword">if</span>(!word.isEmpty() &amp;&amp; !word.startsWith(<span class="string">&quot;#&quot;</span>)) &#123;</span><br><span class="line">            addWord(word);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    reader.close();</span><br><span class="line">    inputStreamReader.close();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">addWord</span><span class="params">(<span class="keyword">final</span> String word)</span> </span>&#123;</span><br><span class="line">    <span class="comment">// Add all the possible prefixes of the given word and also the given</span></span><br><span class="line">    <span class="comment">// word with a * suffix.</span></span><br><span class="line">    p.zadd(redisKey, <span class="number">0</span>, word + <span class="string">&quot;*&quot;</span>);</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> index = <span class="number">1</span>, total = word.length(); index &lt; total; index++) &#123;</span><br><span class="line">        p.zadd(redisKey, <span class="number">0</span>, word.substring(<span class="number">0</span>, index));</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+</ol>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">平心</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://pingxin0521.gitee.io/2019/10/28/%E6%95%B0%E6%8D%AE%E5%BA%93-Redis-2-1/">https://pingxin0521.gitee.io/2019/10/28/%E6%95%B0%E6%8D%AE%E5%BA%93-Redis-2-1/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://pingxin0521.gitee.io" target="_blank">平心de小屋</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a><a class="post-meta__tags" href="/tags/NoSQL/">NoSQL</a><a class="post-meta__tags" href="/tags/Redis/">Redis</a></div><div class="post_share"><div class="social-share" data-image="https://i.loli.net/2020/05/08/gGE57HRvpcKPfDY.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2019/10/30/Java-SpringCloud-1-0/"><img class="prev-cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/PFDRNxj93taz6pw.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">Spring Cloud 组件之Eureka--注册中心 (二)</div></div></a></div><div class="next-post pull-right"><a href="/2019/10/27/Java-SpringCloud-6-0/"><img class="next-cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/PFDRNxj93taz6pw.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">微服务组件--分布式追踪系统</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span> 相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2019/10/18/数据库-Redis-1-4/" title="Redis 事务、发布订阅"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/HjVAdIuT7bZJypS.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2019-11-24</div><div class="title">Redis 事务、发布订阅</div></div></a></div><div><a href="/2019/10/19/数据库-Redis-1-5/" title="Redis 高级类型"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/okfOw28KlZFbE7z.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2020-02-14</div><div class="title">Redis 高级类型</div></div></a></div><div><a href="/2020/02/14/数据库-Redis-1-6/" title="Redis 应用场景示例"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/gGE57HRvpcKPfDY.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2020-02-14</div><div class="title">Redis 应用场景示例</div></div></a></div><div><a href="/2019/08/18/数据库-Redis-1-1/" title="Redis 数据结构"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/gGE57HRvpcKPfDY.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2020-02-14</div><div class="title">Redis 数据结构</div></div></a></div><div><a href="/2019/06/18/数据库-Redis-1-0/" title="Redis入门和安装"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/gGE57HRvpcKPfDY.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2020-02-14</div><div class="title">Redis入门和安装</div></div></a></div><div><a href="/2019/09/08/数据库-Redis-1-2/" title="Redis 设计和示例"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/vCnKyoFJZ1g4XYR.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2019-11-23</div><div class="title">Redis 设计和示例</div></div></a></div></div></div><hr/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div class="vcomment" id="vcomment"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="card-info-avatar is-center"><img class="avatar-img" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://s2.ax1x.com/2020/02/11/1ovw6J.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/><div class="author-info__name">平心</div><div class="author-info__description">年轻人的life、learn and think</div></div><div class="card-info-data"><div class="card-info-data-item is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">449</div></a></div><div class="card-info-data-item is-center"><a href="/tags/"><div class="headline">标签</div><div class="length-num">77</div></a></div><div class="card-info-data-item is-center"><a href="/categories/"><div class="headline">分类</div><div class="length-num">68</div></a></div></div><a class="button--animated" id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/hanyunpeng0521"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/hanyunpeng0521" target="_blank" title="Github"><i class="fa fa-github"></i></a><a class="social-icon" href="mailto:m13839441583@163.com" target="_blank" title="Email"><i class="fa fa-envelope"></i></a><a class="social-icon" href="/atom.xml" target="_blank" title=""><i class="fa fa-rss"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn card-announcement-animation"></i><span>公告</span></div><div class="announcement_content">为什么呢？开始提问吧</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#Redis%E9%AB%98%E5%8F%AF%E7%94%A8%E6%A6%82%E8%BF%B0"><span class="toc-number">1.</span> <span class="toc-text">Redis高可用概述</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8C%81%E4%B9%85%E5%8C%96"><span class="toc-number"></span> <span class="toc-text">持久化</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#RDB"><span class="toc-number">1.</span> <span class="toc-text">RDB</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#what"><span class="toc-number">1.1.</span> <span class="toc-text">what</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#where"><span class="toc-number">1.2.</span> <span class="toc-text">where</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#redis-conf%E5%A6%82%E4%BD%95%E9%85%8D%E7%BD%AE"><span class="toc-number">1.3.</span> <span class="toc-text">redis.conf如何配置</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%A6%82%E4%BD%95%E5%90%AF%E5%8A%A8%E5%BF%AB%E7%85%A7"><span class="toc-number">1.4.</span> <span class="toc-text">如何启动快照</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#AOF"><span class="toc-number">2.</span> <span class="toc-text">AOF</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#what-1"><span class="toc-number">2.1.</span> <span class="toc-text">what</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#AOF%E5%90%AF%E5%8A%A8%E3%80%81%E4%BF%AE%E5%A4%8D%E3%80%81%E6%81%A2%E5%A4%8D"><span class="toc-number">2.2.</span> <span class="toc-text">AOF启动、修复、恢复</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%90%8C%E6%AD%A5%E7%AD%96%E7%95%A5"><span class="toc-number">2.3.</span> <span class="toc-text">同步策略</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#AOF%E9%87%8D%E5%86%99"><span class="toc-number">2.4.</span> <span class="toc-text">AOF重写</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#RDB%E5%92%8CAOF%E4%BC%98%E7%BC%BA%E7%82%B9"><span class="toc-number">3.</span> <span class="toc-text">RDB和AOF优缺点</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#RDB%E5%92%8CAOF%E5%BB%BA%E8%AE%AE"><span class="toc-number">4.</span> <span class="toc-text">RDB和AOF建议</span></a><ol class="toc-child"><li class="toc-item toc-level-6"><a class="toc-link" href="#Redis-4-0-%E6%B7%B7%E5%90%88%E6%8C%81%E4%B9%85%E5%8C%96"><span class="toc-number">4.0.1.</span> <span class="toc-text">Redis 4.0 混合持久化</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#%E5%BC%80%E5%90%AF%E6%B7%B7%E5%90%88%E6%8C%81%E4%B9%85%E5%8C%96%EF%BC%9A"><span class="toc-number">4.0.2.</span> <span class="toc-text">开启混合持久化：</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#%E6%B7%B7%E5%90%88%E6%8C%81%E4%B9%85%E5%8C%96aof%E6%96%87%E4%BB%B6%E7%BB%93%E6%9E%84"><span class="toc-number">4.0.3.</span> <span class="toc-text">混合持久化aof文件结构</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#%E7%BC%93%E5%AD%98%E6%B7%98%E6%B1%B0%E7%AD%96%E7%95%A5-%E8%A7%A3%E5%86%B3%E6%95%B0%E6%8D%AE%E7%83%AD%E7%82%B9%E9%97%AE%E9%A2%98-%EF%BC%9A"><span class="toc-number">4.0.4.</span> <span class="toc-text">缓存淘汰策略(解决数据热点问题)：</span></a></li></ol></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%97%A5%E5%BF%97"><span class="toc-number"></span> <span class="toc-text">日志</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%85%A2%E6%9F%A5%E8%AF%A2%E6%97%A5%E5%BF%97"><span class="toc-number">1.</span> <span class="toc-text">慢查询日志</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E9%85%8D%E7%BD%AE"><span class="toc-number">1.1.</span> <span class="toc-text">配置</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%93%8D%E4%BD%9C"><span class="toc-number">1.2.</span> <span class="toc-text">操作</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9"><span class="toc-number">1.3.</span> <span class="toc-text">注意事项</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E5%AF%BC%E5%85%A5%E5%AF%BC%E5%87%BA"><span class="toc-number"></span> <span class="toc-text">数据导入导出</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#redis-dump%E6%96%B9%E5%BC%8F"><span class="toc-number">1.</span> <span class="toc-text">redis-dump方式</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#aof%E5%AF%BC%E5%85%A5%E6%96%B9%E5%BC%8F"><span class="toc-number">2.</span> <span class="toc-text">aof导入方式</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#rdb%E6%96%87%E4%BB%B6%E8%BF%81%E7%A7%BB%E6%96%B9%E5%BC%8F"><span class="toc-number">3.</span> <span class="toc-text">rdb文件迁移方式</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%BA%90%E5%AE%9E%E4%BE%8Bdb0%E8%BF%81%E7%A7%BB%E8%87%B3%E7%9B%AE%E6%A0%87%E5%AE%9E%E4%BE%8Bdb1"><span class="toc-number">4.</span> <span class="toc-text">源实例db0迁移至目标实例db1</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BB%8EMySQL%E5%AF%BC%E5%87%BA%E6%95%B0%E6%8D%AE%E5%88%B0Redis"><span class="toc-number">5.</span> <span class="toc-text">从MySQL导出数据到Redis</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2021/05/15/node-2-4/" title="Egg.js -- 为企业级框架和应用而生"><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/okfOw28KlZFbE7z.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Egg.js -- 为企业级框架和应用而生"/></a><div class="content"><a class="title" href="/2021/05/15/node-2-4/" title="Egg.js -- 为企业级框架和应用而生">Egg.js -- 为企业级框架和应用而生</a><time datetime="2021-05-15T10:18:59.000Z" title="发表于 2021-05-15 18:18:59">2021-05-15</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/04/30/node-2-3/" title="Koa -- 基于Node.js平台的下一代Web开发框架"><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/HjVAdIuT7bZJypS.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Koa -- 基于Node.js平台的下一代Web开发框架"/></a><div class="content"><a class="title" href="/2021/04/30/node-2-3/" title="Koa -- 基于Node.js平台的下一代Web开发框架">Koa -- 基于Node.js平台的下一代Web开发框架</a><time datetime="2021-04-30T10:18:59.000Z" title="发表于 2021-04-30 18:18:59">2021-04-30</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/04/01/node-2-1/" title="Node.JS web开发前置知识"><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/gGE57HRvpcKPfDY.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Node.JS web开发前置知识"/></a><div class="content"><a class="title" href="/2021/04/01/node-2-1/" title="Node.JS web开发前置知识">Node.JS web开发前置知识</a><time datetime="2021-04-01T03:18:59.000Z" title="发表于 2021-04-01 11:18:59">2021-04-01</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2020/12/26/%E5%91%A8%E8%AE%B0-10-1/" title="第十一周--谷歌浏览器插件"><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/gGE57HRvpcKPfDY.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="第十一周--谷歌浏览器插件"/></a><div class="content"><a class="title" href="/2020/12/26/%E5%91%A8%E8%AE%B0-10-1/" title="第十一周--谷歌浏览器插件">第十一周--谷歌浏览器插件</a><time datetime="2020-12-26T10:18:59.000Z" title="发表于 2020-12-26 18:18:59">2020-12-26</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2020/12/26/%E5%91%A8%E8%AE%B0-10-0/" title="第十一周--浏览器技术"><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/vCnKyoFJZ1g4XYR.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="第十一周--浏览器技术"/></a><div class="content"><a class="title" href="/2020/12/26/%E5%91%A8%E8%AE%B0-10-0/" title="第十一周--浏览器技术">第十一周--浏览器技术</a><time datetime="2020-12-26T06:18:59.000Z" title="发表于 2020-12-26 14:18:59">2020-12-26</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2019 - 2021 By 平心</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div id="local-search"><div class="search-dialog"><div class="search-dialog__title" id="local-search-title">本地搜索</div><div id="local-input-panel"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div></div><hr/><div id="local-search-results"></div><span class="search-close-button"><i class="fas fa-times"></i></span></div><div id="search-mask"></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload/dist/lazyload.iife.min.js"></script><script src="/js/search/local-search.js"></script><div class="js-pjax"><script>function loadValine () {
+  function initValine () {
+    const valine = new Valine(Object.assign({
+      el: '#vcomment',
+      appId: '4lfIXzqxaC1ONs0MJO4oHu07-gzGzoHsz',
+      appKey: 'qw99Bw8FD0KVKU9m457CwWsr',
+      placeholder: 'Please leave your footprints',
+      avatar: 'monsterid',
+      meta: 'nick,mail,link'.split(','),
+      pageSize: '10',
+      lang: 'zh-CN',
+      recordIP: true,
+      serverURLs: '',
+      emojiCDN: '',
+      emojiMaps: "",
+      enableQQ: true,
+      path: window.location.pathname,
+      requiredFields: ["nick,mail"],
+      visitor: false
+    }, null))
+  }
+
+  if (typeof Valine === 'function') initValine() 
+  else getScript('https://cdn.jsdelivr.net/npm/valine/dist/Valine.min.js').then(initValine)
+}
+
+if ('Valine' === 'Valine' || !false) {
+  if (false) btf.loadComment(document.getElementById('vcomment'),loadValine)
+  else setTimeout(loadValine, 0)
+} else {
+  function loadOtherComment () {
+    loadValine()
+  }
+}</script></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>

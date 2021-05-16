@@ -1,0 +1,335 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Docker 监控 | 平心de小屋</title><meta name="keywords" content="容器,Docker"><meta name="author" content="平心"><meta name="copyright" content="平心"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="随着Docker被大规模的部署应用，一台Docker主机有可能运行了成百上千个容器，那如何通过可视化的方式了解Docker主机以及其上的容器资源状态以及健康就变得越来越重要。当然很多厂商都推出了自己的监控解决方案，例如Docker那企业需要考量哪些标准去评估这些监控工具的优劣呢？">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Docker 监控">
+<meta property="og:url" content="https://pingxin0521.gitee.io/2019/08/11/%E5%AE%B9%E5%99%A8-Docker-5-3/index.html">
+<meta property="og:site_name" content="平心de小屋">
+<meta property="og:description" content="随着Docker被大规模的部署应用，一台Docker主机有可能运行了成百上千个容器，那如何通过可视化的方式了解Docker主机以及其上的容器资源状态以及健康就变得越来越重要。当然很多厂商都推出了自己的监控解决方案，例如Docker那企业需要考量哪些标准去评估这些监控工具的优劣呢？">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://i.loli.net/2020/05/08/okfOw28KlZFbE7z.jpg">
+<meta property="article:published_time" content="2019-08-11T10:18:59.000Z">
+<meta property="article:modified_time" content="2019-11-15T09:38:53.947Z">
+<meta property="article:author" content="平心">
+<meta property="article:tag" content="容器">
+<meta property="article:tag" content="Docker">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.loli.net/2020/05/08/okfOw28KlZFbE7z.jpg"><link rel="shortcut icon" href="https://s2.ax1x.com/2020/02/11/1ovFOA.png"><link rel="canonical" href="https://pingxin0521.gitee.io/2019/08/11/%E5%AE%B9%E5%99%A8-Docker-5-3/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"search.xml","languages":{"hits_empty":"找不到您查询的内容：${query}"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    jQuery: 'https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js',
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+    },
+    fancybox: {
+      js: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css'
+    }
+  },
+  isPhotoFigcaption: true,
+  islazyload: true,
+  isanchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'Docker 监控',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2019-11-15 17:38:53'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    })(window)</script><meta name="generator" content="Hexo 5.4.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="author-avatar"><img class="avatar-img" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://s2.ax1x.com/2020/02/11/1ovw6J.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data"><div class="data-item is-center"><div class="data-item-link"><a href="/archives/"><div class="headline">文章</div><div class="length-num">449</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/tags/"><div class="headline">标签</div><div class="length-num">77</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/categories/"><div class="headline">分类</div><div class="length-num">68</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fa fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fa fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://i.loli.net/2020/05/08/okfOw28KlZFbE7z.jpg')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">平心de小屋</a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fa fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fa fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">Docker 监控</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2019-08-11T10:18:59.000Z" title="发表于 2019-08-11 18:18:59">2019-08-11</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2019-11-15T09:38:53.947Z" title="更新于 2019-11-15 17:38:53">2019-11-15</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E5%AE%B9%E5%99%A8/">容器</a><i class="fas fa-angle-right post-meta-separator"></i><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E5%AE%B9%E5%99%A8/Docker/">Docker</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">2.8k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>11分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="Docker 监控"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><p>随着Docker被大规模的部署应用，一台Docker主机有可能运行了成百上千个容器，那如何通过可视化的方式了解Docker主机以及其上的容器资源状态以及健康就变得越来越重要。当然很多厂商都推出了自己的监控解决方案，例如Docker那企业需要考量哪些标准去评估这些监控工具的优劣呢？</p>
+<span id="more"></span>
+
+<ol>
+<li>是否易于部署</li>
+<li>信息呈现的详细度</li>
+<li>整个部署过程中日志的聚集程度</li>
+<li>数据报警能力</li>
+<li>是否可以监控非Docker的资源</li>
+<li>投入的成本大小</li>
+</ol>
+<p>接下来我们会讨论下docker常用的监控工具，比如docker监控命令、sysdig、cAdvisor、Weave Scope、Prometheus、Cloud Insight等等。</p>
+<h4 id="docker监控命令"><a href="#docker监控命令" class="headerlink" title="docker监控命令"></a>docker监控命令</h4><p>Docker本身已经自带了一些监控命令，包括docker system（docker主机） 、docker ps/top/stats（docker容器）</p>
+<p><strong>docker system df</strong></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> docker system df</span></span><br><span class="line">TYPE                TOTAL               ACTIVE              SIZE                RECLAIMABLE</span><br><span class="line">Images              8                   1                   1.432GB             1.091GB (76%)</span><br><span class="line">Containers          1                   1                   432B                0B (0%)</span><br><span class="line">Local Volumes       4                   1                   777.8MB             593MB (76%)</span><br><span class="line">Build Cache         0                   0                   0B                  0B</span><br><span class="line"><span class="meta">$</span><span class="bash"> docker system df -v</span></span><br><span class="line">Images space usage:</span><br><span class="line"></span><br><span class="line">REPOSITORY          TAG                 IMAGE ID            CREATED             SIZE                SHARED SIZE         UNIQUE SIZE         CONTAINERS</span><br><span class="line">eg_apt_cacher_ng    latest              1d7ba8e0c34c        58 minutes ago      98.17MB             64.19MB             33.98MB             0</span><br><span class="line">grafana/grafana     latest              05d1bcf30d16        8 days ago          207.4MB             5.553MB             201.9MB             0</span><br><span class="line">ubuntu              latest              775349758637        2 weeks ago         64.19MB             64.19MB             0B                  0</span><br><span class="line">alpine              latest              965ea09ff2eb        3 weeks ago         5.553MB             5.553MB             0B                  0</span><br><span class="line">mysql               5.7                 cd3ed0dfff7e        4 weeks ago         436.6MB             115.1MB             321.5MB             0</span><br><span class="line">mysql               latest              c8ee894bd2bd        4 weeks ago         456.3MB             115.1MB             341.1MB             1</span><br><span class="line">google/cadvisor     v0.27.3             64aa5b3694b2        23 months ago       59.1MB              0B                  59.1MB              0</span><br><span class="line">tutum/influxdb      latest              c061e5808198        3 years ago         289.7MB             0B                  289.7MB             0</span><br><span class="line"></span><br><span class="line">Containers space usage:</span><br><span class="line"></span><br><span class="line">CONTAINER ID        IMAGE               COMMAND                  LOCAL VOLUMES       SIZE                CREATED             STATUS              NAMES</span><br><span class="line">7295cb280f25        mysql               &quot;docker-entrypoint.s…&quot;   1                   432B                28 minutes ago      Up 14 minutes       mysql</span><br><span class="line"></span><br><span class="line">Local Volumes space usage:</span><br><span class="line"></span><br><span class="line">VOLUME NAME                                                        LINKS               SIZE</span><br><span class="line">dcb416db0b95f9fffee5fb0f1717a4e46ebb17d9304da80953e8dbf928d59981   0                   592.9MB</span><br><span class="line">fba90c8cc525cbcc556225ee997eacb4fb857ade664a0680b0609bcb569d1309   0                   148.4kB</span><br><span class="line">5d42b1d37682a53b2405bf92980c1955e6a199cf8871de160a249603eebc2e80   0                   0B</span><br><span class="line">mysql_data                                                         1                   184.7MB</span><br><span class="line"></span><br><span class="line">Build cache usage: 0B</span><br><span class="line"></span><br><span class="line">CACHE ID            CACHE TYPE          SIZE                CREATED             LAST USED           USAGE               SHARED</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>统计docker主机上Images、Containers、Local Volumes、Build Cache等的space usage</p>
+<p>-v参数可以获得更急详细的信息</p>
+<p><strong>docker info</strong>（docker system info）</p>
+<p>显示docker客户端模式和服务端主机操作系统、内核版本以及其上docker版本、容器数量、镜像数量等等的统计信息</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> docker system info</span></span><br><span class="line">Client:</span><br><span class="line"> Debug Mode: false</span><br><span class="line"></span><br><span class="line">Server:</span><br><span class="line"> Containers: 1</span><br><span class="line">  Running: 1</span><br><span class="line">  Paused: 0</span><br><span class="line">  Stopped: 0</span><br><span class="line"> Images: 11</span><br><span class="line"> Server Version: 19.03.4</span><br><span class="line"> Storage Driver: overlay2</span><br><span class="line">  Backing Filesystem: extfs</span><br><span class="line">  Supports d_type: true</span><br><span class="line">  Native Overlay Diff: true</span><br><span class="line"> Logging Driver: json-file</span><br><span class="line"> Cgroup Driver: cgroupfs</span><br><span class="line"> Plugins:</span><br><span class="line">  Volume: local</span><br><span class="line">  Network: bridge host ipvlan macvlan null overlay</span><br><span class="line">  Log: awslogs fluentd gcplogs gelf journald json-file local logentries splunk syslog</span><br><span class="line"> Swarm: inactive</span><br><span class="line"> Runtimes: runc</span><br><span class="line"> Default Runtime: runc</span><br><span class="line"> Init Binary: docker-init</span><br><span class="line"> containerd version: b34a5c8af56e510852c35414db4c1f4fa6172339</span><br><span class="line"> runc version: 3e425f80a8c931f88e6d94a8c831b9d5aa481657</span><br><span class="line"> init version: fec3683</span><br><span class="line"> Security Options:</span><br><span class="line">  seccomp</span><br><span class="line">   Profile: default</span><br><span class="line"> Kernel Version: 3.10.0-862.14.4.el7.x86_64</span><br><span class="line"> Operating System: CentOS Linux 7 (Core)</span><br><span class="line"> OSType: linux</span><br><span class="line"> Architecture: x86_64</span><br><span class="line"> CPUs: 1</span><br><span class="line"> Total Memory: 1.796GiB</span><br><span class="line"> Name: iZbp125p95hhdb1kcx81ogZ</span><br><span class="line"> ID: LP2A:PULR:SZMU:IDER:LUUN:JMCH:RD7S:GBSV:7QUS:E5YJ:465Y:4LXM</span><br><span class="line"> Docker Root Dir: /var/lib/docker</span><br><span class="line"> Debug Mode: false</span><br><span class="line"> Registry: https://index.docker.io/v1/</span><br><span class="line"> Labels:</span><br><span class="line"> Experimental: false</span><br><span class="line"> Insecure Registries:</span><br><span class="line">  127.0.0.0/8</span><br><span class="line"> Live Restore Enabled: false</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p><strong>docker ps</strong>（docker container ps等价于docker container ls）</p>
+<p>列出docker host上目前运行的所有容器，-a参数，将列出所有的容器</p>
+<p><strong>docker top &lt;CONTAINER&gt;</strong> （docker container top）</p>
+<p>查询运行的容器内的进程</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> docker top mysql</span></span><br><span class="line">UID                 PID                 PPID                C                   STIME               TTY                 TIME                CMD</span><br><span class="line">polkitd             5645                5615                0                   14:40               pts/0               00:00:07            mysqld</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>**docker stats [CONTAINER]**（docker container stats）</p>
+<p>动态实时显示docker host上各个运行容器所占资源利用率统计，包括CPU、Memory、Network I/O、Block I/O、PID</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ docker stats </span><br></pre></td></tr></table></figure>
+
+<h4 id="Sysdig"><a href="#Sysdig" class="headerlink" title="Sysdig"></a><a target="_blank" rel="noopener" href="https://sysdig.com/">Sysdig</a></h4><p>Sysdig = system（系统）+dig（挖掘）。Sysdig 是一个开源系统发掘工具，用于系统级别的勘察和排障，可以把它看作一系列Linux系统工具的组合，主要包括：</p>
+<ul>
+<li>strace：追踪某个进程产生和接收的系统调用。</li>
+<li>tcpdump：分析网络数据，监控原始网络通信。</li>
+<li>lsof： list opened files, 列出打开的文件。</li>
+<li>top：监控系统性能工具。</li>
+<li>htop ：交互式的进程浏览器，可以用来替换 top 命令。</li>
+<li>iftop ：主要用来显示本机网络流量情况及各相互通信的流量集合。</li>
+<li>lua：一个小巧的脚本语言。该语言的设计目的是为了嵌入应用程序中，从而为应用程序提供灵活的扩展和定制功能。</li>
+</ul>
+<p>Sysdig 的特性之一在于它不仅能分析Linux 系统的“现场”状态，也能将该状态保存为转储文件以供离线分析检查。你也可以自定义 Sysdig 的行为，通过内建的名为凿子（chisel）的小脚本增强其功能。所以 Sysdig 经常被翻译为系统之锹。通过 Sysdig 工具，用户能够很方便地查看到主机上所有应用程序的cpu、文件 i/o、网络访问状况，这个工具最初的产生就是为了取代传统服务器上的一系列系统检测工具如strace、tcpdump、htop、iftop、lsof 等。它的logo被设计为一个铲子的轮廓，这就寓意着Sysdig对系统信息的强大挖掘能力。</p>
+<p>Sysdig不仅可以快速进行系统数据的收集和分析，而且还专门提供了容器级别的信息采集命令，支持查看指定容器之间的网络流量、查看特定容器的 CPU使用情况等。下图是 Sysdig 监控 Docker 容器的示意图。</p>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://s2.ax1x.com/2019/11/15/Ma2Anf.png" alt="Ma2Anf.png"></p>
+<p>下面先来看下Sysdig的安装：</p>
+<p>Sysdig官方提供三种安装方式（以Ubuntu系统为例）：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">$ curl -s https://s3.amazonaws.com/download.draios.com/stable/install-sysdig | sudo bash</span><br><span class="line"></span><br><span class="line">#或</span><br><span class="line"></span><br><span class="line">$ curl -s https://s3.amazonaws.com/download.draios.com/DRAIOS-GPG-KEY.public | sudo apt-key add -</span><br><span class="line">$ sudo curl -s -o /etc/apt/sources.list.d/draios.list http://download.draios.com/stable/deb/draios.list </span><br><span class="line">$ sudo apt-get update</span><br><span class="line">$ sudo apt-get -y install linux-headers-$(uname -r)</span><br><span class="line">$ sudo apt-get- y install sysdig</span><br><span class="line"></span><br><span class="line">#或</span><br><span class="line">$ docker run -i -t \</span><br><span class="line">--name sysdig \</span><br><span class="line">--privileged \</span><br><span class="line">-v /var/run/docker.sock:/host/var/run/docker.sock \</span><br><span class="line">-v /dev:/host/dev \</span><br><span class="line">-v /proc:/host/proc:ro \</span><br><span class="line">-v /boot:/host/boot:ro \</span><br><span class="line">-v /lib/modules:/host/lib/modules:ro \</span><br><span class="line">-v /usr:/host/usr:ro \</span><br><span class="line">sysdig/sysdig</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>Sysdig安装后，我们就可以体验Sysdig的强大功能了。</p>
+<p>首先，Sysdig提供了强大的交互式工具——csysdig（这个top命令类似）</p>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://s2.ax1x.com/2019/11/15/MaR8xI.png" alt="MaR8xI.png"></p>
+<p>终端输入csysdig，默认进入系统Processes监控页面,最上面显示目前监控的是整个系统Processes,中间动态实时显示系统Processes的变化</p>
+<p>中间左面，列出了sysdig监控的项目，如Processes、Directories、Containers、K8s Controllers等等，右面展示监控的详细信息说明</p>
+<p>按上下方向键选择Containers,按Enter进入Containers监控页面</p>
+<p>当然sysdig也提供了非交互式的命令——sysdig</p>
+<p>比如查询容器weavescope 的cpu变化：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sysdig -pc -c topprocs_cpu container.name=weavescope</span><br></pre></td></tr></table></figure>
+
+<p>下面是sysdig –help给出的examples，sysdig的命令还是相对比较全面的。有兴趣的读者可以体验下。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">Capture all the events from the live system and print them to screen</span><br><span class="line"></span><br><span class="line">   $sysdig</span><br><span class="line"></span><br><span class="line">Capture all the events from the live system and save them to disk</span><br><span class="line"></span><br><span class="line">   $sysdig -w dumpfile.scap</span><br><span class="line"></span><br><span class="line">Read events from a file and print them to screen</span><br><span class="line"></span><br><span class="line">   $sysdig -r dumpfile.scap</span><br><span class="line"></span><br><span class="line">Print all the open system calls invoked by cat</span><br><span class="line"></span><br><span class="line">   $sysdig proc.name=cat and evt.type=open</span><br><span class="line"></span><br><span class="line">Print the name of the files opened by cat</span><br><span class="line"></span><br><span class="line">   $sysdig -p&quot;%evt.arg.name&quot; proc.name=cat and evt.type=open</span><br></pre></td></tr></table></figure>
+
+<h4 id="cAdvisor"><a href="#cAdvisor" class="headerlink" title="cAdvisor"></a>cAdvisor</h4><p>cAdvisor是Google用来监测单节点的资源信息的监控工具。虽然Docker提供了一些CLI（dockerps/top/stats等）的命令行的功能，但cAdvisor图形化的提供了一目了然的单节点多容器的资源监控功能。而且cAdvisor是免费的，cAdvisor作为一个很不错的工具，已经引起越来越多人的关注。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> docker run -d -p 8080:8080 \</span></span><br><span class="line"><span class="bash">--volume=/:/rootfs:ro \</span></span><br><span class="line"><span class="bash">--volume=/var/run:/var/run:rw \</span></span><br><span class="line"><span class="bash">--volume=/sys:/sys:ro \</span></span><br><span class="line"><span class="bash">--volume=/var/lib/docker/:/var/lib/docker:ro \</span></span><br><span class="line"><span class="bash">--name=cadvisor \</span></span><br><span class="line"><span class="bash">google/cadvisor:latest</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p><strong>登录cAdvisor的UI界面：</strong></p>
+<p>在浏览器通过yourIp:8080就可以登录cAdvisor的UI界面。</p>
+<p>cAdvisor实现了两个层次的监控：</p>
+<ol>
+<li><p>主机，包括主机的Processes、CPU、Memory、Network、Filesystem</p>
+</li>
+<li><p>容器，包括容器的Processes、CPU、Memory、Network、Filesystem</p>
+</li>
+</ol>
+<p>点击Docker Containers进入Docker Containers页面,该页面列出了主机上运行的containers（docker ps）、docker信息（docker info）、pull到本地的images（docker images）</p>
+<p>cAdvisor非常的简单，而且很好的从主机和容器两个层面实现了资源的监控，但也存在如下的局限性：</p>
+<ol>
+<li><p>只能监控单主机，如果想监控多主机及其上的容器，需要在每台主机上部署cAdvisor。即便是这样Google的Kubernetes中也缺省地将其作为单节点的资源监控工具，各个节点缺省会被安装上cAdvisor。</p>
+</li>
+<li><p>监控的资源是实时的，并不能反映一段时间内的变化趋势。这是因为cAdvisor并不储存数据，如果配合第三方工具，例如InfluxDB、Grafana就可以达到理想的效果。</p>
+</li>
+</ol>
+<h4 id="weavescope"><a href="#weavescope" class="headerlink" title="weavescope"></a>weavescope</h4><p>本节介绍Weave Scope，WeaveScope是一款开源项目，项目地址：<a target="_blank" rel="noopener" href="https://link.jianshu.com/?t=https://github.com/weaveworks/scope">https://github.com/weaveworks/scope</a>。Weave Scope会自动生成容器之间的关系图，方便理解容器之间的关系，也方便监控容器化和微服务化的应用。</p>
+<p>Weave Scope的安装步骤：（前提已安装Docker）</p>
+<p>下载scope的二进制安装文件：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl -L https://github.com/weaveworks/scope/releases/download/latest_release/scope -o /usr/local/bin/scope</span><br></pre></td></tr></table></figure>
+
+<p>（本质上就是一个shell脚本，感兴趣的读者可以下载后查看）</p>
+<p>赋予可执行权限：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">chmod a+x /usr/local/bin/scope</span><br></pre></td></tr></table></figure>
+
+<p>启动scope：              </p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">scope launch</span><br></pre></td></tr></table></figure>
+
+<p>该scope脚本将从DockerHub上下载Scope镜像并启动容器。</p>
+<p>scope的其它命令可以通过scope help查询。</p>
+<p>根据scope launch最后的提示，浏览器输入<a target="_blank" rel="noopener" href="https://link.jianshu.com/?t=http://192.168.1.108:4040/">http://192.168.1.108:4040/</a>，进入weavescope页面。可以对PROCESS、CONTAINERS、HOSTS分别以图形和图表的形式列出。</p>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://s2.ax1x.com/2019/11/15/MaHl0s.png" alt="MaHl0s.png"></p>
+<p>其中：</p>
+<ul>
+<li>PROCESS可以按照NAME显示；</li>
+<li>CONTAINERS可以按照DNS NAME和IMAGE显示；</li>
+<li>HOSTS可以按照WEAVENET网络显示。</li>
+<li>左上角区域：提供搜索功能</li>
+<li>左下角区域：对显示的对象按照不同的条件进行过滤显示。比如CONTAINERS可以选择系统容器还是应用容器，运行的容器还是停止的容器等等。</li>
+<li>右上角区域：live和pause，分别表示监控的是实时的资源，还是几秒钟之前的，两者之间可以切换。</li>
+<li>右下角区域：+/-可以对中间区域的对象进行放大和缩小；在下面提供页面重载、页面加深、HELP等功能。</li>
+</ul>
+<p>对于图表界面：</p>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://s2.ax1x.com/2019/11/15/MaHIAI.png" alt="MaHIAI.png"></p>
+<p>下面分别对PROCESS、CONTAINERS和HOSTS分别说明：</p>
+<ol>
+<li><p>PROCESS</p>
+<p>点击scope-probe后会显示该进程的详细信息，包括：</p>
+<ul>
+<li>STATUS（CPU、MEMORY、OPENFILES）</li>
+<li>INFO（PID、COMMAND、PARENTPID、THREADS）</li>
+<li>INBOUND</li>
+<li>OUTBOUND</li>
+</ul>
+</li>
+<li><p>CONTAINERS</p>
+<p>点击后显示cadvisor容器的详细信息，包括：</p>
+<ul>
+<li>STATUS（CPU、MEMORY）</li>
+<li>INFO（IMAGE、COMMAND、STATE、NETWORKS、UPTIME、RESTART、IPS、PORTS、CREATED、ID）</li>
+<li>INBOUND</li>
+<li>OUTBOUND</li>
+<li>PROCESS</li>
+<li>ENVIRONMENTVARIABLES（PATH）</li>
+<li>DOCKER LABELS（MAINTAINER、WORKS WEAVE ROLE）</li>
+<li>IMAGE（ID、NAME、SIZE、VIRTUAL SIZE）</li>
+</ul>
+<p>另外，还包括对容器的控制，从左至右依次为attch、exec shell、restart、pause、stop，如果执行了pause还会有unpause，执行了stop还会有start、remove</p>
+</li>
+<li><p>HOSTS</p>
+<p>主机的详细信息，包括：</p>
+<ul>
+<li>STATUS（CPU、MEMORY、LOAD）</li>
+<li>INFO（KERNEL VERSION、UPTIME、HOSTNAME、OS、LOCALNETWORKS、SCOPE VERSION）</li>
+<li>INBOUND</li>
+<li>OUTBOUND</li>
+<li>CONTAINERS（CPU、MEMORY）</li>
+<li>PROCESSES（PID、CPU、MEMORY）</li>
+<li>CONTAINER IMAGES</li>
+</ul>
+</li>
+</ol>
+<p><strong>多主机管理</strong></p>
+<p>其实weavescope可以做到对多主机进行监控。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">scope launch host1-ip host2-ip ... hostn-ip</span><br></pre></td></tr></table></figure>
+
+<p>以两台主机为例：</p>
+<p>Ubuntu-001：192.168.1.108</p>
+<p>Ubuntu-002：192.168.1.109</p>
+<p>在两台Docker主机分别执行<code>scope launch 192.168.1.108 192.168.1.109</code></p>
+<p>然后分别以<a target="_blank" rel="noopener" href="http://192.168.1.108:4040/%E5%92%8Chttp://192.168.1.109:4040/%E5%9D%87%E5%8F%AF%E4%BB%A5%E3%80%82">http://192.168.1.108:4040/和http://192.168.1.109:4040/均可以。</a></p>
+<p>为什么scope可以监控多主机呢？这是因为scope容器启动使用的是host网络</p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">平心</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://pingxin0521.gitee.io/2019/08/11/%E5%AE%B9%E5%99%A8-Docker-5-3/">https://pingxin0521.gitee.io/2019/08/11/%E5%AE%B9%E5%99%A8-Docker-5-3/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://pingxin0521.gitee.io" target="_blank">平心de小屋</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E5%AE%B9%E5%99%A8/">容器</a><a class="post-meta__tags" href="/tags/Docker/">Docker</a></div><div class="post_share"><div class="social-share" data-image="https://i.loli.net/2020/05/08/okfOw28KlZFbE7z.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2019/08/17/%E7%BC%96%E7%A8%8B%E6%80%9D%E6%83%B3-1-0/"><img class="prev-cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/okfOw28KlZFbE7z.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">移动架构变迁</div></div></a></div><div class="next-post pull-right"><a href="/2019/08/11/%E5%AE%B9%E5%99%A8-Docker-5-2/"><img class="next-cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/7dHvepmfYOLWTrX.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">Docker 卷数据备份和恢复</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span> 相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2019/07/05/容器-Docker-0-2/" title="Docker 基础概念"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/7dHvepmfYOLWTrX.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2019-11-14</div><div class="title">Docker 基础概念</div></div></a></div><div><a href="/2019/07/08/容器-Docker-3-1/" title="Docker 三剑客--Machine"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/HjVAdIuT7bZJypS.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2019-11-15</div><div class="title">Docker 三剑客--Machine</div></div></a></div><div><a href="/2019/08/11/容器-Docker-5-2/" title="Docker 卷数据备份和恢复"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/7dHvepmfYOLWTrX.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2019-11-15</div><div class="title">Docker 卷数据备份和恢复</div></div></a></div><div><a href="/2019/07/04/容器-Docker-0-1/" title="Docker 介绍"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/PFDRNxj93taz6pw.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2019-09-03</div><div class="title">Docker 介绍</div></div></a></div><div><a href="/2019/07/08/容器-Docker-3-0/" title="Docker 三剑客--Swarm"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/7dHvepmfYOLWTrX.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2019-11-15</div><div class="title">Docker 三剑客--Swarm</div></div></a></div><div><a href="/2019/07/10/容器-Docker-4/" title="Docker 安全和底层实现（理论）"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/HjVAdIuT7bZJypS.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2019-10-25</div><div class="title">Docker 安全和底层实现（理论）</div></div></a></div></div></div><hr/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div class="vcomment" id="vcomment"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="card-info-avatar is-center"><img class="avatar-img" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://s2.ax1x.com/2020/02/11/1ovw6J.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/><div class="author-info__name">平心</div><div class="author-info__description">年轻人的life、learn and think</div></div><div class="card-info-data"><div class="card-info-data-item is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">449</div></a></div><div class="card-info-data-item is-center"><a href="/tags/"><div class="headline">标签</div><div class="length-num">77</div></a></div><div class="card-info-data-item is-center"><a href="/categories/"><div class="headline">分类</div><div class="length-num">68</div></a></div></div><a class="button--animated" id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/hanyunpeng0521"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/hanyunpeng0521" target="_blank" title="Github"><i class="fa fa-github"></i></a><a class="social-icon" href="mailto:m13839441583@163.com" target="_blank" title="Email"><i class="fa fa-envelope"></i></a><a class="social-icon" href="/atom.xml" target="_blank" title=""><i class="fa fa-rss"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn card-announcement-animation"></i><span>公告</span></div><div class="announcement_content">为什么呢？开始提问吧</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#docker%E7%9B%91%E6%8E%A7%E5%91%BD%E4%BB%A4"><span class="toc-number">1.</span> <span class="toc-text">docker监控命令</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Sysdig"><span class="toc-number">2.</span> <span class="toc-text">Sysdig</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#cAdvisor"><span class="toc-number">3.</span> <span class="toc-text">cAdvisor</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#weavescope"><span class="toc-number">4.</span> <span class="toc-text">weavescope</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2021/05/15/node-2-4/" title="Egg.js -- 为企业级框架和应用而生"><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/okfOw28KlZFbE7z.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Egg.js -- 为企业级框架和应用而生"/></a><div class="content"><a class="title" href="/2021/05/15/node-2-4/" title="Egg.js -- 为企业级框架和应用而生">Egg.js -- 为企业级框架和应用而生</a><time datetime="2021-05-15T10:18:59.000Z" title="发表于 2021-05-15 18:18:59">2021-05-15</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/04/30/node-2-3/" title="Koa -- 基于Node.js平台的下一代Web开发框架"><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/HjVAdIuT7bZJypS.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Koa -- 基于Node.js平台的下一代Web开发框架"/></a><div class="content"><a class="title" href="/2021/04/30/node-2-3/" title="Koa -- 基于Node.js平台的下一代Web开发框架">Koa -- 基于Node.js平台的下一代Web开发框架</a><time datetime="2021-04-30T10:18:59.000Z" title="发表于 2021-04-30 18:18:59">2021-04-30</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/04/01/node-2-1/" title="Node.JS web开发前置知识"><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/gGE57HRvpcKPfDY.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Node.JS web开发前置知识"/></a><div class="content"><a class="title" href="/2021/04/01/node-2-1/" title="Node.JS web开发前置知识">Node.JS web开发前置知识</a><time datetime="2021-04-01T03:18:59.000Z" title="发表于 2021-04-01 11:18:59">2021-04-01</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2020/12/26/%E5%91%A8%E8%AE%B0-10-1/" title="第十一周--谷歌浏览器插件"><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/gGE57HRvpcKPfDY.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="第十一周--谷歌浏览器插件"/></a><div class="content"><a class="title" href="/2020/12/26/%E5%91%A8%E8%AE%B0-10-1/" title="第十一周--谷歌浏览器插件">第十一周--谷歌浏览器插件</a><time datetime="2020-12-26T10:18:59.000Z" title="发表于 2020-12-26 18:18:59">2020-12-26</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2020/12/26/%E5%91%A8%E8%AE%B0-10-0/" title="第十一周--浏览器技术"><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/vCnKyoFJZ1g4XYR.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="第十一周--浏览器技术"/></a><div class="content"><a class="title" href="/2020/12/26/%E5%91%A8%E8%AE%B0-10-0/" title="第十一周--浏览器技术">第十一周--浏览器技术</a><time datetime="2020-12-26T06:18:59.000Z" title="发表于 2020-12-26 14:18:59">2020-12-26</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2019 - 2021 By 平心</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div id="local-search"><div class="search-dialog"><div class="search-dialog__title" id="local-search-title">本地搜索</div><div id="local-input-panel"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div></div><hr/><div id="local-search-results"></div><span class="search-close-button"><i class="fas fa-times"></i></span></div><div id="search-mask"></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload/dist/lazyload.iife.min.js"></script><script src="/js/search/local-search.js"></script><div class="js-pjax"><script>function loadValine () {
+  function initValine () {
+    const valine = new Valine(Object.assign({
+      el: '#vcomment',
+      appId: '4lfIXzqxaC1ONs0MJO4oHu07-gzGzoHsz',
+      appKey: 'qw99Bw8FD0KVKU9m457CwWsr',
+      placeholder: 'Please leave your footprints',
+      avatar: 'monsterid',
+      meta: 'nick,mail,link'.split(','),
+      pageSize: '10',
+      lang: 'zh-CN',
+      recordIP: true,
+      serverURLs: '',
+      emojiCDN: '',
+      emojiMaps: "",
+      enableQQ: true,
+      path: window.location.pathname,
+      requiredFields: ["nick,mail"],
+      visitor: false
+    }, null))
+  }
+
+  if (typeof Valine === 'function') initValine() 
+  else getScript('https://cdn.jsdelivr.net/npm/valine/dist/Valine.min.js').then(initValine)
+}
+
+if ('Valine' === 'Valine' || !false) {
+  if (false) btf.loadComment(document.getElementById('vcomment'),loadValine)
+  else setTimeout(loadValine, 0)
+} else {
+  function loadOtherComment () {
+    loadValine()
+  }
+}</script></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>

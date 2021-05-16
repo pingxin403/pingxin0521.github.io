@@ -1,0 +1,448 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>MySQL 日志 （二） | 平心de小屋</title><meta name="keywords" content="数据库,MySQL"><meta name="author" content="平心"><meta name="copyright" content="平心"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="redo logInnodb事务日志包括redo log和undo log。redo log是重做日志，提供前滚操作，undo log是回滚日志，提供回滚操作。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="MySQL 日志 （二）">
+<meta property="og:url" content="https://pingxin0521.gitee.io/2019/10/16/%E6%95%B0%E6%8D%AE%E5%BA%93-MySQL-14-1/index.html">
+<meta property="og:site_name" content="平心de小屋">
+<meta property="og:description" content="redo logInnodb事务日志包括redo log和undo log。redo log是重做日志，提供前滚操作，undo log是回滚日志，提供回滚操作。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://i.loli.net/2020/05/08/vCnKyoFJZ1g4XYR.jpg">
+<meta property="article:published_time" content="2019-10-16T05:18:59.000Z">
+<meta property="article:modified_time" content="2020-02-15T12:05:19.964Z">
+<meta property="article:author" content="平心">
+<meta property="article:tag" content="数据库">
+<meta property="article:tag" content="MySQL">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.loli.net/2020/05/08/vCnKyoFJZ1g4XYR.jpg"><link rel="shortcut icon" href="https://s2.ax1x.com/2020/02/11/1ovFOA.png"><link rel="canonical" href="https://pingxin0521.gitee.io/2019/10/16/%E6%95%B0%E6%8D%AE%E5%BA%93-MySQL-14-1/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"search.xml","languages":{"hits_empty":"找不到您查询的内容：${query}"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    jQuery: 'https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js',
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+    },
+    fancybox: {
+      js: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css'
+    }
+  },
+  isPhotoFigcaption: true,
+  islazyload: true,
+  isanchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'MySQL 日志 （二）',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2020-02-15 20:05:19'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    })(window)</script><meta name="generator" content="Hexo 5.4.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="author-avatar"><img class="avatar-img" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://s2.ax1x.com/2020/02/11/1ovw6J.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data"><div class="data-item is-center"><div class="data-item-link"><a href="/archives/"><div class="headline">文章</div><div class="length-num">449</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/tags/"><div class="headline">标签</div><div class="length-num">77</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/categories/"><div class="headline">分类</div><div class="length-num">68</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fa fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fa fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://i.loli.net/2020/05/08/vCnKyoFJZ1g4XYR.jpg')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">平心de小屋</a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fa fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fa fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">MySQL 日志 （二）</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2019-10-16T05:18:59.000Z" title="发表于 2019-10-16 13:18:59">2019-10-16</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2020-02-15T12:05:19.964Z" title="更新于 2020-02-15 20:05:19">2020-02-15</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a><i class="fas fa-angle-right post-meta-separator"></i><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/MySQL/">MySQL</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">10.1k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>33分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="MySQL 日志 （二）"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h4 id="redo-log"><a href="#redo-log" class="headerlink" title="redo log"></a>redo log</h4><p>Innodb事务日志包括redo log和undo log。redo log是重做日志，提供前滚操作，undo log是回滚日志，提供回滚操作。</p>
+<span id="more"></span>
+
+<p>undo log不是redo log的逆向过程，其实它们都算是用来恢复的日志：</p>
+<ol>
+<li><p>redo log通常是物理日志，记录的是数据页的物理修改，而不是某一行或某几行修改成怎样怎样，它用来恢复提交后的物理数据页(恢复数据页，且只能恢复到最后一次提交的位置)。</p>
+</li>
+<li><p>undo用来回滚行记录到某个版本。undo log一般是逻辑日志，根据每行记录进行记录。</p>
+</li>
+</ol>
+<h5 id="redo-log和二进制日志的区别"><a href="#redo-log和二进制日志的区别" class="headerlink" title="redo log和二进制日志的区别"></a>redo log和二进制日志的区别</h5><p>redo log不是二进制日志。虽然二进制日志中也记录了innodb表的很多操作，<strong>也能实现重做的功能，</strong>但是它们之间有很大区别。</p>
+<ol>
+<li>二进制日志是在<strong>存储引擎的上层</strong>产生的，不管是什么存储引擎，对数据库进行了修改都会产生二进制日志。而redo log是innodb层产生的，只记录该存储引擎中表的修改。并且二进制日志先于redo log被记录。具体的见后文group commit小结。</li>
+<li>二进制日志记录操作的方法是逻辑性的语句。即便它是基于行格式的记录方式，其本质也还是逻辑的SQL设置，如该行记录的每列的值是多少。而redo log是在物理格式上的日志，它记录的是数据库中每个页的修改。</li>
+<li>二进制日志只在每次事务提交的时候一次性写入缓存中的日志”文件”(对于非事务表的操作，则是每次执行语句成功后就直接写入)。而redo log在数据准备修改前写入缓存中的redo log中，然后才对缓存中的数据执行修改操作；而且保证在发出事务提交指令时，先向缓存中的redo log写入日志，写入完成后才执行提交动作。</li>
+<li>因为二进制日志只在提交的时候一次性写入，所以二进制日志中的记录方式和提交顺序有关，且一次提交对应一次记录。而redo log中是记录的物理页的修改，redo log文件中同一个事务可能多次记录，最后一个提交的事务记录会覆盖所有未提交的事务记录。例如事务T1，可能在redo log中记录了 <code>T1-1,T1-2,T1-3，T1*</code> 共4个操作，其中 <code>T1*</code> 表示最后提交时的日志记录，所以对应的数据页最终状态是 <code>T1*</code> 对应的操作结果。而且redo log是并发写入的，不同事务之间的不同版本的记录会穿插写入到redo log文件中，例如可能redo log的记录方式如下： <code>T1-1,T1-2,T2-1,T2-2,T2*,T1-3,T1*</code> 。</li>
+<li>事务日志记录的是物理页的情况，它具有幂等性，因此记录日志的方式极其简练。幂等性的意思是多次操作前后状态是一样的，例如新插入一行后又删除该行，前后状态没有变化。而二进制日志记录的是所有影响数据的操作，记录的内容较多。例如插入一行记录一次，删除该行又记录一次。</li>
+</ol>
+<h5 id="redo-log的基本概念"><a href="#redo-log的基本概念" class="headerlink" title="redo log的基本概念"></a>redo log的基本概念</h5><p>redo log包括两部分：一是内存中的日志缓冲(redo log buffer)，该部分日志是易失性的；二是磁盘上的重做日志文件(redo log file)，该部分日志是持久的。</p>
+<p>在概念上，innodb通过<strong>force log at commit</strong>机制实现事务的持久性，即在事务提交的时候，必须先将该事务的所有事务日志写入到磁盘上的redo log file和undo log file中进行持久化。</p>
+<p><strong>Redo的整体流程</strong></p>
+<p>下面以一个更新事务为例，宏观上把握redo log 流转过程，如下图所示：</p>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://s2.ax1x.com/2020/02/15/1zCRFx.png" alt="1zCRFx.png"></p>
+<p>第一步：先将原始数据从磁盘中读入内存中来，修改数据的内存拷贝</p>
+<p>第二步：生成一条重做日志并写入redo log buffer，记录的是数据被修改后的值</p>
+<p>第三步：当事务commit时，将redo log buffer中的内容刷新到 redo log file，对 redo log file采用追加写的方式</p>
+<p>第四步：定期将内存中修改的数据刷新到磁盘中</p>
+<p><strong>什么时候写Redo?</strong></p>
+<p>上面那张图简单地体现了Redo的写入流程，这里再细说下写入Redo的时机：</p>
+<ul>
+<li>在数据页修改完成之后，在脏页刷出磁盘之前，写入redo日志。注意的是先修改数据，后写日志</li>
+<li><strong>redo日志比数据页先写回磁盘</strong></li>
+<li>聚集索引、二级索引、undo页面的修改，均需要记录Redo日志。</li>
+</ul>
+<p><strong>redo如何保证 事务的持久性？</strong></p>
+<p>InnoDB是事务的存储引擎，其通过<strong>Force Log at Commit 机制</strong>实现事务的持久性，即当事务提交时，先将 redo log buffer 写入到 redo log file 进行持久化，待事务的commit操作完成时才算完成。这种做法也被称为 **Write-Ahead Log(预先日志持久化)**，在持久化一个数据页之前，先将内存中相应的日志页持久化。</p>
+<p>为了保证每次日志都写入redo log file，在每次将redo buffer写入redo log file之后，默认情况下，InnoDB存储引擎都需要调用一次 <strong>fsync操作</strong>,因为重做日志打开并没有 O_DIRECT选项，所以重做日志先写入到文件系统缓存。为了确保重做日志写入到磁盘，必须进行一次 fsync操作。fsync是一种系统调用操作，其fsync的效率取决于磁盘的性能，因此磁盘的性能也影响了事务提交的性能，也就是数据库的性能。<br> <strong>(O_DIRECT选项是在Linux系统中的选项，使用该选项后，对文件进行直接IO操作，不经过文件系统缓存，直接写入磁盘)</strong></p>
+<p>上面提到的<strong>Force Log at Commit机制</strong>就是靠InnoDB存储引擎提供的参数 <code>innodb_flush_log_at_trx_commit</code>来控制的，该参数可以控制 redo log刷新到磁盘的策略，设置该参数值也可以允许用户设置非持久性的情况发生，具体如下：</p>
+<ul>
+<li>当设置参数为1时，（默认为1），表示事务提交时必须调用一次 <code>fsync</code> 操作，最安全的配置，保障持久性</li>
+<li>当设置参数为2时，则在事务提交时只做 <strong>write</strong> 操作，只保证将redo log buffer写到系统的页面缓存中，不进行fsync操作，因此如果MySQL数据库宕机时 不会丢失事务，但操作系统宕机则可能丢失事务</li>
+<li>当设置参数为0时，表示事务提交时不进行写入redo log操作，这个操作仅在master thread 中完成，而在master thread中每1秒进行一次重做日志的fsync操作，因此实例 crash 最多丢失1秒钟内的事务。（master thread是负责将缓冲池中的数据异步刷新到磁盘，保证数据的一致性）</li>
+</ul>
+<p><code>fsync</code>和<code>write</code>操作实际上是系统调用函数，在很多持久化场景都有使用到，比如 Redis 的AOF持久化中也使用到两个函数。<code>fsync</code>操作 将数据提交到硬盘中，强制硬盘同步，将一直阻塞到写入硬盘完成后返回，大量进行<code>fsync</code>操作就有性能瓶颈，而<code>write</code>操作将数据写到系统的页面缓存后立即返回，后面依靠系统的调度机制将缓存数据刷到磁盘中去,其顺序是user buffer——&gt; page cache——&gt;disk。</p>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://s2.ax1x.com/2020/02/15/1zCH0A.png" alt="1zCH0A.png"></p>
+<p><strong>除了上面谈到的Force Log at Commit机制保证事务的持久性，实际上重做日志的实现还要依赖于mini-transaction。</strong></p>
+<p><strong>详解</strong></p>
+<p>为了确保每次日志都能写入到事务日志文件中，在每次将log buffer中的日志写入日志文件的过程中都会调用一次操作系统的fsync操作(即fsync()系统调用)。因为MariaDB/MySQL是工作在用户空间的，MariaDB/MySQL的log buffer处于用户空间的内存中。要写入到磁盘上的log file中(redo:ib_logfileN文件,undo:share tablespace或.ibd文件)，中间还要经过操作系统内核空间的os buffer，调用fsync()的作用就是将OS buffer中的日志刷到磁盘上的log file中。</p>
+<p>也就是说，从redo log buffer写日志到磁盘的redo log file中，过程如下： </p>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://s2.ax1x.com/2019/11/28/QiWqtH.png" alt="QiWqtH.png"></p>
+<p>在此处需要注意一点，一般所说的log file并不是磁盘上的物理日志文件，而是操作系统缓存中的log file，官方手册上的意思也是如此(例如：With a value of 2, the contents of the <strong>InnoDB log buffer are written to the log file</strong> after each transaction commit and <strong>the log file is flushed to disk approximately once per second</strong>)。但说实话，这不太好理解，既然都称为file了，应该已经属于物理文件了。所以在本文后续内容中都以os buffer或者file system buffer来表示官方手册中所说的Log file，然后log file则表示磁盘上的物理日志文件，即log file on disk。</p>
+<p>另外，之所以要经过一层os buffer，是因为open日志文件的时候，open没有使用O_DIRECT标志位，该标志位意味着绕过操作系统层的os buffer，IO直写到底层存储设备。不使用该标志位意味着将日志进行缓冲，缓冲到了一定容量，或者显式fsync()才会将缓冲中的刷到存储设备。使用该标志位意味着每次都要发起系统调用。比如写abcde，不使用o_direct将只发起一次系统调用，使用o_object将发起5次系统调用。</p>
+<p>MySQL支持用户自定义在commit时如何将log buffer中的日志刷log file中。这种控制通过变量 innodb_flush_log_at_trx_commit 的值来决定。该变量有3种值：0、1、2，默认为1。但注意，这个变量只是控制commit动作是否刷新log buffer到磁盘。</p>
+<ul>
+<li>当设置为1的时候，事务每次提交都会将log buffer中的日志写入os buffer并调用fsync()刷到log file on disk中。这种方式即使系统崩溃也不会丢失任何数据，但是因为每次提交都写入磁盘，IO的性能较差。</li>
+<li>当设置为0的时候，事务提交时不会将log buffer中日志写入到os buffer，而是每秒写入os buffer并调用fsync()写入到log file on disk中。也就是说设置为0时是(大约)每秒刷新写入到磁盘中的，当系统崩溃，会丢失1秒钟的数据。</li>
+<li>当设置为2的时候，每次提交都仅写入到os buffer，然后是每秒调用fsync()将os buffer中的日志写入到log file on disk。</li>
+</ul>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://s2.ax1x.com/2019/11/28/QifSnf.png" alt="QifSnf.png"></p>
+<p>注意，有一个变量 innodb_flush_log_at_timeout 的值为1秒，该变量表示的是刷日志的频率，很多人误以为是控制 innodb_flush_log_at_trx_commit 值为0和2时的1秒频率，实际上并非如此。测试时将频率设置为5和设置为1，当 innodb_flush_log_at_trx_commit 设置为0和2的时候性能基本都是不变的。</p>
+<p>在主从复制结构中，要保证事务的持久性和一致性，需要对日志相关变量设置为如下：</p>
+<ul>
+<li><strong>如果启用了二进制日志，则设置sync_binlog=1，即每提交一次事务同步写到磁盘中。</strong></li>
+<li><strong>总是设置innodb_flush_log_at_trx_commit=1，即每提交一次事务都写到磁盘中。</strong></li>
+</ul>
+<p>上述两项变量的设置保证了：每次提交事务都写入二进制日志和事务日志，并在提交时将它们刷新到磁盘中。</p>
+<p>选择刷日志的时间会严重影响数据修改时的性能，特别是刷到磁盘的过程。下例就测试了 innodb_flush_log_at_trx_commit 分别为0、1、2时的差距。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">#创建测试表</span><br><span class="line">drop table if exists test_flush_log;</span><br><span class="line">create table test_flush_log(id int,name char(50))engine=innodb;</span><br><span class="line"></span><br><span class="line">#创建插入指定行数的记录到测试表中的存储过程</span><br><span class="line">drop procedure if exists proc;</span><br><span class="line">delimiter $$</span><br><span class="line">create procedure proc(i int)</span><br><span class="line">begin</span><br><span class="line">    declare s int default 1;</span><br><span class="line">    declare c char(50) default repeat(&#x27;a&#x27;,50);</span><br><span class="line">    while s&lt;=i do</span><br><span class="line">        start transaction;</span><br><span class="line">        insert into test_flush_log values(null,c);</span><br><span class="line">        commit;</span><br><span class="line">        set s=s+1;</span><br><span class="line">    end while;</span><br><span class="line">end$$</span><br><span class="line">delimiter ;</span><br></pre></td></tr></table></figure>
+
+<p>当前环境下， innodb_flush_log_at_trx_commit 的值为1，即每次提交都刷日志到磁盘。测试此时插入10W条记录的时间。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; call proc(3000);</span><br><span class="line">Query OK, 0 rows affected</span><br><span class="line">Time: 14.131s</span><br></pre></td></tr></table></figure>
+
+<p>结果是14.131秒。</p>
+<p>再测试值为2的时候，即每次提交都刷新到os buffer，但每秒才刷入磁盘中。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; set @@global.innodb_flush_log_at_trx_commit=2;    </span><br><span class="line">mysql&gt; truncate test_flush_log;</span><br><span class="line"></span><br><span class="line">mysql&gt; call proc(3000);</span><br><span class="line">Query OK, 0 rows affected</span><br><span class="line">Time: 7.493s</span><br></pre></td></tr></table></figure>
+
+<p>结果插入时间大减，只需7.493秒。</p>
+<p>最后测试值为0的时候，即每秒才刷到os buffer和磁盘。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; set @@global.innodb_flush_log_at_trx_commit=0;</span><br><span class="line">mysql&gt; truncate test_flush_log;</span><br><span class="line"></span><br><span class="line">mysql&gt; call proc(3000);</span><br><span class="line">Query OK, 0 rows affected</span><br><span class="line">Time: 7.002s</span><br></pre></td></tr></table></figure>
+
+<p>结果只有7.002秒。</p>
+<p>最后可以发现，其实值为2和0的时候，它们的差距并不太大，但2却比0要安全的多。它们都是每秒从os buffer刷到磁盘，它们之间的时间差体现在log buffer刷到os buffer上。因为将log buffer中的日志刷新到os buffer只是内存数据的转移，并没有太大的开销，所以每次提交和每秒刷入差距并不大。可以测试插入更多的数据来比较，以下是插入100W行数据的情况。从结果可见，值为2和0的时候差距并不大，但值为1的性能却差太多。</p>
+<p>尽管设置为0和2可以大幅度提升插入性能，但是在故障的时候可能会丢失1秒钟数据，这1秒钟很可能有大量的数据，从上面的测试结果看，100W条记录也只消耗了20多秒，1秒钟大约有4W-5W条数据，尽管上述插入的数据简单，但却说明了数据丢失的大量性。更好的插入数据的做法是将值设置为1，然后修改存储过程，将每次循环都提交修改为只提交一次，这样既能保证数据的一致性，也能提升性能，修改如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">drop procedure if exists proc;</span><br><span class="line">delimiter $$</span><br><span class="line">create procedure proc(i int)</span><br><span class="line">begin</span><br><span class="line">    declare s int default 1;</span><br><span class="line">    declare c char(50) default repeat(&#x27;a&#x27;,50);</span><br><span class="line">    start transaction;</span><br><span class="line">    while s&lt;=i DO</span><br><span class="line">        insert into test_flush_log values(null,c);</span><br><span class="line">        set s=s+1;</span><br><span class="line">    end while;</span><br><span class="line">    commit;</span><br><span class="line">end$$</span><br><span class="line">delimiter ;</span><br></pre></td></tr></table></figure>
+
+<p>测试值为1时的情况。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; set @@global.innodb_flush_log_at_trx_commit=1;</span><br><span class="line">mysql&gt; truncate test_flush_log;</span><br><span class="line"></span><br><span class="line">mysql&gt; call proc(3000);</span><br><span class="line">Query OK, 0 rows affected</span><br><span class="line">Time: 0.153s</span><br></pre></td></tr></table></figure>
+
+<h5 id="日志块-log-block"><a href="#日志块-log-block" class="headerlink" title="日志块(log block)"></a>日志块(log block)</h5><p>innodb存储引擎中，redo log以块为单位进行存储的，每个块占512字节，这称为redo log block。所以不管是log buffer中还是os buffer中以及redo log file on disk中，都是这样以512字节的块存储的。</p>
+<p>每个redo log block由3部分组成：<strong>日志块头、日志块尾和日志主体</strong>。其中日志块头占用12字节，日志块尾占用8字节，所以每个redo log block的日志主体部分只有512-12-8=492字节。</p>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://s2.ax1x.com/2019/11/28/QFAXPU.png" alt="QFAXPU.png"></p>
+<p>因为redo log记录的是数据页的变化，当一个数据页产生的变化需要使用超过492字节()的redo log来记录，那么就会使用多个redo log block来记录该数据页的变化。</p>
+<p>日志块头包含4部分：</p>
+<ul>
+<li> log_block_hdr_no：(4字节)该日志块在redo log buffer中的位置ID。</li>
+<li> log_block_hdr_data_len：(2字节)该log block中已记录的log大小。写满该log block时为0x200，表示512字节。</li>
+<li> log_block_first_rec_group：(2字节)该log block中第一个log的开始偏移位置。</li>
+<li> lock_block_checkpoint_no：(4字节)写入检查点信息的位置。</li>
+</ul>
+<p>关于log block块头的第三部分 log_block_first_rec_group ，因为有时候一个数据页产生的日志量超出了一个日志块，这是需要用多个日志块来记录该页的相关日志。例如，某一数据页产生了552字节的日志量，那么需要占用两个日志块，第一个日志块占用492字节，第二个日志块需要占用60个字节，那么对于第二个日志块来说，它的第一个log的开始位置就是73字节(60+12)。如果该部分的值和 log_block_hdr_data_len 相等，则说明该log block中没有新开始的日志块，即表示该日志块用来延续前一个日志块。</p>
+<p>日志尾只有一个部分： log_block_trl_no ，该值和块头的 log_block_hdr_no 相等。</p>
+<p>上面所说的是一个日志块的内容，在redo log buffer或者redo log file on disk中，由很多log block组成。如下图：</p>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://s2.ax1x.com/2019/11/28/QFEPVx.png" alt="QFEPVx.png"></p>
+<h5 id="log-group和redo-log-file"><a href="#log-group和redo-log-file" class="headerlink" title="log group和redo log file"></a>log group和redo log file</h5><p>log group表示的是redo log group，一个组内由多个大小完全相同的redo log file组成。组内redo log file的数量由变量 innodb_log_files_group 决定，默认值为2，即两个redo log file。这个组是一个逻辑的概念，并没有真正的文件来表示这是一个组，但是可以通过变量 innodb_log_group_home_dir 来定义组的目录，redo log file都放在这个目录下，默认是在datadir下。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">mysql&gt;</span><span class="bash"> show global variables like <span class="string">&quot;innodb_log%&quot;</span>;</span></span><br><span class="line">+------------------------------------+----------+</span><br><span class="line">| Variable_name                      | Value    |</span><br><span class="line">|------------------------------------+----------|</span><br><span class="line">| innodb_log_buffer_size             | 16777216 |</span><br><span class="line">| innodb_log_checksums               | ON       |</span><br><span class="line">| innodb_log_compressed_pages        | ON       |</span><br><span class="line">| innodb_log_file_size               | 50331648 |</span><br><span class="line">| innodb_log_files_in_group          | 2        |</span><br><span class="line">| innodb_log_group_home_dir          | ./       |</span><br><span class="line">| innodb_log_spin_cpu_abs_lwm        | 80       |</span><br><span class="line">| innodb_log_spin_cpu_pct_hwm        | 50       |</span><br><span class="line">| innodb_log_wait_for_flush_spin_hwm | 400      |</span><br><span class="line">| innodb_log_write_ahead_size        | 8192     |</span><br><span class="line">+------------------------------------+----------+</span><br><span class="line"><span class="meta">$</span><span class="bash">  ls  /var/lib/mysql/ib*</span></span><br><span class="line">/var/lib/mysql/ib_buffer_pool  /var/lib/mysql/ib_logfile0  /var/lib/mysql/ibtmp1</span><br><span class="line">/var/lib/mysql/ibdata1         /var/lib/mysql/ib_logfile1</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>可以看到在默认的数据目录下，有两个ib_logfile开头的文件，它们就是log group中的redo log file，而且它们的大小完全一致且等于变量 innodb_log_file_size 定义的值。第一个文件ibdata1是在没有开启 innodb_file_per_table 时的共享表空间文件，对应于开启 innodb_file_per_table 时的.ibd文件。</p>
+<p>在innodb将log buffer中的redo log block刷到这些log file中时，会以追加写入的方式循环轮训写入。即先在第一个log file（即ib_logfile0）的尾部追加写，直到满了之后向第二个log file（即ib_logfile1）写。当第二个log file满了会清空一部分第一个log file继续写入。</p>
+<p>由于是将log buffer中的日志刷到log file，所以在log file中记录日志的方式也是log block的方式。</p>
+<p>在每个组的第一个redo log file中，前2KB记录4个特定的部分，从2KB之后才开始记录log block。除了第一个redo log file中会记录，log group中的其他log file不会记录这2KB，但是却会腾出这2KB的空间。如下：</p>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://s2.ax1x.com/2019/11/28/QFVET0.png" alt="QFVET0.png"></p>
+<p>redo log file的大小对innodb的性能影响非常大，设置的太大，恢复的时候就会时间较长，设置的太小，就会导致在写redo log的时候循环切换redo log file。</p>
+<h5 id="redo-log的格式"><a href="#redo-log的格式" class="headerlink" title="redo log的格式"></a>redo log的格式</h5><p>因为innodb存储引擎存储数据的单元是页(和SQL Server中一样)，所以redo log也是基于页的格式来记录的。默认情况下，innodb的页大小是16KB(由 innodb_page_size 变量控制)，一个页内可以存放非常多的log block(每个512字节)，而log block中记录的又是数据页的变化。</p>
+<p>其中log block中492字节的部分是log body，该log body的格式分为4部分：</p>
+<ul>
+<li>redo_log_type：占用1个字节，表示redo log的日志类型。</li>
+<li>space：表示表空间的ID，采用压缩的方式后，占用的空间可能小于4字节。</li>
+<li>page_no：表示页的偏移量，同样是压缩过的。</li>
+<li>redo_log_body表示每个重做日志的数据部分，恢复时会调用相应的函数进行解析。例如insert语句和delete语句写入redo log的内容是不一样的。</li>
+</ul>
+<p>如下图，分别是insert和delete大致的记录方式。</p>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://s2.ax1x.com/2019/11/28/QFVBnA.png" alt="QFVBnA.png"></p>
+<h5 id="日志刷盘的规则"><a href="#日志刷盘的规则" class="headerlink" title="日志刷盘的规则"></a>日志刷盘的规则</h5><p>log buffer中未刷到磁盘的日志称为脏日志(dirty log)。</p>
+<p>在上面的说过，默认情况下事务每次提交的时候都会刷事务日志到磁盘中，这是因为变量 innodb_flush_log_at_trx_commit 的值为1。但是innodb不仅仅只会在有commit动作后才会刷日志到磁盘，这只是innodb存储引擎刷日志的规则之一。</p>
+<p>刷日志到磁盘有以下几种规则：</p>
+<ol>
+<li><p>发出commit动作时。已经说明过，commit发出后是否刷日志由变量 innodb_flush_log_at_trx_commit 控制。</p>
+</li>
+<li><p>每秒刷一次。这个刷日志的频率由变量 innodb_flush_log_at_timeout 值决定，默认是1秒。要注意，这个刷日志频率和commit动作无关。</p>
+</li>
+<li><p>当log buffer中已经使用的内存超过一半时。</p>
+</li>
+<li><p>当有checkpoint时，checkpoint在一定程度上代表了刷到磁盘时日志所处的LSN位置。</p>
+</li>
+</ol>
+<h5 id="数据页刷盘的规则及checkpoint"><a href="#数据页刷盘的规则及checkpoint" class="headerlink" title="数据页刷盘的规则及checkpoint"></a>数据页刷盘的规则及checkpoint</h5><p>内存中(buffer pool)未刷到磁盘的数据称为脏数据(dirty data)。由于数据和日志都以页的形式存在，所以脏页表示脏数据和脏日志。</p>
+<p>上一节介绍了日志是何时刷到磁盘的，不仅仅是日志需要刷盘，脏数据页也一样需要刷盘。</p>
+<p><strong>在innodb中，数据刷盘的规则只有一个：checkpoint。</strong>但是触发checkpoint的情况却有几种。<strong>不管怎样，checkpoint触发后，会将buffer中脏数据页和脏日志页都刷到磁盘。</strong></p>
+<p>innodb存储引擎中checkpoint分为两种：</p>
+<ul>
+<li>sharp checkpoint：在重用redo log文件(例如切换日志文件)的时候，将所有已记录到redo log中对应的脏数据刷到磁盘。</li>
+<li>fuzzy checkpoint：一次只刷一小部分的日志到磁盘，而非将所有脏日志刷盘。有以下几种情况会触发该检查点：<ul>
+<li>master thread checkpoint：由master线程控制，<strong>每秒或每10秒</strong>刷入一定比例的脏页到磁盘。</li>
+<li>flush_lru_list checkpoint：从MySQL5.6开始可通过 innodb_page_cleaners 变量指定专门负责脏页刷盘的page cleaner线程的个数，该线程的目的是为了保证lru列表有可用的空闲页。</li>
+<li>async/sync flush checkpoint：同步刷盘还是异步刷盘。例如还有非常多的脏页没刷到磁盘(非常多是多少，有比例控制)，这时候会选择同步刷到磁盘，但这很少出现；如果脏页不是很多，可以选择异步刷到磁盘，如果脏页很少，可以暂时不刷脏页到磁盘</li>
+<li>dirty page too much checkpoint：脏页太多时强制触发检查点，目的是为了保证缓存有足够的空闲空间。too much的比例由变量 innodb_max_dirty_pages_pct 控制，MySQL 5.6默认的值为75，即当脏页占缓冲池的百分之75后，就强制刷一部分脏页到磁盘。</li>
+</ul>
+</li>
+</ul>
+<p>由于刷脏页需要一定的时间来完成，所以记录检查点的位置是在每次刷盘结束之后才在redo log中标记的。</p>
+<blockquote>
+<p>MySQL停止时是否将脏数据和脏日志刷入磁盘，由变量innodb_fast_shutdown={ 0|1|2 }控制，默认值为1，即停止时只做一部分purge，忽略大多数flush操作(但至少会刷日志)，在下次启动的时候再flush剩余的内容，实现fast shutdown。</p>
+</blockquote>
+<h5 id="LSN超详细分析"><a href="#LSN超详细分析" class="headerlink" title="LSN超详细分析"></a>LSN超详细分析</h5><p>LSN称为日志的逻辑序列号(log sequence number)，在innodb存储引擎中，lsn占用8个字节。LSN的值会随着日志的写入而逐渐增大。</p>
+<p>根据LSN，可以获取到几个有用的信息：</p>
+<p>1.数据页的版本信息。</p>
+<p>2.写入的日志总量，通过LSN开始号码和结束号码可以计算出写入的日志量。</p>
+<p>3.可知道检查点的位置。</p>
+<p>实际上还可以获得很多隐式的信息。</p>
+<p>LSN不仅存在于redo log中，还存在于数据页中，在每个数据页的头部，有一个<em>fil_page_lsn</em>记录了当前页最终的LSN值是多少。通过数据页中的LSN值和redo log中的LSN值比较，如果页中的LSN值小于redo log中LSN值，则表示数据丢失了一部分，这时候可以通过redo log的记录来恢复到redo log中记录的LSN值时的状态。</p>
+<p>redo log的lsn信息可以通过 show engine innodb status 来查看。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt;show engine innodb status</span><br><span class="line">---</span><br><span class="line">LOG</span><br><span class="line">---</span><br><span class="line">Log sequence number          63071590</span><br><span class="line">Log buffer assigned up to    63071590</span><br><span class="line">Log buffer completed up to   63071590</span><br><span class="line">Log written up to            63071590</span><br><span class="line">Log flushed up to            63071590</span><br><span class="line">Added dirty pages up to      63071590</span><br><span class="line">Pages flushed up to          63071590</span><br><span class="line">Last checkpoint at           63071590</span><br><span class="line">196227 log i/o&#x27;s done, 0.00 log i/o&#x27;s/second</span><br><span class="line">----------------------</span><br></pre></td></tr></table></figure>
+
+<p>其中：</p>
+<ul>
+<li>log sequence number就是当前的redo log(in buffer)中的lsn；</li>
+<li>log flushed up to是刷到redo log file on disk中的lsn；</li>
+<li>pages flushed up to是已经刷到磁盘数据页上的LSN；</li>
+<li>last checkpoint at是上一次检查点所在位置的LSN。</li>
+</ul>
+<p>innodb从执行修改语句开始：</p>
+<ol>
+<li>首先修改内存中的数据页，并在数据页中记录LSN，暂且称之为data_in_buffer_lsn；</li>
+<li>并且在修改数据页的同时(几乎是同时)向redo log in buffer中写入redo log，并记录下对应的LSN，暂且称之为redo_log_in_buffer_lsn；</li>
+<li>写完buffer中的日志后，当触发了日志刷盘的几种规则时，会向redo log file on disk刷入重做日志，并在该文件中记下对应的LSN，暂且称之为redo_log_on_disk_lsn；</li>
+<li>数据页不可能永远只停留在内存中，在某些情况下，会触发checkpoint来将内存中的脏页(数据脏页和日志脏页)刷到磁盘，所以会在本次checkpoint脏页刷盘结束时，在redo log中记录checkpoint的LSN位置，暂且称之为checkpoint_lsn。</li>
+<li>要记录checkpoint所在位置很快，只需简单的设置一个标志即可，但是刷数据页并不一定很快，例如这一次checkpoint要刷入的数据页非常多。也就是说要刷入所有的数据页需要一定的时间来完成，中途刷入的每个数据页都会记下当前页所在的LSN，暂且称之为data_page_on_disk_lsn。</li>
+</ol>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://s2.ax1x.com/2019/11/28/QFZC4K.png" alt="QFZC4K.png"></p>
+<p>上图中，从上到下的横线分别代表：时间轴、buffer中数据页中记录的LSN(data_in_buffer_lsn)、磁盘中数据页中记录的LSN(data_page_on_disk_lsn)、buffer中重做日志记录的LSN(redo_log_in_buffer_lsn)、磁盘中重做日志文件中记录的LSN(redo_log_on_disk_lsn)以及检查点记录的LSN(checkpoint_lsn)。</p>
+<p>假设在最初时(12:0:00)所有的日志页和数据页都完成了刷盘，也记录好了检查点的LSN，这时它们的LSN都是完全一致的。</p>
+<p>假设此时开启了一个事务，并立刻执行了一个update操作，执行完成后，buffer中的数据页和redo log都记录好了更新后的LSN值，假设为110。这时候如果执行 show engine innodb status 查看各LSN的值，即图中①处的位置状态，结果会是：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">log sequence number(110) &gt; log flushed up to(100) = pages flushed up to = last checkpoint at</span><br></pre></td></tr></table></figure>
+
+<p>之后又执行了一个delete语句，LSN增长到150。等到12:00:01时，触发redo log刷盘的规则(其中有一个规则是 innodb_flush_log_at_timeout 控制的默认日志刷盘频率为1秒)，这时redo log file on disk中的LSN会更新到和redo log in buffer的LSN一样，所以都等于150，这时 show engine innodb status ，即图中②的位置，结果将会是：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">log sequence number(150) = log flushed up to &gt; pages flushed up to(100) = last checkpoint at</span><br></pre></td></tr></table></figure>
+
+<p>再之后，执行了一个update语句，缓存中的LSN将增长到300，即图中③的位置。</p>
+<p>假设随后检查点出现，即图中④的位置，正如前面所说，检查点会触发数据页和日志页刷盘，但需要一定的时间来完成，所以在数据页刷盘还未完成时，检查点的LSN还是上一次检查点的LSN，但此时磁盘上数据页和日志页的LSN已经增长了，即：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">log sequence number &gt; log flushed up to 和 pages flushed up to &gt; last checkpoint at</span><br></pre></td></tr></table></figure>
+
+<p>但是log flushed up to和pages flushed up to的大小无法确定，因为日志刷盘可能快于数据刷盘，也可能等于，还可能是慢于。但是checkpoint机制有保护数据刷盘速度是慢于日志刷盘的：当数据刷盘速度超过日志刷盘时，将会暂时停止数据刷盘，等待日志刷盘进度超过数据刷盘。</p>
+<p>等到数据页和日志页刷盘完毕，即到了位置⑤的时候，所有的LSN都等于300。</p>
+<p>随着时间的推移到了12:00:02，即图中位置⑥，又触发了日志刷盘的规则，但此时buffer中的日志LSN和磁盘中的日志LSN是一致的，所以不执行日志刷盘，即此时 show engine innodb status 时各种lsn都相等。</p>
+<p>随后执行了一个insert语句，假设buffer中的LSN增长到了800，即图中位置⑦。此时各种LSN的大小和位置①时一样。</p>
+<p>随后执行了提交动作，即位置⑧。默认情况下，提交动作会触发日志刷盘，但不会触发数据刷盘，所以 show engine innodb status 的结果是：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">log sequence number = log flushed up to &gt; pages flushed up to = last checkpoint at</span><br></pre></td></tr></table></figure>
+
+<p>最后随着时间的推移，检查点再次出现，即图中位置⑨。但是这次检查点不会触发日志刷盘，因为日志的LSN在检查点出现之前已经同步了。假设这次数据刷盘速度极快，快到一瞬间内完成而无法捕捉到状态的变化，这时 show engine innodb status 的结果将是各种LSN相等。</p>
+<h5 id="innodb的恢复行为"><a href="#innodb的恢复行为" class="headerlink" title="innodb的恢复行为"></a>innodb的恢复行为</h5><p>在启动innodb的时候，不管上次是正常关闭还是异常关闭，总是会进行恢复操作。</p>
+<p>因为redo log记录的是数据页的物理变化，因此恢复的时候速度比逻辑日志(如二进制日志)要快很多。而且，innodb自身也做了一定程度的优化，让恢复速度变得更快。</p>
+<p>重启innodb时，checkpoint表示已经完整刷到磁盘上data page上的LSN，因此恢复时仅需要恢复从checkpoint开始的日志部分。例如，当数据库在上一次checkpoint的LSN为10000时宕机，且事务是已经提交过的状态。启动数据库时会检查磁盘中数据页的LSN，如果数据页的LSN小于日志中的LSN，则会从检查点开始恢复。</p>
+<p>还有一种情况，在宕机前正处于checkpoint的刷盘过程，且数据页的刷盘进度超过了日志页的刷盘进度。这时候一宕机，数据页中记录的LSN就会大于日志页中的LSN，在重启的恢复过程中会检查到这一情况，这时超出日志进度的部分将不会重做，因为这本身就表示已经做过的事情，无需再重做。</p>
+<p>另外，事务日志具有幂等性，所以多次操作得到同一结果的行为在日志中只记录一次。而二进制日志不具有幂等性，多次操作会全部记录下来，在恢复的时候会多次执行二进制日志中的记录，速度就慢得多。例如，某记录中id初始值为2，通过update将值设置为了3，后来又设置成了2，在事务日志中记录的将是无变化的页，根本无需恢复；而二进制会记录下两次update操作，恢复时也将执行这两次update操作，速度比事务日志恢复更慢。</p>
+<h5 id="和redo-log有关的几个变量"><a href="#和redo-log有关的几个变量" class="headerlink" title="和redo log有关的几个变量"></a>和redo log有关的几个变量</h5><ul>
+<li>innodb_flush_log_at_trx_commit={0|1|2} # 指定何时将事务日志刷到磁盘，默认为1。<ul>
+<li>0表示每秒将”log buffer”同步到”os buffer”且从”os buffer”刷到磁盘日志文件中。</li>
+<li>1表示每事务提交都将”log buffer”同步到”os buffer”且从”os buffer”刷到磁盘日志文件中。</li>
+<li>2表示每事务提交都将”log buffer”同步到”os buffer”但每秒才从”os buffer”刷到磁盘日志文件中。</li>
+</ul>
+</li>
+<li>innodb_log_buffer_size：# log buffer的大小，默认8M</li>
+<li>innodb_log_file_size：#事务日志的大小，默认5M</li>
+<li>innodb_log_files_group =2：# 事务日志组中的事务日志文件个数，默认2个</li>
+<li>innodb_log_group_home_dir =./：# 事务日志组路径，当前目录表示数据目录</li>
+<li>innodb_mirrored_log_groups =1：# 指定事务日志组的镜像组个数，但镜像功能好像是强制关闭的，所以只有一个log group。在MySQL5.7中该变量已经移除。</li>
+</ul>
+<h4 id="undo-log"><a href="#undo-log" class="headerlink" title="undo log"></a>undo log</h4><p>undo log有两个作用：用于事务的回滚和多个行版本控制(MVCC)。</p>
+<p>在数据修改的时候，不仅记录了redo，还记录了相对应的undo，如果因为某些原因导致事务失败或回滚了，可以借助该undo进行回滚。</p>
+<p>undo log和redo log记录物理日志不一样，它是逻辑日志。可以认为当delete一条记录时，undo log中会记录一条对应的insert记录，反之亦然，当update一条记录时，它记录一条对应相反的update记录。</p>
+<p>当执行rollback时，就可以从undo log中的逻辑记录读取到相应的内容并进行回滚。有时候应用到行版本控制的时候，也是通过undo log来实现的：当读取的某一行被其他事务锁定时，它可以从undo log中分析出该行记录以前的数据是什么，从而提供该行版本信息，让用户实现非锁定一致性读取。</p>
+<p>undo log是采用段(segment)的方式来记录的，每个undo操作在记录的时候占用一个undo log segment。</p>
+<p>另外，undo log也会产生redo log，因为undo log也要实现持久性保护。</p>
+<p><strong>undo log的写入时机</strong></p>
+<ul>
+<li>DML操作修改聚簇索引前，记录undo日志</li>
+<li>二级索引记录的修改，不记录undo日志</li>
+</ul>
+<p>需要注意的是，undo页面的修改，同样需要记录redo日志。</p>
+<h5 id="undo-log的存储方式"><a href="#undo-log的存储方式" class="headerlink" title="undo log的存储方式"></a>undo log的存储方式</h5><p>innodb存储引擎对undo的管理采用段的方式。rollback segment称为回滚段，每个回滚段中有1024个undo log segment。</p>
+<p>在以前老版本，只支持1个rollback segment，这样就只能记录1024个undo log segment。后来MySQL5.5可以支持128个rollback segment，即支持128*1024个undo操作，还可以通过变量 innodb_undo_logs (5.6版本以前该变量是 innodb_rollback_segments )自定义多少个rollback segment，默认值为128。</p>
+<p>undo log默认存放在共享表空间中。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">ls  /var/lib/mysql/lib*</span><br><span class="line">/var/lib/mysql/ib_buffer_pool  /var/lib/mysql/ib_logfile0  /var/lib/mysql/ibtmp1</span><br><span class="line">/var/lib/mysql/ibdata1         /var/lib/mysql/ib_logfile1</span><br></pre></td></tr></table></figure>
+
+<p>如果开启了 innodb_file_per_table ，将放在每个表的.ibd文件中。</p>
+<p>在MySQL5.6中，undo的存放位置还可以通过变量 innodb_undo_directory 来自定义存放目录，默认值为”.”表示datadir。</p>
+<p>默认rollback segment全部写在一个文件中，但可以通过设置变量 innodb_undo_tablespaces 平均分配到多少个文件中。该变量默认值为0，即全部写入一个表空间文件。该变量为静态变量，只能在数据库示例停止状态下修改，如写入配置文件或启动时带上对应参数。</p>
+<h5 id="和undo-log相关的变量"><a href="#和undo-log相关的变量" class="headerlink" title="和undo log相关的变量"></a>和undo log相关的变量</h5><p>undo相关的变量在MySQL5.6中已经变得很少。如下：它们的意义在上文中已经解释了。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"> mysql&gt; show variables like &quot;%undo%&quot;;</span><br><span class="line">+--------------------------+------------+</span><br><span class="line">| Variable_name            | Value      |</span><br><span class="line">|--------------------------+------------|</span><br><span class="line">| innodb_max_undo_log_size | 1073741824 |</span><br><span class="line">| innodb_undo_directory    | ./         |</span><br><span class="line">| innodb_undo_log_encrypt  | OFF        |</span><br><span class="line">| innodb_undo_log_truncate | ON         |</span><br><span class="line">| innodb_undo_tablespaces  | 2          |</span><br><span class="line">+--------------------------+------------+</span><br></pre></td></tr></table></figure>
+
+<h5 id="delete-update操作的内部机制"><a href="#delete-update操作的内部机制" class="headerlink" title="delete/update操作的内部机制"></a>delete/update操作的内部机制</h5><p>当事务提交的时候，innodb不会立即删除undo log，因为后续还可能会用到undo log，如隔离级别为repeatable read时，事务读取的都是开启事务时的最新提交行版本，只要该事务不结束，该行版本就不能删除，即undo log不能删除。</p>
+<p>但是在事务提交的时候，会将该事务对应的undo log放入到删除列表中，未来通过purge来删除。并且提交事务时，还会判断undo log分配的页是否可以重用，如果可以重用，则会分配给后面来的事务，避免为每个独立的事务分配独立的undo log页而浪费存储空间和性能。</p>
+<p>通过undo log记录delete和update操作的结果发现：(insert操作无需分析，就是插入行而已)</p>
+<ul>
+<li>delete操作实际上不会直接删除，而是将delete对象打上delete flag，标记为删除，最终的删除操作是purge线程完成的。</li>
+<li>update分为两种情况：update的列是否是主键列。<ul>
+<li>如果不是主键列，在undo log中直接反向记录是如何update的。即update是直接进行的。</li>
+<li>如果是主键列，update分两部执行：先删除该行，再插入一行目标行。</li>
+</ul>
+</li>
+</ul>
+<h5 id="binlog和事务日志的先后顺序及group-commit"><a href="#binlog和事务日志的先后顺序及group-commit" class="headerlink" title="binlog和事务日志的先后顺序及group commit"></a>binlog和事务日志的先后顺序及group commit</h5><p>如果事务不是只读事务，即涉及到了数据的修改，默认情况下会在commit的时候调用fsync()将日志刷到磁盘，保证事务的持久性。</p>
+<p>但是一次刷一个事务的日志性能较低，特别是事务集中在某一时刻时事务量非常大的时候。innodb提供了group commit功能，可以将多个事务的事务日志通过一次fsync()刷到磁盘中。</p>
+<p>因为事务在提交的时候不仅会记录事务日志，还会记录二进制日志，但是它们谁先记录呢？二进制日志是MySQL的上层日志，先于存储引擎的事务日志被写入。</p>
+<p>在MySQL5.6以前，当事务提交(即发出commit指令)后，MySQL接收到该信号进入commit prepare阶段；进入prepare阶段后，立即写内存中的二进制日志，写完内存中的二进制日志后就相当于确定了commit操作；然后开始写内存中的事务日志；最后将二进制日志和事务日志刷盘，它们如何刷盘，分别由变量 sync_binlog 和 innodb_flush_log_at_trx_commit 控制。</p>
+<p>但因为要保证二进制日志和事务日志的一致性，在提交后的prepare阶段会启用一个<strong>prepare_commit_mutex</strong>锁来保证它们的顺序性和一致性。但这样会导致开启二进制日志后group commmit失效，特别是在主从复制结构中，几乎都会开启二进制日志。</p>
+<p>在MySQL5.6中进行了改进。提交事务时，在存储引擎层的上一层结构中会将事务按序放入一个队列，队列中的第一个事务称为leader，其他事务称为follower，leader控制着follower的行为。虽然顺序还是一样先刷二进制，再刷事务日志，但是机制完全改变了：删除了原来的prepare_commit_mutex行为，也能保证即使开启了二进制日志，group commit也是有效的。</p>
+<p>MySQL5.6中分为3个步骤：<strong>flush阶段、sync阶段、commit阶段。</strong></p>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://s2.ax1x.com/2019/11/28/QFeiaq.png" alt="QFeiaq.png"></p>
+<ul>
+<li>flush阶段：向内存中写入每个事务的二进制日志。</li>
+<li>sync阶段：将内存中的二进制日志刷盘。若队列中有多个事务，那么仅一次fsync操作就完成了二进制日志的刷盘操作。这在MySQL5.6中称为BLGC(binary log group commit)。</li>
+<li>commit阶段：leader根据顺序调用存储引擎层事务的提交，由于innodb本就支持group commit，所以解决了因为锁 prepare_commit_mutex 而导致的group commit失效问题。</li>
+</ul>
+<p>在flush阶段写入二进制日志到内存中，但是不是写完就进入sync阶段的，而是要等待一定的时间，多积累几个事务的binlog一起进入sync阶段，等待时间由变量 binlog_max_flush_queue_time 决定，默认值为0表示不等待直接进入sync，设置该变量为一个大于0的值的好处是group中的事务多了，性能会好一些，但是这样会导致事务的响应时间变慢，所以建议不要修改该变量的值，除非事务量非常多并且不断的在写入和更新。</p>
+<p>进入到sync阶段，会将binlog从内存中刷入到磁盘，刷入的数量和单独的二进制日志刷盘一样，由变量 sync_binlog 控制。</p>
+<p>当有一组事务在进行commit阶段时，其他新事务可以进行flush阶段，它们本就不会相互阻塞，所以group commit会不断生效。当然，group commit的性能和队列中的事务数量有关，如果每次队列中只有1个事务，那么group commit和单独的commit没什么区别，当队列中事务越来越多时，即提交事务越多越快时，group commit的效果越明显。</p>
+<h4 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h4><ol>
+<li><a target="_blank" rel="noopener" href="http://mysql.taobao.org/monthly/2015/05/01/">MySQL · 引擎特性 · InnoDB redo log漫游</a></li>
+<li><a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/MDb0IVBUThM7XYpownclQw">MySQL的undo,redo,二阶段提交思维导图</a></li>
+</ol>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">平心</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://pingxin0521.gitee.io/2019/10/16/%E6%95%B0%E6%8D%AE%E5%BA%93-MySQL-14-1/">https://pingxin0521.gitee.io/2019/10/16/%E6%95%B0%E6%8D%AE%E5%BA%93-MySQL-14-1/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://pingxin0521.gitee.io" target="_blank">平心de小屋</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a><a class="post-meta__tags" href="/tags/MySQL/">MySQL</a></div><div class="post_share"><div class="social-share" data-image="https://i.loli.net/2020/05/08/vCnKyoFJZ1g4XYR.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2019/10/16/%E6%95%B0%E6%8D%AE%E5%BA%93-MySQL-14-0/"><img class="prev-cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/HjVAdIuT7bZJypS.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">MySQL 日志 (一)</div></div></a></div><div class="next-post pull-right"><a href="/2019/10/16/%E6%95%B0%E6%8D%AE%E5%BA%93-MySQL-15-1-0/"><img class="next-cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/vCnKyoFJZ1g4XYR.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">MySQL数据库 分库分表 shared-jdbc（一）</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span> 相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2019/10/06/数据库-MySQL-1-2/" title="MySQL 架构和底层知识"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/vCnKyoFJZ1g4XYR.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2020-02-15</div><div class="title">MySQL 架构和底层知识</div></div></a></div><div><a href="/2019/10/15/数据库-MySQL-15-0/" title="MySQL集群结构"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/gGE57HRvpcKPfDY.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2020-02-16</div><div class="title">MySQL集群结构</div></div></a></div><div><a href="/2019/11/16/数据库-MySQL-15-1-2/" title="MySQL数据库 分库分表  MyCat（三）"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/vCnKyoFJZ1g4XYR.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2020-02-15</div><div class="title">MySQL数据库 分库分表  MyCat（三）</div></div></a></div><div><a href="/2019/05/16/数据库-MySQL-10-0/" title="MySQL SQL 权限(八)"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/PFDRNxj93taz6pw.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2019-11-28</div><div class="title">MySQL SQL 权限(八)</div></div></a></div><div><a href="/2019/05/17/数据库-MySQL-11-2/" title="MySQL SQL 备份--xtrabackup (九)"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/gGE57HRvpcKPfDY.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2019-11-06</div><div class="title">MySQL SQL 备份--xtrabackup (九)</div></div></a></div><div><a href="/2019/05/17/数据库-MySQL-11-1/" title="MySQL SQL 备份--MySQL 工具(九)"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/HjVAdIuT7bZJypS.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2019-10-29</div><div class="title">MySQL SQL 备份--MySQL 工具(九)</div></div></a></div></div></div><hr/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div class="vcomment" id="vcomment"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="card-info-avatar is-center"><img class="avatar-img" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://s2.ax1x.com/2020/02/11/1ovw6J.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/><div class="author-info__name">平心</div><div class="author-info__description">年轻人的life、learn and think</div></div><div class="card-info-data"><div class="card-info-data-item is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">449</div></a></div><div class="card-info-data-item is-center"><a href="/tags/"><div class="headline">标签</div><div class="length-num">77</div></a></div><div class="card-info-data-item is-center"><a href="/categories/"><div class="headline">分类</div><div class="length-num">68</div></a></div></div><a class="button--animated" id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/hanyunpeng0521"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/hanyunpeng0521" target="_blank" title="Github"><i class="fa fa-github"></i></a><a class="social-icon" href="mailto:m13839441583@163.com" target="_blank" title="Email"><i class="fa fa-envelope"></i></a><a class="social-icon" href="/atom.xml" target="_blank" title=""><i class="fa fa-rss"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn card-announcement-animation"></i><span>公告</span></div><div class="announcement_content">为什么呢？开始提问吧</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#redo-log"><span class="toc-number">1.</span> <span class="toc-text">redo log</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#redo-log%E5%92%8C%E4%BA%8C%E8%BF%9B%E5%88%B6%E6%97%A5%E5%BF%97%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="toc-number">1.1.</span> <span class="toc-text">redo log和二进制日志的区别</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#redo-log%E7%9A%84%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5"><span class="toc-number">1.2.</span> <span class="toc-text">redo log的基本概念</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%97%A5%E5%BF%97%E5%9D%97-log-block"><span class="toc-number">1.3.</span> <span class="toc-text">日志块(log block)</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#log-group%E5%92%8Credo-log-file"><span class="toc-number">1.4.</span> <span class="toc-text">log group和redo log file</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#redo-log%E7%9A%84%E6%A0%BC%E5%BC%8F"><span class="toc-number">1.5.</span> <span class="toc-text">redo log的格式</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%97%A5%E5%BF%97%E5%88%B7%E7%9B%98%E7%9A%84%E8%A7%84%E5%88%99"><span class="toc-number">1.6.</span> <span class="toc-text">日志刷盘的规则</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E9%A1%B5%E5%88%B7%E7%9B%98%E7%9A%84%E8%A7%84%E5%88%99%E5%8F%8Acheckpoint"><span class="toc-number">1.7.</span> <span class="toc-text">数据页刷盘的规则及checkpoint</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#LSN%E8%B6%85%E8%AF%A6%E7%BB%86%E5%88%86%E6%9E%90"><span class="toc-number">1.8.</span> <span class="toc-text">LSN超详细分析</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#innodb%E7%9A%84%E6%81%A2%E5%A4%8D%E8%A1%8C%E4%B8%BA"><span class="toc-number">1.9.</span> <span class="toc-text">innodb的恢复行为</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%92%8Credo-log%E6%9C%89%E5%85%B3%E7%9A%84%E5%87%A0%E4%B8%AA%E5%8F%98%E9%87%8F"><span class="toc-number">1.10.</span> <span class="toc-text">和redo log有关的几个变量</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#undo-log"><span class="toc-number">2.</span> <span class="toc-text">undo log</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#undo-log%E7%9A%84%E5%AD%98%E5%82%A8%E6%96%B9%E5%BC%8F"><span class="toc-number">2.1.</span> <span class="toc-text">undo log的存储方式</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%92%8Cundo-log%E7%9B%B8%E5%85%B3%E7%9A%84%E5%8F%98%E9%87%8F"><span class="toc-number">2.2.</span> <span class="toc-text">和undo log相关的变量</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#delete-update%E6%93%8D%E4%BD%9C%E7%9A%84%E5%86%85%E9%83%A8%E6%9C%BA%E5%88%B6"><span class="toc-number">2.3.</span> <span class="toc-text">delete&#x2F;update操作的内部机制</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#binlog%E5%92%8C%E4%BA%8B%E5%8A%A1%E6%97%A5%E5%BF%97%E7%9A%84%E5%85%88%E5%90%8E%E9%A1%BA%E5%BA%8F%E5%8F%8Agroup-commit"><span class="toc-number">2.4.</span> <span class="toc-text">binlog和事务日志的先后顺序及group commit</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%8F%82%E8%80%83"><span class="toc-number">3.</span> <span class="toc-text">参考</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2021/05/15/node-2-4/" title="Egg.js -- 为企业级框架和应用而生"><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/okfOw28KlZFbE7z.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Egg.js -- 为企业级框架和应用而生"/></a><div class="content"><a class="title" href="/2021/05/15/node-2-4/" title="Egg.js -- 为企业级框架和应用而生">Egg.js -- 为企业级框架和应用而生</a><time datetime="2021-05-15T10:18:59.000Z" title="发表于 2021-05-15 18:18:59">2021-05-15</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/04/30/node-2-3/" title="Koa -- 基于Node.js平台的下一代Web开发框架"><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/HjVAdIuT7bZJypS.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Koa -- 基于Node.js平台的下一代Web开发框架"/></a><div class="content"><a class="title" href="/2021/04/30/node-2-3/" title="Koa -- 基于Node.js平台的下一代Web开发框架">Koa -- 基于Node.js平台的下一代Web开发框架</a><time datetime="2021-04-30T10:18:59.000Z" title="发表于 2021-04-30 18:18:59">2021-04-30</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/04/01/node-2-1/" title="Node.JS web开发前置知识"><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/gGE57HRvpcKPfDY.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Node.JS web开发前置知识"/></a><div class="content"><a class="title" href="/2021/04/01/node-2-1/" title="Node.JS web开发前置知识">Node.JS web开发前置知识</a><time datetime="2021-04-01T03:18:59.000Z" title="发表于 2021-04-01 11:18:59">2021-04-01</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2020/12/26/%E5%91%A8%E8%AE%B0-10-1/" title="第十一周--谷歌浏览器插件"><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/gGE57HRvpcKPfDY.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="第十一周--谷歌浏览器插件"/></a><div class="content"><a class="title" href="/2020/12/26/%E5%91%A8%E8%AE%B0-10-1/" title="第十一周--谷歌浏览器插件">第十一周--谷歌浏览器插件</a><time datetime="2020-12-26T10:18:59.000Z" title="发表于 2020-12-26 18:18:59">2020-12-26</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2020/12/26/%E5%91%A8%E8%AE%B0-10-0/" title="第十一周--浏览器技术"><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/vCnKyoFJZ1g4XYR.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="第十一周--浏览器技术"/></a><div class="content"><a class="title" href="/2020/12/26/%E5%91%A8%E8%AE%B0-10-0/" title="第十一周--浏览器技术">第十一周--浏览器技术</a><time datetime="2020-12-26T06:18:59.000Z" title="发表于 2020-12-26 14:18:59">2020-12-26</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2019 - 2021 By 平心</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div id="local-search"><div class="search-dialog"><div class="search-dialog__title" id="local-search-title">本地搜索</div><div id="local-input-panel"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div></div><hr/><div id="local-search-results"></div><span class="search-close-button"><i class="fas fa-times"></i></span></div><div id="search-mask"></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload/dist/lazyload.iife.min.js"></script><script src="/js/search/local-search.js"></script><div class="js-pjax"><script>function loadValine () {
+  function initValine () {
+    const valine = new Valine(Object.assign({
+      el: '#vcomment',
+      appId: '4lfIXzqxaC1ONs0MJO4oHu07-gzGzoHsz',
+      appKey: 'qw99Bw8FD0KVKU9m457CwWsr',
+      placeholder: 'Please leave your footprints',
+      avatar: 'monsterid',
+      meta: 'nick,mail,link'.split(','),
+      pageSize: '10',
+      lang: 'zh-CN',
+      recordIP: true,
+      serverURLs: '',
+      emojiCDN: '',
+      emojiMaps: "",
+      enableQQ: true,
+      path: window.location.pathname,
+      requiredFields: ["nick,mail"],
+      visitor: false
+    }, null))
+  }
+
+  if (typeof Valine === 'function') initValine() 
+  else getScript('https://cdn.jsdelivr.net/npm/valine/dist/Valine.min.js').then(initValine)
+}
+
+if ('Valine' === 'Valine' || !false) {
+  if (false) btf.loadComment(document.getElementById('vcomment'),loadValine)
+  else setTimeout(loadValine, 0)
+} else {
+  function loadOtherComment () {
+    loadValine()
+  }
+}</script></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>

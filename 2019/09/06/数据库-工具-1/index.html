@@ -1,0 +1,290 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>数据库测试工具和SQL优化工具 | 平心de小屋</title><meta name="keywords" content="数据库"><meta name="author" content="平心"><meta name="copyright" content="平心"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="数据库的基准测试是对 数据库 的性能指标进行定量的、可复现的、可对比的测试。 基准测试与压力测试 基准测试可以理解为针对系统的一种压力测试。但基准测试不关心业务逻辑，更加简单、直接、易于测试，数据可以由 工具 生成，不要求真实；而压力测试一般考虑业务逻辑(如购物车业务)，要求真实的数据。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="数据库测试工具和SQL优化工具">
+<meta property="og:url" content="https://pingxin0521.gitee.io/2019/09/06/%E6%95%B0%E6%8D%AE%E5%BA%93-%E5%B7%A5%E5%85%B7-1/index.html">
+<meta property="og:site_name" content="平心de小屋">
+<meta property="og:description" content="数据库的基准测试是对 数据库 的性能指标进行定量的、可复现的、可对比的测试。 基准测试与压力测试 基准测试可以理解为针对系统的一种压力测试。但基准测试不关心业务逻辑，更加简单、直接、易于测试，数据可以由 工具 生成，不要求真实；而压力测试一般考虑业务逻辑(如购物车业务)，要求真实的数据。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://i.loli.net/2020/05/08/gGE57HRvpcKPfDY.jpg">
+<meta property="article:published_time" content="2019-09-06T05:08:59.000Z">
+<meta property="article:modified_time" content="2019-11-07T09:11:23.300Z">
+<meta property="article:author" content="平心">
+<meta property="article:tag" content="数据库">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.loli.net/2020/05/08/gGE57HRvpcKPfDY.jpg"><link rel="shortcut icon" href="https://s2.ax1x.com/2020/02/11/1ovFOA.png"><link rel="canonical" href="https://pingxin0521.gitee.io/2019/09/06/%E6%95%B0%E6%8D%AE%E5%BA%93-%E5%B7%A5%E5%85%B7-1/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"search.xml","languages":{"hits_empty":"找不到您查询的内容：${query}"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    jQuery: 'https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js',
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+    },
+    fancybox: {
+      js: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css'
+    }
+  },
+  isPhotoFigcaption: true,
+  islazyload: true,
+  isanchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '数据库测试工具和SQL优化工具',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2019-11-07 17:11:23'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    })(window)</script><meta name="generator" content="Hexo 5.4.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="author-avatar"><img class="avatar-img" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://s2.ax1x.com/2020/02/11/1ovw6J.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data"><div class="data-item is-center"><div class="data-item-link"><a href="/archives/"><div class="headline">文章</div><div class="length-num">449</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/tags/"><div class="headline">标签</div><div class="length-num">77</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/categories/"><div class="headline">分类</div><div class="length-num">68</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fa fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fa fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://i.loli.net/2020/05/08/gGE57HRvpcKPfDY.jpg')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">平心de小屋</a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fa fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fa fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">数据库测试工具和SQL优化工具</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2019-09-06T05:08:59.000Z" title="发表于 2019-09-06 13:08:59">2019-09-06</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2019-11-07T09:11:23.300Z" title="更新于 2019-11-07 17:11:23">2019-11-07</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">2.5k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>11分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="数据库测试工具和SQL优化工具"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><p>数据库的基准测试是对 数据库 的性能指标进行定量的、可复现的、可对比的测试。</p>
+<p><strong>基准测试与压力测试</strong></p>
+<p>基准测试可以理解为针对系统的一种压力测试。但基准测试不关心业务逻辑，更加简单、直接、易于测试，数据可以由 工具 生成，不要求真实；而压力测试一般考虑业务逻辑(如购物车业务)，要求真实的数据。</p>
+<span id="more"></span>
+
+<p><strong>作用</strong></p>
+<p>Sysbech是一个流行的开源性能基准测试工具，支持并发多线程，支持多种主流数据库（MySQL、PostgreSQL、Oracle等）。它是很常用的性能测试工具，主要包括以下几种测试：</p>
+<ul>
+<li>cpu性能</li>
+<li>磁盘io性能</li>
+<li>调度程序性能</li>
+<li>内存分配及传输速度</li>
+<li>POSIX线程性能</li>
+<li>数据库性能(比如：OLTP基准测试)</li>
+</ul>
+<p><strong>重要指标</strong></p>
+<p>QPS:每秒查询次数</p>
+<p>TPS:每秒处理完成事务次数</p>
+<p>RT:响应时间</p>
+<p>QPS or TPS = 并发量 / 平均响应时间</p>
+<p>并发量 = （QPS or TPS） * 平均响应时间</p>
+<h4 id="测试工具-sysbench"><a href="#测试工具-sysbench" class="headerlink" title="测试工具 sysbench"></a>测试工具 sysbench</h4><p><a target="_blank" rel="noopener" href="https://github.com/akopytov/sysbench">sysbench</a>是跨平台的基准测试工具，支持多线程，支持多种数据库</p>
+<p>安装参考github的<a target="_blank" rel="noopener" href="https://github.com/akopytov/sysbench">readme</a>，各系统不同</p>
+<ul>
+<li><p>Debian/Ubuntu</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">curl -s https://packagecloud.io/install/repositories/akopytov/sysbench/script.deb.sh | sudo bash</span><br><span class="line">sudo apt -y install sysbench</span><br></pre></td></tr></table></figure></li>
+<li><p>RHEL/CentOS:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">curl -s https://packagecloud.io/install/repositories/akopytov/sysbench/script.rpm.sh | sudo bash</span><br><span class="line">sudo yum -y install sysbench</span><br></pre></td></tr></table></figure></li>
+<li><p>Fedora:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">curl -s https://packagecloud.io/install/repositories/akopytov/sysbench/script.rpm.sh | sudo bash	</span><br><span class="line">sudo dnf -y install sysbench</span><br></pre></td></tr></table></figure></li>
+</ul>
+<p>查看是否安装成功：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sysbench --version</span><br><span class="line">sysbench 1.0.18</span><br></pre></td></tr></table></figure>
+
+<p>语法</p>
+<p>基本语法 <strong>sysbench [options]… [testname] [command]</strong></p>
+<p><strong>command</strong></p>
+<p>command是sysbench要执行的命令，包括prepare、run和cleanup，顾名思义，prepare是为测试提前准备数据，run是执行正式的测试，cleanup是在测试完成后对数据库进行清理。</p>
+<p><strong>testname 测试脚本</strong></p>
+<p>自带测试脚本</p>
+<p>common.lua oltp.lua select.lua update_index.lua delete.lua oltp_simple.lua select_random_points.lua update_non_index.lua</p>
+<p>oltp.lua是复杂型测试，支持事务，比较全面最常用。</p>
+<p>接指定脚本</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sysbench--test=./tests/include/oltp_legacy/oltp.lua</span><br></pre></td></tr></table></figure>
+
+<p>新版本写法</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sysbench ./tests/include/oltp_legacy/oltp.lua</span><br></pre></td></tr></table></figure>
+
+<p>常用选项</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line">[root@xuexi ~]# sysbench --help</span><br><span class="line">Usage:</span><br><span class="line">  sysbench [options]... [test_lua] [lua_options] [command]</span><br><span class="line"></span><br><span class="line">Commands implemented by most tests: prepare run cleanup help</span><br><span class="line"></span><br><span class="line">通用选项：以下中括号中的值表示默认值</span><br><span class="line">  --threads=N                     指定线程数[1]</span><br><span class="line">  --events=N                      限制最大请求数，0表示不限制[0]</span><br><span class="line">  --time=N                        限制最长执行时间，0表示不限制[10]</span><br><span class="line">                    --events和--time二者选一即可</span><br><span class="line">  --forced-shutdown=STRING        达到最长执行时间后还需等待多久关闭sysbench</span><br><span class="line">                                  off表示禁用该功能[off]</span><br><span class="line">  --thread-stack-size=SIZE        每个线程使用的栈空间大小[64K]</span><br><span class="line">  --rate=N                        平均事务处理速率，0表示不限制[0]</span><br><span class="line">  --report-interval=N             每隔几秒报告一次结果，0表示禁用间隔报告[0]</span><br><span class="line">  --config-file=FILENAME          从文件中读取命令行选项</span><br><span class="line">  --tx-rate=N                     已废弃，是--rate的别名[0]</span><br><span class="line">  --max-requests=N                已废弃，是--events的别名[0]</span><br><span class="line">  --max-time=N                    已废弃，是--time的别名[0]</span><br><span class="line">  --num-threads=N                 已废弃，是--threads的别名[1]</span><br><span class="line">  --db-ps-mode=STRING             是否使用prepare模式的语句 &#123;auto, disable&#125; [auto]</span><br><span class="line"></span><br><span class="line">mysql相关选项：</span><br><span class="line">  --mysql-host=[LIST,...]          MySQL server host [localhost]</span><br><span class="line">  --mysql-port=[LIST,...]          MySQL server port [3306]</span><br><span class="line">  --mysql-socket=[LIST,...]        MySQL socket</span><br><span class="line">  --mysql-user=STRING              MySQL user [sbtest]</span><br><span class="line">  --mysql-password=STRING          MySQL password []</span><br><span class="line">  --mysql-db=STRING                MySQL database name [sbtest]</span><br><span class="line">  --mysql-ignore-errors=[LIST,...] 要忽略的错误代码，值可为&quot;all&quot; [1213,1020,1205]</span><br><span class="line"></span><br><span class="line">Compiled-in tests:</span><br><span class="line">  fileio - File I/O test</span><br><span class="line">  cpu - CPU performance test</span><br><span class="line">  memory - Memory functions speed test</span><br><span class="line">  threads - Threads subsystem performance test</span><br><span class="line">  mutex - Mutex performance test</span><br></pre></td></tr></table></figure>
+
+<p>其中，command部分有4类：prepare run cleanup和help：</p>
+<ul>
+<li><code>prepare</code>：准备数据的命令。例如，在sysbench压力测试之前，需要先准备好测试库、测试表以及测试表中的数据。具体用法见后文。</li>
+<li><code>run</code>：表示进行压力测试。</li>
+<li><code>cleanup</code>：清除测试时产生的数据。</li>
+<li><code>help</code>：输出给定lua脚本的帮助信息。</li>
+</ul>
+<p>test_lua是想要使用的lua脚本，如果是rpm包安装的sysbench，则这些脚本都是/usr/share/sysbench目录下。对于一般的数据库测试，只需使用和oltp有关的lua脚本就足够。</p>
+<p>options和lua_options是不同的，options是sysbench的选项，lua_options是lua脚本的选项，lua_options应该要放在test_lua的后面(非必需，但建议)。</p>
+<p>例如，要查看oltp_common.lua的用法，可以：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sysbench /usr/share/sysbench/oltp_common.lua help</span><br></pre></td></tr></table></figure>
+
+<h5 id="准备测试数据"><a href="#准备测试数据" class="headerlink" title="准备测试数据"></a>准备测试数据</h5><p>首先创建sysbench所需数据库<code>sbtest</code>(这是sysbench默认使用的库名，必须创建测试库)。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysqladmin -h127.0.0.1 -uroot -p123456 -P3306 create sbtest;</span><br></pre></td></tr></table></figure>
+
+<p>然后，准备测试所用的表，这些测试表放在测试库sbtest中。这里使用的lua脚本为<code>/usr/share/sysbench/oltp_common.lua</code>。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">sysbench --mysql-host=127.0.0.1 \</span><br><span class="line">         --mysql-port=3306 \</span><br><span class="line">         --mysql-user=root \</span><br><span class="line">         --mysql-password=123456 \</span><br><span class="line">         /usr/share/sysbench/oltp_common.lua \</span><br><span class="line">         --tables=10 \</span><br><span class="line">         --table_size=100000 \</span><br><span class="line">         prepare</span><br></pre></td></tr></table></figure>
+
+<p>其中<code>--tables=10</code>表示创建10个测试表，<code>--table_size=100000</code>表示每个表中插入10W行数据，<code>prepare</code>表示这是准备数的过程。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; use sbtest;</span><br><span class="line">Database changed</span><br><span class="line">mysql&gt; show tables;</span><br><span class="line">+------------------+</span><br><span class="line">| Tables_in_sbtest |</span><br><span class="line">+------------------+</span><br><span class="line">| sbtest1          |</span><br><span class="line">| sbtest10         |</span><br><span class="line">| sbtest2          |</span><br><span class="line">| sbtest3          |</span><br><span class="line">| sbtest4          |</span><br><span class="line">| sbtest5          |</span><br><span class="line">| sbtest6          |</span><br><span class="line">| sbtest7          |</span><br><span class="line">| sbtest8          |</span><br><span class="line">| sbtest9          |</span><br><span class="line">+------------------+</span><br></pre></td></tr></table></figure>
+
+<p>如果想要清除这10个表，可使用cleanup命令。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">sysbench --mysql-host=127.0.0.1 \</span><br><span class="line">         --mysql-port=3306 \</span><br><span class="line">         --mysql-user=root \</span><br><span class="line">         --mysql-password=123456 \</span><br><span class="line">         /usr/share/sysbench/oltp_common.lua \</span><br><span class="line">         --tables=10 \</span><br><span class="line">         cleanup</span><br></pre></td></tr></table></figure>
+
+<p><strong>数据库测试和结果分析</strong></p>
+<p>稍微修改下之前准备数据的语句，就可以拿来测试了。</p>
+<p>需要注意的是，之前使用的lua脚本为<code>oltp_common.lua</code>，它是一个通用脚本，是被其它lua脚本调用的，它不能直接拿来测试。</p>
+<p>所以，我这里用<code>oltp_read_write.lua</code>脚本来做读、写测试。还有很多其它类型的测试，比如只读测试、只写测试、删除测试、大批量插入测试等等。可找到对应的lua脚本进行调用即可。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">sysbench --threads=4 \</span><br><span class="line">         --time=20 \</span><br><span class="line">         --report-interval=5 \</span><br><span class="line">         --mysql-host=127.0.0.1 \</span><br><span class="line">         --mysql-port=3306 \</span><br><span class="line">         --mysql-user=root \</span><br><span class="line">         --mysql-password=123456 \</span><br><span class="line">         /usr/share/sysbench/oltp_read_write.lua \</span><br><span class="line">         --tables=10 \</span><br><span class="line">         --table_size=100000 \</span><br><span class="line">         run</span><br></pre></td></tr></table></figure>
+
+<p>以下是测试返回的结果：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">[ 5s ] thds: 4 tps: 301.27 qps: 6033.82 (r/w/o: 4224.79/1205.88/603.14) lat (ms,95%): 21.89 err/s: 0.00 reconn/s: 0.00</span><br><span class="line">[ 10s ] thds: 4 tps: 332.22 qps: 6645.99 (r/w/o: 4652.07/1329.28/664.64) lat (ms,95%): 18.61 err/s: 0.00 reconn/s: 0.00</span><br><span class="line">[ 15s ] thds: 4 tps: 345.20 qps: 6902.47 (r/w/o: 4831.65/1380.41/690.41) lat (ms,95%): 15.27 err/s: 0.00 reconn/s: 0.00</span><br><span class="line">[ 20s ] thds: 4 tps: 350.99 qps: 7021.85 (r/w/o: 4915.10/1404.77/701.99) lat (ms,95%): 15.27 err/s: 0.00 reconn/s: 0.00</span><br><span class="line">SQL statistics:</span><br><span class="line">    queries performed:</span><br><span class="line">        read:                            93142</span><br><span class="line">        write:                           26612</span><br><span class="line">        other:                           13306</span><br><span class="line">        total:                           133060</span><br><span class="line">    transactions:                        6653   (332.40 per sec.)</span><br><span class="line">    queries:                             133060 (6648.05 per sec.)</span><br><span class="line">    ignored errors:                      0      (0.00 per sec.)</span><br><span class="line">    reconnects:                          0      (0.00 per sec.)</span><br><span class="line"></span><br><span class="line">General statistics:</span><br><span class="line">    total time:                          20.0133s</span><br><span class="line">    total number of events:              6653</span><br><span class="line"></span><br><span class="line">Latency (ms):</span><br><span class="line">         min:                                    4.69</span><br><span class="line">         avg:                                   12.03</span><br><span class="line">         max:                                  127.37</span><br><span class="line">         95th percentile:                       18.28</span><br><span class="line">         sum:                                80006.85</span><br><span class="line"></span><br><span class="line">Threads fairness:</span><br><span class="line">    events (avg/stddev):           1663.2500/4.15</span><br><span class="line">    execution time (avg/stddev):   20.0017/0.00</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p><strong>cpu/io/内存等测试</strong></p>
+<p>sysbench内置了几个测试指标。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">Compiled-in tests:</span><br><span class="line">  fileio - File I/O test</span><br><span class="line">  cpu - CPU performance test</span><br><span class="line">  memory - Memory functions speed test</span><br><span class="line">  threads - Threads subsystem performance test</span><br><span class="line">  mutex - Mutex performance test</span><br></pre></td></tr></table></figure>
+
+<p>可直接help输出测试方法。例如，fileio测试。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"># sysbench fileio help</span><br><span class="line">sysbench 1.0.18 (using bundled LuaJIT 2.1.0-beta2)</span><br><span class="line"></span><br><span class="line">fileio options:</span><br><span class="line">  --file-num=N                  number of files to create [128]</span><br><span class="line">  --file-block-size=N           block size to use in all IO operations [16384]</span><br><span class="line">  --file-total-size=SIZE        total size of files to create [2G]</span><br><span class="line">  --file-test-mode=STRING       test mode &#123;seqwr, seqrewr, seqrd, rndrd, rndwr, rndrw&#125;</span><br><span class="line">  --file-io-mode=STRING         file operations mode &#123;sync,async,mmap&#125; [sync]</span><br><span class="line">  --file-async-backlog=N        number of asynchronous operatons to queue per thread [128]</span><br><span class="line">  --file-extra-flags=[LIST,...] list of additional flags to use to open files &#123;sync,dsync,direct&#125; []</span><br><span class="line">  --file-fsync-freq=N           do fsync() after this number of requests (0 - don&#x27;t use fsync()) [100]</span><br><span class="line">  --file-fsync-all[=on|off]     do fsync() after each write operation [off]</span><br><span class="line">  --file-fsync-end[=on|off]     do fsync() at the end of test [on]</span><br><span class="line">  --file-fsync-mode=STRING      which method to use for synchronization &#123;fsync, fdatasync&#125; [fsync]</span><br><span class="line">  --file-merged-requests=N      merge at most this number of IO requests if possible (0 - don&#x27;t merge) [0]</span><br><span class="line">  --file-rw-ratio=N             reads/writes ratio for combined test [1.5]</span><br></pre></td></tr></table></figure>
+
+<p>例如，创建5个文件，总共1G，每个文件大概200M。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"># sysbench fileio --file-num=5 --file-total-size=1G prepare</span><br><span class="line">sysbench 1.0.18 (using bundled LuaJIT 2.1.0-beta2)</span><br><span class="line"></span><br><span class="line">5 files, 209715Kb each, 1023Mb total</span><br><span class="line">Creating files for the test...</span><br><span class="line">Extra file open flags: (none)</span><br><span class="line">Creating file test_file.0</span><br><span class="line">Creating file test_file.1</span><br><span class="line">Creating file test_file.2</span><br><span class="line">Creating file test_file.3</span><br><span class="line">Creating file test_file.4</span><br><span class="line">1073807360 bytes written in 10.50 seconds (97.48 MiB/sec).</span><br><span class="line"># ls</span><br><span class="line">test_file.0  test_file.1  test_file.2  test_file.3  test_file.4</span><br></pre></td></tr></table></figure>
+
+<p>然后，运行测试。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">sysbench --events=5000 \</span><br><span class="line">         --threads=16 \</span><br><span class="line">         fileio \</span><br><span class="line">         --file-num=5 \</span><br><span class="line">         --file-total-size=1G \</span><br><span class="line">         --file-test-mode=rndrw \</span><br><span class="line">         --file-fsync-freq=0 \</span><br><span class="line">         --file-block-size=16384 \</span><br><span class="line">         run</span><br></pre></td></tr></table></figure>
+
+<p>结果：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line">Extra file open flags: (none)</span><br><span class="line">5 files, 204.8MiB each</span><br><span class="line">1024MiB total file size</span><br><span class="line">Block size 16KiB</span><br><span class="line">Number of IO requests: 5000</span><br><span class="line">Read/Write ratio for combined random IO test: 1.50</span><br><span class="line">Calling fsync() at the end of test, Enabled.</span><br><span class="line">Using synchronous I/O mode</span><br><span class="line">Doing random r/w test</span><br><span class="line">Initializing worker threads...</span><br><span class="line"></span><br><span class="line">Threads started!</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">File operations:</span><br><span class="line">    reads/s:                      1757.06</span><br><span class="line">    writes/s:                     1176.26</span><br><span class="line">    fsyncs/s:                     46.93</span><br><span class="line"></span><br><span class="line">Throughput:</span><br><span class="line">    read, MiB/s:                  27.45</span><br><span class="line">    written, MiB/s:               18.38</span><br><span class="line"></span><br><span class="line">General statistics:</span><br><span class="line">    total time:                          1.7027s</span><br><span class="line">    total number of events:              5000</span><br><span class="line"></span><br><span class="line">Latency (ms):</span><br><span class="line">         min:                                    0.00</span><br><span class="line">         avg:                                    2.75</span><br><span class="line">         max:                                  114.14</span><br><span class="line">         95th percentile:                        7.98</span><br><span class="line">         sum:                                13765.49</span><br><span class="line"></span><br><span class="line">Threads fairness:</span><br><span class="line">    events (avg/stddev):           312.5000/34.97</span><br><span class="line">    execution time (avg/stddev):   0.8603/0.05</span><br></pre></td></tr></table></figure>
+
+<p>再比例cpu性能测试：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"># sysbench cpu --threads=40 --events=10000 --cpu-max-prime=20000 run</span><br><span class="line">sysbench 1.0.18 (using bundled LuaJIT 2.1.0-beta2)</span><br><span class="line"></span><br><span class="line">Running the test with following options:</span><br><span class="line">Number of threads: 40</span><br><span class="line">Initializing random number generator from current time</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">Prime numbers limit: 20000</span><br><span class="line"></span><br><span class="line">Initializing worker threads...</span><br><span class="line"></span><br><span class="line">Threads started!</span><br><span class="line"></span><br><span class="line">CPU speed:</span><br><span class="line">    events per second:   308.16</span><br><span class="line"></span><br><span class="line">General statistics:</span><br><span class="line">    total time:                          10.0647s</span><br><span class="line">    total number of events:              3102</span><br><span class="line"></span><br><span class="line">Latency (ms):</span><br><span class="line">         min:                                    2.87</span><br><span class="line">         avg:                                  126.63</span><br><span class="line">         max:                                 7026.21</span><br><span class="line">         95th percentile:                      530.08</span><br><span class="line">         sum:                               392792.32</span><br><span class="line"></span><br><span class="line">Threads fairness:</span><br><span class="line">    events (avg/stddev):           77.5500/12.57</span><br><span class="line">    execution time (avg/stddev):   9.8198/0.13</span><br></pre></td></tr></table></figure>
+
+<h3 id="mysql优化工具"><a href="#mysql优化工具" class="headerlink" title="mysql优化工具"></a>mysql优化工具</h3><h4 id="MySQL-Tuner"><a href="#MySQL-Tuner" class="headerlink" title="MySQL Tuner"></a>MySQL Tuner</h4><p><a target="_blank" rel="noopener" href="https://github.com/major/MySQLTuner-perl">MySQLTuner</a>是一个用Perl编写的脚本，它将帮助您进行MySQL配置，并为提高性能和稳定性提供建议。</p>
+<p><strong>安装</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">#  wget https://raw.githubusercontent.com/major/MySQLTuner-perl/master/mysqltuner.pl</span><br></pre></td></tr></table></figure>
+
+<h4 id="SQLAdvisor"><a href="#SQLAdvisor" class="headerlink" title="SQLAdvisor"></a>SQLAdvisor</h4><p>SQLAdvisor是由美团点评公司DBA团队(北京)开发维护的SQL优化工具：<strong>输入SQL，输出索引优化建议</strong>。 它基于MySQL原生词法解析，再结合SQL中的where条件以及字段选择度、聚合条件、多表Join关系等最终输出最优的索引优化建议。目前SQLAdvisor在公司内部大量使用，较为成熟、稳定。</p>
+<p>美团点评致力于将SQLAdvisor打造成一款高智能化SQL优化工具，选择将已经在公司内部使用较为成熟的、稳定的SQLAdvisor项目开源，github地址。希望与业内有类似需求的团队，一起打造一款优秀的SQL优化产品。</p>
+<p><strong>主要功能：输出SQL索引优化建议</strong></p>
+<p>GitHup地址：<a target="_blank" rel="noopener" href="https://github.com/Meituan-Dianping/SQLAdvisor">https://github.com/Meituan-Dianping/SQLAdvisor</a></p>
+<h3 id="参考："><a href="#参考：" class="headerlink" title="参考："></a>参考：</h3><ol>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/f-ck-need-u/p/9279703.html">数据库性能测试：sysbench用法详解</a></li>
+</ol>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">平心</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://pingxin0521.gitee.io/2019/09/06/%E6%95%B0%E6%8D%AE%E5%BA%93-%E5%B7%A5%E5%85%B7-1/">https://pingxin0521.gitee.io/2019/09/06/%E6%95%B0%E6%8D%AE%E5%BA%93-%E5%B7%A5%E5%85%B7-1/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://pingxin0521.gitee.io" target="_blank">平心de小屋</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a></div><div class="post_share"><div class="social-share" data-image="https://i.loli.net/2020/05/08/gGE57HRvpcKPfDY.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2019/09/07/Java-%E9%9D%A2%E8%AF%95%E9%A2%98-1/"><img class="prev-cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/PFDRNxj93taz6pw.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">java  面试题</div></div></a></div><div class="next-post pull-right"><a href="/2019/09/04/%E5%AE%B9%E5%99%A8-Kubernetes-0/"><img class="next-cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/PFDRNxj93taz6pw.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">K8s 介绍</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span> 相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2019/10/06/数据库-MySQL-1-2/" title="MySQL 架构和底层知识"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/vCnKyoFJZ1g4XYR.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2020-02-15</div><div class="title">MySQL 架构和底层知识</div></div></a></div><div><a href="/2019/10/15/数据库-MySQL-15-0/" title="MySQL集群结构"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/gGE57HRvpcKPfDY.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2020-02-16</div><div class="title">MySQL集群结构</div></div></a></div><div><a href="/2019/11/16/数据库-MySQL-15-1-2/" title="MySQL数据库 分库分表  MyCat（三）"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/vCnKyoFJZ1g4XYR.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2020-02-15</div><div class="title">MySQL数据库 分库分表  MyCat（三）</div></div></a></div><div><a href="/2019/10/18/数据库-Redis-1-4/" title="Redis 事务、发布订阅"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/HjVAdIuT7bZJypS.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2019-11-24</div><div class="title">Redis 事务、发布订阅</div></div></a></div><div><a href="/2019/10/19/数据库-Redis-1-5/" title="Redis 高级类型"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/okfOw28KlZFbE7z.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2020-02-14</div><div class="title">Redis 高级类型</div></div></a></div><div><a href="/2020/02/14/数据库-Redis-1-6/" title="Redis 应用场景示例"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/gGE57HRvpcKPfDY.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2020-02-14</div><div class="title">Redis 应用场景示例</div></div></a></div></div></div><hr/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div class="vcomment" id="vcomment"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="card-info-avatar is-center"><img class="avatar-img" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://s2.ax1x.com/2020/02/11/1ovw6J.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/><div class="author-info__name">平心</div><div class="author-info__description">年轻人的life、learn and think</div></div><div class="card-info-data"><div class="card-info-data-item is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">449</div></a></div><div class="card-info-data-item is-center"><a href="/tags/"><div class="headline">标签</div><div class="length-num">77</div></a></div><div class="card-info-data-item is-center"><a href="/categories/"><div class="headline">分类</div><div class="length-num">68</div></a></div></div><a class="button--animated" id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/hanyunpeng0521"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/hanyunpeng0521" target="_blank" title="Github"><i class="fa fa-github"></i></a><a class="social-icon" href="mailto:m13839441583@163.com" target="_blank" title="Email"><i class="fa fa-envelope"></i></a><a class="social-icon" href="/atom.xml" target="_blank" title=""><i class="fa fa-rss"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn card-announcement-animation"></i><span>公告</span></div><div class="announcement_content">为什么呢？开始提问吧</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%B5%8B%E8%AF%95%E5%B7%A5%E5%85%B7-sysbench"><span class="toc-number">1.</span> <span class="toc-text">测试工具 sysbench</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%87%86%E5%A4%87%E6%B5%8B%E8%AF%95%E6%95%B0%E6%8D%AE"><span class="toc-number">1.1.</span> <span class="toc-text">准备测试数据</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#mysql%E4%BC%98%E5%8C%96%E5%B7%A5%E5%85%B7"><span class="toc-number"></span> <span class="toc-text">mysql优化工具</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#MySQL-Tuner"><span class="toc-number">1.</span> <span class="toc-text">MySQL Tuner</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#SQLAdvisor"><span class="toc-number">2.</span> <span class="toc-text">SQLAdvisor</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8F%82%E8%80%83%EF%BC%9A"><span class="toc-number"></span> <span class="toc-text">参考：</span></a></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2021/05/15/node-2-4/" title="Egg.js -- 为企业级框架和应用而生"><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/okfOw28KlZFbE7z.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Egg.js -- 为企业级框架和应用而生"/></a><div class="content"><a class="title" href="/2021/05/15/node-2-4/" title="Egg.js -- 为企业级框架和应用而生">Egg.js -- 为企业级框架和应用而生</a><time datetime="2021-05-15T10:18:59.000Z" title="发表于 2021-05-15 18:18:59">2021-05-15</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/04/30/node-2-3/" title="Koa -- 基于Node.js平台的下一代Web开发框架"><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/HjVAdIuT7bZJypS.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Koa -- 基于Node.js平台的下一代Web开发框架"/></a><div class="content"><a class="title" href="/2021/04/30/node-2-3/" title="Koa -- 基于Node.js平台的下一代Web开发框架">Koa -- 基于Node.js平台的下一代Web开发框架</a><time datetime="2021-04-30T10:18:59.000Z" title="发表于 2021-04-30 18:18:59">2021-04-30</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/04/01/node-2-1/" title="Node.JS web开发前置知识"><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/gGE57HRvpcKPfDY.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Node.JS web开发前置知识"/></a><div class="content"><a class="title" href="/2021/04/01/node-2-1/" title="Node.JS web开发前置知识">Node.JS web开发前置知识</a><time datetime="2021-04-01T03:18:59.000Z" title="发表于 2021-04-01 11:18:59">2021-04-01</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2020/12/26/%E5%91%A8%E8%AE%B0-10-1/" title="第十一周--谷歌浏览器插件"><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/gGE57HRvpcKPfDY.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="第十一周--谷歌浏览器插件"/></a><div class="content"><a class="title" href="/2020/12/26/%E5%91%A8%E8%AE%B0-10-1/" title="第十一周--谷歌浏览器插件">第十一周--谷歌浏览器插件</a><time datetime="2020-12-26T10:18:59.000Z" title="发表于 2020-12-26 18:18:59">2020-12-26</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2020/12/26/%E5%91%A8%E8%AE%B0-10-0/" title="第十一周--浏览器技术"><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/vCnKyoFJZ1g4XYR.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="第十一周--浏览器技术"/></a><div class="content"><a class="title" href="/2020/12/26/%E5%91%A8%E8%AE%B0-10-0/" title="第十一周--浏览器技术">第十一周--浏览器技术</a><time datetime="2020-12-26T06:18:59.000Z" title="发表于 2020-12-26 14:18:59">2020-12-26</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2019 - 2021 By 平心</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div id="local-search"><div class="search-dialog"><div class="search-dialog__title" id="local-search-title">本地搜索</div><div id="local-input-panel"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div></div><hr/><div id="local-search-results"></div><span class="search-close-button"><i class="fas fa-times"></i></span></div><div id="search-mask"></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload/dist/lazyload.iife.min.js"></script><script src="/js/search/local-search.js"></script><div class="js-pjax"><script>function loadValine () {
+  function initValine () {
+    const valine = new Valine(Object.assign({
+      el: '#vcomment',
+      appId: '4lfIXzqxaC1ONs0MJO4oHu07-gzGzoHsz',
+      appKey: 'qw99Bw8FD0KVKU9m457CwWsr',
+      placeholder: 'Please leave your footprints',
+      avatar: 'monsterid',
+      meta: 'nick,mail,link'.split(','),
+      pageSize: '10',
+      lang: 'zh-CN',
+      recordIP: true,
+      serverURLs: '',
+      emojiCDN: '',
+      emojiMaps: "",
+      enableQQ: true,
+      path: window.location.pathname,
+      requiredFields: ["nick,mail"],
+      visitor: false
+    }, null))
+  }
+
+  if (typeof Valine === 'function') initValine() 
+  else getScript('https://cdn.jsdelivr.net/npm/valine/dist/Valine.min.js').then(initValine)
+}
+
+if ('Valine' === 'Valine' || !false) {
+  if (false) btf.loadComment(document.getElementById('vcomment'),loadValine)
+  else setTimeout(loadValine, 0)
+} else {
+  function loadOtherComment () {
+    loadValine()
+  }
+}</script></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>

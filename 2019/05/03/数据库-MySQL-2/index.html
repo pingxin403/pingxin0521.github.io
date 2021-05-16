@@ -1,0 +1,722 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>MySQL SQL （一） | 平心de小屋</title><meta name="keywords" content="数据库,MySQL,SQL"><meta name="author" content="平心"><meta name="copyright" content="平心"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="数据类型数据类型（data_type）是指系统中所允许的数据的类型。 数据库中的每个列都应该有适当的数据类型，用于限制或允许该列中存储的数据。例如，列中存储的为数字，则相应的数据类型应该为数值类型。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="MySQL SQL （一）">
+<meta property="og:url" content="https://pingxin0521.gitee.io/2019/05/03/%E6%95%B0%E6%8D%AE%E5%BA%93-MySQL-2/index.html">
+<meta property="og:site_name" content="平心de小屋">
+<meta property="og:description" content="数据类型数据类型（data_type）是指系统中所允许的数据的类型。 数据库中的每个列都应该有适当的数据类型，用于限制或允许该列中存储的数据。例如，列中存储的为数字，则相应的数据类型应该为数值类型。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://i.loli.net/2020/05/08/vCnKyoFJZ1g4XYR.jpg">
+<meta property="article:published_time" content="2019-05-03T05:08:59.000Z">
+<meta property="article:modified_time" content="2019-05-22T13:41:28.000Z">
+<meta property="article:author" content="平心">
+<meta property="article:tag" content="数据库">
+<meta property="article:tag" content="MySQL">
+<meta property="article:tag" content="SQL">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.loli.net/2020/05/08/vCnKyoFJZ1g4XYR.jpg"><link rel="shortcut icon" href="https://s2.ax1x.com/2020/02/11/1ovFOA.png"><link rel="canonical" href="https://pingxin0521.gitee.io/2019/05/03/%E6%95%B0%E6%8D%AE%E5%BA%93-MySQL-2/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"search.xml","languages":{"hits_empty":"找不到您查询的内容：${query}"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    jQuery: 'https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js',
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+    },
+    fancybox: {
+      js: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css'
+    }
+  },
+  isPhotoFigcaption: true,
+  islazyload: true,
+  isanchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'MySQL SQL （一）',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2019-05-22 21:41:28'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    })(window)</script><meta name="generator" content="Hexo 5.4.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="author-avatar"><img class="avatar-img" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://s2.ax1x.com/2020/02/11/1ovw6J.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data"><div class="data-item is-center"><div class="data-item-link"><a href="/archives/"><div class="headline">文章</div><div class="length-num">449</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/tags/"><div class="headline">标签</div><div class="length-num">77</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/categories/"><div class="headline">分类</div><div class="length-num">68</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fa fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fa fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://i.loli.net/2020/05/08/vCnKyoFJZ1g4XYR.jpg')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">平心de小屋</a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fa fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fa fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">MySQL SQL （一）</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2019-05-03T05:08:59.000Z" title="发表于 2019-05-03 13:08:59">2019-05-03</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2019-05-22T13:41:28.000Z" title="更新于 2019-05-22 21:41:28">2019-05-22</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a><i class="fas fa-angle-right post-meta-separator"></i><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/MySQL/">MySQL</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">8.1k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>27分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="MySQL SQL （一）"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h3 id="数据类型"><a href="#数据类型" class="headerlink" title="数据类型"></a>数据类型</h3><p>数据类型（data_type）是指系统中所允许的数据的类型。</p>
+<p>数据库中的每个列都应该有适当的数据类型，用于限制或允许该列中存储的数据。例如，列中存储的为数字，则相应的数据类型应该为数值类型。</p>
+<span id="more"></span>
+
+<p>使用数据类型有助于对数据进行正确排序，并在优化磁盘使用方面起着重要的作用。因此，在创建表时必须为每个列设置正确的数据类型及可能的长度</p>
+<p>在 MySQL 中常见的数据类型如下：</p>
+<ol>
+<li>数值类型<br>包括 TINYINT、SMALLINT、MEDIUMINT、INT、BIGINT，浮点数类型 FLOAT 和 DOUBLE，定点数类型 DECIMAL。 </li>
+<li>日期/时间类型<br>包括 YEAR、TIME、DATE、DATETIME 和 TIMESTAMP。</li>
+<li>字符串类型<br>包括 CHAR、VARCHAR、BINARY、VARBINARY、BLOB、TEXT、ENUM 和 SET 等。</li>
+<li>二进制类型<br>包括 BIT、BINARY、VARBINARY、TINYBLOB、BLOB、MEDIUMBLOB 和 LONGBLOB。</li>
+</ol>
+<h4 id="整数类型"><a href="#整数类型" class="headerlink" title="整数类型"></a>整数类型</h4><p>整数类型又称数值型数据，数值型数据类型主要用来存储数字。</p>
+<p>MySQL提供了多种数值型数据类型，不同的数据类型提供不同的取值范围，可以存储的值范围越大，所需的存储空间也会越大。</p>
+<p> MySQL 主要提供的整数类型有  TINYINT、SMALLINT、MEDIUMINT、INT、BIGINT，其属性字段可以添加 AUTO_INCREMENT 自增约束条件。下表中列出了 MySQL 中的数值类型。</p>
+<table>
+<thead>
+<tr>
+<th>类型名称</th>
+<th>说明</th>
+<th>存储需求</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>TINYINT</td>
+<td>很小的整数</td>
+<td>1个字节</td>
+</tr>
+<tr>
+<td>SMALLINT</td>
+<td>小的整数</td>
+<td>2个宇节</td>
+</tr>
+<tr>
+<td>MEDIUMINT</td>
+<td>中等大小的整数</td>
+<td>3个字节</td>
+</tr>
+<tr>
+<td>INT (INTEGHR)</td>
+<td>普通大小的整数</td>
+<td>4个字节</td>
+</tr>
+<tr>
+<td>BIGINT</td>
+<td>大整数</td>
+<td>8个字节</td>
+</tr>
+</tbody></table>
+<p> 从上表中可以看到，不同类型的整数存储所需的字节数不相同，占用字节数最小的是 TINYINT 类型，占用字节最大的是 BIGINT 类型，占用的字节越多的类型所能表示的数值范围越大。</p>
+<p> 根据占用字节数可以求出每一种数据类型的取值范围。例如，TINYINT 需要 1 个字节（8bit）来存储，那么 TINYINT  无符号数的最大值为 28-1，即 255；TINYINT 有符号数的最大值为 27-1，即  127。其他类型的整数的取值范围计算方法相同，如下表所示。</p>
+<table>
+<thead>
+<tr>
+<th>类型名称</th>
+<th>说明</th>
+<th>存储需求</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>TINYINT</td>
+<td>-128〜127</td>
+<td>0 〜255</td>
+</tr>
+<tr>
+<td>SMALLINT</td>
+<td>-32768〜32767</td>
+<td>0〜65535</td>
+</tr>
+<tr>
+<td>MEDIUMINT</td>
+<td>-8388608〜8388607</td>
+<td>0〜16777215</td>
+</tr>
+<tr>
+<td>INT (INTEGER)</td>
+<td>-2147483648〜2147483647</td>
+<td>0〜4294967295</td>
+</tr>
+<tr>
+<td>BIGINT</td>
+<td>-9223372036854775808〜9223372036854775807</td>
+<td>0〜18446744073709551615</td>
+</tr>
+</tbody></table>
+<blockquote>
+<p>提示：显示宽度和数据类型的取值范围是无关的。显示宽度只是指明 MySQL  最大可能显示的数字个数，数值的位数小于指定的宽度时会由空格填充。如果插入了大于显示宽度的值，只要该值不超过该类型整数的取值范围，数值依然可以插入，而且能够显示出来。例如，year  字段插入 19999，当使用 SELECT 查询该列值的时候，MySQL 显示的将是完整的带有 5 位数字的 19999，而不是 4  位数字的值。</p>
+</blockquote>
+<p> 其他整型数据类型也可以在定义表结构时指定所需的显示宽度，如果不指定，则系统为每一种类型指定默认的宽度值。</p>
+<p>不同的整数类型有不同的取值范围，并且需要不同的存储空间，因此应根据实际需要选择最合适的类型，这样有利于提高查询的效率和节省存储空间。</p>
+<p> 整数类型是不带小数部分的数值，现实生活中很多地方需要用到带小数的数值</p>
+<h4 id="小数类型"><a href="#小数类型" class="headerlink" title="小数类型"></a>小数类型</h4><p>MySQL中使用浮点数和定点数来表示小数。 浮点类型有两种，分别是单精度浮点数（FLOAT）和双精度浮点数（DOUBLE）；定点类型只有一种，就是 DECIMAL。</p>
+<p> 浮点类型和定点类型都可以用(M, D)来表示，其中M称为精度，表示总共的位数；D称为标度，表示小数的位数。</p>
+<p> 浮点数类型的取值范围为 M（1～255）和 D（1～30，且不能大于 M-2），分别表示显示宽度和小数位数。M 和 D 在 FLOAT  和DOUBLE 中是可选的，FLOAT 和 DOUBLE 类型将被保存为硬件所支持的最大精度。DECIMAL 的默认 D 值为 0、M 值为  10。</p>
+<p> 下表中列出了 MySQL 中的小数类型和存储需求。</p>
+<table>
+<thead>
+<tr>
+<th>类型名称</th>
+<th>说明</th>
+<th>存储需求</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>FLOAT</td>
+<td>单精度浮点数</td>
+<td>4 个字节</td>
+</tr>
+<tr>
+<td>DOUBLE</td>
+<td>双精度浮点数</td>
+<td>8 个字节</td>
+</tr>
+<tr>
+<td>DECIMAL (M, D)，DEC</td>
+<td>压缩的“严格”定点数</td>
+<td>M+2 个字节</td>
+</tr>
+</tbody></table>
+<p> DECIMAL 类型不同于 FLOAT 和 DOUBLE。DOUBLE 实际上是以字符串的形式存放的，DECIMAL 可能的最大取值范围与  DOUBLE 相同，但是有效的取值范围由 M 和 D 决定。如果改变 M 而固定 D，则取值范围将随 M 的变大而变大。</p>
+<p> 从上表中可以看到，DECIMAL 的存储空间并不是固定的，而由精度值 M 决定，占用 M+2 个字节。</p>
+<p> FLOAT 类型的取值范围如下： </p>
+<ul>
+<li>有符号的取值范围：-3.402823466E+38～-1.175494351E-38。</li>
+<li>无符号的取值范围：0 和 -1.175494351E-38～-3.402823466E+38。</li>
+</ul>
+<p> DOUBLE 类型的取值范围如下： </p>
+<ul>
+<li>有符号的取值范围：-1.7976931348623157E+308～-2.2250738585072014E-308。</li>
+<li>无符号的取值范围：0 和 -2.2250738585072014E-308～-1.7976931348623157E+308。</li>
+</ul>
+<blockquote>
+<p>提示：不论是定点还是浮点类型，如果用户指定的精度超出精度范围，则会四舍五入进行处理。</p>
+</blockquote>
+<p> FLOAT 和 DOUBLE 在不指定精度时，默认会按照实际的精度（由计算机硬件和操作系统决定），DECIMAL 如果不指定精度，默认为（10，0）。</p>
+<p> 浮点数相对于定点数的优点是在长度一定的情况下，浮点数能够表示更大的范围；缺点是会引起精度问题。</p>
+<p>最后再强调一下：在 MySQL 中，定点数以字符串形式存储，在对精度要求比较高的时候（如货币、科学数据），使用 DECIMAL 的类型比较好，另外两个浮点数进行减法和比较运算时也容易出问题，所以在使用浮点数时需要注意，并尽量避免做浮点数比较。</p>
+<h4 id="日期和时间类型"><a href="#日期和时间类型" class="headerlink" title="日期和时间类型"></a>日期和时间类型</h4><p>MySQL 中有多处表示日期的数据类型：YEAR、TIME、DATE、DTAETIME、TIMESTAMP。当只记录年信息的时候，可以只使用 YEAR 类型。</p>
+<p>每一个类型都有合法的取值范围，当指定确定不合法的值时，系统将“零”值插入数据库中。</p>
+<p> 下表中列出了 MySQL 中的日期与时间类型。</p>
+<table>
+<thead>
+<tr>
+<th>类型名称</th>
+<th>日期格式</th>
+<th>日期范围</th>
+<th>存储需求</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>YEAR</td>
+<td>YYYY</td>
+<td>1901 ~ 2155</td>
+<td>1 个字节</td>
+</tr>
+<tr>
+<td>TIME</td>
+<td>HH:MM:SS</td>
+<td>-838:59:59 ~ 838:59:59</td>
+<td>3 个字节</td>
+</tr>
+<tr>
+<td>DATE</td>
+<td>YYYY-MM-DD</td>
+<td>1000-01-01 ~ 9999-12-3</td>
+<td>3 个字节</td>
+</tr>
+<tr>
+<td>DATETIME</td>
+<td>YYYY-MM-DD HH:MM:SS</td>
+<td>1000-01-01 00:00:00 ~ 9999-12-31 23:59:59</td>
+<td>8 个字节</td>
+</tr>
+<tr>
+<td>TIMESTAMP</td>
+<td>YYYY-MM-DD HH:MM:SS</td>
+<td>1980-01-01 00:00:01 UTC ~ 2040-01-19 03:14:07 UTC</td>
+<td>4 个字节</td>
+</tr>
+</tbody></table>
+<h5 id="YEAR-类型"><a href="#YEAR-类型" class="headerlink" title="YEAR 类型"></a>YEAR 类型</h5><p> YEAR 类型是一个单字节类型，用于表示年，在存储时只需要 1 个字节。可以使用各种格式指定 YEAR，如下所示： </p>
+<ul>
+<li>以 4 位字符串或者 4 位数字格式表示的 YEAR，范围为 ‘1901’～’2155’。输入格式为 ‘YYYY’ 或者 YYYY，例如，输入 ‘2010’ 或 2010，插入数据库的值均为 2010。</li>
+<li>以 2 位字符串格式表示的 YEAR，范围为 ‘00’ 到 ‘99’。’00’～’69’ 和 ‘70’～’99’ 范围的值分别被转换为  2000～2069 和 1970～1999 范围的 YEAR 值。’0’ 与 ‘00’ 的作用相同。插入超过取值范围的值将被转换为 2000。</li>
+<li>以 2 位数字表示的 YEAR，范围为 1～99。1～99 和 70～99 范围的值分别被转换为 2001～2069 和 1970～1999 范围的 YEAR 值。注意，在这里 0 值将被转换为 0000，而不是 2000。</li>
+</ul>
+<blockquote>
+<p>提示：两位整数范围与两位字符串范围稍有不同。例如，插入 3000 年，读者可能会使用数字格式的 0 表示 YEAR，实际上，插入数据库的值为  0000，而不是所希望的 3000。只有使用字符串格式的 ‘0’ 或 ‘00’，才可以被正确解释为 3000，非法 YEAR值将被转换为  0000。</p>
+</blockquote>
+<h5 id="TIME-类型"><a href="#TIME-类型" class="headerlink" title="TIME 类型"></a>TIME 类型</h5><p> TIME 类型用于只需要时间信息的值，在存储时需要 3 个字节。格式为 HH:MM:SS。HH 表示小时，MM 表示分钟，SS 表示秒。</p>
+<p> TIME 类型的取值范围为 -838：59：59～838：59：59，小时部分如此大的原因是 TIME 类型不仅可以用于表示一天的时间（必须小于 24 小时），还可能是某个事件过去的时间或两个事件之间的时间间隔（可大于 24 小时，或者甚至为负）。</p>
+<p> 可以使用各种格式指定 TIME 值，如下所示。 </p>
+<ul>
+<li>‘D HH：MM：SS’ 格式的字符串。还可以使用这些“非严格”的语法：’HH：MM：SS’、’HH：MM’、’D HH’ 或 ‘SS’。这里的 D 表示日，可以取 0～34 之间的值。在插入数据库时，D 被转换为小时保存，格式为 “D*24+HH”。</li>
+<li>‘HHMMSS’ 格式、没有间隔符的字符串或者 HHMMSS 格式的数值，假定是有意义的时间。例如，’101112’ 被理解为’10：11：12’，但是 ‘106112’ 是不合法的（它有一个没有意义的分钟部分），在存储时将变为 00：00：00。</li>
+</ul>
+<blockquote>
+<p>提示：为 TIME 列分配简写值时应注意：如果没有冒号，MySQL 解释值时，假定最右边的两位表示秒。（MySQL 解释 TIME  值为过去的时间而不是当前的时间）。例如，读者可能认为 ‘1112’ 和 1112 表示 11：12：00（即 11 点过 12  分钟），但MySQL 将它们解释为 00：11：12（即 11 分 12 秒）。同样 ‘12’ 和 12  被解释为00：00：12。相反，TIME 值中如果使用冒号则肯定被看作当天的时间，也就是说，’11：12’ 表示 11：12：00，而不是  00：11：12。</p>
+</blockquote>
+<h5 id="DATE-类型"><a href="#DATE-类型" class="headerlink" title="DATE 类型"></a>DATE 类型</h5><p> DATE 类型用于仅需要日期值时，没有时间部分，在存储时需要 3 个字节。日期格式为 ‘YYYY-MM-DD’，其中 YYYY 表示年，MM 表示月，DD 表示日。</p>
+<p> 在给 DATE 类型的字段赋值时，可以使用字符串类型或者数字类型的数据插入，只要符合 DATE 的日期格式即可。如下所示： </p>
+<ul>
+<li>以 ‘YYYY-MM-DD’ 或者 ‘YYYYMMDD’ 字符中格式表示的日期，取值范围为 ‘1000-01-01’～’9999-12-3’。例如，输入 ‘2015-12-31’ 或者 ‘20151231’，插入数据库的日期为2015-12-31。</li>
+<li>以 ‘YY-MM-DD’ 或者 ‘YYMMDD’ 字符串格式表示日期，在这里YY表示两位的年值。MySQL 解释两位年值的规则：’00～69’  范围的年值转换为 ‘2000<del>2069’，’70</del>99’ 范围的年值转换为 ‘1970～1999’。例如，输入  ‘15-12-31’，插入数据库的日期为 2015-12-31；输入 ‘991231’，插入数据库的日期为 1999-12-31。</li>
+<li>以 YYMMDD 数字格式表示的日期，与前面相似，00~69 范围的年值转换为 2000～2069，80～99 范围的年值转换为  1980～1999。例如，输入 151231，插入数据库的日期为 2015-12-31，输入 991231，插入数据库的日期为  1999-12-31。</li>
+<li>使用 CURRENT_DATE 或者 NOW()，插入当前系统日期。</li>
+</ul>
+<blockquote>
+<p>提示：MySQL 允许“不严格”语法：任何标点符号都可以用作日期部分之间的间隔符。例如，’98-11-31’、’98.11.31’、’98/11/31’和‘98@11@31’ 是等价的，这些值也可以正确地插入数据库。</p>
+</blockquote>
+<h5 id="DATETIME-类型"><a href="#DATETIME-类型" class="headerlink" title="DATETIME 类型"></a>DATETIME 类型</h5><p> DATETIME 类型用于需要同时包含日期和时间信息的值，在存储时需要 8 个字节。日期格式为 ‘YYYY-MM-DD HH：MM：SS’，其中 YYYY 表示年，MM 表示月，DD 表示日，HH 表示小时，MM 表示分钟，SS 表示秒。</p>
+<p> 在给 DATETIME 类型的字段赋值时，可以使用字符串类型或者数字类型的数据插入，只要符合 DATETIME 的日期格式即可，如下所示。 </p>
+<ul>
+<li>以 ‘YYYY-MM-DD HH：MM：SS’ 或者 ‘YYYYMMDDHHMMSS’ 字符串格式表示的日期，取值范围为 ‘1000-01-01  00：00：00’～’9999-12-3 23：59：59’。例如，输入 ‘2014-12-31 05：05：05’ 或者  ‘20141231050505’，插入数据库的 DATETIME 值都为 2014-12-31 05：05：05。</li>
+<li>以 ‘YY-MM-DD HH：MM：SS’ 或者 ‘YYMMDDHHMMSS’ 字符串格式表示的日期，在这里 YY  表示两位的年值。与前面相同，’00～79’ 范围的年值转换为 ‘2000～2079’，’80～99’ 范围的年值转换为  ‘1980～1999’。例如，输入 ‘14-12-31 05：05：05’，插入数据库的 DATETIME 为 2014-12-31  05：05：05；输入 141231050505，插入数据库的 DATETIME 为 2014-12-31 05：05：05。</li>
+<li>以 YYYYMMDDHHMMSS 或者 YYMMDDHHMMSS 数字格式表示的日期和时间。例如，输入  20141231050505，插入数据库的 DATETIME 为 2014-12-31 05：05：05；输入  140505050505，插入数据库的 DATETIME 为 2014-12-31 05：05：05。</li>
+</ul>
+<blockquote>
+<p>提示：MySQL 允许“不严格”语法：任何标点符号都可用作日期部分或时间部分之间的间隔符。例如，’98-12-31  11：30：45’、’98.12.31 11+30+35’、’98/12/31 11<em>30</em>45’ 和 ‘98@12@31 11^30^45’  是等价的，这些值都可以正确地插入数据库。</p>
+<p>在JDBC中datetime和timestamp都是需要转化成timestamp类型</p>
+</blockquote>
+<h5 id="TIMESTAMP-类型"><a href="#TIMESTAMP-类型" class="headerlink" title="TIMESTAMP 类型"></a>TIMESTAMP 类型</h5><p> TIMESTAMP 的显示格式与 DATETIME 相同，显示宽度固定在 19 个字符，日期格式为 YYYY-MM-DD  HH：MM：SS，在存储时需要 4 个字节。但是 TIMESTAMP 列的取值范围小于 DATETIME 的取值范围，为 ‘1970-01-01  00：00：01’UTC～’2038-01-19 03：14：07’UTC。在插入数据时，要保证在合法的取值范围内。 </p>
+<blockquote>
+<p>提示：协调世界时（英：Coordinated Universal Time，法：Temps Universel Coordonné）又称为世界统一时间、世界标准时间、国际协调时间。英文（CUT）和法文（TUC）的缩写不同，作为妥协，简称 UTC。</p>
+</blockquote>
+<p> TIMESTAMP 与 DATETIME 除了存储字节和支持的范围不同外，还有一个最大的区别是： </p>
+<ul>
+<li>DATETIME 在存储日期数据时，按实际输入的格式存储，即输入什么就存储什么，与时区无关；</li>
+<li>而 TIMESTAMP 值的存储是以 UTC（世界标准时间）格式保存的，存储时对当前时区进行转换，检索时再转换回当前时区。即查询时，根据当前时区的不同，显示的时间值是不同的。</li>
+</ul>
+<blockquote>
+<p>提示：如果为一个 DATETIME 或 TIMESTAMP 对象分配一个 DATE 值，结果值的时间部分被设置为 ‘00：00：00’，因此  DATE 值未包含时间信息。如果为一个 DATE 对象分配一个 DATETIME 或 TIMESTAMP  值，结果值的时间部分被删除，因此DATE 值未包含时间信息。</p>
+</blockquote>
+<h4 id="字符串类型"><a href="#字符串类型" class="headerlink" title="字符串类型"></a>字符串类型</h4><p>字符串类型用来存储字符串数据，还可以存储图片和声音的二进制数据。字符串可以区分或者不区分大小写的串比较，还可以进行正则表达式的匹配查找。</p>
+<p>MySQL 中的字符串类型有 CHAR、VARCHAR、TINYTEXT、TEXT、MEDIUMTEXT、LONGTEXT、ENUM、SET 等。</p>
+<p>下表中列出了 MySQL 中的字符串数据类型，括号中的M表示可以为其指定长度。</p>
+<table>
+<thead>
+<tr>
+<th>类型名称</th>
+<th>说明</th>
+<th>存储需求</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>CHAR(M)</td>
+<td>固定长度非二进制字符串</td>
+<td>M 字节，1&lt;=M&lt;=255</td>
+</tr>
+<tr>
+<td>VARCHAR(M)</td>
+<td>变长非二进制字符串</td>
+<td>L+1字节，在此，L&lt; = M和 1&lt;=M&lt;=255</td>
+</tr>
+<tr>
+<td>TINYTEXT</td>
+<td>非常小的非二进制字符串</td>
+<td>L+1字节，在此，L&lt;2^8</td>
+</tr>
+<tr>
+<td>TEXT</td>
+<td>小的非二进制字符串</td>
+<td>L+2字节，在此，L&lt;2^16</td>
+</tr>
+<tr>
+<td>MEDIUMTEXT</td>
+<td>中等大小的非二进制字符串</td>
+<td>L+3字节，在此，L&lt;2^24</td>
+</tr>
+<tr>
+<td>LONGTEXT</td>
+<td>大的非二进制字符串</td>
+<td>L+4字节，在此，L&lt;2^32</td>
+</tr>
+<tr>
+<td>ENUM</td>
+<td>枚举类型，只能有一个枚举字符串值</td>
+<td>1或2个字节，取决于枚举值的数目 (最大值为65535)</td>
+</tr>
+<tr>
+<td>SET</td>
+<td>一个设置，字符串对象可以有零个或 多个SET成员</td>
+<td>1、2、3、4或8个字节，取决于集合 成员的数量（最多64个成员）</td>
+</tr>
+</tbody></table>
+<p>VARCHAR 和 TEXT 类型是变长类型，其存储需求取决于列值的实际长度（在前面的表格中用 L 表示），而不是取决于类型的最大可能尺寸。<br>例如，一个 VARCHAR(10) 列能保存一个最大长度为 10 个字符的字符串，实际的存储需要字符串的长度 L 加上一个字节以记录字符串的长度。对于字符 “abcd”，L 是 4，而存储要求 5 个字节。</p>
+<h5 id="CHAR-和-VARCHAR-类型"><a href="#CHAR-和-VARCHAR-类型" class="headerlink" title="CHAR 和 VARCHAR 类型"></a>CHAR 和 VARCHAR 类型</h5><p>CHAR(M) 为固定长度字符串，在定义时指定字符串列长。当保存时，在右侧填充空格以达到指定的长度。M 表示列的长度，范围是 0～255 个字符。</p>
+<p> 例如，CHAR(4) 定义了一个固定长度的字符串列，包含的字符个数最大为 4。当检索到 CHAR 值时，尾部的空格将被删除。</p>
+<p> VARCHAR(M) 是长度可变的字符串，M 表示最大列的长度，M 的范围是 0～65535。VARCHAR 的最大实际长度由最长的行的大小和使用的字符集确定，而实际占用的空间为字符串的实际长度加 1。</p>
+<p> 例如，VARCHAR(50) 定义了一个最大长度为 50 的字符串，如果插入的字符串只有 10 个字符，则实际存储的字符串为 10 个字符和一个字符串结束字符。VARCHAR 在值保存和检索时尾部的空格仍保留。</p>
+<p> 【实例】下面将不同的字符串保存到 CHAR(4) 和 VARCHAR(4) 列，说明 CHAR 和 VARCHAR 之间的差别，如下表所示。</p>
+<table>
+<thead>
+<tr>
+<th>插入值</th>
+<th>CHAR(4)</th>
+<th>存储需求</th>
+<th>VARCHAR(4)</th>
+<th>存储需求</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>‘ ‘</td>
+<td>‘    ‘</td>
+<td>4字节</td>
+<td>‘’</td>
+<td>1字节</td>
+</tr>
+<tr>
+<td>‘ab’</td>
+<td>‘ab  ‘</td>
+<td>4字节</td>
+<td>‘ab’</td>
+<td>3字节</td>
+</tr>
+<tr>
+<td>‘abc’</td>
+<td>‘abc ‘</td>
+<td>4字节</td>
+<td>‘abc’</td>
+<td>4字节</td>
+</tr>
+<tr>
+<td>‘abcd’</td>
+<td>‘abcd’</td>
+<td>4字节</td>
+<td>‘abcd’</td>
+<td>5字节</td>
+</tr>
+<tr>
+<td>‘abcdef’</td>
+<td>‘abcd’</td>
+<td>4字节</td>
+<td>‘abcd’</td>
+<td>5字节</td>
+</tr>
+</tbody></table>
+<p> 对比结果可以看到，CHAR(4) 定义了固定长度为 4 的列，无论存入的数据长度为多少，所占用的空间均为 4 个字节。VARCHAR(4) 定义的列所占的字节数为实际长度加 1。</p>
+<h5 id="TEXT-类型"><a href="#TEXT-类型" class="headerlink" title="TEXT 类型"></a>TEXT 类型</h5><p>TEXT 列保存非二进制字符串，如文章内容、评论等。当保存或查询 TEXT 列的值时，不删除尾部空格。</p>
+<p> TEXT 类型分为 4 种：TINYTEXT、TEXT、MEDIUMTEXT 和 LONGTEXT。不同的 TEXT 类型的存储空间和数据长度不同。</p>
+<ul>
+<li>TINYTEXT 表示长度为 255（28-1）字符的 TEXT 列。</li>
+<li>TEXT 表示长度为 65535（216-1）字符的 TEXT 列。</li>
+<li>MEDIUMTEXT 表示长度为 16777215（224-1）字符的 TEXT 列。</li>
+<li>LONGTEXT 表示长度为 4294967295 或 4GB（232-1）字符的 TEXT 列。</li>
+</ul>
+<h5 id="ENUM-类型"><a href="#ENUM-类型" class="headerlink" title="ENUM 类型"></a>ENUM 类型</h5><p>ENUM 是一个字符串对象，值为表创建时列规定中枚举的一列值。其语法格式如下： </p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;字段名&gt; ENUM( &#x27;值1&#x27;, &#x27;值1&#x27;, …, &#x27;值n&#x27; )</span><br></pre></td></tr></table></figure>
+
+<p> 字段名指将要定义的字段，值 n 指枚举列表中第 n 个值。</p>
+<p>ENUM 类型的字段在取值时，能在指定的枚举列表中获取，而且一次只能取一个。如果创建的成员中有空格，尾部的空格将自动被删除。</p>
+<p> ENUM 值在内部用整数表示，每个枚举值均有一个索引值；列表值所允许的成员值从 1 开始编号，MySQL 存储的就是这个索引编号，枚举最多可以有 65535 个元素。</p>
+<p> 例如，定义 ENUM 类型的列（’first’，’second’，’third’），该列可以取的值和每个值的索引如下表所示。</p>
+<table>
+<thead>
+<tr>
+<th>值</th>
+<th>索引</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>NULL</td>
+<td>NULL</td>
+</tr>
+<tr>
+<td>‘’</td>
+<td>0</td>
+</tr>
+<tr>
+<td>’first</td>
+<td>1</td>
+</tr>
+<tr>
+<td>second</td>
+<td>2</td>
+</tr>
+<tr>
+<td>third</td>
+<td>3</td>
+</tr>
+</tbody></table>
+<p> ENUM 值依照列索引顺序排列，并且空字符串排在非空字符串前，NULL 值排在其他所有枚举值前。 </p>
+<blockquote>
+<p>提示：ENUM 列总有一个默认值。如果将 ENUM 列声明为 NULL，NULL 值则为该列的一个有效值，并且默认值为 NULL。如果 ENUM 列被声明为 NOT NULL，其默认值为允许的值列表的第 1 个元素。</p>
+</blockquote>
+<h5 id="SET-类型"><a href="#SET-类型" class="headerlink" title="SET 类型"></a>SET 类型</h5><p>SET 是一个字符串的对象，可以有零或多个值，SET 列最多可以有 64 个成员，值为表创建时规定的一列值。指定包括多个 SET 成员的 SET 列值时，各成员之间用逗号<code>,</code>隔开，语法格式如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SET( &#x27;值1&#x27;, &#x27;值2&#x27;, …, &#x27;值n&#x27; )</span><br></pre></td></tr></table></figure>
+
+<p> 与 ENUM 类型相同，SET 值在内部用整数表示，列表中每个值都有一个索引编号。当创建表时，SET 成员值的尾部空格将自动删除。</p>
+<p> 但与 ENUM 类型不同的是，ENUM 类型的字段只能从定义的列值中选择一个值插入，而 SET 类型的列可从定义的列值中选择多个字符的联合。 </p>
+<blockquote>
+<p>提示：如果插入 SET 字段中的列值有重复，则 MySQL 自动删除重复的值；插入 SET 字段的值的顺序并不重要，MySQL 会在存入数据库时，按照定义的顺序显示；如果插入了不正确的值，默认情况下，MySQL 将忽视这些值，给出警告。</p>
+</blockquote>
+<h4 id="二进制类型"><a href="#二进制类型" class="headerlink" title="二进制类型"></a>二进制类型</h4><p>MySQL 支持两类字符型数据：文本字符串和二进制字符串</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">二进制字符串类型有时候也直接被称为“二进制类型”。</span><br></pre></td></tr></table></figure>
+
+<p>MySQL 中的二进制字符串有 BIT、BINARY、VARBINARY、TINYBLOB、BLOB、MEDIUMBLOB 和 LONGBLOB。</p>
+<p>下表中列出了 MySQL 中的二进制数据类型，括号中的M表示可以为其指定长度。</p>
+<table>
+<thead>
+<tr>
+<th>类型名称</th>
+<th>说明</th>
+<th>存储需求</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>BIT(M)</td>
+<td>位字段类型</td>
+<td>大约 (M+7)/8 字节</td>
+</tr>
+<tr>
+<td>BINARY(M)</td>
+<td>固定长度二进制字符串</td>
+<td>M 字节</td>
+</tr>
+<tr>
+<td>VARBINARY (M)</td>
+<td>可变长度二进制字符串</td>
+<td>M+1 字节</td>
+</tr>
+<tr>
+<td>TINYBLOB (M)</td>
+<td>非常小的BLOB</td>
+<td>L+1 字节，在此，L&lt;2^8</td>
+</tr>
+<tr>
+<td>BLOB (M)</td>
+<td>小 BLOB</td>
+<td>L+2 字节，在此，L&lt;2^16</td>
+</tr>
+<tr>
+<td>MEDIUMBLOB (M)</td>
+<td>中等大小的BLOB</td>
+<td>L+3 字节，在此，L&lt;2^24</td>
+</tr>
+<tr>
+<td>LONGBLOB (M)</td>
+<td>非常大的BLOB</td>
+<td>L+4 字节，在此，L&lt;2^32</td>
+</tr>
+</tbody></table>
+<h5 id="BIT-类型"><a href="#BIT-类型" class="headerlink" title="BIT 类型"></a>BIT 类型</h5><p>位字段类型。M 表示每个值的位数，范围为 1～64。如果 M 被省略，默认值为 1。如果为 BIT(M) 列分配的值的长度小于 M 位，在值的左边用 0 填充。例如，为 BIT(6) 列分配一个值 b’101’，其效果与分配 b’000101’ 相同。</p>
+<p> BIT 数据类型用来保存位字段值，例如以二进制的形式保存数据 13，13 的二进制形式为 1101，在这里需要位数至少为 4 位的 BIT 类型，即可以定义列类型为 BIT(4)。大于二进制 1111 的数据是不能插入 BIT(4) 类型的字段中的。 </p>
+<blockquote>
+<p>提示：默认情况下，MySQL 不可以插入超出该列允许范围的值，因而插入数据时要确保插入的值在指定的范围内。</p>
+</blockquote>
+<h5 id="BINARY-和-VARBINARY-类型"><a href="#BINARY-和-VARBINARY-类型" class="headerlink" title="BINARY 和 VARBINARY 类型"></a>BINARY 和 VARBINARY 类型</h5><p>BINARY 和 VARBINARY 类型类似于 CHAR 和 VARCHAR，不同的是它们包含二进制字节字符串。使用的语法格式如下： </p>
+<p> 列名称 BINARY(M) 或者 VARBINARY(M)</p>
+<p> BINARY 类型的长度是固定的，指定长度后，不足最大长度的，将在它们右边填充 “\0” 补齐，以达到指定长度。例如，指定列数据类型为  BINARY(3)，当插入 a 时，存储的内容实际为 “\a0\0”，当插入 ab  时，实际存储的内容为“ab\0”，无论存储的内容是否达到指定的长度，存储空间均为指定的值 M。</p>
+<p> VARBINARY 类型的长度是可变的，指定好长度之后，长度可以在 0 到最大值之间。例如，指定列数据类型为 VARBINARY(20)，如果插入的值长度只有 10，则实际存储空间为 10 加 1，实际占用的空间为字符串的实际长度加 1。 </p>
+<h5 id="BLOB-类型"><a href="#BLOB-类型" class="headerlink" title="BLOB 类型"></a>BLOB 类型</h5><p>BLOB 是一个二进制的对象，用来存储可变数量的数据。BLOB 类型分为 4 种：TINYBLOB、BLOB、MEDIUMBLOB 和 LONGBLOB，它们可容纳值的最大长度不同，如下表所示。</p>
+<table>
+<thead>
+<tr>
+<th>数据类型</th>
+<th>存储范围</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>TINYBLOB</td>
+<td>最大长度为255 (28-1)字节</td>
+</tr>
+<tr>
+<td>BLOB</td>
+<td>最大长度为65535 (216-1)字节</td>
+</tr>
+<tr>
+<td>MEDIUMBLOB</td>
+<td>最大长度为16777215 (224-1)字节</td>
+</tr>
+<tr>
+<td>LONGBLOB</td>
+<td>最大长度为4294967295或4GB (231-1)字节</td>
+</tr>
+</tbody></table>
+<p> BLOB 列存储的是二进制字符串（字节字符串），TEXT 列存储的是非进制字符串（字符字符串）。BLOB 列是字符集，并且排序和比较基于列值字节的数值；TEXT 列有一个字符集，并且根据字符集对值进行排序和比较。</p>
+<h3 id="database和schema"><a href="#database和schema" class="headerlink" title="database和schema"></a>database和schema</h3><p>数据库：实际上是一个文件集合，本质就是一个文件系统，数据按照特定的格式存储到文件中，用sql语言对数据进行操作         </p>
+<p> 模式（schema）是表、视图等数据库中对象的集合，而数据库（database）是模式的集合。</p>
+<p>实际上，schema就是数据库对象的集合，这个集合包含了各种对象如：表、视图、存储过程、索引等。为了区分不同的集合，就需要给不同的集合起不同的名字，默认情况下一个用户对应一个集合，用户的schema名等于用户名，并作为该用户缺省schema。所以schema集合看上去像用户名。</p>
+<p><strong>一个关系数据库管理系统的实例（Instance）中可以建立多个数据库（database）；一个数据库中可以建立多个模式（schema）；一个模式下通常包括多个表（table）、视图（view）和索引（index）等数据库对象。</strong></p>
+<p>如果把database看作是一个仓库，仓库很多房间（schema），一个schema代表一个房间，table可以看作是每个房间中的储物柜，user是每个schema的主人，有操作数据库中每个房间的权利，就是说每个数据库映射的user有每个schema（房间）的钥匙。</p>
+<p>我们访问一个表时，没有指明该表属于哪一个schema中的，系统就会自动给我们在表上加上缺省的sheman名。在数据库中一个对象的完整名称为schema.object，而不属user.object。</p>
+<p>在MySQL中创建一个Schema和创建一个Database的效果好像是一样的，但是在sqlserver和orcal数据库中效果又是不同的。</p>
+<p>在SQL Server  2000中，user和schema总有一层隐含的关系，让我们很少意识到其实user和schema是两种完全不同的概念，假如我们在某一数据库中创建了用户Bosco，那么此时后台也为我们默认的创建了schema【Bosco】，schema的名字和user的名字相同。</p>
+<p>在SQL Server  2005中，为了向后兼容，当用sp_adduser存储过程创建一个用户的时候，sqlserver2005同时也创建了一个和用户名相同的schema，然而这个存储过程是为了向后兼容才保留的，当我们用create   user创建数据库用户时，我们可以用该用户指定一个已经存在的schema作为默认的schema，如果我们不指定，则该用户所默认的schema即为dbo   schema，dbo房间（schema）好比一个大的公共房间，在当前登录用户没有默认schema的前提下，如果你在大仓库中进行一些操作，比如create   table，如果没有制定特定的房间（schema），那么你的物品就只好放进公共的dbo房间（schema）了。但是如果当前登录用户有默认的schema，那么所做的一切操作都是在默认的schema上进行。</p>
+<p>在Oracle数据库中不能新建一个schema，要想创建一个schema，只能通过创建一个用户的方法解决，在创建一个用户的同时为这个用户创建一个与用户名同名的schem并作为该用户的缺省shcema。即schema的个数同user的个数相同，而且schema名字同user名字一一  对应并且相同。</p>
+<h4 id="新建数据库："><a href="#新建数据库：" class="headerlink" title="新建数据库："></a>新建数据库：</h4><p>通用SQL：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">CREATE DATABASE &lt;数据库名&gt;;</span><br></pre></td></tr></table></figure>
+
+<p>在 MySQL 中，可以使用 <strong>CREATE DATABASE</strong> 语句创建数据库，语法格式如下： </p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">CREATE DATABASE [IF NOT EXISTS] &lt;数据库名&gt;</span><br><span class="line">[[DEFAULT] CHARACTER SET &lt;字符集名&gt;] [[DEFAULT] COLLATE &lt;校对规则名&gt;];</span><br></pre></td></tr></table></figure>
+
+<p>[]中的内容是可选的。语法说明如下： </p>
+<ul>
+<li> &lt;数据库名&gt;：创建数据库的名称。MySQL 的数据存储区将以目录方式表示 MySQL 数据库，因此数据库名称必须符合操作系统的文件夹命名规则，注意在 MySQL 中不区分大小写。</li>
+<li> IF NOT EXISTS：在创建数据库之前进行判断，只有该数据库目前尚不存在时才能执行操作。此选项可以用来避免数据库已经存在而重复创建的错误。</li>
+<li> [DEFAULT] CHARACTER SET：指定数据库的默认字符集。</li>
+<li> [DEFAULT] COLLATE：指定字符集的默认校对规则。</li>
+</ul>
+<p>MySQL 的字符集（CHARACTER）和校对规则（COLLATION）两个不同的概念：字符集是用来定义 MySQL 存储字符串的方式，校对规则定义了比较字符串的方式，解决排序和字符分组的问题。</p>
+<p><strong>MySQL 不允许在同一系统创建两个相同名称的数据库。</strong></p>
+<p>为防止字符混乱的情况发生，MySQL 有时需要在创建数据库时明确指定字符集；在中国大陆地区，常用的字符集有 utf8 和 gbk。 </p>
+<ul>
+<li> utf8 能够存储全球的所有字符，在任何国家都可以使用，默认的校对规则为 utf8_general_ci，对于中文可以使用 utf8_general_ci。</li>
+<li> gbk 只能存储汉语涉及到的字符，不具有全球通用性，默认的校对规则为 gbk_chinese_ci。</li>
+</ul>
+<h4 id="查看数据库"><a href="#查看数据库" class="headerlink" title="查看数据库"></a>查看数据库</h4><p>在 <a target="_blank" rel="noopener" href="http://c.biancheng.net/mysql/">MySQL</a> 中，可使用 <strong>SHOW DATABASES</strong> 语句来查看或显示当前用户权限范围以内的数据库。查看数据库的语法格式为：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SHOW DATABASES [LIKE &#x27;数据库名&#x27;];</span><br></pre></td></tr></table></figure>
+
+<p> 语法说明如下： </p>
+<ul>
+<li> LIKE 从句是可选项，用于匹配指定的数据库名称。LIKE 从句可以部分匹配，也可以完全匹配。</li>
+<li> 数据库名由单引号<code>&#39; &#39;</code>包围。</li>
+<li>可以使用<code>SHOW CREATE DATABASE</code>查看数据库的定义声明。</li>
+</ul>
+<h4 id="修改数据库："><a href="#修改数据库：" class="headerlink" title="修改数据库："></a>修改数据库：</h4><p>在 <a target="_blank" rel="noopener" href="http://c.biancheng.net/mysql/">MySQL</a> 中，可以使用 ALTER DATABASE 或 ALTER SCHEMA 语句来修改已经被创建或者存在的数据库的相关参数。修改数据库的语法格式为：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ALTER DATABASE [数据库名] &#123; [ DEFAULT ] CHARACTER SET &lt;字符集名&gt; |</span><br><span class="line">[ DEFAULT ] COLLATE &lt;校对规则名&gt;&#125;</span><br></pre></td></tr></table></figure>
+
+<p>语法说明如下： </p>
+<ul>
+<li> ALTER DATABASE 用于更改数据库的全局特性。这些特性存储在数据库目录的 db.opt 文件中。</li>
+<li> 使用 ALTER DATABASE 需要获得数据库 ALTER 权限。</li>
+<li> 数据库名称可以忽略，此时语句对应于默认数据库。</li>
+<li> CHARACTER SET 子句用于更改默认的数据库字符集。</li>
+</ul>
+<h4 id="删除数据库："><a href="#删除数据库：" class="headerlink" title="删除数据库："></a>删除数据库：</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">DROP DATABASE &lt;库名&gt;;</span><br></pre></td></tr></table></figure>
+
+<p>在 MySQL 中，当需要删除已创建的数据库时，可以使用 DROP DATABASE 或 DROP SCHEMA 语句。其语法格式为：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">DROP DATABASE [ IF EXISTS ] &lt;数据库名&gt;</span><br></pre></td></tr></table></figure>
+
+<p>语法说明如下：</p>
+<ul>
+<li>&lt;数据库名&gt;：指定要删除的数据库名。</li>
+<li>IF EXISTS：用于防止当数据库不存在时发生错误。</li>
+<li>DROP DATABASE：删除数据库中的所有表格并同时删除数据库。使用此语句时要非常小心，以免错误删除。如果要使用 DROP DATABASE，需要获得数据库 DROP 权限。</li>
+</ul>
+<p>注意：MySQL 安装后，系统会自动创建名为 information_schema 和 mysql 的两个系统数据库，系统数据库存放一些和数据库相关的信息，如果删除了这两个数据库，MySQL 将不能正常工作。</p>
+<h4 id="选择数据库"><a href="#选择数据库" class="headerlink" title="选择数据库"></a>选择数据库</h4><p>在 MySQL 中，USE 语句用来完成一个数据库到另一个数据库的跳转。</p>
+<p>当用 CREATE DATABASE 语句创建数据库之后，该数据库不会自动成为当前数据库，需要用 USE 来指定当前数据库。其语法格式为：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">USE &lt;数据库名&gt;</span><br></pre></td></tr></table></figure>
+
+<p>该语句可以通知 MySQL 把&lt;数据库名&gt;所指示的数据库作为当前数据库。该数据库保持为默认数据库，直到语段的结尾，或者直到遇见一个不同的 USE 语句。</p>
+<p>只有使用 USE 语句来指定某个数据库作为当前数据库之后，才能对该数据库及其存储的数据对象执行操作。</p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">平心</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://pingxin0521.gitee.io/2019/05/03/%E6%95%B0%E6%8D%AE%E5%BA%93-MySQL-2/">https://pingxin0521.gitee.io/2019/05/03/%E6%95%B0%E6%8D%AE%E5%BA%93-MySQL-2/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://pingxin0521.gitee.io" target="_blank">平心de小屋</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a><a class="post-meta__tags" href="/tags/MySQL/">MySQL</a><a class="post-meta__tags" href="/tags/SQL/">SQL</a></div><div class="post_share"><div class="social-share" data-image="https://i.loli.net/2020/05/08/vCnKyoFJZ1g4XYR.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2019/05/03/JavaScript-%E5%9F%BA%E7%A1%80-4/"><img class="prev-cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/HjVAdIuT7bZJypS.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">JavaScript 面向对象编程</div></div></a></div><div class="next-post pull-right"><a href="/2019/05/02/Android-%E5%9F%BA%E7%A1%80-17/"><img class="next-cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/okfOw28KlZFbE7z.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">Android 高级控件（三）</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span> 相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2019/05/16/数据库-MySQL-10-0/" title="MySQL SQL 权限(八)"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/PFDRNxj93taz6pw.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2019-11-28</div><div class="title">MySQL SQL 权限(八)</div></div></a></div><div><a href="/2019/05/17/数据库-MySQL-11-2/" title="MySQL SQL 备份--xtrabackup (九)"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/gGE57HRvpcKPfDY.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2019-11-06</div><div class="title">MySQL SQL 备份--xtrabackup (九)</div></div></a></div><div><a href="/2019/05/17/数据库-MySQL-11-1/" title="MySQL SQL 备份--MySQL 工具(九)"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/HjVAdIuT7bZJypS.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2019-10-29</div><div class="title">MySQL SQL 备份--MySQL 工具(九)</div></div></a></div><div><a href="/2019/05/18/数据库-MySQL-10-2/" title="MySQL SQL 事务(九)"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/PFDRNxj93taz6pw.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2019-11-28</div><div class="title">MySQL SQL 事务(九)</div></div></a></div><div><a href="/2019/05/12/数据库-MySQL-4/" title="MySQL SQL 函数（五）"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/PFDRNxj93taz6pw.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2019-11-18</div><div class="title">MySQL SQL 函数（五）</div></div></a></div><div><a href="/2019/05/12/数据库-MySQL-5/" title="MySQL SQL 存储过程（六）"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/gGE57HRvpcKPfDY.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2020-03-19</div><div class="title">MySQL SQL 存储过程（六）</div></div></a></div></div></div><hr/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div class="vcomment" id="vcomment"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="card-info-avatar is-center"><img class="avatar-img" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://s2.ax1x.com/2020/02/11/1ovw6J.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/><div class="author-info__name">平心</div><div class="author-info__description">年轻人的life、learn and think</div></div><div class="card-info-data"><div class="card-info-data-item is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">449</div></a></div><div class="card-info-data-item is-center"><a href="/tags/"><div class="headline">标签</div><div class="length-num">77</div></a></div><div class="card-info-data-item is-center"><a href="/categories/"><div class="headline">分类</div><div class="length-num">68</div></a></div></div><a class="button--animated" id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/hanyunpeng0521"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/hanyunpeng0521" target="_blank" title="Github"><i class="fa fa-github"></i></a><a class="social-icon" href="mailto:m13839441583@163.com" target="_blank" title="Email"><i class="fa fa-envelope"></i></a><a class="social-icon" href="/atom.xml" target="_blank" title=""><i class="fa fa-rss"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn card-announcement-animation"></i><span>公告</span></div><div class="announcement_content">为什么呢？开始提问吧</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B"><span class="toc-number">1.</span> <span class="toc-text">数据类型</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%95%B4%E6%95%B0%E7%B1%BB%E5%9E%8B"><span class="toc-number">1.1.</span> <span class="toc-text">整数类型</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%B0%8F%E6%95%B0%E7%B1%BB%E5%9E%8B"><span class="toc-number">1.2.</span> <span class="toc-text">小数类型</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%97%A5%E6%9C%9F%E5%92%8C%E6%97%B6%E9%97%B4%E7%B1%BB%E5%9E%8B"><span class="toc-number">1.3.</span> <span class="toc-text">日期和时间类型</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#YEAR-%E7%B1%BB%E5%9E%8B"><span class="toc-number">1.3.1.</span> <span class="toc-text">YEAR 类型</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#TIME-%E7%B1%BB%E5%9E%8B"><span class="toc-number">1.3.2.</span> <span class="toc-text">TIME 类型</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#DATE-%E7%B1%BB%E5%9E%8B"><span class="toc-number">1.3.3.</span> <span class="toc-text">DATE 类型</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#DATETIME-%E7%B1%BB%E5%9E%8B"><span class="toc-number">1.3.4.</span> <span class="toc-text">DATETIME 类型</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#TIMESTAMP-%E7%B1%BB%E5%9E%8B"><span class="toc-number">1.3.5.</span> <span class="toc-text">TIMESTAMP 类型</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%AD%97%E7%AC%A6%E4%B8%B2%E7%B1%BB%E5%9E%8B"><span class="toc-number">1.4.</span> <span class="toc-text">字符串类型</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#CHAR-%E5%92%8C-VARCHAR-%E7%B1%BB%E5%9E%8B"><span class="toc-number">1.4.1.</span> <span class="toc-text">CHAR 和 VARCHAR 类型</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#TEXT-%E7%B1%BB%E5%9E%8B"><span class="toc-number">1.4.2.</span> <span class="toc-text">TEXT 类型</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#ENUM-%E7%B1%BB%E5%9E%8B"><span class="toc-number">1.4.3.</span> <span class="toc-text">ENUM 类型</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#SET-%E7%B1%BB%E5%9E%8B"><span class="toc-number">1.4.4.</span> <span class="toc-text">SET 类型</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BA%8C%E8%BF%9B%E5%88%B6%E7%B1%BB%E5%9E%8B"><span class="toc-number">1.5.</span> <span class="toc-text">二进制类型</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#BIT-%E7%B1%BB%E5%9E%8B"><span class="toc-number">1.5.1.</span> <span class="toc-text">BIT 类型</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#BINARY-%E5%92%8C-VARBINARY-%E7%B1%BB%E5%9E%8B"><span class="toc-number">1.5.2.</span> <span class="toc-text">BINARY 和 VARBINARY 类型</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#BLOB-%E7%B1%BB%E5%9E%8B"><span class="toc-number">1.5.3.</span> <span class="toc-text">BLOB 类型</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#database%E5%92%8Cschema"><span class="toc-number">2.</span> <span class="toc-text">database和schema</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%96%B0%E5%BB%BA%E6%95%B0%E6%8D%AE%E5%BA%93%EF%BC%9A"><span class="toc-number">2.1.</span> <span class="toc-text">新建数据库：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%9F%A5%E7%9C%8B%E6%95%B0%E6%8D%AE%E5%BA%93"><span class="toc-number">2.2.</span> <span class="toc-text">查看数据库</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BF%AE%E6%94%B9%E6%95%B0%E6%8D%AE%E5%BA%93%EF%BC%9A"><span class="toc-number">2.3.</span> <span class="toc-text">修改数据库：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%88%A0%E9%99%A4%E6%95%B0%E6%8D%AE%E5%BA%93%EF%BC%9A"><span class="toc-number">2.4.</span> <span class="toc-text">删除数据库：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%80%89%E6%8B%A9%E6%95%B0%E6%8D%AE%E5%BA%93"><span class="toc-number">2.5.</span> <span class="toc-text">选择数据库</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2021/05/15/node-2-4/" title="Egg.js -- 为企业级框架和应用而生"><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/okfOw28KlZFbE7z.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Egg.js -- 为企业级框架和应用而生"/></a><div class="content"><a class="title" href="/2021/05/15/node-2-4/" title="Egg.js -- 为企业级框架和应用而生">Egg.js -- 为企业级框架和应用而生</a><time datetime="2021-05-15T10:18:59.000Z" title="发表于 2021-05-15 18:18:59">2021-05-15</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/04/30/node-2-3/" title="Koa -- 基于Node.js平台的下一代Web开发框架"><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/HjVAdIuT7bZJypS.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Koa -- 基于Node.js平台的下一代Web开发框架"/></a><div class="content"><a class="title" href="/2021/04/30/node-2-3/" title="Koa -- 基于Node.js平台的下一代Web开发框架">Koa -- 基于Node.js平台的下一代Web开发框架</a><time datetime="2021-04-30T10:18:59.000Z" title="发表于 2021-04-30 18:18:59">2021-04-30</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/04/01/node-2-1/" title="Node.JS web开发前置知识"><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/gGE57HRvpcKPfDY.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Node.JS web开发前置知识"/></a><div class="content"><a class="title" href="/2021/04/01/node-2-1/" title="Node.JS web开发前置知识">Node.JS web开发前置知识</a><time datetime="2021-04-01T03:18:59.000Z" title="发表于 2021-04-01 11:18:59">2021-04-01</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2020/12/26/%E5%91%A8%E8%AE%B0-10-1/" title="第十一周--谷歌浏览器插件"><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/gGE57HRvpcKPfDY.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="第十一周--谷歌浏览器插件"/></a><div class="content"><a class="title" href="/2020/12/26/%E5%91%A8%E8%AE%B0-10-1/" title="第十一周--谷歌浏览器插件">第十一周--谷歌浏览器插件</a><time datetime="2020-12-26T10:18:59.000Z" title="发表于 2020-12-26 18:18:59">2020-12-26</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2020/12/26/%E5%91%A8%E8%AE%B0-10-0/" title="第十一周--浏览器技术"><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/vCnKyoFJZ1g4XYR.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="第十一周--浏览器技术"/></a><div class="content"><a class="title" href="/2020/12/26/%E5%91%A8%E8%AE%B0-10-0/" title="第十一周--浏览器技术">第十一周--浏览器技术</a><time datetime="2020-12-26T06:18:59.000Z" title="发表于 2020-12-26 14:18:59">2020-12-26</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2019 - 2021 By 平心</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div id="local-search"><div class="search-dialog"><div class="search-dialog__title" id="local-search-title">本地搜索</div><div id="local-input-panel"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div></div><hr/><div id="local-search-results"></div><span class="search-close-button"><i class="fas fa-times"></i></span></div><div id="search-mask"></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload/dist/lazyload.iife.min.js"></script><script src="/js/search/local-search.js"></script><div class="js-pjax"><script>function loadValine () {
+  function initValine () {
+    const valine = new Valine(Object.assign({
+      el: '#vcomment',
+      appId: '4lfIXzqxaC1ONs0MJO4oHu07-gzGzoHsz',
+      appKey: 'qw99Bw8FD0KVKU9m457CwWsr',
+      placeholder: 'Please leave your footprints',
+      avatar: 'monsterid',
+      meta: 'nick,mail,link'.split(','),
+      pageSize: '10',
+      lang: 'zh-CN',
+      recordIP: true,
+      serverURLs: '',
+      emojiCDN: '',
+      emojiMaps: "",
+      enableQQ: true,
+      path: window.location.pathname,
+      requiredFields: ["nick,mail"],
+      visitor: false
+    }, null))
+  }
+
+  if (typeof Valine === 'function') initValine() 
+  else getScript('https://cdn.jsdelivr.net/npm/valine/dist/Valine.min.js').then(initValine)
+}
+
+if ('Valine' === 'Valine' || !false) {
+  if (false) btf.loadComment(document.getElementById('vcomment'),loadValine)
+  else setTimeout(loadValine, 0)
+} else {
+  function loadOtherComment () {
+    loadValine()
+  }
+}</script></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>

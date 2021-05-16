@@ -1,0 +1,492 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Docker 仓库 | 平心de小屋</title><meta name="keywords" content="容器,Docker"><meta name="author" content="平心"><meta name="copyright" content="平心"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="Docker Hub目前 Docker 官方维护了一个公共仓库 Docker Hub，其中已经包括了数量超过 15,000 的镜像。大部分需求都可以通过在 Docker Hub 中直接下载镜像来实现。 你可以在 https:&#x2F;&#x2F;cloud.docker.com 免费注册一个 Docker 账号。 可以通过执行 docker login 命令交互式的输入用户名及密码来完成在命令行界面登录 Docke">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Docker 仓库">
+<meta property="og:url" content="https://pingxin0521.gitee.io/2019/07/11/%E5%AE%B9%E5%99%A8-Docker-5-1/index.html">
+<meta property="og:site_name" content="平心de小屋">
+<meta property="og:description" content="Docker Hub目前 Docker 官方维护了一个公共仓库 Docker Hub，其中已经包括了数量超过 15,000 的镜像。大部分需求都可以通过在 Docker Hub 中直接下载镜像来实现。 你可以在 https:&#x2F;&#x2F;cloud.docker.com 免费注册一个 Docker 账号。 可以通过执行 docker login 命令交互式的输入用户名及密码来完成在命令行界面登录 Docke">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://i.loli.net/2020/05/08/PFDRNxj93taz6pw.jpg">
+<meta property="article:published_time" content="2019-07-11T02:18:59.000Z">
+<meta property="article:modified_time" content="2020-03-14T14:10:03.089Z">
+<meta property="article:author" content="平心">
+<meta property="article:tag" content="容器">
+<meta property="article:tag" content="Docker">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.loli.net/2020/05/08/PFDRNxj93taz6pw.jpg"><link rel="shortcut icon" href="https://s2.ax1x.com/2020/02/11/1ovFOA.png"><link rel="canonical" href="https://pingxin0521.gitee.io/2019/07/11/%E5%AE%B9%E5%99%A8-Docker-5-1/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"search.xml","languages":{"hits_empty":"找不到您查询的内容：${query}"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    jQuery: 'https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js',
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+    },
+    fancybox: {
+      js: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css'
+    }
+  },
+  isPhotoFigcaption: true,
+  islazyload: true,
+  isanchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'Docker 仓库',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2020-03-14 22:10:03'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    })(window)</script><meta name="generator" content="Hexo 5.4.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="author-avatar"><img class="avatar-img" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://s2.ax1x.com/2020/02/11/1ovw6J.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data"><div class="data-item is-center"><div class="data-item-link"><a href="/archives/"><div class="headline">文章</div><div class="length-num">449</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/tags/"><div class="headline">标签</div><div class="length-num">77</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/categories/"><div class="headline">分类</div><div class="length-num">68</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fa fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fa fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://i.loli.net/2020/05/08/PFDRNxj93taz6pw.jpg')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">平心de小屋</a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fa fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fa fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">Docker 仓库</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2019-07-11T02:18:59.000Z" title="发表于 2019-07-11 10:18:59">2019-07-11</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2020-03-14T14:10:03.089Z" title="更新于 2020-03-14 22:10:03">2020-03-14</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E5%AE%B9%E5%99%A8/">容器</a><i class="fas fa-angle-right post-meta-separator"></i><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E5%AE%B9%E5%99%A8/Docker/">Docker</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">4.7k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>19分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="Docker 仓库"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h4 id="Docker-Hub"><a href="#Docker-Hub" class="headerlink" title="Docker Hub"></a>Docker Hub</h4><p>目前 Docker 官方维护了一个公共仓库 <a target="_blank" rel="noopener" href="https://hub.docker.com/">Docker Hub</a>，其中已经包括了数量超过 15,000 的镜像。大部分需求都可以通过在 Docker Hub 中直接下载镜像来实现。</p>
+<p>你可以在 <a target="_blank" rel="noopener" href="https://cloud.docker.com/">https://cloud.docker.com</a> 免费注册一个 Docker 账号。</p>
+<p>可以通过执行 <code>docker login</code> 命令交互式的输入用户名及密码来完成在命令行界面登录 Docker Hub。</p>
+<p>你可以通过 <code>docker logout</code> 退出登录。</p>
+<span id="more"></span>
+
+<p><strong>拉取镜像</strong></p>
+<p>你可以通过 <code>docker search</code> 命令来查找官方仓库中的镜像，并利用 <code>docker pull</code> 命令来将它下载到本地。</p>
+<p>例如以 <code>centos</code> 为关键词进行搜索：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">$ docker search centos</span><br><span class="line">NAME                                            DESCRIPTION                                     STARS     OFFICIAL   AUTOMATED</span><br><span class="line">centos                                          The official build of CentOS.                   465       [OK]</span><br><span class="line">tianon/centos                                   CentOS 5 and 6, created using rinse instea...   28</span><br><span class="line">blalor/centos                                   Bare-bones base CentOS 6.5 image                6                    [OK]</span><br><span class="line">saltstack/centos-6-minimal                                                                      6                    [OK]</span><br><span class="line">tutum/centos-6.4                                DEPRECATED. Use tutum/centos:6.4 instead. ...   5                    [OK]</span><br></pre></td></tr></table></figure>
+
+<p>可以看到返回了很多包含关键字的镜像，其中包括镜像名字、描述、收藏数（表示该镜像的受关注程度）、是否官方创建、是否自动创建。</p>
+<p>官方的镜像说明是官方项目组创建和维护的，automated 资源允许用户验证镜像的来源和内容。</p>
+<p>根据是否是官方提供，可将镜像资源分为两类。</p>
+<p>一种是类似 <code>centos</code> 这样的镜像，被称为基础镜像或根镜像。这些基础镜像由 Docker 公司创建、验证、支持、提供。这样的镜像往往使用单个单词作为名字。</p>
+<p>还有一种类型，比如 <code>tianon/centos</code> 镜像，它是由 Docker 的用户创建并维护的，往往带有用户名称前缀。可以通过前缀 <code>username/</code> 来指定使用某个用户提供的镜像，比如 tianon 用户。</p>
+<p>另外，在查找的时候通过 <code>--filter=stars=N</code> 参数可以指定仅显示收藏数量为 <code>N</code> 以上的镜像。</p>
+<p>下载官方 <code>centos</code> 镜像到本地。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">$ docker pull centos</span><br><span class="line">Pulling repository centos</span><br><span class="line">0b443ba03958: Download complete</span><br><span class="line">539c0211cd76: Download complete</span><br><span class="line">511136ea3c5a: Download complete</span><br><span class="line">7064731afe90: Download complete</span><br></pre></td></tr></table></figure>
+
+<p><strong>推送镜像</strong></p>
+<p>用户也可以在登录后通过 <code>docker push</code> 命令来将自己的镜像推送到 Docker Hub。</p>
+<p>以下命令中的 <code>username</code> 请替换为你的 Docker 账号用户名。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">$ docker tag ubuntu:17.10 username/ubuntu:17.10</span><br><span class="line"></span><br><span class="line">$ docker image ls</span><br><span class="line"></span><br><span class="line">REPOSITORY                                               TAG                    IMAGE ID            CREATED             SIZE</span><br><span class="line">ubuntu                                                   17.10                  275d79972a86        6 days ago          94.6MB</span><br><span class="line">username/ubuntu                                          17.10                  275d79972a86        6 days ago          94.6MB</span><br><span class="line"></span><br><span class="line">$ docker push username/ubuntu:17.10</span><br><span class="line"></span><br><span class="line">$ docker search username</span><br><span class="line"></span><br><span class="line">NAME                      DESCRIPTION                                     STARS               OFFICIAL            AUTOMATED</span><br><span class="line">username/ubuntu</span><br></pre></td></tr></table></figure>
+
+<p><strong>自动创建</strong></p>
+<p>自动创建（Automated Builds）功能对于需要经常升级镜像内程序来说，十分方便。</p>
+<p>有时候，用户创建了镜像，安装了某个软件，如果软件发布新版本则需要手动更新镜像。</p>
+<p>而自动创建允许用户通过 Docker Hub 指定跟踪一个目标网站（目前支持 <a target="_blank" rel="noopener" href="https://github.com/">GitHub</a> 或 <a target="_blank" rel="noopener" href="https://bitbucket.org/">BitBucket</a>）上的项目，一旦项目发生新的提交或者创建新的标签（tag），Docker Hub 会自动构建镜像并推送到 Docker Hub 中。</p>
+<p>要配置自动创建，包括如下的步骤：</p>
+<ul>
+<li>创建并登录 Docker Hub，以及目标网站；</li>
+<li>在目标网站中连接帐户到 Docker Hub；</li>
+<li>在 Docker Hub 中 <a target="_blank" rel="noopener" href="https://registry.hub.docker.com/builds/add/">配置一个自动创建</a>；</li>
+<li>选取一个目标网站中的项目（需要含 <code>Dockerfile</code>）和分支；</li>
+<li>指定 <code>Dockerfile</code> 的位置，并提交创建。</li>
+</ul>
+<p>之后，可以在 Docker Hub 的 <a target="_blank" rel="noopener" href="https://registry.hub.docker.com/builds/">自动创建页面</a> 中跟踪每次创建的状态。</p>
+<h3 id="私有仓库"><a href="#私有仓库" class="headerlink" title="私有仓库"></a>私有仓库</h3><h4 id="安装软件配置"><a href="#安装软件配置" class="headerlink" title="安装软件配置"></a>安装软件配置</h4><p>Docker 官方提供了 docker registry 的构建方法  <a target="_blank" rel="noopener" href="https://github.com/docker/docker-registry">docker-registry</a></p>
+<h5 id="快速构建"><a href="#快速构建" class="headerlink" title="快速构建"></a>快速构建</h5><p>快速构建 docker registry 通过以下两步:</p>
+<ul>
+<li>安装 docker</li>
+<li>运行 registry:docker run -p 5000:5000 registry</li>
+</ul>
+<p>这种方法通过 Docker hub 使用官方镜像  <a target="_blank" rel="noopener" href="https://registry.hub.docker.com/_/registry/">official image from the Docker hub</a></p>
+<h5 id="不使用容器构建-registry"><a href="#不使用容器构建-registry" class="headerlink" title="不使用容器构建 registry"></a>不使用容器构建 registry</h5><p>安装必要的软件</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo apt-get install build-essential python-dev libevent-dev python-pip liblzma-dev</span><br></pre></td></tr></table></figure>
+
+<p>配置 docker-registry</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo pip install docker-registry</span><br></pre></td></tr></table></figure>
+
+<p>或者 使用 github clone 手动安装</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$ git clone https://github.com/dotcloud/docker-registry.git</span><br><span class="line">$ cd docker-registry/</span><br><span class="line">$ cp config/config_sample.yml config/config.yml</span><br><span class="line">$ mkdir /data/registry -p</span><br><span class="line">$ pip install .</span><br></pre></td></tr></table></figure>
+
+<p>运行</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker-registry</span><br></pre></td></tr></table></figure>
+
+<p><strong>高级启动方式 [不推荐]</strong></p>
+<p>使用gunicorn控制:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gunicorn -c contrib/gunicorn_config.py docker_registry.wsgi:application</span><br></pre></td></tr></table></figure>
+
+<p>或者对外监听开放</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gunicorn --access-logfile - --error-logfile - -k gevent -b 0.0.0.0:5000 -w 4 --max-requests 100 docker_registry.wsgi:application</span><br></pre></td></tr></table></figure>
+
+<h5 id="提交指定容器到私有库"><a href="#提交指定容器到私有库" class="headerlink" title="提交指定容器到私有库"></a>提交指定容器到私有库</h5><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ docker tag ubuntu:19.04 私有库IP:5000/ubuntu:19.04</span><br><span class="line">$ docker push 私有库IP:5000/ubuntu</span><br></pre></td></tr></table></figure>
+
+<p>更多的配置选项推荐阅读官方文档:</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://github.com/docker/docker-registry/blob/master/README.md">Docker-Registry README</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/docker/docker-registry/blob/master/ADVANCED.md">Docker-Registry advanced use</a></li>
+</ul>
+<h4 id="从docker构建"><a href="#从docker构建" class="headerlink" title="从docker构建"></a>从docker构建</h4><p>有时候使用 Docker Hub 这样的公共仓库可能不方便，用户可以创建一个本地仓库供私人使用。</p>
+<p><a target="_blank" rel="noopener" href="https://docs.docker.com/registry/"><code>docker-registry</code></a> 是官方提供的工具，可以用于构建私有的镜像仓库。</p>
+<p><strong>安装运行 docker-registry</strong></p>
+<p>你可以通过获取官方 <code>registry</code> 镜像来运行。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ docker run -d -p 5000:5000 --restart=always --name registry registry</span><br></pre></td></tr></table></figure>
+
+<p>这将使用官方的 <code>registry</code> 镜像来启动私有仓库。默认情况下，仓库会被创建在容器的 <code>/var/lib/registry</code> 目录下。你可以通过 <code>-v</code> 参数来将镜像文件存放在本地的指定路径。例如下面的例子将上传的镜像放到本地的 <code>/opt/data/registry</code> 目录。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ docker run -d \</span><br><span class="line">    -p 5000:5000 \</span><br><span class="line">    -v /opt/data/registry:/var/lib/registry \</span><br><span class="line">    registry</span><br></pre></td></tr></table></figure>
+
+<p><strong>在私有仓库上传、搜索、下载镜像</strong></p>
+<p>创建好私有仓库之后，就可以使用 <code>docker tag</code> 来标记一个镜像，然后推送它到仓库。例如私有仓库地址为 <code>127.0.0.1:5000</code>。</p>
+<p>先在本机查看已有的镜像。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ docker image ls</span><br><span class="line">REPOSITORY                        TAG                 IMAGE ID            CREATED             VIRTUAL SIZE</span><br><span class="line">ubuntu                            latest              ba5877dc9bec        6 weeks ago         192.7 MB</span><br></pre></td></tr></table></figure>
+
+<p>使用 <code>docker tag</code> 将 <code>ubuntu:latest</code> 这个镜像标记为 <code>127.0.0.1:5000/ubuntu:latest</code>。</p>
+<p>格式为 <code>docker tag IMAGE[:TAG] [REGISTRY_HOST[:REGISTRY_PORT]/]REPOSITORY[:TAG]</code>。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$ docker tag ubuntu:latest 127.0.0.1:5000/ubuntu:latest</span><br><span class="line">$ docker image ls</span><br><span class="line">REPOSITORY                        TAG                 IMAGE ID            CREATED             VIRTUAL SIZE</span><br><span class="line">ubuntu                            latest              ba5877dc9bec        6 weeks ago         192.7 MB</span><br><span class="line">127.0.0.1:5000/ubuntu:latest      latest              ba5877dc9bec        6 weeks ago         192.7 MB</span><br></pre></td></tr></table></figure>
+
+<p>使用 <code>docker push</code> 上传标记的镜像。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">$ docker push 127.0.0.1:5000/ubuntu:latest</span><br><span class="line">The push refers to repository [127.0.0.1:5000/ubuntu]</span><br><span class="line">373a30c24545: Pushed</span><br><span class="line">a9148f5200b0: Pushed</span><br><span class="line">cdd3de0940ab: Pushed</span><br><span class="line">fc56279bbb33: Pushed</span><br><span class="line">b38367233d37: Pushed</span><br><span class="line">2aebd096e0e2: Pushed</span><br><span class="line">latest: digest: sha256:fe4277621f10b5026266932ddf760f5a756d2facd505a94d2da12f4f52f71f5a size: 1568</span><br></pre></td></tr></table></figure>
+
+<p>用 <code>curl</code> 查看仓库中的镜像。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ curl 127.0.0.1:5000/v2/_catalog</span><br><span class="line">&#123;<span class="string">&quot;repositories&quot;</span>:[<span class="string">&quot;ubuntu&quot;</span>]&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这里可以看到 <code>&#123;&quot;repositories&quot;:[&quot;ubuntu&quot;]&#125;</code>，表明镜像已经被成功上传了。</p>
+<p>先删除已有镜像，再尝试从私有仓库中下载这个镜像。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">$ docker image rm 127.0.0.1:5000/ubuntu:latest</span><br><span class="line"></span><br><span class="line">$ docker pull 127.0.0.1:5000/ubuntu:latest</span><br><span class="line">Pulling repository 127.0.0.1:5000/ubuntu:latest</span><br><span class="line">ba5877dc9bec: Download complete</span><br><span class="line">511136ea3c5a: Download complete</span><br><span class="line">9bad880da3d2: Download complete</span><br><span class="line">25f11f5fb0cb: Download complete</span><br><span class="line">ebc34468f71d: Download complete</span><br><span class="line">2318d26665ef: Download complete</span><br><span class="line"></span><br><span class="line">$ docker image ls</span><br><span class="line">REPOSITORY                         TAG                 IMAGE ID            CREATED             VIRTUAL SIZE</span><br><span class="line">127.0.0.1:5000/ubuntu:latest       latest              ba5877dc9bec        6 weeks ago         192.7 MB</span><br></pre></td></tr></table></figure>
+
+<p><strong>注意事项</strong></p>
+<p>如果你不想使用 <code>127.0.0.1:5000</code> 作为仓库地址，比如想让本网段的其他主机也能把镜像推送到私有仓库。你就得把例如 <code>192.168.199.100:5000</code> 这样的内网地址作为私有仓库地址，这时你会发现无法成功推送镜像。</p>
+<p>这是因为 Docker 默认不允许非 <code>HTTPS</code> 方式推送镜像。我们可以通过 Docker 的配置选项来取消这个限制，或者查看下一节配置能够通过 <code>HTTPS</code> 访问的私有仓库。</p>
+<p>对于使用 <code>systemd</code> 的系统，请在 <code>/etc/docker/daemon.json</code> 中写入如下内容（如果文件不存在请新建该文件）</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">&quot;registry-mirror&quot;</span>: [</span><br><span class="line">    <span class="string">&quot;https://registry.docker-cn.com&quot;</span></span><br><span class="line">  ],</span><br><span class="line">  <span class="attr">&quot;insecure-registries&quot;</span>: [</span><br><span class="line">    <span class="string">&quot;192.168.199.100:5000&quot;</span></span><br><span class="line">  ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>注意：该文件必须符合 <code>json</code> 规范，否则 Docker 将不能启动。</p>
+</blockquote>
+<h4 id="私有仓库高级配置"><a href="#私有仓库高级配置" class="headerlink" title="私有仓库高级配置"></a>私有仓库高级配置</h4><p>新建一个文件夹，以下步骤均在该文件夹中进行。</p>
+<p><strong>准备站点证书</strong></p>
+<p>如果你拥有一个域名，国内各大云服务商均提供免费的站点证书。你也可以使用 <code>openssl</code> 自行签发证书。</p>
+<p>这里假设我们将要搭建的私有仓库地址为 <code>docker.domain.com</code>，下面我们介绍使用 <code>openssl</code> 自行签发 <code>docker.domain.com</code> 的站点 SSL 证书。</p>
+<p>第一步创建 <code>CA</code> 私钥。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ openssl genrsa -out <span class="string">&quot;root-ca.key&quot;</span> 4096</span><br></pre></td></tr></table></figure>
+
+<p>第二步利用私钥创建 <code>CA</code> 根证书请求文件。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ openssl req \</span><br><span class="line">          -new -key <span class="string">&quot;root-ca.key&quot;</span> \</span><br><span class="line">          -out <span class="string">&quot;root-ca.csr&quot;</span> -sha256 \</span><br><span class="line">          -subj <span class="string">&#x27;/C=CN/ST=Shanxi/L=Datong/O=Your Company Name/CN=Your Company Name Docker Registry CA&#x27;</span></span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>以上命令中 <code>-subj</code> 参数里的 <code>/C</code> 表示国家，如 <code>CN</code>；<code>/ST</code> 表示省；<code>/L</code> 表示城市或者地区；<code>/O</code> 表示组织名；<code>/CN</code> 通用名称。</p>
+</blockquote>
+<p>第三步配置 <code>CA</code> 根证书，新建 <code>root-ca.cnf</code>。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[root_ca]</span><br><span class="line">basicConstraints = critical,CA:TRUE,pathlen:1</span><br><span class="line">keyUsage = critical, nonRepudiation, cRLSign, keyCertSign</span><br><span class="line">subjectKeyIdentifier=<span class="built_in">hash</span></span><br></pre></td></tr></table></figure>
+
+<p>第四步签发根证书。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ openssl x509 -req  -days 3650  -<span class="keyword">in</span> <span class="string">&quot;root-ca.csr&quot;</span> \</span><br><span class="line">               -signkey <span class="string">&quot;root-ca.key&quot;</span> -sha256 -out <span class="string">&quot;root-ca.crt&quot;</span> \</span><br><span class="line">               -extfile <span class="string">&quot;root-ca.cnf&quot;</span> -extensions \</span><br><span class="line">               root_ca</span><br></pre></td></tr></table></figure>
+
+<p>第五步生成站点 <code>SSL</code> 私钥。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ openssl genrsa -out <span class="string">&quot;docker.domain.com.key&quot;</span> 4096</span><br></pre></td></tr></table></figure>
+
+<p>第六步使用私钥生成证书请求文件。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ openssl req -new -key <span class="string">&quot;docker.domain.com.key&quot;</span> -out <span class="string">&quot;site.csr&quot;</span> -sha256 \</span><br><span class="line">          -subj <span class="string">&#x27;/C=CN/ST=Shanxi/L=Datong/O=Your Company Name/CN=docker.domain.com&#x27;</span></span><br></pre></td></tr></table></figure>
+
+<p>第七步配置证书，新建 <code>site.cnf</code> 文件。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">[server]</span><br><span class="line">authorityKeyIdentifier=keyid,issuer</span><br><span class="line">basicConstraints = critical,CA:FALSE</span><br><span class="line">extendedKeyUsage=serverAuth</span><br><span class="line">keyUsage = critical, digitalSignature, keyEncipherment</span><br><span class="line">subjectAltName = DNS:docker.domain.com, IP:127.0.0.1</span><br><span class="line">subjectKeyIdentifier=<span class="built_in">hash</span></span><br></pre></td></tr></table></figure>
+
+<p>第八步签署站点 <code>SSL</code> 证书。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ openssl x509 -req -days 750 -<span class="keyword">in</span> <span class="string">&quot;site.csr&quot;</span> -sha256 \</span><br><span class="line">    -CA <span class="string">&quot;root-ca.crt&quot;</span> -CAkey <span class="string">&quot;root-ca.key&quot;</span>  -CAcreateserial \</span><br><span class="line">    -out <span class="string">&quot;docker.domain.com.crt&quot;</span> -extfile <span class="string">&quot;site.cnf&quot;</span> -extensions server</span><br></pre></td></tr></table></figure>
+
+<p>这样已经拥有了 <code>docker.domain.com</code> 的网站 SSL 私钥 <code>docker.domain.com.key</code> 和 SSL 证书 <code>docker.domain.com.crt</code> 及 CA 根证书 <code>root-ca.crt</code>。</p>
+<p>新建 <code>ssl</code> 文件夹并将 <code>docker.domain.com.key</code> <code>docker.domain.com.crt</code> <code>root-ca.crt</code>这三个文件移入，删除其他文件。</p>
+<p><strong>配置私有仓库</strong></p>
+<p>私有仓库默认的配置文件位于 <code>/etc/docker/registry/config.yml</code>，我们先在本地编辑 <code>config.yml</code>，之后挂载到容器中。</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">version:</span> <span class="number">0.1</span></span><br><span class="line"><span class="attr">log:</span></span><br><span class="line">  <span class="attr">accesslog:</span></span><br><span class="line">    <span class="attr">disabled:</span> <span class="literal">true</span></span><br><span class="line">  <span class="attr">level:</span> <span class="string">debug</span></span><br><span class="line">  <span class="attr">formatter:</span> <span class="string">text</span></span><br><span class="line">  <span class="attr">fields:</span></span><br><span class="line">    <span class="attr">service:</span> <span class="string">registry</span></span><br><span class="line">    <span class="attr">environment:</span> <span class="string">staging</span></span><br><span class="line"><span class="attr">storage:</span></span><br><span class="line">  <span class="attr">delete:</span></span><br><span class="line">    <span class="attr">enabled:</span> <span class="literal">true</span></span><br><span class="line">  <span class="attr">cache:</span></span><br><span class="line">    <span class="attr">blobdescriptor:</span> <span class="string">inmemory</span></span><br><span class="line">  <span class="attr">filesystem:</span></span><br><span class="line">    <span class="attr">rootdirectory:</span> <span class="string">/var/lib/registry</span></span><br><span class="line"><span class="attr">auth:</span></span><br><span class="line">  <span class="attr">htpasswd:</span></span><br><span class="line">    <span class="attr">realm:</span> <span class="string">basic-realm</span></span><br><span class="line">    <span class="attr">path:</span> <span class="string">/etc/docker/registry/auth/nginx.htpasswd</span></span><br><span class="line"><span class="attr">http:</span></span><br><span class="line">  <span class="attr">addr:</span> <span class="string">:443</span></span><br><span class="line">  <span class="attr">host:</span> <span class="string">https://docker.domain.com</span></span><br><span class="line">  <span class="attr">headers:</span></span><br><span class="line">    <span class="attr">X-Content-Type-Options:</span> [<span class="string">nosniff</span>]</span><br><span class="line">  <span class="attr">http2:</span></span><br><span class="line">    <span class="attr">disabled:</span> <span class="literal">false</span></span><br><span class="line">  <span class="attr">tls:</span></span><br><span class="line">    <span class="attr">certificate:</span> <span class="string">/etc/docker/registry/ssl/docker.domain.com.crt</span></span><br><span class="line">    <span class="attr">key:</span> <span class="string">/etc/docker/registry/ssl/docker.domain.com.key</span></span><br><span class="line"><span class="attr">health:</span></span><br><span class="line">  <span class="attr">storagedriver:</span></span><br><span class="line">    <span class="attr">enabled:</span> <span class="literal">true</span></span><br><span class="line">    <span class="attr">interval:</span> <span class="string">10s</span></span><br><span class="line"><span class="attr">threshold:</span> <span class="number">3</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>生成 http 认证文件</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">$ mkdir auth</span><br><span class="line"></span><br><span class="line">$ docker run --rm \</span><br><span class="line">    --entrypoint htpasswd \</span><br><span class="line">    registry \</span><br><span class="line">    -Bbn username password &gt; auth/nginx.htpasswd</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>将上面的 <code>username</code> <code>password</code> 替换为你自己的用户名和密码。</p>
+</blockquote>
+<p><strong>编辑 docker-compose.yml</strong></p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">version:</span> <span class="string">&#x27;3&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="attr">services:</span></span><br><span class="line">  <span class="attr">registry:</span></span><br><span class="line">    <span class="attr">image:</span> <span class="string">registry</span></span><br><span class="line">    <span class="attr">ports:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">&quot;443:443&quot;</span></span><br><span class="line">    <span class="attr">volumes:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">./:/etc/docker/registry</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">registry-data:/var/lib/registry</span></span><br><span class="line"></span><br><span class="line"><span class="attr">volumes:</span></span><br><span class="line">  <span class="attr">registry-data:</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>修改 hosts</strong></p>
+<p>编辑 <code>/etc/hosts</code></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">127.0.0.1 docker.domain.com</span><br></pre></td></tr></table></figure>
+
+<p><strong>启动</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ docker-compose up -d</span><br></pre></td></tr></table></figure>
+
+<p>这样我们就搭建好了一个具有权限认证、TLS 的私有仓库，接下来我们测试其功能是否正常。</p>
+<p><strong>测试私有仓库功能</strong></p>
+<p>由于自行签发的 CA 根证书不被系统信任，所以我们需要将 CA 根证书 <code>ssl/root-ca.crt</code> 移入 <code>/etc/docker/certs.d/docker.domain.com</code> 文件夹中。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ sudo mkdir -p /etc/docker/certs.d/docker.domain.com</span><br><span class="line"></span><br><span class="line">$ sudo cp ssl/root-ca.crt /etc/docker/certs.d/docker.domain.com/ca.crt</span><br></pre></td></tr></table></figure>
+
+<p>登录到私有仓库。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ docker login docker.domain.com</span><br></pre></td></tr></table></figure>
+
+<p>尝试推送、拉取镜像。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">$ docker pull ubuntu:18.04</span><br><span class="line"></span><br><span class="line">$ docker tag ubuntu:18.04 docker.domain.com/username/ubuntu:18.04</span><br><span class="line"></span><br><span class="line">$ docker push docker.domain.com/username/ubuntu:18.04</span><br><span class="line"></span><br><span class="line">$ docker image rm docker.domain.com/username/ubuntu:18.04</span><br><span class="line"></span><br><span class="line">$ docker pull docker.domain.com/username/ubuntu:18.04</span><br></pre></td></tr></table></figure>
+
+<p>如果我们退出登录，尝试推送镜像。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$ docker <span class="built_in">logout</span> docker.domain.com</span><br><span class="line"></span><br><span class="line">$ docker push docker.domain.com/username/ubuntu:18.04</span><br><span class="line"></span><br><span class="line">no basic auth credentials</span><br></pre></td></tr></table></figure>
+
+<p>发现会提示没有登录，不能将镜像推送到私有仓库中。</p>
+<p><strong>注意事项</strong></p>
+<p>如果你本机占用了 <code>443</code> 端口，你可以配置 <a target="_blank" rel="noopener" href="https://docs.docker.com/registry/recipes/nginx/">Nginx 代理</a>，这里不再赘述。</p>
+<h4 id="Nexus3-x-的私有仓库"><a href="#Nexus3-x-的私有仓库" class="headerlink" title="Nexus3.x 的私有仓库"></a>Nexus3.x 的私有仓库</h4><p>使用 Docker 官方的 Registry 创建的仓库面临一些维护问题。比如某些镜像删除以后空间默认是不会回收的，需要一些命令去回收空间然后重启 Registry 程序。在企业中把内部的一些工具包放入 Nexus 中是比较常见的做法，最新版本 <code>Nexus3.x</code> 全面支持 Docker 的私有镜像。所以使用 <a target="_blank" rel="noopener" href="https://www.sonatype.com/download-oss-sonatype/"><code>Nexus3.x</code></a> 一个软件来管理 <code>Docker</code> , <code>Maven</code> , <code>Yum</code> , <code>PyPI</code> 等是一个明智的选择。</p>
+<p>查找镜像</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker search nexus</span><br></pre></td></tr></table></figure>
+
+<p>选取使用次数较多是镜像 拉取镜像</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker pull sonatype/nexus3</span><br></pre></td></tr></table></figure>
+
+<p>查看拉取的镜像</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker images</span><br></pre></td></tr></table></figure>
+
+<p>启动容器</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">$ docker volume create nexus_data</span><br><span class="line">$ docker run -d --name nexus3 \</span><br><span class="line"> --restart=always \</span><br><span class="line">-p 8081:8081 \</span><br><span class="line">-p 8082:8082  \</span><br><span class="line">-p 8083:8083  \</span><br><span class="line">-p 8084:8084  \</span><br><span class="line">-v nexus_data:/nexus-data \</span><br><span class="line">sonatype/nexus3</span><br></pre></td></tr></table></figure>
+
+<p>映射端口对应的用途：</p>
+<ul>
+<li>8081：nexus3网页端</li>
+<li>8082：docker(hosted)私有仓库，可以pull和push</li>
+<li>8083：docker(proxy)代理远程仓库，只能pull</li>
+<li>8084：docker(group)私有仓库和代理的组，只能pull</li>
+</ul>
+<p>查看容器日志</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker logs -f nexus3</span><br></pre></td></tr></table></figure>
+
+<p>确保正常启动后 使用浏览器访问http://服务器ip:8081</p>
+<p>点击右上角登录 账号密码：admin/admin123</p>
+<p><strong>创建仓库</strong></p>
+<p>创建一个私有仓库的方法： <code>Repository-&gt;Repositories</code> 点击右边菜单 <code>Create repository</code> 选择 <code>docker (hosted)</code></p>
+<ul>
+<li>Name: 仓库的名称</li>
+<li>HTTP: 仓库单独的访问端口</li>
+<li>Enable Docker V1 API: 如果需要同时支持 V1 版本请勾选此项（不建议勾选）。</li>
+<li>Hosted -&gt; Deployment pollcy: 请选择 Allow redeploy 否则无法上传 Docker 镜像。</li>
+</ul>
+<p>其它的仓库创建方法请各位自己摸索，还可以创建一个 docker (proxy) 类型的仓库链接到 DockerHub 上。再创建一个 docker (group) 类型的仓库把刚才的 hosted 与 proxy 添加在一起。主机在访问的时候默认下载私有仓库中的镜像，如果没有将链接到 DockerHub 中下载并缓存到 Nexus 中。</p>
+<p><strong>添加访问权限</strong></p>
+<p>菜单 <code>Security-&gt;Realms</code> 把 Docker Bearer Token Realm 移到右边的框中保存。</p>
+<p>添加用户规则：菜单 <code>Security-&gt;Roles</code>-&gt;<code>Create role</code> 在 <code>Privlleges</code> 选项搜索 docker 把相应的规则移动到右边的框中然后保存。</p>
+<p>添加用户：菜单 <code>Security-&gt;Users</code>-&gt;<code>Create local user</code> 在 <code>Roles</code> 选项中选中刚才创建的规则移动到右边的窗口保存。</p>
+<p><strong>NGINX 加密代理</strong></p>
+<p>证书的生成请参见上面证书生成</p>
+<p>NGINX 示例配置如下</p>
+<figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">upstream</span> register</span><br><span class="line">&#123;</span><br><span class="line">    <span class="attribute">server</span> <span class="string">&quot;YourHostName OR IP&quot;</span>:<span class="number">5001</span>; <span class="comment">#端口为上面添加的私有镜像仓库是设置的 HTTP 选项的端口号</span></span><br><span class="line">    <span class="attribute">check</span> interval=<span class="number">3000</span> rise=<span class="number">2</span> fall=<span class="number">10</span> timeout=<span class="number">1000</span> type=http;</span><br><span class="line">    <span class="attribute">check_http_send</span> <span class="string">&quot;HEAD / HTTP/1.0\r\n\r\n&quot;</span>;</span><br><span class="line">    <span class="attribute">check_http_expect_alive</span> http_4xx;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="section">server</span> &#123;</span><br><span class="line">    <span class="attribute">server_name</span> YourDomainName;<span class="comment">#如果没有 DNS 服务器做解析，请删除此选项使用本机 IP 地址访问</span></span><br><span class="line">    <span class="attribute">listen</span>       <span class="number">443</span> ssl;</span><br><span class="line">    </span><br><span class="line">    <span class="attribute">ssl_certificate</span> key/example.crt;</span><br><span class="line">    <span class="attribute">ssl_certificate_key</span> key/example.key;</span><br><span class="line">    </span><br><span class="line">    <span class="attribute">ssl_session_timeout</span>  <span class="number">5m</span>;</span><br><span class="line">    <span class="attribute">ssl_protocols</span> TLSv1 TLSv1.<span class="number">1</span> TLSv1.<span class="number">2</span>;</span><br><span class="line">    <span class="attribute">ssl_ciphers</span>  HIGH:!aNULL:!MD5;</span><br><span class="line">    <span class="attribute">ssl_prefer_server_ciphers</span>   <span class="literal">on</span>;</span><br><span class="line">    <span class="attribute">large_client_header_buffers</span> <span class="number">4</span> <span class="number">32k</span>;</span><br><span class="line">    <span class="attribute">client_max_body_size</span> <span class="number">300m</span>;</span><br><span class="line">    <span class="attribute">client_body_buffer_size</span> <span class="number">512k</span>;</span><br><span class="line">    <span class="attribute">proxy_connect_timeout</span> <span class="number">600</span>;</span><br><span class="line">    <span class="attribute">proxy_read_timeout</span>   <span class="number">600</span>;</span><br><span class="line">    <span class="attribute">proxy_send_timeout</span>   <span class="number">600</span>;</span><br><span class="line">    <span class="attribute">proxy_buffer_size</span>    <span class="number">128k</span>;</span><br><span class="line">    <span class="attribute">proxy_buffers</span>       <span class="number">4</span> <span class="number">64k</span>;</span><br><span class="line">    <span class="attribute">proxy_busy_buffers_size</span> <span class="number">128k</span>;</span><br><span class="line">    <span class="attribute">proxy_temp_file_write_size</span> <span class="number">512k</span>;</span><br><span class="line"></span><br><span class="line">    <span class="attribute">location</span> / &#123;</span><br><span class="line">        <span class="attribute">proxy_set_header</span> Host $host;</span><br><span class="line">        <span class="attribute">proxy_set_header</span> X-Forwarded-Proto $scheme;</span><br><span class="line">        <span class="attribute">proxy_set_header</span> X-Forwarded-Port $server_port;</span><br><span class="line">        <span class="attribute">proxy_set_header</span> X-Forwarded-For $proxy_add_x_forwarded_for;</span><br><span class="line">        <span class="attribute">proxy_http_version</span> <span class="number">1</span>.<span class="number">1</span>;</span><br><span class="line">        <span class="attribute">proxy_set_header</span> Upgrade $http_upgrade;</span><br><span class="line">        <span class="attribute">proxy_set_header</span> Connection $connection_upgrade;</span><br><span class="line">        <span class="attribute">proxy_redirect</span> <span class="literal">off</span>;</span><br><span class="line">        <span class="attribute">proxy_set_header</span> X-Real-IP $remote_addr;</span><br><span class="line">        <span class="attribute">proxy_pass</span> http://register;</span><br><span class="line">        <span class="attribute">proxy_read_timeout</span> <span class="number">900s</span>;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="attribute">error_page</span>   <span class="number">500</span> <span class="number">502</span> <span class="number">503</span> <span class="number">504</span>  /50x.html;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>连接仓库</strong></p>
+<blockquote>
+<p>其他机器需要连接仓库才能进行push、pull等操作</p>
+</blockquote>
+<p>如果不启用 SSL 加密可以通过前面的方法添加信任地址到 Docker 的配置文件中然后重启 Docker</p>
+<p>使用 SSL 加密以后程序需要访问就不能采用修改配置的访问了。具体方法如下：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ openssl s_client -showcerts -connect YourDomainName OR HostIP:443 &lt;/dev/null 2&gt;/dev/null|openssl x509 -outform PEM &gt;ca.crt</span><br><span class="line">$ cat ca.crt | sudo tee -a /etc/ssl/certs/ca-certificates.crt</span><br><span class="line">$ systemctl restart docker</span><br></pre></td></tr></table></figure>
+
+<p>使用 <code>docker login YourDomainName OR HostIP</code> 进行测试，用户名密码填写上面 Nexus 中生成的。</p>
+<p>连接仓库前需要进行配置 vim /etc/docker/daemon.json</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">&quot;insecure-registries&quot;: [&quot;172.16.77.71:8082&quot; ]</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">systemctl daemon-reload</span><br><span class="line">systemctl restart docker</span><br></pre></td></tr></table></figure>
+
+<p>登录仓库</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker login -u admin -p admin123 172.16.77.71:8082  #注意这里的端口是配置仓库时选择的端口号</span><br></pre></td></tr></table></figure>
+
+<p>上传镜像</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">docker tag nginx:latest 172.16.77.71:8082/nginx:0.1</span><br><span class="line">docker push 172.16.77.71:8082/nginx:0.1</span><br></pre></td></tr></table></figure>
+
+<p>拉取镜像</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker pull 172.16.77.71:8082/nginx:0.1</span><br></pre></td></tr></table></figure>
+
+<p>搜索镜像</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[root@k8s-77-40 torch]# docker search 172.16.77.71:8082/nginx</span><br><span class="line">NAME                          DESCRIPTION         STARS               OFFICIAL              AUTOMATED</span><br><span class="line">172.16.77.71:8082/nginx:0.1                       0</span><br></pre></td></tr></table></figure>
+
+<p><strong>总结</strong></p>
+<p>到此，使用nexus搭建的docker私有仓库配置完毕。公司常用的镜像可以存放在私有仓库里 毕竟官方的<a target="_blank" rel="noopener" href="https://hub.docker.com/">dockerhub</a>太慢</p>
+<h4 id="harbor搭建"><a href="#harbor搭建" class="headerlink" title="harbor搭建"></a>harbor搭建</h4><p><a target="_blank" rel="noopener" href="https://github.com/goharbor/harbor">harbor git 地址</a></p>
+<p>优点：</p>
+<ol>
+<li>本身自代 docker 私有仓库</li>
+<li>支持基于角色的权限管理</li>
+<li>支持 LDAP</li>
+</ol>
+<p>harbor支持k8s的helm安装和本地安装，我这次先择的安装方式是本地安装。</p>
+<ol>
+<li><p>前置条件</p>
+<p>docker、docker-compose</p>
+</li>
+<li><p>直接选择编译好的包</p>
+<p>有两个包<code>Harbor offline installer</code> 和 <code>Harbor online installer</code>，两者的区别的是 <code>Harbor offline installer</code> 里就包含的 Harbor 需要使用的镜像文件。</p>
+<p>下载成功，并解压</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tar -zxvf harbor-offline-installer-v1.7.1.tgz</span><br></pre></td></tr></table></figure>
+
+<p>进入解压的目录，并 <code>ls</code></p>
+</li>
+<li><p>编辑配置文件</p>
+<p><code>harbor.cfg</code> 是这个项目的配置文件</p>
+<p>将 hostname 改成你本机的网址或IP</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hostname = A.B.C.D  # 写你自己的网址或IP，公网访问要写公网IP</span><br></pre></td></tr></table></figure>
+
+<p>支持Http 访问</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">customize_crt = false</span><br></pre></td></tr></table></figure></li>
+<li><p>运行</p>
+<p>修改完配置文件后，运行 <code>./prepare</code>，它会哪所配置文件修改一文件</p>
+<p>运行 <code>./install.sh</code></p>
+<p>运行成功，<code>docker ps</code> 查看，可以看到服务已经起来了。</p>
+</li>
+<li><p>常用管理命令</p>
+<ul>
+<li>停止服务： <code>docker-compose stop</code></li>
+<li>开始服务： <code>docker-compose start</code></li>
+</ul>
+</li>
+</ol>
+<p>完成了私有库的搭建后，可以再安装一个k8s集群后台管理系统（wayne系统介绍）。</p>
+<h4 id="wayne"><a href="#wayne" class="headerlink" title="wayne"></a>wayne</h4><p>在此首先要感谢360公司和这个项目开发者的奉献，并为这个项目点个星星。</p>
+<blockquote>
+<p>Wayne 是一个通用的、基于 Web 的 Kubernetes 多集群管理平台。通过可视化 Kubernetes 对象模板编辑的方式，降低业务接入成本， 拥有完整的权限管理系统，适应多租户场景，是一款适合企业级集群使用的发布平台。</p>
+</blockquote>
+<p><a target="_blank" rel="noopener" href="https://github.com/Qihoo360/wayne/blob/master/README-CN.md">wayne项目git地址</a></p>
+<p>搭建的过程这里就不再说了，git 里说的已经很明白了。</p>
+<p><strong>界面</strong></p>
+<p>系统分成两部分：</p>
+<ul>
+<li>前台部分：负责项目的部署和发布</li>
+<li>后台部分：负责k8s集群的配置、项目的创建等</li>
+</ul>
+<p>通过右上角的选项可以进行切换</p>
+<h3 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h3><h4 id="解决：Docker-启动的容器内部时间比服务器时间晚-8-小时，容器内部时间与宿主机时间不一致"><a href="#解决：Docker-启动的容器内部时间比服务器时间晚-8-小时，容器内部时间与宿主机时间不一致" class="headerlink" title="解决：Docker 启动的容器内部时间比服务器时间晚 8 小时，容器内部时间与宿主机时间不一致"></a><a target="_blank" rel="noopener" href="https://www.centos.bz/2019/07/%E8%A7%A3%E5%86%B3%EF%BC%9Adocker-%E5%90%AF%E5%8A%A8%E7%9A%84%E5%AE%B9%E5%99%A8%E5%86%85%E9%83%A8%E6%97%B6%E9%97%B4%E6%AF%94%E6%9C%8D%E5%8A%A1%E5%99%A8%E6%97%B6%E9%97%B4%E6%99%9A-8-%E5%B0%8F%E6%97%B6/">解决：Docker 启动的容器内部时间比服务器时间晚 8 小时，容器内部时间与宿主机时间不一致</a></h4><p>1.<a target="_blank" rel="noopener" href="https://www.centos.bz/tag/docker/">docker</a> 方式启动容器 nexus3 ，运行正常，但查日志时发现容器时间比宿主机时间晚8小时，内外时间不一致。</p>
+<p>2.解决方法：启动容器时加入时间挂载，使用宿主机时间：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">-v /etc/localtime:/etc/localtime:ro</span><br></pre></td></tr></table></figure>
+
+<p>如： 启动 nexus3 的完整命令为：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run -tid -p 8081:8081 --privileged=true --name nexus3 -v $PWD/nexus-data:/var/nexus-data  -v /etc/localtime:/etc/localtime:ro --restart=always docker.io/sonatype/nexus3</span><br></pre></td></tr></table></figure>
+
+<p>可以用 <a target="_blank" rel="noopener" href="http://askubuntu.com/questions/31842/how-to-read-time-zone-information">zdump</a> 命令来读取 /etc/localtime 文件的内容：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">zdump -v /etc/localtime</span><br></pre></td></tr></table></figure>
+
+<p><a target="_blank" rel="noopener" href="https://wiki.debian.org/TimeZoneChanges">/etc/timezone 的内容是时区</a>，比如 Asia/ShangHai。</p>
+<h4 id="降低Docker镜像大小"><a href="#降低Docker镜像大小" class="headerlink" title="降低Docker镜像大小"></a>降低Docker镜像大小</h4><ol>
+<li><a target="_blank" rel="noopener" href="https://www.centos.bz/2019/07/7-%E6%AD%A5%E7%B2%BE%E7%AE%80-docker-%E9%95%9C%E5%83%8F%E5%87%A0%E7%99%BEmb/">7 步精简 Docker 镜像几百MB</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.centos.bz/2019/07/docker-%E7%9A%84-image-%E5%A4%AA%E5%A4%A7%EF%BC%8C%E6%80%8E%E4%B9%88%E5%8F%98%E5%B0%8F%EF%BC%9F/">Docker 的 Image 太大，怎么变小？</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/77af52a75ad8">https://www.jianshu.com/p/77af52a75ad8</a></li>
+</ol>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">平心</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://pingxin0521.gitee.io/2019/07/11/%E5%AE%B9%E5%99%A8-Docker-5-1/">https://pingxin0521.gitee.io/2019/07/11/%E5%AE%B9%E5%99%A8-Docker-5-1/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://pingxin0521.gitee.io" target="_blank">平心de小屋</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E5%AE%B9%E5%99%A8/">容器</a><a class="post-meta__tags" href="/tags/Docker/">Docker</a></div><div class="post_share"><div class="social-share" data-image="https://i.loli.net/2020/05/08/PFDRNxj93taz6pw.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2019/07/12/Java-SpringBoot-1-4-2/"><img class="prev-cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/okfOw28KlZFbE7z.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">Spring boot 数据访问 MongoDB</div></div></a></div><div class="next-post pull-right"><a href="/2019/07/11/Java-SpringBoot-1-1-3/"><img class="next-cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/gGE57HRvpcKPfDY.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">Spring boot API 接口文档 Swagger</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span> 相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2019/07/05/容器-Docker-0-2/" title="Docker 基础概念"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/7dHvepmfYOLWTrX.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2019-11-14</div><div class="title">Docker 基础概念</div></div></a></div><div><a href="/2019/07/08/容器-Docker-3-1/" title="Docker 三剑客--Machine"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/HjVAdIuT7bZJypS.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2019-11-15</div><div class="title">Docker 三剑客--Machine</div></div></a></div><div><a href="/2019/08/11/容器-Docker-5-2/" title="Docker 卷数据备份和恢复"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/7dHvepmfYOLWTrX.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2019-11-15</div><div class="title">Docker 卷数据备份和恢复</div></div></a></div><div><a href="/2019/08/11/容器-Docker-5-3/" title="Docker 监控"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/okfOw28KlZFbE7z.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2019-11-15</div><div class="title">Docker 监控</div></div></a></div><div><a href="/2019/07/04/容器-Docker-0-1/" title="Docker 介绍"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/PFDRNxj93taz6pw.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2019-09-03</div><div class="title">Docker 介绍</div></div></a></div><div><a href="/2019/07/08/容器-Docker-3-0/" title="Docker 三剑客--Swarm"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/7dHvepmfYOLWTrX.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2019-11-15</div><div class="title">Docker 三剑客--Swarm</div></div></a></div></div></div><hr/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div class="vcomment" id="vcomment"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="card-info-avatar is-center"><img class="avatar-img" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://s2.ax1x.com/2020/02/11/1ovw6J.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/><div class="author-info__name">平心</div><div class="author-info__description">年轻人的life、learn and think</div></div><div class="card-info-data"><div class="card-info-data-item is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">449</div></a></div><div class="card-info-data-item is-center"><a href="/tags/"><div class="headline">标签</div><div class="length-num">77</div></a></div><div class="card-info-data-item is-center"><a href="/categories/"><div class="headline">分类</div><div class="length-num">68</div></a></div></div><a class="button--animated" id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/hanyunpeng0521"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/hanyunpeng0521" target="_blank" title="Github"><i class="fa fa-github"></i></a><a class="social-icon" href="mailto:m13839441583@163.com" target="_blank" title="Email"><i class="fa fa-envelope"></i></a><a class="social-icon" href="/atom.xml" target="_blank" title=""><i class="fa fa-rss"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn card-announcement-animation"></i><span>公告</span></div><div class="announcement_content">为什么呢？开始提问吧</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#Docker-Hub"><span class="toc-number">1.</span> <span class="toc-text">Docker Hub</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%A7%81%E6%9C%89%E4%BB%93%E5%BA%93"><span class="toc-number"></span> <span class="toc-text">私有仓库</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%AE%89%E8%A3%85%E8%BD%AF%E4%BB%B6%E9%85%8D%E7%BD%AE"><span class="toc-number">1.</span> <span class="toc-text">安装软件配置</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%BF%AB%E9%80%9F%E6%9E%84%E5%BB%BA"><span class="toc-number">1.1.</span> <span class="toc-text">快速构建</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E4%B8%8D%E4%BD%BF%E7%94%A8%E5%AE%B9%E5%99%A8%E6%9E%84%E5%BB%BA-registry"><span class="toc-number">1.2.</span> <span class="toc-text">不使用容器构建 registry</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%8F%90%E4%BA%A4%E6%8C%87%E5%AE%9A%E5%AE%B9%E5%99%A8%E5%88%B0%E7%A7%81%E6%9C%89%E5%BA%93"><span class="toc-number">1.3.</span> <span class="toc-text">提交指定容器到私有库</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BB%8Edocker%E6%9E%84%E5%BB%BA"><span class="toc-number">2.</span> <span class="toc-text">从docker构建</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%A7%81%E6%9C%89%E4%BB%93%E5%BA%93%E9%AB%98%E7%BA%A7%E9%85%8D%E7%BD%AE"><span class="toc-number">3.</span> <span class="toc-text">私有仓库高级配置</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Nexus3-x-%E7%9A%84%E7%A7%81%E6%9C%89%E4%BB%93%E5%BA%93"><span class="toc-number">4.</span> <span class="toc-text">Nexus3.x 的私有仓库</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#harbor%E6%90%AD%E5%BB%BA"><span class="toc-number">5.</span> <span class="toc-text">harbor搭建</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#wayne"><span class="toc-number">6.</span> <span class="toc-text">wayne</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%97%AE%E9%A2%98"><span class="toc-number"></span> <span class="toc-text">问题</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%A7%A3%E5%86%B3%EF%BC%9ADocker-%E5%90%AF%E5%8A%A8%E7%9A%84%E5%AE%B9%E5%99%A8%E5%86%85%E9%83%A8%E6%97%B6%E9%97%B4%E6%AF%94%E6%9C%8D%E5%8A%A1%E5%99%A8%E6%97%B6%E9%97%B4%E6%99%9A-8-%E5%B0%8F%E6%97%B6%EF%BC%8C%E5%AE%B9%E5%99%A8%E5%86%85%E9%83%A8%E6%97%B6%E9%97%B4%E4%B8%8E%E5%AE%BF%E4%B8%BB%E6%9C%BA%E6%97%B6%E9%97%B4%E4%B8%8D%E4%B8%80%E8%87%B4"><span class="toc-number">1.</span> <span class="toc-text">解决：Docker 启动的容器内部时间比服务器时间晚 8 小时，容器内部时间与宿主机时间不一致</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%99%8D%E4%BD%8EDocker%E9%95%9C%E5%83%8F%E5%A4%A7%E5%B0%8F"><span class="toc-number">2.</span> <span class="toc-text">降低Docker镜像大小</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2021/05/15/node-2-4/" title="Egg.js -- 为企业级框架和应用而生"><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/okfOw28KlZFbE7z.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Egg.js -- 为企业级框架和应用而生"/></a><div class="content"><a class="title" href="/2021/05/15/node-2-4/" title="Egg.js -- 为企业级框架和应用而生">Egg.js -- 为企业级框架和应用而生</a><time datetime="2021-05-15T10:18:59.000Z" title="发表于 2021-05-15 18:18:59">2021-05-15</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/04/30/node-2-3/" title="Koa -- 基于Node.js平台的下一代Web开发框架"><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/HjVAdIuT7bZJypS.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Koa -- 基于Node.js平台的下一代Web开发框架"/></a><div class="content"><a class="title" href="/2021/04/30/node-2-3/" title="Koa -- 基于Node.js平台的下一代Web开发框架">Koa -- 基于Node.js平台的下一代Web开发框架</a><time datetime="2021-04-30T10:18:59.000Z" title="发表于 2021-04-30 18:18:59">2021-04-30</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/04/01/node-2-1/" title="Node.JS web开发前置知识"><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/gGE57HRvpcKPfDY.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Node.JS web开发前置知识"/></a><div class="content"><a class="title" href="/2021/04/01/node-2-1/" title="Node.JS web开发前置知识">Node.JS web开发前置知识</a><time datetime="2021-04-01T03:18:59.000Z" title="发表于 2021-04-01 11:18:59">2021-04-01</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2020/12/26/%E5%91%A8%E8%AE%B0-10-1/" title="第十一周--谷歌浏览器插件"><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/gGE57HRvpcKPfDY.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="第十一周--谷歌浏览器插件"/></a><div class="content"><a class="title" href="/2020/12/26/%E5%91%A8%E8%AE%B0-10-1/" title="第十一周--谷歌浏览器插件">第十一周--谷歌浏览器插件</a><time datetime="2020-12-26T10:18:59.000Z" title="发表于 2020-12-26 18:18:59">2020-12-26</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2020/12/26/%E5%91%A8%E8%AE%B0-10-0/" title="第十一周--浏览器技术"><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/vCnKyoFJZ1g4XYR.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="第十一周--浏览器技术"/></a><div class="content"><a class="title" href="/2020/12/26/%E5%91%A8%E8%AE%B0-10-0/" title="第十一周--浏览器技术">第十一周--浏览器技术</a><time datetime="2020-12-26T06:18:59.000Z" title="发表于 2020-12-26 14:18:59">2020-12-26</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2019 - 2021 By 平心</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div id="local-search"><div class="search-dialog"><div class="search-dialog__title" id="local-search-title">本地搜索</div><div id="local-input-panel"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div></div><hr/><div id="local-search-results"></div><span class="search-close-button"><i class="fas fa-times"></i></span></div><div id="search-mask"></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload/dist/lazyload.iife.min.js"></script><script src="/js/search/local-search.js"></script><div class="js-pjax"><script>function loadValine () {
+  function initValine () {
+    const valine = new Valine(Object.assign({
+      el: '#vcomment',
+      appId: '4lfIXzqxaC1ONs0MJO4oHu07-gzGzoHsz',
+      appKey: 'qw99Bw8FD0KVKU9m457CwWsr',
+      placeholder: 'Please leave your footprints',
+      avatar: 'monsterid',
+      meta: 'nick,mail,link'.split(','),
+      pageSize: '10',
+      lang: 'zh-CN',
+      recordIP: true,
+      serverURLs: '',
+      emojiCDN: '',
+      emojiMaps: "",
+      enableQQ: true,
+      path: window.location.pathname,
+      requiredFields: ["nick,mail"],
+      visitor: false
+    }, null))
+  }
+
+  if (typeof Valine === 'function') initValine() 
+  else getScript('https://cdn.jsdelivr.net/npm/valine/dist/Valine.min.js').then(initValine)
+}
+
+if ('Valine' === 'Valine' || !false) {
+  if (false) btf.loadComment(document.getElementById('vcomment'),loadValine)
+  else setTimeout(loadValine, 0)
+} else {
+  function loadOtherComment () {
+    loadValine()
+  }
+}</script></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>

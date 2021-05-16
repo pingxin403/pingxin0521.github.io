@@ -1,0 +1,268 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Git入门 | 平心de小屋</title><meta name="keywords" content="工具,Git,版本控制"><meta name="author" content="平心"><meta name="copyright" content="平心"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="前言 工欲善其事必先利其器             –孔子   如果是对 版本控制 有所了解的同学，应该听说过Git。Git是一个开源的分布式版本控制系统，用以有效、高速的处理从很小到非常大的项目版本管理。Git 是 Linus Torvalds 为了帮助管理 Linux 内核开发而开发的一个开放源码的版本控制软件（听说是因为BitKeeper开始收费的原因）。另外一个现在比较常使用的版本控制软件">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Git入门">
+<meta property="og:url" content="https://pingxin0521.gitee.io/2019/03/18/%E5%B7%A5%E5%85%B7-Git-1/index.html">
+<meta property="og:site_name" content="平心de小屋">
+<meta property="og:description" content="前言 工欲善其事必先利其器             –孔子   如果是对 版本控制 有所了解的同学，应该听说过Git。Git是一个开源的分布式版本控制系统，用以有效、高速的处理从很小到非常大的项目版本管理。Git 是 Linus Torvalds 为了帮助管理 Linux 内核开发而开发的一个开放源码的版本控制软件（听说是因为BitKeeper开始收费的原因）。另外一个现在比较常使用的版本控制软件">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://i.loli.net/2020/05/08/gGE57HRvpcKPfDY.jpg">
+<meta property="article:published_time" content="2019-03-18T01:18:59.000Z">
+<meta property="article:modified_time" content="2019-09-25T08:27:47.000Z">
+<meta property="article:author" content="平心">
+<meta property="article:tag" content="工具">
+<meta property="article:tag" content="Git">
+<meta property="article:tag" content="版本控制">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.loli.net/2020/05/08/gGE57HRvpcKPfDY.jpg"><link rel="shortcut icon" href="https://s2.ax1x.com/2020/02/11/1ovFOA.png"><link rel="canonical" href="https://pingxin0521.gitee.io/2019/03/18/%E5%B7%A5%E5%85%B7-Git-1/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"search.xml","languages":{"hits_empty":"找不到您查询的内容：${query}"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    jQuery: 'https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js',
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+    },
+    fancybox: {
+      js: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css'
+    }
+  },
+  isPhotoFigcaption: true,
+  islazyload: true,
+  isanchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'Git入门',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2019-09-25 16:27:47'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    })(window)</script><meta name="generator" content="Hexo 5.4.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="author-avatar"><img class="avatar-img" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://s2.ax1x.com/2020/02/11/1ovw6J.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data"><div class="data-item is-center"><div class="data-item-link"><a href="/archives/"><div class="headline">文章</div><div class="length-num">449</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/tags/"><div class="headline">标签</div><div class="length-num">77</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/categories/"><div class="headline">分类</div><div class="length-num">68</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fa fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fa fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://i.loli.net/2020/05/08/gGE57HRvpcKPfDY.jpg')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">平心de小屋</a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fa fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fa fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">Git入门</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2019-03-18T01:18:59.000Z" title="发表于 2019-03-18 09:18:59">2019-03-18</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2019-09-25T08:27:47.000Z" title="更新于 2019-09-25 16:27:47">2019-09-25</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E5%B7%A5%E5%85%B7/">工具</a><i class="fas fa-angle-right post-meta-separator"></i><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E5%B7%A5%E5%85%B7/%E7%89%88%E6%9C%AC%E6%8E%A7%E5%88%B6/">版本控制</a><i class="fas fa-angle-right post-meta-separator"></i><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E5%B7%A5%E5%85%B7/%E7%89%88%E6%9C%AC%E6%8E%A7%E5%88%B6/Git/">Git</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">3.3k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>10分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="Git入门"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><blockquote>
+<p>工欲善其事必先利其器             –孔子 </p>
+</blockquote>
+<p>如果是对 <strong>版本控制</strong> 有所了解的同学，应该听说过Git。Git是一个开源的分布式版本控制系统，用以有效、高速的处理从很小到非常大的项目版本管理。Git 是 Linus Torvalds 为了帮助管理 Linux 内核开发而开发的一个开放源码的版本控制软件（听说是因为BitKeeper开始收费的原因）。另外一个现在比较常使用的版本控制软件是SVN，SVN是Subversion的简称，目前是Apache项目底下的一个开放源代码的版本控制系统，它的设计目标就是取代CVS。我们会在另外的文章介绍SVN。</p>
+<span id="more"></span>
+
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://ws1.sinaimg.cn/large/006KyevZgy1g16rmqctahj307y046wej.jpg"></p>
+<p>现如今，几乎所有的开发IDE都支持了Git方式来控制版本，而各大网站也使用Git协议来进行代码托管，如最负盛名的<a target="_blank" rel="noopener" href="https://github.com/">GitHub</a>，以及国内的<a target="_blank" rel="noopener" href="https://coding.net/">Coding</a>、<a target="_blank" rel="noopener" href="https://gitee.com/">码云Gitee</a>等，都在支持着Git。</p>
+<h3 id="特性"><a href="#特性" class="headerlink" title="特性"></a>特性</h3><p>Git 在保存和处理各种信息的时候，虽然操作起来的命令形式非常相近，但它与其他版本控制系统的做法颇为不同。理解这些差异将有助于你准确地使用 Git 提供的各种工具。</p>
+<h4 id="直接记录快照，而非差异比较"><a href="#直接记录快照，而非差异比较" class="headerlink" title="直接记录快照，而非差异比较"></a>直接记录快照，而非差异比较</h4><p>Git 和其他版本控制系统的主要差别在于，Git 只关心文件数据的整体是否发生变化，而大多数其他系统则只关心文件内容的具体差异。这类系统（CVS，Subversion，Perforce，Bazaar 等等）每次记录有哪些文件作了更新，以及都更新了哪些行的什么内容，其他系统工作情况如下：</p>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://ws1.sinaimg.cn/large/006KyevZgy1g16ss80r50j30dw06774b.jpg"></p>
+<p>Git不保存这些前后变化的差异数据。实际上，Git 更像是把变化的文件作快照后，记录在一个微型的文件系统中。每次提交更新时，它会纵览一遍所有文件的指纹信息并对文件作一快照，然后保存一个指向这次快照的索引。为提高性能，若文件没有变化，Git 不会再次保存，而只对上次保存的快照作一链接。</p>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://ws1.sinaimg.cn/large/006KyevZgy1g16ss65vduj30dw066dfx.jpg"></p>
+<p>这是 Git 同其他系统的重要区别。它完全颠覆了传统版本控制的套路，并对各个环节的实现方式作了新的设计。Git 更像是个小型的文件系统，但它同时还提供了许多以此为基础的超强工具，而不只是一个简单的 VCS</p>
+<h4 id="近乎所有操作都是在本地执行"><a href="#近乎所有操作都是在本地执行" class="headerlink" title="近乎所有操作都是在本地执行"></a>近乎所有操作都是在本地执行</h4><p>在 Git 中的绝大多数操作都只需要访问本地文件和资源，不用连网。因为 Git 在本地磁盘上就保存着所有当前项目的历史更新，所以处理起来速度飞快。</p>
+<p>举个例子，如果要浏览项目的历史更新摘要，Git 不用跑到外面的服务器上去取数据回来，而直接从本地数据库读取后展示给你看。所以任何时候你都可以马上翻阅，无需等待。如果想要看当前版本的文件和一个月前的版本之间有何差异，Git 会取出一个月前的快照和当前文件作一次差异运算，而不用请求远程服务器来做这件事，或是把老版本的文件拉到本地来作比较。</p>
+<h4 id="时刻保持数据完整性"><a href="#时刻保持数据完整性" class="headerlink" title="时刻保持数据完整性"></a>时刻保持数据完整性</h4><p>在保存到 Git 之前，所有数据都要进行内容的校验和（checksum）计算，并将此结果作为数据的唯一标识和索引。换句话说，不可能在你修改了文件或目录之后，Git 一无所知。这项特性作为 Git 的设计哲学，建在整体架构的最底层。所以如果文件在传输时变得不完整，或者磁盘损坏导致文件数据缺失，Git 都能立即察觉。</p>
+<p>Git 使用 SHA-1 算法计算数据的校验和，通过对文件的内容或目录的结构计算出一个 SHA-1 哈希值，作为指纹字符串。Git 的工作完全依赖于这类指纹字串，所以你会经常看到这样的哈希值。实际上，所有保存在 Git 数据库中的东西都是用此哈希值来作索引的，而不是靠文件名。</p>
+<h4 id="多数操作仅添加数据"><a href="#多数操作仅添加数据" class="headerlink" title="多数操作仅添加数据"></a>多数操作仅添加数据</h4><p>常用的 Git 操作大多仅仅是把数据添加到数据库。因为任何一种不可逆的操作，比如删除数据，都会使回退或重现历史版本变得困难重重。在 Git 里，一旦提交快照之后就完全不用担心丢失数据，特别是养成定期推送到其他仓库的习惯的话。这种高可靠性令我们的开发工作安心不少，尽管去做各种试验性的尝试好了，再怎样也不会弄丢数据。</p>
+<h4 id="文件的三种状态"><a href="#文件的三种状态" class="headerlink" title="文件的三种状态"></a>文件的三种状态</h4><p><del>这是Git中非常重要的一点，必须要记住并理解。</del></p>
+<p>对于任何一个文件，在 Git 内都只有三种状态：已提交（committed），已修改（modified）和已暂存（staged）。已提交表示该文件已经被安全地保存在本地数据库中了；已修改表示修改了某个文件，但还没有提交保存；已暂存表示把已修改的文件放在下次提交时要保存的清单中。</p>
+<p>Git 管理项目时，文件流转的三个工作区域：Git 的工作目录，暂存区域，以及本地仓库。</p>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://ws1.sinaimg.cn/large/006KyevZgy1g16ss9i3h2j30dw0cswep.jpg"></p>
+<p>每个项目都有一个 Git 目录，它是 Git 用来保存元数据和对象数据库的地方。该目录非常重要，每次克隆镜像仓库的时候，实际拷贝的就是这个目录里面的数据。</p>
+<p>从项目中取出某个版本的所有文件和目录，用以开始后续工作的叫做工作目录。这些文件实际上都是从 Git 目录中的压缩对象数据库中提取出来的，接下来就可以在工作目录中对这些文件进行编辑。</p>
+<p>所谓的暂存区域只不过是个简单的文件，一般都放在 Git 目录中。有时候人们会把这个文件叫做索引文件，不过标准说法还是叫暂存区域。</p>
+<p>基本的 Git 工作流程如下：</p>
+<ol>
+<li>在工作目录中修改某些文件。</li>
+<li>对修改后的文件进行快照，然后保存到暂存区域。</li>
+<li>提交更新，将保存在暂存区域的文件快照永久转储到 Git 目录中。</li>
+</ol>
+<p>所以，我们可以从文件所处的位置来判断状态：如果是 Git 目录中保存着的特定版本文件，就属于已提交状态；如果作了修改并已放入暂存区域，就属于已暂存状态；如果自上次取出后，作了修改但还没有放到暂存区域，就是已修改状态。</p>
+<h3 id="Git安装"><a href="#Git安装" class="headerlink" title="Git安装"></a>Git安装</h3><h4 id="从源码安装"><a href="#从源码安装" class="headerlink" title="从源码安装"></a>从源码安装</h4><p>Git 的工作需要调用 curl，zlib，openssl，expat，libiconv 等库的代码，所以需要先安装这些依赖工具。在有 yum 的系统上（比如 Fedora）或者有 apt-get 的系统上（比如 Debian 体系），可以用下面的命令安装：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> yum install curl-devel expat-devel gettext-devel \</span></span><br><span class="line"><span class="bash">  openssl-devel zlib-devel perl-ExtUtils-MakeMaker</span></span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="bash">ubuntu</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> apt install -y  build-essential</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> apt install  -y  libexpat1-dev gettext libz-dev libssl-dev libcurl4-openssl-dev</span></span><br></pre></td></tr></table></figure>
+
+<p>然后从官网上下载最新的源代码包：<a target="_blank" rel="noopener" href="https://git-scm.com/download">https://git-scm.com/download</a></p>
+<p>然后编译并安装：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> tar -zxf git-2.9.5.tar.gz</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> <span class="built_in">cd</span> git-2.9.5</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> make prefix=/usr/<span class="built_in">local</span> all</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> sudo make prefix=/usr/<span class="built_in">local</span> install</span></span><br></pre></td></tr></table></figure>
+
+<p>现在已经可以用 <code>git</code> 命令了，用 <code>git</code> 把 Git 项目仓库克隆到本地，以便日后随时更新：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> git <span class="built_in">clone</span> git://git.kernel.org/pub/scm/git/git.git</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="Linux安装"><a href="#Linux安装" class="headerlink" title="Linux安装"></a>Linux安装</h4><p>可以参考<a target="_blank" rel="noopener" href="https://www.git-scm.com/download/linux">官网文档</a>。</p>
+<h4 id="在Mac上安装"><a href="#在Mac上安装" class="headerlink" title="在Mac上安装"></a>在Mac上安装</h4><p>图形化的Git安装工具：<a target="_blank" rel="noopener" href="http://sourceforge.net/projects/git-osx-installer/">http://sourceforge.net/projects/git-osx-installer/</a>。</p>
+<h4 id="在Windows上安装"><a href="#在Windows上安装" class="headerlink" title="在Windows上安装"></a>在Windows上安装</h4><p>直接安装即可：<a target="_blank" rel="noopener" href="https://gitforwindows.org/">https://gitforwindows.org/</a>。</p>
+<p>给 Windows 用户的敬告：你应该在 该软件提供的 Unix 风格的 shell 来运行 Git。在 Unix 风格的 shell 中，可以使用本书中提及的复杂多行的命令。对于那些需要在 Windows 命令行中使用 Git 的用户，必须注意：在参数中间有空格的时候，必须使用双引号将参数括起来（在 Linux 中是单引号）；另外，如果扬抑符（^）作为参数的结尾，并且作为这一行的最后一个字符，则这个参数也需要用双引号括起来。因为扬抑符在 Windows 命令行中表示续行（译注：即下一行为这一行命令的继续）。</p>
+<h3 id="初次运行配置"><a href="#初次运行配置" class="headerlink" title="初次运行配置"></a>初次运行配置</h3><p>一般在新的系统上，我们都需要先配置下自己的 Git 工作环境。配置工作只需一次，以后升级时还会沿用现在的配置。当然，如果需要，你随时可以用相同的命令修改已有的配置。</p>
+<p>Git 提供了一个叫做 <code>git config</code> 的工具（译注：实际是 <code>git-config</code> 命令，只不过可以通过 <code>git</code> 加一个名字来呼叫此命令。），专门用来配置或读取相应的工作环境变量。而正是由这些环境变量，决定了 Git 在各个环节的具体工作方式和行为。这些变量可以存放在以下三个不同的地方：</p>
+<ul>
+<li><code>/etc/gitconfig</code> 文件：系统中对所有用户都普遍适用的配置。若使用 <code>git config</code> 时用 <code>--system</code> 选项，读写的就是这个文件。</li>
+<li><code>~/.gitconfig</code> 文件：用户目录下的配置文件只适用于该用户。若使用 <code>git config</code> 时用 <code>--global</code> 选项，读写的就是这个文件。</li>
+<li>当前项目的 Git 目录中的配置文件（也就是工作目录中的 <code>.git/config</code> 文件）：这里的配置仅仅针对当前项目有效。每一个级别的配置都会覆盖上层的相同配置，所以 <code>.git/config</code> 里的配置会覆盖 <code>/etc/gitconfig</code> 中的同名变量。</li>
+</ul>
+<p>在 Windows 系统上，Git 会找寻用户主目录下的 <code>.gitconfig</code> 文件。主目录即 <code>$HOME</code> 变量指定的目录，一般都是 <code>C:\Documents and Settings\$USER</code>。此外，Git 还会尝试找寻 <code>/etc/gitconfig</code> 文件，只不过看当初 Git 装在什么目录，就以此作为根目录来定位。</p>
+<h4 id="用户信息"><a href="#用户信息" class="headerlink" title="用户信息"></a>用户信息</h4><p>第一个要配置的是你个人的用户名称和电子邮件地址。这两条配置很重要，每次 Git 提交时都会引用这两条信息，说明是谁提交了更新，所以会随更新内容一起被永久纳入历史记录：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> git config --global user.name <span class="string">&quot;John Doe&quot;</span></span></span><br><span class="line"><span class="meta">$</span><span class="bash"> git config --global user.email johndoe@example.com</span></span><br></pre></td></tr></table></figure>
+
+<p>如果用了 <code>--global</code> 选项，那么更改的配置文件就是位于你用户主目录下的那个，以后你所有的项目都会默认使用这里配置的用户信息。如果要在某个特定的项目中使用其他名字或者电邮，只要去掉 <code>--global</code> 选项重新配置即可，新的设定保存在当前项目的 <code>.git/config</code> 文件里。</p>
+<h4 id="文本编辑器"><a href="#文本编辑器" class="headerlink" title="文本编辑器"></a>文本编辑器</h4><p>接下来要设置的是默认使用的文本编辑器。Git 需要你输入一些额外消息的时候，会自动调用一个外部文本编辑器给你用。默认会使用操作系统指定的默认编辑器，一般可能会是 Vi 或者 Vim。如果你有其他偏好，比如 Emacs 的话，可以重新设置：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> git config --global core.editor emacs</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="差异分析工具"><a href="#差异分析工具" class="headerlink" title="差异分析工具"></a>差异分析工具</h4><p>还有一个比较常用的是，在解决合并冲突时使用哪种差异分析工具。比如要改用 vimdiff 的话：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> git config --global merge.tool vimdiff</span></span><br></pre></td></tr></table></figure>
+
+<p>Git 可以理解 kdiff3，tkdiff，meld，xxdiff，emerge，vimdiff，gvimdiff，ecmerge，和 opendiff 等合并工具的输出信息。</p>
+<h4 id="查看配置信息"><a href="#查看配置信息" class="headerlink" title="查看配置信息"></a>查看配置信息</h4><p>要检查已有的配置信息，可以使用 <code>git config --list</code> 命令：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> git config --list</span></span><br><span class="line">user.name=Scott Chacon</span><br><span class="line">user.email=schacon@gmail.com</span><br><span class="line">color.status=auto</span><br><span class="line">color.branch=auto</span><br><span class="line">color.interactive=auto</span><br><span class="line">color.diff=auto</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+
+<p>有时候会看到重复的变量名，那就说明它们来自不同的配置文件（比如 <code>/etc/gitconfig</code> 和 <code>~/.gitconfig</code>），不过最终 Git 实际采用的是最后一个。</p>
+<p>也可以直接查阅某个环境变量的设定，只要把特定的名字跟在后面即可，像这样：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> git config user.name</span></span><br><span class="line">Scott Chacon</span><br></pre></td></tr></table></figure>
+
+<h4 id="获取帮助"><a href="#获取帮助" class="headerlink" title="获取帮助"></a>获取帮助</h4><p>想了解 Git 的各式工具该怎么用，可以阅读它们的使用帮助，方法有三：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> git <span class="built_in">help</span> &lt;verb&gt;</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> git &lt;verb&gt; --<span class="built_in">help</span></span></span><br><span class="line"><span class="meta">$</span><span class="bash"> man git-&lt;verb&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>比如，要学习 config 命令可以怎么用，运行：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> git <span class="built_in">help</span> config</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="github提速"><a href="#github提速" class="headerlink" title="github提速"></a>github提速</h3><p>我们可以通过修改hosts文件来提速,获取github的IP地址</p>
+<p>1.手动访问：<a target="_blank" rel="noopener" href="https://www.ipaddress.com/">https://www.ipaddress.com/</a> 网址，然后依次获取以下三个网址的IP</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">github.com</span><br><span class="line">github.global.ssl.fastly.net</span><br><span class="line">codeload.github.com</span><br></pre></td></tr></table></figure>
+
+<p>修改系统本地的hosts文件，添加内容</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ sudo vim /etc/hosts</span><br><span class="line">140.82.113.4 github.com</span><br><span class="line">199.232.5.194 github.global.ssl.fastly.net</span><br><span class="line">140.82.114.9 codeload.github.com</span><br></pre></td></tr></table></figure>
+
+<p>2.重启网络服务</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo /etc/init.d/networking restart</span><br></pre></td></tr></table></figure>
+
+<p>参考：<a target="_blank" rel="noopener" href="http://iissnan.com/progit/">《Pro Git》</a></p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">平心</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://pingxin0521.gitee.io/2019/03/18/%E5%B7%A5%E5%85%B7-Git-1/">https://pingxin0521.gitee.io/2019/03/18/%E5%B7%A5%E5%85%B7-Git-1/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://pingxin0521.gitee.io" target="_blank">平心de小屋</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E5%B7%A5%E5%85%B7/">工具</a><a class="post-meta__tags" href="/tags/Git/">Git</a><a class="post-meta__tags" href="/tags/%E7%89%88%E6%9C%AC%E6%8E%A7%E5%88%B6/">版本控制</a></div><div class="post_share"><div class="social-share" data-image="https://i.loli.net/2020/05/08/gGE57HRvpcKPfDY.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2019/03/18/%E5%B7%A5%E5%85%B7-Git-2/"><img class="prev-cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/vCnKyoFJZ1g4XYR.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">Git基础篇</div></div></a></div><div class="next-post pull-right"><a href="/2019/03/18/%E5%B7%A5%E5%85%B7-%E7%89%88%E6%9C%AC%E6%8E%A7%E5%88%B6/"><img class="next-cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/PFDRNxj93taz6pw.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">浅析版本控制</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span> 相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2019/03/18/工具-Git-4/" title="Git服务器"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/okfOw28KlZFbE7z.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2019-07-31</div><div class="title">Git服务器</div></div></a></div><div><a href="/2019/03/18/工具-Git-3/" title="Git分支"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/7dHvepmfYOLWTrX.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2019-08-02</div><div class="title">Git分支</div></div></a></div><div><a href="/2019/03/18/工具-Git-2/" title="Git基础篇"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/vCnKyoFJZ1g4XYR.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2019-10-18</div><div class="title">Git基础篇</div></div></a></div><div><a href="/2019/03/21/工具-Git-5/" title="Git设置SSH key"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/PFDRNxj93taz6pw.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2019-08-02</div><div class="title">Git设置SSH key</div></div></a></div><div><a href="/2019/03/18/工具-版本控制/" title="浅析版本控制"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/PFDRNxj93taz6pw.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2019-04-03</div><div class="title">浅析版本控制</div></div></a></div><div><a href="/2019/04/21/工具-Git-6/" title="Git 命令大全"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/7dHvepmfYOLWTrX.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2020-03-26</div><div class="title">Git 命令大全</div></div></a></div></div></div><hr/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div class="vcomment" id="vcomment"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="card-info-avatar is-center"><img class="avatar-img" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://s2.ax1x.com/2020/02/11/1ovw6J.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/><div class="author-info__name">平心</div><div class="author-info__description">年轻人的life、learn and think</div></div><div class="card-info-data"><div class="card-info-data-item is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">449</div></a></div><div class="card-info-data-item is-center"><a href="/tags/"><div class="headline">标签</div><div class="length-num">77</div></a></div><div class="card-info-data-item is-center"><a href="/categories/"><div class="headline">分类</div><div class="length-num">68</div></a></div></div><a class="button--animated" id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/hanyunpeng0521"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/hanyunpeng0521" target="_blank" title="Github"><i class="fa fa-github"></i></a><a class="social-icon" href="mailto:m13839441583@163.com" target="_blank" title="Email"><i class="fa fa-envelope"></i></a><a class="social-icon" href="/atom.xml" target="_blank" title=""><i class="fa fa-rss"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn card-announcement-animation"></i><span>公告</span></div><div class="announcement_content">为什么呢？开始提问吧</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%89%8D%E8%A8%80"><span class="toc-number">1.</span> <span class="toc-text">前言</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%89%B9%E6%80%A7"><span class="toc-number">2.</span> <span class="toc-text">特性</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%9B%B4%E6%8E%A5%E8%AE%B0%E5%BD%95%E5%BF%AB%E7%85%A7%EF%BC%8C%E8%80%8C%E9%9D%9E%E5%B7%AE%E5%BC%82%E6%AF%94%E8%BE%83"><span class="toc-number">2.1.</span> <span class="toc-text">直接记录快照，而非差异比较</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%BF%91%E4%B9%8E%E6%89%80%E6%9C%89%E6%93%8D%E4%BD%9C%E9%83%BD%E6%98%AF%E5%9C%A8%E6%9C%AC%E5%9C%B0%E6%89%A7%E8%A1%8C"><span class="toc-number">2.2.</span> <span class="toc-text">近乎所有操作都是在本地执行</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%97%B6%E5%88%BB%E4%BF%9D%E6%8C%81%E6%95%B0%E6%8D%AE%E5%AE%8C%E6%95%B4%E6%80%A7"><span class="toc-number">2.3.</span> <span class="toc-text">时刻保持数据完整性</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%A4%9A%E6%95%B0%E6%93%8D%E4%BD%9C%E4%BB%85%E6%B7%BB%E5%8A%A0%E6%95%B0%E6%8D%AE"><span class="toc-number">2.4.</span> <span class="toc-text">多数操作仅添加数据</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%96%87%E4%BB%B6%E7%9A%84%E4%B8%89%E7%A7%8D%E7%8A%B6%E6%80%81"><span class="toc-number">2.5.</span> <span class="toc-text">文件的三种状态</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Git%E5%AE%89%E8%A3%85"><span class="toc-number">3.</span> <span class="toc-text">Git安装</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BB%8E%E6%BA%90%E7%A0%81%E5%AE%89%E8%A3%85"><span class="toc-number">3.1.</span> <span class="toc-text">从源码安装</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Linux%E5%AE%89%E8%A3%85"><span class="toc-number">3.2.</span> <span class="toc-text">Linux安装</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%9C%A8Mac%E4%B8%8A%E5%AE%89%E8%A3%85"><span class="toc-number">3.3.</span> <span class="toc-text">在Mac上安装</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%9C%A8Windows%E4%B8%8A%E5%AE%89%E8%A3%85"><span class="toc-number">3.4.</span> <span class="toc-text">在Windows上安装</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%9D%E6%AC%A1%E8%BF%90%E8%A1%8C%E9%85%8D%E7%BD%AE"><span class="toc-number">4.</span> <span class="toc-text">初次运行配置</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%94%A8%E6%88%B7%E4%BF%A1%E6%81%AF"><span class="toc-number">4.1.</span> <span class="toc-text">用户信息</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%96%87%E6%9C%AC%E7%BC%96%E8%BE%91%E5%99%A8"><span class="toc-number">4.2.</span> <span class="toc-text">文本编辑器</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%B7%AE%E5%BC%82%E5%88%86%E6%9E%90%E5%B7%A5%E5%85%B7"><span class="toc-number">4.3.</span> <span class="toc-text">差异分析工具</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%9F%A5%E7%9C%8B%E9%85%8D%E7%BD%AE%E4%BF%A1%E6%81%AF"><span class="toc-number">4.4.</span> <span class="toc-text">查看配置信息</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%8E%B7%E5%8F%96%E5%B8%AE%E5%8A%A9"><span class="toc-number">4.5.</span> <span class="toc-text">获取帮助</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#github%E6%8F%90%E9%80%9F"><span class="toc-number">5.</span> <span class="toc-text">github提速</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2021/05/15/node-2-4/" title="Egg.js -- 为企业级框架和应用而生"><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/okfOw28KlZFbE7z.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Egg.js -- 为企业级框架和应用而生"/></a><div class="content"><a class="title" href="/2021/05/15/node-2-4/" title="Egg.js -- 为企业级框架和应用而生">Egg.js -- 为企业级框架和应用而生</a><time datetime="2021-05-15T10:18:59.000Z" title="发表于 2021-05-15 18:18:59">2021-05-15</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/04/30/node-2-3/" title="Koa -- 基于Node.js平台的下一代Web开发框架"><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/HjVAdIuT7bZJypS.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Koa -- 基于Node.js平台的下一代Web开发框架"/></a><div class="content"><a class="title" href="/2021/04/30/node-2-3/" title="Koa -- 基于Node.js平台的下一代Web开发框架">Koa -- 基于Node.js平台的下一代Web开发框架</a><time datetime="2021-04-30T10:18:59.000Z" title="发表于 2021-04-30 18:18:59">2021-04-30</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/04/01/node-2-1/" title="Node.JS web开发前置知识"><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/gGE57HRvpcKPfDY.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Node.JS web开发前置知识"/></a><div class="content"><a class="title" href="/2021/04/01/node-2-1/" title="Node.JS web开发前置知识">Node.JS web开发前置知识</a><time datetime="2021-04-01T03:18:59.000Z" title="发表于 2021-04-01 11:18:59">2021-04-01</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2020/12/26/%E5%91%A8%E8%AE%B0-10-1/" title="第十一周--谷歌浏览器插件"><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/gGE57HRvpcKPfDY.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="第十一周--谷歌浏览器插件"/></a><div class="content"><a class="title" href="/2020/12/26/%E5%91%A8%E8%AE%B0-10-1/" title="第十一周--谷歌浏览器插件">第十一周--谷歌浏览器插件</a><time datetime="2020-12-26T10:18:59.000Z" title="发表于 2020-12-26 18:18:59">2020-12-26</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2020/12/26/%E5%91%A8%E8%AE%B0-10-0/" title="第十一周--浏览器技术"><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/vCnKyoFJZ1g4XYR.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="第十一周--浏览器技术"/></a><div class="content"><a class="title" href="/2020/12/26/%E5%91%A8%E8%AE%B0-10-0/" title="第十一周--浏览器技术">第十一周--浏览器技术</a><time datetime="2020-12-26T06:18:59.000Z" title="发表于 2020-12-26 14:18:59">2020-12-26</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2019 - 2021 By 平心</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div id="local-search"><div class="search-dialog"><div class="search-dialog__title" id="local-search-title">本地搜索</div><div id="local-input-panel"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div></div><hr/><div id="local-search-results"></div><span class="search-close-button"><i class="fas fa-times"></i></span></div><div id="search-mask"></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload/dist/lazyload.iife.min.js"></script><script src="/js/search/local-search.js"></script><div class="js-pjax"><script>function loadValine () {
+  function initValine () {
+    const valine = new Valine(Object.assign({
+      el: '#vcomment',
+      appId: '4lfIXzqxaC1ONs0MJO4oHu07-gzGzoHsz',
+      appKey: 'qw99Bw8FD0KVKU9m457CwWsr',
+      placeholder: 'Please leave your footprints',
+      avatar: 'monsterid',
+      meta: 'nick,mail,link'.split(','),
+      pageSize: '10',
+      lang: 'zh-CN',
+      recordIP: true,
+      serverURLs: '',
+      emojiCDN: '',
+      emojiMaps: "",
+      enableQQ: true,
+      path: window.location.pathname,
+      requiredFields: ["nick,mail"],
+      visitor: false
+    }, null))
+  }
+
+  if (typeof Valine === 'function') initValine() 
+  else getScript('https://cdn.jsdelivr.net/npm/valine/dist/Valine.min.js').then(initValine)
+}
+
+if ('Valine' === 'Valine' || !false) {
+  if (false) btf.loadComment(document.getElementById('vcomment'),loadValine)
+  else setTimeout(loadValine, 0)
+} else {
+  function loadOtherComment () {
+    loadValine()
+  }
+}</script></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>

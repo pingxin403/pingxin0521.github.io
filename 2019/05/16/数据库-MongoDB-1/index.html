@@ -1,0 +1,856 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>MongoDB 安装和基本概念 | 平心de小屋</title><meta name="keywords" content="数据库,NoSQL,MongoDB"><meta name="author" content="平心"><meta name="copyright" content="平心"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="NoSQLNoSQL(NoSQL &#x3D; Not Only SQL )，意即”不仅仅是SQL”。 在现代的计算系统上每天网络上都会产生庞大的数据量。 这些数据有很大一部分是由关系数据库管理系统（RDBMS）来处理。  1970年 E.F.Codd’s提出的关系模型的论文 “A relational model of data for large shared  data banks”，这使得数据建模和">
+<meta property="og:type" content="article">
+<meta property="og:title" content="MongoDB 安装和基本概念">
+<meta property="og:url" content="https://pingxin0521.gitee.io/2019/05/16/%E6%95%B0%E6%8D%AE%E5%BA%93-MongoDB-1/index.html">
+<meta property="og:site_name" content="平心de小屋">
+<meta property="og:description" content="NoSQLNoSQL(NoSQL &#x3D; Not Only SQL )，意即”不仅仅是SQL”。 在现代的计算系统上每天网络上都会产生庞大的数据量。 这些数据有很大一部分是由关系数据库管理系统（RDBMS）来处理。  1970年 E.F.Codd’s提出的关系模型的论文 “A relational model of data for large shared  data banks”，这使得数据建模和">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://i.loli.net/2020/05/08/okfOw28KlZFbE7z.jpg">
+<meta property="article:published_time" content="2019-05-16T05:18:59.000Z">
+<meta property="article:modified_time" content="2020-01-25T11:45:16.033Z">
+<meta property="article:author" content="平心">
+<meta property="article:tag" content="数据库">
+<meta property="article:tag" content="NoSQL">
+<meta property="article:tag" content="MongoDB">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.loli.net/2020/05/08/okfOw28KlZFbE7z.jpg"><link rel="shortcut icon" href="https://s2.ax1x.com/2020/02/11/1ovFOA.png"><link rel="canonical" href="https://pingxin0521.gitee.io/2019/05/16/%E6%95%B0%E6%8D%AE%E5%BA%93-MongoDB-1/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"search.xml","languages":{"hits_empty":"找不到您查询的内容：${query}"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    jQuery: 'https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js',
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+    },
+    fancybox: {
+      js: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css'
+    }
+  },
+  isPhotoFigcaption: true,
+  islazyload: true,
+  isanchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'MongoDB 安装和基本概念',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2020-01-25 19:45:16'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    })(window)</script><meta name="generator" content="Hexo 5.4.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="author-avatar"><img class="avatar-img" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://s2.ax1x.com/2020/02/11/1ovw6J.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data"><div class="data-item is-center"><div class="data-item-link"><a href="/archives/"><div class="headline">文章</div><div class="length-num">449</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/tags/"><div class="headline">标签</div><div class="length-num">77</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/categories/"><div class="headline">分类</div><div class="length-num">68</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fa fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fa fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://i.loli.net/2020/05/08/okfOw28KlZFbE7z.jpg')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">平心de小屋</a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fa fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fa fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">MongoDB 安装和基本概念</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2019-05-16T05:18:59.000Z" title="发表于 2019-05-16 13:18:59">2019-05-16</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2020-01-25T11:45:16.033Z" title="更新于 2020-01-25 19:45:16">2020-01-25</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a><i class="fas fa-angle-right post-meta-separator"></i><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/MongoDB/">MongoDB</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">7k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>23分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="MongoDB 安装和基本概念"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h3 id="NoSQL"><a href="#NoSQL" class="headerlink" title="NoSQL"></a>NoSQL</h3><p>NoSQL(NoSQL = Not Only SQL )，意即”不仅仅是SQL”。</p>
+<p>在现代的计算系统上每天网络上都会产生庞大的数据量。</p>
+<p>这些数据有很大一部分是由关系数据库管理系统（RDBMS）来处理。  1970年 E.F.Codd’s提出的关系模型的论文 “A relational model of data for large shared  data banks”，这使得数据建模和应用程序编程更加简单。</p>
+<span id="more"></span>
+
+<p>通过应用实践证明，关系模型是非常适合于客户服务器编程，远远超出预期的利益，今天它是结构化数据存储在网络和商务应用的主导技术。 </p>
+<p>NoSQL 是一项全新的数据库革命性运动，早期就有人提出，发展至2009年趋势越发高涨。NoSQL的拥护者们提倡运用非关系型的数据存储，相对于铺天盖地的关系型数据库运用，这一概念无疑是一种全新的思维的注入。</p>
+<h4 id="什么是NoSQL"><a href="#什么是NoSQL" class="headerlink" title="什么是NoSQL?"></a>什么是NoSQL?</h4><p>NoSQL，指的是非关系型的数据库。NoSQL有时也称作Not Only SQL的缩写，是对不同于传统的关系型数据库的数据库管理系统的统称。</p>
+<p>NoSQL用于超大规模数据的存储。（例如谷歌或Facebook每天为他们的用户收集万亿比特的数据）。这些类型的数据存储不需要固定的模式，无需多余操作就可以横向扩展。</p>
+<h4 id="为什么使用NoSQL"><a href="#为什么使用NoSQL" class="headerlink" title="为什么使用NoSQL ?"></a>为什么使用NoSQL ?</h4><p>今天我们可以通过第三方平台（如：Google,Facebook等）可以很容易的访问和抓取数据。用户的个人信息，社交网络，地理位置，用户生成的数据和用户操作日志已经成倍的增加。我们如果要对这些用户数据进行挖掘，那SQL数据库已经不适合这些应用了,  NoSQL 数据库的发展却能很好的处理这些大的数据。</p>
+<h4 id="NoSQL的优点-缺点"><a href="#NoSQL的优点-缺点" class="headerlink" title="NoSQL的优点/缺点"></a>NoSQL的优点/缺点</h4><p>优点:</p>
+<ul>
+<li> - 高可扩展性</li>
+<li>- 分布式计算</li>
+<li>- 低成本</li>
+<li>- 架构的灵活性，半结构化数据</li>
+<li>- 没有复杂的关系 </li>
+</ul>
+<p>缺点:</p>
+<ul>
+<li>- 没有标准化</li>
+<li>- 有限的查询功能（到目前为止）</li>
+<li>- 最终一致是不直观的程序</li>
+</ul>
+<h4 id="RDBMS-vs-NoSQL"><a href="#RDBMS-vs-NoSQL" class="headerlink" title="RDBMS vs NoSQL"></a>RDBMS vs NoSQL</h4><p>RDBMS</p>
+<ul>
+<li>高度组织化结构化数据</li>
+<li>结构化查询语言（SQL） (SQL)</li>
+<li>数据和关系都存储在单独的表中。</li>
+<li>数据操纵语言，数据定义语言</li>
+<li>严格的一致性</li>
+<li>基础事务</li>
+</ul>
+<p>NoSQL</p>
+<ul>
+<li>代表着不仅仅是SQL</li>
+<li>没有声明性查询语言</li>
+<li>没有预定义的模式</li>
+<li>键 - 值对存储，列存储，文档存储，图形数据库</li>
+<li>最终一致性，而非ACID属性</li>
+<li>非结构化和不可预知的数据</li>
+<li>CAP定理</li>
+<li>高性能，高可用性和可伸缩性</li>
+</ul>
+<h4 id="CAP定理（CAP-theorem）"><a href="#CAP定理（CAP-theorem）" class="headerlink" title="CAP定理（CAP theorem）"></a>CAP定理（CAP theorem）</h4><p>在计算机科学中, CAP定理（CAP theorem）, 又被称作 布鲁尔定理（Brewer’s theorem）, 它指出对于一个分布式计算系统来说，不可能同时满足以下三点:</p>
+<ul>
+<li><strong>一致性(Consistency)</strong> (所有节点在同一时间具有相同的数据)</li>
+<li><strong>可用性(Availability)</strong> (保证每个请求不管成功或者失败都有响应)</li>
+<li><strong>分隔容忍(Partition tolerance)</strong> (系统中任意信息的丢失或失败不会影响系统的继续运作)</li>
+</ul>
+<p>CAP理论的核心是：一个分布式系统不可能同时很好的满足一致性，可用性和分区容错性这三个需求，最多只能同时较好的满足两个。</p>
+<p>因此，根据 CAP 原理将 NoSQL 数据库分成了满足 CA 原则、满足 CP 原则和满足 AP 原则三 大类：</p>
+<ul>
+<li>CA - 单点集群，满足一致性，可用性的系统，通常在可扩展性上不太强大。</li>
+<li>CP - 满足一致性，分区容忍性的系统，通常性能不是特别高。</li>
+<li>AP - 满足可用性，分区容忍性的系统，通常可能对一致性要求低一些。</li>
+</ul>
+<h4 id="BASE"><a href="#BASE" class="headerlink" title="BASE"></a>BASE</h4><p>BASE：Basically Available, Soft-state, Eventually Consistent。 由  Eric Brewer 定义。</p>
+<p>CAP理论的核心是：一个分布式系统不可能同时很好的满足一致性，可用性和分区容错性这三个需求，最多只能同时较好的满足两个。</p>
+<p>BASE是NoSQL数据库通常对可用性及一致性的弱要求原则:</p>
+<ul>
+<li>Basically Availble –基本可用</li>
+<li>Soft-state –软状态/柔性事务。 “Soft state” 可以理解为”无连接”的, 而 “Hard state” 是”面向连接”的</li>
+<li>Eventual Consistency – 最终一致性， 也是是 ACID 的最终目的。</li>
+</ul>
+<h4 id="ACID-vs-BASE"><a href="#ACID-vs-BASE" class="headerlink" title="ACID vs BASE"></a>ACID vs BASE</h4><table>
+<thead>
+<tr>
+<th>ACID</th>
+<th>BASE</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>原子性(<strong>A</strong>tomicity)</td>
+<td>基本可用(<strong>B</strong>asically <strong>A</strong>vailable)</td>
+</tr>
+<tr>
+<td>一致性(<strong>C</strong>onsistency)</td>
+<td>软状态/柔性事务(<strong>S</strong>oft state)</td>
+</tr>
+<tr>
+<td>隔离性(<strong>I</strong>solation)</td>
+<td>最终一致性 (<strong>E</strong>ventual consistency)</td>
+</tr>
+<tr>
+<td>持久性 (<strong>D</strong>urable)</td>
+<td></td>
+</tr>
+</tbody></table>
+<h4 id="NoSQL-数据库分类"><a href="#NoSQL-数据库分类" class="headerlink" title="NoSQL 数据库分类"></a>NoSQL 数据库分类</h4><table>
+<thead>
+<tr>
+<th>类型</th>
+<th>部分代表</th>
+<th>特点</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>列存储</td>
+<td>Hbase                                                        Cassandra                                                        Hypertable</td>
+<td>顾名思义，是按列存储数据的。最大的特点是方便存储结构化和半结构化数据，方便做数据压缩，对针对某一列或者某几列的查询有非常大的IO优势。</td>
+</tr>
+<tr>
+<td>文档存储</td>
+<td>MongoDB                                                        CouchDB</td>
+<td>文档存储一般用类似json的格式存储，存储的内容是文档型的。这样也就有机会对某些字段建立索引，实现关系数据库的某些功能。</td>
+</tr>
+<tr>
+<td>key-value存储</td>
+<td>Tokyo Cabinet / Tyrant                                                        Berkeley DB                                                        MemcacheDB                                                        Redis</td>
+<td>可以通过key快速查询到其value。一般来说，存储不管value的格式，照单全收。（Redis包含了其他功能）</td>
+</tr>
+<tr>
+<td>图存储</td>
+<td>Neo4J                                                        FlockDB</td>
+<td>图形关系的最佳存储。使用传统关系数据库来解决的话性能低下，而且设计使用不方便。</td>
+</tr>
+<tr>
+<td>对象存储</td>
+<td>db4o                                                        Versant</td>
+<td>通过类似面向对象语言的语法操作数据库，通过对象的方式存取数据。</td>
+</tr>
+<tr>
+<td>xml数据库</td>
+<td>Berkeley DB XML                                                        BaseX</td>
+<td>高效的存储XML数据，并支持XML的内部查询语法，比如XQuery,Xpath。</td>
+</tr>
+</tbody></table>
+<h3 id="MongoDB"><a href="#MongoDB" class="headerlink" title="MongoDB"></a>MongoDB</h3><p>MongoDB 是由C++语言编写的，是一个基于分布式文件存储的开源数据库系统。</p>
+<p>在高负载的情况下，添加更多的节点，可以保证服务器性能。</p>
+<p>MongoDB 旨在为WEB应用提供可扩展的高性能数据存储解决方案。</p>
+<p>MongoDB 将数据存储为一个文档，数据结构由键值(key:value)对组成。MongoDB 文档类似于 JSON 对象。字段值可以包含其他文档，数组及文档数组。</p>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2019/05/24/5ce766e70821440351.png" alt="1.png"></p>
+<h4 id="特点"><a href="#特点" class="headerlink" title="特点"></a>特点</h4><ul>
+<li>MongoDB 是一个面向文档存储的数据库，操作起来比较简单和容易。</li>
+<li>你可以在MongoDB记录中设置任何属性的索引 (如：FirstName=”Sameer”,Address=”8 Gandhi Road”)来实现更快的排序。</li>
+<li>你可以通过本地或者网络创建数据镜像，这使得MongoDB有更强的扩展性。</li>
+<li>如果负载的增加（需要更多的存储空间和更强的处理能力） ，它可以分布在计算机网络中的其他节点上这就是所谓的分片。</li>
+<li>Mongo支持丰富的查询表达式。查询指令使用JSON形式的标记，可轻易查询文档中内嵌的对象及数组。 </li>
+<li>MongoDb 使用update()命令可以实现替换完成的文档（数据）或者一些指定的数据字段 。</li>
+<li>Mongodb中的Map/reduce主要是用来对数据进行批量处理和聚合操作。</li>
+<li>Map和Reduce。Map函数调用emit(key,value)遍历集合中所有的记录，将key与value传给Reduce函数进行处理。</li>
+<li>Map函数和Reduce函数是使用Javascript编写的，并可以通过db.runCommand或mapreduce命令来执行MapReduce操作。</li>
+<li>GridFS是MongoDB中的一个内置功能，可以用于存放大量小文件。</li>
+<li>MongoDB允许在服务端执行脚本，可以用Javascript编写某个函数，直接在服务端执行，也可以把函数的定义存储在服务端，下次直接调用即可。</li>
+<li>MongoDB支持各种编程语言:RUBY，PYTHON，JAVA，C++，PHP，C#等多种语言。</li>
+<li>MongoDB安装简单。</li>
+</ul>
+<h3 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h3><p>环境：Ubuntu 18.04 LTS</p>
+<p><strong>二进制包</strong></p>
+<p>从<a target="_blank" rel="noopener" href="https://www.mongodb.com/download-center/community">官网下载</a>最新的Release版安装包，选择Mongodb Community Server-&gt;合适的Version-&gt;适合自己的OS版本-&gt;Package选择TGZ，下载完成后，解压后。使用下面命令安装mongodb-compass-community</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cd &lt;你的包&gt;/bin</span><br><span class="line">sudo ./install_compass</span><br></pre></td></tr></table></figure>
+<p>把该包移动到<code>/opt/db/mongodb/</code>,并将<code>/opt/db/mongodb/bin</code>加入环境变量PATH中。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">export PATH=&lt;mongodb-install-directory&gt;/bin:$PATH</span><br></pre></td></tr></table></figure>
+
+
+<p><strong>安装包</strong></p>
+<p>从<a target="_blank" rel="noopener" href="https://www.mongodb.com/download-center/community">官网下载</a>最新的Release版安装包，选择Mongodb Community Server-&gt;合适的Version-&gt;适合自己的OS版本-&gt;Package选择Server、tools、mongos，下载完成后，安装即可。</p>
+<p>java连接mongodb：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;dependency&gt;</span><br><span class="line">    &lt;groupId&gt;org.mongodb&lt;/groupId&gt;</span><br><span class="line">    &lt;artifactId&gt;mongo-java-driver&lt;/artifactId&gt;</span><br><span class="line">    &lt;version&gt;3.10.2&lt;/version&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br></pre></td></tr></table></figure>
+
+<h4 id="创建数据库目录"><a href="#创建数据库目录" class="headerlink" title="创建数据库目录"></a>创建数据库目录</h4><p>MongoDB的数据存储在data目录的db目录下，但是这个目录在安装过程不会自动创建，所以你需要手动创建data目录，并在data目录中创建db目录。</p>
+<p>以下实例中我们将data目录创建于根目录下(/)。</p>
+<p>注意：/data/db 是 MongoDB 默认的启动的数据库路径(–dbpath)。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo mkdir -p /data/db</span><br><span class="line">sudo chmod 777  /data/db</span><br></pre></td></tr></table></figure>
+
+<h4 id="命令行中运行-MongoDB-服务"><a href="#命令行中运行-MongoDB-服务" class="headerlink" title="命令行中运行 MongoDB 服务"></a>命令行中运行 MongoDB 服务</h4><p>你可以再命令行中执行mongo安装目录中的bin目录执行mongod命令来启动mongdb服务。</p>
+<blockquote>
+<p>注意：如果你的数据库目录不是/data/db，可以通过 –dbpath 来指定。</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ mongod &amp;</span><br><span class="line">$ mongod --shutdown #关闭</span><br></pre></td></tr></table></figure>
+
+<h4 id="MongoDB后台管理-Shell"><a href="#MongoDB后台管理-Shell" class="headerlink" title="MongoDB后台管理 Shell"></a>MongoDB后台管理 Shell</h4><p>如果你需要进入MongoDB后台管理，你需要先打开mongodb装目录的下的bin目录，然后执行mongo命令文件。</p>
+<p>MongoDB Shell是MongoDB自带的交互式Javascript shell,用来对MongoDB进行操作和管理的交互式环境。</p>
+<p>当你进入mongoDB后台后，它默认会链接到 test 文档（数据库）：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ mongo</span><br></pre></td></tr></table></figure>
+
+<p>由于它是一个JavaScript shell，您可以运行一些简单的算术运算:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&gt; 39-5</span><br><span class="line">34</span><br></pre></td></tr></table></figure>
+
+<p>现在让我们插入一些简单的数据，并对插入的数据进行检索：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&gt; db.learn.insert(&#123;x:100&#125;)</span><br><span class="line">2019-05-24T11:50:32.283+0800 I STORAGE  [conn1] createCollection: test.learn with generated UUID: 3a3428a3-1b50-425b-81b2-7de80d07ee8d</span><br><span class="line">WriteResult(&#123; &quot;nInserted&quot; : 1 &#125;)</span><br><span class="line">&gt; db.learn.find()</span><br><span class="line">&#123; &quot;_id&quot; : ObjectId(&quot;5ce76a08f4a0770652b0c800&quot;), &quot;x&quot; : 100 &#125;</span><br></pre></td></tr></table></figure>
+
+<p>第一个命令将数字 100 插入到 learn 集合的 x 字段中。</p>
+<h4 id="MongoDb-web-用户界面"><a href="#MongoDb-web-用户界面" class="headerlink" title="MongoDb web 用户界面"></a>MongoDb web 用户界面</h4><p> MongoDB 提供了简单的 HTTP 用户界面。 如果你想启用该功能，需要在启动的时候指定参数 –rest 。</p>
+<blockquote>
+<p><strong>注意</strong>：该功能只适用于 MongoDB 3.2 及之前的早期版本。</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ ./mongod --dbpath=/data/db --rest</span><br></pre></td></tr></table></figure>
+
+<p>MongoDB 的 Web 界面访问端口比服务的端口多1000。</p>
+<p>如果你的MongoDB运行端口使用默认的27017，你可以在端口号为28017访问web用户界面，即地址为：<a href="http://localhost:28017。">http://localhost:28017。</a></p>
+<h4 id="docker-安装mongoDB"><a href="#docker-安装mongoDB" class="headerlink" title="docker 安装mongoDB"></a>docker 安装mongoDB</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">$ docker pull mongo</span><br><span class="line">$ docker volume create mongodb_data</span><br><span class="line">$ docker images mongo</span><br><span class="line"><span class="comment">#运行</span></span><br><span class="line">$ docker run --name mongo  -p 27017:27017 -v mongodb_data:/data/db -d mongo</span><br><span class="line">$ docker <span class="built_in">exec</span> -it mongo mongo admin</span><br><span class="line"><span class="comment"># 创建一个名为 admin，密码为 123456 的用户。</span></span><br><span class="line">&gt;  db.createUser(&#123; user:<span class="string">&#x27;admin&#x27;</span>,<span class="built_in">pwd</span>:<span class="string">&#x27;123456&#x27;</span>,roles:[ &#123; role:<span class="string">&#x27;userAdminAnyDatabase&#x27;</span>, db: <span class="string">&#x27;admin&#x27;</span>&#125;]&#125;);</span><br><span class="line"><span class="comment"># 尝试使用上面创建的用户信息进行连接。</span></span><br><span class="line">&gt; db.auth(<span class="string">&#x27;admin&#x27;</span>, <span class="string">&#x27;123456&#x27;</span>)</span><br></pre></td></tr></table></figure>
+
+<p>命令说明：</p>
+<p>**-p 27017:27017 :**将容器的27017(第一个) 端口映射到主机的27017 端口</p>
+<p>**-v mongodb_data:/data/db :**将主机中mongodb_data(第一个)挂载到容器的/data/db，作为mongo数据存储目录</p>
+<p>查看容器启动情况</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ docker ps</span><br></pre></td></tr></table></figure>
+
+<p>使用mongo镜像执行mongo 命令连接到刚启动的容器,主机IP为172.17.0.1，查看docker0网卡的IP地址</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ docker run -it mongo mongo --host 172.17.0.1</span><br></pre></td></tr></table></figure>
+
+<h3 id="工具"><a href="#工具" class="headerlink" title="工具"></a>工具</h3><p>MongoDB 在 bin 目录下提供了一系列有用的工具，这些工具提供了 MongoDB 在运维管理上 的方便。</p>
+<table>
+<thead>
+<tr>
+<th>工具</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><a target="_blank" rel="noopener" href="https://www.mongodb.org.cn/manual/201.html">mongosniff</a></td>
+<td>mongodb监测工具，作用类似于 tcpdump</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://www.mongodb.org.cn/manual/193.html">mongodump</a></td>
+<td>MongoDB数据备份工具</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://www.mongodb.org.cn/manual/197.html">mongoimport</a></td>
+<td>Mongodb数据导入工具</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://www.mongodb.org.cn/manual/198.html">mongoexport</a></td>
+<td>Mongodb数据导出工具</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://www.mongodb.org.cn/manual/195.html">bsondump</a></td>
+<td>将 bson 格式的文件转储为 json 格式的数据</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://www.mongodb.org.cn/manual/202.html">mongoperf</a></td>
+<td></td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://www.mongodb.org.cn/manual/194.html">mongorestore</a></td>
+<td>MongoDB数据恢复工具</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://www.mongodb.org.cn/manual/188.html">mongod.exe</a></td>
+<td>MongoDB服务启动工具</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://www.mongodb.org.cn/manual/199.html">mongostat</a></td>
+<td>mongodb自带的状态检测工具</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://www.mongodb.org.cn/manual/203.html">mongofiles</a></td>
+<td>GridFS 管理工具，可实现二制文件的存取</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://www.mongodb.org.cn/manual/196.html">mongooplog</a></td>
+<td></td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://www.mongodb.org.cn/manual/200.html">mongotop</a></td>
+<td>跟踪一个MongoDB的实例，查看哪些大量的时间花费在读取和写入数据</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://www.mongodb.org.cn/manual/189.html">mongos</a></td>
+<td>分片路由，如果使用了 sharding 功能，则应用程序连接的是 mongos 而不是 mongod</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://www.mongodb.org.cn/manual/190.html">mongo</a></td>
+<td>客户端命令行工具，其实也是一个 js 解释器，支持 js 语法</td>
+</tr>
+</tbody></table>
+<h3 id="概念"><a href="#概念" class="headerlink" title="概念"></a>概念</h3><p>不管我们学习什么数据库都应该学习其中的基础概念，在mongodb中基本的概念是文档、集合、数据库，下面我们挨个介绍。</p>
+<p>下表将帮助您更容易理解Mongo中的一些概念：</p>
+<table>
+<thead>
+<tr>
+<th>SQL术语/概念</th>
+<th>MongoDB术语/概念</th>
+<th>解释/说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>database</td>
+<td>database</td>
+<td>数据库</td>
+</tr>
+<tr>
+<td>table</td>
+<td>collection</td>
+<td>数据库表/集合</td>
+</tr>
+<tr>
+<td>row</td>
+<td>document</td>
+<td>数据记录行/文档</td>
+</tr>
+<tr>
+<td>column</td>
+<td>field</td>
+<td>数据字段/域</td>
+</tr>
+<tr>
+<td>index</td>
+<td>index</td>
+<td>索引</td>
+</tr>
+<tr>
+<td>table joins</td>
+<td></td>
+<td>表连接,MongoDB不支持</td>
+</tr>
+<tr>
+<td>primary key</td>
+<td>primary key</td>
+<td>主键,MongoDB自动将_id字段设置为主键</td>
+</tr>
+</tbody></table>
+<p>通过下图实例，我们也可以更直观的了解Mongo中的一些概念：</p>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2019/05/24/5ce76c3ce975459046.png" alt="2.png"></p>
+<h4 id="数据库"><a href="#数据库" class="headerlink" title="数据库"></a>数据库</h4><p>一个mongodb中可以建立多个数据库。</p>
+<p>MongoDB的默认数据库为”db”，该数据库存储在data目录中。</p>
+<p>MongoDB的单个实例可以容纳多个独立的数据库，每一个都有自己的集合和权限，不同的数据库也放置在不同的文件中。</p>
+<p><strong>“show dbs”</strong> 命令可以显示所有数据的列表。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&gt; show dbs</span><br><span class="line">admin   0.000GB</span><br><span class="line">config  0.000GB</span><br><span class="line">local   0.000GB</span><br><span class="line">test    0.000GB</span><br></pre></td></tr></table></figure>
+
+<p>执行 <strong>“db”</strong> 命令可以显示当前数据库对象或集合。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&gt; db</span><br><span class="line">test</span><br></pre></td></tr></table></figure>
+
+<p>运行”use”命令，可以连接到一个指定的数据库。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&gt; use local</span><br><span class="line">switched to db local</span><br><span class="line">&gt; db</span><br><span class="line">local</span><br></pre></td></tr></table></figure>
+
+<p>以上实例命令中，”local” 是你要链接的数据库。</p>
+<p>数据库也通过名字来标识。数据库名可以是满足以下条件的任意UTF-8字符串。</p>
+<ul>
+<li>不能是空字符串（””)。</li>
+<li>不得含有’ ‘（空格)、.、$、/、\和\0 (空字符)。</li>
+<li>应全部小写。</li>
+<li>最多64字节。</li>
+</ul>
+<p>有一些数据库名是保留的，可以直接访问这些有特殊作用的数据库。</p>
+<ul>
+<li><strong>admin</strong>： 从权限的角度来看，这是”root”数据库。要是将一个用户添加到这个数据库，这个用户自动继承所有数据库的权限。一些特定的服务器端命令也只能从这个数据库运行，比如列出所有的数据库或者关闭服务器。</li>
+<li><strong>local:</strong> 这个数据永远不会被复制，可以用来存储限于本地单台服务器的任意集合 </li>
+<li><strong>config</strong>: 当Mongo用于分片设置时，config数据库在内部使用，用于保存分片的相关信息。</li>
+</ul>
+<h4 id="集合"><a href="#集合" class="headerlink" title="集合"></a>集合</h4><p>集合就是 MongoDB 文档组，类似于 RDBMS （关系数据库管理系统：Relational Database Management System)中的表格。</p>
+<p> 集合存在于数据库中，集合没有固定的结构，这意味着你在对集合可以插入不同格式和类型的数据，但通常情况下我们插入集合的数据都会有一定的关联性。</p>
+<p>集合相当于关系型数据库中的表。集合就是一组MongoDB文档。集合存在于数据库中，集合没有固定的结构，这意味着可以对集合插入不同格式和类型的数据，但通常情况下我们插入集合的数据都会有一定的关联性。</p>
+<p>比如，我们可以将以下不同数据结构的文档插入到集合中：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&#123;&quot;site&quot;:&quot;www.baidu.com&quot;&#125;</span><br><span class="line">&#123;&quot;site&quot;:&quot;www.google.com&quot;,&quot;name&quot;:&quot;Google&quot;&#125;</span><br><span class="line">&#123;&quot;site&quot;:&quot;www.163.com&quot;,&quot;name&quot;:&quot;网易&quot;,&quot;num&quot;:5&#125;</span><br></pre></td></tr></table></figure>
+
+<p>当第一个文档插入时，集合就会被创建。</p>
+<p><strong>合法的集合名</strong></p>
+<ul>
+<li>集合名不能是空字符串””。</li>
+<li>集合名不能含有\0字符（空字符)，这个字符表示集合名的结尾。</li>
+<li>集合名不能以”system.”开头，这是为系统集合保留的前缀。</li>
+<li>用户创建的集合名字不能含有保留字符。有些驱动程序的确支持在集合名里面包含，这是因为某些系统生成的集合中包含该字符。除非你要访问这种系统创建的集合，否则千万不要在名字里出现$。　</li>
+</ul>
+<p>如下实例：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">db.col.findOne()</span><br></pre></td></tr></table></figure>
+
+<p><strong>capped collections</strong></p>
+<p>Capped collections 就是固定大小的collection。</p>
+<p>它有很高的性能以及队列过期的特性(过期按照插入的顺序). 有点和 “RRD” 概念类似。</p>
+<p>Capped collections 是高性能自动的维护对象的插入顺序。它非常适合类似记录日志的功能和标准的 collection  不同，你必须要显式的创建一个capped collection，指定一个 collection 的大小，单位是字节。collection  的数据存储空间值提前分配的。</p>
+<p>Capped collections  可以按照文档的插入顺序保存到集合中，而且这些文档在磁盘上存放位置也是按照插入顺序来保存的，所以当我们更新Capped collections  中文档的时候，更新后的文档不可以超过之前文档的大小，这样话就可以确保所有文档在磁盘上的位置一直保持不变。</p>
+<p>由于 Capped collection 是按照文档的插入顺序而不是使用索引确定插入位置，这样的话可以提高增添数据的效率。MongoDB 的操作日志文件 oplog.rs 就是利用 Capped Collection 来实现的。</p>
+<p>要注意的是指定的存储大小包含了数据库的头信息。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">db.createCollection(&quot;mycoll&quot;, &#123;capped:true, size:100000&#125;)</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>在 capped collection 中，你能添加新的对象。</li>
+<li>能进行更新，然而，对象不会增加存储空间。如果增加，更新就会失败 。</li>
+<li>使用 Capped Collection 不能删除一个文档，可以使用 drop() 方法删除 collection 所有的行。</li>
+<li>删除之后，你必须显式的重新创建这个 collection。</li>
+<li>在32bit机器中，capped collection 最大存储为 1e9( 1X109)个字节。</li>
+</ul>
+<h4 id="文档-Document"><a href="#文档-Document" class="headerlink" title="文档(Document)"></a>文档(Document)</h4><p> 文档是一组键值(key-value)对(即 BSON)。MongoDB 的文档不需要设置相同的字段，并且相同的字段不需要相同的数据类型，这与关系型数据库有很大的区别，也是 MongoDB 非常突出的特点。</p>
+<p>文档相当于关系型数据库中的行。它一组键值对，具有动态的模式，所以文档不需要设置相同的字段，并且相同的字段不需要相同的数据类型，这一点，跟关系型数据库有很大的不同。</p>
+<p><strong>注：</strong></p>
+<ol>
+<li>文档中的键/值对是有序的。</li>
+<li>MongoDB区分类型和大小写。</li>
+<li>MongoDB的文档不能有重复的键。</li>
+<li>键不能含有\0 (空字符)。</li>
+<li>.和$有特别的意义，只有在特定环境下才能使用。</li>
+</ol>
+<p>一个简单的文档例子如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123;&quot;site&quot;:&quot;www.baidu.com&quot;, &quot;name&quot;:&quot;百度&quot;&#125;</span><br></pre></td></tr></table></figure>
+
+<table>
+<thead>
+<tr>
+<th>RDBMS</th>
+<th>MongoDB</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>数据库</td>
+<td>数据库</td>
+</tr>
+<tr>
+<td>表格</td>
+<td>集合</td>
+</tr>
+<tr>
+<td>行</td>
+<td>文档</td>
+</tr>
+<tr>
+<td>列</td>
+<td>字段</td>
+</tr>
+<tr>
+<td>表联合</td>
+<td>嵌入文档</td>
+</tr>
+<tr>
+<td>主键</td>
+<td>主键 (MongoDB 提供了 key  为 _id )</td>
+</tr>
+</tbody></table>
+<p>命令行比较：</p>
+<table>
+<thead>
+<tr>
+<th align="center">数据库服务和客户端</th>
+<th></th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">Mysqld/Oracle</td>
+<td>mongod</td>
+</tr>
+<tr>
+<td align="center">mysql/sqlplus</td>
+<td>mongo</td>
+</tr>
+</tbody></table>
+<p>需要注意的是：</p>
+<ol>
+<li>文档中的键/值对是有序的。</li>
+<li>文档中的值不仅可以是在双引号里面的字符串，还可以是其他几种数据类型（甚至可以是整个嵌入的文档)。</li>
+<li>MongoDB区分类型和大小写。</li>
+<li>MongoDB的文档不能有重复的键。</li>
+<li>文档的键是字符串。除了少数例外情况，键可以使用任意UTF-8字符。 </li>
+</ol>
+<p>文档键命名规范：</p>
+<ul>
+<li>键不能含有\0 (空字符)。这个字符用来表示键的结尾。</li>
+<li>.和$有特别的意义，只有在特定环境下才能使用。</li>
+<li>以下划线”_”开头的键是保留的(不是严格要求的)。</li>
+</ul>
+<h4 id="元数据"><a href="#元数据" class="headerlink" title="元数据"></a>元数据</h4><p>数据库的信息是存储在集合中。它们使用了系统的命名空间：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dbname.system.*</span><br></pre></td></tr></table></figure>
+
+<p>在MongoDB数据库中名字空间 &lt;dbname&gt;.system.* 是包含多种系统信息的特殊集合(Collection)，如下:</p>
+<table>
+<thead>
+<tr>
+<th>集合命名空间</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>dbname.system.namespaces</td>
+<td>列出所有名字空间。</td>
+</tr>
+<tr>
+<td>dbname.system.indexes</td>
+<td>列出所有索引。</td>
+</tr>
+<tr>
+<td>dbname.system.profile</td>
+<td>包含数据库概要(profile)信息。</td>
+</tr>
+<tr>
+<td>dbname.system.users</td>
+<td>列出所有可访问数据库的用户。</td>
+</tr>
+<tr>
+<td>dbname.local.sources</td>
+<td>包含复制对端（slave）的服务器信息和状态。</td>
+</tr>
+</tbody></table>
+<p>对于修改系统集合中的对象有如下限制。</p>
+<p>在插入数据，可以创建索引。但除此之外该表信息是不可变的(特殊的drop index命令将自动更新相关信息)。 </p>
+是可修改的。 是可删除的。
+
+<h4 id="MongoDB-数据类型"><a href="#MongoDB-数据类型" class="headerlink" title="MongoDB 数据类型"></a>MongoDB 数据类型</h4><p>下表为MongoDB中常用的几种数据类型。</p>
+<table>
+<thead>
+<tr>
+<th>数据类型</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>String</td>
+<td>字符串。存储数据常用的数据类型。在 MongoDB 中，UTF-8 编码的字符串才是合法的。</td>
+</tr>
+<tr>
+<td>Integer</td>
+<td>整型数值。用于存储数值。根据你所采用的服务器，可分为 32 位或 64 位。</td>
+</tr>
+<tr>
+<td>Boolean</td>
+<td>布尔值。用于存储布尔值（真/假）。</td>
+</tr>
+<tr>
+<td>Double</td>
+<td>双精度浮点值。用于存储浮点值。</td>
+</tr>
+<tr>
+<td>Min/Max keys</td>
+<td>将一个值与 BSON（二进制的 JSON）元素的最低值和最高值相对比。</td>
+</tr>
+<tr>
+<td>Array</td>
+<td>用于将数组或列表或多个值存储为一个键。</td>
+</tr>
+<tr>
+<td>Timestamp</td>
+<td>时间戳。记录文档修改或添加的具体时间。</td>
+</tr>
+<tr>
+<td>Object</td>
+<td>用于内嵌文档。</td>
+</tr>
+<tr>
+<td>Null</td>
+<td>用于创建空值。</td>
+</tr>
+<tr>
+<td>Symbol</td>
+<td>符号。该数据类型基本上等同于字符串类型，但不同的是，它一般用于采用特殊符号类型的语言。</td>
+</tr>
+<tr>
+<td>Date</td>
+<td>日期时间。用 UNIX 时间格式来存储当前日期或时间。你可以指定自己的日期时间：创建 Date 对象，传入年月日信息。</td>
+</tr>
+<tr>
+<td>Object ID</td>
+<td>对象 ID。用于创建文档的 ID。</td>
+</tr>
+<tr>
+<td>Binary Data</td>
+<td>二进制数据。用于存储二进制数据。</td>
+</tr>
+<tr>
+<td>Code</td>
+<td>代码类型。用于在文档中存储 JavaScript 代码。</td>
+</tr>
+<tr>
+<td>Regular expression</td>
+<td>正则表达式类型。用于存储正则表达式。</td>
+</tr>
+</tbody></table>
+<p>下面说明下几种重要的数据类型。</p>
+<h5 id="ObjectId"><a href="#ObjectId" class="headerlink" title="ObjectId"></a>ObjectId</h5><p>ObjectId 类似唯一主键，可以很快的去生成和排序，包含 12 bytes，含义是：</p>
+<ul>
+<li>前 4 个字节表示创建 <strong>unix</strong> 时间戳,格林尼治时间 <strong>UTC</strong> 时间，比北京时间晚了 8 个小时</li>
+<li>接下来的 3 个字节是机器标识码</li>
+<li>紧接的两个字节由进程 id 组成 PID</li>
+<li>最后三个字节是随机数</li>
+</ul>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2019/05/24/5ce76e38134d441304.jpeg" alt="3.jpeg"></p>
+<p>MongoDB 中存储的文档必须有一个 _id 键。这个键的值可以是任何类型的，默认是个 ObjectId 对象</p>
+<p>由于 ObjectId 中保存了创建的时间戳，所以你不需要为你的文档保存时间戳字段，你可以通过 getTimestamp 函数来获取文档的创建时间:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&gt; var newObject = ObjectId()</span><br><span class="line">&gt; newObject.getTimestamp()</span><br><span class="line">ISODate(&quot;2019-05-24T04:09:04Z&quot;)</span><br></pre></td></tr></table></figure>
+
+<p>ObjectId 转为字符串</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&gt; newObject.str</span><br><span class="line">5ce76e60254d144d4c80b60e</span><br></pre></td></tr></table></figure>
+
+<h5 id="字符串"><a href="#字符串" class="headerlink" title="字符串"></a>字符串</h5><p>BSON 字符串都是 UTF-8 编码。</p>
+<h5 id="时间戳"><a href="#时间戳" class="headerlink" title="时间戳"></a>时间戳</h5><p>BSON 有一个特殊的时间戳类型用于 MongoDB 内部使用，与普通的 日期 类型不相关。 时间戳值是一个 64 位的值。其中：</p>
+<ul>
+<li>前32位是一个 time_t 值（与Unix新纪元相差的秒数）</li>
+<li>后32位是在某秒中操作的一个递增的<code>序数</code> </li>
+</ul>
+<p>在单个 mongod 实例中，时间戳值通常是唯一的。</p>
+<p>在复制集中， oplog 有一个 ts 字段。这个字段中的值使用BSON时间戳表示了操作时间。</p>
+<blockquote>
+<p>BSON 时间戳类型主要用于 MongoDB 内部使用。在大多数情况下的应用开发中，你可以使用 BSON 日期类型。</p>
+</blockquote>
+<h5 id="日期"><a href="#日期" class="headerlink" title="日期"></a>日期</h5><p>表示当前距离 Unix新纪元（1970年1月1日）的毫秒数。日期类型是有符号的, 负数表示 1970 年之前的日期。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&gt; var mydate1 = new Date()     //格林尼治时间</span><br><span class="line">&gt; var mydate2 = ISODate() //格林尼治时间</span><br><span class="line">&gt; mydate1</span><br><span class="line">ISODate(&quot;2019-05-24T04:13:27.899Z&quot;)</span><br><span class="line">&gt; typeof mydate1</span><br><span class="line">object</span><br></pre></td></tr></table></figure>
+
+<p>这样创建的时间是日期类型，可以使用 JS 中的 Date 类型的方法。</p>
+<p>返回一个时间类型的字符串：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&gt; var mydate1str=mydate1.toString()</span><br><span class="line">&gt; mydate1str</span><br><span class="line">Fri May 24 2019 12:13:27 GMT+0800 (CST)</span><br><span class="line">&gt; typeof mydate1str</span><br><span class="line">string</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h3 id="连接"><a href="#连接" class="headerlink" title="连接"></a>连接</h3><p>执行启动操作后，mongodb 在输出一些必要信息后不会输出任何信息，之后就等待连接的建立，当连接被建立后，就会开始打印日志信息。</p>
+<p>你可以使用 MongoDB shell 来连接 MongoDB 服务器。你也可以使用 PHP 来连接 MongoDB。使用  MongoDB shell 来连接 Mongodb 服务，</p>
+<p>标准 URI 连接语法：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mongodb://[username:password@]host1[:port1][,host2[:port2],...[,hostN[:portN]]][/[database][?options]]</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><strong>mongodb://</strong> 这是固定的格式，必须要指定。</li>
+<li><strong>username:password@</strong> 可选项，如果设置，在连接数据库服务器之后，驱动都会尝试登陆这个数据库</li>
+<li> <strong>host1</strong> 必须的指定至少一个host, host1 是这个URI唯一要填写的。它指定了要连接服务器的地址。如果要连接复制集，请指定多个主机地址。</li>
+<li><strong>portX</strong> 可选的指定端口，如果不填，默认为27017</li>
+<li> <strong>/database</strong> 如果指定username:password@，连接并验证登陆指定数据库。若不指定，默认打开 test 数据库。 </li>
+<li> <strong>?options</strong> 是连接选项。如果不使用/database，则前面需要加上/。所有连接选项都是键值对name=value，键值对之间通过&amp;或;（分号）隔开 </li>
+</ul>
+<p>标准的连接格式包含了多个选项(options)，如下所示：</p>
+<table>
+<thead>
+<tr>
+<th>选项</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>replicaSet=name</td>
+<td>验证replica set的名称。 Impliesconnect=replicaSet.</td>
+</tr>
+<tr>
+<td>slaveOk=true|false</td>
+<td>true:在connect=direct模式下，驱动会连接第一台机器，即使这台服务器不是主。在connect=replicaSet模式下，驱动会发送所有的写请求到主并且把读取操作分布在其他从服务器。     false: 在 connect=direct模式下，驱动会自动找寻主服务器. 在connect=replicaSet 模式下，驱动仅仅连接主服务器，并且所有的读写命令都连接到主服务器。</td>
+</tr>
+<tr>
+<td>safe=true|false</td>
+<td>true: 在执行更新操作之后，驱动都会发送getLastError命令来确保更新成功。(还要参考 wtimeoutMS).   false: 在每次更新之后，驱动不会发送getLastError来确保更新成功。</td>
+</tr>
+<tr>
+<td>w=n</td>
+<td>驱动添加 { w : n } 到getLastError命令. 应用于safe=true。</td>
+</tr>
+<tr>
+<td>wtimeoutMS=ms</td>
+<td>驱动添加 { wtimeout : ms } 到 getlasterror 命令. 应用于 safe=true.</td>
+</tr>
+<tr>
+<td>fsync=true|false</td>
+<td>true: 驱动添加 { fsync : true } 到 getlasterror 命令.应用于 safe=true.     false: 驱动不会添加到getLastError命令中。</td>
+</tr>
+<tr>
+<td>journal=true|false</td>
+<td>如果设置为 true, 同步到 journal (在提交到数据库前写入到实体中). 应用于 safe=true</td>
+</tr>
+<tr>
+<td>connectTimeoutMS=ms</td>
+<td>可以打开连接的时间。</td>
+</tr>
+<tr>
+<td>socketTimeoutMS=ms</td>
+<td>发送和接受sockets的时间。</td>
+</tr>
+</tbody></table>
+<p>使用默认端口来连接 MongoDB 的服务。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ mongo</span><br></pre></td></tr></table></figure>
+
+<h4 id="实例"><a href="#实例" class="headerlink" title="实例"></a>实例</h4><p>连接本地数据库服务器，端口是默认的。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mongodb://localhost</span><br></pre></td></tr></table></figure>
+
+<p>使用用户名fred，密码foobar登录localhost的admin数据库。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mongodb://fred:foobar@localhost</span><br></pre></td></tr></table></figure>
+
+<p>使用用户名fred，密码foobar登录localhost的baz数据库。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mongodb://fred:foobar@localhost/baz</span><br></pre></td></tr></table></figure>
+
+<p>连接 replica pair, 服务器1为example1.com服务器2为example2。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mongodb://example1.com:27017,example2.com:27017</span><br></pre></td></tr></table></figure>
+
+<p>连接 replica set 三台服务器 (端口 27017, 27018, 和27019):</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mongodb://localhost,localhost:27018,localhost:27019</span><br></pre></td></tr></table></figure>
+
+<p>连接 replica set 三台服务器, 写入操作应用在主服务器 并且分布查询到从服务器。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mongodb://host1,host2,host3/?slaveOk=true</span><br></pre></td></tr></table></figure>
+
+<p>直接连接第一个服务器，无论是replica set一部分或者主服务器或者从服务器。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mongodb://host1,host2,host3/?connect=direct;slaveOk=true</span><br></pre></td></tr></table></figure>
+
+<p>当你的连接服务器有优先级，还需要列出所有服务器，你可以使用上述连接方式。</p>
+<p>安全模式连接到localhost:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mongodb://localhost/?safe=true</span><br></pre></td></tr></table></figure>
+
+<p>以安全模式连接到replica set，并且等待至少两个复制服务器成功写入，超时时间设置为2秒。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mongodb://host1,host2,host3/?safe=true;w=2;wtimeoutMS=2000</span><br></pre></td></tr></table></figure>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">平心</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://pingxin0521.gitee.io/2019/05/16/%E6%95%B0%E6%8D%AE%E5%BA%93-MongoDB-1/">https://pingxin0521.gitee.io/2019/05/16/%E6%95%B0%E6%8D%AE%E5%BA%93-MongoDB-1/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://pingxin0521.gitee.io" target="_blank">平心de小屋</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a><a class="post-meta__tags" href="/tags/NoSQL/">NoSQL</a><a class="post-meta__tags" href="/tags/MongoDB/">MongoDB</a></div><div class="post_share"><div class="social-share" data-image="https://i.loli.net/2020/05/08/okfOw28KlZFbE7z.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2019/05/16/Java-Web-3-1/"><img class="prev-cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/gGE57HRvpcKPfDY.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">Java JSP (一)</div></div></a></div><div class="next-post pull-right"><a href="/2019/05/16/%E6%95%B0%E6%8D%AE%E5%BA%93-SQLite-1/"><img class="next-cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/gGE57HRvpcKPfDY.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">SQLite 入门</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span> 相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2019/05/17/数据库-MongoDB-2/" title="MongoDB入门"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/gGE57HRvpcKPfDY.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2020-01-26</div><div class="title">MongoDB入门</div></div></a></div><div><a href="/2019/10/18/数据库-Redis-1-4/" title="Redis 事务、发布订阅"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/HjVAdIuT7bZJypS.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2019-11-24</div><div class="title">Redis 事务、发布订阅</div></div></a></div><div><a href="/2019/10/19/数据库-Redis-1-5/" title="Redis 高级类型"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/okfOw28KlZFbE7z.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2020-02-14</div><div class="title">Redis 高级类型</div></div></a></div><div><a href="/2020/02/14/数据库-Redis-1-6/" title="Redis 应用场景示例"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/gGE57HRvpcKPfDY.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2020-02-14</div><div class="title">Redis 应用场景示例</div></div></a></div><div><a href="/2019/08/18/数据库-Redis-1-1/" title="Redis 数据结构"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/gGE57HRvpcKPfDY.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2020-02-14</div><div class="title">Redis 数据结构</div></div></a></div><div><a href="/2019/06/18/数据库-Redis-1-0/" title="Redis入门和安装"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/gGE57HRvpcKPfDY.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2020-02-14</div><div class="title">Redis入门和安装</div></div></a></div></div></div><hr/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div class="vcomment" id="vcomment"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="card-info-avatar is-center"><img class="avatar-img" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://s2.ax1x.com/2020/02/11/1ovw6J.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/><div class="author-info__name">平心</div><div class="author-info__description">年轻人的life、learn and think</div></div><div class="card-info-data"><div class="card-info-data-item is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">449</div></a></div><div class="card-info-data-item is-center"><a href="/tags/"><div class="headline">标签</div><div class="length-num">77</div></a></div><div class="card-info-data-item is-center"><a href="/categories/"><div class="headline">分类</div><div class="length-num">68</div></a></div></div><a class="button--animated" id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/hanyunpeng0521"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/hanyunpeng0521" target="_blank" title="Github"><i class="fa fa-github"></i></a><a class="social-icon" href="mailto:m13839441583@163.com" target="_blank" title="Email"><i class="fa fa-envelope"></i></a><a class="social-icon" href="/atom.xml" target="_blank" title=""><i class="fa fa-rss"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn card-announcement-animation"></i><span>公告</span></div><div class="announcement_content">为什么呢？开始提问吧</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#NoSQL"><span class="toc-number">1.</span> <span class="toc-text">NoSQL</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BB%80%E4%B9%88%E6%98%AFNoSQL"><span class="toc-number">1.1.</span> <span class="toc-text">什么是NoSQL?</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E4%BD%BF%E7%94%A8NoSQL"><span class="toc-number">1.2.</span> <span class="toc-text">为什么使用NoSQL ?</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#NoSQL%E7%9A%84%E4%BC%98%E7%82%B9-%E7%BC%BA%E7%82%B9"><span class="toc-number">1.3.</span> <span class="toc-text">NoSQL的优点&#x2F;缺点</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#RDBMS-vs-NoSQL"><span class="toc-number">1.4.</span> <span class="toc-text">RDBMS vs NoSQL</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#CAP%E5%AE%9A%E7%90%86%EF%BC%88CAP-theorem%EF%BC%89"><span class="toc-number">1.5.</span> <span class="toc-text">CAP定理（CAP theorem）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#BASE"><span class="toc-number">1.6.</span> <span class="toc-text">BASE</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#ACID-vs-BASE"><span class="toc-number">1.7.</span> <span class="toc-text">ACID vs BASE</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#NoSQL-%E6%95%B0%E6%8D%AE%E5%BA%93%E5%88%86%E7%B1%BB"><span class="toc-number">1.8.</span> <span class="toc-text">NoSQL 数据库分类</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#MongoDB"><span class="toc-number">2.</span> <span class="toc-text">MongoDB</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%89%B9%E7%82%B9"><span class="toc-number">2.1.</span> <span class="toc-text">特点</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%89%E8%A3%85"><span class="toc-number">3.</span> <span class="toc-text">安装</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%88%9B%E5%BB%BA%E6%95%B0%E6%8D%AE%E5%BA%93%E7%9B%AE%E5%BD%95"><span class="toc-number">3.1.</span> <span class="toc-text">创建数据库目录</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%91%BD%E4%BB%A4%E8%A1%8C%E4%B8%AD%E8%BF%90%E8%A1%8C-MongoDB-%E6%9C%8D%E5%8A%A1"><span class="toc-number">3.2.</span> <span class="toc-text">命令行中运行 MongoDB 服务</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#MongoDB%E5%90%8E%E5%8F%B0%E7%AE%A1%E7%90%86-Shell"><span class="toc-number">3.3.</span> <span class="toc-text">MongoDB后台管理 Shell</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#MongoDb-web-%E7%94%A8%E6%88%B7%E7%95%8C%E9%9D%A2"><span class="toc-number">3.4.</span> <span class="toc-text">MongoDb web 用户界面</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#docker-%E5%AE%89%E8%A3%85mongoDB"><span class="toc-number">3.5.</span> <span class="toc-text">docker 安装mongoDB</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B7%A5%E5%85%B7"><span class="toc-number">4.</span> <span class="toc-text">工具</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%A6%82%E5%BF%B5"><span class="toc-number">5.</span> <span class="toc-text">概念</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E5%BA%93"><span class="toc-number">5.1.</span> <span class="toc-text">数据库</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%9B%86%E5%90%88"><span class="toc-number">5.2.</span> <span class="toc-text">集合</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%96%87%E6%A1%A3-Document"><span class="toc-number">5.3.</span> <span class="toc-text">文档(Document)</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%85%83%E6%95%B0%E6%8D%AE"><span class="toc-number">5.4.</span> <span class="toc-text">元数据</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#MongoDB-%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B"><span class="toc-number">5.5.</span> <span class="toc-text">MongoDB 数据类型</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#ObjectId"><span class="toc-number">5.5.1.</span> <span class="toc-text">ObjectId</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%AD%97%E7%AC%A6%E4%B8%B2"><span class="toc-number">5.5.2.</span> <span class="toc-text">字符串</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%97%B6%E9%97%B4%E6%88%B3"><span class="toc-number">5.5.3.</span> <span class="toc-text">时间戳</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%97%A5%E6%9C%9F"><span class="toc-number">5.5.4.</span> <span class="toc-text">日期</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BF%9E%E6%8E%A5"><span class="toc-number">6.</span> <span class="toc-text">连接</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%AE%9E%E4%BE%8B"><span class="toc-number">6.1.</span> <span class="toc-text">实例</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2021/05/15/node-2-4/" title="Egg.js -- 为企业级框架和应用而生"><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/okfOw28KlZFbE7z.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Egg.js -- 为企业级框架和应用而生"/></a><div class="content"><a class="title" href="/2021/05/15/node-2-4/" title="Egg.js -- 为企业级框架和应用而生">Egg.js -- 为企业级框架和应用而生</a><time datetime="2021-05-15T10:18:59.000Z" title="发表于 2021-05-15 18:18:59">2021-05-15</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/04/30/node-2-3/" title="Koa -- 基于Node.js平台的下一代Web开发框架"><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/HjVAdIuT7bZJypS.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Koa -- 基于Node.js平台的下一代Web开发框架"/></a><div class="content"><a class="title" href="/2021/04/30/node-2-3/" title="Koa -- 基于Node.js平台的下一代Web开发框架">Koa -- 基于Node.js平台的下一代Web开发框架</a><time datetime="2021-04-30T10:18:59.000Z" title="发表于 2021-04-30 18:18:59">2021-04-30</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/04/01/node-2-1/" title="Node.JS web开发前置知识"><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/gGE57HRvpcKPfDY.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Node.JS web开发前置知识"/></a><div class="content"><a class="title" href="/2021/04/01/node-2-1/" title="Node.JS web开发前置知识">Node.JS web开发前置知识</a><time datetime="2021-04-01T03:18:59.000Z" title="发表于 2021-04-01 11:18:59">2021-04-01</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2020/12/26/%E5%91%A8%E8%AE%B0-10-1/" title="第十一周--谷歌浏览器插件"><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/gGE57HRvpcKPfDY.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="第十一周--谷歌浏览器插件"/></a><div class="content"><a class="title" href="/2020/12/26/%E5%91%A8%E8%AE%B0-10-1/" title="第十一周--谷歌浏览器插件">第十一周--谷歌浏览器插件</a><time datetime="2020-12-26T10:18:59.000Z" title="发表于 2020-12-26 18:18:59">2020-12-26</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2020/12/26/%E5%91%A8%E8%AE%B0-10-0/" title="第十一周--浏览器技术"><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/vCnKyoFJZ1g4XYR.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="第十一周--浏览器技术"/></a><div class="content"><a class="title" href="/2020/12/26/%E5%91%A8%E8%AE%B0-10-0/" title="第十一周--浏览器技术">第十一周--浏览器技术</a><time datetime="2020-12-26T06:18:59.000Z" title="发表于 2020-12-26 14:18:59">2020-12-26</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2019 - 2021 By 平心</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div id="local-search"><div class="search-dialog"><div class="search-dialog__title" id="local-search-title">本地搜索</div><div id="local-input-panel"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div></div><hr/><div id="local-search-results"></div><span class="search-close-button"><i class="fas fa-times"></i></span></div><div id="search-mask"></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload/dist/lazyload.iife.min.js"></script><script src="/js/search/local-search.js"></script><div class="js-pjax"><script>function loadValine () {
+  function initValine () {
+    const valine = new Valine(Object.assign({
+      el: '#vcomment',
+      appId: '4lfIXzqxaC1ONs0MJO4oHu07-gzGzoHsz',
+      appKey: 'qw99Bw8FD0KVKU9m457CwWsr',
+      placeholder: 'Please leave your footprints',
+      avatar: 'monsterid',
+      meta: 'nick,mail,link'.split(','),
+      pageSize: '10',
+      lang: 'zh-CN',
+      recordIP: true,
+      serverURLs: '',
+      emojiCDN: '',
+      emojiMaps: "",
+      enableQQ: true,
+      path: window.location.pathname,
+      requiredFields: ["nick,mail"],
+      visitor: false
+    }, null))
+  }
+
+  if (typeof Valine === 'function') initValine() 
+  else getScript('https://cdn.jsdelivr.net/npm/valine/dist/Valine.min.js').then(initValine)
+}
+
+if ('Valine' === 'Valine' || !false) {
+  if (false) btf.loadComment(document.getElementById('vcomment'),loadValine)
+  else setTimeout(loadValine, 0)
+} else {
+  function loadOtherComment () {
+    loadValine()
+  }
+}</script></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>

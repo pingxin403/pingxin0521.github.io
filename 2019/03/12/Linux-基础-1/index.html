@@ -1,0 +1,453 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Linux-使用虚拟机安装CentOS7 | 平心de小屋</title><meta name="keywords" content="Linux"><meta name="author" content="平心"><meta name="copyright" content="平心"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="前言环境：Windows 10操作系统 工具：VMware Workstation 15 、CentOS 7 、putty、winscp 准备在Windows 10下安装所需软件、下载所需ISO文件">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Linux-使用虚拟机安装CentOS7">
+<meta property="og:url" content="https://pingxin0521.gitee.io/2019/03/12/Linux-%E5%9F%BA%E7%A1%80-1/index.html">
+<meta property="og:site_name" content="平心de小屋">
+<meta property="og:description" content="前言环境：Windows 10操作系统 工具：VMware Workstation 15 、CentOS 7 、putty、winscp 准备在Windows 10下安装所需软件、下载所需ISO文件">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://i.loli.net/2020/05/08/7dHvepmfYOLWTrX.jpg">
+<meta property="article:published_time" content="2019-03-12T03:55:22.000Z">
+<meta property="article:modified_time" content="2019-09-15T15:46:59.000Z">
+<meta property="article:author" content="平心">
+<meta property="article:tag" content="Linux">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.loli.net/2020/05/08/7dHvepmfYOLWTrX.jpg"><link rel="shortcut icon" href="https://s2.ax1x.com/2020/02/11/1ovFOA.png"><link rel="canonical" href="https://pingxin0521.gitee.io/2019/03/12/Linux-%E5%9F%BA%E7%A1%80-1/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"search.xml","languages":{"hits_empty":"找不到您查询的内容：${query}"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    jQuery: 'https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js',
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+    },
+    fancybox: {
+      js: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css'
+    }
+  },
+  isPhotoFigcaption: true,
+  islazyload: true,
+  isanchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'Linux-使用虚拟机安装CentOS7',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2019-09-15 23:46:59'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    })(window)</script><meta name="generator" content="Hexo 5.4.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="author-avatar"><img class="avatar-img" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://s2.ax1x.com/2020/02/11/1ovw6J.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data"><div class="data-item is-center"><div class="data-item-link"><a href="/archives/"><div class="headline">文章</div><div class="length-num">449</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/tags/"><div class="headline">标签</div><div class="length-num">77</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/categories/"><div class="headline">分类</div><div class="length-num">68</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fa fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fa fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://i.loli.net/2020/05/08/7dHvepmfYOLWTrX.jpg')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">平心de小屋</a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fa fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fa fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">Linux-使用虚拟机安装CentOS7</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2019-03-12T03:55:22.000Z" title="发表于 2019-03-12 11:55:22">2019-03-12</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2019-09-15T15:46:59.000Z" title="更新于 2019-09-15 23:46:59">2019-09-15</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/Linux/">Linux</a><i class="fas fa-angle-right post-meta-separator"></i><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/Linux/%E5%9F%BA%E7%A1%80/">基础</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">8.8k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>27分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="Linux-使用虚拟机安装CentOS7"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>环境：Windows 10操作系统</p>
+<p>工具：VMware Workstation 15 、CentOS 7 、putty、winscp</p>
+<h3 id="准备"><a href="#准备" class="headerlink" title="准备"></a>准备</h3><p>在Windows 10下安装所需软件、下载所需ISO文件</p>
+<span id="more"></span>
+
+<p><strong>VMware 安装</strong></p>
+<p>在VMware官网<a target="_blank" rel="noopener" href="https://www.vmware.com/products/workstation-pro/workstation-pro-evaluation.html">下载</a></p>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://ws1.sinaimg.cn/large/006KyevZgy1g13p3mgt4cj310m0m1jse.jpg"></p>
+<p>​    下载完成后直接安装就行，如果没有注册码，只会有一个月的试用期，可以从下面链接获取注册码。</p>
+<p>注册码链接：<a target="_blank" rel="noopener" href="https://pan.baidu.com/s/1KkC4n9F3BGod3rmDN1XbZQ">https://pan.baidu.com/s/1KkC4n9F3BGod3rmDN1XbZQ</a>        提取码：rhs3 </p>
+<p><strong>CentOS 7下载</strong></p>
+<p>推荐使用国内下载源，官网下载速度太慢了。下面给出国内常用的下载源：</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">http://mirrors.btte.net/centos/7/isos/x86_64/ </span><br><span class="line">http://mirrors.cn99.com/centos/7/isos/x86_64/ </span><br><span class="line">http://mirrors.sohu.com/centos/7/isos/x86_64/ </span><br><span class="line">http://mirrors.aliyun.com/centos/7/isos/x86_64/ </span><br><span class="line">http://centos.ustc.edu.cn/centos/7/isos/x86_64/ </span><br><span class="line">http://mirrors.neusoft.edu.cn/centos/7/isos/x86_64/ </span><br><span class="line">http://mirror.lzu.edu.cn/centos/7/isos/x86_64/ </span><br><span class="line">http://mirrors.163.com/centos/7/isos/x86_64/ </span><br><span class="line">http://ftp.sjtu.edu.cn/centos/7/isos/x86_64/ </span><br></pre></td></tr></table></figure>
+<p>​    一般包括以下文件，README.txt是对镜像文件和torrent文件的描述，可以选择下载相应的torrent文件，然后使用加速下载器进行下载，也可以选择iso镜像文件下载，可能会比较大。DVD包括我们经常用到的安装包；Everything包括了发行版发行时的几乎所有安装包；Live是一个测试包，目的在于测试安装环境，LiveGNOME和LiveKDE是两种不同的GUI软件；minimal是迷你包，只包含最小安装（后面会谈到）；NetInstall是网络安装和救援的镜像，使用该镜像会被要求提供安装包链接，而且安装时必须联网。sha256sum.txt是验证文件，可以比对下载的文件是否损坏、被修改。</p>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://ws1.sinaimg.cn/large/006KyevZgy1g13p3fel4pj30gh07t0sn.jpg"></p>
+<p>​    如果对系统没有安装时就要求具有什么特别强大的功能，最好是使用最小化安装，DVD和Minimal是常用的包，如果网速较慢，可以选择下载Minimal包，如果想要安装图形界面，选择下载DVD，Everything包太大并不推荐下载使用。</p>
+<p>Now，使用VMware创建CentOS虚拟机。</p>
+<h3 id="创建虚拟机"><a href="#创建虚拟机" class="headerlink" title="创建虚拟机"></a>创建虚拟机</h3><p>打开VMware程序，进入主页，选择创建新的虚拟机。</p>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://ws1.sinaimg.cn/large/006KyevZgy1g13p3igwcwj30wc0gbaa2.jpg"></p>
+<p>然后选择新建虚拟机向导为自定义，其中典型为简单配置，配置少，适合没有很多要求的用户，自定义包括典型中的所有配置，还增加了硬件设置（虚拟硬件），来选择自定义来学习新建的步骤，下一步。</p>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://ws1.sinaimg.cn/large/006KyevZgy1g13p3iclxnj30kp0icmxb.jpg"></p>
+<p>选择硬件兼容性，使用最新版，下一步。</p>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://ws1.sinaimg.cn/large/006KyevZgy1g13p3im3e9j30oy0j5dft.jpg"></p>
+<p>如果使用U盘或光盘安装，请选择程序光盘，如果确定所使用的客户机操作系统，可以直接选择ISO包，此处我们选择稍后安装操作系统，否则会跳过下一步，下一步。</p>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://ws1.sinaimg.cn/large/006KyevZgy1g13p3ir5fjj30l00iimx4.jpg"></p>
+<p>选择对应的客户机操作系统，此处为Linux 的CentOS 7 64位，下一步。</p>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://ws1.sinaimg.cn/large/006KyevZgy1g13p3g6u5fj30k90hq0sn.jpg"></p>
+<p>虚拟机命名，需要符合命名规则，尽量使其有意义，这里默认；选择安装位置，下一步。</p>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://ws1.sinaimg.cn/large/006KyevZgy1g13p3gow7hj30ii0hqgli.jpg"></p>
+<p>设置处理器，默认，下一步。</p>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://ws1.sinaimg.cn/large/006KyevZgy1g13p3gfue9j30j70hz745.jpg"></p>
+<p>设置内存大小，默认，下一步。</p>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://ws1.sinaimg.cn/large/006KyevZgy1g13p3j47lij30i80ghweg.jpg"></p>
+<p>设置网络类型，默认下一步。</p>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://ws1.sinaimg.cn/large/006KyevZgy1g13p3j0fvkj30hw0i1mx4.jpg"></p>
+<p>设置IO控制器类型，默认，下一步。</p>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://ws1.sinaimg.cn/large/006KyevZgy1g13p3gsn2uj30j50ggmx2.jpg"></p>
+<p>选择磁盘类型，默认，下一步。</p>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://ws1.sinaimg.cn/large/006KyevZgy1g13p3gw275j30hk0h0glh.jpg"></p>
+<p>选择磁盘，如果存在虚拟磁盘，可以选择现有虚拟磁盘(.vmx),如果想使用U盘进行安装，可以选择使用物理磁盘，这里我们选择新建虚拟磁盘，下一步。</p>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://ws1.sinaimg.cn/large/006KyevZgy1g13p3jab4hj30j80gz748.jpg"></p>
+<p>接下来设置虚拟磁盘大小，如果可以尽量设置为100GB左右，其它选项默认，选择不立即分配，后续使用中虚拟磁盘文件占用空间会变大，拆分存储，下一步</p>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://ws1.sinaimg.cn/large/006KyevZgy1g13p3jiv0fj30j30hq749.jpg"></p>
+<p>接下来指定虚拟磁盘文件命名，默认，下一步。</p>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://ws1.sinaimg.cn/large/006KyevZgy1g13p3h45h6j30hd0gwt8l.jpg"></p>
+<p>最后可以看到所有的配置信息，如果想更改可以选择上一步，或者点击完成后在设置中更改，默认下一步。</p>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://ws1.sinaimg.cn/large/006KyevZgy1g13p3jr0zkj30if0haaa0.jpg"></p>
+<p>然后打开设备设置–》CD/DVD，选择下载完成的ISO映像文件，点选启动时连接。</p>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://ws1.sinaimg.cn/large/006KyevZgy1g13p3jvjytj30o10dgwei.jpg"></p>
+<p>此时，我们已经在Windows上新建完成一个虚拟机，但是由于该虚拟机未安装操作系统，不能直接运行，下一节讲怎样安装。</p>
+<h3 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h3><p>​    现在开始在虚拟机上安装CentOS7。打开CentOS 7 64位选项卡，点击上面菜单栏中的开启，打开虚拟机的电源。</p>
+<h4 id="安装模式选择（Mode-Selection）"><a href="#安装模式选择（Mode-Selection）" class="headerlink" title="安装模式选择（Mode Selection）"></a>安装模式选择（Mode Selection）</h4><p>​    这三个选项分别是安装、测试镜像和安装、进入救援模式。安装选项会直接进入安装界面；第二选项会先对镜像文件进行检查，之后才进行安装；第三个选项是利用此镜像包对已安装的系统进行恢复，按Enter键以显示其它内容。这里我们选择第二个选项，然后回车。</p>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://ws1.sinaimg.cn/large/006KyevZgy1g13p3fs1fyj30md0dfmwx.jpg"></p>
+<p>​    接下来CentOS会进入自检过程，情形如下图所示，等待2-3分钟后会完成这一步。</p>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://ws1.sinaimg.cn/large/006KyevZgy1g13p3fjq68j30l70g4747.jpg"></p>
+<h4 id="选择语言（Language-Selection）"><a href="#选择语言（Language-Selection）" class="headerlink" title="选择语言（Language Selection）"></a>选择语言（Language Selection）</h4><p>​    然后会进入到安装引导语言选择过程，此处选择“中文Chinese - 简体中文(中国)”；点击“继续”，进入下一步。</p>
+<blockquote>
+<p>Tips：在此选择的语言将成为操作系统的默认语言。选择适当的语言还可帮助您在后面的安装中锁定时区。安装程序会尝试根据您在这个页面中的选择定义适当的时区。</p>
+</blockquote>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://ws1.sinaimg.cn/large/006KyevZgy1g13p3llq6zj30nq0hp750.jpg"></p>
+<p>​    进入安装配置界面，主要有本地化（时区、时间、语言和键盘）、软件（安装源、软件选择）、系统（分区配置、网络配置等）。</p>
+<blockquote>
+<p>使用鼠标来选择菜单项来配置安装的一部分。当您完成配置部分，或者如果您想以后完成的部分中，单击完成按钮位于屏幕的左上角。</p>
+<p>只有标有警告符号的部分是强制性的。在屏幕底部的注意事项提醒你，这些路段之前必须完成安装就可以开始。其余的部分都是可选的。</p>
+</blockquote>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://ws1.sinaimg.cn/large/006KyevZgy1g13p3m9kxtj30n30hcwfd.jpg"></p>
+<h4 id="网络和主机名（Network-amp-Hostname）"><a href="#网络和主机名（Network-amp-Hostname）" class="headerlink" title="网络和主机名（Network &amp; Hostname）"></a>网络和主机名（Network &amp; Hostname）</h4><p>​    第一步应该配置网络和主机名（Network &amp; Hostname），默认虚拟机是和主机进行以太网连接，直接选择打开网卡，默认使用DNCP服务获取IP地址、子网掩码、默认路由、DNS等，同时，在IPv6的配置被设定为自动方式。这种组合适合于大多数安装方案，通常不需要任何修改。也可以选择更改主机名，应注意同一局域网内主机名不应重复，主机名可以是完全限定域名（FQDN）格式hostname.domainname或主机名格式 的短主机名。</p>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://ws1.sinaimg.cn/large/006KyevZgy1g13p3kxw1sj30nd0hnmxo.jpg"></p>
+<p>​    如果想要手动配置网络，可点击配置，进入配置IP地址或路由地址等信息，配置过程参考网上博文介绍（一般不推荐在安装过程进行修改），此处不进行修改。</p>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://ws1.sinaimg.cn/large/006KyevZgy1g13p3lbpczj30nh0hn74q.jpg"></p>
+<h4 id="日期和时间、时区（Date-amp-Time）"><a href="#日期和时间、时区（Date-amp-Time）" class="headerlink" title="日期和时间、时区（Date &amp; Time）"></a>日期和时间、时区（Date &amp; Time）</h4><p>​    日期和时间、时区选择（Date &amp; Time）。选择距离您计算机物理位置最近的城市设置时区。即使您要使用 NTP（网络时间协议）来维护准确系统时钟，也请指定时区。这里您有两种方法选择时区：用鼠标在互动式地图上点击指定城市；您还可以在屏幕上部的列表中选择。</p>
+<p>​    网络时间（Network Time Protocol）。如果设备连接到网络时，网络时 间开关将被启用。要设置使用NTP的日期和时间，留在ON位置的网络时间开关，然后点击配置图标，选择使用哪一个NTP服务器，点击完成后，再进来查看是否完成。要手动设置日期和时间，将 开关置于OFF位置。系统时钟应该使用时区选择显示在屏幕的底部正确的日期和时间。如果他们仍然不正确，请手动进行调整。</p>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://ws1.sinaimg.cn/large/006KyevZgy1g13p3mwgt1j30mw0hndh6.jpg"></p>
+<h4 id="键盘布局类型（Keyboard-Configuration）"><a href="#键盘布局类型（Keyboard-Configuration）" class="headerlink" title="键盘布局类型（Keyboard Configuration）"></a>键盘布局类型（Keyboard Configuration）</h4><p>​    然后设置键盘布局类型（Keyboard Configuration）。选择您用于安装的正确键盘布局类型“汉语”并将其作为系统默认选择。选择后，点击“完成”。</p>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://ws1.sinaimg.cn/large/006KyevZgy1g13p3kkabtj30mr0he0t5.jpg"></p>
+<h4 id="语言支持（Language-Support）"><a href="#语言支持（Language-Support）" class="headerlink" title="语言支持（Language Support）"></a>语言支持（Language Support）</h4><p>​    接着进行语言支持（Language Support）设置。要安装额外的语言环境和语言的方言，从安装摘要屏幕中，选择多个语言的支持。使用鼠标来选择语言，你会为它要安装支持。在左侧面板中，选择您所选择的语言，比如English。然后你可以选择专门针对在右侧面板中您所在地区的语言环境，例如English（United States）。您可以选择多种语言和多个地区。所选择的语言以粗体突出显示在左侧面板。</p>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://ws1.sinaimg.cn/large/006KyevZgy1g13p3kteagj30nq0hhwf1.jpg"></p>
+<h4 id="安装源（Installation-Source）"><a href="#安装源（Installation-Source）" class="headerlink" title="安装源（Installation Source）"></a>安装源（Installation Source）</h4><p>​    选择安装源安装系统的一个位置。在这个屏幕上，你可以在本地可用的安装媒体，例如DVD或ISO文件，或者某个网络位置之间进行选择。</p>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://ws1.sinaimg.cn/large/006KyevZgy1g13p3kotcoj30my0h8wf1.jpg"></p>
+<p>选择下列选项：</p>
+<p><strong>自动检测安装介质（Auto-detected installation media）</strong></p>
+<p>​    如果您使用完整安装DVD或USB驱动器启动安装时，安装程序会检测到它，并显示在此选项下的基本信息。点击“验证（Verify ）”按钮，以确保媒体适合于安装。这个完整的测试是一样的，如果你选择了这个测试媒体和在启动菜单中安装CentOS所执行的一个，或者如果你使用的“测试媒介及安装CentOS 7”启动选项。</p>
+<p><strong>ISO file（ISO文件）</strong></p>
+<p>​    此选项会出现，如果安装程序检测到一个分区的硬盘驱动器挂载的文件系统。选择此选项，请单击“选择的ISO（Choose an ISO）”按钮，并浏览到安装ISO文件的位置，您的系统上。然后点击“验证”，以确保文件是适合安装。</p>
+<p><strong>On the network（在网络上）</strong></p>
+<p>​    要指定一个网络位置，选择此选项，并从下拉菜单中选择以下选项中进行选择：http://、https://、ftp://、nfs。使用您选择的位置URL的开始，输入到地址框。如果您选择NFS，将会出现你指定的任何NFS挂载选项。如果您的HTTP或HTTP URL指向存储库镜像列表，勾选“该URL指向一个镜像列表”。要配置HTTP或HTTPS源的代理，单击“代理服务器设置”按钮。勾选“启用HTTP代理服务器”，然后输入网址到代理服务器的URL框。如果你的代理服务器需要身份验证，请使用验证，并输入用户名和密码。单击添加。</p>
+<p><strong>额外软件仓库（Additional repositories）</strong></p>
+<p>​    要添加一个存储库中，单击+按钮。要删除存储库中，单击 - 按钮。点击箭头图标恢复到仓库的前面的列表，即以取代那些出席输入的安装源画面时的输入。要激活或停用库，请单击复选框启用列在列表中的每个条目。在窗体的右侧，你可以命名你的额外的资料库，并配置相同的方式在网络上的主存储库。</p>
+<h4 id="软件选择（Software-Selection）"><a href="#软件选择（Software-Selection）" class="headerlink" title="软件选择（Software Selection）"></a>软件选择（Software Selection）</h4><p>​    要指定软件包将被安装，选择软件时选择安装摘要屏幕。包组分为基础环境。这些环境是预先定义的一组具有特定用途的软件包；例如，在虚拟化主机环境中包含的一组所需的系统上运行的虚拟机软件程序包。只有一个软件环境可以在安装时选择。</p>
+<p>​    对于每一个环境，也有附加组件的形式提供额外的软件包。附加组件列于屏幕的右侧部分，当选择一个新的环境，它们的列表被刷新。<strong>您可以选择多个附加组件的安装环境。选择“带GUI的服务器（Server with GUI）”，然后按“完成”键</strong>。</p>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://ws1.sinaimg.cn/large/006KyevZgy1g13p3mrk5oj30nk0i10ty.jpg"></p>
+<p><strong>最小安装（Minimal Install）</strong></p>
+<p>​    这个选项只提供运行CentOS 的基本软件包。最小安装为单一目的服务器提供基本需要，并可在这样的安装中最大化性能和安全性。</p>
+<p><strong>基础设施服务器（Infrastructure Server）</strong></p>
+<p>​    这个选项提供在服务器中使用的CentOS 基本安装，不包含桌面。</p>
+<p><strong>文件及打印服务器（File and Print Server）</strong></p>
+<p>​    用于企业的文件、打印及存储服务器。</p>
+<p><strong>基本网页服务器（Basic Web Server）</strong></p>
+<p>​    基本系统平台，加上PHP，Web server，还有MySQL和PostgreSQL数据库的客户端，无桌面。</p>
+<p><strong>虚拟化主机（Virtualization Host）</strong></p>
+<p>​    这个选项提供 KVM 和 Virtual Machine Manager 工具以创建用于虚拟机器的主机。</p>
+<p><strong>带GUI的服务器（Server with GUI）</strong></p>
+<p>​    带有用于操作网络基础设施服务GUI的服务器。</p>
+<p><strong>GNOME桌面（GNOME Desktop）</strong></p>
+<p>​    GNOME是一个非常直观且用户友好的桌面环境。</p>
+<p><strong>KDE Pasma Workspaces（KDE桌面）</strong></p>
+<p>​    一个高度可配置图形用户界面，其中包括面板、桌面、系统图标以及桌面向导和很多功能强大的KDE应用程序。</p>
+<p><strong>开发及生成工作站（Development and Creative Workstation）</strong></p>
+<p>​    这个选项提供在您的CentOS 编译软件所需的工具。</p>
+<blockquote>
+<p>Tips：如果您使用文本模式安装Linux，您不能进行软件包选择。安装程序只能自动从基本和核心组群中选择软件包。这些软件包足以保证系统在安装完成后可操作，并可安装更新和新的软件包。要更改软件包选择，请在完成安装后，使用 Add/Remove Software 程序根据需要进行修改。</p>
+</blockquote>
+<h4 id="安装位置（Installation-Destination）"><a href="#安装位置（Installation-Destination）" class="headerlink" title="安装位置（Installation Destination）"></a>安装位置（Installation Destination）</h4><p>​    要选择的磁盘和分区的存储空间，您将安装CentOS的，请在安装摘要屏幕安装目标。</p>
+<blockquote>
+<p>Tips：如果您在文本模式下安装CentOS的，你只能使用本节所述的默认分区方案。您不能添加或删除的分区或文件系统超出了安装程序会自动添加或删除。</p>
+</blockquote>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://ws1.sinaimg.cn/large/006KyevZgy1g13p3lrx4bj30nl0hmt9g.jpg"></p>
+<p>选项如下：</p>
+<p>1、特别的及网络磁盘（Specialized &amp; Network Disks）</p>
+<p>​    在这个屏幕上，你可以看到可用的本地计算机上的存储设备。您也可以通过单击“添加磁盘”按钮来添加额外的专用或网络设备。</p>
+<p>2、自动配置分区（Automatically configure partitioning）</p>
+<p>​    自动分区建议，如果你正在做一个干净的安装上以前未使用的存储或不需要让可能存在于存储任何数据。采用这种方式，离开自动配置分区单选按钮的默认选择，让安装程序在你的存储空间，创造必要的分区。</p>
+<p>3、我想额外的空间使用（I would like to make additional space available）</p>
+<p>​    对于自动分区，你还可以选择“我想使更多的可用空间”复选框来选择如何重新分配其他的文件系统空间。如果您选择了自动分区，但没有足够的存储空间来完成安装，在单击Done（完成），会出现一个对话框。</p>
+<p>4、加密我的数据（Encrypt my data）</p>
+<p>​    在加密部分中，您可以选择加密我的数据复选框，所有分区进行加密以外的/ boot分区。</p>
+<p>5、完成磁盘摘要以及引导程序（Full disk summary and bootloader）</p>
+<p>​    在屏幕的底部，是您配置在其上的引导加载程序将被安装在磁盘全盘总结和引导装载程序按钮。</p>
+<h4 id="手动分区（Manual-Partitioning）"><a href="#手动分区（Manual-Partitioning）" class="headerlink" title="手动分区（Manual Partitioning）"></a>手动分区（Manual Partitioning）</h4><p>​    新手一般推荐选择自动分区，如果想要选择手动分区，必须对linux分区和文件系统有一定了解。</p>
+<p>​    选择手动分区，然后点击完成进入手动分区窗口。手动分区屏幕功能最初在左侧的安装点的单一窗格。该面板是空的，除了有关创建挂载点，也显示现有安装的安装程序检测点。这些装载点被检测到操作系统安装举 办。因此，如果一个分区被几个设备之间共享某些文件系统可能会显示多次。在选择存储设备的总空间和可用空间会显示此窗格下方。</p>
+<p><strong>添加文件系统和分区配置</strong></p>
+<p>​    添加一个文件系统是一个两步骤的过程。首先创建一个特定的分区方案的挂载点。挂载点会出现在左窗格中。接下来，你可以用在右窗格中，您可以在其中选择一个名称，设备类型，文件系统类型，标签的选项进行自定义，以及是否加密或重新格式化相应分区。</p>
+<p>​    对于手动创建的每个新的挂载点，可以设置从位于左侧窗格中的下拉菜单中的分区方案。可用的选项有标准分区，BTRFS，LVM和LVM精简配置。需要注意的是/ boot分区将始终位于一个标准分区，无论在此菜单中选择的值。</p>
+<p>​    另外，创建使用“+”按钮在面板的底部各个挂载点。添加一个新的安装点对话框，然后打开。无论是选择从安装点下拉菜单中预设的路径或键入您自己的 - 例如，选择/根分区或者/ boot启动分区。然后输入分区的大小，使用普通大小的单位，如MB，GB或TB，到需要的容量文本字段 - 例如，键入2GB创建一个2G的分区。如果将该字段留空，或者如果你指定的大小大于可用空间，所有剩余的可用空间将被使用。进入这些细节之后，点击“添加挂载点”按钮来创建分区。</p>
+<p>​    要自定义分区或卷时，在左侧窗格中选择挂载点及以下的自定义功能，然后出现在右边：</p>
+<ul>
+<li><p>名称（Name）：分配一个名称，一个LVM或于Btrfs量。需要注意的是在创建时标准分区自动命名和他们的名字不能被编辑，如/ home被分配的名称SDA1。</p>
+</li>
+<li><p>挂载点（Mount point）：输入分区的挂载点。例如，如果分区是根分区，输入/;进入/启动的/ boot分区，依此类推。对于一个交换分区，挂载点不应设置 - 设置文件系统类型，以交换就足够了。</p>
+</li>
+</ul>
+<ul>
+<li>标签（Label）：分配一个标签的分区。标签是用来让你很容易地识别和解决单个分区。</li>
+</ul>
+<ul>
+<li>所需的容量（Desired capacity）：输入的分区的所需尺寸。您可以使用普通大小的单位，如千字节，兆字节，GB或TB。兆是默认选项，如果你不指定任何单位。</li>
+</ul>
+<ul>
+<li>设备类型（Device type）：标准分区，BTRFS，LVM或LVM精简配置之间进行选择。如果被选择用于分隔两个或多个磁盘，RAID也将是可用的。检查相邻的加密框，分区加密。系统将提示您以后设置密码。</li>
+</ul>
+<p>下面是设备类型简短描述，以及它们是如何被使用：</p>
+<ul>
+<li>标准分区：标准分区可以包含文件系统或交换空间，也能提供一个容器，用于软件RAID和LVM物理卷。</li>
+</ul>
+<ul>
+<li>逻辑卷（LVM）：创建一个LVM分区自动生成一个LVM逻辑卷。 LVM可以在使用物理磁盘时，提高性能。</li>
+</ul>
+<ul>
+<li>LVM精简配置：使用自动精简配置，你可以管理的自由空间，被称为精简池，它可以根据需要由应用程序时，可以分配给设备任意数量的存储池。所需的存储空间具有成本效益的分配时，薄池可以动态地扩展。</li>
+</ul>
+<ul>
+<li>BTRFS：Btrfs是一个具有几个设备相同的特征的文件系统。它能够处理和管理多个文件，大文件和大体积比的ext2，ext3和ext4文件系统。</li>
+</ul>
+<ul>
+<li>软件RAID：创建两个或两个以上的软件RAID分区允许你创建一个RAID设备。一个RAID分区被分配给每个磁盘的系统上。</li>
+</ul>
+<ul>
+<li>文件系统（File system ）：在下拉菜单中，选择该分区中的相应的文件系统类型。检查相邻的格式化对话框格式化现有的分区，或将其选中，以保留您的数据。</li>
+</ul>
+<p>下面是文件系统简短描述，以及它们是如何被使用：</p>
+<ul>
+<li>XFS：XFS是一个支持的文件系统多达16艾字节（约16万TB）一个高度可扩展，高性能的文件系统中，文件多达8个艾字节（约800万太字节），和目录结构包含数千万条目。 XFS支持元数据日志，这有利于更快的崩溃恢复。 XFS文件系统也可以进行碎片整理和调整，同时安装并激活。这个文件系统是默认选择，并强烈推荐。一个XFS分区支持的最大大小为500 TB。</li>
+</ul>
+<ul>
+<li>EXT4：ext4文件系统是基于ext3文件系统，并采用了多项改进。这些措施包括对更大文件系统和更大的文件，磁盘空间，对子目录的目录中的数量没有限制，更快的文件系统检查速度更快，更有效地分配支持，更强大的日志记录。</li>
+</ul>
+<ul>
+<li>EXT3：ext3文件系统是基于ext2文件系统上，它有一个主要优点。使用文件系统减少花费的时间恢复崩溃后的文件系统，因为没有必要通过每次碰撞发生时运行fsck实用程序来检查元数据的一致性的文件系统。</li>
+</ul>
+<ul>
+<li>EXT2：ext2文件系统支持标准Unix文件类型，包括普通文件，目录或符号链接。它还提供了分派长文件名，最多255个字符的能力。</li>
+</ul>
+<ul>
+<li>VFAT：VFAT文件系统是Linux文件系统与FAT文件系统上的Microsoft Windows长文件名兼容。</li>
+</ul>
+<ul>
+<li>swap：交换分区被用于支持虚拟内存。换句话说，数据被写入到交换分区的时候没有足够的内存来存储您的系统正在处理的数据。</li>
+</ul>
+<ul>
+<li>BIOS boot：需要有一个GUID分区表（GPT）在BIOS中的系统引导设备一个非常小的分区。</li>
+</ul>
+<ul>
+<li>EFI系统分区：需要有一个GUID分区表（GPT）在UEFI系统引导装置一个小分区。</li>
+</ul>
+<p>​    单击“更新按钮”保存更改并选择其他分区进行定制。请注意，更改将不会应用，直到你真正开始从安装摘要页面安装。单击“全部重置”按钮来放弃所有修改的所有分区并重新开始。</p>
+<p><strong>创建LVM逻辑卷（Create LVM Logical Volume）</strong></p>
+<p>逻辑卷管理（LVM）介绍了底层的物理存储空间，如硬盘驱动器或LUN一个简单的逻辑视图。在物理存储分区表示为物理卷，可以组合成卷组。每个卷组可以分为多个逻辑卷，其中每一个是类似于标准的磁盘分区。因此，LVM逻辑卷作为可以跨越多个物理磁盘上的分区。</p>
+<p>Tips：需要注意的是LVM配置只有在图形安装程序中可用。 在文本模式安装，LVM配置不可用。如果你需要从头开始创建一个LVM配置，按Ctrl + Alt+ F2来使用不同的虚拟控制台，并运行LVM命令。要返回到文本模式安装，请按CTRL + ALT + F1。</p>
+<p>CentOS的安装至少需要一个分区，但CentOS建议至少有四个：/boot、/、/home、swap。您还可以创建你需要额外的分区。</p>
+<ol>
+<li>创建/boot</li>
+</ol>
+<p>​    分区挂载到/boot包含了操作系统的内核，它允许你的系统CentOS，以及在系统引导过程中使用的文件。由于大多数固件的限制，创建一个较小的分区来保存这些建议。在大多数情况下，一个500 MB的启动分区是足够的。</p>
+<p>​    首先创建一个特定的分区方案的挂载点。挂载点会出现在左窗格中的下拉菜单中选择“LVM”。</p>
+<p>​    使用“+”按钮在面板的底部各个挂载点。添加一个新的安装点对话框，然后打开。无论是选择从安装点下拉菜单中预设的路径或输入/boot。然后输入分区的大小，使用普通大小的单位500M。点击“添加挂载点”按钮来创建分区。</p>
+<ol start="2">
+<li>创建/</li>
+</ol>
+<p>​    这是“/”，或者根目录下，是位于根目录是目录结构的顶层。默认情况下，所有的文件将被写入该分区，除非在不同的分区上安装路径写入（例如，/boot或 /home）。虽然有5GB的根分区，可以安装一个最小的安装，建议至少分配10GB，这样就可以完全安装，选择所有软件包组。</p>
+<blockquote>
+<p>Tips：不要混淆/目录下的/root目录。 /root目录是root用户的主目录。 /root目录有时被称为斜线根从根目录区分开来。</p>
+</blockquote>
+<p>​    使用“+”按钮在面板的底部各个挂载点。添加一个新的安装点对话框，然后打开。无论是选择从安装点下拉菜单中预设的路径或输入/。然后输入分区的大小，使用普通大小的单位8GB。点击“添加挂载点”按钮来创建分区。</p>
+<ol start="3">
+<li>创建/home</li>
+</ol>
+<p>​    从系统数据分开存储的用户数据，创建卷组的/home目录内的专用分区。这个分区应根据将要存储在本地，用户数量等的数据量的大小。这将使你升级或重新安装CentOS，但不删除用户的数据文件。</p>
+<p>​    使用“+”按钮在面板的底部各个挂载点。添加一个新的安装点对话框，然后打开。无论是选择从安装点下拉菜单中预设的路径或输入/home。然后输入分区的大小，使用普通大小的单位10GB。点击“添加挂载点”按钮来创建分区。</p>
+<ol start="4">
+<li>创建swap</li>
+</ol>
+<p>​    交换分区支持虚拟内存;数据被写入到交换分区的时候没有足够的内存来存储您的系统正在处理的数据。交换容量是系统存储器的工作量，而不是整个系统内存的功能，因此是不等于系统的总的内存大小。因此，分析系统将运行哪些应用程序和负载这些应用将服务，以确定该系统存储器工作量是非常重要的。</p>
+<p>​    使用“+”按钮在面板的底部各个挂载点。添加一个新的安装点对话框，然后打开。无论是选择从安装点下拉菜单中预设的路径或输入swap。然后输入分区的大小，剩余容量。点击“添加挂载点”按钮来创建分区。</p>
+<p>​    当已创建和定制的所有文件系统和挂载点，点击“完成”按钮。如果您选择任何加密文件系统，你将被提示创建密码。然后，会出现一个对话框，显示所有与存储相关 的操作，安装程序将采取的摘要。这包括创建，调整大小或删除分区和文件系统。您可以查看所有的更改，然后单击“取消并返回到自定义分区”回去。要确认摘 要，单击“接受更改 ”，返回到安装摘要页面。分区的任何其它设备，在安装目标选择它们，回到手动分区屏幕，并按照本节所述相同的过程，一般配置如下即可。</p>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://ws1.sinaimg.cn/large/006KyevZgy1g13p3lxr1cj30nf0hkmxu.jpg"></p>
+<h4 id="开始安装（Begin-Installation）"><a href="#开始安装（Begin-Installation）" class="headerlink" title="开始安装（Begin Installation）"></a>开始安装（Begin Installation）</h4><p>​    剩下的可以保持默认配置，此时开始安装按钮变得可用，点击按钮进行安装。</p>
+<p>​    一旦你点击在安装摘要屏幕开始安装，会出现进度画面。屏幕上的安装进度，代表了选择的软件包安装到你的系统。</p>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://ws1.sinaimg.cn/large/006KyevZgy1g13p3mly0tj30mt0gzwfj.jpg"></p>
+<p><strong>ROOT密码（Root Password）</strong></p>
+<p>​    设置根帐号和密码是在安装过程中的重要一步。 root帐号（也称为超级用户）来安装软件包，升级RPM包，并执行大部分的系统维护。 root帐户可以完全控制您的系统。出于这个原因，根帐户最好只用来执行系统维护或管理。</p>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://ws1.sinaimg.cn/large/006KyevZgy1g13p3keaflj30n60h1glw.jpg"></p>
+<p><strong>创建用户（User Account）</strong></p>
+<p>​    在安装过程中创建一个普通的（非root）用户帐户，请单击进度屏幕上的用户设置。创建用户屏幕，让您设置普通用户帐号，并配置其参数。虽然建议在安装过程中办，这一步是可选的，后安装完成后可以进行。</p>
+<p>​    在普通环境下，一般需要设置普通用户，且不允许root用户远程登录服务器。此处我们创建一个新用户hyp,配置密码，可以配置为管理员，也可以开机后登录root用户，然后更改为管理员。</p>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://ws1.sinaimg.cn/large/006KyevZgy1g13p3k9d49j30ni0hhjrr.jpg"></p>
+<p><strong>安装完成（Installation Complete）</strong></p>
+<p>​    点击重启按钮，重新启动系统并开始使用CentOS。记得要取出安装介质，如果它会自动重新启动时不弹出。</p>
+<h3 id="基本配置"><a href="#基本配置" class="headerlink" title="基本配置"></a>基本配置</h3><h4 id="远程登录"><a href="#远程登录" class="headerlink" title="远程登录"></a>远程登录</h4><p>远程登录有多种方式，其中最流行的CLI远程登录协议是SSH协议，让我们认识一下SSH协议：</p>
+<p><em>SSH 为 Secure Shell 的缩写，由 IETF 的网络小组（Network Working Group）所制定；SSH 为建立在应用层基础上的安全协议。SSH 是目前较可靠，专为远程登录会话和其他网络服务提供安全性的协议。利用 SSH 协议可以有效防止远程管理过程中的信息泄露问题。SSH最初是UNIX系统上的一个程序，后来又迅速扩展到其他操作平台。SSH在正确使用时可弥补网络中的漏洞。SSH客户端适用于多种平台。几乎所有UNIX平台—包括HP-UX、Linux、AIX、Solaris、Digital UNIX、Irix，以及其他平台，都可运行SSH。</em></p>
+<p>​    CentOS7 安装完成后重启，使用root登录。</p>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://ws1.sinaimg.cn/large/006KyevZgy1g13p3hg8k1j30j807ngld.jpg"></p>
+<p>​    检查网络是否连通，使用命令<code>ping -c 4 baidu.com</code>，一般情况下是正常可连的，如果出错，请参考网上博文。</p>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://ws1.sinaimg.cn/large/006KyevZgy1g13p3hp89uj30id04bmwx.jpg"></p>
+<p>​    查看是否开启SSH协议：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[hyp@localhost ~]$ ps -aux | grep ssh</span><br><span class="line">root       7127  0.0  0.4 112760  4324 ?        Ss   19:21   0:00 /usr/sbin/sshd -D</span><br></pre></td></tr></table></figure>
+
+<p>​    使用 <code>ip -4 addr</code>查看本地IP地址，可以看到本地IP地址为192.168.174.133。</p>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://ws1.sinaimg.cn/large/006KyevZgy1g13p3i01xej30nk03h3ya.jpg"></p>
+<p>​    在Windows上安装Putty软件，官网下载地址如下：请下载<a target="_blank" rel="noopener" href="https://www.chiark.greenend.org.uk/~sgtatham/putty/latest.html">最新版</a>。然后安装，安装完成后选择打开PUTTY.exe文件。然后输入虚拟机的IP地址</p>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://ws1.sinaimg.cn/large/006KyevZgy1g13p3lfth1j30wm0ggaam.jpg"></p>
+<p>输入root，回车后输入密码，密码输入时不会显示。可以通过<code>ip -4 addr</code>查看ip。</p>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://ws1.sinaimg.cn/large/006KyevZgy1g13p3k45k5j30me09jjre.jpg"></p>
+<h4 id="数据传输"><a href="#数据传输" class="headerlink" title="数据传输"></a>数据传输</h4><p>​    虽然可以通过远程登录来登录CentOS 7，对CentOS进行操作，但是不能进行CentOS和Windows之间文件的传输。</p>
+<p>首先介绍一下FTP：</p>
+<p><em>FTP就是文件传输协议。用于互联网双向传输，控制文件下载空间在服务器复制文件从本地计算机或本地上传文件复制到服务器上的空间。FTP协议包括两个组成部分，其一为FTP服务器，其二为FTP客户端。其中FTP服务器用来存储文件，用户可以使用FTP客户端通过FTP协议访问位于FTP服务器上的资源。在开发网站的时候，通常利用FTP协议把网页或程序传到Web服务器上。此外，由于FTP传输效率非常高，在网络上传输大的文件时，一般也采用该协议。</em></p>
+<p><em>默认情况下FTP协议使用TCP端口中的 20和21这两个端口，其中20用于传输数据，21用于传输控制信息。但是，是否使用20作为传输数据的端口与FTP使用的传输模式有关，如果采用主动模式，那么数据传输端口就是20；如果采用被动模式，则具体最终使用哪个端口要服务器端和客户端协商决定。</em></p>
+<p>​    设置CentOS的FTP服务，通过安装<code>vsftpd</code>来开启ftp。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum install vsftpd</span><br></pre></td></tr></table></figure>
+
+<p>​    安装完成后，开启FTP服务。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">systemctl enable vsftpd #开机自启动</span><br><span class="line">systemctl start vsftpd #开启服务</span><br><span class="line">systemctl status vsftpd #查看运行状态</span><br></pre></td></tr></table></figure>
+
+<p>​    通过PUTTY安装文件夹下PSFTP.exe连接CentOS 7，打开软件后连接，使用open连接ip，然后输入用户名、密码 。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">psftp: no hostname specified; use &quot;open host.name&quot; to connect</span><br><span class="line"><span class="meta">psftp&gt;</span><span class="bash"> open 192.168.174.133</span></span><br><span class="line">login as: root</span><br><span class="line">root@192.168.174.133&#x27;s password:</span><br><span class="line">Remote working directory is /root</span><br></pre></td></tr></table></figure>
+
+<p>使用<code>dir</code>或<code>pwd</code>测试。</p>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://ws1.sinaimg.cn/large/006KyevZgy1g13p3i8yldj30la07fq2v.jpg"></p>
+<p>但是PSFTP.exe编码是ftp的规定文件名编码为<code>iso-8859-1</code>，这样文件名为中文的文件在传输过程中，文件名会变成乱码，而且在Windows上使用命令行的话，会有些不太友好，这样说来这就是一个不适用的解决方案。</p>
+<h4 id="数据传输改进"><a href="#数据传输改进" class="headerlink" title="数据传输改进"></a>数据传输改进</h4><p>新的解决方案是使用SFTP协议进行传输，使用软件WinSCP进行可视化，以达到拖拽上传下载的功能。</p>
+<p>我们再来介绍一下SFTP协议：</p>
+<p><em>sftp是Secure File Transfer Protocol的缩写，安全文件传送协议。可以为传输文件提供一种安全的网络的加密方法。sftp 与 ftp 有着几乎一样的语法和功能。SFTP 为 SSH的其中一部分，是一种传输档案至 Blogger 伺服器的安全方式。其实在SSH软件包中，已经包含了一个叫作SFTP(Secure File Transfer Protocol)的安全文件信息传输子系统，SFTP本身没有单独的守护进程，它必须使用sshd守护进程（端口号默认是22）来完成相应的连接和答复操作，所以从某种意义上来说，SFTP并不像一个服务器程序，而更像是一个客户端程序。SFTP同样是使用加密传输认证信息和传输的数据，所以，使用SFTP是非常安全的。但是，由于这种传输方式使用了加密/解密技术，所以传输效率比普通的FTP要低得多。</em></p>
+<p>如果你的CentOS开启这SSH协议的话，就能够使用SFTP协议来传输数据。</p>
+<p>查看是否运行SFTP也就是查看是否支持SSH协议，支持则可以运行。</p>
+<p>在Windows上安装<a target="_blank" rel="noopener" href="https://winscp.net/eng/download.php">WinSCP</a>，安装完成后进行连接配置，使用SFTP协议，输入主机名和用户名，在高级配置中设置支持UTF-8编码。</p>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://ws1.sinaimg.cn/large/006KyevZgy1g13q79h7f8j30m60gtq36.jpg"></p>
+<p>然后选择保存，下次可直接点击进行连接。保存完成后点击登录，然后输入密码，确认无误后，会在右边的窗口，以Windows的样式显示用户家目录下的所有文件，这样传输文件可以直接拖拽。</p>
+<p>OK，由于篇幅过长，本次教程到此结束。其他内容敬请期待。</p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">平心</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://pingxin0521.gitee.io/2019/03/12/Linux-%E5%9F%BA%E7%A1%80-1/">https://pingxin0521.gitee.io/2019/03/12/Linux-%E5%9F%BA%E7%A1%80-1/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://pingxin0521.gitee.io" target="_blank">平心de小屋</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/Linux/">Linux</a></div><div class="post_share"><div class="social-share" data-image="https://i.loli.net/2020/05/08/7dHvepmfYOLWTrX.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2019/03/12/Hexo%E5%8D%9A%E5%AE%A2-1-3/"><img class="prev-cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/PFDRNxj93taz6pw.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">Hexo博客 - 写作工具篇</div></div></a></div><div class="next-post pull-right"><a href="/2019/03/11/Linux-%E5%9F%BA%E7%A1%80-0/"><img class="next-cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/7dHvepmfYOLWTrX.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">Linux-介绍</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span> 相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2019/05/22/Linux-Ubuntu-4/" title="Ubuntu 点滴笔记"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/PFDRNxj93taz6pw.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2019-10-18</div><div class="title">Ubuntu 点滴笔记</div></div></a></div><div><a href="/2019/03/23/Linux-基础-12/" title="Linux-服务管理"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/PFDRNxj93taz6pw.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2019-04-03</div><div class="title">Linux-服务管理</div></div></a></div><div><a href="/2019/03/20/Linux-基础-5/" title="Linux-文本处理三剑客--grep"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/HjVAdIuT7bZJypS.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2019-10-10</div><div class="title">Linux-文本处理三剑客--grep</div></div></a></div><div><a href="/2019/03/20/Linux-基础-6/" title="Linux-文本处理三剑客--sed"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/okfOw28KlZFbE7z.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2019-10-10</div><div class="title">Linux-文本处理三剑客--sed</div></div></a></div><div><a href="/2019/03/20/Linux-基础-7/" title="Linux-文本处理三剑客--awk"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/vCnKyoFJZ1g4XYR.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2019-10-10</div><div class="title">Linux-文本处理三剑客--awk</div></div></a></div><div><a href="/2019/05/26/Linux-脚本-3/" title="Linux-expect"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/okfOw28KlZFbE7z.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2019-10-09</div><div class="title">Linux-expect</div></div></a></div></div></div><hr/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div class="vcomment" id="vcomment"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="card-info-avatar is-center"><img class="avatar-img" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://s2.ax1x.com/2020/02/11/1ovw6J.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/><div class="author-info__name">平心</div><div class="author-info__description">年轻人的life、learn and think</div></div><div class="card-info-data"><div class="card-info-data-item is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">449</div></a></div><div class="card-info-data-item is-center"><a href="/tags/"><div class="headline">标签</div><div class="length-num">77</div></a></div><div class="card-info-data-item is-center"><a href="/categories/"><div class="headline">分类</div><div class="length-num">68</div></a></div></div><a class="button--animated" id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/hanyunpeng0521"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/hanyunpeng0521" target="_blank" title="Github"><i class="fa fa-github"></i></a><a class="social-icon" href="mailto:m13839441583@163.com" target="_blank" title="Email"><i class="fa fa-envelope"></i></a><a class="social-icon" href="/atom.xml" target="_blank" title=""><i class="fa fa-rss"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn card-announcement-animation"></i><span>公告</span></div><div class="announcement_content">为什么呢？开始提问吧</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%89%8D%E8%A8%80"><span class="toc-number">1.</span> <span class="toc-text">前言</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%87%86%E5%A4%87"><span class="toc-number">2.</span> <span class="toc-text">准备</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%9B%E5%BB%BA%E8%99%9A%E6%8B%9F%E6%9C%BA"><span class="toc-number">3.</span> <span class="toc-text">创建虚拟机</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%89%E8%A3%85"><span class="toc-number">4.</span> <span class="toc-text">安装</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%AE%89%E8%A3%85%E6%A8%A1%E5%BC%8F%E9%80%89%E6%8B%A9%EF%BC%88Mode-Selection%EF%BC%89"><span class="toc-number">4.1.</span> <span class="toc-text">安装模式选择（Mode Selection）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%80%89%E6%8B%A9%E8%AF%AD%E8%A8%80%EF%BC%88Language-Selection%EF%BC%89"><span class="toc-number">4.2.</span> <span class="toc-text">选择语言（Language Selection）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%BD%91%E7%BB%9C%E5%92%8C%E4%B8%BB%E6%9C%BA%E5%90%8D%EF%BC%88Network-amp-Hostname%EF%BC%89"><span class="toc-number">4.3.</span> <span class="toc-text">网络和主机名（Network &amp; Hostname）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%97%A5%E6%9C%9F%E5%92%8C%E6%97%B6%E9%97%B4%E3%80%81%E6%97%B6%E5%8C%BA%EF%BC%88Date-amp-Time%EF%BC%89"><span class="toc-number">4.4.</span> <span class="toc-text">日期和时间、时区（Date &amp; Time）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%94%AE%E7%9B%98%E5%B8%83%E5%B1%80%E7%B1%BB%E5%9E%8B%EF%BC%88Keyboard-Configuration%EF%BC%89"><span class="toc-number">4.5.</span> <span class="toc-text">键盘布局类型（Keyboard Configuration）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%AF%AD%E8%A8%80%E6%94%AF%E6%8C%81%EF%BC%88Language-Support%EF%BC%89"><span class="toc-number">4.6.</span> <span class="toc-text">语言支持（Language Support）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%AE%89%E8%A3%85%E6%BA%90%EF%BC%88Installation-Source%EF%BC%89"><span class="toc-number">4.7.</span> <span class="toc-text">安装源（Installation Source）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%BD%AF%E4%BB%B6%E9%80%89%E6%8B%A9%EF%BC%88Software-Selection%EF%BC%89"><span class="toc-number">4.8.</span> <span class="toc-text">软件选择（Software Selection）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%AE%89%E8%A3%85%E4%BD%8D%E7%BD%AE%EF%BC%88Installation-Destination%EF%BC%89"><span class="toc-number">4.9.</span> <span class="toc-text">安装位置（Installation Destination）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%89%8B%E5%8A%A8%E5%88%86%E5%8C%BA%EF%BC%88Manual-Partitioning%EF%BC%89"><span class="toc-number">4.10.</span> <span class="toc-text">手动分区（Manual Partitioning）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%BC%80%E5%A7%8B%E5%AE%89%E8%A3%85%EF%BC%88Begin-Installation%EF%BC%89"><span class="toc-number">4.11.</span> <span class="toc-text">开始安装（Begin Installation）</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9F%BA%E6%9C%AC%E9%85%8D%E7%BD%AE"><span class="toc-number">5.</span> <span class="toc-text">基本配置</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%BF%9C%E7%A8%8B%E7%99%BB%E5%BD%95"><span class="toc-number">5.1.</span> <span class="toc-text">远程登录</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E4%BC%A0%E8%BE%93"><span class="toc-number">5.2.</span> <span class="toc-text">数据传输</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E4%BC%A0%E8%BE%93%E6%94%B9%E8%BF%9B"><span class="toc-number">5.3.</span> <span class="toc-text">数据传输改进</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2021/05/15/node-2-4/" title="Egg.js -- 为企业级框架和应用而生"><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/okfOw28KlZFbE7z.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Egg.js -- 为企业级框架和应用而生"/></a><div class="content"><a class="title" href="/2021/05/15/node-2-4/" title="Egg.js -- 为企业级框架和应用而生">Egg.js -- 为企业级框架和应用而生</a><time datetime="2021-05-15T10:18:59.000Z" title="发表于 2021-05-15 18:18:59">2021-05-15</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/04/30/node-2-3/" title="Koa -- 基于Node.js平台的下一代Web开发框架"><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/HjVAdIuT7bZJypS.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Koa -- 基于Node.js平台的下一代Web开发框架"/></a><div class="content"><a class="title" href="/2021/04/30/node-2-3/" title="Koa -- 基于Node.js平台的下一代Web开发框架">Koa -- 基于Node.js平台的下一代Web开发框架</a><time datetime="2021-04-30T10:18:59.000Z" title="发表于 2021-04-30 18:18:59">2021-04-30</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/04/01/node-2-1/" title="Node.JS web开发前置知识"><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/gGE57HRvpcKPfDY.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Node.JS web开发前置知识"/></a><div class="content"><a class="title" href="/2021/04/01/node-2-1/" title="Node.JS web开发前置知识">Node.JS web开发前置知识</a><time datetime="2021-04-01T03:18:59.000Z" title="发表于 2021-04-01 11:18:59">2021-04-01</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2020/12/26/%E5%91%A8%E8%AE%B0-10-1/" title="第十一周--谷歌浏览器插件"><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/gGE57HRvpcKPfDY.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="第十一周--谷歌浏览器插件"/></a><div class="content"><a class="title" href="/2020/12/26/%E5%91%A8%E8%AE%B0-10-1/" title="第十一周--谷歌浏览器插件">第十一周--谷歌浏览器插件</a><time datetime="2020-12-26T10:18:59.000Z" title="发表于 2020-12-26 18:18:59">2020-12-26</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2020/12/26/%E5%91%A8%E8%AE%B0-10-0/" title="第十一周--浏览器技术"><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/vCnKyoFJZ1g4XYR.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="第十一周--浏览器技术"/></a><div class="content"><a class="title" href="/2020/12/26/%E5%91%A8%E8%AE%B0-10-0/" title="第十一周--浏览器技术">第十一周--浏览器技术</a><time datetime="2020-12-26T06:18:59.000Z" title="发表于 2020-12-26 14:18:59">2020-12-26</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2019 - 2021 By 平心</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div id="local-search"><div class="search-dialog"><div class="search-dialog__title" id="local-search-title">本地搜索</div><div id="local-input-panel"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div></div><hr/><div id="local-search-results"></div><span class="search-close-button"><i class="fas fa-times"></i></span></div><div id="search-mask"></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload/dist/lazyload.iife.min.js"></script><script src="/js/search/local-search.js"></script><div class="js-pjax"><script>function loadValine () {
+  function initValine () {
+    const valine = new Valine(Object.assign({
+      el: '#vcomment',
+      appId: '4lfIXzqxaC1ONs0MJO4oHu07-gzGzoHsz',
+      appKey: 'qw99Bw8FD0KVKU9m457CwWsr',
+      placeholder: 'Please leave your footprints',
+      avatar: 'monsterid',
+      meta: 'nick,mail,link'.split(','),
+      pageSize: '10',
+      lang: 'zh-CN',
+      recordIP: true,
+      serverURLs: '',
+      emojiCDN: '',
+      emojiMaps: "",
+      enableQQ: true,
+      path: window.location.pathname,
+      requiredFields: ["nick,mail"],
+      visitor: false
+    }, null))
+  }
+
+  if (typeof Valine === 'function') initValine() 
+  else getScript('https://cdn.jsdelivr.net/npm/valine/dist/Valine.min.js').then(initValine)
+}
+
+if ('Valine' === 'Valine' || !false) {
+  if (false) btf.loadComment(document.getElementById('vcomment'),loadValine)
+  else setTimeout(loadValine, 0)
+} else {
+  function loadOtherComment () {
+    loadValine()
+  }
+}</script></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>

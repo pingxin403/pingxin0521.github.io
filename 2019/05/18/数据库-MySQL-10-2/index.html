@@ -1,0 +1,487 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>MySQL SQL 事务(九) | 平心de小屋</title><meta name="keywords" content="数据库,MySQL,SQL"><meta name="author" content="平心"><meta name="copyright" content="平心"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="TRANSACTIONMySQL 数据库中事务是用户一系列的数据库操作序列，这些操作要么全做要么全不做，是一个不可分割的工作单位。  事务具有 4 个特性：原子性（Atomicity）、一致性（Consistency）、隔离性（Isolation）和持续性（Durability）。这 4 个特性简称为 ACID 特性。  原子性 事务必须是原子工作单元，事务中的操作要么全部执行，要么全都不执行，不">
+<meta property="og:type" content="article">
+<meta property="og:title" content="MySQL SQL 事务(九)">
+<meta property="og:url" content="https://pingxin0521.gitee.io/2019/05/18/%E6%95%B0%E6%8D%AE%E5%BA%93-MySQL-10-2/index.html">
+<meta property="og:site_name" content="平心de小屋">
+<meta property="og:description" content="TRANSACTIONMySQL 数据库中事务是用户一系列的数据库操作序列，这些操作要么全做要么全不做，是一个不可分割的工作单位。  事务具有 4 个特性：原子性（Atomicity）、一致性（Consistency）、隔离性（Isolation）和持续性（Durability）。这 4 个特性简称为 ACID 特性。  原子性 事务必须是原子工作单元，事务中的操作要么全部执行，要么全都不执行，不">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://i.loli.net/2020/05/08/PFDRNxj93taz6pw.jpg">
+<meta property="article:published_time" content="2019-05-18T05:08:59.000Z">
+<meta property="article:modified_time" content="2019-11-28T13:56:39.124Z">
+<meta property="article:author" content="平心">
+<meta property="article:tag" content="数据库">
+<meta property="article:tag" content="MySQL">
+<meta property="article:tag" content="SQL">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.loli.net/2020/05/08/PFDRNxj93taz6pw.jpg"><link rel="shortcut icon" href="https://s2.ax1x.com/2020/02/11/1ovFOA.png"><link rel="canonical" href="https://pingxin0521.gitee.io/2019/05/18/%E6%95%B0%E6%8D%AE%E5%BA%93-MySQL-10-2/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"search.xml","languages":{"hits_empty":"找不到您查询的内容：${query}"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    jQuery: 'https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js',
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+    },
+    fancybox: {
+      js: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css'
+    }
+  },
+  isPhotoFigcaption: true,
+  islazyload: true,
+  isanchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'MySQL SQL 事务(九)',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2019-11-28 21:56:39'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    })(window)</script><meta name="generator" content="Hexo 5.4.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="author-avatar"><img class="avatar-img" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://s2.ax1x.com/2020/02/11/1ovw6J.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data"><div class="data-item is-center"><div class="data-item-link"><a href="/archives/"><div class="headline">文章</div><div class="length-num">449</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/tags/"><div class="headline">标签</div><div class="length-num">77</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/categories/"><div class="headline">分类</div><div class="length-num">68</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fa fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fa fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://i.loli.net/2020/05/08/PFDRNxj93taz6pw.jpg')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">平心de小屋</a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fa fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fa fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">MySQL SQL 事务(九)</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2019-05-18T05:08:59.000Z" title="发表于 2019-05-18 13:08:59">2019-05-18</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2019-11-28T13:56:39.124Z" title="更新于 2019-11-28 21:56:39">2019-11-28</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a><i class="fas fa-angle-right post-meta-separator"></i><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/MySQL/">MySQL</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">6.6k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>21分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="MySQL SQL 事务(九)"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h3 id="TRANSACTION"><a href="#TRANSACTION" class="headerlink" title="TRANSACTION"></a>TRANSACTION</h3><p>MySQL 数据库中事务是用户一系列的数据库操作序列，这些操作要么全做要么全不做，是一个不可分割的工作单位。 </p>
+<p>事务具有 4 个特性：原子性（Atomicity）、一致性（Consistency）、隔离性（Isolation）和持续性（Durability）。这 4 个特性简称为 ACID 特性。</p>
+<ol>
+<li><p>原子性</p>
+<p>事务必须是原子工作单元，事务中的操作要么全部执行，要么全都不执行，不能只完成部分操作。原子性在数据库系统中，由恢复机制来实现。</p>
+</li>
+<li><p>一致性</p>
+<p>事务开始之前，数据库处于一致性的状态；事务结束后，数据库必须仍处于一致性状态。数据库一致性的定义是由用户负责的。例如，在银行转账中，用户可以定义转账前后两个账户金额之和保持不变。</p>
+</li>
+<li><p>隔离性</p>
+<p>系统必须保证事务不受其他并发执行事务的影响，即当多个事务同时运行时，各事务之间相互隔离，不可互相干扰。事务查看数据时所处的状态，要么是另一个并发事务修改它之前的状态，要么是另一个并发事务修改它之后的状态，事务不会查看中间状态的数据。隔离性通过系统的并发控制机制实现。</p>
+</li>
+<li><p>持久性</p>
+<p>一个已完成的事务对数据所做的任何变动在系统中是永久有效的，即使该事务产生的修改不正确，错误也将一直保持。持久性通过恢复机制实现，发生故障时，可以通过日志等手段恢复数据库信息。</p>
+</li>
+</ol>
+<p>事务的 ACID 原则保证了一个事务或者成功提交，或者失败回滚，二者必居其一。因此，它对事务的修改具有可恢复性。即当事务失败时，它对数据的修改都会恢复到该事务执行前的状态。</p>
+<h4 id="事务提交的方式"><a href="#事务提交的方式" class="headerlink" title="事务提交的方式"></a>事务提交的方式</h4><p>在MariaDB/MySQL中有3种事务提交的方式。</p>
+<ol>
+<li><p>显式开启和提交。</p>
+<p>使用begin或者start transaction来显式开启一个事务，显式开启的事务必须使用commit或者rollback显式提交或回滚。几种特殊的情况除外：行版本隔离级别下的更新冲突和死锁会自动回滚。</p>
+<p>在存储过程中开启事务时必须使用start transaction，因为begin会被存储过程解析为begin…end结构块。</p>
+<p>另外，MariaDB/MySQL中的DDL语句会自动提交前面所有的事务（包括显示开启的事务），而在SQL Server中DDL语句还是需要显式提交的，也就是说在SQL Server中DDL语句也是可以回滚的。</p>
+</li>
+<li><p>自动提交。(MySQL默认的提交方式)</p>
+<p>不需要显式begin或者start transaction来显式开启事务，也不需要显式提交或回滚事务，每次执行DML和DDL语句都会在执行语句前自动开启一个事务，执行语句结束后自动提交或回滚事务。</p>
+</li>
+<li><p>隐式提交事务</p>
+<p>隐式提交事务是指执行某些语句会自动提交事务，包括已经显式开启的事务。</p>
+<p>会隐式提交事务的语句主要有：</p>
+<ul>
+<li>DDL语句(其中有truncate table)。</li>
+<li>隐式修改mysql数据库架构的操作:create user,drop user,grant,rename user,revoke,set password。</li>
+<li>管理语句：analyze table、cache index、check table、load index into cache、optimize table、repair table。</li>
+</ul>
+<p>通过设置 auto_commit 变量值为1或0来设置是否自动提交，为1表示自动提交，0表示关闭自动提交，即必须显式提交。但是不管设置为0还是1，显式开启的事务必须显式提交，而且隐式提交的事务不受任何人为控制。</p>
+</li>
+</ol>
+<h4 id="事务分类"><a href="#事务分类" class="headerlink" title="事务分类"></a>事务分类</h4><ol>
+<li><p>扁平事务</p>
+<p>即最常见的事务。由begin开始，commit或rollback结束，中间的所有操作要么都回滚要么都提交。扁平事务在生产环境中占绝大多数使用情况。因此每一种数据库产品都支持扁平事务。</p>
+<p>扁平事务的缺点在于无法回滚或提交一部分，只能全部回滚或全部提交，所以就有了”带有保存点”的扁平事务。</p>
+</li>
+<li><p>带保存点的扁平事务</p>
+<p>通过在事务内部的某个位置使用savepoint，将来可以在事务中回滚到此位置。</p>
+<p>MariaDB/MySQL中设置保存点的命令为:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">savepoint [savepoint_name]</span><br></pre></td></tr></table></figure>
+
+<p>回滚到指定保存点的命令为：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rollback to savepoint_name</span><br></pre></td></tr></table></figure>
+
+<p>删除一个保存点的命令为：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">release savepoint savepoint_name</span><br></pre></td></tr></table></figure>
+
+<p>实际上，<strong>扁平事务也是有保存点的，只不过它只有一个隐式的保存点，且自动建立在事务开始的位置，</strong>因此扁平事务只能回滚到事务开始处。</p>
+</li>
+<li><p>链事务</p>
+<p>链式事务是保存点扁平事务的变种。它在一个事务提交的时候自动隐式的将上下文传给下一个事务，也就是说一个事务的提交和下一个事务的开始是原子性的，下一个事务可以看到上一个事务的处理结果。通俗地说，就是事务的提交和事务的开始是链接式下去的。</p>
+<p>这样的事务类型，在提交事务的时候，会释放要提交事务内所有的锁和要提交事务内所有的保存点。因此链式事务只能回滚到当前所在事务的保存点，而不能回滚到已提交的事务中的保存点。</p>
+</li>
+<li><p>嵌套事务</p>
+<p>嵌套事务由一个顶层事务控制所有的子事务。子事务的提交完成后不会真的提交，而是等到顶层事务提交才真正的提交。</p>
+<p>关于嵌套事务的机制，主要有以下3个结论：</p>
+<ul>
+<li>回滚内部事务的同时会回滚到外部事务的起始点。</li>
+<li>事务提交时从内向外依次提交。</li>
+<li>回滚外部事务的同时会回滚所有事务，包括已提交的内部事务。因为只提交内部事务时没有真的提交。</li>
+</ul>
+<p>不管怎么样，最好少用嵌套事务。且MariaDB/MySQL不原生态支持嵌套事务(SQL Server支持)。</p>
+</li>
+<li><p>分布式事务</p>
+<p>将多个服务器上的事务(节点)组合形成一个遵循事务特性(acid)的分布式事务。</p>
+<p>例如在工行atm机转账到建行用户。工行atm机所在数据库是一个事务节点A，建行数据库是一个事务节点B，仅靠工行atm机是无法完成转账工作的，因为它控制不了建行的事务。所以它们组成一个分布式事务：</p>
+<ul>
+<li>atm机发出转账口令。</li>
+<li>atm机从工行用户减少N元。</li>
+<li>在建行用户增加N元。</li>
+<li>在atm机上返回转账成功或失败。</li>
+</ul>
+<p>上面涉及了两个事务节点，这些事务节点之间的事务必须同时具有acid属性，要么所有的事务都成功，要么所有的事务都失败，不能只成功atm机的事务，而建行的事务失败。</p>
+<p>MariaDB/MySQL的分布式事务使用两段式提交协议(2-phase commit,2PC)。最重要的是，MySQL 5.7.7之前，MySQL对分布式事务的支持一直都不完善(第一阶段提交后不会写binlog，导致宕机丢失日志)，这个问题持续时间长达数十年，直到MySQL 5.7.7，才完美支持分布式事务。</p>
+</li>
+</ol>
+<h4 id="事务控制语句"><a href="#事务控制语句" class="headerlink" title="事务控制语句"></a>事务控制语句</h4><ul>
+<li><code>begin 和 start transaction</code>表示显式开启一个事务。它们之间并没有什么区别，但是在存储过程中，begin会被识别成begin…end的语句块，所以存储过程只能使用start transaction来显式开启一个事务。</li>
+<li><code>commit 和 commit work</code>用于提交一个事务。</li>
+<li><code>rollback 和 rollback work</code>用于回滚一个事务。</li>
+<li><code>savepoint identifier</code>表示在事务中创建一个保存点。一个事务中允许存在多个保存点。</li>
+<li><code>release savepoint identifier</code>表示删除一个保存点。当要删除的保存点不存在的时候会抛出异常。</li>
+<li><code>rollback to savepoint</code>表示回滚到指定的保存点，回滚到保存点后，该保存点之后的所有操纵都被回滚。注意，rollback to不会结束事务，只是回到某一个保存点的状态。</li>
+<li><code>set transaction</code>用来设置事务的隔离级别。可设置的隔离级别有read uncommitted/read committed/repeatable read/serializable。</li>
+</ul>
+<p>commit与commit work以及rollback与rollback work作用是一样的。但是他们的作用却和变量completion_type的值有关。</p>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://s2.ax1x.com/2019/11/28/QFlXvV.png" alt="QFlXvV.png"></p>
+<p><strong>显式事务的次数统计</strong></p>
+<p>通过全局状态变量<code>com_commit</code>和<code>com_rollback</code>可以查看当前已经显式提交和显式回滚事务的次数。还可以看到回滚到保存点的次数。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; show global status like &quot;%com_commit%&quot;;</span><br><span class="line">+-----------------+---------+</span><br><span class="line">| Variable_name   |   Value |</span><br><span class="line">|-----------------+---------|</span><br><span class="line">| Com_commit      |  110005 |</span><br><span class="line">+-----------------+---------+</span><br><span class="line">mysql&gt; show global status like &quot;%com_rollback%&quot;;</span><br><span class="line">+---------------------------+---------+</span><br><span class="line">| Variable_name             |   Value |</span><br><span class="line">|---------------------------+---------|</span><br><span class="line">| Com_rollback              |      13 |</span><br><span class="line">| Com_rollback_to_savepoint |       0 |</span><br><span class="line">+---------------------------+---------+</span><br></pre></td></tr></table></figure>
+
+<h4 id="一致性非锁定读-快照查询"><a href="#一致性非锁定读-快照查询" class="headerlink" title="一致性非锁定读(快照查询)"></a>一致性非锁定读(快照查询)</h4><p>在innodb存储引擎中，存在一种数据查询方式：快照查询。因为查询的是快照数据，所以查询时不申请共享锁。</p>
+<p>当进行一致性非锁定读查询的时候，查询操作不会去等待记录上的独占锁释放，而是直接去读取快照数据。快照数据是通过undo段来实现的，因此它基本不会产生开销。显然，通过这种方式，可以极大的提高读并发性。</p>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://s2.ax1x.com/2019/11/28/QF1YqS.png" alt="QF1YqS.png"></p>
+<p>快照数据其实是<strong>行版本数据</strong>，一个行记录可能会存在多个行版本，并发时这种读取行版本的方式称为多版本并发控制(MVCC)。在隔离级别为read committed和repeatable read时，采取的查询方式就是一致性非锁定读方式。但是，不同的隔离级别下，读取行版本的方式是不一样的。在后面介绍对应的隔离级别时会作出说明。</p>
+<p>下面是在innodb默认的隔离级别是repeatable read下的实验，该隔离级别下，事务总是在开启的时候获取最新的行版本，并一直持有该版本直到事务结束。更多的”一致性非锁定读”见后文说明read committed和repeatable read部分。</p>
+<p>当前示例表ttt的记录如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; select * from ttt;</span><br><span class="line">+------+</span><br><span class="line">| id   |</span><br><span class="line">+------+</span><br><span class="line">|    1 |</span><br><span class="line">|    2 |</span><br><span class="line">+------+</span><br></pre></td></tr></table></figure>
+
+<p>在会话1执行：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; begin;</span><br><span class="line">mysql&gt; update ttt set id=100 where id=1</span><br></pre></td></tr></table></figure>
+
+<p>在会话2中执行：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; begin;</span><br><span class="line">mysql&gt; select * from ttt;</span><br><span class="line">+------+</span><br><span class="line">| id   |</span><br><span class="line">+------+</span><br><span class="line">|    1 |</span><br><span class="line">|    2 |</span><br><span class="line">+------+</span><br></pre></td></tr></table></figure>
+
+<p>查询的结果和预期的一样，来自开启事务前最新提交的行版本数据。</p>
+<p>回到会话1提交事务：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; commit;</span><br></pre></td></tr></table></figure>
+
+<p>再回到会话2中查询：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; select * from ttt;</span><br><span class="line">+------+</span><br><span class="line">| id   |</span><br><span class="line">+------+</span><br><span class="line">|    1 |</span><br><span class="line">|    2 |</span><br><span class="line">+------+</span><br></pre></td></tr></table></figure>
+
+<p>再次去会话1更新该记录：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; begin;</span><br><span class="line">mysql&gt; update ttt set id=1000 where id=100;</span><br><span class="line">mysql&gt; commit;</span><br></pre></td></tr></table></figure>
+
+<p>再回到会话2执行查询：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; select * from ttt;</span><br><span class="line">+------+</span><br><span class="line">| id   |</span><br><span class="line">+------+</span><br><span class="line">|    1 |</span><br><span class="line">|    2 |</span><br><span class="line">+------+</span><br></pre></td></tr></table></figure>
+
+<p>这就是repeatable read隔离级别下的一致性非锁定读的特性。</p>
+<p>当然，MySQL也支持一致性锁定读的方式。</p>
+<h4 id="一致性锁定读"><a href="#一致性锁定读" class="headerlink" title="一致性锁定读"></a>一致性锁定读</h4><p>在隔离级别为read committed和repeatable read时，采取的查询方式就是一致性非锁定读方式。但是在某些情况下，需要人为的对读操作进行加锁。MySQL中对这种方式的支持是通过在select语句后加上<code>lock in share mode</code>或者<code>for update</code>。</p>
+<ul>
+<li><code>select ... from ... where ... lock in share mode;</code></li>
+<li><code>select ...from ... where ... for update;</code></li>
+</ul>
+<p>使用lock in share mode会对select语句要查询的记录加上一个共享锁(S)，使用for update语句会对select语句要查询的记录加上独占锁(X)。</p>
+<p>另外，对于一致性非锁定读操作，即使要查询的记录已经被for update加上了独占锁，也一样可以读取，就和纯粹的update加的锁一样，只不过此时读取的是快照数据而已。</p>
+<h4 id="事务"><a href="#事务" class="headerlink" title="事务"></a>事务</h4><p>事务特性(ACID)中的隔离性(I,isolation)就是隔离级别，它通过锁来实现。也就是说，<strong>设置不同的隔离级别，其本质只是控制不同的锁行为</strong>。例如操作是否申请锁，什么时候申请锁，申请的锁是立刻释放还是持久持有直到事务结束才释放等。</p>
+<ul>
+<li>读未提交：read uncommitted</li>
+<li>读已提交：read committed</li>
+<li>可重复读：repeatable read</li>
+<li>串行化：serializable</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>脏读</th>
+<th>不可重复读</th>
+<th>幻读</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Read uncommitted</td>
+<td>√</td>
+<td>√</td>
+<td>√</td>
+</tr>
+<tr>
+<td>Read committed</td>
+<td>×</td>
+<td>√</td>
+<td>√</td>
+</tr>
+<tr>
+<td>Repeatable read</td>
+<td>×</td>
+<td>×</td>
+<td>√</td>
+</tr>
+<tr>
+<td>Serializable</td>
+<td>×</td>
+<td>×</td>
+<td>×</td>
+</tr>
+</tbody></table>
+<p>隔离级别是基于会话设置的，当然也可以基于全局进行设置，设置为全局时，不会影响当前会话的级别。设置的方法是：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">set [global | session] transaction isolation level &#123;type&#125;</span><br><span class="line">type:</span><br><span class="line">    read uncommitted | read committed | repeatable read | serializable</span><br></pre></td></tr></table></figure>
+
+<p>或者直接修改变量值也可以：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">set @@global.tx_isolation = &#x27;read-uncommitted&#x27; | &#x27;read-committed&#x27; | &#x27;repeatable-read&#x27; | &#x27;serializable&#x27;</span><br><span class="line">set @@session.tx_isolation = &#x27;read-uncommitted&#x27; | &#x27;read-committed&#x27; | &#x27;repeatable-read&#x27; | &#x27;serializable&#x27;</span><br></pre></td></tr></table></figure>
+
+<p>查看当前会话的隔离级别方法如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; select @@tx_isolation;</span><br><span class="line">mysql&gt; select @@global.tx_isolation;</span><br><span class="line">mysql&gt; select @@tx_isolation;select @@global.tx_isolation;</span><br><span class="line">+-----------------+</span><br><span class="line">| @@tx_isolation  |</span><br><span class="line">+-----------------+</span><br><span class="line">| REPEATABLE-READ |</span><br><span class="line">+-----------------+</span><br><span class="line">+-----------------------+</span><br><span class="line">| @@global.tx_isolation |</span><br><span class="line">+-----------------------+</span><br><span class="line">| REPEATABLE-READ       |</span><br><span class="line">+-----------------------+</span><br></pre></td></tr></table></figure>
+
+<p>注意，事务隔离级别的设置只需在需要的一端设置，不用在两边会话都设置。例如想要让会话2的查询加锁，则只需在会话2上设置serializable，在会话1设置的serializable对会话2是没有影响的，这和SQL Server中一样。但是，MariaDB/MySQL除了serializable隔离级别，其他的隔离级别都默认会读取旧的行版本，所以查询永远不会造成阻塞。而SQL Server中只有基于快照的两种隔离级别才会读取行版本，所以在4种标准的隔离级别下，如果查询加的S锁被阻塞，查询会进入锁等待。</p>
+<p>在MariaDB/MySQL中不会出现更新丢失的问题，因为独占锁一直持有直到事务结束。当1个会话开启事务A修改某记录，另一个会话也开启事务B修改该记录，该修改被阻塞，当事务A提交后，事务B中的更新立刻执行成功，但是执行成功后查询却发现数据并没有随着事务B的想法而改变，因为这时候事务B更新的那条记录已经不是原来的记录了。但是事务A回滚的话，事务B是可以正常更新的，但这没有丢失更新。</p>
+<h5 id="read-uncommitted"><a href="#read-uncommitted" class="headerlink" title="read uncommitted"></a>read uncommitted</h5><p>该级别称为未提交读，即允许读取未提交的数据。</p>
+<p>在该隔离级别下，读数据的时候不会申请读锁，所以也不会出现查询被阻塞的情况。</p>
+<p>在会话1执行：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">create table ttt(id int);</span><br><span class="line">insert into ttt select 1;</span><br><span class="line">insert into ttt select 2;</span><br><span class="line">begin;</span><br><span class="line">update ttt set id=10 where id=1;</span><br></pre></td></tr></table></figure>
+
+<p>如果会话1的隔离级别不是默认的，那么在执行update的过程中，可能会遇到以下错误：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ERROR 1665 (HY000): Cannot execute statement: impossible to write to binary log since BINLOG_FORMAT = STATEMENT and at least one table uses a storage engine limited to row-based logging. InnoDB is limited to row-logging when transaction isolation level is READ COMMITTED or READ UNCOMMITTED.</span><br></pre></td></tr></table></figure>
+
+<p>这是read committed和read uncommitted两个隔离级别只允许row格式的二进制日志记录格式。而当前的二进制日志格式记录方式为statement时就会报错。要解决这个问题，只要将格式设置为row或者mixed即可。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">set @@session.binlog_format=row;</span><br></pre></td></tr></table></figure>
+
+<p>在会话2执行：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">set transaction isolation level read uncommitted;</span><br><span class="line">select * from ttt;</span><br><span class="line">+------+</span><br><span class="line">| id   |</span><br><span class="line">+------+</span><br><span class="line">|   10 |</span><br><span class="line">|    2 |</span><br><span class="line">+------+</span><br></pre></td></tr></table></figure>
+
+<p>发现查询的结果是update后的数据，但是这个数据是会话1未提交的数据。这是<strong>脏读</strong>的问题，即读取了未提交的脏数据。</p>
+<p>如果此时会话1进行了回滚操作，那么会话2上查询的结果又变成了id=1。</p>
+<p>在会话1上执行：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rollback;</span><br></pre></td></tr></table></figure>
+
+<p>在会话2上查询：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; select * from ttt;</span><br><span class="line">+------+</span><br><span class="line">| id   |</span><br><span class="line">+------+</span><br><span class="line">|    1 |</span><br><span class="line">|    2 |</span><br><span class="line">+------+</span><br></pre></td></tr></table></figure>
+
+<p>这是<strong>读不一致</strong>问题。即同一个会话中对同一条记录的读取结果不一致。</p>
+<p>read uncommitted一般不会在生产环境中使用，因为问题太多，会导致<strong>脏读、丢失的更新、幻影读、读不一致</strong>的问题。但由于不申请读锁，从理论上来说，它的并发性是最佳的。所以在某些特殊情况下还是会考虑使用该级别。</p>
+<p>要解决脏读、读不一致问题，只需在查询记录的时候加上共享锁即可。这样在其他事务更新数据的时候就无法查询到更新前的记录。这就是read commmitted隔离级别。</p>
+<h5 id="read-committed"><a href="#read-committed" class="headerlink" title="read committed"></a>read committed</h5><p>对于熟悉SQL Server的人来说，在说明这个隔离级别之前，必须先给个提醒：MariaDB/MySQL中的提交读和SQL Server中的提交读完全不一样，<strong>MariaDB/MySQL中该级别基本类似于SQL Server中基于快照的提交读</strong>。</p>
+<p>在SQL Server中，提交读的查询会申请共享锁，并且在查询结束的一刻立即释放共享锁，如果要查询的记录正好被独占锁锁住，则会进入锁等待，而没有被独占锁锁住的记录则可以正常查询。SQL Server中基于快照的提交读实现的是语句级的事务一致性，每执行一次操作事务序列号加1，并且每次查询的结果都是最新提交的行版本快照。</p>
+<p>也就是说，MariaDB/MySQL中read committed级别总是会读取最新提交的行版本。这在MySQL的innodb中算是一个术语:”<strong>一致性非锁定读</strong>“，即只读取快照数据，不加共享锁。这在前文已经说明过。</p>
+<p>MariaDB/MySQL中的read committed隔离级别下，除非是要检查外键约束或者唯一性约束需要用到<strong>gap lock算法</strong>，其他时候都不会用到。也就是说在此隔离级别下，一般来说只会对行进行锁定，不会锁定范围，所以会导致<strong>幻影读</strong>问题。</p>
+<p>这里要演示的就是在该级别下，会不断的读取最新提交的行版本数据。</p>
+<p>当前示例表ttt的记录如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; select * from ttt;</span><br><span class="line">+------+</span><br><span class="line">| id   |</span><br><span class="line">+------+</span><br><span class="line">|    1 |</span><br><span class="line">|    2 |</span><br><span class="line">+------+</span><br></pre></td></tr></table></figure>
+
+<p>在会话1中执行：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">begin;update ttt set id=100 where id=1;</span><br></pre></td></tr></table></figure>
+
+<p>在会话2中执行：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">set @@session.tx_isolation=&#x27;read-committed&#x27;;</span><br><span class="line">begin;</span><br><span class="line">select * from ttt;</span><br></pre></td></tr></table></figure>
+
+<p>会话2中查询得到的结果为id=1，因为查询的是最新提交的快照数据，而最新提交的快照数据就是id=1。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">+------+</span><br><span class="line">| id   |</span><br><span class="line">+------+</span><br><span class="line">|    1 |</span><br><span class="line">|    2 |</span><br><span class="line">+------+</span><br></pre></td></tr></table></figure>
+
+<p>现在将会话1中的事务提交。</p>
+<p>在会话1中执行：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">commit;</span><br></pre></td></tr></table></figure>
+
+<p>在会话2中查询记录：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">select * from ttt;</span><br><span class="line">+------+</span><br><span class="line">| id   |</span><br><span class="line">+------+</span><br><span class="line">|  100 |</span><br><span class="line">|    2 |</span><br><span class="line">+------+</span><br></pre></td></tr></table></figure>
+
+<p>结果为id=100，因为这个值是最新提交的。</p>
+<p>再次在会话1中修改该值并提交事务。</p>
+<p>在会话1中执行：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">begin;update ttt set id=1000 where id=100;commit;</span><br></pre></td></tr></table></figure>
+
+<p>在会话2中执行：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">select * from ttt;</span><br><span class="line">+------+</span><br><span class="line">| id   |</span><br><span class="line">+------+</span><br><span class="line">| 1000 |</span><br><span class="line">|    2 |</span><br><span class="line">+------+</span><br></pre></td></tr></table></figure>
+
+<p>发现结果变成了1000，因为1000是最新提交的数据。</p>
+<p>read committed隔离级别的行版本读取特性，在和repeatable read隔离级别比较后就很容易理解。</p>
+<h5 id="repeatable-read"><a href="#repeatable-read" class="headerlink" title="repeatable read"></a>repeatable read</h5><p>同样是和上面一样的废话，对于熟悉SQL Server的人来说，在说明这个隔离级别之前，必须先给个提醒：MariaDB/MySQL中的重复读和SQL Server中的重复读完全不一样，<strong>MariaDB/MySQL中该级别基本类似于SQL Server中快照隔离级别</strong>。</p>
+<p>在SQL Server中，重复读的查询会申请共享锁，并且在查询结束的一刻不释放共享锁，而是持有到事务结束。所以会造成比较严重的读写并发问题。SQL Server中快照隔离级别实现的是事务级的事务一致性，每次事务开启的时候获取最新的已提交行版本，只要事务不结束，读取的记录将一直是该行版本中的数据，不管其他事务是否已经提交过对应的数据了。但是SQL Server中的快照隔离会有更新冲突：当检测到两边都想要更新同一记录时，会检测出更新冲突，这样会提前结束事务(进行的是回滚操作)而不用再显式地commit或者rollback。</p>
+<p>也就是说，MariaDB/MySQL中repeatable read级别<strong>总是会在事务开启的时候读取最新提交的行版本，并将该行版本一直持有到事务结束。</strong>但是MySQL中的repeatable read级别下不会像SQL Server一样出现更新冲突的问题。</p>
+<p>前文说过read committed隔离级别下，读取数据时总是会去获取最新已提交的行版本。这是这两个隔离级别在”一致性非锁定读”上的区别。</p>
+<p>另外，MariaDB/MySQL中的repeatable read的加锁方式是<strong>next-key lock算法</strong>，它会进行范围锁定。这就避免了幻影读的问题(官方手册上说无法避免)。在标准SQL中定义的隔离级别中，需要达到serializable级别才能避免幻影读问题，也就是说MariaDB/MySQL中的repeatable read隔离级别已经达到了其他数据库产品(如SQL Server)的serializable级别，而且SQL Server中的serializable加范围锁时，在有索引的时候式锁范围比较不可控(你不知道范围锁锁住哪些具体的范围)，而在MySQL中是可以判断锁定范围的(见<a target="_blank" rel="noopener" href="http://www.cnblogs.com/f-ck-need-u/p/8995475.html#blog4.3">innodb锁算法</a>)。</p>
+<p>这里要演示的就是在该级别下，读取的行版本数据是不随提交而改变的。</p>
+<p>当前示例表ttt的记录如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; select * from ttt;</span><br><span class="line">+------+</span><br><span class="line">| id   |</span><br><span class="line">+------+</span><br><span class="line">|    1 |</span><br><span class="line">|    2 |</span><br><span class="line">+------+</span><br></pre></td></tr></table></figure>
+
+<p>在会话1执行：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">begin;update ttt set id=100 where id=1</span><br></pre></td></tr></table></figure>
+
+<p>在会话2中执行：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">set @@session.tx_isolation=&#x27;repeatable-read&#x27;;</span><br><span class="line">begin;select * from ttt;</span><br><span class="line">+------+</span><br><span class="line">| id   |</span><br><span class="line">+------+</span><br><span class="line">|    1 |</span><br><span class="line">|    2 |</span><br><span class="line">+------+</span><br></pre></td></tr></table></figure>
+
+<p>查询的结果和预期的一样，来自开启事务前最新提交的行版本数据。</p>
+<p>回到会话1提交事务：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">commit;</span><br></pre></td></tr></table></figure>
+
+<p>再回到会话2中查询：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">select * from ttt;</span><br><span class="line">+------+</span><br><span class="line">| id   |</span><br><span class="line">+------+</span><br><span class="line">|    1 |</span><br><span class="line">|    2 |</span><br><span class="line">+------+</span><br></pre></td></tr></table></figure>
+
+<p>再次去会话1更新该记录：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">begin;update ttt set id=1000 where id=100;commit;</span><br></pre></td></tr></table></figure>
+
+<p>再回到会话2执行查询：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">select * from ttt;</span><br><span class="line">+------+</span><br><span class="line">| id   |</span><br><span class="line">+------+</span><br><span class="line">|    1 |</span><br><span class="line">|    2 |</span><br><span class="line">+------+</span><br></pre></td></tr></table></figure>
+
+<p>发现结果根本就不会改变，因为会话2开启事务时获取的行版本的id=1，所以之后读取的一直都是id=1所在的行版本。</p>
+<h5 id="serializable"><a href="#serializable" class="headerlink" title="serializable"></a>serializable</h5><p>在SQL Server中，serializable隔离级别会将查询申请的共享锁持有到事务结束，且申请的锁是范围锁，范围锁的情况根据表有无索引而不同：无索引时锁定整个表，有索引时锁定某些范围，至于锁定哪些具体的范围我发现是不可控的(至少我无法推测和计算)。这样就避免了幻影读的问题。</p>
+<p>这种问题在MariaDB/MySQL中的repeatable read级别就已经实现了，MariaDB/MySQL中的next-key锁算法在加范围锁时也分有无索引：无索引时加锁整个表(实际上不是表而是无穷大区间的行记录)，有索引时加锁部分可控的范围。</p>
+<p>MariaDB/MySQL中的serializable其实类似于repeatable read，只不过所有的select语句会自动在后面加上<code>lock in share mode</code>。也就是说会对所有的读进行加锁，而不是读取行版本的快照数据，也就不再支持”一致性非锁定读”。这样就实现了串行化的事务隔离：每一个事务必须等待前一个事务(哪怕是只有查询的事务)结束后才能进行哪怕只是查询的操作。</p>
+<p>这个隔离级别对并发性来说，显然是有点太严格了。</p>
+<h4 id="事务流程"><a href="#事务流程" class="headerlink" title="事务流程"></a>事务流程</h4><p><strong>开始事务</strong></p>
+<p> 事务以 BEGIN TRANSACTION 开始。</p>
+<p> 语法格式如下： </p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">BEGIN TRANSACTION &lt;事务名称&gt; |@&lt;事务变量名称&gt;</span><br></pre></td></tr></table></figure>
+
+<p> 语法说明如下： </p>
+<ul>
+<li> <code>@&lt;事务变量名称&gt;</code>是由用户定义的变量，必须用 char、varchar、nchar 或 nvarchar数据类型来声明该变量。</li>
+<li> <code>BEGIN TRANSACTION</code> 语句的执行使全局变量 @@TRANCOUNT 的值加 1。</li>
+</ul>
+<p><strong>提交事务</strong></p>
+<p> COMMIT 表示提交事务，即提交事务的所有操作。具体地说，就是将事务中所有对数据库的更新写回到磁盘上的物理数据库中，事务正常结束。</p>
+<p> 提交事务，意味着将事务开始以来所执行的所有数据修改成为数据库的永久部分，因此也标志着一个事务的结束。一旦执行了该命令，将不能回滚事务。只有在所有修改都准备好提交给数据库时，才执行这一操作。</p>
+<p> 语法格式如下： </p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">COMMIT TRANSACTION &lt;事务名称&gt; |@&lt;事务变量名称&gt;</span><br></pre></td></tr></table></figure>
+
+<p> 其中：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">COMMIT TRANSACTION</span><br></pre></td></tr></table></figure>
+
+<p>语句的执行使全局变量 @@TRANCOUNT 的值减 1。 </p>
+<p><strong>撤销事务</strong></p>
+<p> ROLLBACK 表示撤销事务，即在事务运行的过程中发生了某种故障，事务不能继续执行，系统将事务中对数据库的所有已完成的操作全部撤销，回滚到事务开始时的状态。这里的操作指对数据库的更新操作。</p>
+<p> 当事务执行过程中遇到错误时，使用 ROLLBACK TRANSACTION 语句使事务回滚到起点或指定的保持点处。同时，系统将清除自事务起点或到某个保存点所做的所有的数据修改，并且释放由事务控制的资源。因此，这条语句也标志着事务的结束。</p>
+<p> 语法格式如下： </p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ROLLBACK [TRANSACTION]</span><br><span class="line"> [&lt;事务名称&gt;| @&lt;事务变量名称&gt; | &lt;存储点名称&gt;| @ &lt;含有存储点名称的变量名&gt;</span><br></pre></td></tr></table></figure>
+
+<p> 语法说明如下： </p>
+<ul>
+<li> 当条件回滚只影响事务的一部分时，事务不需要全部撤销已执行的操作。可以让事务回滚到指定位置，此时，需要在事务中设定保存点（SAVEPOINT）。保存点所在位置之前的事务语句不用回滚，即保存点之前的操作被视为有效的。保存点的创建通过“SAVING  TRANSACTION&lt;保存点名称&gt;”语句来实现，再执行“ROLLBACK  TRANSACTION&lt;保存点名称&gt;”语句回滚到该保存点。</li>
+<li> 若事务回滚到起点，则全局变量 @@TRANCOUNT 的值减 1；若事务回滚到指定的保存点，则全局变量 @@TRANCOUNT 的值不变。</li>
+</ul>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">平心</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://pingxin0521.gitee.io/2019/05/18/%E6%95%B0%E6%8D%AE%E5%BA%93-MySQL-10-2/">https://pingxin0521.gitee.io/2019/05/18/%E6%95%B0%E6%8D%AE%E5%BA%93-MySQL-10-2/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://pingxin0521.gitee.io" target="_blank">平心de小屋</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a><a class="post-meta__tags" href="/tags/MySQL/">MySQL</a><a class="post-meta__tags" href="/tags/SQL/">SQL</a></div><div class="post_share"><div class="social-share" data-image="https://i.loli.net/2020/05/08/PFDRNxj93taz6pw.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2019/05/19/Java-%E6%A1%86%E6%9E%B6-2-1/"><img class="prev-cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/vCnKyoFJZ1g4XYR.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">JSON框架--fastJSON</div></div></a></div><div class="next-post pull-right"><a href="/2019/05/18/Java-Web-2-4/"><img class="next-cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/vCnKyoFJZ1g4XYR.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">Java servlet 3.0 (三)</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span> 相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2019/05/16/数据库-MySQL-10-0/" title="MySQL SQL 权限(八)"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/PFDRNxj93taz6pw.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2019-11-28</div><div class="title">MySQL SQL 权限(八)</div></div></a></div><div><a href="/2019/05/17/数据库-MySQL-11-2/" title="MySQL SQL 备份--xtrabackup (九)"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/gGE57HRvpcKPfDY.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2019-11-06</div><div class="title">MySQL SQL 备份--xtrabackup (九)</div></div></a></div><div><a href="/2019/05/17/数据库-MySQL-11-1/" title="MySQL SQL 备份--MySQL 工具(九)"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/HjVAdIuT7bZJypS.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2019-10-29</div><div class="title">MySQL SQL 备份--MySQL 工具(九)</div></div></a></div><div><a href="/2019/05/12/数据库-MySQL-4/" title="MySQL SQL 函数（五）"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/PFDRNxj93taz6pw.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2019-11-18</div><div class="title">MySQL SQL 函数（五）</div></div></a></div><div><a href="/2019/05/12/数据库-MySQL-5/" title="MySQL SQL 存储过程（六）"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/gGE57HRvpcKPfDY.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2020-03-19</div><div class="title">MySQL SQL 存储过程（六）</div></div></a></div><div><a href="/2019/05/14/数据库-MySQL-6/" title="MySQL SQL 触发器和索引(七)"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/PFDRNxj93taz6pw.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2019-05-22</div><div class="title">MySQL SQL 触发器和索引(七)</div></div></a></div></div></div><hr/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div class="vcomment" id="vcomment"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="card-info-avatar is-center"><img class="avatar-img" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://s2.ax1x.com/2020/02/11/1ovw6J.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/><div class="author-info__name">平心</div><div class="author-info__description">年轻人的life、learn and think</div></div><div class="card-info-data"><div class="card-info-data-item is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">449</div></a></div><div class="card-info-data-item is-center"><a href="/tags/"><div class="headline">标签</div><div class="length-num">77</div></a></div><div class="card-info-data-item is-center"><a href="/categories/"><div class="headline">分类</div><div class="length-num">68</div></a></div></div><a class="button--animated" id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/hanyunpeng0521"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/hanyunpeng0521" target="_blank" title="Github"><i class="fa fa-github"></i></a><a class="social-icon" href="mailto:m13839441583@163.com" target="_blank" title="Email"><i class="fa fa-envelope"></i></a><a class="social-icon" href="/atom.xml" target="_blank" title=""><i class="fa fa-rss"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn card-announcement-animation"></i><span>公告</span></div><div class="announcement_content">为什么呢？开始提问吧</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#TRANSACTION"><span class="toc-number">1.</span> <span class="toc-text">TRANSACTION</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BA%8B%E5%8A%A1%E6%8F%90%E4%BA%A4%E7%9A%84%E6%96%B9%E5%BC%8F"><span class="toc-number">1.1.</span> <span class="toc-text">事务提交的方式</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BA%8B%E5%8A%A1%E5%88%86%E7%B1%BB"><span class="toc-number">1.2.</span> <span class="toc-text">事务分类</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BA%8B%E5%8A%A1%E6%8E%A7%E5%88%B6%E8%AF%AD%E5%8F%A5"><span class="toc-number">1.3.</span> <span class="toc-text">事务控制语句</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%B8%80%E8%87%B4%E6%80%A7%E9%9D%9E%E9%94%81%E5%AE%9A%E8%AF%BB-%E5%BF%AB%E7%85%A7%E6%9F%A5%E8%AF%A2"><span class="toc-number">1.4.</span> <span class="toc-text">一致性非锁定读(快照查询)</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%B8%80%E8%87%B4%E6%80%A7%E9%94%81%E5%AE%9A%E8%AF%BB"><span class="toc-number">1.5.</span> <span class="toc-text">一致性锁定读</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BA%8B%E5%8A%A1"><span class="toc-number">1.6.</span> <span class="toc-text">事务</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#read-uncommitted"><span class="toc-number">1.6.1.</span> <span class="toc-text">read uncommitted</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#read-committed"><span class="toc-number">1.6.2.</span> <span class="toc-text">read committed</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#repeatable-read"><span class="toc-number">1.6.3.</span> <span class="toc-text">repeatable read</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#serializable"><span class="toc-number">1.6.4.</span> <span class="toc-text">serializable</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BA%8B%E5%8A%A1%E6%B5%81%E7%A8%8B"><span class="toc-number">1.7.</span> <span class="toc-text">事务流程</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2021/05/15/node-2-4/" title="Egg.js -- 为企业级框架和应用而生"><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/okfOw28KlZFbE7z.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Egg.js -- 为企业级框架和应用而生"/></a><div class="content"><a class="title" href="/2021/05/15/node-2-4/" title="Egg.js -- 为企业级框架和应用而生">Egg.js -- 为企业级框架和应用而生</a><time datetime="2021-05-15T10:18:59.000Z" title="发表于 2021-05-15 18:18:59">2021-05-15</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/04/30/node-2-3/" title="Koa -- 基于Node.js平台的下一代Web开发框架"><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/HjVAdIuT7bZJypS.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Koa -- 基于Node.js平台的下一代Web开发框架"/></a><div class="content"><a class="title" href="/2021/04/30/node-2-3/" title="Koa -- 基于Node.js平台的下一代Web开发框架">Koa -- 基于Node.js平台的下一代Web开发框架</a><time datetime="2021-04-30T10:18:59.000Z" title="发表于 2021-04-30 18:18:59">2021-04-30</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/04/01/node-2-1/" title="Node.JS web开发前置知识"><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/gGE57HRvpcKPfDY.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Node.JS web开发前置知识"/></a><div class="content"><a class="title" href="/2021/04/01/node-2-1/" title="Node.JS web开发前置知识">Node.JS web开发前置知识</a><time datetime="2021-04-01T03:18:59.000Z" title="发表于 2021-04-01 11:18:59">2021-04-01</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2020/12/26/%E5%91%A8%E8%AE%B0-10-1/" title="第十一周--谷歌浏览器插件"><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/gGE57HRvpcKPfDY.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="第十一周--谷歌浏览器插件"/></a><div class="content"><a class="title" href="/2020/12/26/%E5%91%A8%E8%AE%B0-10-1/" title="第十一周--谷歌浏览器插件">第十一周--谷歌浏览器插件</a><time datetime="2020-12-26T10:18:59.000Z" title="发表于 2020-12-26 18:18:59">2020-12-26</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2020/12/26/%E5%91%A8%E8%AE%B0-10-0/" title="第十一周--浏览器技术"><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/vCnKyoFJZ1g4XYR.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="第十一周--浏览器技术"/></a><div class="content"><a class="title" href="/2020/12/26/%E5%91%A8%E8%AE%B0-10-0/" title="第十一周--浏览器技术">第十一周--浏览器技术</a><time datetime="2020-12-26T06:18:59.000Z" title="发表于 2020-12-26 14:18:59">2020-12-26</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2019 - 2021 By 平心</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div id="local-search"><div class="search-dialog"><div class="search-dialog__title" id="local-search-title">本地搜索</div><div id="local-input-panel"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div></div><hr/><div id="local-search-results"></div><span class="search-close-button"><i class="fas fa-times"></i></span></div><div id="search-mask"></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload/dist/lazyload.iife.min.js"></script><script src="/js/search/local-search.js"></script><div class="js-pjax"><script>function loadValine () {
+  function initValine () {
+    const valine = new Valine(Object.assign({
+      el: '#vcomment',
+      appId: '4lfIXzqxaC1ONs0MJO4oHu07-gzGzoHsz',
+      appKey: 'qw99Bw8FD0KVKU9m457CwWsr',
+      placeholder: 'Please leave your footprints',
+      avatar: 'monsterid',
+      meta: 'nick,mail,link'.split(','),
+      pageSize: '10',
+      lang: 'zh-CN',
+      recordIP: true,
+      serverURLs: '',
+      emojiCDN: '',
+      emojiMaps: "",
+      enableQQ: true,
+      path: window.location.pathname,
+      requiredFields: ["nick,mail"],
+      visitor: false
+    }, null))
+  }
+
+  if (typeof Valine === 'function') initValine() 
+  else getScript('https://cdn.jsdelivr.net/npm/valine/dist/Valine.min.js').then(initValine)
+}
+
+if ('Valine' === 'Valine' || !false) {
+  if (false) btf.loadComment(document.getElementById('vcomment'),loadValine)
+  else setTimeout(loadValine, 0)
+} else {
+  function loadOtherComment () {
+    loadValine()
+  }
+}</script></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>

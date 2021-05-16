@@ -1,0 +1,554 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>jvm 监控工具 | 平心de小屋</title><meta name="keywords" content="Java"><meta name="author" content="平心"><meta name="copyright" content="平心"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="在实际工作中，在进行jvm调优或者分析内存泄露、溢出等问题时，熟练掌握JVM常用的监控工具能够帮助更快地定位问题所在，目前记录一下使用过的常用的jvm监控工具以及其使用、和对应分析过程。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="jvm 监控工具">
+<meta property="og:url" content="https://pingxin0521.gitee.io/2019/11/01/Java-JVM-2-2/index.html">
+<meta property="og:site_name" content="平心de小屋">
+<meta property="og:description" content="在实际工作中，在进行jvm调优或者分析内存泄露、溢出等问题时，熟练掌握JVM常用的监控工具能够帮助更快地定位问题所在，目前记录一下使用过的常用的jvm监控工具以及其使用、和对应分析过程。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://i.loli.net/2020/05/08/gGE57HRvpcKPfDY.jpg">
+<meta property="article:published_time" content="2019-11-01T11:18:59.000Z">
+<meta property="article:modified_time" content="2020-07-19T08:01:10.161Z">
+<meta property="article:author" content="平心">
+<meta property="article:tag" content="Java">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.loli.net/2020/05/08/gGE57HRvpcKPfDY.jpg"><link rel="shortcut icon" href="https://s2.ax1x.com/2020/02/11/1ovFOA.png"><link rel="canonical" href="https://pingxin0521.gitee.io/2019/11/01/Java-JVM-2-2/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"search.xml","languages":{"hits_empty":"找不到您查询的内容：${query}"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    jQuery: 'https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js',
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+    },
+    fancybox: {
+      js: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css'
+    }
+  },
+  isPhotoFigcaption: true,
+  islazyload: true,
+  isanchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'jvm 监控工具',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2020-07-19 16:01:10'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    })(window)</script><meta name="generator" content="Hexo 5.4.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="author-avatar"><img class="avatar-img" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://s2.ax1x.com/2020/02/11/1ovw6J.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data"><div class="data-item is-center"><div class="data-item-link"><a href="/archives/"><div class="headline">文章</div><div class="length-num">449</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/tags/"><div class="headline">标签</div><div class="length-num">77</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/categories/"><div class="headline">分类</div><div class="length-num">68</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fa fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fa fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://i.loli.net/2020/05/08/gGE57HRvpcKPfDY.jpg')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">平心de小屋</a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fa fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fa fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">jvm 监控工具</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2019-11-01T11:18:59.000Z" title="发表于 2019-11-01 19:18:59">2019-11-01</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2020-07-19T08:01:10.161Z" title="更新于 2020-07-19 16:01:10">2020-07-19</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/Java/">Java</a><i class="fas fa-angle-right post-meta-separator"></i><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/Java/JVM/">JVM</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">4.2k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>14分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="jvm 监控工具"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><p>在实际工作中，在进行jvm调优或者分析内存泄露、溢出等问题时，熟练掌握JVM常用的监控工具能够帮助更快地定位问题所在，目前记录一下使用过的常用的jvm监控工具以及其使用、和对应分析过程。</p>
+<span id="more"></span>
+
+<h3 id="常用命令"><a href="#常用命令" class="headerlink" title="常用命令"></a>常用命令</h3><h4 id="查看进程线程的方法"><a href="#查看进程线程的方法" class="headerlink" title="查看进程线程的方法"></a>查看进程线程的方法</h4><ol>
+<li><p>windows</p>
+<ul>
+<li>任务管理器可以查看进程和线程数,也可以用来杀死进程</li>
+<li>tasklist 查看进程</li>
+<li>taskkill 杀死进程</li>
+</ul>
+</li>
+<li><p>linux</p>
+<ul>
+<li><code>ps -fe</code> 查看所有进程</li>
+<li><code>ps -fT -p &lt;PID&gt;</code> 查看某个进程(PID)的所有线程</li>
+<li><code>kill</code> 杀死进程</li>
+<li><code>top</code> 按大写 H 切换是否显示线程</li>
+<li><code>top -H -p &lt;PID&gt;</code> 查看某个进程(PID)的所有线程</li>
+</ul>
+</li>
+</ol>
+<h4 id="查看jvm使用的垃圾回收器"><a href="#查看jvm使用的垃圾回收器" class="headerlink" title="查看jvm使用的垃圾回收器"></a>查看jvm使用的垃圾回收器</h4><p>在开始了jvm调优或者内存问题分析时，我们首先要了解的就是JVM使用垃圾回收器是什么，才能结合监控工具，做出正确的结果分析。那么如何查看JVM运行时使用的垃圾回收器是什么？</p>
+<p>如果在程序的jvm启动参数中没有指定使用什么垃圾回收器，我们可以直接在命令行执行以下命令</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">java -XX:+PrintCommandLineFlags -version</span><br></pre></td></tr></table></figure>
+
+<p>得到以下输出，此命令默认打印出jvm运行使用的参数以及jvm版本信息，默认情况下不指定垃圾回收器类型的话，从虚拟机参数是没办法知道垃圾回收器类型的。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">-XX:InitialHeapSize=393148480 -XX:MaxHeapSize=6290375680 -XX:+PrintCommandLineFlags -XX:+UseCompressedClassPointers -XX:+UseCompressedOops -XX:+UseParallelGC </span><br><span class="line">openjdk version &quot;1.8.0_252&quot;</span><br><span class="line">OpenJDK Runtime Environment (build 1.8.0_252-8u252-b09-1~18.04-b09)</span><br><span class="line">OpenJDK 64-Bit Server VM (build 25.252-b09, mixed mode)</span><br></pre></td></tr></table></figure>
+
+<h3 id="Java的命令行工具"><a href="#Java的命令行工具" class="headerlink" title="Java的命令行工具"></a>Java的命令行工具</h3><p><strong>jps（JVM Process Status Tools）</strong></p>
+<p>jps是参照Unix系统的取名规则命名的，而他的功能和ps的功能类似，可以列举正在运行的饿虚拟机进程并显示虚拟机执行的主类以及这些进程的唯一ID（LVMID，对应本机来说和PID相同），他的用法如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">jps [option] [hostid]</span><br></pre></td></tr></table></figure>
+
+<p>其中hostid默认为本机，而option选项包含以下选项</p>
+<table>
+<thead>
+<tr>
+<th>Option</th>
+<th>Function</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>-q</td>
+<td>只输出LVMID</td>
+</tr>
+<tr>
+<td>-m</td>
+<td>输出JVM启动时传给主类的方法</td>
+</tr>
+<tr>
+<td>-l</td>
+<td>输出主类的全名，如果是Jar则输出jar的路径</td>
+</tr>
+<tr>
+<td>-v</td>
+<td>输出JVM的启动参数</td>
+</tr>
+</tbody></table>
+<p><strong>jstat（JVM Statistics Monitoring Tools）</strong></p>
+<p>jstat主要用于监控虚拟机的各种运行状态信息，如类的装载、内存、垃圾回收、JIT编译器等，在没有GUI的服务器上，这款工具是首选的一款监控工具。其用法如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">jstat [option vmid [interval [s|ms] [vount] ] ]</span><br></pre></td></tr></table></figure>
+
+<p>参数interval和count分别表示查询间隔和查询次数，如每1毫秒查询一次进程20445的垃圾回收情况，监控20次，命令如下所示：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">jstat –gc 20445 1 20</span><br></pre></td></tr></table></figure>
+
+<p>相关的输出参数介绍可参照官方的<a target="_blank" rel="noopener" href="http://docs.oracle.com/javase/1.5.0/docs/tooldocs/share/jstat.html">说明</a></p>
+<p>选项option代表用户需要查询的虚拟机的信息，主要分为3类：类装载、垃圾回收和运行期的编译情况，具体如下表所示：</p>
+<table>
+<thead>
+<tr>
+<th>Option</th>
+<th>Function</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>-class</td>
+<td>监视类的装载、卸载数量以及类的装载总空间和耗费时间等</td>
+</tr>
+<tr>
+<td>-gc</td>
+<td>监视Java堆，包含eden、2个survivor区、old区和永久带区域的容量、已用空间、GC时间合计等信息</td>
+</tr>
+<tr>
+<td>-gccapcity</td>
+<td>监视内容与-gc相同，但输出主要关注Java区域用到的最大和最小空间</td>
+</tr>
+<tr>
+<td>-gcutil</td>
+<td>监视内容与-gc相同，但输出主要关注已使用空间占总空间的百分比</td>
+</tr>
+<tr>
+<td>-gccause</td>
+<td>与-gcutil输出信息相同，额外输出导致上次GC产生的原因</td>
+</tr>
+<tr>
+<td>-gcnew</td>
+<td>监控新生代的GC情况</td>
+</tr>
+<tr>
+<td>-gcnewcapacity</td>
+<td>与-gcnew监控信息相同，输出主要关注使用到的最大和最小空间</td>
+</tr>
+<tr>
+<td>-gcold</td>
+<td>监控老生代的GC情况</td>
+</tr>
+<tr>
+<td>-gcoldcapacity</td>
+<td>与-gcold监控信息相同，输出主要关注使用到的最大和最小空间</td>
+</tr>
+<tr>
+<td>-gcpermcapacity</td>
+<td>输出永久带用到的最大和最小空间</td>
+</tr>
+<tr>
+<td>-compiler</td>
+<td>输出JIT编译器编译过的方法、耗时信息</td>
+</tr>
+<tr>
+<td>-printcompilation</td>
+<td>输出已经被JIT编译的方法</td>
+</tr>
+</tbody></table>
+<p>比如jstat -gcutil pid查看对应java进程gc情况</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">jstat -gcutil 3109</span><br><span class="line">  S0     S1     E      O      M     CCS    YGC     YGCT    FGC    FGCT     GCT   </span><br><span class="line"> 32.71   0.00  22.70  67.27  94.43  90.80     82    1.584    12    0.521    2.104</span><br><span class="line"></span><br><span class="line">s0: 新生代survivor space0简称 就是准备复制的那块 单位为%</span><br><span class="line">s1:指新生代s1已使用百分比，为0的话说明没有存活对象到这边</span><br><span class="line">e:新生代eden(伊甸园)区域(%)</span><br><span class="line">o:老年代(%)</span><br><span class="line">ygc:新生代  次数</span><br><span class="line">ygct:minor gc耗时</span><br><span class="line">fgct:full gc耗时(秒)</span><br><span class="line">GCT: ygct+fgct 耗时</span><br></pre></td></tr></table></figure>
+
+<p><strong>jinfo（JVM configuration Info for Java）</strong></p>
+<p>Jinfo的作用是实时查看虚拟机的各项参数信息jps –v可以查看虚拟机在启动时被显式指定的参数信息，但是如果你想知道默认的一些参数信息呢？除了去查询对应的资料以外，jinfo就显得很重要了。jinfo的用法如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Jinfo [option] pid</span><br><span class="line"></span><br><span class="line">如 jinfo –sysprops &#123;pid&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>jmap（JVM Memory Map for Java）</strong></p>
+<p>jmap用于生成堆快照（heapdump）。当然我们有很多方法可以取到对应的dump信息，如我们通过JVM启动时加入启动参数 –XX:HeapDumpOnOutOfMemoryError参数，可以让JVM在出现内存溢出错误的时候自动生成dump文件，亦可以通过-XX:HeapDumpOnCtrlBreak参数，在运行时使用ctrl+break按键生成dump文件，当然我们也可以使用kill -3 pid的方式去恐吓JVM生成dump文件。jmap的作用不仅仅是为了获取dump文件，还可以用于查询finalize执行队列、Java堆和永久带的详细信息，如空间使用率、垃圾回收器等。其运行格式如下：</p>
+<p>jmap [option] vmip</p>
+<p>Option的信息如下表所示</p>
+<table>
+<thead>
+<tr>
+<th>Option</th>
+<th>Function</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>-dump</td>
+<td>生成对应的dump信息，用法为-dump:[live,]format=b,file={fileName}</td>
+</tr>
+<tr>
+<td>-finalizerinfo</td>
+<td>显示在F-Queue中等待的Finalizer方法的对象（只在linux下生效）</td>
+</tr>
+<tr>
+<td>-heap</td>
+<td>显示堆的详细信息、垃圾回收器信息、参数配置、分代详情等</td>
+</tr>
+<tr>
+<td>-histo</td>
+<td>显示堆栈中的对象的统计信息，包含类、实例数量和合计容量</td>
+</tr>
+<tr>
+<td>-permstat</td>
+<td>以ClassLoder为统计口径显示永久带的内存状态</td>
+</tr>
+<tr>
+<td>-F</td>
+<td>当虚拟机对-dump无响应时可使用这个选项强制生成dump快照</td>
+</tr>
+</tbody></table>
+<p>示例：<code>jmap -dump:format=b,file=heap.dump 20445</code></p>
+<p><strong>jhat（JVM Heap Analysis Tool）</strong></p>
+<p>jhat是用来分析dump文件的一个微型的HTTP/HTML服务器，它能将生成的dump文件生成在线的HTML文件，让我们可以通过浏览器进行查阅，然而实际中我们很少使用这个工具，因为一般服务器上设置的堆、栈内存都比较大，生成的dump也比较大，直接用jhat容易造成内存溢出，而是我们大部分会将对应的文件拷贝下来，通过其他可视化的工具进行分析。启用法如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">jhat &#123;dump_file&#125;</span><br></pre></td></tr></table></figure>
+
+<p>执行命令后，我们看到系统开始读取这段dump信息，当系统提示Server is ready的时候，用户可以通过在浏览器键入<a href="http://ip:7000进行查询。">http://ip:7000进行查询。</a></p>
+<p><strong>jstack（JVM Stack Trace for java）</strong></p>
+<p>jstack用于JVM当前时刻的线程快照，又称threaddump文件，它是JVM当前每一条线程正在执行的堆栈信息的集合。生成线程快照的主要目的是为了定位线程出现长时间停顿的原因，如线程死锁、死循环、请求外部时长过长导致线程停顿的原因。通过jstack我们就可以知道哪些进程在后台做些什么？在等待什么资源等！其运行格式如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">jstack [option] vmid</span><br></pre></td></tr></table></figure>
+
+<p>相关的option和function如下表所示</p>
+<table>
+<thead>
+<tr>
+<th>Option</th>
+<th>Function</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>-F</td>
+<td>当正常输出的请求不响应时强制输出线程堆栈</td>
+</tr>
+<tr>
+<td>-l</td>
+<td>除堆栈信息外，显示关于锁的附加信息</td>
+</tr>
+<tr>
+<td>-m</td>
+<td>显示native方法的堆栈信息</td>
+</tr>
+</tbody></table>
+<p>示例：<code>jstack -l 20445</code></p>
+<h3 id="Java图形化工具"><a href="#Java图形化工具" class="headerlink" title="Java图形化工具"></a>Java图形化工具</h3><p>可以根据内存使用情况间接了解内存使用和gc情况</p>
+<ol>
+<li><p>JConsole工具。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">概述选项：监控JVM和一些监控变量的信息。 </span><br><span class="line">内存选项：内存使用信息 </span><br><span class="line">线程选项：线程使用信息 </span><br><span class="line">类选项：类调用信息 </span><br><span class="line">VM摘要：JVM的信息 </span><br><span class="line">MBean选项：所有MBean 的信息MBean 展示了所有以一般形式注册到JVM 上的MBean 。MBean 允许你获取所有的平台信息，包括那些不能从其他标签页获取到的信息。注意，其他标签页上的一些信息也在MBean 这里显示。另外，你可以使用 MBean 标签管理你自己的应用的MBean</span><br></pre></td></tr></table></figure>
+
+<p>连接远程Java程序：</p>
+<ul>
+<li><p>需要以如下方式运行你的 java 类</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">java -Djava.rmi.server.hostname=`ip地址` -Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.port=`连接端口` -Dcom.sun.management.jmxremote.ssl=是否安全连接 -Dcom.sun.management.jmxremote.authenticate=是否认证 java类</span><br></pre></td></tr></table></figure></li>
+<li><p>修改 /etc/hosts 文件将 127.0.0.1 映射至主机名</p>
+</li>
+</ul>
+<p>如果要认证访问,还需要做如下步骤</p>
+<ul>
+<li>复制 jmxremote.password 文件</li>
+<li>修改 jmxremote.password 和 jmxremote.access 文件的权限为 600 即文件所有者可读写</li>
+<li>连接时填入 controlRole(用户名),R&amp;D(密码)</li>
+</ul>
+</li>
+<li><p>Java VisualVM </p>
+<p>JDK1.6 中Java 引入了一个新的可视化的JVM 监控工具：Java VisualVM。</p>
+<p>VisualVM 官方网站：<a target="_blank" rel="noopener" href="http://visualvm.java.net/">http://visualvm.java.net/</a></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">jvisualvm</span><br></pre></td></tr></table></figure></li>
+</ol>
+<p>使用参考：</p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/wuzhiwei549/article/details/80593698">https://blog.csdn.net/wuzhiwei549/article/details/80593698</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/b5093103435a">https://www.jianshu.com/p/b5093103435a</a></p>
+<h4 id="MAT"><a href="#MAT" class="headerlink" title="MAT"></a>MAT</h4><p>mat,全程内存分析工具，专门分析内存溢出时，转存的快照，从而定位问题。</p>
+<p>想要分析内存快照，需要配置内存dump，在jvm启动参数中加入以下参数,配置好dump存储路径方便查找。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">-XX:+HeapDumpOnOutOfMemoryError </span><br><span class="line">-XX:HeapDumpPath=/usr/local/dump/error.hprof</span><br></pre></td></tr></table></figure>
+
+<p>必要的<a target="_blank" rel="noopener" href="https://www.eclipse.org/mat/">mat工具下载地址</a></p>
+<h4 id="离线工具查看"><a href="#离线工具查看" class="headerlink" title="离线工具查看"></a>离线工具查看</h4><ol>
+<li><p><a target="_blank" rel="noopener" href="https://github.com/jewes/gchisto">gchisto</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://github.com/chewiebug/GCViewer">gcviewer</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://www.oracle.com/technetwork/java/jvmstat-142257.html">jvmstat</a></p>
+<p>目录结构比较清晰，很容易就能分辨出各目录的功能及作用：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">bat：windows启动程序</span><br><span class="line">bin：linux启动程序</span><br><span class="line">docs：相关文档</span><br><span class="line">etc：linux相关依赖库</span><br><span class="line">jars：相关jar包 </span><br></pre></td></tr></table></figure>
+
+<p>使用jvmstat 之前需要配置相应环境变量，环境变量配置如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">JVMSTAT_HOME：jvmstat安装目录</span><br><span class="line">JVMSTAT_JAVA_HOME：JDK所在目录，与JAVA_HOME值相同</span><br></pre></td></tr></table></figure>
+
+<p> 配置好两个环境变量之后就可以运行jvmstat 了，运行命令为</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">visualgc pid</span><br><span class="line">#windows 系统进入bat 目录后运行该命令</span><br><span class="line">#linux 系统进入bin 目录后运行该命令</span><br></pre></td></tr></table></figure>
+
+<p>jvmstat 作为一款基本的JVM 图形化监控工具，优点就是简单易用，我们可以非常直观的观察堆内存的使用情况，当然仅仅为堆内存，所以jvmstat 具有一定的局限性。</p>
+</li>
+<li><p>YourKit Java Profiler</p>
+<p>YourKit 是一个用于分析Java 与.NET 应用程序的智能工具，YourKit Java Profiler 已经被IT 专业人士与分析师公认为最好的分析工具。通过YourKit 技术解决方案可以以非常高的的专业水平分析出CPU 与内存使用情况</p>
+<p>YourKit Java Profiler 还获得了Java Developer’s Journal(Java 开发者杂志)的编辑选择奖，其功能的强大可见一斑。</p>
+<p>YourKit 网站官方：<a target="_blank" rel="noopener" href="http://www.yourkit.com/">http://www.yourkit.com</a></p>
+</li>
+</ol>
+<h3 id="新工具"><a href="#新工具" class="headerlink" title="新工具"></a>新工具</h3><h4 id="Arthas"><a href="#Arthas" class="headerlink" title="Arthas"></a><a target="_blank" rel="noopener" href="https://arthas.gitee.io/">Arthas</a></h4><p><code>Arthas</code> 是Alibaba开源的Java诊断工具，深受开发者喜爱。</p>
+<p>当你遇到以下类似问题而束手无策时，<code>Arthas</code>可以帮助你解决：</p>
+<ol>
+<li>这个类从哪个 jar 包加载的？为什么会报各种类相关的 Exception？</li>
+<li>我改的代码为什么没有执行到？难道是我没 commit？分支搞错了？</li>
+<li>遇到问题无法在线上 debug，难道只能通过加日志再重新发布吗？</li>
+<li>线上遇到某个用户的数据处理有问题，但线上同样无法 debug，线下无法重现！</li>
+<li>是否有一个全局视角来查看系统的运行状况？</li>
+<li>有什么办法可以监控到JVM的实时运行状态？</li>
+<li>怎么快速定位应用的热点，生成火焰图？</li>
+</ol>
+<p><code>Arthas</code>支持JDK 6+，支持Linux/Mac/Winodws，采用命令行交互模式，同时提供丰富的 <code>Tab</code> 自动补全功能，进一步方便进行问题的定位和诊断。</p>
+<p><strong>安装（选一种即可）</strong>：</p>
+<ol>
+<li><p>使用<code>arthas-boot</code></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">curl -O https://arthas.gitee.io/arthas-boot.jar</span><br><span class="line">java -jar arthas-boot.jar</span><br></pre></td></tr></table></figure></li>
+<li><p>使用as.sh</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl -L https://alibaba.github.io/arthas/install.sh | sh</span><br></pre></td></tr></table></figure></li>
+<li><p>通过Cloud Toolkit插件使用Arthas一键诊断远程服务器，Idea进入 Plugins 选项，搜索“Alibaba Cloud Toolkit”，并安装即可。</p>
+</li>
+</ol>
+<p><code>arthas-boot</code>是<code>Arthas</code>的启动程序，它启动后，会列出所有的Java进程，用户可以选择需要诊断的目标进程。第一次会下载依赖文件</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">java -jar arthas-boot.jar --repo-mirror aliyun --use-http</span><br></pre></td></tr></table></figure>
+
+<p><strong>命令：</strong></p>
+<ol>
+<li><p>基础命令</p>
+<ul>
+<li>help——查看命令帮助信息</li>
+<li><a target="_blank" rel="noopener" href="https://alibaba.github.io/arthas/cat.html">cat</a>——打印文件内容，和linux里的cat命令类似</li>
+<li><a target="_blank" rel="noopener" href="https://alibaba.github.io/arthas/echo.html">echo</a>–打印参数，和linux里的echo命令类似</li>
+<li><a target="_blank" rel="noopener" href="https://alibaba.github.io/arthas/grep.html">grep</a>——匹配查找，和linux里的grep命令类似</li>
+<li><a target="_blank" rel="noopener" href="https://alibaba.github.io/arthas/tee.html">tee</a>——复制标准输入到标准输出和指定的文件，和linux里的tee命令类似</li>
+<li><a target="_blank" rel="noopener" href="https://alibaba.github.io/arthas/pwd.html">pwd</a>——返回当前的工作目录，和linux命令类似</li>
+<li>cls——清空当前屏幕区域</li>
+<li>session——查看当前会话的信息</li>
+<li><a target="_blank" rel="noopener" href="https://alibaba.github.io/arthas/reset.html">reset</a>——重置增强类，将被 Arthas 增强过的类全部还原，Arthas 服务端关闭时会重置所有增强过的类</li>
+<li>version——输出当前目标 Java 进程所加载的 Arthas 版本号</li>
+<li>history——打印命令历史</li>
+<li>quit——退出当前 Arthas 客户端，其他 Arthas 客户端不受影响</li>
+<li>stop——关闭 Arthas 服务端，所有 Arthas 客户端全部退出</li>
+<li><a target="_blank" rel="noopener" href="https://alibaba.github.io/arthas/keymap.html">keymap</a>——Arthas快捷键列表及自定义快捷键</li>
+</ul>
+</li>
+<li><p>jvm相关</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://alibaba.github.io/arthas/dashboard.html">dashboard</a>——当前系统的实时数据面板</li>
+<li><a target="_blank" rel="noopener" href="https://alibaba.github.io/arthas/thread.html">thread</a>——查看当前 JVM 的线程堆栈信息</li>
+<li><a target="_blank" rel="noopener" href="https://alibaba.github.io/arthas/jvm.html">jvm</a>——查看当前 JVM 的信息</li>
+<li><a target="_blank" rel="noopener" href="https://alibaba.github.io/arthas/sysprop.html">sysprop</a>——查看和修改JVM的系统属性</li>
+<li><a target="_blank" rel="noopener" href="https://alibaba.github.io/arthas/sysenv.html">sysenv</a>——查看JVM的环境变量</li>
+<li><a target="_blank" rel="noopener" href="https://alibaba.github.io/arthas/vmoption.html">vmoption</a>——查看和修改JVM里诊断相关的option</li>
+<li><a target="_blank" rel="noopener" href="https://alibaba.github.io/arthas/perfcounter.html">perfcounter</a>——查看当前 JVM 的Perf Counter信息</li>
+<li><a target="_blank" rel="noopener" href="https://alibaba.github.io/arthas/logger.html">logger</a>——查看和修改logger</li>
+<li><a target="_blank" rel="noopener" href="https://alibaba.github.io/arthas/getstatic.html">getstatic</a>——查看类的静态属性</li>
+<li><a target="_blank" rel="noopener" href="https://alibaba.github.io/arthas/ognl.html">ognl</a>——执行ognl表达式</li>
+<li><a target="_blank" rel="noopener" href="https://alibaba.github.io/arthas/mbean.html">mbean</a>——查看 Mbean 的信息</li>
+<li><a target="_blank" rel="noopener" href="https://alibaba.github.io/arthas/heapdump.html">heapdump</a>——dump java heap, 类似jmap命令的heap dump功能</li>
+</ul>
+</li>
+<li><p>class/classloader相关</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://alibaba.github.io/arthas/sc.html">sc</a>——查看JVM已加载的类信息</li>
+<li><a target="_blank" rel="noopener" href="https://alibaba.github.io/arthas/sm.html">sm</a>——查看已加载类的方法信息</li>
+<li><a target="_blank" rel="noopener" href="https://alibaba.github.io/arthas/jad.html">jad</a>——反编译指定已加载类的源码</li>
+<li><a target="_blank" rel="noopener" href="https://alibaba.github.io/arthas/mc.html">mc</a>——内存编译器，内存编译<code>.java</code>文件为<code>.class</code>文件</li>
+<li><a target="_blank" rel="noopener" href="https://alibaba.github.io/arthas/redefine.html">redefine</a>——加载外部的<code>.class</code>文件，redefine到JVM里</li>
+<li><a target="_blank" rel="noopener" href="https://alibaba.github.io/arthas/dump.html">dump</a>——dump 已加载类的 byte code 到特定目录</li>
+<li><a target="_blank" rel="noopener" href="https://alibaba.github.io/arthas/classloader.html">classloader</a>——查看classloader的继承树，urls，类加载信息，使用classloader去getResource</li>
+</ul>
+</li>
+<li><p>monitor/watch/trace相关</p>
+<blockquote>
+<p>请注意，这些命令，都通过字节码增强技术来实现的，会在指定类的方法中插入一些切面来实现数据统计和观测，因此在线上、预发使用时，请尽量明确需要观测的类、方法以及条件，诊断结束要执行 <code>stop</code> 或将增强过的类执行 <code>reset</code> 命令。</p>
+</blockquote>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://alibaba.github.io/arthas/monitor.html">monitor</a>——方法执行监控</li>
+<li><a target="_blank" rel="noopener" href="https://alibaba.github.io/arthas/watch.html">watch</a>——方法执行数据观测</li>
+<li><a target="_blank" rel="noopener" href="https://alibaba.github.io/arthas/trace.html">trace</a>——方法内部调用路径，并输出方法路径上的每个节点上耗时</li>
+<li><a target="_blank" rel="noopener" href="https://alibaba.github.io/arthas/stack.html">stack</a>——输出当前方法被调用的调用路径</li>
+<li><a target="_blank" rel="noopener" href="https://alibaba.github.io/arthas/tt.html">tt</a>——方法执行数据的时空隧道，记录下指定方法每次调用的入参和返回信息，并能对这些不同的时间下调用进行观测</li>
+</ul>
+</li>
+<li><p>profiler/火焰图</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://alibaba.github.io/arthas/profiler.html">profiler</a>–使用<a target="_blank" rel="noopener" href="https://github.com/jvm-profiling-tools/async-profiler">async-profiler</a>对应用采样，生成火焰图</li>
+</ul>
+</li>
+<li><p>options</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://alibaba.github.io/arthas/options.html">options</a>——查看或设置Arthas全局开关</li>
+</ul>
+</li>
+<li><p>管道</p>
+<p>Arthas支持使用管道对上述命令的结果进行进一步的处理，如<code>sm java.lang.String * | grep &#39;index&#39;</code></p>
+<ul>
+<li>grep——搜索满足条件的结果</li>
+<li>plaintext——将命令的结果去除ANSI颜色</li>
+<li>wc——按行统计输出结果</li>
+</ul>
+</li>
+<li><p>后台异步任务</p>
+<p>当线上出现偶发的问题，比如需要watch某个条件，而这个条件一天可能才会出现一次时，异步后台任务就派上用场了，详情请参考<a target="_blank" rel="noopener" href="https://alibaba.github.io/arthas/async.html">这里</a></p>
+<ul>
+<li>使用 &gt; 将结果重写向到日志文件，使用 &amp; 指定命令是后台运行，session断开不影响任务执行（生命周期默认为1天）</li>
+<li>jobs——列出所有job</li>
+<li>kill——强制终止任务</li>
+<li>fg——将暂停的任务拉到前台执行</li>
+<li>bg——将暂停的任务放到后台执行</li>
+</ul>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://alibaba.github.io/arthas/web-console.html">Web Console</a></p>
+<p>通过websocket连接Arthas。用户在attach成功之后，可以直接访问：<a target="_blank" rel="noopener" href="http://127.0.0.1:3658/%E3%80%82%E9%BB%98%E8%AE%A4%E6%83%85%E5%86%B5%E4%B8%8B%EF%BC%8Carthas%E5%8F%AAlisten">http://127.0.0.1:3658/。默认情况下，arthas只listen</a> 127.0.0.1，所以如果想从远程连接，则可以使用 <code>--target-ip</code>参数指定listen的IP</p>
+</li>
+<li><p>以java agent方式启动</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">java -javaagent:/tmp/test/arthas-agent.jar -jar arthas-demo.jar</span><br></pre></td></tr></table></figure>
+
+<p>默认的配置项在解压目录里的<code>arthas.properties</code>文件里。参考： <a target="_blank" rel="noopener" href="https://docs.oracle.com/javase/8/docs/api/java/lang/instrument/package-summary.html">https://docs.oracle.com/javase/8/docs/api/java/lang/instrument/package-summary.html</a></p>
+</li>
+<li><p>Arthas Spring Boot Starter</p>
+<p>配置maven依赖：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>com.taobao.arthas<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>arthas-spring-boot-starter<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>$&#123;arthas.version&#125;<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>应用启动后，spring会启动arthas，并且attach自身进程。</p>
+</li>
+</ol>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">平心</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://pingxin0521.gitee.io/2019/11/01/Java-JVM-2-2/">https://pingxin0521.gitee.io/2019/11/01/Java-JVM-2-2/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://pingxin0521.gitee.io" target="_blank">平心de小屋</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/Java/">Java</a></div><div class="post_share"><div class="social-share" data-image="https://i.loli.net/2020/05/08/gGE57HRvpcKPfDY.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2019/11/02/Java-SpringCloud-5-0/"><img class="prev-cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/HjVAdIuT7bZJypS.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">SpringCloud组件之Spring Cloud Config （七）</div></div></a></div><div class="next-post pull-right"><a href="/2019/11/01/Java-SpringCloud-3-0/"><img class="next-cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/vCnKyoFJZ1g4XYR.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">Spring Cloud 组件之Hystrix (五)</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span> 相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2019/07/12/Java-SpringBoot-1-4-2/" title="Spring boot 数据访问 MongoDB"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/okfOw28KlZFbE7z.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2020-01-25</div><div class="title">Spring boot 数据访问 MongoDB</div></div></a></div><div><a href="/2019/12/10/Java-SpringBoot-1-6-1/" title="Spring boot 消息队列(使用RabbitMQ)"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/7dHvepmfYOLWTrX.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2020-02-09</div><div class="title">Spring boot 消息队列(使用RabbitMQ)</div></div></a></div><div><a href="/2019/05/30/Java-SpringCloud-0-0/" title="Spring Cloud 入门 (一)"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/7dHvepmfYOLWTrX.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2020-12-27</div><div class="title">Spring Cloud 入门 (一)</div></div></a></div><div><a href="/2019/11/01/Java-SpringCloud-3-0/" title="Spring Cloud 组件之Hystrix (五)"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/vCnKyoFJZ1g4XYR.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2020-12-27</div><div class="title">Spring Cloud 组件之Hystrix (五)</div></div></a></div><div><a href="/2019/10/27/Java-SpringCloud-6-0/" title="微服务组件--分布式追踪系统"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/PFDRNxj93taz6pw.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2020-12-27</div><div class="title">微服务组件--分布式追踪系统</div></div></a></div><div><a href="/2019/11/03/Java-SpringCloud-6-2/" title="SpringCloud组件之Spring Cloud Sleuth (八)"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/gGE57HRvpcKPfDY.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2020-12-27</div><div class="title">SpringCloud组件之Spring Cloud Sleuth (八)</div></div></a></div></div></div><hr/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div class="vcomment" id="vcomment"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="card-info-avatar is-center"><img class="avatar-img" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://s2.ax1x.com/2020/02/11/1ovw6J.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/><div class="author-info__name">平心</div><div class="author-info__description">年轻人的life、learn and think</div></div><div class="card-info-data"><div class="card-info-data-item is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">449</div></a></div><div class="card-info-data-item is-center"><a href="/tags/"><div class="headline">标签</div><div class="length-num">77</div></a></div><div class="card-info-data-item is-center"><a href="/categories/"><div class="headline">分类</div><div class="length-num">68</div></a></div></div><a class="button--animated" id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/hanyunpeng0521"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/hanyunpeng0521" target="_blank" title="Github"><i class="fa fa-github"></i></a><a class="social-icon" href="mailto:m13839441583@163.com" target="_blank" title="Email"><i class="fa fa-envelope"></i></a><a class="social-icon" href="/atom.xml" target="_blank" title=""><i class="fa fa-rss"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn card-announcement-animation"></i><span>公告</span></div><div class="announcement_content">为什么呢？开始提问吧</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4"><span class="toc-number">1.</span> <span class="toc-text">常用命令</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%9F%A5%E7%9C%8B%E8%BF%9B%E7%A8%8B%E7%BA%BF%E7%A8%8B%E7%9A%84%E6%96%B9%E6%B3%95"><span class="toc-number">1.1.</span> <span class="toc-text">查看进程线程的方法</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%9F%A5%E7%9C%8Bjvm%E4%BD%BF%E7%94%A8%E7%9A%84%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6%E5%99%A8"><span class="toc-number">1.2.</span> <span class="toc-text">查看jvm使用的垃圾回收器</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Java%E7%9A%84%E5%91%BD%E4%BB%A4%E8%A1%8C%E5%B7%A5%E5%85%B7"><span class="toc-number">2.</span> <span class="toc-text">Java的命令行工具</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Java%E5%9B%BE%E5%BD%A2%E5%8C%96%E5%B7%A5%E5%85%B7"><span class="toc-number">3.</span> <span class="toc-text">Java图形化工具</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#MAT"><span class="toc-number">3.1.</span> <span class="toc-text">MAT</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%A6%BB%E7%BA%BF%E5%B7%A5%E5%85%B7%E6%9F%A5%E7%9C%8B"><span class="toc-number">3.2.</span> <span class="toc-text">离线工具查看</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%96%B0%E5%B7%A5%E5%85%B7"><span class="toc-number">4.</span> <span class="toc-text">新工具</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Arthas"><span class="toc-number">4.1.</span> <span class="toc-text">Arthas</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2021/05/15/node-2-4/" title="Egg.js -- 为企业级框架和应用而生"><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/okfOw28KlZFbE7z.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Egg.js -- 为企业级框架和应用而生"/></a><div class="content"><a class="title" href="/2021/05/15/node-2-4/" title="Egg.js -- 为企业级框架和应用而生">Egg.js -- 为企业级框架和应用而生</a><time datetime="2021-05-15T10:18:59.000Z" title="发表于 2021-05-15 18:18:59">2021-05-15</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/04/30/node-2-3/" title="Koa -- 基于Node.js平台的下一代Web开发框架"><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/HjVAdIuT7bZJypS.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Koa -- 基于Node.js平台的下一代Web开发框架"/></a><div class="content"><a class="title" href="/2021/04/30/node-2-3/" title="Koa -- 基于Node.js平台的下一代Web开发框架">Koa -- 基于Node.js平台的下一代Web开发框架</a><time datetime="2021-04-30T10:18:59.000Z" title="发表于 2021-04-30 18:18:59">2021-04-30</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/04/01/node-2-1/" title="Node.JS web开发前置知识"><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/gGE57HRvpcKPfDY.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Node.JS web开发前置知识"/></a><div class="content"><a class="title" href="/2021/04/01/node-2-1/" title="Node.JS web开发前置知识">Node.JS web开发前置知识</a><time datetime="2021-04-01T03:18:59.000Z" title="发表于 2021-04-01 11:18:59">2021-04-01</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2020/12/26/%E5%91%A8%E8%AE%B0-10-1/" title="第十一周--谷歌浏览器插件"><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/gGE57HRvpcKPfDY.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="第十一周--谷歌浏览器插件"/></a><div class="content"><a class="title" href="/2020/12/26/%E5%91%A8%E8%AE%B0-10-1/" title="第十一周--谷歌浏览器插件">第十一周--谷歌浏览器插件</a><time datetime="2020-12-26T10:18:59.000Z" title="发表于 2020-12-26 18:18:59">2020-12-26</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2020/12/26/%E5%91%A8%E8%AE%B0-10-0/" title="第十一周--浏览器技术"><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/vCnKyoFJZ1g4XYR.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="第十一周--浏览器技术"/></a><div class="content"><a class="title" href="/2020/12/26/%E5%91%A8%E8%AE%B0-10-0/" title="第十一周--浏览器技术">第十一周--浏览器技术</a><time datetime="2020-12-26T06:18:59.000Z" title="发表于 2020-12-26 14:18:59">2020-12-26</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2019 - 2021 By 平心</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div id="local-search"><div class="search-dialog"><div class="search-dialog__title" id="local-search-title">本地搜索</div><div id="local-input-panel"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div></div><hr/><div id="local-search-results"></div><span class="search-close-button"><i class="fas fa-times"></i></span></div><div id="search-mask"></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload/dist/lazyload.iife.min.js"></script><script src="/js/search/local-search.js"></script><div class="js-pjax"><script>function loadValine () {
+  function initValine () {
+    const valine = new Valine(Object.assign({
+      el: '#vcomment',
+      appId: '4lfIXzqxaC1ONs0MJO4oHu07-gzGzoHsz',
+      appKey: 'qw99Bw8FD0KVKU9m457CwWsr',
+      placeholder: 'Please leave your footprints',
+      avatar: 'monsterid',
+      meta: 'nick,mail,link'.split(','),
+      pageSize: '10',
+      lang: 'zh-CN',
+      recordIP: true,
+      serverURLs: '',
+      emojiCDN: '',
+      emojiMaps: "",
+      enableQQ: true,
+      path: window.location.pathname,
+      requiredFields: ["nick,mail"],
+      visitor: false
+    }, null))
+  }
+
+  if (typeof Valine === 'function') initValine() 
+  else getScript('https://cdn.jsdelivr.net/npm/valine/dist/Valine.min.js').then(initValine)
+}
+
+if ('Valine' === 'Valine' || !false) {
+  if (false) btf.loadComment(document.getElementById('vcomment'),loadValine)
+  else setTimeout(loadValine, 0)
+} else {
+  function loadOtherComment () {
+    loadValine()
+  }
+}</script></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>

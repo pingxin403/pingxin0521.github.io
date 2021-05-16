@@ -1,0 +1,315 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Docker 基础概念 | 平心de小屋</title><meta name="keywords" content="容器,Docker"><meta name="author" content="平心"><meta name="copyright" content="平心"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="Docker内部构建要理解Docker内部构建，需要理解以下三种部件：  Docker镜像（Image）  Docker容器（Container）  Docker仓库（repository）   基本上理解了这三个概念，就理解了Docker的整个生命周期。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Docker 基础概念">
+<meta property="og:url" content="https://pingxin0521.gitee.io/2019/07/05/%E5%AE%B9%E5%99%A8-Docker-0-2/index.html">
+<meta property="og:site_name" content="平心de小屋">
+<meta property="og:description" content="Docker内部构建要理解Docker内部构建，需要理解以下三种部件：  Docker镜像（Image）  Docker容器（Container）  Docker仓库（repository）   基本上理解了这三个概念，就理解了Docker的整个生命周期。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://i.loli.net/2020/05/08/7dHvepmfYOLWTrX.jpg">
+<meta property="article:published_time" content="2019-07-05T00:18:59.000Z">
+<meta property="article:modified_time" content="2019-11-14T08:47:13.131Z">
+<meta property="article:author" content="平心">
+<meta property="article:tag" content="容器">
+<meta property="article:tag" content="Docker">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.loli.net/2020/05/08/7dHvepmfYOLWTrX.jpg"><link rel="shortcut icon" href="https://s2.ax1x.com/2020/02/11/1ovFOA.png"><link rel="canonical" href="https://pingxin0521.gitee.io/2019/07/05/%E5%AE%B9%E5%99%A8-Docker-0-2/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"search.xml","languages":{"hits_empty":"找不到您查询的内容：${query}"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    jQuery: 'https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js',
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+    },
+    fancybox: {
+      js: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css'
+    }
+  },
+  isPhotoFigcaption: true,
+  islazyload: true,
+  isanchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'Docker 基础概念',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2019-11-14 16:47:13'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    })(window)</script><meta name="generator" content="Hexo 5.4.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="author-avatar"><img class="avatar-img" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://s2.ax1x.com/2020/02/11/1ovw6J.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data"><div class="data-item is-center"><div class="data-item-link"><a href="/archives/"><div class="headline">文章</div><div class="length-num">449</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/tags/"><div class="headline">标签</div><div class="length-num">77</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/categories/"><div class="headline">分类</div><div class="length-num">68</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fa fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fa fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://i.loli.net/2020/05/08/7dHvepmfYOLWTrX.jpg')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">平心de小屋</a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fa fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fa fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">Docker 基础概念</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2019-07-05T00:18:59.000Z" title="发表于 2019-07-05 08:18:59">2019-07-05</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2019-11-14T08:47:13.131Z" title="更新于 2019-11-14 16:47:13">2019-11-14</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E5%AE%B9%E5%99%A8/">容器</a><i class="fas fa-angle-right post-meta-separator"></i><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E5%AE%B9%E5%99%A8/Docker/">Docker</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">3.8k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>12分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="Docker 基础概念"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h4 id="Docker内部构建"><a href="#Docker内部构建" class="headerlink" title="Docker内部构建"></a>Docker内部构建</h4><p>要理解Docker内部构建，需要理解以下三种部件：</p>
+<ul>
+<li><p>Docker镜像（Image）</p>
+</li>
+<li><p>Docker容器（Container）</p>
+</li>
+<li><p>Docker仓库（repository）</p>
+</li>
+</ul>
+<p>基本上理解了这三个概念，就理解了Docker的整个生命周期。</p>
+<span id="more"></span>
+
+<p><strong>1）Docker镜像（Image）</strong></p>
+<p>Docker镜像就是一个只读的模板。比如，一个镜像可以包含一个完整的ubuntu操作系统环境，里面仅安装了apache或用户需要的其他应用程序。镜像可以用来创建Docker容器。另外Docker提供了一个很简单的机制来创建镜像或者更新现有的镜像，用户甚至可以直接从其他人哪里下载一个已经做好的镜像来直接使用。</p>
+<p><strong>2）Docker容器（Container）</strong></p>
+<p>Docker利用容器来运行应用。容器是从镜像创建的运行实例，它可以被启动、开始、停止、 删除。每个容器都是相互隔离的、保证安全的平台。可以把容器看做是一个简易版的Linux 环境（包括root用户权限、进程空间、用户空间和网络空间等）和运行在其中的应用程序。</p>
+<p>注：镜像是只读的，容器在启动的时候创建一层可写层作为最上层。</p>
+<p><strong>3）Docker仓库（repository）</strong></p>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2019/10/25/8NugPBQwLJXxUmT.png" alt="UTOOLS1571991329534.png"></p>
+<p>仓库是集中存放镜像文件的场所。有时候会把仓库和仓库注册服务器（Registry）混为一谈， 并不严格区分。实际上，仓库注册服务器上往往存放着多个仓库，每个仓库中又包含了多个镜像，每个镜像有不同的标签（tag）。</p>
+<p>仓库分为公开仓库（Public）和私有仓库（Private）两种形式。最大的公开仓库是Docker Hub， 存放了数量庞大的镜像供用户下载。国内的公开仓库包括Docker Pool等，可以提供大陆用户更稳定快速的访问。当然，用户也可以在本地网络内创建一个私有仓库。当用户创建了自己的镜像之后就可以使用push命令将它上传到公有或者私有仓库，这样下次在另外一台机器上使用这个镜像时候，只需要从仓库上pull下来就可以了。</p>
+<p>注：Docker仓库的概念跟Git类似，注册服务器可以理解为GitHub这样的托管服务。</p>
+<h4 id="Docker引擎"><a href="#Docker引擎" class="headerlink" title="Docker引擎"></a>Docker引擎</h4><p>docker引擎是一个c/s结构的应用，主要组件见下图：</p>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2019/10/25/aLl2hSp63KtmJqx.png" alt="UTOOLS1571991004283.png"></p>
+<ul>
+<li><p>Server是一个常驻进程</p>
+</li>
+<li><p>REST API 实现了client和server间的交互协议</p>
+</li>
+<li><p>CLI 实现容器和镜像的管理，为用户提供统一的操作界面</p>
+</li>
+</ul>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2019/10/25/oFyEdVCUpsKvmnI.png" alt="UTOOLS1571991054638.png"></p>
+<h4 id="Docker构架"><a href="#Docker构架" class="headerlink" title="Docker构架"></a>Docker构架</h4><p>Docker使用C/S架构，Client 通过接口与Server进程通信实现容器的构建，运行和发布。client和server可以运行在同一台集群，也可以通过跨主机实现远程通信。</p>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2019/10/25/RpJE9ArUzfTWb5i.png" alt="UTOOLS1571991094075.png"></p>
+<p>描述： C/S架构，docker是三部分组成：client,docker_host(server),registry(仓库)，无论是C，还是S端，由docker一个程序来提供，有很多子程序，其中有一个子程序叫daemon,表示运行为守护进程，所以运行为daemon就是把服务器变成为守护进程服务器来使用，可以监听在某个套接字之上，为了安全保是提供本机unix.socket的套接字，如mysql是由tcp/ip加端口，和socket文件来实现通信，docker也是C/S架构，所以服务器端是监听在某个套接字上，但是docker支持三种类型的套接字：ipv4地址加端口，ipv6地址加端口，unix sock file实际是监听在本地的一个文件上，这样另外两个没有监听，导致一个结果是只允许客户端是本地的</p>
+<p>在docker主机上有容器，镜像，是docker主机上非常重要的组成部分，镜像来自于docker registry(docker镜像仓库)，默认是到docker hub上下载镜像，镜像是分层构建的，很多基层镜像是可以共享给很多上层镜像使用的，启动容器时就是基于容器来启动，在镜像的基础上为容器创建一个专用的可写层，所以镜像也要在docker主机上存储，但是在主机上运行那些容器是无论评估的，所以有<br>一个专门的仓库来存储镜像，docker hub可能有几十万个镜像，下载时是默认使用https来操作，client与docker host之间也是使用http/https协议，docker的api也是一个标准的restful的api.</p>
+<p>docker运行过程中，开始下载时可能比较慢，要从国外下载镜像，取决于互联网连接速度，在大陆有一台docker的镜像服务器CA，但是加速的效果不是很好，可以使用阿里云使用的加速(快，每个人都有自己私有账号，要在阿里云的开发者平台上注册一个账号)</p>
+<p>随着Docker的不断流行与发展，docker公司（或称为组织）也开启了商业化之路，Docker 从 17.03版本之后分为 CE（Community Edition） 和 EE（Enterprise Edition）。</p>
+<p>参看：<a target="_blank" rel="noopener" href="https://www.cnblogs.com/webenh/p/11254387.html">https://www.cnblogs.com/webenh/p/11254387.html</a></p>
+<h4 id="docke核心技术"><a href="#docke核心技术" class="headerlink" title="docke核心技术"></a>docke核心技术</h4><p>核心技术架构</p>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2019/10/25/TQ8Sg5YhD4XFuvy.png" alt="UTOOLS1571991533238.png"></p>
+<p><strong>名字空间（Namespaces）</strong></p>
+<p>名字空间是 Linux 内核一个强大的特性。每个容器都有自己单独的名字空间，运行在其中的应用都像是在独立的操作系统中运行一样。名字空间保证了容器之间彼此互不影响。</p>
+<ol>
+<li><p>pid 名字空间<br>不同用户的进程就是通过 pid 名字空间隔离开的，且不同名字空间中可以有相同 pid。所有的 LXC 进程在Docker 中的父进程为Docker进程，每个 LXC 进程具有不同的名字空间。同时由于允许嵌套，因此可以很方便的实现嵌套的 Docker 容器。</p>
+</li>
+<li><p>net 名字空间<br>有了 pid 名字空间, 每个名字空间中的 pid 能够相互隔离，但是网络端口还是共享 host 的端口。网络隔离是通过 net 名字空间实现的， 每个 net 名字空间有独立的 网络设备, IP 地址, 路由表, /proc/net 目录。这样每个容器的网络就能隔离开来。Docker 默认采用 veth 的方式，将容器中的虚拟网卡同 host 上的一 个Docker网桥 docker0 连接在一起。</p>
+</li>
+<li><p>ipc 名字空间<br>容器中进程交互还是采用了 Linux 常见的进程间交互方法(interprocess communication – IPC), 包括信号量、消息队列和共享内存等。然而同 VM 不同的是，容器的进程间交互实际上还是 host 上具有相同 pid 名字空间中的进程间交互，因此需要在 IPC 资源申请时加入名字空间信息，每个 IPC 资源有一个唯一的 32位 id。</p>
+</li>
+<li><p>mnt 名字空间<br>类似 chroot，将一个进程放到一个特定的目录执行。mnt 名字空间允许不同名字空间的进程看到的文件结构不同，这样每个名字空间 中的进程所看到的文件目录就被隔离开了。同 chroot 不同，每个名字空间中的容器在 /proc/mounts 的信息只包含所在名字空间的 mount point。</p>
+</li>
+<li><p>uts 名字空间<br>UTS(“UNIX Time-sharing System”) 名字空间允许每个容器拥有独立的 hostname 和 domain name, 使其在网络上可以被视作一个独立的节点而非 主机上的一个进程。</p>
+</li>
+<li><p>user 名字空间<br>每个容器可以有不同的用户和组 id, 也就是说可以在容器内用容器内部的用户执行程序而非主机上的用户。</p>
+</li>
+</ol>
+<p><strong>控制组（cgroups）</strong></p>
+<p>控制组（cgroups）是 Linux 内核的一个特性，主要用来对共享资源进行隔离、限制、审计等。只有能控制分配到容器的资源，才能避免当多个容器同时运行时的对系统资源的竞争。<br>控制组技术最早是由 Google 的程序员 2006 年起提出，Linux 内核自 2.6.24 开始支持。</p>
+<p>控制组可以提供对容器的内存、CPU、磁盘 IO 等资源的限制和审计管理。</p>
+<p><strong>联合文件系统（UnionFS）</strong></p>
+<p>联合文件系统（UnionFS）是一种分层、轻量级并且高性能的文件系统，它支持对文件系统的修改作为一次提交来一层层的叠加，同时可以将不同目录挂载到同一个虚拟文件系统下(unite several directories into asingle virtual filesystem)。<br>联合文件系统是 Docker 镜像的基础。镜像可以通过分层来进行继承，基于基础镜像（没有父镜像），可以制作各种具体的应用镜像。</p>
+<p>另外，不同 Docker 容器就可以共享一些基础的文件系统层，同时再加上自己独有的改动层，大大提高了存储的效率。</p>
+<p>Docker 中使用的 AUFS（AnotherUnionFS）就是一种联合文件系统。 AUFS 支持为每一个成员目录（类似 Git 的分支）设定只读（readonly）、读写（readwrite）和写出（whiteout-able）权限, 同时 AUFS 里有一个类似分层的概念, 对只读权限的分支可以逻辑上进行增量地修改(不影响只读部分的)。</p>
+<p>Docker 目前支持的联合文件系统种类包括 AUFS, btrfs, vfs 和 DeviceMapper。</p>
+<p><strong>容器格式</strong></p>
+<p>最初，Docker 采用了 LXC 中的容器格式。自 1.20 版本开始，Docker 也开始支持新的 libcontainer 格式，并作为默认选项。</p>
+<p><strong>工具</strong></p>
+<ul>
+<li><p>docker：docker 的命令行工具，是给用户和 docker daemon 建立通信的客户端。</p>
+</li>
+<li><p>dockerd：dockerd 是 docker 架构中一个常驻在后台的系统进程，称为 docker daemon，dockerd 实际调用的还是 containerd 的 api 接口（rpc 方式实现）,docker daemon 的作用主要有以下两方面：接收并处理 docker client 发送的请求；管理所有的 docker 容器。有了 containerd 之后，dockerd 可以独立升级，以此避免之前 dockerd 升级会导致所有容器不可用的问题。</p>
+</li>
+<li><p>containerd:containerd 是 dockerd 和 runc 之间的一个中间交流组件，docker 对容器的管理和操作基本都是通过 containerd 完成的。containerd 的主要功能有：</p>
+<ul>
+<li>容器生命周期管理</li>
+<li>日志管理</li>
+<li>镜像管理</li>
+<li>存储管理</li>
+<li>容器网络接口及网络管理</li>
+</ul>
+</li>
+<li><p>containerd-shim</p>
+<p>containerd-shim 是一个真实运行容器的载体，每启动一个容器都会起一个新的containerd-shim的一个进程， 它直接通过指定的三个参数：容器id，boundle目录（containerd 对应某个容器生成的目录，一般位于：/var/run/docker/libcontainerd/containerID，其中包括了容器配置和标准输入、标准输出、标准错误三个管道文件），运行时二进制（默认为runC）来调用 runc 的 api 创建一个容器，上面的 docker 进程图中可以直观的显示。其主要作用是：</p>
+<ul>
+<li>它允许容器运行时(即 runC)在启动容器之后退出，简单说就是不必为每个容器一直运行一个容器运行时(runC)</li>
+<li>即使在 containerd 和 dockerd 都挂掉的情况下，容器的标准 IO 和其它的文件描述符也都是可用的</li>
+<li>向 containerd 报告容器的退出状态</li>
+</ul>
+<p>有了它就可以在不中断容器运行的情况下升级或重启 dockerd，对于生产环境来说意义重大。</p>
+</li>
+<li><p>runC</p>
+<p>runC 是 Docker 公司按照 OCI 标准规范编写的一个操作容器的命令行工具，其前身是 libcontainer 项目演化而来，runC 实际上就是 libcontainer 配上了一个轻型的客户端，是一个命令行工具端，根据 OCI（开放容器组织）的标准来创建和运行容器，实现了容器启停、资源隔离等功能。</p>
+<p>一个例子，使用 runC 运行 busybox 容器:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"># mkdir /container</span><br><span class="line"># cd /container/</span><br><span class="line"># mkdir rootfs</span><br><span class="line"></span><br><span class="line">准备容器镜像的文件系统,从 busybox 镜像中提取</span><br><span class="line"># docker export $(docker create busybox) | tar -C rootfs -xvf -    </span><br><span class="line"># ls rootfs/</span><br><span class="line">bin  dev  etc  home  proc  root  sys  tmp  usr  var</span><br><span class="line"></span><br><span class="line">有了rootfs之后，我们还要按照 OCI 标准有一个配置文件 config.json 说明如何运行容器，</span><br><span class="line">包括要运行的命令、权限、环境变量等等内容，runc 提供了一个命令可以自动帮我们生成</span><br><span class="line"># docker-runc spec</span><br><span class="line"># ls</span><br><span class="line">config.json  rootfs</span><br><span class="line"># docker-runc run simplebusybox    #启动容器</span><br><span class="line">/ # ls</span><br><span class="line">bin   dev   etc   home  proc  root  sys   tmp   usr   var</span><br><span class="line">/ # hostname</span><br><span class="line">runc</span><br></pre></td></tr></table></figure></li>
+</ul>
+<h4 id="docker-event-state"><a href="#docker-event-state" class="headerlink" title="docker event state"></a>docker event state</h4><p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2019/10/25/fTpbRWod2mICk49.png" alt="UTOOLS1571991436004.png"></p>
+<p><strong>nginx镜像</strong></p>
+<p>描述: 一般是基于centos,ubuntu安装的，可能比较大，还可以给其他小的发行版本安装，alpine是一个专门用于构建非常小的镜像的微型发行版本，可以给程序运行提供基础的环境，但是体积很小，测试时可以使用，但是缺少调试使用的工具，生产环境尽量自行做镜像，而且带调试工具的.</p>
+<p><strong>Alpine知识</strong></p>
+<p>Alpine 操作系统是一个面向安全的轻型 Linux 发行版。它不同于通常 Linux 发行版，Alpine 采用了 musl libc 和 busybox 以减小系统的体积和运行时资源消耗，但功能上比 busybox 又完善的多，因此得到开源社区越来越多的青睐。在保持瘦身的同时，Alpine 还提供了自己的包管理工具 apk，可以通过 <a target="_blank" rel="noopener" href="https://pkgs.alpinelinux.org/packages">https://pkgs.alpinelinux.org/packages</a> 网站上查询包信息，也可以直接通过 apk 命令直接查询和安装各种软件。</p>
+<p>Alpine 由非商业组织维护的，支持广泛场景的 Linux发行版，它特别为资深/重度Linux用户而优化，关注安全，性能和资源效能。Alpine 镜像可以适用于更多常用场景，并且是一个优秀的可以适用于生产的基础系统/环境。<br>Alpine Docker 镜像也继承了 Alpine Linux 发行版的这些优势。相比于其他 Docker 镜像，它的容量非常小，仅仅只有 5 MB 左右（对比 Ubuntu 系列镜像接近 200 MB），且拥有非常友好的包管理机制。官方镜像来自 docker-alpine 项目。</p>
+<p>目前 Docker 官方已开始推荐使用 Alpine 替代之前的 Ubuntu 做为基础镜像环境。这样会带来多个好处。包括镜像下载速度加快，镜像安全性提高，主机之间的切换更方便，占用更少磁盘空间等。</p>
+<h4 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h4><ol>
+<li><p>《CentsOS下安装Docker》：<a target="_blank" rel="noopener" href="https://www.cnblogs.com/wq3435/p/6479768.html">https://www.cnblogs.com/wq3435/p/6479768.html</a></p>
+</li>
+<li><p>《Docker 命令大全》：<a target="_blank" rel="noopener" href="http://www.runoob.com/docker/docker-command-manual.html">http://www.runoob.com/docker/docker-command-manual.html</a></p>
+</li>
+<li><p>《深入分析Docker镜像原理》：<a target="_blank" rel="noopener" href="https://blog.csdn.net/xuguokun1986/article/details/79295947">https://blog.csdn.net/xuguokun1986/article/details/79295947</a></p>
+</li>
+<li><p>《创建自己的Docker基础镜像》：<a target="_blank" rel="noopener" href="http://www.cnblogs.com/cocowool/p/make_your_own_base_docker_image.html">http://www.cnblogs.com/cocowool/p/make_your_own_base_docker_image.html</a></p>
+</li>
+<li><p>《Linux文件系统之aufs》：<a target="_blank" rel="noopener" href="https://segmentfault.com/a/1190000008489207">https://segmentfault.com/a/1190000008489207</a></p>
+</li>
+<li><p>《Container内不需要OS，为何需要OS的基础镜像？》：<a target="_blank" rel="noopener" href="http://dockone.io/question/6">http://dockone.io/question/6</a></p>
+</li>
+<li><p>浅谈linux中的根文件系统（rootfs的原理和介绍）》：<a target="_blank" rel="noopener" href="https://blog.csdn.net/LEON1741/article/details/78159754">https://blog.csdn.net/LEON1741/article/details/78159754</a></p>
+</li>
+<li><p>《Docker容器原理与实现》：<a target="_blank" rel="noopener" href="https://wenku.baidu.com/view/9f5ab08df424ccbff121dd36a32d7375a417c63f.html">https://wenku.baidu.com/view/9f5ab08df424ccbff121dd36a32d7375a417c63f.html</a></p>
+</li>
+<li><p>《Docker 核心技术与实现原理》：<a target="_blank" rel="noopener" href="https://draveness.me/docker">https://draveness.me/docker</a></p>
+</li>
+<li><p>《DOCKER基础技术》：<a target="_blank" rel="noopener" href="https://coolshell.cn/articles/17010.html">https://coolshell.cn/articles/17010.html</a></p>
+</li>
+<li><p>《Docker底层架构核心技术》：<a target="_blank" rel="noopener" href="http://www.dockerinfo.net/698.html">http://www.dockerinfo.net/698.html</a></p>
+</li>
+<li><p>《Docker的概念及剖析原理和特点》：<a target="_blank" rel="noopener" href="http://blog.51cto.com/kangshuo/1930487">http://blog.51cto.com/kangshuo/1930487</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://groups.google.com/forum/#!topic/docker-dev/zaZFlvIx1_k">Use of containerd-shim in docker-architecture</a></p>
+</li>
+<li><p> <a target="_blank" rel="noopener" href="https://www.cnblogs.com/sparkdev/p/9129334.html">从 docker 到 runC</a></p>
+</li>
+<li><p> <a target="_blank" rel="noopener" href="http://cizixs.com/2017/11/05/oci-and-runc/">OCI 和 runc：容器标准化和 docker</a></p>
+</li>
+<li><p> <a target="_blank" rel="noopener" href="https://github.com/opencontainers">Open Container Initiative</a></p>
+</li>
+</ol>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">平心</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://pingxin0521.gitee.io/2019/07/05/%E5%AE%B9%E5%99%A8-Docker-0-2/">https://pingxin0521.gitee.io/2019/07/05/%E5%AE%B9%E5%99%A8-Docker-0-2/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://pingxin0521.gitee.io" target="_blank">平心de小屋</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E5%AE%B9%E5%99%A8/">容器</a><a class="post-meta__tags" href="/tags/Docker/">Docker</a></div><div class="post_share"><div class="social-share" data-image="https://i.loli.net/2020/05/08/7dHvepmfYOLWTrX.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2019/07/05/%E5%AE%B9%E5%99%A8-Docker-1/"><img class="prev-cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/gGE57HRvpcKPfDY.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">Docker 入门</div></div></a></div><div class="next-post pull-right"><a href="/2019/07/04/Java-%E6%A1%86%E6%9E%B6-7-1-1-2/"><img class="next-cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/PFDRNxj93taz6pw.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">Hibernate 注释和HQL</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span> 相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2019/07/08/容器-Docker-3-1/" title="Docker 三剑客--Machine"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/HjVAdIuT7bZJypS.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2019-11-15</div><div class="title">Docker 三剑客--Machine</div></div></a></div><div><a href="/2019/08/11/容器-Docker-5-2/" title="Docker 卷数据备份和恢复"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/7dHvepmfYOLWTrX.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2019-11-15</div><div class="title">Docker 卷数据备份和恢复</div></div></a></div><div><a href="/2019/08/11/容器-Docker-5-3/" title="Docker 监控"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/okfOw28KlZFbE7z.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2019-11-15</div><div class="title">Docker 监控</div></div></a></div><div><a href="/2019/07/04/容器-Docker-0-1/" title="Docker 介绍"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/PFDRNxj93taz6pw.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2019-09-03</div><div class="title">Docker 介绍</div></div></a></div><div><a href="/2019/07/08/容器-Docker-3-0/" title="Docker 三剑客--Swarm"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/7dHvepmfYOLWTrX.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2019-11-15</div><div class="title">Docker 三剑客--Swarm</div></div></a></div><div><a href="/2019/07/10/容器-Docker-4/" title="Docker 安全和底层实现（理论）"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/HjVAdIuT7bZJypS.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2019-10-25</div><div class="title">Docker 安全和底层实现（理论）</div></div></a></div></div></div><hr/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div class="vcomment" id="vcomment"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="card-info-avatar is-center"><img class="avatar-img" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://s2.ax1x.com/2020/02/11/1ovw6J.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/><div class="author-info__name">平心</div><div class="author-info__description">年轻人的life、learn and think</div></div><div class="card-info-data"><div class="card-info-data-item is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">449</div></a></div><div class="card-info-data-item is-center"><a href="/tags/"><div class="headline">标签</div><div class="length-num">77</div></a></div><div class="card-info-data-item is-center"><a href="/categories/"><div class="headline">分类</div><div class="length-num">68</div></a></div></div><a class="button--animated" id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/hanyunpeng0521"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/hanyunpeng0521" target="_blank" title="Github"><i class="fa fa-github"></i></a><a class="social-icon" href="mailto:m13839441583@163.com" target="_blank" title="Email"><i class="fa fa-envelope"></i></a><a class="social-icon" href="/atom.xml" target="_blank" title=""><i class="fa fa-rss"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn card-announcement-animation"></i><span>公告</span></div><div class="announcement_content">为什么呢？开始提问吧</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#Docker%E5%86%85%E9%83%A8%E6%9E%84%E5%BB%BA"><span class="toc-number">1.</span> <span class="toc-text">Docker内部构建</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Docker%E5%BC%95%E6%93%8E"><span class="toc-number">2.</span> <span class="toc-text">Docker引擎</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Docker%E6%9E%84%E6%9E%B6"><span class="toc-number">3.</span> <span class="toc-text">Docker构架</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#docke%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF"><span class="toc-number">4.</span> <span class="toc-text">docke核心技术</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#docker-event-state"><span class="toc-number">5.</span> <span class="toc-text">docker event state</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%8F%82%E8%80%83"><span class="toc-number">6.</span> <span class="toc-text">参考</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2021/05/15/node-2-4/" title="Egg.js -- 为企业级框架和应用而生"><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/okfOw28KlZFbE7z.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Egg.js -- 为企业级框架和应用而生"/></a><div class="content"><a class="title" href="/2021/05/15/node-2-4/" title="Egg.js -- 为企业级框架和应用而生">Egg.js -- 为企业级框架和应用而生</a><time datetime="2021-05-15T10:18:59.000Z" title="发表于 2021-05-15 18:18:59">2021-05-15</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/04/30/node-2-3/" title="Koa -- 基于Node.js平台的下一代Web开发框架"><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/HjVAdIuT7bZJypS.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Koa -- 基于Node.js平台的下一代Web开发框架"/></a><div class="content"><a class="title" href="/2021/04/30/node-2-3/" title="Koa -- 基于Node.js平台的下一代Web开发框架">Koa -- 基于Node.js平台的下一代Web开发框架</a><time datetime="2021-04-30T10:18:59.000Z" title="发表于 2021-04-30 18:18:59">2021-04-30</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/04/01/node-2-1/" title="Node.JS web开发前置知识"><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/gGE57HRvpcKPfDY.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Node.JS web开发前置知识"/></a><div class="content"><a class="title" href="/2021/04/01/node-2-1/" title="Node.JS web开发前置知识">Node.JS web开发前置知识</a><time datetime="2021-04-01T03:18:59.000Z" title="发表于 2021-04-01 11:18:59">2021-04-01</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2020/12/26/%E5%91%A8%E8%AE%B0-10-1/" title="第十一周--谷歌浏览器插件"><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/gGE57HRvpcKPfDY.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="第十一周--谷歌浏览器插件"/></a><div class="content"><a class="title" href="/2020/12/26/%E5%91%A8%E8%AE%B0-10-1/" title="第十一周--谷歌浏览器插件">第十一周--谷歌浏览器插件</a><time datetime="2020-12-26T10:18:59.000Z" title="发表于 2020-12-26 18:18:59">2020-12-26</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2020/12/26/%E5%91%A8%E8%AE%B0-10-0/" title="第十一周--浏览器技术"><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/vCnKyoFJZ1g4XYR.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="第十一周--浏览器技术"/></a><div class="content"><a class="title" href="/2020/12/26/%E5%91%A8%E8%AE%B0-10-0/" title="第十一周--浏览器技术">第十一周--浏览器技术</a><time datetime="2020-12-26T06:18:59.000Z" title="发表于 2020-12-26 14:18:59">2020-12-26</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2019 - 2021 By 平心</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div id="local-search"><div class="search-dialog"><div class="search-dialog__title" id="local-search-title">本地搜索</div><div id="local-input-panel"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div></div><hr/><div id="local-search-results"></div><span class="search-close-button"><i class="fas fa-times"></i></span></div><div id="search-mask"></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload/dist/lazyload.iife.min.js"></script><script src="/js/search/local-search.js"></script><div class="js-pjax"><script>function loadValine () {
+  function initValine () {
+    const valine = new Valine(Object.assign({
+      el: '#vcomment',
+      appId: '4lfIXzqxaC1ONs0MJO4oHu07-gzGzoHsz',
+      appKey: 'qw99Bw8FD0KVKU9m457CwWsr',
+      placeholder: 'Please leave your footprints',
+      avatar: 'monsterid',
+      meta: 'nick,mail,link'.split(','),
+      pageSize: '10',
+      lang: 'zh-CN',
+      recordIP: true,
+      serverURLs: '',
+      emojiCDN: '',
+      emojiMaps: "",
+      enableQQ: true,
+      path: window.location.pathname,
+      requiredFields: ["nick,mail"],
+      visitor: false
+    }, null))
+  }
+
+  if (typeof Valine === 'function') initValine() 
+  else getScript('https://cdn.jsdelivr.net/npm/valine/dist/Valine.min.js').then(initValine)
+}
+
+if ('Valine' === 'Valine' || !false) {
+  if (false) btf.loadComment(document.getElementById('vcomment'),loadValine)
+  else setTimeout(loadValine, 0)
+} else {
+  function loadOtherComment () {
+    loadValine()
+  }
+}</script></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>

@@ -1,0 +1,1374 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Ubuntu 常用软件 | 平心de小屋</title><meta name="keywords" content="Linux,Ubuntu"><meta name="author" content="平心"><meta name="copyright" content="平心"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="所谓工欲善其事，必先利其器，好的软件或工具，能够在很大程度上提升你的工作效率。对于像我这样把 Linux 直接安装在物理机上当作日常操作系统来使用的人来说，能够找到并成功安装一些 Linux 版的日常软件以及效率软件，是一件多么令人兴奋的事情。这里经过我多年的收集积累，罗列出了一些实用的 Linux 软件，希望能够对大家有所参考价值，另外也作为自己的一份笔记，方便日后重装系统后来查阅安装。   温">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Ubuntu 常用软件">
+<meta property="og:url" content="https://pingxin0521.gitee.io/2019/04/22/Linux-Ubuntu-2-1/index.html">
+<meta property="og:site_name" content="平心de小屋">
+<meta property="og:description" content="所谓工欲善其事，必先利其器，好的软件或工具，能够在很大程度上提升你的工作效率。对于像我这样把 Linux 直接安装在物理机上当作日常操作系统来使用的人来说，能够找到并成功安装一些 Linux 版的日常软件以及效率软件，是一件多么令人兴奋的事情。这里经过我多年的收集积累，罗列出了一些实用的 Linux 软件，希望能够对大家有所参考价值，另外也作为自己的一份笔记，方便日后重装系统后来查阅安装。   温">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://i.loli.net/2020/05/08/okfOw28KlZFbE7z.jpg">
+<meta property="article:published_time" content="2019-04-22T04:55:22.000Z">
+<meta property="article:modified_time" content="2020-10-01T12:32:39.331Z">
+<meta property="article:author" content="平心">
+<meta property="article:tag" content="Linux">
+<meta property="article:tag" content="Ubuntu">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.loli.net/2020/05/08/okfOw28KlZFbE7z.jpg"><link rel="shortcut icon" href="https://s2.ax1x.com/2020/02/11/1ovFOA.png"><link rel="canonical" href="https://pingxin0521.gitee.io/2019/04/22/Linux-Ubuntu-2-1/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"search.xml","languages":{"hits_empty":"找不到您查询的内容：${query}"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    jQuery: 'https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js',
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+    },
+    fancybox: {
+      js: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css'
+    }
+  },
+  isPhotoFigcaption: true,
+  islazyload: true,
+  isanchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'Ubuntu 常用软件',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2020-10-01 20:32:39'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    })(window)</script><meta name="generator" content="Hexo 5.4.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="author-avatar"><img class="avatar-img" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://s2.ax1x.com/2020/02/11/1ovw6J.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data"><div class="data-item is-center"><div class="data-item-link"><a href="/archives/"><div class="headline">文章</div><div class="length-num">449</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/tags/"><div class="headline">标签</div><div class="length-num">77</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/categories/"><div class="headline">分类</div><div class="length-num">68</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fa fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fa fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://i.loli.net/2020/05/08/okfOw28KlZFbE7z.jpg')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">平心de小屋</a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fa fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fa fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">Ubuntu 常用软件</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2019-04-22T04:55:22.000Z" title="发表于 2019-04-22 12:55:22">2019-04-22</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2020-10-01T12:32:39.331Z" title="更新于 2020-10-01 20:32:39">2020-10-01</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/Linux/">Linux</a><i class="fas fa-angle-right post-meta-separator"></i><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/Linux/Ubuntu/">Ubuntu</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">11.7k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>43分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="Ubuntu 常用软件"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><p>所谓工欲善其事，必先利其器，好的软件或工具，能够在很大程度上提升你的工作效率。对于像我这样把 Linux 直接安装在物理机上当作日常操作系统来使用的人来说，能够找到并成功安装一些 Linux 版的日常软件以及效率软件，是一件多么令人兴奋的事情。这里经过我多年的收集积累，罗列出了一些实用的 Linux 软件，希望能够对大家有所参考价值，另外也作为自己的一份笔记，方便日后重装系统后来查阅安装。</p>
+<hr>
+<blockquote>
+<p><strong>温馨提示：</strong> 以下安装步骤基于 ubuntu，其他发行版原理类似。对于需要通过 <code>apt-add-repository</code> 添加第三方镜像源的安装步骤</p>
+</blockquote>
+<h4 id="命令行软件"><a href="#命令行软件" class="headerlink" title="命令行软件"></a><strong>命令行软件</strong></h4><p><strong>进程与资源监视器（Htop）</strong></p>
+<p>htop 是 top 的替代品，具有更炫酷更直观的界面效果，能够查看 CPU、内存占用情况以及进程管理等。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt install htop</span><br></pre></td></tr></table></figure>
+
+<hr>
+<p><strong>命令帮助工具（tldr）</strong></p>
+<p>tldr 是 man 的替代品，更具有可读性，并且帮助信息简单明了，色彩分明，更为人所接受。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt install tldr</span><br></pre></td></tr></table></figure>
+
+<hr>
+<p><strong>Git 命令优化工具（Tig）</strong></p>
+<p>tig 是一款优化 git 命令行的工具，具有更丰富更可观的界面，可在 git 项目目录中使用。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt install tig</span><br></pre></td></tr></table></figure>
+
+<hr>
+<p><strong>命令更正提示工具（TheFuck）</strong></p>
+<p>TheFuck 是一款特别棒的命令行工具，可以纠正你输入的错误的命令。如果你忘记命令了，但是记得个大概，你可以大胆输入你的命令，如果输错了，就来句 <code>fuck</code>，然后 TheFuck 就会告诉你正确的命令如何使用。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">#CentOS系统</span><br><span class="line">yum -y update &amp;&amp; yum -y install gcc </span><br><span class="line">wget https:<span class="comment">//bootstrap.pypa.io/get-pip.py</span></span><br><span class="line">python get-pip.py &amp;&amp; yum -y install python-devel</span><br><span class="line">sudo -H pip install thefuck</span><br><span class="line"> </span><br><span class="line">#Ubuntu/Debian系统</span><br><span class="line">sudo apt update</span><br><span class="line">sudo apt install python3-dev python3-pip</span><br><span class="line">sudo pip3 install thefuck</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">#编辑bashrc配置文件</span><br><span class="line">vim ~/.bashrc</span><br><span class="line">#在文件尾加入一行给thefuck取别名fuck</span><br><span class="line">alias fuck=<span class="string">&#x27;thefuck&#x27;</span></span><br><span class="line">#使生效</span><br><span class="line">source ~/.bashrc</span><br></pre></td></tr></table></figure>
+
+<hr>
+<p><strong>高速下载工具（Axel）</strong></p>
+<p>Axel 是 Linux 下一个不错的 HTTP/FTP 高速下载工具。支持多线程下载、断点续传，且可以从多个地址或者从一个地址的多个连接来下载同一个文件。适合网速不给力时多线程下载提高下载速度。是 wget 命令的替代品。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt install axel</span><br></pre></td></tr></table></figure>
+
+<hr>
+<p><strong>终端复用神器（Tmux）</strong></p>
+<p>Tmux 可从一个屏幕上管理多个终端（伪终端）。使用该工具，用户可以连接或断开会话，而保持终端在后台运行。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt install tmux</span><br></pre></td></tr></table></figure>
+
+<hr>
+<p><strong>文件查看工具（Bat）</strong></p>
+<p>bat 是一款可用在 Linux 命令行显示文件内容的工具，是 cat 命令的一个替代品，bat 功能要更加强大一些，其在 cat 命令的基础上加入了行号显示、代码高亮和 Git 集成等。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">下载地址：https:<span class="comment">//github.com/sharkdp/bat/releases</span></span><br></pre></td></tr></table></figure>
+
+<hr>
+<p><strong>MySQl</strong> <strong>命令优化工具（MyCli）</strong></p>
+<p>mycli 是 mysql 命令的替代品，该工具可以高亮显示 SQL 命令，并且具有自动补全功能，可以大大提高操作 MySQL 数据库的效率，也让人使用起来更加舒适。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt install mycli</span><br></pre></td></tr></table></figure>
+
+<p><strong>自动补全： bpython</strong></p>
+<p><a target="_blank" rel="noopener" href="https://bpython-interpreter.org/">Bpython</a> 是对 Python REPL 的一个很好的替代。当我运行 bpython 并开始输入时，建议会立即出现。我没用通过特殊的键盘绑定触发它，甚至没有按下 <code>Tab</code> 键。</p>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2019/10/26/WBpUj8tZrvSuzMI.png" alt="UTOOLS1572072843107.png"></p>
+<p>当我出于习惯按下 <code>Tab</code> 键时，它会用列表中的第一个建议补全。这是给 CLI 设计带来可发现性性的一个很好的例子。</p>
+<p>bpython 的另一个方面是可以展示模块和函数的文档。当我输入一个函数的名字时，它会显示这个函数附带的签名以及文档字符串。这是一个多么令人难以置信的周到设计啊。</p>
+<p><strong>模糊搜索和在线帮助： pgcli</strong></p>
+<p>如果您正在寻找 PostgreSQL 版本的 mycli，请看看 <a target="_blank" rel="noopener" href="http://pgcli.com/">pgcli</a>。 与 mycli 一样，它提供了上下文感知的自动补全。菜单中的项目使用模糊搜索缩小范围。模糊搜索允许用户输入整体字符串中的任意子字符串来尝试找到正确的匹配项。</p>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2019/10/26/qylrVeEKSTOM8Gg.png" alt="UTOOLS1572072885736.png"></p>
+<p>pgcli 和 mycli 在其 CLI 中都实现了这个功能。斜杠命令的文档也作为补全菜单的一部分展示。</p>
+<h4 id="图形化软件"><a href="#图形化软件" class="headerlink" title="图形化软件"></a><strong>图形化软件</strong></h4><p><strong>系统优化工具（Gnome-Twaeks）</strong></p>
+<p>该软件仅适用于 Gnome 桌面环境，可以配置系统字体、主题、图标等，可管理 Gnome 插件、设置开机启动程序，以及进行其他的一些系统优化操作。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"># 安装</span><br><span class="line">sudo apt-get install gnome-tweak-tool</span><br><span class="line"></span><br><span class="line"># 运行</span><br><span class="line">gnome-tweaks</span><br></pre></td></tr></table></figure>
+
+<p><strong>快速启动工具（Albert）</strong></p>
+<p>类似与 Windows 下的 Wox 软件，可通过一个快捷键调出居中于桌面的搜索框，可以秒速搜索电脑上的软件、文件等，也可以配置相关插件获得更强大的功能（例如快速搜索 Google、百度、GitHub等）。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"># 安装</span><br><span class="line">sudo add-apt-repository ppa:noobslab/macbuntu</span><br><span class="line">sudo apt update</span><br><span class="line">sudo apt install albert</span><br></pre></td></tr></table></figure>
+
+<p>可在 Gnome-Tweaks 中配置为开机启动，在搜索框右上角有个设置图标，可配置快捷键。</p>
+<p><strong>快速启动工具（Synapse）</strong></p>
+<p>这款快速启动工具感觉比 Albert 还要强大一些，搜索文件也是挺快的，并且插件更加丰富。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt install synapse</span><br></pre></td></tr></table></figure>
+
+<p>感觉是不是很炫酷，很值得试一试。</p>
+<p><strong>socks 代理工具（Shadow socks-Qt5）</strong></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">下载地址：https:<span class="comment">//github.com/shadowsocks/shadowsocks-qt5/releases</span></span><br></pre></td></tr></table></figure>
+
+<p>下载后是 <code>.AppImage</code>结尾的文件，赋予文件可执行权限，然后直接运行就可以。</p>
+<p>如果要添加桌面图标，同样可以参照 <code>.desktop</code> 文件书写格式建一个图标文件并存放到 <code>/usr/share/applications</code>目录下。 </p>
+<p><strong>文件搜索软件（catfish）</strong></p>
+<p>类似于 Windows 下的 Everything 这个软件，不过亲测搜索速度一般般，跟 Everything 压根没法比，但是它有个强大的功能就是可以搜文件里面的内容，例如你某个文件里写了某行代码，你只记得那行代码但是记不得文件放哪了，你就可以用这个软件来搜索那个文件了。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt install catfish</span><br></pre></td></tr></table></figure>
+
+<p><strong>垃圾清理工具（BleachBit）</strong></p>
+<p>BleachBit 是一款 Linux 下比较好用的且功能强大的图形化垃圾清理工具，含有很多清理选项，还能够粉碎文件、擦除空闲空间等操作。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt install bleachbit</span><br></pre></td></tr></table></figure>
+
+<p><strong>Gif 录制软件（peek）</strong></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt install peek</span><br></pre></td></tr></table></figure>
+
+<p>录制的效果还挺好的，文件也不算大。</p>
+<p><strong>截图工具（FlameShot）</strong></p>
+<p>这是一款强大的截图软件，设置比 QQ 截图还强大，中文名叫火焰截图。截取的图像可保存文件或复制到剪切板，也可以对图像进行编辑。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"># 安装</span><br><span class="line">sudo apt install flameshot</span><br><span class="line"># 配置</span><br><span class="line">sudo flameshot config</span><br><span class="line"># 运行</span><br><span class="line">flameshot gui</span><br></pre></td></tr></table></figure>
+
+<p>可在系统设置中添加截图快捷键，在 Gnome-Tweaks 中添加开机启动。</p>
+<p><strong>图像处理软件（GIMP）</strong></p>
+<p>这是一款 Linux 下的 Photoshop 替代品，功能强大到堪比 Photoshop。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"># 安装</span><br><span class="line">sudo add-apt-repository ppa:otto-kesselgulasch/gimp</span><br><span class="line">sudo apt-get update</span><br><span class="line">sudo apt-get install gimp gimp-plugin-registry gimp-data-extras</span><br><span class="line"></span><br><span class="line"># 运行</span><br><span class="line">gimp</span><br></pre></td></tr></table></figure>
+
+<p><strong>思维导图软件（XMind）</strong></p>
+<p>XMind 是一款跨平台的思维导图软件，当然也有 Linux 版的。安装 XMind 需要到其官网下载 deb 安装包。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">下载地址：https:<span class="comment">//www.xmind.cn/download/</span></span><br></pre></td></tr></table></figure>
+
+<p>可直接在软件管理器中安装，也可以通过 <code>dpkg -i xxxx.deb</code> 命令来安装。 </p>
+<p><strong>知识树笔记工具（CherryTree）</strong></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt install cherrytree</span><br></pre></td></tr></table></figure>
+
+<p><strong>Markdown 编辑器（Typora）</strong></p>
+<p>Typora 是一款跨平台的，即写即显的 Markdown 编辑器，其不仅使用起来特别方便，而且也有特别多可供选择的主题，还能够轻松导出 HTML 和 PDF。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"># 安装</span><br><span class="line">wget -qO - https:<span class="comment">//typora.io/linux/public-key.asc | sudo apt-key add -</span></span><br><span class="line">sudo add-apt-repository <span class="string">&#x27;deb https://typora.io/linux ./&#x27;</span></span><br><span class="line">sudo apt-get update</span><br><span class="line">sudo apt-get install typora</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>注意：如果以上方法无法安装，可以到 Typora 官方下载二进制包进行安装。 下载地址：<a target="_blank" rel="noopener" href="https://www.typora.io/#linux">https://www.typora.io/#linux</a> 下载完成后解压，进入到解压目录后可以直接执行命令 <code>./Typora</code> 启动。 如果要创建桌面图标，可以参照 <code>.desktop</code> 文件的书写格式写，然后放到 <code>/usr/share/applications</code> 目录下即可。</p>
+</blockquote>
+<p><strong>代码编辑器（Sublime Text）</strong></p>
+<p>Sublime Text 就不解释了，几乎每一个程序猿都对它爱不释手，尤其是搞前端开发的。可以直接去其官网下载二进制软件包。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">下载地址：http:<span class="comment">//www.sublimetext.com/3</span></span><br></pre></td></tr></table></figure>
+
+<p>下载完后解压，然后进入解压后的文件夹，可通过命令 <code>./sublime_text</code> 启动程序。</p>
+<p>如果想要添加桌面图标的话，可直接将解压目录中的 <code>sublime_text.desktop</code> 文件复制到 <code>/usr/share/applications</code> 目录下。 </p>
+<p><strong>代码编辑器（VS Code）</strong></p>
+<p>Visual Studio Code 也是一款功能强大的代码编辑器，其插件也是相当的丰富，可媲美 Sublime Text。可通过下载 deb 软件包进行安装。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">下载地址：https:<span class="comment">//code.visualstudio.com/</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>十六进制编辑器（bless）</strong></p>
+<p>可通过十六进制编辑文件。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt install bless</span><br></pre></td></tr></table></figure>
+
+<p><strong>远程桌面工具（TeamViewer）</strong></p>
+<p>TeamViewer 这款远程桌面软件在业界所享有的美誉我想不用我做太多的介绍了，相比其他远程桌面工具，它不仅画面流畅清晰，而且也很省流量带宽，除了远程桌面，它还有远程会议、桌面分享、远程打印、VPN连接等功能。其下载方式也是去官网下载 deb 软件包进行安装。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">下载地址：https:<span class="comment">//www.teamviewer.cn/cn/download/linux/</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>远程连接管理工具（remmina）</strong></p>
+<p>该软件可管理 DRP、VNC、SSH 等协议的远程连接。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt install remmina</span><br></pre></td></tr></table></figure>
+
+<p><strong>FTP 客户端（filezilla）</strong></p>
+<p>类似于 Windows 下的 WinScp 软件，可以直接拖动文件进行本地与服务器之间的文件传输。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt install filezilla</span><br></pre></td></tr></table></figure>
+
+<p><strong>社区帐号管理工具（Franz）</strong></p>
+<p>一款能够同时登录各种社区平台（网盘、邮箱、推特等）帐号，并接收来自这些帐号的消息等。下载 <code>.AppImage</code>程序即可。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">下载地址：https:<span class="comment">//meetfranz.com/#download</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>社区帐号管理工具（Station）</strong></p>
+<p>类似 Franz，界面更好看，也是能够同时登录多方帐号。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">下载地址：https:<span class="comment">//getstation.com/</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>虚拟机软件（VirtualBox）</strong></p>
+<p>如果你想要安装多台虚拟计算机作为开发测试使用的环境，那么 VirtualBox 虚拟机软件是个不错的选择，VirtualBox 在 Linux 下其优势尤为突出。同样，你需要在 Oracle VM VirtualBox 官方上下载安装程序。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">下载地址：https:<span class="comment">//www.virtualbox.org/wiki/Linux_Downloads</span></span><br></pre></td></tr></table></figure>
+
+<p>如果上面这个列表中没有使用你的操作系统的，例如 Kali Linux 系统，这时候下载最后一个 <code>All distributions</code> 即可。这时候下载到的并不是 deb 软件包，而是以 <code>.run</code> 结尾的可执行程序，直接运行该程序即可安装。 </p>
+<p>说到 VirtualBox，这里不得不提到它强大的一个功能，即无缝模式。例如当你的虚拟计算机为 Windows 操作系统时，开启无缝模式后，你可以直接在你的 Linux 桌面上看到 Windows 窗口，这看起来好像是两个操作系统完美混合在一起了。开启无缝模式的方式只需要在虚拟机上按下 <code>右侧Ctrl+L</code> 快捷键即可。 </p>
+<p><strong>百度网盘</strong></p>
+<p>现在很有资料都是通过百度网盘进行共享的，Linux 下可不能没有百度网盘，同样也是在官网中下载 deb 软件包直接安装即可。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">下载地址：https:<span class="comment">//pan.baidu.com/download</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>办公软件（WPS）</strong></p>
+<p>Linux 中无法使用微软的 Office 套装，并且 Linux 默认的 LibreOffice 着实不好用。在 Linux 下比较好的 Office 替代品就是金山公司开发的 WPS 套装了，Linux 版 WPS 包含了文字处理（Word）、数据表格（Excel）、演示幻灯片（PowerPoint）和电子书阅读器（PDF Reader）四个软件。同样需要到官网下载 deb 软件包进行安装。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">下载地址：https:<span class="comment">//linux.wps.cn/</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>网易云音乐</strong></p>
+<p>一款知名的音乐平台软件，官方有开发 Linux 版本，直接去官网下载 deb 软件包即可。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">下载地址：https:<span class="comment">//music.163.com/#/download</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="其他开发软件"><a href="#其他开发软件" class="headerlink" title="其他开发软件"></a><strong>其他开发软件</strong></h4><p><strong>Quartus Prime</strong></p>
+<p>一款 FPGA 集成开发工具，官方有开发 Linux 版本，直接去官网下载即可。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">下载地址：http:<span class="comment">//fpgasoftware.intel.com/?edition=lite</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>PhpStorm</strong></p>
+<p>JetBrains 旗下一款优秀的跨平台的 PHP 集成开发工具。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">下载地址：https:<span class="comment">//www.jetbrains.com/phpstorm/</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>PyCharm</strong></p>
+<p>JetBrains 旗下一款优秀的跨平台的 Python 集成开发工具。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">下载地址：https:<span class="comment">//www.jetbrains.com/pycharm/</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>WebStorm</strong></p>
+<p>JetBrains 旗下一款优秀的跨平台的 Web 前端集成开发工具。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">下载地址：https:<span class="comment">//www.jetbrains.com/webstorm/</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>IntelliJIDEA</strong></p>
+<p>JetBrains 旗下一款优秀的跨平台的 Java 集成开发工具。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">下载地址：https:<span class="comment">//www.jetbrains.com/idea/</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>DataGrip</strong></p>
+<p>JetBrains 旗下一款优秀的跨平台的数据库管理工具，可支持 MySQL、<a target="_blank" rel="noopener" href="https://cloud.tencent.com/product/sqlserver?from=10680">SQL Server</a>、<a target="_blank" rel="noopener" href="https://cloud.tencent.com/product/mongodb?from=10680">MongoDB</a> 等多种数据库。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">下载地址：https:<span class="comment">//www.jetbrains.com/datagrip/</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>Sublime Merge</strong></p>
+<p>一款功能强大的图形化 Git 仓库管理工具，配合 Sublime 使用效果更佳。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">下载地址：https:<span class="comment">//www.sublimemerge.com/download</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>SDCC</strong></p>
+<p>SDCC（Small Device C Compiler） 是一个小型设备的 C 语言编译器，该编译器是标准C语言，可以编译 Intel MCS51 架构的微处理器，也可以编译 STM8 等常见 MCU。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">下载地址：http:<span class="comment">//sdcc.sourceforge.net/snap.php</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>Hex2Bin</strong></p>
+<p>一款命令行烧写工具，可烧写单片机程序（bin 或 hex）到硬件设备上。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">下载地址：https:<span class="comment">//github.com/laborer/stcflash</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="附录"><a href="#附录" class="headerlink" title="附录"></a>附录</h3><h4 id="网络应用"><a href="#网络应用" class="headerlink" title="网络应用"></a>网络应用</h4><ul>
+<li><p><a target="_blank" rel="noopener" href="https://wiki.deepin.org/index.php?title=Firefox">Firefox</a>：火狐浏览器是一个安全高效的浏览器</p>
+<p><a target="_blank" rel="noopener" href="http://www.firefox.org/">http://www.firefox.org/</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://wiki.deepin.org/index.php?title=Chrome">Chrome</a>：谷歌浏览器是一个由Google公司开发的网页浏览器</p>
+<p><a target="_blank" rel="noopener" href="https://www.google.com/chrome">https://www.google.com/chrome</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://wiki.deepin.org/index.php?title=Chromium">Chromium</a>：Chromium是Google的Chrome浏览器驱动引擎，其目的是为了创建一个安全、稳定和快速的浏览器</p>
+<p><a target="_blank" rel="noopener" href="http://www.chromium.org/">http://www.chromium.org/</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://wiki.deepin.org/index.php?title=%E5%82%B2%E6%B8%B8%E4%BA%91%E6%B5%8F%E8%A7%88%E5%99%A8">傲游云浏览器</a>：傲游云浏览器是一款基于Chromium开发的云浏览器</p>
+<p><a target="_blank" rel="noopener" href="http://www.maxthon.cn/">http://www.maxthon.cn/</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://wiki.deepin.org/index.php?title=Opera">Opera</a>：Opera是一款网络浏览器</p>
+<p><a target="_blank" rel="noopener" href="http://www.opera.com/">http://www.opera.com/</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://wiki.deepin.org/index.php?title=Midori">Midori</a>：Midori是一个轻量级的网页浏览器</p>
+<p><a target="_blank" rel="noopener" href="http://www.midori-browser.org/">http://www.midori-browser.org/</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://wiki.deepin.org/index.php?title=Vivaldi">Vivaldi</a>：Vivaldi是一款极速浏览器</p>
+<p><a target="_blank" rel="noopener" href="https://vivaldi.com/">https://vivaldi.com/</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://wiki.deepin.org/index.php?title=Yandex">Yandex</a>：Yandex是一款免费的浏览器</p>
+<p><a target="_blank" rel="noopener" href="https://www.yandex.com/">https://www.yandex.com/</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://wiki.deepin.org/index.php?title=TeamViewer">TeamViewer</a>：TeamViewer是一个用于远程控制、桌面共享和文件传输的简单且快速的解决方案。</p>
+<p><a target="_blank" rel="noopener" href="https://www.teamviewer.com/">https://www.teamviewer.com</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://wiki.deepin.org/index.php?title=Remmina">Remmina</a>：Remmina是一个远程桌面客户端</p>
+<p><a target="_blank" rel="noopener" href="http://www.remmina.org/">http://www.remmina.org/</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://wiki.deepin.org/index.php?title=UGet">UGet</a>：Uget是一个下载管理器</p>
+<p><a target="_blank" rel="noopener" href="http://ugetdm.com/">http://ugetdm.com/</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://wiki.deepin.org/index.php?title=FileZilla">FileZilla</a>：FileZilla是一个快速可靠的、跨平台的FTP、FTPS和SFTP客户端</p>
+<p><a target="_blank" rel="noopener" href="http://filezilla-project.org/">http://filezilla-project.org/</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://wiki.deepin.org/index.php?title=Transmission">Transmission</a>：Transmission是一个BitTorrent客户端软件</p>
+<p><a target="_blank" rel="noopener" href="https://transmissionbt.com/">https://transmissionbt.com/</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://wiki.deepin.org/index.php?title=QBittorrent">qBittorrent</a>：qBittorrent是一个轻量级BitTorrent客户端</p>
+<p><a target="_blank" rel="noopener" href="https://www.qbittorrent.org/">https://www.qbittorrent.org/</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://wiki.deepin.org/index.php?title=FlareGet">FlareGet</a>：FlareGet是一个跨平台的下载管理器和加速器</p>
+<p><a target="_blank" rel="noopener" href="http://flareget.com/">http://flareget.com/</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://wiki.deepin.org/index.php?title=GFTP">gFTP</a>：gFTP是一个FTP客户端工具</p>
+<p><a target="_blank" rel="noopener" href="https://www.gftp.org/">https://www.gftp.org/</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://wiki.deepin.org/index.php?title=CrossFTP">CrossFTP</a>：CrossFTP是一款FTP客戶端工具</p>
+<p><a target="_blank" rel="noopener" href="http://www.crossftp.com/">http://www.crossftp.com/</a></p>
+</li>
+<li><p>[Xtreme Download Manager](Xtreme Download Manager)：Xtreme Download Manager是一个P2P文件下载软件</p>
+<p><a target="_blank" rel="noopener" href="https://sourceforge.net/projects/xdman/">https://sourceforge.net/projects/xdman/</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://wiki.deepin.org/index.php?title=AnyDesk">AnyDesk</a>：AnyDesk是一款远程桌面控制应用</p>
+<p><a target="_blank" rel="noopener" href="https://anydesk.com/">https://anydesk.com/</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://wiki.deepin.org/index.php?title=Evolution">Evolution</a>：Evolution是一款电子邮件和日程安排工具</p>
+<p><a target="_blank" rel="noopener" href="http://wiki.gnome.org/Apps/Evolution">http://wiki.gnome.org/Apps/Evolution</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://wiki.deepin.org/index.php?title=%E9%9B%B7%E9%B8%9F%E9%82%AE%E4%BB%B6&action=edit&redlink=1">雷鸟邮件</a>：雷鸟邮件是一个邮件客户端</p>
+<p><a target="_blank" rel="noopener" href="http://www.mozilla.org/zh-CN/thunderbird/">http://www.mozilla.org/zh-CN/thunderbird/</a></p>
+</li>
+<li><p>[Nylas N1](Nylas N1)：Nylas N1是一个开源的邮件客户端</p>
+<p><a target="_blank" rel="noopener" href="https://www.nylas.com/">https://www.nylas.com/</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://wiki.deepin.org/index.php?title=OwnCloud">ownCloud</a>：ownCloud是一款用来创建私有云服务的工具</p>
+<p><a target="_blank" rel="noopener" href="https://owncloud.org/">https://owncloud.org/</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://wiki.deepin.org/index.php?title=Geary">Geary</a>：Geary是一款桌面电子邮件客户端程序</p>
+<p><a target="_blank" rel="noopener" href="https://wiki.gnome.org/Apps/Geary">https://wiki.gnome.org/Apps/Geary</a></p>
+</li>
+<li><p>motrix:一款全能的下载工具，支持下载 HTTP、FTP、BT、磁力链、百度网盘等资源</p>
+<p><a target="_blank" rel="noopener" href="https://motrix.app/zh-CN/">https://motrix.app/zh-CN/</a></p>
+</li>
+</ul>
+<h4 id="社交沟通"><a href="#社交沟通" class="headerlink" title="社交沟通"></a>社交沟通</h4><ul>
+<li><p><a target="_blank" rel="noopener" href="https://wiki.deepin.org/index.php?title=BearyChat">BearyChat</a>：BearyChat是一款为工作场景设计的团队沟通工具</p>
+<p><a target="_blank" rel="noopener" href="https://bearychat.com/">https://bearychat.com/</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://wiki.deepin.org/index.php?title=%E5%AE%89%E5%8F%B8%E5%AF%86%E4%BF%A1">安司密信</a>:安司密信是一款社交应用</p>
+<p><a target="_blank" rel="noopener" href="http://www.akey.me/">http://www.akey.me/</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://wiki.deepin.org/index.php?title=Telegram">Telegram</a>：Telegram是一个聊天应用软件</p>
+<p><a target="_blank" rel="noopener" href="https://telegram.org/">https://telegram.org/</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://wiki.deepin.org/index.php?title=Skype">Skype</a>：Skype是一款即时通讯软件</p>
+<p><a target="_blank" rel="noopener" href="http://skype.gmw.cn/">http://skype.gmw.cn/</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://wiki.deepin.org/index.php?title=%E8%85%BE%E8%AE%AF%E9%80%9A">腾讯通</a>：腾讯通是一个企业级的实时通信平台</p>
+<p><a target="_blank" rel="noopener" href="http://rtx.tencent.com/">http://rtx.tencent.com/</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://wiki.deepin.org/index.php?title=%E9%98%BF%E9%87%8C%E6%97%BA%E6%97%BA">阿里旺旺</a>：阿里旺旺是一款专为淘宝会员量身定做的个人交易沟通软件</p>
+<p><a target="_blank" rel="noopener" href="http://wangwang.taobao.com/">http://wangwang.taobao.com/</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://wiki.deepin.org/index.php?title=%E5%8D%83%E7%89%9B%E5%B7%A5%E4%BD%9C%E5%8F%B0">千牛工作台</a>：千牛工作台是阿里巴巴官方出品的卖家一站式店铺管理工具</p>
+<p><a target="_blank" rel="noopener" href="https://alimarket.taobao.com/markets/qnww/pc">https://alimarket.taobao.com/markets/qnww/pc</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://wiki.deepin.org/index.php?title=Pidgin">Pidgin</a>：Pidgin是一款即时通讯软件</p>
+<p><a target="_blank" rel="noopener" href="http://www.pidgin.im/">http://www.pidgin.im/</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://wiki.deepin.org/index.php?title=Xchat">Xchat</a>：Xchat是一款跨平台的IRC通讯协议软件</p>
+<p><a target="_blank" rel="noopener" href="http://xchat.org/">http://xchat.org/</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://wiki.deepin.org/index.php?title=HexChat">HexChat</a>：HexChat是基于XChat的一款聊天工具</p>
+<p><a target="_blank" rel="noopener" href="https://hexchat.github.io/">https://hexchat.github.io/</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://wiki.deepin.org/index.php?title=HipChat">HipChat</a>：HipChat是一款专为团队内部群聊设计的聊天工具</p>
+<p><a target="_blank" rel="noopener" href="http://www.hipchat.com/">http://www.hipchat.com/</a></p>
+</li>
+</ul>
+<h4 id="音乐欣赏"><a href="#音乐欣赏" class="headerlink" title="音乐欣赏"></a>音乐欣赏</h4><ul>
+<li><p><a target="_blank" rel="noopener" href="https://wiki.deepin.org/index.php?title=%E6%B7%B1%E5%BA%A6%E9%9F%B3%E4%B9%90">深度音乐</a>：深度音乐是深度科技重新打造的一款专注于本地音乐播放的应用程序</p>
+<p><a target="_blank" rel="noopener" href="https://www.deepin.org/original/deepin-music/">https://www.deepin.org/original/deepin-music/</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://wiki.deepin.org/index.php?title=%E7%BD%91%E6%98%93%E4%BA%91%E9%9F%B3%E4%B9%90">网易云音乐</a>：网易云音乐是一款专注于发现与分享的音乐产品</p>
+<p><a target="_blank" rel="noopener" href="http://music.163.com/">http://music.163.com/</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://wiki.deepin.org/index.php?title=Soundnode_App">Soundnode App</a>：Soundnode App是一款音乐播放器应用</p>
+<p><a target="_blank" rel="noopener" href="http://www.soundnodeapp.com/">http://www.soundnodeapp.com/</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://wiki.deepin.org/index.php?title=Kreogist_Mu">Kreogist Mu</a>：Kreogist Mu是一个音乐管理中心</p>
+<p><a target="_blank" rel="noopener" href="http://kreogist.github.io/">http://kreogist.github.io/</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://wiki.deepin.org/index.php?title=Clementine">Clementine</a>：Clementine是一个音乐播放器和媒体库管理器</p>
+<p><a target="_blank" rel="noopener" href="https://www.clementine-player.org/">https://www.clementine-player.org/</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://wiki.deepin.org/index.php?title=Spotify">Spotify</a>：Spotify是一种专有的P2P音乐流媒体服务</p>
+<p><a target="_blank" rel="noopener" href="https://www.spotify.com/">https://www.spotify.com/</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://wiki.deepin.org/index.php?title=Audacious">Audacious</a>：Audacious是一款音乐播放器</p>
+<p><a target="_blank" rel="noopener" href="http://audacious-media-player.org/">http://audacious-media-player.org/</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://wiki.deepin.org/index.php?title=Rhythmbox">Rhythmbox</a>：Rhythmbox是一个音乐播放和管理应用</p>
+<p><a target="_blank" rel="noopener" href="https://wiki.gnome.org/Apps/Rhythmbox">https://wiki.gnome.org/Apps/Rhythmbox</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://wiki.deepin.org/index.php?title=Amarok">Amarok</a>：Amarok是一款音乐播放器</p>
+<p><a target="_blank" rel="noopener" href="https://amarok.kde.org/">https://amarok.kde.org/</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://wiki.deepin.org/index.php?title=Tomahawk">Tomahawk</a>：Tomahawk是一款网络音乐播放器</p>
+<p><a target="_blank" rel="noopener" href="https://www.tomahawk-player.org/">https://www.tomahawk-player.org/</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://wiki.deepin.org/index.php?title=Musescore">Musescore</a>：MuseScore是一套作曲写乐谱工具</p>
+<p><a target="_blank" rel="noopener" href="https://musescore.org/">https://musescore.org/</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://wiki.deepin.org/index.php?title=MusE">MusE</a>：MusE是一个MIDI/音频的音序器</p>
+<p><a target="_blank" rel="noopener" href="http://muse-sequencer.org/">http://muse-sequencer.org/</a></p>
+</li>
+<li><p>Mob:喜马拉雅FM客户端：<a target="_blank" rel="noopener" href="https://github.com/zenghongtu/Mob">https://github.com/zenghongtu/Mob</a></p>
+</li>
+<li><p>ieaseMusic – 可能是目前最好的网易云音乐播放器</p>
+<p><a target="_blank" rel="noopener" href="https://github.com/trazyn/ieaseMusic">https://github.com/trazyn/ieaseMusic</a></p>
+</li>
+</ul>
+<h4 id="视频播放"><a href="#视频播放" class="headerlink" title="视频播放"></a>视频播放</h4><ul>
+<li><p><a target="_blank" rel="noopener" href="https://wiki.deepin.org/index.php?title=%E6%B7%B1%E5%BA%A6%E5%BD%B1%E9%99%A2">深度影院</a>：深度影院是深度科技打造的一款专注于本地视频播放的应用程序</p>
+<p><a target="_blank" rel="noopener" href="https://www.deepin.org/original/deepin-movie/">https://www.deepin.org/original/deepin-movie/</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://wiki.deepin.org/index.php?title=SMplayer">SMplayer</a>：SMplayer是一款跨平台的视频播放工具</p>
+<p><a target="_blank" rel="noopener" href="http://smplayer.org/">http://smplayer.org/</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://wiki.deepin.org/index.php?title=VLC">VLC</a>：VLC是一款自由、开源的跨平台多媒体播放器及框架</p>
+<p><a target="_blank" rel="noopener" href="http://www.videolan.org/">http://www.videolan.org/</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://wiki.deepin.org/index.php?title=OpenShot">OpenShot</a>：OpenShot是一个视频编辑软件</p>
+<p><a target="_blank" rel="noopener" href="http://www.openshot.org/">http://www.openshot.org/</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://wiki.deepin.org/index.php?title=Baka_MPlayer">Baka MPlayer</a>：Baka MPlayer是一个多媒体播放器</p>
+<p><a target="_blank" rel="noopener" href="http://bakamplayer.u8sand.net/">http://bakamplayer.u8sand.net/</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://wiki.deepin.org/index.php?title=Vokoscreen">Vokoscreen</a>：Vokoscreen是一款有效的强大屏幕录制工具</p>
+<p><a target="_blank" rel="noopener" href="http://www.kohaupt-online.de/hp/">http://www.kohaupt-online.de/hp/</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://wiki.deepin.org/index.php?title=SimpleScreenRecorder">SimpleScreenRecorder</a>：SimpleScreenRecorder是一款屏幕录制软件</p>
+<p><a target="_blank" rel="noopener" href="http://www.maartenbaert.be/simplescreenrecorder/">http://www.maartenbaert.be/simplescreenrecorder/</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://wiki.deepin.org/index.php?title=Kazam">Kazam</a>：Kazam是一款简易的桌面屏幕录制工具</p>
+<p><a target="_blank" rel="noopener" href="https://launchpad.net/kazam/">https://launchpad.net/kazam/</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://wiki.deepin.org/index.php?title=Shotcut">Shotcut</a>：Shotcut是一款跨平台的视频编辑器软件</p>
+<p><a target="_blank" rel="noopener" href="https://www.shotcut.org/">https://www.shotcut.org/</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://wiki.deepin.org/index.php?title=Open_Broadcaster_Software">Open Broadcaster Software</a>：Open Broadcaster Software是一款视频录制和直播的应用</p>
+<p><a target="_blank" rel="noopener" href="https://obsproject.com/">https://obsproject.com/</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://wiki.deepin.org/index.php?title=Lightworks">Lightworks</a>：Lightworks是一款非线性视频编辑器</p>
+<p><a target="_blank" rel="noopener" href="https://www.lwks.com/">https://www.lwks.com/</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://wiki.deepin.org/index.php?title=HandBrake">HandBrake</a>：HandBrake是一款视频转码工具</p>
+<p><a target="_blank" rel="noopener" href="https://handbrake.fr/">https://handbrake.fr/</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://wiki.deepin.org/index.php?title=Gaupol">Gaupol</a>：Gaupol是一个字幕编辑软件</p>
+<p><a target="_blank" rel="noopener" href="http://otsaloma.io/gaupol/">http://otsaloma.io/gaupol/</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://wiki.deepin.org/index.php?title=RecordMyDesktop">recordMyDesktop</a>：recordMyDesktop是一个桌面视频录制软件</p>
+<p><a target="_blank" rel="noopener" href="http://recordmydesktop.sourceforge.net/">http://recordmydesktop.sourceforge.net/</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://wiki.deepin.org/index.php?title=ArcTime">ArcTime</a>：ArcTime是一款可视化字幕编辑器</p>
+<p><a target="_blank" rel="noopener" href="http://www.arctime.org/">http://www.arctime.org/</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://wiki.deepin.org/index.php?title=Natron">Natron</a>：Natron是一个跨平台的视频合成软件</p>
+<p><a target="_blank" rel="noopener" href="https://natron.inria.fr/">https://natron.inria.fr/</a></p>
+</li>
+<li><p>LosslessCut – 无损视频剪切工具，适合无人机等大视频文件的初剪</p>
+<p><a target="_blank" rel="noopener" href="https://github.com/mifi/lossless-cut/">https://github.com/mifi/lossless-cut/</a></p>
+</li>
+</ul>
+<h4 id="图形图像"><a href="#图形图像" class="headerlink" title="图形图像"></a>图形图像</h4><ul>
+<li><p><a target="_blank" rel="noopener" href="https://wiki.deepin.org/index.php?title=%E6%B7%B1%E5%BA%A6%E7%9C%8B%E5%9B%BE">深度看图</a>：深度看图是深度科技精心打造的一款图片查看和管理应用</p>
+<p><a target="_blank" rel="noopener" href="https://www.deepin.org/original/deepin-image-viewer/">https://www.deepin.org/original/deepin-image-viewer/</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://wiki.deepin.org/index.php?title=%E6%B7%B1%E5%BA%A6%E6%88%AA%E5%9B%BE">深度截图</a>：深度截图是深度科技开发的深度操作系统下自带的截图工具</p>
+<p><a target="_blank" rel="noopener" href="https://www.deepin.org/original/deepin-screenshot/">https://www.deepin.org/original/deepin-screenshot/</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://wiki.deepin.org/index.php?title=%E4%BA%BF%E5%9B%BE%E5%9B%BE%E7%A4%BA">亿图图示</a>：亿图图示是一款综合图形图表制作应用</p>
+<p><a target="_blank" rel="noopener" href="http://www.edrawsoft.cn/">http://www.edrawsoft.cn/</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://wiki.deepin.org/index.php?title=GIMP">GIMP</a>：GIMP是一款跨平台的图像处理软件</p>
+<p><a target="_blank" rel="noopener" href="https://www.gimp.org/">https://www.gimp.org/</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://wiki.deepin.org/index.php?title=Krita">Krita</a>：Krita是一个位图形编辑软件</p>
+<p><a target="_blank" rel="noopener" href="https://krita.org/">https://krita.org/</a></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sudo add-apt-repository ppa:kritalime/ppa</span><br><span class="line">sudo apt-get update</span><br><span class="line">sudo apt-get install krita krita-l10n</span><br></pre></td></tr></table></figure></li>
+<li><p><a target="_blank" rel="noopener" href="https://wiki.deepin.org/index.php?title=Inkscape">Inkscape</a>：Inkscape是一款矢量绘图软件</p>
+<p><a target="_blank" rel="noopener" href="https://inkscape.org/">https://inkscape.org/</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://wiki.deepin.org/index.php?title=LightZone">LightZone</a>：LightZone是一款数码图象编辑工具</p>
+<p><a target="_blank" rel="noopener" href="http://lightzoneproject.org/">http://lightzoneproject.org/</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://wiki.deepin.org/index.php?title=Blender">Blender</a>：Blender是一款三维动画制作软件</p>
+<p><a target="_blank" rel="noopener" href="https://www.blender.org/">https://www.blender.org/</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://wiki.deepin.org/index.php?title=BricsCAD">BricsCAD</a>：BricsCAD是一个功能强大的CAD平台</p>
+<p><a target="_blank" rel="noopener" href="https://www.bricsys.com/">https://www.bricsys.com</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://wiki.deepin.org/index.php?title=XnConvert">XnConvert</a>：XnConvert是一款多功能图像批处理工具</p>
+<p><a target="_blank" rel="noopener" href="http://www.xnview.com/en/xnconvert/">http://www.xnview.com/en/xnconvert/</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://wiki.deepin.org/index.php?title=XnView_MP">XnView MP</a>：XnView MP是一款非常棒的图像查看工具</p>
+<p><a target="_blank" rel="noopener" href="http://www.xnview.com/en/xnviewmp/">http://www.xnview.com/en/xnviewmp/</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://wiki.deepin.org/index.php?title=XnSketch">XnSketch</a>：XnSketch是一款图片处理应用</p>
+<p><a target="_blank" rel="noopener" href="http://www.xnview.com/en/xnsketch/">http://www.xnview.com/en/xnsketch/</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://wiki.deepin.org/index.php?title=Shutter">Shutter</a>：Shutter是一款广受欢迎的截屏软件</p>
+<p><a target="_blank" rel="noopener" href="http://shutter-project.org/">http://shutter-project.org/</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://wiki.deepin.org/index.php?title=MyPaint">MyPaint</a>：MyPaint是一个图像绘画工具</p>
+<p><a target="_blank" rel="noopener" href="http://mypaint.org/">http://mypaint.org/</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://wiki.deepin.org/index.php?title=%E6%B3%BC%E8%BE%A3%E4%BF%AE%E5%9B%BE&action=edit&redlink=1">泼辣修图</a>：泼辣修图（Polarr）是一个智能图片处理工具</p>
+<p><a target="_blank" rel="noopener" href="https://www.polarr.co/">https://www.polarr.co/</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://wiki.deepin.org/index.php?title=Peek">Peek</a>：Peek是一款屏幕录制工具</p>
+<p><a target="_blank" rel="noopener" href="https://github.com/phw/peek">https://github.com/phw/peek</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://wiki.deepin.org/index.php?title=Synfig_studio">Synfig studio</a>：Synfig Studio是一套功能强大的2D矢量动画制作软件</p>
+<p><a target="_blank" rel="noopener" href="http://www.synfig.org/">http://www.synfig.org/</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://wiki.deepin.org/index.php?title=RawTherapee">RawTherapee</a>：RawTherapee是一款RAW格式转换软件</p>
+<p><a target="_blank" rel="noopener" href="http://www.rawtherapee.com/">http://www.rawtherapee.com/</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://wiki.deepin.org/index.php?title=%E5%9B%BE%E5%83%8F%E6%9F%A5%E7%9C%8B%E5%99%A8&action=edit&redlink=1">图像查看器</a>：图像查看器（EyeOfGnome）是一款图像查看器软件</p>
+<p><a target="_blank" rel="noopener" href="https://wiki.gnome.org/Apps/EyeOfGnome">https://wiki.gnome.org/Apps/EyeOfGnome</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://wiki.deepin.org/index.php?title=HotShots">HotShots</a>：HotShots是一款易于使用的屏幕捕获工具</p>
+<p><a target="_blank" rel="noopener" href="https://sourceforge.net/projects/hotshots/">https://sourceforge.net/projects/hotshots/</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://wiki.deepin.org/index.php?title=Gwenview">Gwenview</a>：Gwenview是一个图片浏览和管理软件</p>
+<p><a target="_blank" rel="noopener" href="https://www.kde.org/applications/graphics/gwenview/">https://www.kde.org/applications/graphics/gwenview/</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://wiki.deepin.org/index.php?title=DigiKam">digiKam</a>：digiKam是一款跨平台的数字照片管理软件</p>
+<p><a target="_blank" rel="noopener" href="https://www.digikam.org/">https://www.digikam.org/</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://wiki.deepin.org/index.php?title=Shotwell">Shotwell</a>：Shotwell是一款轻量级的图片管理软件</p>
+<p><a target="_blank" rel="noopener" href="https://wiki.gnome.org/Apps/Shotwell">https://wiki.gnome.org/Apps/Shotwell</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://wiki.deepin.org/index.php?title=YEd_Graph_Editor">yEd Graph Editor</a>：yEd Graph Editor是一款流程图绘制工具</p>
+<p><a target="_blank" rel="noopener" href="http://www.yworks.com/">http://www.yworks.com/</a></p>
+</li>
+</ul>
+<h4 id="娱乐游戏"><a href="#娱乐游戏" class="headerlink" title="娱乐游戏"></a>娱乐游戏</h4><ul>
+<li><p><a target="_blank" rel="noopener" href="https://wiki.deepin.org/index.php?title=Steam">Steam</a>：Steam是一款方便迅速的综合性游戏平台</p>
+<p><a target="_blank" rel="noopener" href="http://store.steampowered.com/">http://store.steampowered.com/</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://wiki.deepin.org/index.php?title=Warsow">Warsow</a>：Warsow是一款第一人称射击游戏</p>
+<p><a target="_blank" rel="noopener" href="https://www.warsow.net/">https://www.warsow.net/</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://wiki.deepin.org/index.php?title=Desura">Desura</a>：Desura是一个正版游戏网站</p>
+<p><a target="_blank" rel="noopener" href="http://www.desura.com/">http://www.desura.com/</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://wiki.deepin.org/index.php?title=Snes9x">Snes9x</a>：Snes9x是一款超级任天堂SFC模拟器</p>
+<p><a target="_blank" rel="noopener" href="http://www.snes9x.com/">http://www.snes9x.com/</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://wiki.deepin.org/index.php?title=Flail_Rider">Flail Rider</a>：Flail Rider是一款快节奏的桌面游戏</p>
+<p><a target="_blank" rel="noopener" href="http://jushiip.itch.io/flail-rider">http://jushiip.itch.io/flail-rider</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://wiki.deepin.org/index.php?title=MAME">MAME</a>：MAME是一个模拟器，也是国内玩家最熟悉和最常使用的街机模拟器之一</p>
+<p><a target="_blank" rel="noopener" href="http://mamedev.org/">http://mamedev.org/</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://wiki.deepin.org/index.php?title=SuperTux">SuperTux</a>：SuperTux是一款类似超级马里奥兄弟的游戏</p>
+<p><a target="_blank" rel="noopener" href="http://supertuxproject.org/">http://supertuxproject.org/</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://wiki.deepin.org/index.php?title=AssaultCube">AssaultCube</a>：AssaultCube是一款第一视角射击游戏</p>
+<p><a target="_blank" rel="noopener" href="http://assault.cubers.net/">http://assault.cubers.net/</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://wiki.deepin.org/index.php?title=PPSSPP">PPSSPP</a>：PPSSPP是一款非常出色的PSP模拟器</p>
+<p><a target="_blank" rel="noopener" href="http://www.ppsspp.org/">http://www.ppsspp.org/</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://wiki.deepin.org/index.php?title=Stunt_Rally">Stunt Rally</a>：Stunt Rally是一款赛车游戏</p>
+<p><a target="_blank" rel="noopener" href="http://stuntrally.tuxfamily.org/">http://stuntrally.tuxfamily.org/</a></p>
+</li>
+</ul>
+<h4 id="办公学习"><a href="#办公学习" class="headerlink" title="办公学习"></a>办公学习</h4><ul>
+<li><p><a target="_blank" rel="noopener" href="https://wiki.deepin.org/index.php?title=WPS_Office">WPS Office</a>：WPS Office是由金山软件股份有限公司自主研发的一款办公软件套件</p>
+<p><a target="_blank" rel="noopener" href="http://linux.wps.cn/">http://linux.wps.cn/</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://wiki.deepin.org/index.php?title=LibreOffice">LibreOffice</a>：LibreOffice是一款功能强大的办公套件</p>
+<p><a target="_blank" rel="noopener" href="https://www.libreoffice.org/">https://www.libreoffice.org/</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://wiki.deepin.org/index.php?title=%E6%B0%B8%E4%B8%ADOffice">永中Office</a>：永中Office是一款功能强大的办公软件</p>
+<p><a target="_blank" rel="noopener" href="http://www.yozosoft.com/">http://www.yozosoft.com/</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://wiki.deepin.org/index.php?title=%E6%B7%B1%E5%BA%A6%E4%BA%91%E6%89%93%E5%8D%B0">深度云打印</a>：深度云打印是由深度科技开发的一种新型打印解决方案</p>
+<p><a target="_blank" rel="noopener" href="https://www.deepin.org/original/deepin-cloud-print/">https://www.deepin.org/original/deepin-cloud-print/</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://wiki.deepin.org/index.php?title=%E6%B7%B1%E5%BA%A6%E4%BA%91%E6%89%AB%E6%8F%8F">深度云扫描</a>：深度云扫描是由深度科技开发的一种新型扫描技术</p>
+<p><a target="_blank" rel="noopener" href="https://www.deepin.org/original/deepin-cloud-scan/">https://www.deepin.org/original/deepin-cloud-scan/</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://wiki.deepin.org/index.php?title=XMind">XMind</a>：XMind是一款全球领先的思维导图软件</p>
+<p><a target="_blank" rel="noopener" href="http://www.xmind.net/">http://www.xmind.net/</a></p>
+<ul>
+<li><p>替换脚本: <a target="_blank" rel="noopener" href="https://pan.baidu.com/s/1pijGyVHFfO1BlDx-ZhtI5g">XMind_amd64.tar.gz</a>(提取码: tnkb) – 包含<code>XMindCrack.jar</code>, <code>XMind.ini</code></p>
+</li>
+<li><p>下载好最新XMind压缩包之后解压, 再解压<code>XMind_amd64.tar.gz</code>到<code>XMind_amd64</code>目录下.(我的是64bit的系统, 如果是32bit的系统解压到<code>XMind_i386</code>目录即可),</p>
+</li>
+<li><p>在<code>XMind_amd64</code>目录下创建run.sh文件,/opt/xmind-8/是安装路径</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cd /opt/xmind-8/XMind_amd64/</span><br><span class="line">/opt/xmind-8/XMind_amd64/XMind</span><br></pre></td></tr></table></figure>
+
+<p>然后赋予执行权限</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo chmod a+x /opt/xmind-8/XMind_amd64/run.s</span><br></pre></td></tr></table></figure></li>
+<li><p>修改host:</p>
+<p>shell下, 输入以修改host:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ sudo vim /etc/hosts</span><br><span class="line">#在文本末尾添加:</span><br><span class="line">127.0.0.1 www.xmind.net</span><br></pre></td></tr></table></figure></li>
+<li><p>回到解压后的文件夹的根目录, 运行<code>./setup.sh</code>. 安装好依赖库之后, 再次进入<code>XMind_amd64</code>, 运行<code>XMind</code>.</p>
+<p>执行下面，进行验证</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./run.sh</span><br></pre></td></tr></table></figure>
+
+<p>如果出现问题，可能是权限问题，</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo chown -R $USER /opt/xmind-8/</span><br></pre></td></tr></table></figure></li>
+<li><p>在XMind主界面依次: <code>Help -&gt; License</code>, 复制以下license key即可, 邮箱随便填:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">XAka34A2rVRYJ4XBIU35UZMUEEF64CMMIYZCK2FZZUQNODEKUHGJLFMSLIQMQUCUBXRENLK6NZL37JXP4PZXQFILMQ2RG5R7G4QNDO3PSOEUBOCDRYSSXZGRARV6MGA33TN2AMUBHEL4FXMWYTTJDEINJXUAV4BAYKBDCZQWVF3LWYXSDCXY546U3NBGOI3ZPAP2SO3CSQFNB7VVIY123456789012345</span><br></pre></td></tr></table></figure>
+
+<p>PS: 以上方法是通用的, 即: WIn Mac Linux都可以用这种方式. 替换的<code>XMind.ini</code>文件也只是在原始文件上添加了一行<code>-javaagent:./XMindCrack.jar</code>以执行Crack文件.</p>
+</li>
+<li><p>桌面快捷方式</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">  [Desktop Entry]</span><br><span class="line">  Type=Application</span><br><span class="line">Name[zh_CN]=XMind</span><br><span class="line">  Exec=/opt/xmind-8/XMind_amd64/run.sh</span><br><span class="line">  X-GNOME-FullName[zh_CN]=XMind</span><br><span class="line">  Comment[zh_CN]=思维导图</span><br><span class="line">  Icon=XMind</span><br><span class="line">  NoDisplay=false</span><br><span class="line">  Path=</span><br><span class="line">  Terminal=false</span><br><span class="line">  X-GNOME-UsesNotifications=false</span><br><span class="line">  Categories=Office;</span><br></pre></td></tr></table></figure></li>
+</ul>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://wiki.deepin.org/index.php?title=%E4%B8%BA%E7%9F%A5%E7%AC%94%E8%AE%B0">为知笔记</a>：为知笔记是一款云服务笔记软件</p>
+<p><a target="_blank" rel="noopener" href="http://www.wiz.cn/">http://www.wiz.cn/</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://wiki.deepin.org/index.php?title=Notepadqq">Notepadqq</a>：Notepadqq是一套纯文字编辑器，与Notepad++非常相似。</p>
+<p><a target="_blank" rel="noopener" href="http://notepadqq.altervista.org/">http://notepadqq.altervista.org/</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://wiki.deepin.org/index.php?title=GeoGebra">GeoGebra</a>：GeoGebra是一个动态数学应用</p>
+<p><a target="_blank" rel="noopener" href="https://www.geogebra.org/">https://www.geogebra.org/</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://wiki.deepin.org/index.php?title=Leanote">Leanote</a>：Leanote是一款在线的云笔记应用</p>
+<p><a target="_blank" rel="noopener" href="https://leanote.com/">https://leanote.com/</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://wiki.deepin.org/index.php?title=Remarkable">Remarkable</a>：Remarkable是一款Markdown编辑器</p>
+<p><a target="_blank" rel="noopener" href="https://remarkableapp.github.io/">https://remarkableapp.github.io/</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://wiki.deepin.org/index.php?title=LyX">LyX</a>：LyX是一款利用LaTeX来排版的文件编辑软件</p>
+<p><a target="_blank" rel="noopener" href="http://www.lyx.org/">http://www.lyx.org/</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://wiki.deepin.org/index.php?title=VYM">VYM</a>：VYM是一款思维导图软件</p>
+<p><a target="_blank" rel="noopener" href="http://www.insilmaril.de/vym/">http://www.insilmaril.de/vym/</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://wiki.deepin.org/index.php?title=FocusWriter">FocusWriter</a>：FocusWriter是一款写作软件</p>
+<p><a target="_blank" rel="noopener" href="http://gottcode.org/focuswriter/">http://gottcode.org/focuswriter/</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://wiki.deepin.org/index.php?title=%E6%89%93%E5%8D%B0%E6%9C%BA">打印机</a>：Printers（打印机）是一款用于配置系统打印机服务器的工具</p>
+<p><a target="_blank" rel="noopener" href="http://cyberelk.net/tim/software/system-config-printer/">http://cyberelk.net/tim/software/system-config-printer/</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://wiki.deepin.org/index.php?title=ChmSee">ChmSee</a>：ChmSee是一个在Linux下阅读CHM格式帮助文件的软件</p>
+<p><a target="_blank" rel="noopener" href="http://code.google.com/p/chmsee">http://code.google.com/p/chmsee</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://wiki.deepin.org/index.php?title=Gwyddion">Gwyddion</a>：Gwyddion是一款模块化扫描探针显微镜数据可视化和分析工具</p>
+<p><a target="_blank" rel="noopener" href="http://gwyddion.net/">http://gwyddion.net/</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://wiki.deepin.org/index.php?title=PyRenamer">pyRenamer</a>：pyRenamer是一款文件批量改名工具</p>
+<p><a target="_blank" rel="noopener" href="https://launchpad.net/pyrenamer">https://launchpad.net/pyrenamer</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://wiki.deepin.org/index.php?title=Scilab">Scilab</a>：Scilab是一个为工程和科学应用量身定做的数值计算软件</p>
+<p><a target="_blank" rel="noopener" href="http://www.scilab.org/">http://www.scilab.org/</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://wiki.deepin.org/index.php?title=TeXstudio">TeXstudio</a>：TeXstudio是一个编写LaTeX文档的集成开发环境</p>
+<p><a target="_blank" rel="noopener" href="http://www.texstudio.org/">http://www.texstudio.org/</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://wiki.deepin.org/index.php?title=Texmaker">Texmaker</a>：Texmaker是一个LaTeX的编辑环境</p>
+<p><a target="_blank" rel="noopener" href="http://www.xm1math.net/texmaker/">http://www.xm1math.net/texmaker/</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://wiki.deepin.org/index.php?title=GNU_TeXmacs">GNU TeXmacs</a>：GNU TeXmacs是一个优秀的科学文档排版软件</p>
+<p><a target="_blank" rel="noopener" href="http://www.texmacs.org/">http://www.texmacs.org/</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://wiki.deepin.org/index.php?title=KWrite">KWrite</a>：KWrite是一款程序员非常喜欢的文字编辑器</p>
+<p><a target="_blank" rel="noopener" href="https://www.kde.org/applications/utilities/kwrite/">https://www.kde.org/applications/utilities/kwrite/</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://wiki.deepin.org/index.php?title=Smallpdf">Smallpdf</a>：Smallpdf是一款在线PDF处理工具</p>
+<p><a target="_blank" rel="noopener" href="https://smallpdf.com/">https://smallpdf.com/</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://wiki.deepin.org/index.php?title=Open365">Open365</a>：Open365是一款Office文档处理软件</p>
+<p><a target="_blank" rel="noopener" href="https://open365.io/">https://open365.io/</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://wiki.deepin.org/index.php?title=AbiWord">AbiWord</a>：AbiWord是一款功能完备的高效文字处理软件</p>
+<p><a target="_blank" rel="noopener" href="https://www.abisource.com/">https://www.abisource.com/</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://wiki.deepin.org/index.php?title=GanttProject">GanttProject</a>：GanttProject是一款项目计划和管理图绘制应用</p>
+<p><a target="_blank" rel="noopener" href="http://www.ganttproject.biz/">http://www.ganttproject.biz/</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://wiki.deepin.org/index.php?title=Scan_Tailor">Scan Tailor</a>：Scan Tailor是一个用于扫描件的后期处理软件</p>
+<p><a target="_blank" rel="noopener" href="http://scantailor.org/">http://scantailor.org/</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://wiki.deepin.org/index.php?title=Gnumeric">Gnumeric</a>：Gnumeric是一款电子表格处理软件</p>
+<p><a target="_blank" rel="noopener" href="http://www.gnumeric.org/">http://www.gnumeric.org/</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://wiki.deepin.org/index.php?title=TagSpaces">TagSpaces</a>：TagSpaces是一款文档管理工具</p>
+<p><a target="_blank" rel="noopener" href="http://tagspaces.org/">http://tagspaces.org/</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://wiki.deepin.org/index.php?title=QOwnNotes">QOwnNotes</a>：QOwnNotes是一款支持Markdown和ownCloud同步的文本编辑器</p>
+<p><a target="_blank" rel="noopener" href="http://www.qownnotes.org/">http://www.qownnotes.org/</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://wiki.deepin.org/index.php?title=CuteMarkEd">CuteMarkEd</a>：CuteMarkEd是一款Markdown编辑器</p>
+<p><a target="_blank" rel="noopener" href="http://cloose.github.io/CuteMarkEd/">http://cloose.github.io/CuteMarkEd/</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://wiki.deepin.org/index.php?title=Moeditor">Moeditor</a>：Moeditor是一款markdown编辑器</p>
+<p><a target="_blank" rel="noopener" href="https://moeditor.org/">https://moeditor.org/</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://wiki.deepin.org/index.php?title=WordMark">WordMark</a>：WordMark是一款MarkDown编辑器</p>
+<p><a target="_blank" rel="noopener" href="http://wordmarkapp.com/">http://wordmarkapp.com/</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://wiki.deepin.org/index.php?title=Haroopad">Haroopad</a>：Haroopad是一款Linux平台下的markdown编辑器</p>
+<p><a target="_blank" rel="noopener" href="https://pad.haroopress.com/">https://pad.haroopress.com</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://wiki.deepin.org/index.php?title=Cmd_Markdown">Cmd Markdown</a>：Cmd Markdown是一款MarkDown编辑器</p>
+<p><a target="_blank" rel="noopener" href="https://www.zybuluo.com/cmd/">https://www.zybuluo.com/cmd/</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://wiki.deepin.org/index.php?title=MarkMyWords">MarkMyWords</a>：MarkMyWords是一款markdown编辑器</p>
+<p><a target="_blank" rel="noopener" href="https://github.com/voldyman/MarkMyWords">https://github.com/voldyman/MarkMyWords</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://wiki.deepin.org/index.php?title=Marp">Marp</a>：MarkMyWords是一款markdown编辑器</p>
+<p><a target="_blank" rel="noopener" href="https://github.com/yhatt/marp">https://github.com/yhatt/marp</a></p>
+</li>
+<li><p>stretchly:桌面提醒休息工具<a target="_blank" rel="noopener" href="https://github.com/hovancik/stretchly">https://github.com/hovancik/stretchly</a></p>
+</li>
+<li><p>Zettlr – 撰写专业论文的 MarkDown 编辑器<a target="_blank" rel="noopener" href="https://www.zettlr.com/">https://www.zettlr.com</a></p>
+</li>
+<li><p>simplenote-多平台同步笔记:<a target="_blank" rel="noopener" href="https://simplenote.com/">https://simplenote.com</a></p>
+</li>
+<li><p>Ao – 第三方开源微软 To-Do 桌面客户端</p>
+<p><a target="_blank" rel="noopener" href="https://github.com/klaussinani/ao">https://github.com/klaussinani/ao</a></p>
+</li>
+<li><p>GitNote – 基于 Git 的跨平台云笔记工具</p>
+<p><a target="_blank" rel="noopener" href="https://gitnoteapp.com/">https://gitnoteapp.com</a></p>
+</li>
+</ul>
+<h4 id="翻译阅读"><a href="#翻译阅读" class="headerlink" title="翻译阅读"></a>翻译阅读</h4><ul>
+<li><p><a target="_blank" rel="noopener" href="https://wiki.deepin.org/index.php?title=%E7%A6%8F%E6%98%95%E9%98%85%E8%AF%BB%E5%99%A8">福昕阅读器</a>：福昕阅读器（Foxit Reader）是一款PDF文档阅读器</p>
+<p><a target="_blank" rel="noopener" href="https://www.foxitsoftware.cn/">https://www.foxitsoftware.cn/</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://wiki.deepin.org/index.php?title=%E6%9C%89%E9%81%93%E8%AF%8D%E5%85%B8">有道词典</a>：有道词典是中国第一个基于Linux下的互联网商业翻译软件</p>
+<p><a target="_blank" rel="noopener" href="http://cidian.youdao.com/">http://cidian.youdao.com/</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://wiki.deepin.org/index.php?title=%E6%96%87%E6%A1%A3%E6%9F%A5%E7%9C%8B%E5%99%A8">文档查看器</a>：Evince（文档查看器）是一个支持多种格式的文件浏览器</p>
+<p><a target="_blank" rel="noopener" href="https://wiki.gnome.org/Apps/Evince">https://wiki.gnome.org/Apps/Evince</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://wiki.deepin.org/index.php?title=Master_PDF_Editor">Master PDF Editor</a>：Master PDF Editor是一款功能强大的PDF和XPS文档编辑工具</p>
+<p><a target="_blank" rel="noopener" href="http://code-industry.net/masterpdfeditor/">http://code-industry.net/masterpdfeditor/</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://wiki.deepin.org/index.php?title=Calibre">Calibre</a>：Calibre是一个“一站式”的电子书管理软件</p>
+<p><a target="_blank" rel="noopener" href="http://calibre-ebook.com/">http://calibre-ebook.com/</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://wiki.deepin.org/index.php?title=GoldenDict">GoldenDict</a>：GoldenDict是一款词典软件，支持多种词典文件格式</p>
+<p><a target="_blank" rel="noopener" href="http://goldendict.org/">http://goldendict.org/</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://wiki.deepin.org/index.php?title=Qpdfview">qpdfview</a>：qpdfview是一个小巧的PDF阅读器</p>
+<p><a target="_blank" rel="noopener" href="https://launchpad.net/qpdfview">https://launchpad.net/qpdfview</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://wiki.deepin.org/index.php?title=Okular">Okular</a>：Okular是一个PDF文档阅读软件</p>
+<p><a target="_blank" rel="noopener" href="http://okular.kde.org/">http://okular.kde.org/</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://wiki.deepin.org/index.php?title=Comix">Comix</a>：Comix是一款优秀的连环画电子阅读器</p>
+<p><a target="_blank" rel="noopener" href="http://comix.sourceforge.net/">http://comix.sourceforge.net/</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://wiki.deepin.org/index.php?title=Mendeley">Mendeley</a>：Mendeley是一款文献管理软件</p>
+<p><a target="_blank" rel="noopener" href="https://www.mendeley.com/">https://www.mendeley.com/</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://wiki.deepin.org/index.php?title=PdfMod">PdfMod</a>：PdfMod是一个PDF文档编辑应用</p>
+<p><a target="_blank" rel="noopener" href="http://wiki.gnome.org/Apps/PdfMod">http://wiki.gnome.org/Apps/PdfMod</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://wiki.deepin.org/index.php?title=PDF-Shuffler">PDF-Shuffler</a>：PDF-Shuffler是一个PDF合并及分割工具</p>
+<p><a target="_blank" rel="noopener" href="http://pdfshuffler.sourceforge.net/">http://pdfshuffler.sourceforge.net/</a></p>
+</li>
+</ul>
+<h4 id="编程开发"><a href="#编程开发" class="headerlink" title="编程开发"></a>编程开发</h4><ul>
+<li><p><a target="_blank" rel="noopener" href="https://wiki.deepin.org/index.php?title=Android_Studio">Android Studio</a>：Android Studio是一个基于IntelliJ IDEA的Android集成开发环境</p>
+<p><a target="_blank" rel="noopener" href="https://developer.android.com/">https://developer.android.com/</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://wiki.deepin.org/index.php?title=Visual_Studio_Code">Visual Studio Code</a>：Visual Studio Code是一款轻量级代码编辑器</p>
+<p><a target="_blank" rel="noopener" href="https://code.visualstudio.com/">https://code.visualstudio.com/</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://wiki.deepin.org/index.php?title=Sublime">Sublime</a>：Sublime Text是一个代码编辑器</p>
+<p><a target="_blank" rel="noopener" href="http://www.sublimetext.com/">http://www.sublimetext.com/</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://wiki.deepin.org/index.php?title=Atom">Atom</a>：Atom是一个在线文本编辑器</p>
+<p><a target="_blank" rel="noopener" href="http://www.atom.io/">http://www.atom.io/</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://wiki.deepin.org/index.php?title=Genymotion">Genymotion</a>：Genymotion是一款专业的虚拟模拟器</p>
+<p><a target="_blank" rel="noopener" href="https://www.genymotion.com/">https://www.genymotion.com/</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://wiki.deepin.org/index.php?title=GVim">GVim</a>：Vim是从vi发展而来的一个文本编辑器</p>
+<p><a target="_blank" rel="noopener" href="http://www.vim.org/">http://www.vim.org/</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://wiki.deepin.org/index.php?title=UltraEdit">UltraEdit</a>：UltraEdit是一个文本编辑器</p>
+<p><a target="_blank" rel="noopener" href="http://www.ultraedit.com/">http://www.ultraedit.com/</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://wiki.deepin.org/index.php?title=Eclipse_IDE">Eclipse IDE</a>：Eclipse 是一个开放源代码的、基于Java的可扩展开发平台</p>
+<p><a target="_blank" rel="noopener" href="http://www.eclipse.org/">http://www.eclipse.org</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://wiki.deepin.org/index.php?title=JetBrains_IDE">JetBrains IDE</a>：JetBrains公司是最好的Java IDE的创造者</p>
+<p><a target="_blank" rel="noopener" href="https://www.jetbrains.com/">https://www.jetbrains.com/</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://wiki.deepin.org/index.php?title=Komodo_IDE">Komodo IDE</a>：Komodo IDE是一款支持多种动态编程语言的集成开发环境</p>
+<p><a target="_blank" rel="noopener" href="http://www.activestate.com/komodo-ide">http://www.activestate.com/komodo-ide</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://wiki.deepin.org/index.php?title=Navicat">Navicat</a>：Navicat是一个的数据库管理工具</p>
+<p><a target="_blank" rel="noopener" href="https://www.navicat.com/products/navicat-for-mysql">https://www.navicat.com/products/navicat-for-mysql</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://wiki.deepin.org/index.php?title=Qt_Creator">Qt Creator</a>：Qt Creator是跨平台的轻量级集成开发环境</p>
+<p><a target="_blank" rel="noopener" href="https://www.qt.io/">https://www.qt.io</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://wiki.deepin.org/index.php?title=MySQL_Workbench">MySQL Workbench</a>：MySQL Workbench是一款专为MySQL设计的ER/数据库建模工具</p>
+<p><a target="_blank" rel="noopener" href="https://www.mysql.com/products/workbench/">https://www.mysql.com/products/workbench/</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://wiki.deepin.org/index.php?title=SQLiteStudio">SQLiteStudio</a>：SQLiteStudio是一款可以帮助用户管理sqlite数据库的工具</p>
+<p><a target="_blank" rel="noopener" href="https://sqlitestudio.pl/">https://sqlitestudio.pl/</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://wiki.deepin.org/index.php?title=DBeaver">DBeaver</a>：DBeaver是一个通用的数据库管理工具和SQL客户端</p>
+<p><a target="_blank" rel="noopener" href="http://dbeaver.jkiss.org/">http://dbeaver.jkiss.org/</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://wiki.deepin.org/index.php?title=Wireshark">Wireshark</a>：Wireshark是一个网络封包分析软件</p>
+<p><a target="_blank" rel="noopener" href="https://www.wireshark.org/">https://www.wireshark.org/</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://wiki.deepin.org/index.php?title=Code::Blocks">Code::Blocks</a>：Code::Blocks是一个开源、免费、跨平台的C++ IDE</p>
+<p><a target="_blank" rel="noopener" href="http://www.codeblocks.org/">http://www.codeblocks.org/</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://wiki.deepin.org/index.php?title=MyEclipse">MyEclipse</a>：MyEclipse是一款软件开发工具，是对EclipseIDE的扩展</p>
+<p><a target="_blank" rel="noopener" href="https://www.genuitec.com/products/myeclipse/">https://www.genuitec.com/products/myeclipse/</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://wiki.deepin.org/index.php?title=SmartGit">SmartGit</a>：SmartGit是一个Git版本控制系统的图形化客户端程序</p>
+<p><a target="_blank" rel="noopener" href="http://www.syntevo.com/smartgit/">http://www.syntevo.com/smartgit/</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://wiki.deepin.org/index.php?title=SmartSVN">SmartSVN</a>：SmartSVN是一个图形化的SVN客户端</p>
+<p><a target="_blank" rel="noopener" href="http://www.smartsvn.com/">http://www.smartsvn.com/</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://wiki.deepin.org/index.php?title=SmartCVS">SmartCVS</a>：SmartCVS是一款用于CVS的版本控制应用</p>
+<p><a target="_blank" rel="noopener" href="http://www.syntevo.com/smartcvs/">http://www.syntevo.com/smartcvs/</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://wiki.deepin.org/index.php?title=SmartSynchronize">SmartSynchronize</a>：SmartSynchronize是一款检查文件与目录比较的工具</p>
+<p><a target="_blank" rel="noopener" href="http://www.syntevo.com/smartsynchronize/">http://www.syntevo.com/smartsynchronize/</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://wiki.deepin.org/index.php?title=GNU_Emacs">GNU Emacs</a>：GNU Emacs是一个可扩展、定制的文本编辑器</p>
+<p><a target="_blank" rel="noopener" href="http://gnuemacs.org/">http://gnuemacs.org/</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://wiki.deepin.org/index.php?title=Deepin_Emacs">Deepin Emacs</a>：Emacs是一个可自编程和扩展的文本编辑器</p>
+<p><a target="_blank" rel="noopener" href="https://www.deepin.org/original/deepin-emacs/">https://www.deepin.org/original/deepin-emacs/</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://wiki.deepin.org/index.php?title=Spyder">Spyder</a>：Spyder是一个强大的交互式Python集成开发环境</p>
+<p><a target="_blank" rel="noopener" href="http://pythonhosted.org/spyder/">http://pythonhosted.org/spyder/</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://wiki.deepin.org/index.php?title=Brackets">Brackets</a>：Brackets是一个HTML/CSS/JavaScrip前端WEB集成开发环境</p>
+<p><a target="_blank" rel="noopener" href="http://brackets.io/">http://brackets.io/</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://wiki.deepin.org/index.php?title=CodeLite">CodeLite</a>：CodeLite是一个C/C++编程语言的跨平台IDE</p>
+<p><a target="_blank" rel="noopener" href="http://codelite.org/">http://codelite.org/</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://wiki.deepin.org/index.php?title=Bluefish">Bluefish</a>：Bluefish是一款为熟练的Web设计员和程序员而设的编辑器</p>
+<p><a target="_blank" rel="noopener" href="http://bluefish.openoffice.nl/">http://bluefish.openoffice.nl/</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://wiki.deepin.org/index.php?title=Eric">Eric</a>：Eric是一个全功能Python和Ruby的编辑器和IDE</p>
+<p><a target="_blank" rel="noopener" href="http://eric-ide.python-projects.org/">http://eric-ide.python-projects.org/</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://wiki.deepin.org/index.php?title=LiteIDE">LiteIDE</a>：LiteIDE是一款开源、跨平台的轻量级Go语言集成开发环境</p>
+<p><a target="_blank" rel="noopener" href="https://sourceforge.net/projects/liteide/">https://sourceforge.net/projects/liteide/</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://wiki.deepin.org/index.php?title=MonoDevelop">MonoDevelop</a>：MonoDevelop是个跨平台的集成开发环境</p>
+<p><a target="_blank" rel="noopener" href="http://www.monodevelop.com/">http://www.monodevelop.com/</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://wiki.deepin.org/index.php?title=Geany">Geany</a>：Geany是一个跨平台的开源集成开发环境</p>
+<p><a target="_blank" rel="noopener" href="http://www.geany.org/">http://www.geany.org/</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://wiki.deepin.org/index.php?title=NetBeans">NetBeans</a>：NetBeans是一个集成开发环境</p>
+<p><a target="_blank" rel="noopener" href="https://netbeans.org/">https://netbeans.org/</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://wiki.deepin.org/index.php?title=Arduino">Arduino</a>：Arduino是一个软硬件平台</p>
+<p><a target="_blank" rel="noopener" href="https://www.arduino.cc/">https://www.arduino.cc/</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://wiki.deepin.org/index.php?title=Glade">Glade</a>：Glade是一个相当不错的图形界面设计工具</p>
+<p><a target="_blank" rel="noopener" href="https://glade.gnome.org/">https://glade.gnome.org/</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://wiki.deepin.org/index.php?title=Gambas">Gambas</a>：Gambas是一个开发Visual Basic的集成开发环境</p>
+<p><a target="_blank" rel="noopener" href="http://gambas.sourceforge.net/">http://gambas.sourceforge.net/</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://wiki.deepin.org/index.php?title=GitKraken">GitKraken</a>：GitKraken是一款Git客户端</p>
+<p><a target="_blank" rel="noopener" href="https://www.gitkraken.com/">https://www.gitkraken.com/</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://wiki.deepin.org/index.php?title=Anjuta">Anjuta</a>：Anjuta是一个C、C++的集成开发环境</p>
+<p><a target="_blank" rel="noopener" href="http://anjuta.org/">http://anjuta.org/</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://wiki.deepin.org/index.php?title=SciTE">SciTE</a>：SciTE是一款免费开源的编辑器</p>
+<p><a target="_blank" rel="noopener" href="http://www.scintilla.org/">http://www.scintilla.org/</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://wiki.deepin.org/index.php?title=Yakuake">Yakuake</a>：Yakuake是一款下拉式终端仿真器</p>
+<p><a target="_blank" rel="noopener" href="https://www.kde.org/applications/system/yakuake/">https://www.kde.org/applications/system/yakuake/</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://wiki.deepin.org/index.php?title=Kate">Kate</a>：Kate是一个开源的、先进的文本编辑器</p>
+<p><a target="_blank" rel="noopener" href="http://kate-editor.org/">http://kate-editor.org/</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://wiki.deepin.org/index.php?title=Lazarus">Lazarus</a>：Lazarus是一个Pascal集成开发环境</p>
+<p><a target="_blank" rel="noopener" href="http://www.lazarus-ide.org/">http://www.lazarus-ide.org/</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://wiki.deepin.org/index.php?title=Intel_XDK">Intel XDK</a>：Intel XDK是一款HTML5跨平台集成开发工具</p>
+<p><a target="_blank" rel="noopener" href="https://software.intel.com/en-us/intel-xdk">https://software.intel.com/en-us/intel-xdk</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://wiki.deepin.org/index.php?title=GkDebconf">GkDebconf</a>：GkDebconf基本上是一个图形化的前端</p>
+<p><a target="_blank" rel="noopener" href="https://sourceforge.net/projects/gkdebconf/">https://sourceforge.net/projects/gkdebconf/</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://wiki.deepin.org/index.php?title=Okteta">Okteta</a>：Okteta是一款十六进制编辑器</p>
+<p><a target="_blank" rel="noopener" href="https://www.kde.org/applications/utilities/okteta/">https://www.kde.org/applications/utilities/okteta/</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://wiki.deepin.org/index.php?title=WxMEdit">wxMEdit</a>：wxMEdit是一个跨平台的文本/十六进制编辑器</p>
+<p><a target="_blank" rel="noopener" href="http://wxmedit.github.io/">http://wxmedit.github.io/</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://wiki.deepin.org/index.php?title=Poedit">Poedit</a>：Poedit是一款.Po文件编辑器</p>
+<p><a target="_blank" rel="noopener" href="http://poedit.net/">http://poedit.net/</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://wiki.deepin.org/index.php?title=D-Feet">D-Feet</a>：D-Feet是一个易于使用D-bus调试器</p>
+<p><a target="_blank" rel="noopener" href="http://wiki.gnome.org/action/show/Apps/DFeet">http://wiki.gnome.org/action/show/Apps/DFeet</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://wiki.deepin.org/index.php?title=PuTTY">PuTTY</a>：PuTTY是一套远程登陆工具</p>
+<p><a target="_blank" rel="noopener" href="https://wiki.deepin.org/index.php?title=Www.putty.org/&action=edit&redlink=1">www.putty.org/</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://wiki.deepin.org/index.php?title=PyRoom">PyRoom</a>：PyRoom是一款文本编辑器</p>
+<p><a target="_blank" rel="noopener" href="http://pyroom.org/">http://pyroom.org/</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://wiki.deepin.org/index.php?title=Racket">Racket</a>：Racket是一种计算机程序设计语言</p>
+<p><a target="_blank" rel="noopener" href="http://racket-lang.org/">http://racket-lang.org/</a></p>
+</li>
+</ul>
+<h4 id="系统管理"><a href="#系统管理" class="headerlink" title="系统管理"></a>系统管理</h4><ul>
+<li><p><a target="_blank" rel="noopener" href="https://wiki.deepin.org/index.php?title=%E6%B7%B1%E5%BA%A6%E6%96%87%E4%BB%B6%E7%AE%A1%E7%90%86%E5%99%A8">深度文件管理器</a>：深度文件管理器是深度科技开发的一款功能强大、简单易用的文件管理工具</p>
+<p><a target="_blank" rel="noopener" href="https://www.deepin.org/original/dde-file-manager/">https://www.deepin.org/original/dde-file-manager/</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://wiki.deepin.org/index.php?title=%E6%B7%B1%E5%BA%A6%E7%BB%88%E7%AB%AF">深度终端</a>：深度终端是深度科技精心打造的一款终端模拟器</p>
+<p><a target="_blank" rel="noopener" href="https://www.deepin.org/original/deepin-terminal/">https://www.deepin.org/original/deepin-terminal/</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://wiki.deepin.org/index.php?title=%E6%B7%B1%E5%BA%A6%E5%90%AF%E5%8A%A8%E7%9B%98%E5%88%B6%E4%BD%9C%E5%B7%A5%E5%85%B7">深度启动盘制作工具</a>：深度启动盘制作工具是深度科技团队开发的一款系统启动盘制作工具</p>
+<p><a target="_blank" rel="noopener" href="https://www.deepin.org/original/deepin-boot-maker/">https://www.deepin.org/original/deepin-boot-maker/</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://wiki.deepin.org/index.php?title=%E5%BD%92%E6%A1%A3%E7%AE%A1%E7%90%86%E5%99%A8">归档管理器</a>：Fileroller（归档管理器）是一个归档管理器</p>
+<p><a target="_blank" rel="noopener" href="http://fileroller.sourceforge.net/">http://fileroller.sourceforge.net/</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://wiki.deepin.org/index.php?title=%E6%90%9C%E7%8B%97%E8%BE%93%E5%85%A5%E6%B3%95">搜狗输入法</a>：搜狗输入法是一款流行的中文输入法</p>
+<p><a target="_blank" rel="noopener" href="http://pinyin.sogou.com/linux/">http://pinyin.sogou.com/linux/</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://wiki.deepin.org/index.php?title=%E7%B3%BB%E7%BB%9F%E7%9B%91%E8%A7%86%E5%99%A8">系统监视器</a>：系统监视器（gnome-system-monitor）是一个开源的应用程序</p>
+<p><a target="_blank" rel="noopener" href="https://github.com/GNOME/gnome-system-monitor">https://github.com/GNOME/gnome-system-monitor</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://wiki.deepin.org/index.php?title=%E5%AD%97%E4%BD%93%E6%9F%A5%E7%9C%8B%E5%99%A8">字体查看器</a>：字体查看器是一个查看字体的应用程序</p>
+<p><a target="_blank" rel="noopener" href="https://github.com/GNOME/gnome-font-viewer">https://github.com/GNOME/gnome-font-viewer</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://wiki.deepin.org/index.php?title=Deepin_OpenSymbol">Deepin OpenSymbol</a>：Deepin OpenSymbol是深度科技团队在Wingdings系列字体内容上，重新绘制一系列符号字体</p>
+<p><a target="_blank" rel="noopener" href="https://www.deepin.org/original/deepin-opensymbol/">https://www.deepin.org/original/deepin-opensymbol/</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://wiki.deepin.org/index.php?title=Nautilus">Nautilus</a>：Nautilus是一款文件管理器</p>
+<p><a target="_blank" rel="noopener" href="https://wiki.gnome.org/Apps/Nautilus">https://wiki.gnome.org/Apps/Nautilus</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://wiki.deepin.org/index.php?title=Boxes">Boxes</a>：Boxes是一个桌面虚拟化管理工具</p>
+<p><a target="_blank" rel="noopener" href="https://wiki.gnome.org/Apps/Boxes">https://wiki.gnome.org/Apps/Boxes</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://wiki.deepin.org/index.php?title=VirtualBox">VirtualBox</a>：Oracle VM VirtualBox是一款开源的虚拟机软件</p>
+<p><a target="_blank" rel="noopener" href="https://www.virtualbox.org/">https://www.virtualbox.org/</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://wiki.deepin.org/index.php?title=VMware_Workstation">VMware Workstation</a>：VMware Workstation是一款桌面虚拟计算机软件</p>
+<p><a target="_blank" rel="noopener" href="http://www.vmware.com/">http://www.vmware.com/</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://wiki.deepin.org/index.php?title=Disks">Disks</a>：Disks是一款磁盘管理工具</p>
+<p><a target="_blank" rel="noopener" href="https://launchpad.net/gnome-disk-utility">https://launchpad.net/gnome-disk-utility</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://wiki.deepin.org/index.php?title=GParted">GParted</a>：GParted是一款Linux下的功能非常强大的分区工具</p>
+<p><a target="_blank" rel="noopener" href="http://gparted.org/">http://gparted.org/</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://wiki.deepin.org/index.php?title=BleachBit">BleachBit</a>：BleachBit是一款开源的系统清理工具</p>
+<p><a target="_blank" rel="noopener" href="http://bleachbit.sourceforge.net/">http://bleachbit.sourceforge.net/</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://wiki.deepin.org/index.php?title=Gnome_Terminal">Gnome Terminal</a>：Gnome Terminal是一个终端仿真器</p>
+<p><a target="_blank" rel="noopener" href="https://wiki.gnome.org/Apps/Terminal">https://wiki.gnome.org/Apps/Terminal</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://wiki.deepin.org/index.php?title=WinUSB">WinUSB</a>：WinUSB是一个创建Windows可引导U盘工具</p>
+<p><a target="_blank" rel="noopener" href="https://sourceforge.net/projects/winusb/">https://sourceforge.net/projects/winusb/</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://wiki.deepin.org/index.php?title=UNetbootin">UNetbootin</a>：UNetbootin是一个跨平台制作启动盘的工具</p>
+<p><a target="_blank" rel="noopener" href="http://unetbootin.github.io/">http://unetbootin.github.io/</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://wiki.deepin.org/index.php?title=CPU-G">CPU-G</a>：CPU-G是一款CPU检测软件</p>
+<p><a target="_blank" rel="noopener" href="https://sourceforge.net/projects/cpug/">https://sourceforge.net/projects/cpug/</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://wiki.deepin.org/index.php?title=Hardinfo">Hardinfo</a>：HardInfo是一个系统信息查看软件</p>
+<p><a target="_blank" rel="noopener" href="https://github.com/lpereira/hardinfo">https://github.com/lpereira/hardinfo</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://wiki.deepin.org/index.php?title=Brasero">Brasero</a>：Brasero是一款CD/DVD刻录软件</p>
+<p><a target="_blank" rel="noopener" href="https://wiki.gnome.org/Apps/Brasero">https://wiki.gnome.org/Apps/Brasero</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://wiki.deepin.org/index.php?title=K3b">K3b</a>：K3b是一款全功能的CD/DVD烧录软件</p>
+<p><a target="_blank" rel="noopener" href="http://www.k3b.org/">http://www.k3b.org/</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://wiki.deepin.org/index.php?title=I-Nex">I-Nex</a>：I-Nex是一款系统信息查询工具</p>
+<p><a target="_blank" rel="noopener" href="https://sourceforge.net/projects/i-nex/">https://sourceforge.net/projects/i-nex/</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://wiki.deepin.org/index.php?title=Psensor">Psensor</a>：PSensor是一款监控硬件温度的工具</p>
+<p><a target="_blank" rel="noopener" href="http://wpitchoune.net/psensor/">http://wpitchoune.net/psensor/</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://wiki.deepin.org/index.php?title=ISO_Master">ISO Master</a>：ISO Master是一个光盘镜像文件编辑器</p>
+<p><a target="_blank" rel="noopener" href="http://littlesvr.ca/isomaster/">http://littlesvr.ca/isomaster/</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://wiki.deepin.org/index.php?title=Gufw">Gufw</a>：Gufw是一款防火墙UFW的图形化管理工具</p>
+<p><a target="_blank" rel="noopener" href="http://gufw.org/">http://gufw.org/</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://wiki.deepin.org/index.php?title=Terminator">Terminator</a>：Terminator是一款跨平台的终端工具</p>
+<p><a target="_blank" rel="noopener" href="https://launchpad.net/terminator/">https://launchpad.net/terminator/</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://wiki.deepin.org/index.php?title=Cairo-Dock">Cairo-Dock</a>：Cairo-Dock是一个Dock类软件</p>
+<p><a target="_blank" rel="noopener" href="http://www.glx-dock.org/">http://www.glx-dock.org/</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://wiki.deepin.org/index.php?title=Gnome_Pie">Gnome Pie</a>：Gnome Pie是一款炫酷的程序启动器</p>
+<p><a target="_blank" rel="noopener" href="https://github.com/Simmesimme/Gnome-Pie">https://github.com/Simmesimme/Gnome-Pie</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://wiki.deepin.org/index.php?title=Guake">Guake</a>：Guake是一个下拉式的终端程序</p>
+<p><a target="_blank" rel="noopener" href="http://guake-project.org/">http://guake-project.org/</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://wiki.deepin.org/index.php?title=VNC-Client">VNC-Client</a>：VNC-Client是一款远程连接应用</p>
+<p><a target="_blank" rel="noopener" href="https://launchpad.net/evnc">https://launchpad.net/evnc</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://wiki.deepin.org/index.php?title=F.lux">f.lux</a>：f.lux是一款自动调整屏幕色温亮度的应用</p>
+<p><a target="_blank" rel="noopener" href="https://justgetflux.com/">https://justgetflux.com/</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://wiki.deepin.org/index.php?title=Redshift">Redshift</a>：Redshift是一款显示器色温自动调整应用</p>
+<p><a target="_blank" rel="noopener" href="https://github.com/jonls/redshift">https://github.com/jonls/redshift</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://wiki.deepin.org/index.php?title=Conky_Manager">Conky Manager</a>：Conky Manager是一款简单的图形化工具</p>
+<p><a target="_blank" rel="noopener" href="https://launchpad.net/conky-manager">https://launchpad.net/conky-manager</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://wiki.deepin.org/index.php?title=Gconf_Editor">Gconf Editor</a>：Gconf Editor是一个配置编辑软件</p>
+<p><a target="_blank" rel="noopener" href="https://download.gnome.org/sources/gconf-editor/">https://download.gnome.org/sources/gconf-editor/</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://wiki.deepin.org/index.php?title=Tickeys">Tickeys</a>：Tickeys是一款打字机声效模拟软件</p>
+<p><a target="_blank" rel="noopener" href="https://github.com/BillBillBillBill/Tickeys-linux">https://github.com/BillBillBillBill/Tickeys-linux</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://wiki.deepin.org/index.php?title=Meld">Meld</a>：Meld是一款可视化的文件及目录对比/合并工具</p>
+<p><a target="_blank" rel="noopener" href="http://meldmerge.org/">http://meldmerge.org/</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://wiki.deepin.org/index.php?title=Beyond_Compare">Beyond Compare</a>：Beyond Compare是一款文件/文件夹对比工具</p>
+<p><a target="_blank" rel="noopener" href="http://www.scootersoftware.com/">http://www.scootersoftware.com</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://wiki.deepin.org/index.php?title=Baobab">Baobab</a>：Baobab是一款分析磁盘使用情况的图形工具</p>
+<p><a target="_blank" rel="noopener" href="http://www.marzocca.net/linux/baobab/">http://www.marzocca.net/linux/baobab/</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://wiki.deepin.org/index.php?title=Nero">Nero</a>：Nero是一款多媒体刻录和编辑应用</p>
+<p><a target="_blank" rel="noopener" href="http://www.nero.com/">http://www.nero.com/</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://wiki.deepin.org/index.php?title=Catfish">Catfish</a>：Catfish是一个文件搜索工具</p>
+<p><a target="_blank" rel="noopener" href="https://launchpad.net/catfish-search">https://launchpad.net/catfish-search</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://wiki.deepin.org/index.php?title=Synapse">Synapse</a>：Synapse是一款使用Vala语言编写的启动器软件</p>
+<p><a target="_blank" rel="noopener" href="https://launchpad.net/synapse-project">https://launchpad.net/synapse-project</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://wiki.deepin.org/index.php?title=Konsole">Konsole</a>：Konsole是一个终端模拟器</p>
+<p><a target="_blank" rel="noopener" href="https://konsole.kde.org/">https://konsole.kde.org/</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://wiki.deepin.org/index.php?title=PeaZip">PeaZip</a>：PeaZip是一款解压缩软件</p>
+<p><a target="_blank" rel="noopener" href="http://www.peazip.org/">http://www.peazip.org/</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://wiki.deepin.org/index.php?title=B1_Free_Archiver">B1 Free Archiver</a>：B1 Free Archiver是一款压缩/解压缩应用</p>
+<p><a target="_blank" rel="noopener" href="http://b1.org/">http://b1.org/</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://wiki.deepin.org/index.php?title=Xarchiver">Xarchiver</a>：Xarchiver是一款解压/压缩应用</p>
+<p><a target="_blank" rel="noopener" href="http://xarchiver.sourceforge.net/">http://xarchiver.sourceforge.net/</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://wiki.deepin.org/index.php?title=KShutdown">KShutdown</a>：KShutDown是一个定时关机工具</p>
+<p><a target="_blank" rel="noopener" href="http://kshutdown.sourceforge.net/">http://kshutdown.sourceforge.net/</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://wiki.deepin.org/index.php?title=KeePass2">KeePass2</a>：KeePass2是一个密码管理工具</p>
+<p><a target="_blank" rel="noopener" href="http://keepass.info/">http://keepass.info/</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://wiki.deepin.org/index.php?title=KeePassX">KeePassX</a>：KeePassX是一个密码管理工具</p>
+<p><a target="_blank" rel="noopener" href="https://www.keepassx.org/">https://www.keepassx.org/</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://wiki.deepin.org/index.php?title=Synergy">Synergy</a>：Synergy是一款键盘鼠标共享软件</p>
+<p><a target="_blank" rel="noopener" href="http://synergy-project.org/">http://synergy-project.org/</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://wiki.deepin.org/index.php?title=GtkHash">GtkHash</a>：GtkHash是一个用来计算消息摘要和checksum的工具</p>
+<p><a target="_blank" rel="noopener" href="http://gtkhash.sourceforge.net/">http://gtkhash.sourceforge.net/</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://wiki.deepin.org/index.php?title=DupeGuru">dupeGuru</a>：dupeGuru是一款重复文件清理应用</p>
+<p><a target="_blank" rel="noopener" href="https://www.hardcoded.net/dupeguru/">https://www.hardcoded.net/dupeguru/</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://wiki.deepin.org/index.php?title=ANGRYsearch">ANGRYsearch</a>：ANGRYsearch是一款文件快速搜索工具</p>
+<p><a target="_blank" rel="noopener" href="https://github.com/DoTheEvo/ANGRYsearch">https://github.com/DoTheEvo/ANGRYsearch</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://wiki.deepin.org/index.php?title=CopyQ">CopyQ</a>：CopyQ是一款剪贴板软件，适用于大量数据的复制粘贴</p>
+<p><a target="_blank" rel="noopener" href="http://hluk.github.io/CopyQ/">http://hluk.github.io/CopyQ/</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://wiki.deepin.org/index.php?title=Easystroke">Easystroke</a>：Easystroke是一个手势识别应用</p>
+<p><a target="_blank" rel="noopener" href="https://github.com/thjaeger/easystroke">https://github.com/thjaeger/easystroke</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://wiki.deepin.org/index.php?title=CherryTree">CherryTree</a>：CherryTree是一个支持无限层级分类的笔记软件</p>
+<p><a target="_blank" rel="noopener" href="http://www.giuspen.com/cherrytree/">http://www.giuspen.com/cherrytree/</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://wiki.deepin.org/index.php?title=FF_Multi_Converter">FF Multi Converter</a>：FF Multi Converter是一个多功能的格式转换工具</p>
+<p><a target="_blank" rel="noopener" href="https://sites.google.com/site/ffmulticonverter/">https://sites.google.com/site/ffmulticonverter/</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://wiki.deepin.org/index.php?title=Simplenote">Simplenote</a>：Simplenote是一款纯文本笔记记录应用</p>
+<p><a target="_blank" rel="noopener" href="https://github.com/Automattic/simplenote-electron">https://github.com/Automattic/simplenote-electron</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://wiki.deepin.org/index.php?title=LuckyBackup">LuckyBackup</a>：LuckyBackup是一个文件备份和同步工具</p>
+<p><a target="_blank" rel="noopener" href="http://luckybackup.sourceforge.net/">http://luckybackup.sourceforge.net/</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://wiki.deepin.org/index.php?title=Referencer">Referencer</a>：Referencer是一款文献管理工具</p>
+<p><a target="_blank" rel="noopener" href="https://launchpad.net/referencer">https://launchpad.net/referencer</a></p>
+</li>
+<li><p>starUML:多平台UML工具</p>
+<p><a target="_blank" rel="noopener" href="https://staruml.io/">https://staruml.io</a></p>
+</li>
+<li><p>Etcher – 将「系统镜像文件」快速制作为 USB/SD 启动盘</p>
+<p><a target="_blank" rel="noopener" href="https://www.appinn.com/etcher-burn-better/">https://www.appinn.com/etcher-burn-better/</a></p>
+<p>安装参考：<a target="_blank" rel="noopener" href="https://github.com/balena-io/etcher">https://github.com/balena-io/etcher</a></p>
+<ul>
+<li>Add Etcher debian repository:</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">echo &quot;deb https://deb.etcher.io stable etcher&quot; | sudo tee /etc/apt/sources.list.d/balena-etcher.list</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>Trust Bintray.com’s GPG key:</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 379CE192D401AB61</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>Update and install:</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get update</span><br><span class="line">sudo apt-get install balena-etcher-electron</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>Uninstall</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get remove balena-etcher-electron</span><br><span class="line">sudo rm /etc/apt/sources.list.d/balena-etcher.list</span><br><span class="line">sudo apt-get update</span><br></pre></td></tr></table></figure></li>
+</ul>
+<h4 id="其他应用"><a href="#其他应用" class="headerlink" title="其他应用"></a>其他应用</h4><ul>
+<li><p><a target="_blank" rel="noopener" href="https://wiki.deepin.org/index.php?title=Crossover">Crossover</a>：Crossover是一款可以在Linux中运行Windows软件和游戏的工具</p>
+<p><a href="www.codeweavers.com">www.codeweavers.com</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://wiki.deepin.org/index.php?title=PlayOnLinux">PlayOnLinux</a>：PlayOnLinux是一款Wine的前端程序</p>
+<p><a target="_blank" rel="noopener" href="https://www.playonlinux.com/">https://www.playonlinux.com/</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://wiki.deepin.org/index.php?title=Wine">Wine</a>：Wine是一个能够在多种作系统（Linux，macOS 及 BSD 等）上运行 Windows 应用的兼容层</p>
+<p><a target="_blank" rel="noopener" href="https://www.winehq.org/">https://www.winehq.org/</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://wiki.deepin.org/index.php?title=LibreCAD">LibreCAD</a>：LibreCAD是一款2D的CAD绘图工具</p>
+<p><a target="_blank" rel="noopener" href="http://librecad.org/">http://librecad.org/</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://wiki.deepin.org/index.php?title=FreeCAD">FreeCAD</a>：FreeCAD是一款通用的三维CAD建模软件</p>
+<p><a target="_blank" rel="noopener" href="http://www.freecadweb.org/">http://www.freecadweb.org/</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://wiki.deepin.org/index.php?title=DraftSight">DraftSight</a>：DraftSight是一款专业的2D CAD制图软件</p>
+<p><a target="_blank" rel="noopener" href="http://www.3ds.com/products-services/draftsight/">http://www.3ds.com/products-services/draftsight/</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://wiki.deepin.org/index.php?title=Sweet_Home_3D">Sweet Home 3D</a>：Sweet Home 3D是一款家装辅助设计软件</p>
+<p><a target="_blank" rel="noopener" href="http://www.sweethome3d.com/">http://www.sweethome3d.com/</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://wiki.deepin.org/index.php?title=Stellarium">Stellarium</a>：Stellarium是一款虚拟星象仪的计算机软件</p>
+<p><a target="_blank" rel="noopener" href="http://www.stellarium.org/">http://www.stellarium.org/</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://wiki.deepin.org/index.php?title=QElectroTech">QElectroTech</a>：QElectroTech是一款电路图绘制软件</p>
+<p><a target="_blank" rel="noopener" href="http://qelectrotech.org/">http://qelectrotech.org/</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://wiki.deepin.org/index.php?title=GNU_Octave">GNU Octave</a>：GNU Octave是一种高级编程语言</p>
+<p><a target="_blank" rel="noopener" href="https://www.gnu.org/software/octave/">https://www.gnu.org/software/octave/</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://wiki.deepin.org/index.php?title=BirdFont">BirdFont</a>：BirdFont是一个免费的字体编辑器</p>
+<p><a target="_blank" rel="noopener" href="https://birdfont.org/">https://birdfont.org/</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://wiki.deepin.org/index.php?title=QCad">QCad</a>：QCad是一款2D计算机辅助画图软件</p>
+<p><a target="_blank" rel="noopener" href="http://www.qcad.org/">http://www.qcad.org/</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://wiki.deepin.org/index.php?title=GnuCash">GnuCash</a>：GnuCash是一款适用于个人或小型企业的财务软件</p>
+<p><a target="_blank" rel="noopener" href="http://www.gnucash.org/">http://www.gnucash.org/</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://wiki.deepin.org/index.php?title=BOINC">BOINC</a>：BOINC是一款用来贡献计算资源的应用</p>
+<p><a target="_blank" rel="noopener" href="http://boinc.berkeley.edu/">http://boinc.berkeley.edu/</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://wiki.deepin.org/index.php?title=Room_Arranger">Room Arranger</a>：Room Arranger是一款实时的模拟房屋设计布局的软件</p>
+<p><a target="_blank" rel="noopener" href="http://www.roomarranger.com/">http://www.roomarranger.com/</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://wiki.deepin.org/index.php?title=Scribus">Scribus</a>：Scribus是一款电子杂志制作软件</p>
+<p><a target="_blank" rel="noopener" href="https://www.scribus.net/">https://www.scribus.net/</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://wiki.deepin.org/index.php?title=KRuler">KRuler</a>：KRuler是一款制定屏幕分辨率规则和颜色测量的工具</p>
+<p><a target="_blank" rel="noopener" href="https://www.kde.org/applications/graphics/kruler/">https://www.kde.org/applications/graphics/kruler/</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://wiki.deepin.org/index.php?title=Dr.Geo">Dr.Geo</a>：Dr.Geo是一款交互式的几何形状分布的应用</p>
+<p><a target="_blank" rel="noopener" href="http://www.drgeo.eu/">http://www.drgeo.eu/</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://wiki.deepin.org/index.php?title=WxMaxima">wxMaxima</a>：wxMaxima是一个基于wxWidgets的计算机代数系统应用</p>
+<p><a target="_blank" rel="noopener" href="http://andrejv.github.io/wxmaxima/">http://andrejv.github.io/wxmaxima/</a></p>
+</li>
+<li><p>uTools是一个极简、插件化、跨平台的现代桌面软件。通过自由选配丰富的插件，打造你得心应手的工具集合。</p>
+<p><a target="_blank" rel="noopener" href="https://www.u.tools/">https://www.u.tools/</a></p>
+</li>
+</ul>
+<h4 id="运维工具"><a href="#运维工具" class="headerlink" title="运维工具"></a>运维工具</h4><ul>
+<li><p>mkcert:证书工具</p>
+<p><a target="_blank" rel="noopener" href="https://github.com/FiloSottile/mkcert/">https://github.com/FiloSottile/mkcert/</a></p>
+</li>
+<li><p>certbot:htps证书工具</p>
+<p><a target="_blank" rel="noopener" href="https://certbot.eff.org/">https://certbot.eff.org/</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://angryip.org/download/">Angry IP Scanner</a></p>
+<p>Angry IP Scanner是一个开源网络和IP扫描工具。该软件扫描连接到网络的IP地址，并检查每个设备的状态和可用性。Angry IP Scanner通过为每个扫描的IP地址创建单独的线程，使用多线程方法进行监控;这样可以提高工具IP监控的速度。该工具还支持NetBIOS信息，IP地址范围，Web服务器检测和可自定义的开启工具。</p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://www.cacti.net/">Cacti</a></p>
+<p>Cacti是一个基于RRDTool数据记录和图形系统的开源网络监控工具。该工具使用网络轮询和数据收集功能来收集任何规模的网络上的设备信息。这包括为数据收集设计自定义脚本以及支持SNMP轮询的能力。然后，它会以易于理解的图形显示此信息，这些图表可以按照业务最适合的层次结构进行排列。</p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://www.nagios.org/">Nagios Core</a></p>
+<p>Nagios Core是一种开源网络监控工具，旨在作为Nagios提供的其他监控和警报软件的基础。它主要是一种性能检查工具，可以在整个基础架构中调度和执行网络性能检查。作为其他Nagios软件使用的性能检查事件处理器，Nagios Core还可以通过Naigos Exchange通过独立的附件扩展其功能。</p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://www.zabbix.com/">ZABBIX</a></p>
+<p>Zabbix是一个开源监控工具套件，包括网络监控。Zabbix的网络监控功能包括性能指标分析，例如带宽使用，数据包丢失和CPU/内存利用率。它还可以通过检查处于危急状态的设备来检测网络节点和连接健康问题。当硬件功能下降(网络设备的风扇速度低)或未响应SNMP检查时，Zabbix可以提醒你。</p>
+<p><strong><a target="_blank" rel="noopener" href="https://blog.51cto.com/13645280/2165369">监控三剑客&lt;cacti、nagios、zabbix&gt;</a></strong></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://checkmk.com/">Checkmk</a></p>
+<p>Checkmk是一个开源的基础架构和应用监控工具，还包括网络监控功能。对于网络监控，Checkmk可以发现和监控交换机和路由器，无线网络和防火墙;该软件支持与多个网络硬件供应商的集成。该解决方案使用基于规则的概念来配置网络和设备监控，允许企业配置整个网络以监控特定指标。</p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://icinga.com/">Icinga</a></p>
+<p>Icinga是一个开源网络监控工具，可以测量网络可用性和性能。通过Web界面，企业可以在整个网络基础架构中观察主机和应用。该工具具有原生可扩展性，可以轻松配置为适用于各种设备。还有一些用于特定监控功能的Icinga模块，例如监控VMWare的vSphere云环境和业务流程建模。</p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://www.librenms.org/">LibreNMS</a></p>
+<p>LibreNMS是一个开源网络监控系统，它使用多种网络协议来观察网络中的每个设备。LibreNMS API可以检索，管理和绘制其收集的数据，并支持水平扩展，以增强其网络监控功能。该工具具有灵活的警报系统，可根据企业的方法量身定制，以便与你沟通。它们还提供原生iOS和Android应用程序。</p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://www.netxms.org/">NetXMS</a></p>
+<p>NetXMS是一种开源基础架构和网络监控和管理解决方案。该工具为IT基础架构的所有层提供灵活的事件处理，报告和可视化图形。对于网络监控，NetXMS提供自动第2层和第3层发现以及完整的SMNPv3支持。该程序还包括主动和被动发现，将扫描探针和信息收集功能结合在一起。</p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://github.com/ntop/ntopng">ntopng</a></p>
+<p>ntopng是一种开源网络流量分析工具，具有网络监控功能。该工具是一种网络流量探测器，可将网络流量分类为不同的标准，包括IP地址和吞吐量。通过表征网络流量，企业可以轻松确定影响网络的不同网络统计信息。虽然ntopng的社区版本是开源的，但也可以使用专业版和企业版。</p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://opmantek.com/network-management-system-nmis/">Opmantek NMIS</a></p>
+<p>Opmantek NMIS是一种开源网络管理解决方案，用于可扩展的网络性能和设备状态监控。NMIS根据业务影响对网络事件进行分类。NMIS包含在Opmantek的NMIS专业软件包中，该软件包还包括用于通过可自定义仪表板和opReports绘制性能图表的opCharts，用于分析性能数据和生成有关此数据的报告。</p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://pandorafms.com/">Pandora FMS</a></p>
+<p>Pandora FMS是一种开源监控工具，可帮助企业观察整个IT基础架构。它不仅具有网络监控功能，还具有Windows和Unix服务器以及虚拟接口。对于网络，Pandora FMS包含诸如ICMP轮询，SNMP支持，网络延迟监控和系统过载等功能。还可以在设备上安装代理，以观察设备温度，以及日志文件等因素。</p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://prometheus.io/">Prometheus</a></p>
+<p>Prometheus是一个专注于数据收集和分析的开源监控解决方案。它允许用户使用本机工具集设置网络监控功能。该工具能够使用SNMP ping收集设备上的信息，并从设备角度检查网络带宽使用情况以及其他功能。PromQL系统分析数据并允许程序在其监控的系统上生成图形，表格和其他视觉效果。</p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://www.wireshark.org/">Wireshark</a></p>
+<p>Wireshark是一种开源网络协议分析仪，具有实时网络数据捕获和分析功能。该工具对多个不同的网络协议执行深度检查，以确定多个级别的网络性能。Wireshark还允许用户捕获数据包并分析它们，即使在网络脱机时也是如此。Wireshark捕获的数据可以以多种通用或共享文件格式存储，允许其他工具帮助解释网络上的数据。</p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://mmonit.com/">mmonit</a></p>
+<p>Monit是一个开源监控管理工具（类似supervisor），能够监控linux系统的负载、文件、进程等。当系统负载过高、监控文件被篡改、进程异常退出时，能够发送邮件报警，并能够自动启动或关闭异常进程。Monit内嵌web界面，能够看到当前主机上的监控项状态。</p>
+<p>M/Monit是一个集中式管理多台Monit的可视化工具，也是收费工具，可以免费试用30天。</p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://www.manageengine.cn/">manageengine</a></p>
+<p>监控工具公司</p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://www.goaccess.cc/">goaccess</a></p>
+<p><strong>GoAccess</strong> 是一款开源的且具有交互视图界面的<strong>实时</strong> <strong>Web 日志分析工具</strong>，通过你的 <strong>Web 浏览器</strong>或者 *nix 系统下的**终端程序(terminal)**即可访问。</p>
+<p>能为系统管理员提供<strong>快速</strong>且有价值的 HTTP 统计，并以在线可视化服务器的方式呈现。</p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://lnmp.org/">lnmp一键安装</a></p>
+<p>LNMP一键安装包是一个用Linux Shell编写的可以为CentOS/RHEL/Fedora/Aliyun/Amazon、Debian/Ubuntu/Raspbian/Deepin/Mint Linux VPS或独立主机安装LNMP(Nginx/MySQL/PHP)、LNMPA(Nginx/MySQL/PHP/Apache)、LAMP(Apache/MySQL/PHP)生产环境的Shell程序。</p>
+</li>
+</ul>
+<h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><ol>
+<li><a target="_blank" rel="noopener" href="https://cloud.tencent.com/developer/article/1494803">https://cloud.tencent.com/developer/article/1494803</a></li>
+<li><a target="_blank" rel="noopener" href="https://alim0x.gitbooks.io/awesome-linux-software-zh_cn/content/">常用的超赞 Linux 软件大汇总，入行运维必藏！</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.sysgeek.cn/linux-media-server-top10-1/">适用于 Linux 系统的 10 款最佳媒体服务器软件（上）</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.sysgeek.cn/linux-media-server-top10-2/">适用于 Linux 系统的 10 款最佳媒体服务器软件（下）</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.sysgeek.cn/slimbook-battery-ubuntu/">如何使用 Slimbook Battery 实现 Ubuntu 高级电源管理</a></li>
+<li><a target="_blank" rel="noopener" href="http://www.huacolor.com/article/25456.html">八款优秀的Linux天文学软件</a></li>
+</ol>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">平心</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://pingxin0521.gitee.io/2019/04/22/Linux-Ubuntu-2-1/">https://pingxin0521.gitee.io/2019/04/22/Linux-Ubuntu-2-1/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://pingxin0521.gitee.io" target="_blank">平心de小屋</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/Linux/">Linux</a><a class="post-meta__tags" href="/tags/Ubuntu/">Ubuntu</a></div><div class="post_share"><div class="social-share" data-image="https://i.loli.net/2020/05/08/okfOw28KlZFbE7z.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2019/04/22/Java-%E6%A1%86%E6%9E%B6-1-0/"><img class="prev-cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/okfOw28KlZFbE7z.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">常用开源库</div></div></a></div><div class="next-post pull-right"><a href="/2019/04/22/Linux-Ubuntu-2-0/"><img class="next-cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/7dHvepmfYOLWTrX.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">Ubuntu 优化</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span> 相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2019/05/22/Linux-Ubuntu-4/" title="Ubuntu 点滴笔记"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/PFDRNxj93taz6pw.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2019-10-18</div><div class="title">Ubuntu 点滴笔记</div></div></a></div><div><a href="/2019/05/22/Linux-Ubuntu-3/" title="Ubuntu 软件包管理命令"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/okfOw28KlZFbE7z.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2019-09-27</div><div class="title">Ubuntu 软件包管理命令</div></div></a></div><div><a href="/2019/04/22/Linux-Ubuntu-2-0/" title="Ubuntu 优化"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/7dHvepmfYOLWTrX.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2019-10-14</div><div class="title">Ubuntu 优化</div></div></a></div><div><a href="/2019/04/20/Linux-Ubuntu-1/" title="Ubuntu 基础配置和美化"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/vCnKyoFJZ1g4XYR.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2020-10-01</div><div class="title">Ubuntu 基础配置和美化</div></div></a></div><div><a href="/2019/03/23/Linux-基础-12/" title="Linux-服务管理"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/PFDRNxj93taz6pw.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2019-04-03</div><div class="title">Linux-服务管理</div></div></a></div><div><a href="/2019/03/20/Linux-基础-5/" title="Linux-文本处理三剑客--grep"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/HjVAdIuT7bZJypS.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2019-10-10</div><div class="title">Linux-文本处理三剑客--grep</div></div></a></div></div></div><hr/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div class="vcomment" id="vcomment"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="card-info-avatar is-center"><img class="avatar-img" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://s2.ax1x.com/2020/02/11/1ovw6J.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/><div class="author-info__name">平心</div><div class="author-info__description">年轻人的life、learn and think</div></div><div class="card-info-data"><div class="card-info-data-item is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">449</div></a></div><div class="card-info-data-item is-center"><a href="/tags/"><div class="headline">标签</div><div class="length-num">77</div></a></div><div class="card-info-data-item is-center"><a href="/categories/"><div class="headline">分类</div><div class="length-num">68</div></a></div></div><a class="button--animated" id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/hanyunpeng0521"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/hanyunpeng0521" target="_blank" title="Github"><i class="fa fa-github"></i></a><a class="social-icon" href="mailto:m13839441583@163.com" target="_blank" title="Email"><i class="fa fa-envelope"></i></a><a class="social-icon" href="/atom.xml" target="_blank" title=""><i class="fa fa-rss"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn card-announcement-animation"></i><span>公告</span></div><div class="announcement_content">为什么呢？开始提问吧</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%91%BD%E4%BB%A4%E8%A1%8C%E8%BD%AF%E4%BB%B6"><span class="toc-number">1.</span> <span class="toc-text">命令行软件</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%9B%BE%E5%BD%A2%E5%8C%96%E8%BD%AF%E4%BB%B6"><span class="toc-number">2.</span> <span class="toc-text">图形化软件</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%85%B6%E4%BB%96%E5%BC%80%E5%8F%91%E8%BD%AF%E4%BB%B6"><span class="toc-number">3.</span> <span class="toc-text">其他开发软件</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%99%84%E5%BD%95"><span class="toc-number"></span> <span class="toc-text">附录</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%BD%91%E7%BB%9C%E5%BA%94%E7%94%A8"><span class="toc-number">1.</span> <span class="toc-text">网络应用</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%A4%BE%E4%BA%A4%E6%B2%9F%E9%80%9A"><span class="toc-number">2.</span> <span class="toc-text">社交沟通</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%9F%B3%E4%B9%90%E6%AC%A3%E8%B5%8F"><span class="toc-number">3.</span> <span class="toc-text">音乐欣赏</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%A7%86%E9%A2%91%E6%92%AD%E6%94%BE"><span class="toc-number">4.</span> <span class="toc-text">视频播放</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%9B%BE%E5%BD%A2%E5%9B%BE%E5%83%8F"><span class="toc-number">5.</span> <span class="toc-text">图形图像</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%A8%B1%E4%B9%90%E6%B8%B8%E6%88%8F"><span class="toc-number">6.</span> <span class="toc-text">娱乐游戏</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%8A%9E%E5%85%AC%E5%AD%A6%E4%B9%A0"><span class="toc-number">7.</span> <span class="toc-text">办公学习</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%BF%BB%E8%AF%91%E9%98%85%E8%AF%BB"><span class="toc-number">8.</span> <span class="toc-text">翻译阅读</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%BC%96%E7%A8%8B%E5%BC%80%E5%8F%91"><span class="toc-number">9.</span> <span class="toc-text">编程开发</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%B3%BB%E7%BB%9F%E7%AE%A1%E7%90%86"><span class="toc-number">10.</span> <span class="toc-text">系统管理</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%85%B6%E4%BB%96%E5%BA%94%E7%94%A8"><span class="toc-number">11.</span> <span class="toc-text">其他应用</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%BF%90%E7%BB%B4%E5%B7%A5%E5%85%B7"><span class="toc-number">12.</span> <span class="toc-text">运维工具</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8F%82%E8%80%83"><span class="toc-number"></span> <span class="toc-text">参考</span></a></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2021/05/15/node-2-4/" title="Egg.js -- 为企业级框架和应用而生"><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/okfOw28KlZFbE7z.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Egg.js -- 为企业级框架和应用而生"/></a><div class="content"><a class="title" href="/2021/05/15/node-2-4/" title="Egg.js -- 为企业级框架和应用而生">Egg.js -- 为企业级框架和应用而生</a><time datetime="2021-05-15T10:18:59.000Z" title="发表于 2021-05-15 18:18:59">2021-05-15</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/04/30/node-2-3/" title="Koa -- 基于Node.js平台的下一代Web开发框架"><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/HjVAdIuT7bZJypS.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Koa -- 基于Node.js平台的下一代Web开发框架"/></a><div class="content"><a class="title" href="/2021/04/30/node-2-3/" title="Koa -- 基于Node.js平台的下一代Web开发框架">Koa -- 基于Node.js平台的下一代Web开发框架</a><time datetime="2021-04-30T10:18:59.000Z" title="发表于 2021-04-30 18:18:59">2021-04-30</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/04/01/node-2-1/" title="Node.JS web开发前置知识"><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/gGE57HRvpcKPfDY.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Node.JS web开发前置知识"/></a><div class="content"><a class="title" href="/2021/04/01/node-2-1/" title="Node.JS web开发前置知识">Node.JS web开发前置知识</a><time datetime="2021-04-01T03:18:59.000Z" title="发表于 2021-04-01 11:18:59">2021-04-01</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2020/12/26/%E5%91%A8%E8%AE%B0-10-1/" title="第十一周--谷歌浏览器插件"><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/gGE57HRvpcKPfDY.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="第十一周--谷歌浏览器插件"/></a><div class="content"><a class="title" href="/2020/12/26/%E5%91%A8%E8%AE%B0-10-1/" title="第十一周--谷歌浏览器插件">第十一周--谷歌浏览器插件</a><time datetime="2020-12-26T10:18:59.000Z" title="发表于 2020-12-26 18:18:59">2020-12-26</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2020/12/26/%E5%91%A8%E8%AE%B0-10-0/" title="第十一周--浏览器技术"><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/vCnKyoFJZ1g4XYR.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="第十一周--浏览器技术"/></a><div class="content"><a class="title" href="/2020/12/26/%E5%91%A8%E8%AE%B0-10-0/" title="第十一周--浏览器技术">第十一周--浏览器技术</a><time datetime="2020-12-26T06:18:59.000Z" title="发表于 2020-12-26 14:18:59">2020-12-26</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2019 - 2021 By 平心</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div id="local-search"><div class="search-dialog"><div class="search-dialog__title" id="local-search-title">本地搜索</div><div id="local-input-panel"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div></div><hr/><div id="local-search-results"></div><span class="search-close-button"><i class="fas fa-times"></i></span></div><div id="search-mask"></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload/dist/lazyload.iife.min.js"></script><script src="/js/search/local-search.js"></script><div class="js-pjax"><script>function loadValine () {
+  function initValine () {
+    const valine = new Valine(Object.assign({
+      el: '#vcomment',
+      appId: '4lfIXzqxaC1ONs0MJO4oHu07-gzGzoHsz',
+      appKey: 'qw99Bw8FD0KVKU9m457CwWsr',
+      placeholder: 'Please leave your footprints',
+      avatar: 'monsterid',
+      meta: 'nick,mail,link'.split(','),
+      pageSize: '10',
+      lang: 'zh-CN',
+      recordIP: true,
+      serverURLs: '',
+      emojiCDN: '',
+      emojiMaps: "",
+      enableQQ: true,
+      path: window.location.pathname,
+      requiredFields: ["nick,mail"],
+      visitor: false
+    }, null))
+  }
+
+  if (typeof Valine === 'function') initValine() 
+  else getScript('https://cdn.jsdelivr.net/npm/valine/dist/Valine.min.js').then(initValine)
+}
+
+if ('Valine' === 'Valine' || !false) {
+  if (false) btf.loadComment(document.getElementById('vcomment'),loadValine)
+  else setTimeout(loadValine, 0)
+} else {
+  function loadOtherComment () {
+    loadValine()
+  }
+}</script></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>

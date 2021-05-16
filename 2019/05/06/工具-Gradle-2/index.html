@@ -1,0 +1,481 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Gradle 构建Java库 | 平心de小屋</title><meta name="keywords" content="工具,Gradle"><meta name="author" content="平心"><meta name="copyright" content="平心"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="构建Java库你要建造什么您将使用标准布局生成Java库。 你需要什么  大约11分钟  文本编辑器或IDE  Java Development Kit（JDK）版本8或更高版本  Gradle分发版，5.4.1或更高版本">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Gradle 构建Java库">
+<meta property="og:url" content="https://pingxin0521.gitee.io/2019/05/06/%E5%B7%A5%E5%85%B7-Gradle-2/index.html">
+<meta property="og:site_name" content="平心de小屋">
+<meta property="og:description" content="构建Java库你要建造什么您将使用标准布局生成Java库。 你需要什么  大约11分钟  文本编辑器或IDE  Java Development Kit（JDK）版本8或更高版本  Gradle分发版，5.4.1或更高版本">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://i.loli.net/2020/05/08/gGE57HRvpcKPfDY.jpg">
+<meta property="article:published_time" content="2019-05-06T10:18:59.000Z">
+<meta property="article:modified_time" content="2019-05-12T10:49:16.000Z">
+<meta property="article:author" content="平心">
+<meta property="article:tag" content="工具">
+<meta property="article:tag" content="Gradle">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.loli.net/2020/05/08/gGE57HRvpcKPfDY.jpg"><link rel="shortcut icon" href="https://s2.ax1x.com/2020/02/11/1ovFOA.png"><link rel="canonical" href="https://pingxin0521.gitee.io/2019/05/06/%E5%B7%A5%E5%85%B7-Gradle-2/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"search.xml","languages":{"hits_empty":"找不到您查询的内容：${query}"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    jQuery: 'https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js',
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+    },
+    fancybox: {
+      js: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css'
+    }
+  },
+  isPhotoFigcaption: true,
+  islazyload: true,
+  isanchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'Gradle 构建Java库',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2019-05-12 18:49:16'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    })(window)</script><meta name="generator" content="Hexo 5.4.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="author-avatar"><img class="avatar-img" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://s2.ax1x.com/2020/02/11/1ovw6J.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data"><div class="data-item is-center"><div class="data-item-link"><a href="/archives/"><div class="headline">文章</div><div class="length-num">449</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/tags/"><div class="headline">标签</div><div class="length-num">77</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/categories/"><div class="headline">分类</div><div class="length-num">68</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fa fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fa fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://i.loli.net/2020/05/08/gGE57HRvpcKPfDY.jpg')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">平心de小屋</a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fa fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fa fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">Gradle 构建Java库</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2019-05-06T10:18:59.000Z" title="发表于 2019-05-06 18:18:59">2019-05-06</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2019-05-12T10:49:16.000Z" title="更新于 2019-05-12 18:49:16">2019-05-12</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E5%B7%A5%E5%85%B7/">工具</a><i class="fas fa-angle-right post-meta-separator"></i><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E5%B7%A5%E5%85%B7/Gradle/">Gradle</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">4.3k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>15分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="Gradle 构建Java库"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h3 id="构建Java库"><a href="#构建Java库" class="headerlink" title="构建Java库"></a>构建Java库</h3><h4 id="你要建造什么"><a href="#你要建造什么" class="headerlink" title="你要建造什么"></a>你要建造什么</h4><p>您将使用标准布局生成Java库。</p>
+<h4 id="你需要什么"><a href="#你需要什么" class="headerlink" title="你需要什么"></a>你需要什么</h4><ul>
+<li> 大约11分钟</li>
+<li> 文本编辑器或IDE</li>
+<li> Java Development Kit（JDK）版本8或更高版本</li>
+<li> Gradle分发版，5.4.1或更高版本</li>
+</ul>
+<span id="more"></span>
+
+<h4 id="创建一个库项目"><a href="#创建一个库项目" class="headerlink" title="创建一个库项目"></a>创建一个库项目</h4><p>Gradle附带一个名为Build Init插件的内置插件。 它在Gradle用户手册中有记录。 该插件有一个名为init的任务，用于生成项目。 init任务调用（也是内置的）包装器任务来创建Gradle包装器脚本gradlew。</p>
+<p>第一步是为新项目创建一个文件夹并将目录更改为该文件夹。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ mkdir building-java-libraries</span><br><span class="line">$ cd building-java-libraries</span><br></pre></td></tr></table></figure>
+
+<h4 id="运行init任务"><a href="#运行init任务" class="headerlink" title="运行init任务"></a>运行init任务</h4><p>从新项目目录中，使用java-library参数运行init任务。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&gt; gradle init --type java-library --project-name jvm-library --dsl groovy --test-framework  junit</span><br></pre></td></tr></table></figure>
+
+<p>init任务首先运行包装器任务，生成gradlew和gradlew.bat包装器脚本。 然后它使用以下结构创建新项目：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">$ tree</span><br><span class="line">.</span><br><span class="line">├── build.gradle</span><br><span class="line">├── gradle</span><br><span class="line">│   └── wrapper <span class="comment">#生成包装文件的文件夹</span></span><br><span class="line">│       ├── gradle-wrapper.jar</span><br><span class="line">│       └── gradle-wrapper.properties</span><br><span class="line">├── gradlew</span><br><span class="line">├── gradlew.bat</span><br><span class="line">├── settings.gradle</span><br><span class="line">└── src</span><br><span class="line">    ├── main</span><br><span class="line">    │   ├── java <span class="comment"># 默认Java源文件夹 </span></span><br><span class="line">    │   │   └── jvm</span><br><span class="line">    │   │       └── library</span><br><span class="line">    │   │           └── Library.java</span><br><span class="line">    │   └── resources</span><br><span class="line">    └── <span class="built_in">test</span></span><br><span class="line">        ├── java <span class="comment"># 默认Java测试文件夹</span></span><br><span class="line">        │   └── jvm</span><br><span class="line">        │       └── library</span><br><span class="line">        │           └── LibraryTest.java</span><br><span class="line">        └── resources</span><br><span class="line"></span><br><span class="line">13 directories, 8 files</span><br></pre></td></tr></table></figure>
+
+<p>您现在拥有了一个简单Java库项目的必要组件。</p>
+<h4 id="查看生成的项目文件"><a href="#查看生成的项目文件" class="headerlink" title="查看生成的项目文件"></a>查看生成的项目文件</h4><p>设置文件有很多注释，但只有一个活动行：</p>
+<p>生成的 settings.gradle</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rootProject.name = <span class="string">&#x27;building-java-libraries&#x27;</span>  <span class="comment">//这将分配根项目的名称。</span></span><br></pre></td></tr></table></figure>
+
+<p>生成的build.gradle文件也有很多注释。 此处重现活动部分（注意依赖项的版本号可能会在更高版本的Gradle中更新）：</p>
+<p>生成的  build.gradle</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">plugins &#123;</span><br><span class="line">    id <span class="string">&#x27;java-library&#x27;</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">repositories &#123;</span><br><span class="line">    jcenter() <span class="comment">// Public Bintray Artifactory存储库</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">dependencies &#123;</span><br><span class="line">    <span class="comment">// 这是导出到使用者的依赖关系的一个示例，也就是说在他们的编译类路径中找到。</span></span><br><span class="line">    api <span class="string">&#x27;org.apache.commons:commons-math3:3.6.1&#x27;</span> </span><br><span class="line">	<span class="comment">// 这是在内部使用的依赖关系的示例，而不是在自己的编译类路径上向使用者公开。</span></span><br><span class="line">    implementation <span class="string">&#x27;com.google.guava:guava:27.0.1-jre&#x27;</span> </span><br><span class="line">	<span class="comment">// JUnit测试库</span></span><br><span class="line">    testImplementation <span class="string">&#x27;junit:junit:4.12&#x27;</span> </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>构建脚本添加了java-library插件。 这是java-base插件的扩展，并添加了用于编译Java源代码的其他任务。</p>
+<p> 文件<code>src/main/java/jvm/library/Library.java</code>如下所示：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">package</span> jvm.library;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Library</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">someLibraryMethod</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>生成的JUnit测试类，<code>src/test/java/jvm/library/LibraryTest.java</code>如下所示：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> jvm.library;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> org.junit.Test;</span><br><span class="line"><span class="keyword">import</span> <span class="keyword">static</span> org.junit.Assert.*;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">LibraryTest</span> </span>&#123;</span><br><span class="line">    <span class="meta">@Test</span> <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">testSomeLibraryMethod</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        Library classUnderTest = <span class="keyword">new</span> Library();</span><br><span class="line">        assertTrue(<span class="string">&quot;someLibraryMethod should return &#x27;true&#x27;&quot;</span>, classUnderTest.someLibraryMethod());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="组装库JAR"><a href="#组装库JAR" class="headerlink" title="组装库JAR"></a>组装库JAR</h4><p>要构建项目，请运行构建任务。 您可以使用常规gradle命令，但是当项目包含包装器脚本时，它被认为是使用它的好形式。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">$ ./gradlew build</span><br><span class="line">&gt; Task :compileJava</span><br><span class="line">&gt; Task :processResources NO-SOURCE</span><br><span class="line">&gt; Task :classes</span><br><span class="line">&gt; Task :jar</span><br><span class="line">&gt; Task :assemble</span><br><span class="line">&gt; Task :compileTestJava</span><br><span class="line">&gt; Task :processTestResources NO-SOURCE</span><br><span class="line">&gt; Task :testClasses</span><br><span class="line">&gt; Task :test</span><br><span class="line">&gt; Task :check</span><br><span class="line">&gt; Task :build</span><br><span class="line"></span><br><span class="line">BUILD SUCCESSFUL in 10s</span><br><span class="line">4 actionable tasks: 4 executed</span><br></pre></td></tr></table></figure>
+
+<p> 第一次运行包装器脚本gradlew时，在下载该gradle版本并将其本地存储在<code>～/ .gradle / wrapper / dists</code>文件夹中时可能会有延迟。</p>
+<p> 第一次运行构建时，Gradle将检查您的~/缓存中是否已经有JUnit库和其他列出的依赖项。格雷尔目录。如果没有，这些库将被下载并存储在那里。下次运行构建时，将使用缓存版本。构建任务编译类、运行测试并生成测试报告。</p>
+<p>您可以通过打开位于<code>build/reports/tests/test/index.HTML</code>的HTML输出文件来查看测试报告。</p>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2019/05/12/5cd7ec943bbd6.png"></p>
+<p>您可以在<code>build/libs</code>目录中找到名为<code>jvm-library.jar</code>的新打包的JAR文件。请通过运行以下命令验证归档文件是否有效:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">$ jar tf build/libs/jvm-library.jar </span><br><span class="line">META-INF/</span><br><span class="line">META-INF/MANIFEST.MF</span><br><span class="line">jvm/</span><br><span class="line">jvm/library/</span><br><span class="line">jvm/library/Library.class</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p> 您应该看到所需的清单文件-MANIFEST.MF-和已编译的Library类。</p>
+<p>所有这些都在构建脚本中没有任何其他配置的情况下发生，因为Gradle的java库插件假定您的项目源是按照传统的项目布局排列的。 如果您愿意，可以按照用户手册中的说明自定义项目布局。</p>
+<p> 恭喜，您刚刚完成了创建Java库的第一步！ 您现在可以根据自己的项目需求进行自定义。</p>
+<h4 id="自定义库JAR"><a href="#自定义库JAR" class="headerlink" title="自定义库JAR"></a>自定义库JAR</h4><p> 您通常希望JAR文件的名称包含库版本。 通过在构建脚本中设置顶级版本属性可以轻松实现这一点，如下所示：</p>
+<p>build.gradle</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">version = <span class="string">&#x27;0.1.0&#x27;</span></span><br></pre></td></tr></table></figure>
+
+<p>现在运行jar任务：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ ./gradlew jar</span><br></pre></td></tr></table></figure>
+
+<p>请注意，生成的JAR文件在<code>build/libs/jvm-library-0.1.0.jar</code>中包含了预期的版本。</p>
+<p>另一个常见的需求是定制清单文件，通常是通过添加一个或多个属性。让我们通过配置jar任务将库名称和版本包含在清单文件中。将以下内容添加到构建脚本的末尾:</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">jar &#123;</span><br><span class="line">    manifest &#123;</span><br><span class="line">        attributes(<span class="string">&#x27;Implementation-Title&#x27;</span>: project.name,</span><br><span class="line">                   <span class="string">&#x27;Implementation-Version&#x27;</span>: project.version)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p> 要确认这些更改按预期工作，请再次运行jar任务，这次也从JAR解压缩清单文件：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ ./gradlew jar</span><br><span class="line">$ jar xf build/libs/jvm-library-0.1.0.jar META-INF/MANIFEST.MF</span><br></pre></td></tr></table></figure>
+
+<p>现在查看META-INF / MANIFEST.MF文件的内容，您应该看到以下内容：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Manifest-Version: 1.0</span><br><span class="line">Implementation-Title: jvm-library</span><br><span class="line">Implementation-Version: 0.1.0</span><br></pre></td></tr></table></figure>
+
+<p> 现在，您可以通过尝试编译一些使用您刚构建的库的Java代码来完成此练习。</p>
+<h4 id="添加API文档"><a href="#添加API文档" class="headerlink" title="添加API文档"></a>添加API文档</h4><p><code>java-library</code>插件通过javadoc任务内置了对Java API文档工具的支持。</p>
+<p>Build Init插件生成的代码已经对<code>Library.java</code>文件发表了评论。 修改注释以成为javadoc标记。</p>
+<p><strong>src/main/java/Library.java</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> jvm.library;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Library</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">someLibraryMethod</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>运行javadoc任务。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ ./gradlew javadoc</span><br></pre></td></tr></table></figure>
+
+<p>通过打开位于<code>build/docs/javadoc/index.html</code>的HTML文件，可以查看生成的javadoc文件</p>
+<h4 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h4><p> 您现在已经成功构建了一个Java库项目，将其打包为JAR并在单独的应用程序中使用它。 一路上，你已经学会了如何：</p>
+<ul>
+<li><p> 生成Java库</p>
+</li>
+<li><p> 调整生成的build.gradle和示例Java文件的结构</p>
+</li>
+<li><p> 运行构建并查看测试报告</p>
+</li>
+<li><p> 自定义JAR文件的名称及其清单的内容</p>
+</li>
+<li><p> 生成API文档。</p>
+</li>
+</ul>
+<h3 id="java库插件"><a href="#java库插件" class="headerlink" title="java库插件"></a>java库插件</h3><p> Java Library插件通过提供有关Java库的特定知识来扩展Java插件的功能。 特别是，Java库向消费者公开API（即，使用Java或Java库插件的其他项目）。 使用此插件时，Java插件公开的所有源集，任务和配置都是隐式可用的。</p>
+<p> <strong>用法</strong></p>
+<p>要使用Java Library插件，请在构建脚本中包含以下内容：</p>
+<p>build.gradle</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">plugins &#123;</span><br><span class="line">    id &#x27;java-library&#x27;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>API和实现分离</strong></p>
+<p>标准Java插件和Java Library插件之间的主要区别在于后者引入了向消费者公开的API的概念。 库是一个Java组件，旨在供其他组件使用。 这是多项目构建中非常常见的用例，但只要您有外部依赖项。</p>
+<p>该插件公开了两种可用于声明依赖关系的配置：api和实现。 api配置应该用于声明由库API导出的依赖项，而实现配置应该用于声明组件内部的依赖项。</p>
+<p>build.gradle</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">dependencies &#123;</span><br><span class="line">    api &#x27;org.apache.httpcomponents:httpclient:4.5.7&#x27;</span><br><span class="line">    implementation &#x27;org.apache.commons:commons-lang3:3.5&#x27;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>出现在api配置中的依赖关系将传递给库的消费者，因此将出现在消费者的编译类路径中。 另一方面，在实现配置中找到的依赖关系不会暴露给消费者，因此不会泄漏到消费者的编译类路径中。 这有几个好处：</p>
+<ul>
+<li><p>依赖关系不再泄漏到消费者的编译类路径中，因此您永远不会意外地依赖于传递依赖</p>
+</li>
+<li><p>由于减少了类路径大小，编译速度更快</p>
+</li>
+<li><p>当实现依赖性发生变化时，重新编译的次数减少：消费者不需要重新编译</p>
+</li>
+<li><p>清理发布：当与新的maven-publish插件结合使用时，Java库会生成POM文件，这些文件准确区分编译库所需的内容以及在运行时使用库所需的内容（换句话说，不要 混合编译库本身所需的内容以及编译库所需的内容。</p>
+</li>
+</ul>
+<p>编译配置仍然存在但不应使用，因为它不会提供api和实现配置提供的保证。</p>
+<p>如果您的构建使用带有POM元数据的已发布模块，则Java和Java库插件都会通过pom中使用的作用域来尊重api和实现分离。 这意味着编译类路径仅包含编译范围的依赖项，而运行时类路径也添加了运行时范围的依赖项。</p>
+<p>这通常不会对使用Maven发布的模块产生影响，其中定义项目的POM直接作为元数据发布。 在那里，编译范围包括编译项目所需的依赖关系（即实现依赖关系）和针对已发布库编译所需的依赖关系（即API依赖关系）。 对于大多数已发布的库，这意味着所有依赖项都属于编译范围。 但是，如上所述，如果使用Gradle发布库，则生成的POM文件仅将api依赖项放入编译范围，将剩余的实现依赖项放入运行时范围。</p>
+<p>默认情况下，Gradle 5.0+中的模块的编译和运行时范围是分开的。 在Gradle 4.6+中，您需要通过在settings.gradle中添加enableFeaturePreview（’IMPROVED_POM_SUPPORT’）来激活它。</p>
+<h4 id="识别API和实现依赖性"><a href="#识别API和实现依赖性" class="headerlink" title="识别API和实现依赖性"></a>识别API和实现依赖性</h4><p>本节将使用简单的经验法则帮助您识别代码中的API和实现依赖项。 第一个是：</p>
+<ul>
+<li> 在可能的情况下，首选api上的实现配置</li>
+</ul>
+<p>这使依赖关系不再依赖于使用者的编译类路径。 此外，如果任何实现类型意外泄漏到公共API中，消费者将立即无法编译。</p>
+<p>那么什么时候应该使用api配置？ API依赖关系是包含至少一种在库二进制接口中公开的类型的依赖关系，通常称为其ABI（应用程序二进制接口）。 这包括但不限于：</p>
+<ul>
+<li><p> 超类或接口中使用的类型</p>
+</li>
+<li><p> 公共方法参数中使用的类型，包括泛型参数类型（其中public是编译器可见的东西。即，Java世界中的public，protected和package私有成员）</p>
+</li>
+<li><p> 公共领域中使用的类型</p>
+</li>
+<li><p> 公共注释类型</p>
+</li>
+</ul>
+<p>相比之下，以下列表中使用的任何类型都与ABI无关，因此应声明为实现依赖项：</p>
+<ul>
+<li><p> 方法体中专门使用的类型</p>
+</li>
+<li><p> 私人会员专用的类型</p>
+</li>
+<li><p> 内部类中唯一的类型（Gradle的未来版本将允许您声明哪些包属于公共API）</p>
+</li>
+</ul>
+<p>下面的类使用了几个第三方库，其中一个在类的公共API中公开，另一个仅在内部使用。 import语句无法帮助我们确定哪个是哪个，因此我们必须查看字段，构造函数和方法：</p>
+<p><strong>示例：区分API和实现</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// The following types can appear anywhere in the code</span></span><br><span class="line"><span class="comment">// but say nothing about API or implementation usage</span></span><br><span class="line"><span class="keyword">import</span> org.apache.commons.lang3.exception.ExceptionUtils;</span><br><span class="line"><span class="keyword">import</span> org.apache.http.HttpEntity;</span><br><span class="line"><span class="keyword">import</span> org.apache.http.HttpResponse;</span><br><span class="line"><span class="keyword">import</span> org.apache.http.HttpStatus;</span><br><span class="line"><span class="keyword">import</span> org.apache.http.client.HttpClient;</span><br><span class="line"><span class="keyword">import</span> org.apache.http.client.methods.HttpGet;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.io.ByteArrayOutputStream;</span><br><span class="line"><span class="keyword">import</span> java.io.IOException;</span><br><span class="line"><span class="keyword">import</span> java.io.UnsupportedEncodingException;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">HttpClientWrapper</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> HttpClient client; <span class="comment">// private member: implementation details</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">// HttpClient is used as a parameter of a public method</span></span><br><span class="line">    <span class="comment">// so &quot;leaks&quot; into the public API of this component</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">HttpClientWrapper</span><span class="params">(HttpClient client)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.client = client;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// public methods belongs to your API</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">byte</span>[] doRawGet(String url) &#123;</span><br><span class="line">        HttpGet request = <span class="keyword">new</span> HttpGet(url);</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            HttpEntity entity = doGet(request);</span><br><span class="line">            ByteArrayOutputStream baos = <span class="keyword">new</span> ByteArrayOutputStream();</span><br><span class="line">            entity.writeTo(baos);</span><br><span class="line">            <span class="keyword">return</span> baos.toByteArray();</span><br><span class="line">        &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">            ExceptionUtils.rethrow(e); <span class="comment">// this dependency is internal only</span></span><br><span class="line">        &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">            request.releaseConnection();</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// HttpGet and HttpEntity are used in a private method, so they don&#x27;t belong to the API</span></span><br><span class="line">    <span class="function"><span class="keyword">private</span> HttpEntity <span class="title">doGet</span><span class="params">(HttpGet get)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">        HttpResponse response = client.execute(get);</span><br><span class="line">        <span class="keyword">if</span> (response.getStatusLine().getStatusCode() != HttpStatus.SC_OK) &#123;</span><br><span class="line">            System.err.println(<span class="string">&quot;Method failed: &quot;</span> + response.getStatusLine());</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> response.getEntity();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>HttpClientWrapper的公共构造函数使用HttpClient作为参数，因此它向消费者公开，因此属于API。 请注意，HttpGet和HttpEntity用于私有方法的签名，因此它们不计入使HttpClient成为API依赖项。</p>
+<p>另一方面，来自commons-lang库的ExceptionUtils类型仅用于方法体（不在其签名中），因此它是一个实现依赖项。</p>
+<p>因此，我们可以推断出httpclient是一个API依赖，而commons-lang是一个实现依赖。 此结论转换为构建脚本中的以下声明：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">//声明API和实现依赖关系</span><br><span class="line">//build.gradle</span><br><span class="line">dependencies &#123;</span><br><span class="line">    api &#x27;org.apache.httpcomponents:httpclient:4.5.7&#x27;</span><br><span class="line">    implementation &#x27;org.apache.commons:commons-lang3:3.5&#x27;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="Java库插件配置"><a href="#Java库插件配置" class="headerlink" title="Java库插件配置"></a>Java库插件配置</h4><p>下图描述了使用Java Library插件时的主要配置设置。</p>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2019/05/12/5cd7f6d132595.png" alt="2.png"></p>
+<ul>
+<li><p> 绿色配置是用户用来声明依赖关系的配置</p>
+</li>
+<li><p> 粉色的配置是组件编译或运行库时使用的配置</p>
+</li>
+<li><p> 蓝色配置是组件内部的，供自己使用</p>
+</li>
+<li><p> 白色配置是从Java插件继承的配置</p>
+</li>
+</ul>
+<p>下一个图描述了测试配置设置</p>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2019/05/12/5cd7f70d55c33.png"></p>
+<p>从Java插件继承的compile，testCompile，runtime和testRuntime配置仍然可用，但已弃用。 您应该避免使用它们，因为它们仅用于向后兼容。</p>
+<p>每个配置的角色在下面的表中描述:</p>
+<p>Java Library插件 - 用于声明依赖关系的配置</p>
+<table>
+<thead>
+<tr>
+<th>配置名称</th>
+<th>角色</th>
+<th>可消费的</th>
+<th>可分解的</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>api</code></td>
+<td>宣布API依赖关系</td>
+<td>没有</td>
+<td>没有</td>
+<td>这就是你应该声明依赖性的轨迹上出口到消费者,编译。</td>
+</tr>
+<tr>
+<td><code>implementation</code></td>
+<td>宣布实现依赖关系</td>
+<td>没有</td>
+<td>没有</td>
+<td>这就是你应该声明依赖性,它纯粹是内部和不是为了暴露在消费者。</td>
+</tr>
+<tr>
+<td><code>compileOnly</code></td>
+<td>声明只编译依赖关系</td>
+<td>是的</td>
+<td>是的</td>
+<td>这就是你应该声明依赖性仅需要在编译时,但不应该泄漏到运行时。这通常包括在运行时发现阴影的依赖关系。</td>
+</tr>
+<tr>
+<td><code>runtimeOnly</code></td>
+<td>宣布运行时依赖关系</td>
+<td>没有</td>
+<td>没有</td>
+<td>这就是你应该声明依赖性仅需要在运行时,而不是在编译时。</td>
+</tr>
+<tr>
+<td><code>testImplementation</code></td>
+<td>测试依赖关系</td>
+<td>没有</td>
+<td>没有</td>
+<td>这就是你应该声明依赖用于编译测试。</td>
+</tr>
+<tr>
+<td><code>testCompileOnly</code></td>
+<td>宣布测试编译只依赖关系</td>
+<td>是的</td>
+<td>是的</td>
+<td>这是您应该声明仅在测试编译时需要的依赖项，但不应泄漏到运行时。 这通常包括在运行时找到时被着色的依赖项。</td>
+</tr>
+<tr>
+<td><code>testRuntimeOnly</code></td>
+<td>宣布测试运行时依赖</td>
+<td>没有</td>
+<td>没有</td>
+<td>这就是你应该声明依赖性仅需要在测试运行时,而不是在编译时进行测试。</td>
+</tr>
+</tbody></table>
+<p>消费者使用的Java库插件配置:</p>
+<table>
+<thead>
+<tr>
+<th>配置名称</th>
+<th>角色</th>
+<th>可消费的</th>
+<th>可分解的</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>apiElements</code></td>
+<td>对这个库编译</td>
+<td>是的</td>
+<td>没有</td>
+<td>这个配置是使用的消费者,获取所有必要的元素对这个库编译。不像<code> default</code>配置,这并不泄漏实现或运行时依赖关系。</td>
+</tr>
+<tr>
+<td><code>runtimeElements</code></td>
+<td>为执行这个库</td>
+<td>是的</td>
+<td>没有</td>
+<td>这个配置是使用的消费者,获取所有必要的元素对这个库运行。</td>
+</tr>
+</tbody></table>
+<p>Java Library插件 - 库本身使用的配置:</p>
+<table>
+<thead>
+<tr>
+<th>配置名称</th>
+<th>角色</th>
+<th>可消费的?</th>
+<th>可分解的?</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>compileClasspath</td>
+<td>来编译这个库</td>
+<td>没有</td>
+<td>是的</td>
+<td>该配置包含编译这个库的类路径中,因此使用时调用java编译器来编译它。</td>
+</tr>
+<tr>
+<td>runtimeClasspath</td>
+<td>为执行这个库</td>
+<td>没有</td>
+<td>是的</td>
+<td>该配置包含这个库的运行时类路径</td>
+</tr>
+<tr>
+<td>testCompileClasspath</td>
+<td>来编译这个库的测试</td>
+<td>没有</td>
+<td>是的</td>
+<td>该配置包含测试编译这个库的类路径。</td>
+</tr>
+<tr>
+<td>testRuntimeClasspath</td>
+<td>这个库的执行测试</td>
+<td>没有</td>
+<td>是的</td>
+<td>该配置包含这个库的测试运行时类路径</td>
+</tr>
+</tbody></table>
+<h4 id="已知的问题"><a href="#已知的问题" class="headerlink" title="已知的问题"></a>已知的问题</h4><p><strong>与其他插件的兼容性</strong></p>
+<p>目前，Java Library插件通过java，groovy和kotlin插件正确运行。 在Gradle 5.3或更早版本中，某些插件（如Groovy插件）可能无法正常运行。 特别是，如果除了java-library插件之外还使用了Groovy插件，那么消费者在使用库时可能无法获得Groovy类。 要解决此问题，您需要显式连接Groovy编译依赖项，如下所示：</p>
+<p>在Gradle 5.3或更早的版本中配置Groovy插件来使用Java库:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">configurations &#123;</span><br><span class="line">    apiElements &#123;</span><br><span class="line">        outgoing.variants.getByName(&#x27;classes&#x27;).artifact(</span><br><span class="line">            file: compileGroovy.destinationDir,</span><br><span class="line">            type: ArtifactTypeDefinition.JVM_CLASS_DIRECTORY,</span><br><span class="line">            builtBy: compileGroovy)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>增加消费者的内存使用量</strong></p>
+<p>当项目使用Java Library插件时，如果项目使用Java插件，则消费者将直接在其编译类路径上使用此项目的输出类目录，而不是jar文件。 间接的结果是，最新的检查将需要更多的内存，因为Gradle将对单个类文件而不是单个jar进行快照。 这可能会导致大型项目的内存消耗增加。</p>
+<h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><ol>
+<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/lastsweetop/column/info/18566">Gradle学习</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/heart-king/p/5909225.html">Gradle构建多模块项目</a></li>
+<li><a target="_blank" rel="noopener" href="https://segmentfault.com/a/1190000010129596">Gradle复合构建</a></li>
+</ol>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">平心</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://pingxin0521.gitee.io/2019/05/06/%E5%B7%A5%E5%85%B7-Gradle-2/">https://pingxin0521.gitee.io/2019/05/06/%E5%B7%A5%E5%85%B7-Gradle-2/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://pingxin0521.gitee.io" target="_blank">平心de小屋</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E5%B7%A5%E5%85%B7/">工具</a><a class="post-meta__tags" href="/tags/Gradle/">Gradle</a></div><div class="post_share"><div class="social-share" data-image="https://i.loli.net/2020/05/08/gGE57HRvpcKPfDY.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2019/05/06/%E6%95%B0%E6%8D%AE%E5%BA%93-MySQL-9/"><img class="prev-cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/vCnKyoFJZ1g4XYR.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">MySQL SQL 数据操纵和视图（四）</div></div></a></div><div class="next-post pull-right"><a href="/2019/05/06/%E5%B7%A5%E5%85%B7-Gradle-5/"><img class="next-cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/gGE57HRvpcKPfDY.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">Gradle 依赖管理</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span> 相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2019/05/06/工具-Gradle-4/" title="Gradle Project"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/HjVAdIuT7bZJypS.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2019-05-12</div><div class="title">Gradle Project</div></div></a></div><div><a href="/2019/05/06/工具-Gradle-1/" title="Gradle 入门"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/gGE57HRvpcKPfDY.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2019-05-12</div><div class="title">Gradle 入门</div></div></a></div><div><a href="/2019/05/08/工具-Gradle-3/" title="Gradle 范例"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/HjVAdIuT7bZJypS.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2019-05-11</div><div class="title">Gradle 范例</div></div></a></div><div><a href="/2019/05/06/工具-Gradle-5/" title="Gradle 依赖管理"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/gGE57HRvpcKPfDY.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2019-05-12</div><div class="title">Gradle 依赖管理</div></div></a></div><div><a href="/2019/03/18/工具-Git-1/" title="Git入门"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/gGE57HRvpcKPfDY.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2019-09-25</div><div class="title">Git入门</div></div></a></div><div><a href="/2019/03/21/工具-Git-5/" title="Git设置SSH key"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/PFDRNxj93taz6pw.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2019-08-02</div><div class="title">Git设置SSH key</div></div></a></div></div></div><hr/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div class="vcomment" id="vcomment"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="card-info-avatar is-center"><img class="avatar-img" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://s2.ax1x.com/2020/02/11/1ovw6J.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/><div class="author-info__name">平心</div><div class="author-info__description">年轻人的life、learn and think</div></div><div class="card-info-data"><div class="card-info-data-item is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">449</div></a></div><div class="card-info-data-item is-center"><a href="/tags/"><div class="headline">标签</div><div class="length-num">77</div></a></div><div class="card-info-data-item is-center"><a href="/categories/"><div class="headline">分类</div><div class="length-num">68</div></a></div></div><a class="button--animated" id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/hanyunpeng0521"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/hanyunpeng0521" target="_blank" title="Github"><i class="fa fa-github"></i></a><a class="social-icon" href="mailto:m13839441583@163.com" target="_blank" title="Email"><i class="fa fa-envelope"></i></a><a class="social-icon" href="/atom.xml" target="_blank" title=""><i class="fa fa-rss"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn card-announcement-animation"></i><span>公告</span></div><div class="announcement_content">为什么呢？开始提问吧</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9E%84%E5%BB%BAJava%E5%BA%93"><span class="toc-number">1.</span> <span class="toc-text">构建Java库</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BD%A0%E8%A6%81%E5%BB%BA%E9%80%A0%E4%BB%80%E4%B9%88"><span class="toc-number">1.1.</span> <span class="toc-text">你要建造什么</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BD%A0%E9%9C%80%E8%A6%81%E4%BB%80%E4%B9%88"><span class="toc-number">1.2.</span> <span class="toc-text">你需要什么</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%88%9B%E5%BB%BA%E4%B8%80%E4%B8%AA%E5%BA%93%E9%A1%B9%E7%9B%AE"><span class="toc-number">1.3.</span> <span class="toc-text">创建一个库项目</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%BF%90%E8%A1%8Cinit%E4%BB%BB%E5%8A%A1"><span class="toc-number">1.4.</span> <span class="toc-text">运行init任务</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%9F%A5%E7%9C%8B%E7%94%9F%E6%88%90%E7%9A%84%E9%A1%B9%E7%9B%AE%E6%96%87%E4%BB%B6"><span class="toc-number">1.5.</span> <span class="toc-text">查看生成的项目文件</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%BB%84%E8%A3%85%E5%BA%93JAR"><span class="toc-number">1.6.</span> <span class="toc-text">组装库JAR</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%87%AA%E5%AE%9A%E4%B9%89%E5%BA%93JAR"><span class="toc-number">1.7.</span> <span class="toc-text">自定义库JAR</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%B7%BB%E5%8A%A0API%E6%96%87%E6%A1%A3"><span class="toc-number">1.8.</span> <span class="toc-text">添加API文档</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%80%BB%E7%BB%93"><span class="toc-number">1.9.</span> <span class="toc-text">总结</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#java%E5%BA%93%E6%8F%92%E4%BB%B6"><span class="toc-number">2.</span> <span class="toc-text">java库插件</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%AF%86%E5%88%ABAPI%E5%92%8C%E5%AE%9E%E7%8E%B0%E4%BE%9D%E8%B5%96%E6%80%A7"><span class="toc-number">2.1.</span> <span class="toc-text">识别API和实现依赖性</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Java%E5%BA%93%E6%8F%92%E4%BB%B6%E9%85%8D%E7%BD%AE"><span class="toc-number">2.2.</span> <span class="toc-text">Java库插件配置</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%B7%B2%E7%9F%A5%E7%9A%84%E9%97%AE%E9%A2%98"><span class="toc-number">2.3.</span> <span class="toc-text">已知的问题</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8F%82%E8%80%83"><span class="toc-number">3.</span> <span class="toc-text">参考</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2021/05/15/node-2-4/" title="Egg.js -- 为企业级框架和应用而生"><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/okfOw28KlZFbE7z.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Egg.js -- 为企业级框架和应用而生"/></a><div class="content"><a class="title" href="/2021/05/15/node-2-4/" title="Egg.js -- 为企业级框架和应用而生">Egg.js -- 为企业级框架和应用而生</a><time datetime="2021-05-15T10:18:59.000Z" title="发表于 2021-05-15 18:18:59">2021-05-15</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/04/30/node-2-3/" title="Koa -- 基于Node.js平台的下一代Web开发框架"><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/HjVAdIuT7bZJypS.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Koa -- 基于Node.js平台的下一代Web开发框架"/></a><div class="content"><a class="title" href="/2021/04/30/node-2-3/" title="Koa -- 基于Node.js平台的下一代Web开发框架">Koa -- 基于Node.js平台的下一代Web开发框架</a><time datetime="2021-04-30T10:18:59.000Z" title="发表于 2021-04-30 18:18:59">2021-04-30</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/04/01/node-2-1/" title="Node.JS web开发前置知识"><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/gGE57HRvpcKPfDY.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Node.JS web开发前置知识"/></a><div class="content"><a class="title" href="/2021/04/01/node-2-1/" title="Node.JS web开发前置知识">Node.JS web开发前置知识</a><time datetime="2021-04-01T03:18:59.000Z" title="发表于 2021-04-01 11:18:59">2021-04-01</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2020/12/26/%E5%91%A8%E8%AE%B0-10-1/" title="第十一周--谷歌浏览器插件"><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/gGE57HRvpcKPfDY.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="第十一周--谷歌浏览器插件"/></a><div class="content"><a class="title" href="/2020/12/26/%E5%91%A8%E8%AE%B0-10-1/" title="第十一周--谷歌浏览器插件">第十一周--谷歌浏览器插件</a><time datetime="2020-12-26T10:18:59.000Z" title="发表于 2020-12-26 18:18:59">2020-12-26</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2020/12/26/%E5%91%A8%E8%AE%B0-10-0/" title="第十一周--浏览器技术"><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/vCnKyoFJZ1g4XYR.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="第十一周--浏览器技术"/></a><div class="content"><a class="title" href="/2020/12/26/%E5%91%A8%E8%AE%B0-10-0/" title="第十一周--浏览器技术">第十一周--浏览器技术</a><time datetime="2020-12-26T06:18:59.000Z" title="发表于 2020-12-26 14:18:59">2020-12-26</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2019 - 2021 By 平心</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div id="local-search"><div class="search-dialog"><div class="search-dialog__title" id="local-search-title">本地搜索</div><div id="local-input-panel"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div></div><hr/><div id="local-search-results"></div><span class="search-close-button"><i class="fas fa-times"></i></span></div><div id="search-mask"></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload/dist/lazyload.iife.min.js"></script><script src="/js/search/local-search.js"></script><div class="js-pjax"><script>function loadValine () {
+  function initValine () {
+    const valine = new Valine(Object.assign({
+      el: '#vcomment',
+      appId: '4lfIXzqxaC1ONs0MJO4oHu07-gzGzoHsz',
+      appKey: 'qw99Bw8FD0KVKU9m457CwWsr',
+      placeholder: 'Please leave your footprints',
+      avatar: 'monsterid',
+      meta: 'nick,mail,link'.split(','),
+      pageSize: '10',
+      lang: 'zh-CN',
+      recordIP: true,
+      serverURLs: '',
+      emojiCDN: '',
+      emojiMaps: "",
+      enableQQ: true,
+      path: window.location.pathname,
+      requiredFields: ["nick,mail"],
+      visitor: false
+    }, null))
+  }
+
+  if (typeof Valine === 'function') initValine() 
+  else getScript('https://cdn.jsdelivr.net/npm/valine/dist/Valine.min.js').then(initValine)
+}
+
+if ('Valine' === 'Valine' || !false) {
+  if (false) btf.loadComment(document.getElementById('vcomment'),loadValine)
+  else setTimeout(loadValine, 0)
+} else {
+  function loadOtherComment () {
+    loadValine()
+  }
+}</script></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>

@@ -1,0 +1,543 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>iptables和Firewalld防火墙 | 平心de小屋</title><meta name="keywords" content="Linux,安全"><meta name="author" content="平心"><meta name="copyright" content="平心"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="前言所谓防火墙指的是一个由软件和硬件设备组合而成、在内部网和外部网之间、专用网与公共网之间的边界上构造的保护屏障。防火墙是一种保护计算机网络安全的技术性措施，它通过在网络边界上建立相应的网络通信监控系统来隔离内部和外部网络，以阻挡来自外部的网络入侵。 防火墙有网络防火墙和计算机防火墙的提法。网络防火墙是指在外部网络和内部网络之间设置网络防火墙。这种防火墙又称筛选路由器。网络防火墙检测进入信息的协议">
+<meta property="og:type" content="article">
+<meta property="og:title" content="iptables和Firewalld防火墙">
+<meta property="og:url" content="https://pingxin0521.gitee.io/2019/03/25/Linux-%E5%AE%89%E5%85%A8-3/index.html">
+<meta property="og:site_name" content="平心de小屋">
+<meta property="og:description" content="前言所谓防火墙指的是一个由软件和硬件设备组合而成、在内部网和外部网之间、专用网与公共网之间的边界上构造的保护屏障。防火墙是一种保护计算机网络安全的技术性措施，它通过在网络边界上建立相应的网络通信监控系统来隔离内部和外部网络，以阻挡来自外部的网络入侵。 防火墙有网络防火墙和计算机防火墙的提法。网络防火墙是指在外部网络和内部网络之间设置网络防火墙。这种防火墙又称筛选路由器。网络防火墙检测进入信息的协议">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://i.loli.net/2020/05/08/gGE57HRvpcKPfDY.jpg">
+<meta property="article:published_time" content="2019-03-25T05:18:59.000Z">
+<meta property="article:modified_time" content="2019-10-30T10:20:28.232Z">
+<meta property="article:author" content="平心">
+<meta property="article:tag" content="Linux">
+<meta property="article:tag" content="安全">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.loli.net/2020/05/08/gGE57HRvpcKPfDY.jpg"><link rel="shortcut icon" href="https://s2.ax1x.com/2020/02/11/1ovFOA.png"><link rel="canonical" href="https://pingxin0521.gitee.io/2019/03/25/Linux-%E5%AE%89%E5%85%A8-3/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"search.xml","languages":{"hits_empty":"找不到您查询的内容：${query}"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    jQuery: 'https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js',
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+    },
+    fancybox: {
+      js: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css'
+    }
+  },
+  isPhotoFigcaption: true,
+  islazyload: true,
+  isanchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'iptables和Firewalld防火墙',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2019-10-30 18:20:28'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    })(window)</script><meta name="generator" content="Hexo 5.4.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="author-avatar"><img class="avatar-img" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://s2.ax1x.com/2020/02/11/1ovw6J.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data"><div class="data-item is-center"><div class="data-item-link"><a href="/archives/"><div class="headline">文章</div><div class="length-num">449</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/tags/"><div class="headline">标签</div><div class="length-num">77</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/categories/"><div class="headline">分类</div><div class="length-num">68</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fa fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fa fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://i.loli.net/2020/05/08/gGE57HRvpcKPfDY.jpg')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">平心de小屋</a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fa fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fa fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">iptables和Firewalld防火墙</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2019-03-25T05:18:59.000Z" title="发表于 2019-03-25 13:18:59">2019-03-25</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2019-10-30T10:20:28.232Z" title="更新于 2019-10-30 18:20:28">2019-10-30</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/Linux/">Linux</a><i class="fas fa-angle-right post-meta-separator"></i><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/Linux/%E5%AE%89%E5%85%A8/">安全</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">7.8k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>28分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="iptables和Firewalld防火墙"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>所谓防火墙指的是一个由软件和硬件设备组合而成、在内部网和外部网之间、专用网与公共网之间的边界上构造的保护屏障。<br>防火墙是一种保护计算机网络安全的技术性措施，它通过在网络边界上建立相应的网络通信监控系统来隔离内部和外部网络，以阻挡来自外部的网络入侵。</p>
+<p>防火墙有网络防火墙和计算机防火墙的提法。网络防火墙是指在外部网络和内部网络之间设置网络防火墙。这种防火墙又称筛选路由器。网络防火墙检测进入信息的协议、目的地址、端口（网络层）及被传输的信息形式（应用层）等，滤除不符合规定的外来信息。网络防火墙也对用户网络向外部网络发出的信息进行检测。</p>
+<p>计算机防火墙是指在外部网络和用户计算机之间设置防火墙。计算机防火墙也可以是用户计算机的一部分。计算机防火墙检测接口规程、传输协议、目的地址及/或被传输的信息结构等，将不符合规定的进入信息剔除。计算机防火墙对用户计算机输出的信息进行检查，并加上相应协议层的标志，用以将信息传送到接收用户计算机（或网络）中去。</p>
+<span id="more"></span>
+
+<p>在CentOS 7系统中，firewalld防火墙取代了iptables防火墙。对于接触Linux系统比较早或学习过CentOS 6系统的读者来说，当他们发现曾经掌握的知识在CentOS 7中不再适用，需要全新学习firewalld时，难免会有抵触心理。其实，iptables与firewalld都不是真正的防火墙，它们都只是用来定义防火墙策略的防火墙管理工具而已，或者说，它们只是一种服务。iptables服务会把配置好的防火墙策略交由内核层面的netfilter网络过滤器来处理，而firewalld服务则是把配置好的防火墙策略交由内核层面的nftables包过滤框架来处理。换句话说，当前在Linux系统中其实存在多个防火墙管理工具，旨在方便运维人员管理Linux系统中的防火墙策略，我们只需要配置妥当其中的一个就足够了。虽然这些工具各有优劣，但它们在防火墙策略的配置思路上是保持一致的。大家只要在这多个防火墙管理工具中任选一款并将其学透，就足以满足日常的工作需求了。</p>
+<h3 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h3><h4 id="应用技术"><a href="#应用技术" class="headerlink" title="应用技术"></a>应用技术</h4><p><strong>数据包过滤</strong><br>网络上的数据都是以包为单位进行传输的，每一个数据包中都会包含一些特定的信息，如数据的源地址、目标地址、源端口号和目标端口号等。防火墙通过读取数据包中的地址信息来判断这些包是否来自可信任的网络，并与预先设定的访问控制规则进行比较，进而确定是否需对数据包进行处理和操作。数据包过滤可以防止外部不合法用户对内部网络的访问，但由于不能检测数据包的具体内容，所以不能识别具有非法内容的数据包，无法实施对应用层协议的安全处理。 </p>
+<p><strong>网络IP地址转换</strong><br>网络IP地址转换是一种将私有IP地址转化为公网IP地址的技术，它被广泛应用于各种类型的网络和互联网中。网络IP地址转换一方面可隐藏内部网络的真实IP地址，使内部网络免受黑客的直接攻击，另一方面由于内部网络使用了私有IP地址，从而有效解决了公网IP 地址不足的问题。</p>
+<p><strong>虚拟专用网络</strong><br>虚拟专用网络将分布在不同地域上的局域网或计算机通过加密通信，虚拟出专用的传输通道，从而将它们从逻辑上连成一个整体，不仅省去了建设专用通信线路的费用，还有效地保证了网络通信的安全。</p>
+<p><strong>应用网关</strong><br>应用级网关能够检查进出的数据包，通过网关复制传递数据，防止在受信任服务器和客户机与不受信任的主机间直接建立联系。应用级网关能够理解应用层上的协议，能够做复杂一些的访问控制，并做精细的注册和稽核。它针对特别的网络应用服务协议即数据过滤协议，并且能够对数据包分析并形成相关的报告。</p>
+<h4 id="功能"><a href="#功能" class="headerlink" title="功能"></a>功能</h4><p>防火墙对流经它的网络通信进行扫描，这样能够过滤掉一些攻击，以免其在目标计算机上被执行。防火墙还可以关闭不使用的端口。而且它还能禁止特定端口的流出通信，封锁特洛伊木马。最后，它可以禁止来自特殊站点的访问，从而防止来自不明入侵者的所有通信。</p>
+<p><strong>网络安全的屏障</strong><br>一个防火墙（作为阻塞点、控制点）能极大地提高一个内部网络的安全性，并通过过滤不安全的服务而降低风险。由于只有经过精心选择的应用协议才能通过防火墙，所以网络环境变得更安全。如防火墙可以禁止诸如众所周知的不安全的NFS协议进出受保护网络，这样外部的攻击者就不可能利用这些脆弱的协议来攻击内部网络。防火墙同时可以保护网络免受基于路由的攻击，如IP选项中的源路由攻击和ICMP重定向中的重定向路径。防火墙应该可以拒绝所有以上类型攻击的报文并通知防火墙管理员。</p>
+<p><strong>强化网络安全策略</strong><br>通过以防火墙为中心的安全方案配置，能将所有安全软件（如口令、加密、身份认证、审计等）配置在防火墙上。与将网络安全问题分散到各个主机上相比，防火墙的集中安全管理更经济。例如在网络访问时，一次一密口令系统和其它的身份认证系统完全可以不必分散在各个主机上，而集中在防火墙一身上。</p>
+<p><strong>监控审计</strong><br>如果所有的访问都经过防火墙，那么，防火墙就能记录下这些访问并作出日志记录，同时也能提供网络使用情况的统计数据。当发生可疑动作时，防火墙能进行适当的报警，并提供网络是否受到监测和攻击的详细信息。另外，收集一个网络的使用和误用情况也是非常重要的。首先的理由是可以清楚防火墙是否能够抵挡攻击者的探测和攻击，并且清楚防火墙的控制是否充足。而网络使用统计对网络需求分析和威胁分析等而言也是非常重要的。</p>
+<p><strong>防止内部信息的外泄</strong><br>通过利用防火墙对内部网络的划分，可实现内部网重点网段的隔离，从而限制了局部重点或敏感网络安全问题对全局网络造成的影响。再者，隐私是内部网络非常关心的问题，一个内部网络中不引人注意的细节可能包含了有关安全的线索而引起外部攻击者的兴趣，甚至因此而暴漏了内部网络的某些安全漏洞。使用防火墙就可以隐蔽那些透漏内部细节如Finger，DNS等服务。Finger显示了主机的所有用户的注册名、真名，最后登录时间和使用shell类型等。但是Finger显示的信息非常容易被攻击者所获悉。攻击者可以知道一个系统使用的频繁程度，这个系统是否有用户正在连线上网，这个系统是否在被攻击时引起注意等等。防火墙可以同样阻塞有关内部网络中的DNS信息，这样一台主机的域名和IP地址就不会被外界所了解。除了安全作用，防火墙还支持具有Internet服务性的企业内部网络技术体系VPN（虚拟专用网）。</p>
+<p><strong>日志记录与事件通知</strong><br>进出网络的数据都必须经过防火墙，防火墙通过日志对其进行记录，能提供网络使用的详细统计信息。当发生可疑事件时，防火墙更能根据机制进行报警和通知，提供网络是否受到威胁的信息。</p>
+<h3 id="Iptables"><a href="#Iptables" class="headerlink" title="Iptables"></a>Iptables</h3><p>在早期的Linux系统中，默认使用的是iptables防火墙管理服务来配置防火墙。尽管新型的firewalld防火墙管理服务已经被投入使用多年，但是大量的企业在生产环境中依然出于各种原因而继续使用iptables。</p>
+<h4 id="策略与规则链"><a href="#策略与规则链" class="headerlink" title="策略与规则链"></a>策略与规则链</h4><p>防火墙会从上至下的顺序来读取配置的策略规则，在找到匹配项后就立即结束匹配工作并去执行匹配项中定义的行为（即放行或阻止）。如果在读取完所有的策略规则之后没有匹配项，就去执行默认的策略。一般而言，防火墙策略规则的设置有两种：一种是“通”（即放行），一种是“堵”（即阻止）。当防火墙的默认策略为拒绝时（堵），就要设置允许规则（通），否则谁都进不来；如果防火墙的默认策略为允许时，就要设置拒绝规则，否则谁都能进来，防火墙也就失去了防范的作用。</p>
+<p>iptables服务把用于处理或过滤流量的策略条目称之为规则，多条规则可以组成一个规则链，而规则链则依据数据包处理位置的不同进行分类，具体如下：</p>
+<blockquote>
+<p>在进行路由选择前处理数据包（PREROUTING）；</p>
+<p>处理流入的数据包（INPUT）；</p>
+<p>处理流出的数据包（OUTPUT）；</p>
+<p>处理转发的数据包（FORWARD）；</p>
+<p>在进行路由选择后处理数据包（POSTROUTING）。</p>
+</blockquote>
+<p>一般来说，从内网向外网发送的流量一般都是可控且良性的，因此我们使用最多的就是INPUT规则链，该规则链可以增大黑客人员从外网入侵内网的难度。</p>
+<p>但是，仅有策略规则还不能保证社区的安全，保安还应该知道采用什么样的动作来处理这些匹配的流量，比如“允许”、“拒绝”、“登记”、“不理它”。这些动作对应到iptables服务的术语中分别是ACCEPT（允许流量通过）、REJECT（拒绝流量通过）、LOG（记录日志信息）、DROP（拒绝流量通过）。“允许流量通过”和“记录日志信息”都比较好理解，这里需要着重讲解的是REJECT和DROP的不同点。就DROP来说，它是直接将流量丢弃而且不响应；REJECT则会在拒绝流量后再回复一条“您的信息已经收到，但是被扔掉了”信息，从而让流量发送方清晰地看到数据被拒绝的响应信息。</p>
+<p>当把Linux系统中的防火墙策略设置为REJECT拒绝动作后，流量发送方会看到端口不可达的响应。</p>
+<p>而把Linux系统中的防火墙策略修改成DROP拒绝动作后，流量发送方会看到响应超时的提醒。但是流量发送方无法判断流量是被拒绝，还是接收方主机当前不在线。</p>
+<h4 id="基本命令"><a href="#基本命令" class="headerlink" title="基本命令"></a>基本命令</h4><p>iptables是一款基于命令行的防火墙策略管理工具，具有大量参数，学习难度较大。好在对于日常的防火墙策略配置来讲，大家无需深入了解诸如“四表五链”的理论概念，只需要掌握常用的参数并做到灵活搭配即可，这就足以应对日常工作了。</p>
+<p>iptables命令可以根据流量的源地址、目的地址、传输协议、服务类型等信息进行匹配，一旦匹配成功，iptables就会根据策略规则所预设的动作来处理这些流量。另外，再次提醒一下，防火墙策略规则的匹配顺序是从上至下的，因此要把较为严格、优先级较高的策略规则放到前面，以免发生错误。</p>
+<p>语法：<code>Iptables [-ttable] COMMAND chain CRETIRIA -j ACTION </code></p>
+<p><strong>相关参数说明：</strong> 　　 </p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">　-t table：3个filter nat mangle </span><br><span class="line">　　：定义如何对规则进行管理 　　 </span><br><span class="line">　　chain：指定你接下来的规则到底是在哪个链上操作的，当定义策略的时候，是可以省略的； </span><br><span class="line">　　CRETIRIA:指定匹配标准； 　 </span><br><span class="line">　　-j ACTION:指定如何进行处理；</span><br></pre></td></tr></table></figure>
+
+<p><strong>常用命令</strong></p>
+<ul>
+<li>iptables -A 将一个规则添加到链末尾</li>
+<li>iptables -D 将指定的链中删除规则</li>
+<li>iptables -F 将指定的链中删除所有规则</li>
+<li>iptables -I 将在指定链的指定编号位置插入一个规则</li>
+<li>iptables -L 列出指定链中所有规则</li>
+<li>iptables -t nat -L 列出所有NAT链中所有规则</li>
+<li>iptables -N 建立用户定义链</li>
+<li>iptables -X 删除用户定义链</li>
+<li>iptables -P 修改链的默认设置，如将iptables -P INPUT DROP (将INPUT链设置为DROP)</li>
+</ul>
+<p>常见参数：</p>
+<ul>
+<li>–dport 指定目标TCP/IP端口 如 –dport 80</li>
+<li>–sport 指定源TCP/IP端口 如 –sport 80</li>
+<li>-p tcp 指定协议为tcp</li>
+<li>-p icmp 指定协议为ICMP</li>
+<li>-p udp 指定协议为UDP</li>
+<li>-j DROP 拒绝</li>
+<li>-j ACCEPT 允许</li>
+<li>-j REJECT 拒绝并向发出消息的计算机发一个消息</li>
+<li>-j LOG 在/var/log/messages中登记分组匹配的记录</li>
+<li>-m mac –mac 绑定MAC地址</li>
+<li>-m limit –limit 1/s 1/m 设置时间策列</li>
+<li>-m multiport      多端口匹配,和dport或sport结合，使用 <code>，</code>区分端口号，可用于匹配非连续或连续端口；最多指定15个端口</li>
+<li>-s 10.10.0.0或10.10.0.0/16 指定源地址或地址段</li>
+<li>-d 10.10.0.0或10.10.0.0/16 指定目标地址或地址段</li>
+<li>-s ! 10.10.0.0 指定源地址以外的</li>
+</ul>
+<p><strong>配置文件</strong></p>
+<p>配置文件位置： /etc/sysconfig/iptables</p>
+<h4 id="常用用法"><a href="#常用用法" class="headerlink" title="常用用法"></a>常用用法</h4><h5 id="配置Filter表防火墙"><a href="#配置Filter表防火墙" class="headerlink" title="配置Filter表防火墙"></a>配置Filter表防火墙</h5><ol>
+<li><p>查看iptables的配置信息</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"># iptables -L -n</span><br></pre></td></tr></table></figure></li>
+<li><p>清除原有防火墙规则</p>
+<ul>
+<li>清除预设表filter中的所有规则链的规则</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"># iptables -F</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>清除预设表filter中使用者自定链中的规则</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"># iptables -X</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>保存防火墙设置</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"># /etc/init.d/iptables save</span><br><span class="line">或</span><br><span class="line"># service iptables save</span><br></pre></td></tr></table></figure></li>
+<li><p>设定预设规则</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">-- 请求接入包丢弃</span><br><span class="line">[root@home ~]# iptables -P INPUT DROP</span><br><span class="line">-- 接受响应数据包</span><br><span class="line">[root@home ~]# iptables -P OUTPUT ACCEPT</span><br><span class="line">-- 转发数据包丢弃 </span><br><span class="line">[root@home ~]# iptables -P FORWARD DROP</span><br></pre></td></tr></table></figure></li>
+<li><p>添加防火墙规则</p>
+<p>首先添加INPUT链,INPUT链的默认规则是DROP,所以我们就写需要ACCETP(通过)的链。</p>
+<ul>
+<li><strong>开启SSH服务端口</strong></li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[root@tp ~]# iptables -A INPUT -p tcp --dport 22 -j ACCEPT</span><br><span class="line">[root@tp ~]# iptables -A OUTPUT -p tcp --sport 22 -j ACCEPT</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>注:如果在预设设置把OUTPUT设置成DROP策略的话，就需要设置OUTPUT规则，否则无法进行SSH连接。</p>
+</blockquote>
+<ul>
+<li><strong>开启Web服务端口</strong></li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[root@tp ~]# iptables -A OUTPUT -p tcp --sport 80 -j ACCEPT</span><br><span class="line">[root@tp ~]# iptables -A INPUT -p tcp --dport 80 -j ACCEPT</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><strong>开启邮件服务的25、110端口</strong></li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[root@tp ~]# iptables -A INPUT -p tcp --dport 110 -j ACCEPT</span><br><span class="line">[root@tp ~]# iptables -A INPUT -p tcp --dport 25 -j ACCEPT</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><strong>开启FTP服务的21端口</strong></li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[root@tp ~]# iptables -A INPUT -p tcp --dport 21 -j ACCEPT</span><br><span class="line">[root@tp ~]# iptables -A INPUT -p tcp --dport 20 -j ACCEPT</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><strong>开启DNS服务的53端口</strong></li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@tp ~]# iptables -A INPUT -p tcp --dport 53 -j ACCEPT</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><strong>设置icmp服务</strong></li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[root@tp ~]# iptables -A OUTPUT -p icmp -j ACCEPT (OUTPUT设置成DROP的话)</span><br><span class="line">[root@tp ~]# iptables -A INPUT -p icmp -j ACCEPT    (INPUT设置成DROP的话)</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><strong>允许loopback</strong></li>
+</ul>
+<blockquote>
+<p>不然会导致DNS无法正常关闭等问题</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[root@tp ~]# IPTABLES -A INPUT -i lo -p all -j ACCEPT </span><br><span class="line">(如果是INPUT DROP)</span><br><span class="line">[root@tp ~]# IPTABLES -A OUTPUT -o lo -p all -j ACCEPT</span><br><span class="line">(如果是OUTPUT DROP)</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><strong>减少不安全的端口连接</strong></li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[root@tp ~]# iptables -A OUTPUT -p tcp --sport 31337 -j DROP</span><br><span class="line">[root@tp ~]# iptables -A OUTPUT -p tcp --dport 31337 -j DROP</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>说明：有些特洛伊木马会扫描端口31337到31340(即黑客语言中的 elite 端口)上的服务。既然合法服务都不使用这些非标准端口来通信,阻塞这些端口能够有效地减少你的网络上可能被感染的机器和它们的远程主服务器进行独立通信的机会。此外，其他端口也一样,像:31335、27444、27665、20034 NetBus、9704、137-139（smb）,2049(NFS)端口也应被禁止。</p>
+</blockquote>
+<ul>
+<li><strong>只允许某台主机或某个网段进行SSH连接</strong></li>
+</ul>
+<p>只允许192.168.0.3的机器进行SSH连接</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@tp ~]# iptables -A INPUT -s 192.168.0.3 -p tcp --dport 22 -j ACCEPT</span><br></pre></td></tr></table></figure>
+
+<p>如果允许或限制一段IP地址可用<code>192.168.0.0/24</code>表示192.168.0.1-255端的所有IP, 24表示子网掩码数。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@tp ~]# iptables -A INPUT -s 192.168.0.0/24 -p tcp --dport 22 -j ACCEPT</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>注意：指定某个主机或者某个网段进行SSH连接，需要在iptables配置文件中的<code>-A INPUT -p tcp -m tcp --dport 22 -j ACCEPT</code><br>删除，因为它表示所有地址都可以登陆.</p>
+</blockquote>
+<p>如果只允许除了192.168.0.3的主机外都能进行SSH连接</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@tp ~]# iptables -A INPUT -s ! 192.168.0.3 -p tcp --dport 22 -j ACCEPT</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><strong>开启转发功能</strong></li>
+</ul>
+<p>在做NAT网络配置时,FORWARD默认规则是DROP时,必须开启数据包转发功能</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[root@tp ~]# iptables -A FORWARD -i eth0 -o eth1 -m state --state RELATED,ESTABLISHED -j ACCEPT</span><br><span class="line">[root@tp ~]# iptables -A FORWARD -i eth1 -o eh0 -j ACCEPT</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><strong>丢弃坏的TCP包</strong></li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@tp ~]#iptables -A FORWARD -p TCP ! --syn -m state --state NEW -j DROP</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><strong>处理IP碎片数量，防止DDOS攻击，允许每秒100个</strong></li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@tp ~]#iptables -A FORWARD -f -m limit --limit 100/s --limit-burst 100 -j ACCEPT</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><strong>设置ICMP包过滤, 允许每秒1个包, 限制触发条件是10个包</strong></li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@tp ~]#iptables -A FORWARD -p icmp -m limit --limit 1/s --limit-burst 10 -j ACCEPT</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><strong>DROP非法连接</strong></li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[root@tp ~]# iptables -A INPUT   -m state --state INVALID -j DROP</span><br><span class="line">[root@tp ~]# iptables -A OUTPUT  -m state --state INVALID -j DROP</span><br><span class="line">[root@tp ~]# iptables -A FORWARD -m state --state INVALID -j DROP</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><strong>允许所有已经建立的和相关的连接</strong></li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[root@tp ~]# iptables-A INPUT -m state --state ESTABLISHED,RELATED -j ACCEPT</span><br><span class="line">[root@tp ~]# iptables-A OUTPUT -m state --state ESTABLISHED,RELATED -j ACCEPT</span><br><span class="line">[root@tp ~]# /etc/rc.d/init.d/iptables save</span><br></pre></td></tr></table></figure></li>
+</ol>
+<h5 id="配置NAT表防火墙"><a href="#配置NAT表防火墙" class="headerlink" title="配置NAT表防火墙"></a>配置NAT表防火墙</h5><ol>
+<li><p>查看本机关于NAT的设置情况</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@tp rc.d]# iptables -t nat -L</span><br></pre></td></tr></table></figure></li>
+<li><p>清除NAT规则</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[root@tp ~]# iptables -F -t nat</span><br><span class="line">[root@tp ~]# iptables -X -t nat</span><br><span class="line">[root@tp ~]# iptables -Z -t nat</span><br></pre></td></tr></table></figure></li>
+<li><p>添加规则</p>
+<p>添加基本的NAT地址转换，添加规则时，我们只添加DROP链，因为默认链全是ACCEPT。</p>
+<ul>
+<li><strong>防止外网用内网IP欺骗</strong></li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[root@tp sysconfig]# iptables -t nat -A PREROUTING -i eth0 -s 10.0.0.0/8 -j DROP</span><br><span class="line">[root@tp sysconfig]# iptables -t nat -A PREROUTING -i eth0 -s 172.16.0.0/12 -j DROP</span><br><span class="line">[root@tp sysconfig]# iptables -t nat -A PREROUTING -i eth0 -s 192.168.0.0/16 -j DROP</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><strong>禁止与211.101.46.253的所有连接</strong></li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@tp ~]# iptables -t nat -A PREROUTING -d 211.101.46.253 -j DROP</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><strong>禁用FTP(21)端口</strong></li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@tp ~]# iptables -t nat -A PREROUTING -p tcp --dport 21 -j DROP</span><br></pre></td></tr></table></figure>
+
+<p>只禁用211.101.46.253地址的FTP连接,其他连接可以进行。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@tp ~]# iptables -t nat -A PREROUTING -p tcp --dport 21 -d 211.101.46.253 -j DROP</span><br></pre></td></tr></table></figure>
+
+<p>站在服务器的角度：当内网服务器要访问外网时，需要做源地址转换；</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 打开转发功能</span></span><br><span class="line">sysctl -w net.ipv4.ip_forward=1</span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="bash"> 把 192.168.1.0 网段流出的数据的 <span class="built_in">source</span> ip address 修改成为 10.0.0.11：</span></span><br><span class="line">iptables -t nat -A POSTROUTING -s 192.168.1.0/24 -j SNAT --to-source 10.0.0.11</span><br><span class="line"></span><br><span class="line">　　当外网主机要访问内网服务器服务时，需要做目标地址转换；</span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="bash"> 打开转发功能</span></span><br><span class="line">sysctl -w net.ipv4.ip_forward=1</span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="bash"> 把访问 10.0.0.11:2222 的访问转发到 192.168.1.11:22 上：：</span></span><br><span class="line">iptables -t nat -A PREROUTING -d 10.0.0.11 -p tcp --dport 2222 -j DNAT --to-destination 192.168.1.11:22</span><br><span class="line"></span><br><span class="line">　　单纯的将访问本机80端口的请求转发到8080上</span><br><span class="line"></span><br><span class="line">iptables -t nat -A PREROUTING -p tcp --dport 80 -j REDIRECT --to-port 8080</span><br></pre></td></tr></table></figure></li>
+</ol>
+<h5 id="常用显示模块"><a href="#常用显示模块" class="headerlink" title="常用显示模块"></a>常用显示模块</h5><p> 开放ssh服务端口</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">iptables -A INPUT -p tcp --dport 22 -j ACCEPT</span><br><span class="line">iptables -A INPUT -p tcp --sport 22 -j ACCEPT</span><br></pre></td></tr></table></figure>
+
+<p>修改默认规则为DROP</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">iptables -P INPUT DROP</span><br><span class="line">iptables -P OUTPUT DROP</span><br></pre></td></tr></table></figure>
+
+<ol>
+<li><p>multiport: 多端口匹配</p>
+<p> 可用于匹配非连续或连续端口；最多指定15个端口；<br> 实例</p>
+</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">iptables -A INPUT -p tcp -m multiport --dport 22,80 -j ACCEPT</span><br><span class="line">iptables -A OUTPUT -p tcp -m multiport --sport 22,80 -j ACCEPT</span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li><p>iprange: 匹配指定范围内的地址</p>
+<p> 匹配一段连续的地址而非整个网络时有用<br> 实例：</p>
+</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">iptables -A INPUT -p tcp -m iprange --src-range 192.168.118.0-192.168.118.60 --dport 22 -j ACCEPT</span><br><span class="line">iptables -A OUTPUT -p tcp -m iprange --dst-range 192.168.118.0-192.168.118.60 --sport 22 -j ACCEPT</span><br></pre></td></tr></table></figure>
+
+<ol start="3">
+<li><p>string: 字符串匹配，能够检测报文应用层中的字符串</p>
+<p> 字符匹配检查高效算法：kmp, bm<br> 能够屏蔽非法字符<br> 实例：</p>
+</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">#注意该条规则需要添加到OUTPUT链，当服务端返回数据报文检查到有关键字&quot;sex&quot;时，则丢弃该报文，可用于web敏感词过滤</span><br><span class="line">iptables -A OUTPUT -p tcp --dport 80 -m string --algo kmp --string &quot;sex&quot; -j DROP</span><br></pre></td></tr></table></figure>
+
+<ol start="4">
+<li><p>connlimit: 连接数限制，对每IP所能够发起并发连接数做限制；</p>
+<p> 实例：</p>
+</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">#默认INPUT 为 DROP. 每个ip对ssh服务的访问最大为3个并发连接，超过则丢弃</span><br><span class="line"></span><br><span class="line">iptables -A INPUT -p tcp  --dport 22 -m connlimit ! --connlimit-above 3 -j ACCEPT</span><br></pre></td></tr></table></figure>
+
+<ol start="5">
+<li>limit: 速率限制<br> limit-burst: 设置默认阀值</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">#默认放行10个，当到达limit-burst阀值后，平均6秒放行1个</span><br><span class="line"></span><br><span class="line">iptables -A INPUT -p icmp -m limit --limit 10/minute --limit-burst 10 -j ACCEPT</span><br></pre></td></tr></table></figure>
+
+<ol start="6">
+<li><p>state: 状态检查</p>
+<p> 连接追踪中的状态：</p>
+<pre><code> NEW: 新建立一个会话
+ ESTABLISHED：已建立的连接
+ RELATED: 有关联关系的连接
+ INVALID: 无法识别的连接
+</code></pre>
+</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">#放行ssh的首次连接状态</span><br><span class="line">iptables -A INPUT -p tcp --dport 22 -m state --state NEW -j ACCEPT  </span><br></pre></td></tr></table></figure>
+
+<h5 id="针对特定的服务定制相关规则"><a href="#针对特定的服务定制相关规则" class="headerlink" title="针对特定的服务定制相关规则"></a>针对特定的服务定制相关规则</h5><ol>
+<li>对ssh进行管控，1小时内最多发起5个连接，防止黑客暴力破解ssh</li>
+</ol>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 清空默认规则</span></span><br><span class="line">iptables -F</span><br><span class="line">iptables -X</span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="bash"> 添加已建立的连接规则</span></span><br><span class="line">iptables -A INPUT -p tcp -m state --state ESTABLISHED -j ACCEPT</span><br><span class="line">iptables -A OUTPUT -p tcp -m state --state ESTABLISHED -j ACCEPT</span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="bash"> 设置默认规则</span></span><br><span class="line">iptables -P INPUT DROP</span><br><span class="line">iptables -P OUTPUT DROP</span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="bash"> 设置iptables记录匹配ssh规则</span></span><br><span class="line">iptables -I INPUT  2 -p tcp --syn -m state --state NEW -j LOG --log-level 5 --log-prefix &quot;[SSH Login]:&quot;</span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="bash"> 使用recent显示模块限定每小时最多匹配到5次，超过则丢弃。</span></span><br><span class="line">iptables -A INPUT -p tcp --syn -m state --state NEW -m recent --name OPENSSH --update --seconds 3600 --hitcount 5 -j DROP</span><br><span class="line">iptables -A INPUT -p tcp --syn -m state --state NEW -m recent --name OPENSSH --set -j ACCEPT</span><br></pre></td></tr></table></figure>
+
+
+
+<ol start="2">
+<li>对web服务进行并发管控,防止Ddos</li>
+</ol>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 清空默认规则</span></span><br><span class="line">iptables -F</span><br><span class="line">iptables -X</span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="bash"> 添加已建立的连接规则</span></span><br><span class="line">iptables -A INPUT -p tcp -m state --state ESTABLISHED -j ACCEPT</span><br><span class="line">iptables -A OUTPUT -p tcp -m state --state ESTABLISHED -j ACCEPT</span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="bash"> 设置默认规则</span></span><br><span class="line">iptables -P INPUT DROP</span><br><span class="line">iptables -P OUTPUT DROP</span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="bash"> 每个ip的并发连接请求最大50，超过则丢弃，建议调大值，容易误伤nat上网用户</span></span><br><span class="line">iptables -A INPUT -p tcp --syn --dport 80 -m state --state NEW -m connlimit ! --connlimit-above 50 -j DROP</span><br></pre></td></tr></table></figure>
+
+
+
+<ol start="3">
+<li>对icmp进行流控，防止icmp攻击</li>
+</ol>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 清空默认规则</span></span><br><span class="line">iptables -F</span><br><span class="line">iptables -X</span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="bash"> 添加已建立的连接规则</span></span><br><span class="line">iptables -A INPUT -p tcp -m state --state ESTABLISHED -j ACCEPT</span><br><span class="line">iptables -A OUTPUT -p tcp -m state --state ESTABLISHED -j ACCEPT</span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="bash"> 设置默认规则</span></span><br><span class="line">iptables -P INPUT DROP</span><br><span class="line">iptables -P OUTPUT DROP</span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="bash"> 利用<span class="built_in">limit</span>模块限制icmp速率，阀值为10个，当到达10个后，限速每秒钟1个</span></span><br><span class="line">iptables -A INPUT -p icmp --icmp-type 0 -m limit --limit 1/s --limit-burst 10 -j ACCEPT</span><br></pre></td></tr></table></figure>
+
+<h5 id="iptables-独立日志配置"><a href="#iptables-独立日志配置" class="headerlink" title="iptables 独立日志配置"></a>iptables 独立日志配置</h5><p>当在iptables中启用日志记录时，会被当做系统日志记录到/var/log/message里面，如果想要独立日志配置如下：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">] # grep -r &#x27;iptables&#x27; /etc/rsyslog.conf  #在该文件添加下面三行</span><br><span class="line">kern.*     /var/log/iptables.log</span><br><span class="line"></span><br><span class="line">] # systemctl restart rsyslog</span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="bash">在iptables添加日志选项</span> </span><br><span class="line">] #iptables -A INPUT  -j LOG --log-prefix &quot;iptables&quot;</span><br><span class="line"><span class="meta">#</span><span class="bash">这样就可以记录所有的记录了，只要通过了防火墙都会记录到日志里</span></span><br><span class="line">] #iptables -A INPUT  -p tcp -j LOG --log-prefix &quot;iptables icmp warn&quot;</span><br><span class="line"><span class="meta">#</span><span class="bash">这样就只记录tcp日志</span></span><br><span class="line"><span class="meta">#</span><span class="bash">然后保存并重启防火墙配置</span></span><br><span class="line">] # iptables-save</span><br><span class="line">] # iptables-restart</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h3 id="Filewalld"><a href="#Filewalld" class="headerlink" title="Filewalld"></a>Filewalld</h3><p>CentOS 7系统中集成了多款防火墙管理工具，其中firewalld（Dynamic Firewall Manager of Linux systems，Linux系统的动态防火墙管理器）服务是默认的防火墙配置管理工具，它拥有基于CLI（命令行界面）和基于GUI（图形用户界面）的两种管理方式。安装它，只需<code>yum install firewalld</code>；如果需要图形界面的话，则再安装<code>yum install firewall-config</code>。</p>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2019/03/25/5c98cc2398e31.png" alt="firewall.png"></p>
+<p>相较于传统的防火墙管理配置工具，firewalld支持动态更新技术并加入了区域（zone）的概念。简单来说，区域就是firewalld预先准备了几套防火墙策略集合（策略模板），用户可以根据生产场景的不同而选择合适的策略集合，从而实现防火墙策略之间的快速切换。例如，我们有一台笔记本电脑，每天都要在办公室、咖啡厅和家里使用。按常理来讲，这三者的安全性按照由高到低的顺序来排列，应该是家庭、公司办公室、咖啡厅。当前，我们希望为这台笔记本电脑指定如下防火墙策略规则：在家中允许访问所有服务；在办公室内仅允许访问文件共享服务；在咖啡厅仅允许上网浏览。在以往，我们需要频繁地手动设置防火墙策略规则，而现在只需要预设好区域集合，然后只需轻点鼠标就可以自动切换了，从而极大地提升了防火墙策略的应用效率。firewalld中常见的区域名称（默认为public）以及相应的策略规则如表。</p>
+<table>
+<thead>
+<tr>
+<th>区域</th>
+<th>默认规则策略</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>trusted</td>
+<td>允许所有的数据包</td>
+</tr>
+<tr>
+<td>home</td>
+<td>拒绝流入的流量，除非与流出的流量相关；而如果流量与ssh、mdns、ipp-client、amba-client与dhcpv6-client服务相关，则允许流量</td>
+</tr>
+<tr>
+<td>internal</td>
+<td>等同于home区域</td>
+</tr>
+<tr>
+<td>work</td>
+<td>拒绝流入的流量，除非与流出的流量相关；而如果流量与ssh、ipp-client与dhcpv6-client服务相关，则允许流量</td>
+</tr>
+<tr>
+<td>public</td>
+<td>拒绝流入的流量，除非与流出的流量相关；而如果流量与ssh、dhcpv6-client服务相关，则允许流量</td>
+</tr>
+<tr>
+<td>external</td>
+<td>拒绝流入的流量，除非与流出的流量相关；而如果流量与ssh服务相关，则允许流量</td>
+</tr>
+<tr>
+<td>dmz</td>
+<td>拒绝流入的流量，除非与流出的流量相关；而如果流量与ssh服务相关，则允许流量</td>
+</tr>
+<tr>
+<td>block</td>
+<td>拒绝流入的流量，除非与流出的流量相关</td>
+</tr>
+<tr>
+<td>drop</td>
+<td>拒绝流入的流量，除非与流出的流量相关</td>
+</tr>
+</tbody></table>
+<p>过滤规则</p>
+<ul>
+<li>source: 根据源地址过滤</li>
+<li>interface: 根据网卡过滤</li>
+<li>service: 根据服务名过滤</li>
+<li>port: 根据端口过滤</li>
+<li>icmp-block: icmp 报文过滤，按照 icmp 类型配置</li>
+<li>masquerade: ip 地址伪装</li>
+<li>forward-port: 端口转发</li>
+<li>rule: 自定义规则</li>
+</ul>
+<p>其中，过滤规则的优先级遵循如下顺序</p>
+<p>1.source<br>2.interface<br>3.firewalld.conf</p>
+<h4 id="配置文件"><a href="#配置文件" class="headerlink" title="配置文件"></a>配置文件</h4><p><strong>系统配置目录</strong></p>
+<p>​    /usr/lib/firewalld/services，目录中存放定义好的网络服务和端口参数，系统参数，不能修改。</p>
+<p><strong>用户配置目录</strong></p>
+<p>​        /etc/firewalld/</p>
+<h4 id="命令使用"><a href="#命令使用" class="headerlink" title="命令使用"></a>命令使用</h4><p>具体的规则管理，可以使用firewall-cmd ，具体的使用方法可以</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> firewall-cmd --<span class="built_in">help</span></span></span><br><span class="line">--zone=NAME                        # 指定 zone</span><br><span class="line">--permanent                  # 永久修改，--reload 后生效</span><br><span class="line">--timeout=seconds  # 持续效果，到期后自动移除，用于调试</span><br><span class="line">					#不能与 --permanent 同时使用</span><br></pre></td></tr></table></figure>
+
+<p><strong>查看规则</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line">查看运行状态</span><br><span class="line"></span><br><span class="line">$ firewall-cmd --state</span><br><span class="line"></span><br><span class="line">查看已被激活的 Zone 信息</span><br><span class="line"></span><br><span class="line">$ firewall-cmd --get-active-zones</span><br><span class="line">public</span><br><span class="line">  interfaces: eth0 eth1</span><br><span class="line"></span><br><span class="line">查看指定接口的 Zone 信息</span><br><span class="line"></span><br><span class="line">$ firewall-cmd --get-zone-of-interface=eth0</span><br><span class="line">public</span><br><span class="line"></span><br><span class="line">查看指定级别的接口</span><br><span class="line"></span><br><span class="line">$ firewall-cmd --zone=public --list-interfaces</span><br><span class="line">eth0</span><br><span class="line"></span><br><span class="line">查看指定级别的所有信息，譬如 public</span><br><span class="line"></span><br><span class="line">$ firewall-cmd --zone=public --list-all</span><br><span class="line">public (default, active)</span><br><span class="line">  interfaces: eth0</span><br><span class="line">  sources:</span><br><span class="line">  services: dhcpv6-client http ssh</span><br><span class="line">  ports:</span><br><span class="line">  masquerade: no</span><br><span class="line">  forward-ports:</span><br><span class="line">  icmp-blocks:</span><br><span class="line">  rich rules:</span><br><span class="line"></span><br><span class="line">查看所有级别被允许的信息</span><br><span class="line"></span><br><span class="line">$ firewall-cmd --get-service</span><br><span class="line"></span><br><span class="line">查看重启后所有 Zones 级别中被允许的服务，即永久放行的服务</span><br><span class="line"></span><br><span class="line">$ firewall-cmd --get-service --permanent</span><br></pre></td></tr></table></figure>
+
+<h5 id="管理规则"><a href="#管理规则" class="headerlink" title="管理规则"></a>管理规则</h5><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># firewall-cmd --panic-on          # 丢弃</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># firewall-cmd --panic-off          # 取消丢弃</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># firewall-cmd --query-panic        # 查看丢弃状态</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># firewall-cmd --reload            # 更新规则，不重启服务</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># firewall-cmd --complete-reload    # 更新规则，重启服务</span></span><br><span class="line"></span><br><span class="line">添加某接口至某信任等级，譬如添加 eth0 至 public，永久修改</span><br><span class="line"></span><br><span class="line"><span class="comment"># firewall-cmd --zone=public --add-interface=eth0 --permanent</span></span><br><span class="line"></span><br><span class="line">设置 public 为默认的信任级别</span><br><span class="line"></span><br><span class="line"><span class="comment"># firewall-cmd --set-default-zone=public</span></span><br><span class="line"></span><br><span class="line">a. 管理端口</span><br><span class="line"></span><br><span class="line">列出 dmz 级别的被允许的进入端口</span><br><span class="line"></span><br><span class="line"><span class="comment"># firewall-cmd --zone=dmz --list-ports</span></span><br><span class="line"></span><br><span class="line">允许 tcp 端口 8080 至 dmz 级别</span><br><span class="line"></span><br><span class="line"><span class="comment"># firewall-cmd --zone=dmz --add-port=8080/tcp</span></span><br><span class="line"></span><br><span class="line">允许某范围的 udp 端口至 public 级别，并永久生效</span><br><span class="line"></span><br><span class="line"><span class="comment"># firewall-cmd --zone=public --add-port=5060-5059/udp --permanent</span></span><br><span class="line"></span><br><span class="line">b. 网卡接口</span><br><span class="line"></span><br><span class="line">列出 public zone 所有网卡</span><br><span class="line"></span><br><span class="line"><span class="comment"># firewall-cmd --zone=public --list-interfaces</span></span><br><span class="line"></span><br><span class="line">将 eth0 添加至 public zone，永久</span><br><span class="line"></span><br><span class="line"><span class="comment"># firewall-cmd --zone=public --permanent --add-interface=eth0</span></span><br><span class="line"></span><br><span class="line">eth0 存在与 public zone，将该网卡添加至 work zone，并将之从 public zone 中删除</span><br><span class="line"></span><br><span class="line"><span class="comment"># firewall-cmd --zone=work --permanent --change-interface=eth0</span></span><br><span class="line"></span><br><span class="line">删除 public zone 中的 eth0，永久</span><br><span class="line"></span><br><span class="line"><span class="comment"># firewall-cmd --zone=public --permanent --remove-interface=eth0</span></span><br><span class="line"></span><br><span class="line">c. 管理服务</span><br><span class="line"></span><br><span class="line">添加 smtp 服务至 work zone</span><br><span class="line"></span><br><span class="line"><span class="comment"># firewall-cmd --zone=work --add-service=smtp</span></span><br><span class="line"></span><br><span class="line">移除 work zone 中的 smtp 服务</span><br><span class="line"></span><br><span class="line"><span class="comment"># firewall-cmd --zone=work --remove-service=smtp</span></span><br><span class="line"></span><br><span class="line">d. 配置 external zone 中的 ip 地址伪装</span><br><span class="line"></span><br><span class="line">查看</span><br><span class="line"></span><br><span class="line"><span class="comment"># firewall-cmd --zone=external --query-masquerade</span></span><br><span class="line"></span><br><span class="line">打开伪装</span><br><span class="line"></span><br><span class="line"><span class="comment"># firewall-cmd --zone=external --add-masquerade</span></span><br><span class="line"></span><br><span class="line">关闭伪装</span><br><span class="line"></span><br><span class="line"><span class="comment"># firewall-cmd --zone=external --remove-masquerade</span></span><br><span class="line"></span><br><span class="line">e. 配置 public zone 的端口转发</span><br><span class="line"></span><br><span class="line">要打开端口转发，则需要先</span><br><span class="line"></span><br><span class="line"><span class="comment"># firewall-cmd --zone=public --add-masquerade</span></span><br><span class="line"></span><br><span class="line">然后转发 tcp 22 端口至 3753</span><br><span class="line"></span><br><span class="line"><span class="comment"># firewall-cmd --zone=public --add-forward-port=port=22:proto=tcp:toport=3753</span></span><br><span class="line"></span><br><span class="line">转发 22 端口数据至另一个 ip 的相同端口上</span><br><span class="line"></span><br><span class="line"><span class="comment"># firewall-cmd --zone=public --add-forward-port=port=22:proto=tcp:toaddr=192.168.1.100</span></span><br><span class="line"></span><br><span class="line">转发 22 端口数据至另一 ip 的 2055 端口上</span><br><span class="line"></span><br><span class="line"><span class="comment"># firewall-cmd --zone=public --add-forward-port=port=22:proto=tcp:toport=2055:toaddr=192.168.1.100</span></span><br><span class="line"></span><br><span class="line">f. 配置 public zone 的 icmp</span><br><span class="line"></span><br><span class="line">查看所有支持的 icmp 类型</span><br><span class="line"></span><br><span class="line"><span class="comment"># firewall-cmd --get-icmptypes</span></span><br><span class="line"></span><br><span class="line">destination-unreachable echo-reply echo-request parameter-problem redirect router-advertisement router-solicitation source-quench time-exceeded</span><br><span class="line"></span><br><span class="line">列出</span><br><span class="line"></span><br><span class="line"><span class="comment"># firewall-cmd --zone=public --list-icmp-blocks</span></span><br><span class="line"></span><br><span class="line">添加 echo-request 屏蔽</span><br><span class="line"></span><br><span class="line"><span class="comment"># firewall-cmd --zone=public --add-icmp-block=echo-request [--timeout=seconds]</span></span><br><span class="line"></span><br><span class="line">移除 echo-reply 屏蔽</span><br><span class="line"></span><br><span class="line"><span class="comment"># firewall-cmd --zone=public --remove-icmp-block=echo-reply</span></span><br><span class="line"></span><br><span class="line">g. IP 封禁</span><br><span class="line"></span><br><span class="line"><span class="comment"># firewall-cmd --permanent --add-rich-rule=&quot;rule family=&#x27;ipv4&#x27; source address=&#x27;222.222.222.222&#x27; reject&quot;</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="参考："><a href="#参考：" class="headerlink" title="参考："></a>参考：</h3><ol>
+<li><p><a target="_blank" rel="noopener" href="https://www.linuxprobe.com/chapter-08.html"> Iptables与Firewalld防火墙</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://www.linuxidc.com/Linux/2017-10/147347.htm">iptables 用法及常用模块总结</a></p>
+</li>
+</ol>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">平心</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://pingxin0521.gitee.io/2019/03/25/Linux-%E5%AE%89%E5%85%A8-3/">https://pingxin0521.gitee.io/2019/03/25/Linux-%E5%AE%89%E5%85%A8-3/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://pingxin0521.gitee.io" target="_blank">平心de小屋</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/Linux/">Linux</a><a class="post-meta__tags" href="/tags/%E5%AE%89%E5%85%A8/">安全</a></div><div class="post_share"><div class="social-share" data-image="https://i.loli.net/2020/05/08/gGE57HRvpcKPfDY.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2019/03/25/Linux-%E8%84%9A%E6%9C%AC-1/"><img class="prev-cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/okfOw28KlZFbE7z.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">Linux-bash基础（一）</div></div></a></div><div class="next-post pull-right"><a href="/2019/03/25/%E5%B7%A5%E5%85%B7-MATLAB-1/"><img class="next-cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/vCnKyoFJZ1g4XYR.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">MATLAB入门</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span> 相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2019/03/25/Linux-安全-2/" title="ssL原理与实现"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/okfOw28KlZFbE7z.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2019-10-17</div><div class="title">ssL原理与实现</div></div></a></div><div><a href="/2019/05/22/Linux-Ubuntu-4/" title="Ubuntu 点滴笔记"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/PFDRNxj93taz6pw.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2019-10-18</div><div class="title">Ubuntu 点滴笔记</div></div></a></div><div><a href="/2019/03/23/Linux-基础-12/" title="Linux-服务管理"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/PFDRNxj93taz6pw.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2019-04-03</div><div class="title">Linux-服务管理</div></div></a></div><div><a href="/2019/03/20/Linux-基础-5/" title="Linux-文本处理三剑客--grep"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/HjVAdIuT7bZJypS.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2019-10-10</div><div class="title">Linux-文本处理三剑客--grep</div></div></a></div><div><a href="/2019/03/20/Linux-基础-6/" title="Linux-文本处理三剑客--sed"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/okfOw28KlZFbE7z.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2019-10-10</div><div class="title">Linux-文本处理三剑客--sed</div></div></a></div><div><a href="/2019/03/20/Linux-基础-7/" title="Linux-文本处理三剑客--awk"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/vCnKyoFJZ1g4XYR.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2019-10-10</div><div class="title">Linux-文本处理三剑客--awk</div></div></a></div></div></div><hr/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div class="vcomment" id="vcomment"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="card-info-avatar is-center"><img class="avatar-img" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://s2.ax1x.com/2020/02/11/1ovw6J.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/><div class="author-info__name">平心</div><div class="author-info__description">年轻人的life、learn and think</div></div><div class="card-info-data"><div class="card-info-data-item is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">449</div></a></div><div class="card-info-data-item is-center"><a href="/tags/"><div class="headline">标签</div><div class="length-num">77</div></a></div><div class="card-info-data-item is-center"><a href="/categories/"><div class="headline">分类</div><div class="length-num">68</div></a></div></div><a class="button--animated" id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/hanyunpeng0521"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/hanyunpeng0521" target="_blank" title="Github"><i class="fa fa-github"></i></a><a class="social-icon" href="mailto:m13839441583@163.com" target="_blank" title="Email"><i class="fa fa-envelope"></i></a><a class="social-icon" href="/atom.xml" target="_blank" title=""><i class="fa fa-rss"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn card-announcement-animation"></i><span>公告</span></div><div class="announcement_content">为什么呢？开始提问吧</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%89%8D%E8%A8%80"><span class="toc-number">1.</span> <span class="toc-text">前言</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8E%9F%E7%90%86"><span class="toc-number">2.</span> <span class="toc-text">原理</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%BA%94%E7%94%A8%E6%8A%80%E6%9C%AF"><span class="toc-number">2.1.</span> <span class="toc-text">应用技术</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%8A%9F%E8%83%BD"><span class="toc-number">2.2.</span> <span class="toc-text">功能</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Iptables"><span class="toc-number">3.</span> <span class="toc-text">Iptables</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%AD%96%E7%95%A5%E4%B8%8E%E8%A7%84%E5%88%99%E9%93%BE"><span class="toc-number">3.1.</span> <span class="toc-text">策略与规则链</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%9F%BA%E6%9C%AC%E5%91%BD%E4%BB%A4"><span class="toc-number">3.2.</span> <span class="toc-text">基本命令</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%B8%B8%E7%94%A8%E7%94%A8%E6%B3%95"><span class="toc-number">3.3.</span> <span class="toc-text">常用用法</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E9%85%8D%E7%BD%AEFilter%E8%A1%A8%E9%98%B2%E7%81%AB%E5%A2%99"><span class="toc-number">3.3.1.</span> <span class="toc-text">配置Filter表防火墙</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E9%85%8D%E7%BD%AENAT%E8%A1%A8%E9%98%B2%E7%81%AB%E5%A2%99"><span class="toc-number">3.3.2.</span> <span class="toc-text">配置NAT表防火墙</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%B8%B8%E7%94%A8%E6%98%BE%E7%A4%BA%E6%A8%A1%E5%9D%97"><span class="toc-number">3.3.3.</span> <span class="toc-text">常用显示模块</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E9%92%88%E5%AF%B9%E7%89%B9%E5%AE%9A%E7%9A%84%E6%9C%8D%E5%8A%A1%E5%AE%9A%E5%88%B6%E7%9B%B8%E5%85%B3%E8%A7%84%E5%88%99"><span class="toc-number">3.3.4.</span> <span class="toc-text">针对特定的服务定制相关规则</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#iptables-%E7%8B%AC%E7%AB%8B%E6%97%A5%E5%BF%97%E9%85%8D%E7%BD%AE"><span class="toc-number">3.3.5.</span> <span class="toc-text">iptables 独立日志配置</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Filewalld"><span class="toc-number">4.</span> <span class="toc-text">Filewalld</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6"><span class="toc-number">4.1.</span> <span class="toc-text">配置文件</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%91%BD%E4%BB%A4%E4%BD%BF%E7%94%A8"><span class="toc-number">4.2.</span> <span class="toc-text">命令使用</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E7%AE%A1%E7%90%86%E8%A7%84%E5%88%99"><span class="toc-number">4.2.1.</span> <span class="toc-text">管理规则</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8F%82%E8%80%83%EF%BC%9A"><span class="toc-number">5.</span> <span class="toc-text">参考：</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2021/05/15/node-2-4/" title="Egg.js -- 为企业级框架和应用而生"><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/okfOw28KlZFbE7z.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Egg.js -- 为企业级框架和应用而生"/></a><div class="content"><a class="title" href="/2021/05/15/node-2-4/" title="Egg.js -- 为企业级框架和应用而生">Egg.js -- 为企业级框架和应用而生</a><time datetime="2021-05-15T10:18:59.000Z" title="发表于 2021-05-15 18:18:59">2021-05-15</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/04/30/node-2-3/" title="Koa -- 基于Node.js平台的下一代Web开发框架"><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/HjVAdIuT7bZJypS.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Koa -- 基于Node.js平台的下一代Web开发框架"/></a><div class="content"><a class="title" href="/2021/04/30/node-2-3/" title="Koa -- 基于Node.js平台的下一代Web开发框架">Koa -- 基于Node.js平台的下一代Web开发框架</a><time datetime="2021-04-30T10:18:59.000Z" title="发表于 2021-04-30 18:18:59">2021-04-30</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/04/01/node-2-1/" title="Node.JS web开发前置知识"><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/gGE57HRvpcKPfDY.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Node.JS web开发前置知识"/></a><div class="content"><a class="title" href="/2021/04/01/node-2-1/" title="Node.JS web开发前置知识">Node.JS web开发前置知识</a><time datetime="2021-04-01T03:18:59.000Z" title="发表于 2021-04-01 11:18:59">2021-04-01</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2020/12/26/%E5%91%A8%E8%AE%B0-10-1/" title="第十一周--谷歌浏览器插件"><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/gGE57HRvpcKPfDY.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="第十一周--谷歌浏览器插件"/></a><div class="content"><a class="title" href="/2020/12/26/%E5%91%A8%E8%AE%B0-10-1/" title="第十一周--谷歌浏览器插件">第十一周--谷歌浏览器插件</a><time datetime="2020-12-26T10:18:59.000Z" title="发表于 2020-12-26 18:18:59">2020-12-26</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2020/12/26/%E5%91%A8%E8%AE%B0-10-0/" title="第十一周--浏览器技术"><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/vCnKyoFJZ1g4XYR.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="第十一周--浏览器技术"/></a><div class="content"><a class="title" href="/2020/12/26/%E5%91%A8%E8%AE%B0-10-0/" title="第十一周--浏览器技术">第十一周--浏览器技术</a><time datetime="2020-12-26T06:18:59.000Z" title="发表于 2020-12-26 14:18:59">2020-12-26</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2019 - 2021 By 平心</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div id="local-search"><div class="search-dialog"><div class="search-dialog__title" id="local-search-title">本地搜索</div><div id="local-input-panel"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div></div><hr/><div id="local-search-results"></div><span class="search-close-button"><i class="fas fa-times"></i></span></div><div id="search-mask"></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload/dist/lazyload.iife.min.js"></script><script src="/js/search/local-search.js"></script><div class="js-pjax"><script>function loadValine () {
+  function initValine () {
+    const valine = new Valine(Object.assign({
+      el: '#vcomment',
+      appId: '4lfIXzqxaC1ONs0MJO4oHu07-gzGzoHsz',
+      appKey: 'qw99Bw8FD0KVKU9m457CwWsr',
+      placeholder: 'Please leave your footprints',
+      avatar: 'monsterid',
+      meta: 'nick,mail,link'.split(','),
+      pageSize: '10',
+      lang: 'zh-CN',
+      recordIP: true,
+      serverURLs: '',
+      emojiCDN: '',
+      emojiMaps: "",
+      enableQQ: true,
+      path: window.location.pathname,
+      requiredFields: ["nick,mail"],
+      visitor: false
+    }, null))
+  }
+
+  if (typeof Valine === 'function') initValine() 
+  else getScript('https://cdn.jsdelivr.net/npm/valine/dist/Valine.min.js').then(initValine)
+}
+
+if ('Valine' === 'Valine' || !false) {
+  if (false) btf.loadComment(document.getElementById('vcomment'),loadValine)
+  else setTimeout(loadValine, 0)
+} else {
+  function loadOtherComment () {
+    loadValine()
+  }
+}</script></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>

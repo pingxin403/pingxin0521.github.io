@@ -1,0 +1,371 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Docker 三剑客--Machine | 平心de小屋</title><meta name="keywords" content="容器,Docker"><meta name="author" content="平心"><meta name="copyright" content="平心"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="Machine我们知道在多个集群服务环境下，安装管理Docker的容器，要使用的是Docker Swarm，而使用Docker Swarm的情况是在多个集群的服务器已经搭建好Docker环境的情况下进行。如果在多台服务环境下，并没有安装好Docker环境，想要快速搭建一套Docker主机集群，这里就要使用到Docker Machine。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Docker 三剑客--Machine">
+<meta property="og:url" content="https://pingxin0521.gitee.io/2019/07/08/%E5%AE%B9%E5%99%A8-Docker-3-1/index.html">
+<meta property="og:site_name" content="平心de小屋">
+<meta property="og:description" content="Machine我们知道在多个集群服务环境下，安装管理Docker的容器，要使用的是Docker Swarm，而使用Docker Swarm的情况是在多个集群的服务器已经搭建好Docker环境的情况下进行。如果在多台服务环境下，并没有安装好Docker环境，想要快速搭建一套Docker主机集群，这里就要使用到Docker Machine。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://i.loli.net/2020/05/08/HjVAdIuT7bZJypS.jpg">
+<meta property="article:published_time" content="2019-07-08T08:18:59.000Z">
+<meta property="article:modified_time" content="2019-11-15T05:28:52.992Z">
+<meta property="article:author" content="平心">
+<meta property="article:tag" content="容器">
+<meta property="article:tag" content="Docker">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.loli.net/2020/05/08/HjVAdIuT7bZJypS.jpg"><link rel="shortcut icon" href="https://s2.ax1x.com/2020/02/11/1ovFOA.png"><link rel="canonical" href="https://pingxin0521.gitee.io/2019/07/08/%E5%AE%B9%E5%99%A8-Docker-3-1/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"search.xml","languages":{"hits_empty":"找不到您查询的内容：${query}"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    jQuery: 'https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js',
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+    },
+    fancybox: {
+      js: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css'
+    }
+  },
+  isPhotoFigcaption: true,
+  islazyload: true,
+  isanchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'Docker 三剑客--Machine',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2019-11-15 13:28:52'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    })(window)</script><meta name="generator" content="Hexo 5.4.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="author-avatar"><img class="avatar-img" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://s2.ax1x.com/2020/02/11/1ovw6J.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data"><div class="data-item is-center"><div class="data-item-link"><a href="/archives/"><div class="headline">文章</div><div class="length-num">449</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/tags/"><div class="headline">标签</div><div class="length-num">77</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/categories/"><div class="headline">分类</div><div class="length-num">68</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fa fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fa fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://i.loli.net/2020/05/08/HjVAdIuT7bZJypS.jpg')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">平心de小屋</a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fa fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fa fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">Docker 三剑客--Machine</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2019-07-08T08:18:59.000Z" title="发表于 2019-07-08 16:18:59">2019-07-08</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2019-11-15T05:28:52.992Z" title="更新于 2019-11-15 13:28:52">2019-11-15</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E5%AE%B9%E5%99%A8/">容器</a><i class="fas fa-angle-right post-meta-separator"></i><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E5%AE%B9%E5%99%A8/Docker/">Docker</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">3.4k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>12分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="Docker 三剑客--Machine"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h3 id="Machine"><a href="#Machine" class="headerlink" title="Machine"></a>Machine</h3><p>我们知道在多个集群服务环境下，安装管理Docker的容器，要使用的是Docker Swarm，而使用Docker Swarm的情况是在多个集群的服务器已经搭建好Docker环境的情况下进行。如果在多台服务环境下，并没有安装好Docker环境，想要快速搭建一套Docker主机集群，这里就要使用到Docker Machine。</p>
+<span id="more"></span>
+
+<p>通过上面的基本简介，我们知道了Docker Machine是用来干啥的。即Docker Machine是负责使用Docker的第一步，让我们可以在多种平台上快速安装Docker环境，同时也支持多种平台，让用户可以在短时间内搭建一套Docker主机集群。</p>
+<p>Docker Machine是Docker官方的开源项目，负责实现对Docker主机本身进行管理，由Go语言编写，开源地址为<a target="_blank" rel="noopener" href="https://github.com/docker/machine%E3%80%82">https://github.com/docker/machine。</a></p>
+<p>通过Machine用户可以在本地任意指定被Machine管理的Docker主机，并对其进行操作。Docker Machine 的定位主要是“在本地或者云环境中创建Docker”。其基本功能为：</p>
+<ul>
+<li>在指定的节点上安装Docker引擎，配置其为Docker主机</li>
+<li>集中管理所有Docker主机</li>
+</ul>
+<p>总之Docker Machine 是一个工具，它允许你在虚拟宿主机上安装 Docker Engine ，并使用 docker-machine 命令管理这些宿主机。你可以使用 Machine 在你本地的 Mac 或 Windows box、公司网络、数据中心、或像 AWS 或 Digital Ocean 这样的云提供商上创建 Docker 宿主机。</p>
+<p>使用 docker-machine 命令，你可以启动、审查、停止和重新启动托管的宿主机、升级 Docker 客户端和守护程序、并配置 Docker 客户端与你的宿主机通信。</p>
+<p>在上面的内容中我们提到了Docker Engine（引擎），这里既然提及到了，那么我们就来介绍一下Docker Engine。</p>
+<p><strong>Docker Engine</strong></p>
+<p>当人们说“Docker”时，这里通常指的就是Docker Engine。Docker Engine其实就是一个Client-Server架构的应用。主要如下图所示： </p>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2019/08/01/5d424bcbdabd295515.png" alt="3.png"></p>
+<p>从上图中我们可以看出Docker Engine主要包括以下几个部分：</p>
+<ul>
+<li>Docker Daemon — docker的守护进程，属于C/S中的server</li>
+<li>Docker REST API — docker daemon向外暴露的REST接口</li>
+<li>Docker CLI — docker向外暴露的命令行接口（Command Line API）</li>
+</ul>
+<p>docker engine接受docker从CLI命令，例如 docker run 运行一个容器，docker ps可以列出运行容器，docker image ls 列出镜像，等等。</p>
+<p><strong>Docker Engine与Docker Machine</strong></p>
+<p>Docker Machine是一个供应和管理Docker化主机的工具（Docker Engine上的主机）。</p>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2019/08/01/5d424d87df76e66136.png" alt="4.png"></p>
+<p>通常，在本地系统上安装Docker Machine，Docker Machine就会拥有自己的命令行客户端 docker-machine和Docker Engine客户端docker。</p>
+<p>你可以使用Machine在一个或多个虚拟系统上安装Docker Engine。</p>
+<p>这些虚拟系统可以是本地的（例如当您使用Machine在Mac或Windows上的VirtualBox中安装和运行Docker引擎）或远程（如当您使用Machine在云提供者上配置Docker化主机时）。这些通过Machine被Docker化的主机本身，有时也称为被管理的宿主机(“machines”)。</p>
+<h4 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h4><p>Docker Machine可以在多种操作系统平台上安装，包括Linux、Mac os已经Windows。</p>
+<p>在使用Machine前，首先要先安装好Docker，如果没有安装，需要提前进行安装。</p>
+<p>从命令行安装：</p>
+<p>On OS X</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ curl -L https://github.com/docker/machine/releases/download/v0.16.1/docker-machine-`uname -s`-`uname -m` &gt;/usr/local/bin/docker-machine &amp;&amp; \</span><br><span class="line">  chmod +x /usr/local/bin/docker-machine</span><br></pre></td></tr></table></figure>
+
+<p>On Linux</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ curl -L https://github.com/docker/machine/releases/download/v0.16.1/docker-machine-`uname -s`-`uname -m` &gt;/tmp/docker-machine &amp;&amp;</span><br><span class="line">    chmod +x /tmp/docker-machine &amp;&amp;</span><br><span class="line">    sudo cp /tmp/docker-machine /usr/local/bin/docker-machine</span><br></pre></td></tr></table></figure>
+
+<p>On Windows with git bash</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ if [[ ! -d &quot;$HOME/bin&quot; ]]; then mkdir -p &quot;$HOME/bin&quot;; fi &amp;&amp; \</span><br><span class="line">curl -L https://github.com/docker/machine/releases/download/v0.16.1/docker-machine-Windows-x86_64.exe &gt; &quot;$HOME/bin/docker-machine.exe&quot; &amp;&amp; \</span><br><span class="line">chmod +x &quot;$HOME/bin/docker-machine.exe&quot;</span><br></pre></td></tr></table></figure>
+
+<p>也可以选择下载<a target="_blank" rel="noopener" href="https://github.com/docker/machine/releases">发行版</a></p>
+<h4 id="命令"><a href="#命令" class="headerlink" title="命令"></a>命令</h4><p>Docker Machine中每个命令都有一系列的参数，可以通过下面的命令来查看具体用法：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker-machine &lt;COMMAND&gt; -h</span><br></pre></td></tr></table></figure>
+
+<p>Docker Machine命令列表如下：</p>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2019/08/01/5d425d9e097f016499.png"></p>
+<p>下面具体介绍一下部分命令的用法：</p>
+<ol>
+<li><p>active</p>
+<p>格式： <code>docker-machine active [OPTIONS] [arg…]</code></p>
+<p>查看当前激活状态的Docker主机。激活状态意味着当前的DOCKER_HOST环境变量指向该主机。 </p>
+</li>
+<li><p>config</p>
+<p>格式： <code>docker-machine config [OPTIONS] [arg…]</code></p>
+<p>查看到激活Docker主机的连接信息。 </p>
+</li>
+<li><p>create</p>
+<p>格式： <code>docker-machine create [OPTIONS] [arg…]</code></p>
+<p>创建一个Docker主机。<br>选项包括：</p>
+<p>–dirve，-d “none”指定驱动类型；<br>–engine-install-url “<code>https://get.docker.com</code>” 配置Docker主机时候的安装URL;<br>–engine-opt option 以键值对格式指定所创建Docker引擎的参数；<br>–engine-insecure-registry option 以键值对格式指定所创建Docker引擎允许访问的不支持认证的注册仓库服务；<br>–engine-registry-mirror option 指定使用注册仓库镜像；<br>–engine-label option 为所创建的Docker引擎添加标签；<br>–engine-storage-driver 存储后端驱动类型；<br>–engine-env option 指定环境变量；<br>–swarm 指定使用Swarm；<br>–swarm-image “swarm:latest”使用Swarm时候采用的镜像；<br>–swarm-master 配置集群作为Swarm集群的master节点；<br>–swarm-discovery Swarm 集群的服务发现机制参数；<br>–swarm-strategy “spread” Swarm默认调度策略；<br>–swarm-opt option 任意传递给Swarm的参数；<br>–swarm-host “tcp://0.0.0.0:3376” 指定地址将监听Swarm master节点请求；<br>–swarm-addr 从指定地址发送广播加入Swarm集群服务。</p>
+<p>比如创建一个命名为think的主机，ip地址为47.98.40.244，指定代理镜像地址和驱动类型，如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ docker-machine create --driver generic --generic-ip-address=47.98.40.244 --engine-registry-mirror=https://registry.docker-cn.com think</span><br></pre></td></tr></table></figure></li>
+<li><p>env</p>
+<p>格式： docker-machine env [OPTIONS] [arg…]</p>
+<p>显示连接到某个主机需要的环境变量。</p>
+<p>比如查看think主机的环境变量，<code>docker-machine env think</code>。 </p>
+</li>
+<li><p>inspect</p>
+<p>格式： <code>docker-machine inspect [OPTIONS] [arg…]</code></p>
+<p>以json格式输出指定Docker主机的详细信息。</p>
+<p>使用如下命令查看think主机的详细信息。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker-machine insepct think</span><br></pre></td></tr></table></figure></li>
+<li><p>ip</p>
+<p>获取指定Docker主机地址。查看think主机的ip地址。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker-machine ip think</span><br></pre></td></tr></table></figure></li>
+<li><p>kill</p>
+<p>直接杀死指定的Docker主机。 指定Docker主机会强行停止。</p>
+</li>
+<li><p>ls</p>
+<p>格式： <code>docker-machine ls [OPTIONS] [arg…]</code></p>
+<p>列出所有管理的主机。</p>
+<p>可以通过–fileter来输入某些Docker主机，支持过滤器包括名称正则表达式、驱动类型、Swarm管理节点名称、状态等。</p>
+<p>还支持–quiet，-q减少无关输出信息。</p>
+</li>
+</ol>
+<p><strong>驱动</strong></p>
+<p>通过 <code>-d</code> 选项可以选择支持的驱动类型。</p>
+<ul>
+<li>amazonec2</li>
+<li>azure</li>
+<li>digitalocean</li>
+<li>exoscale</li>
+<li>generic</li>
+<li>google</li>
+<li>hyperv</li>
+<li>none</li>
+<li>openstack</li>
+<li>rackspace</li>
+<li>softlayer</li>
+<li>virtualbox</li>
+<li>vmwarevcloudair</li>
+<li>vmwarefusion</li>
+<li>vmwarevsphere</li>
+</ul>
+<p>第三方驱动请到 <a target="_blank" rel="noopener" href="https://github.com/docker/docker.github.io/blob/master/machine/AVAILABLE_DRIVER_PLUGINS.md">第三方驱动列表</a> 查看</p>
+<h4 id="实战"><a href="#实战" class="headerlink" title="实战"></a>实战</h4><p>接下来我们就进入Docker Machine的实战部分，我们知道Docker Machine通过多种后端驱动来管理不同的资源，包括虚拟机、本地主机和云平台等，通过–driver可以选择支持的驱动类型。在这里我们主要分两种情况来实际应用。</p>
+<ol>
+<li><p>本地主机</p>
+<p>这种情况驱动适合主机操作系统和SSH服务都已经安装好，需要部署Docker环境的要求。<br>在实验环境中，我们有三个运行Ubuntu系统的主机，其中有一个安装好了Docker环境，同时安装了Docker Machine,</p>
+<p>我们知道对于 Docker Machine 来说，术语 Machine 就是运行 docker daemon 的主机。“创建 Machine” 指的就是在主机上安装和部署 docker。</p>
+<p>首先我们使用docker-machine ls查看一下当前的machine，可以看到这里并没有machine。接下来我们创建第一个 <code>machine：think - 47.98.40.244</code>。</p>
+<p>创建 machine 要求能够无密码登录远程主机，所以需要先通过如下命令将 ssh key 拷贝到 39.108.119.87：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh-copy-id 47.98.40.244</span><br></pre></td></tr></table></figure>
+
+<p>如果在执行过程中报错没有.pub的文件的ID，则可能是没有公共的id_rsa.pub文件。执行如下命令，然后一路回车。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh-keygen</span><br></pre></td></tr></table></figure>
+
+<p>然后就会在~/.ssh目录下就会出现id_rsa.pub文件，接着重新执行上面的命令，输入服务器登录密码，就可以完成key添加的配置。</p>
+<p>在上面的准备工作完成后，就可以创建我们的machine，创建一个命名为think的machine。执行命令如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker-machine create --driver generic --generic-ip-address=47.98.40.244 --engine-registry-mirror=https://registry.docker-cn.com think</span><br></pre></td></tr></table></figure>
+
+<p>这里是在Linux环境中部署，直接使用Generic驱动，如果在其他环境中部署docker环境，可以使用其他驱动，详情文档参考<a target="_blank" rel="noopener" href="https://docs.docker.com/machine/drivers/%E3%80%82">https://docs.docker.com/machine/drivers/。</a></p>
+<p>–driver generic 为指定驱动类型，–generic-ip-address 为指定目标系统的IP，–engine-registry-mirror 为指定镜像源地址（这里更改为国内镜像源，不然后面安装容器可能无法pull镜像下来），并命名为 think。</p>
+<p>Docker Machine执行操作的步骤：</p>
+<ol>
+<li>通过SSH登录到远程主机上。</li>
+<li>负责在远处主机上执行安装docker步骤。</li>
+<li>拷贝证书。</li>
+<li>配置 docker daemon。</li>
+<li>启动 docker 服务。</li>
+</ol>
+<p>再次执行 <code>docker-machine ls</code> ，可以查看到具体的相关服务</p>
+<p>我们可以发现创建的machine。</p>
+<p>同时登陆到39.108.x.x服务器，我们可以查看到docker的运行环境以及安装完毕。 </p>
+<p>在/etc/systemd/system/docker.service.d目录下我们可以查看到具体的daemon配置文件，编辑配置文件</p>
+<p>在配置信息中：</p>
+<ul>
+<li>-H tcp://0.0.0.0:2376 是使 docker daemon 接受远程连接的地址。</li>
+<li>–tls* 对远程连接启用安全认证和加密的配置。</li>
+</ul>
+<p>同时我们也可以查看到hostname也已经设置为think。 </p>
+<p>使用同样的方法，我们给120.79.x.x服务器进行安装machine。执行如下命令：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker-machine create --driver generic --generic-ip-address=120.79.x.x  --engine-registry-mirror=https://registry.docker-cn.com dev</span><br></pre></td></tr></table></figure>
+
+<p>在使用时，需要将ip地址更换为自己实践的服务主机地址即可。</p>
+<p>创建成功后使用<code>docker-machine ls</code> 可以查看已经部署好的环境，可以看到think、dev主机已经准备就绪了。</p>
+<p>目前为止两台服务器都已经部署好了Docker的环境。</p>
+<p>在上面我们通过machine部署好了Docker环境，接下来我们就使用docker-machine的命令对集群的docker环境进行管理。</p>
+<p>我们知道docker连接指定目标主机服务器，可以通过-H或者指定DOCKER_HOST来实现。比如连接39.108.119.87服务器，可以通过指<code>DOCKER_HOST=tcp://39.108.119.87:2376</code>，也可以<code>-H tcp://39.108.119.87:2376</code> 来实现访问。</p>
+<p>在machine中就比较方便了，使用docker-machine env think，就可以查看到think服务的配置环境。 </p>
+<p>然后我们要切换到think服务器进行操作，根据上面的提示，执行<code>eval $(docker-machine env think)</code>。 </p>
+<p>我们再次执行<code>docker-machine ls</code>，可以发现think主机active被激活了，同时使用<code>docker ps -a</code>可以看到think主机上暂时并没有容器的。</p>
+<p>然后我们所有的操作就可以像在think主机上进行操作是一样的，比如我们要运行一个nginx容器。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run --name think-nginx -d -p 8080:80 nginx</span><br></pre></td></tr></table></figure>
+
+<p>可以看到我们在think主机上运行了一个nginx容器。接着同样我们可以切换主机环境进入dev主机环境操作。 </p>
+<p>可以看到dev主机上并没有运行什么容器。</p>
+<p>除此之外Docker Machine还有很多其他方便管理集群使用的命令，这里大致介绍一下。</p>
+<p>查看某个docker daemon的配置信息：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker-machine config think</span><br></pre></td></tr></table></figure>
+
+<p>还可以通过ssh命令进行连接，进入具体的主机中。比如进入think主机服务器当中，就可以使用<code>docker-machine ssh think</code>命令来连接。</p>
+<p>可以查看到我们在think主机上运行的nginx容器。</p>
+<p>使用docker-machine scp 我们还可以在不同 machine 之间拷贝文件，比如：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker-machine scp [machine1:][path] [machine2:[path]</span><br></pre></td></tr></table></figure>
+
+<p>比如我们将think主机下tmp目录下的a.txt文件拷贝到dev主机下的tmp目录下。</p>
+<p>比如我们将think主机下tmp目录下的a.txt文件拷贝到dev主机下的tmp目录下。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker-machine scp think:/tmp/a.txt dev:/tmp</span><br></pre></td></tr></table></figure>
+
+<p>可以看到我们执行了scp命令，再使用ssh连接dev主机，到tmp目录下可以发现a.txt 文件。</p>
+<p>docker-machine还有stop/start/restart 命令，通过stop/start/restart 我们可以控制docker主机的运行状态。</p>
+<p>Machine还支持更新操作，通过<code>docker-machine upgrade</code> 更新 machine 的 docker 到最新版本，同时支持批量执行。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker-machine upgrade think dev</span><br></pre></td></tr></table></figure>
+
+<p>通过上面的一些列操作，在多主机环境下 Docker Machine 可以极大地提升我们的工作效率。接下来我们在讲解一下虚拟化平台使用Docker Machine。</p>
+</li>
+<li><p>虚拟化平台</p>
+<p>可以通过virtualbox驱动支持本地（需要已安装virtualbox）启动一个虚拟机并配置为Docker主机：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker-machine create --driver virtualbox --engine-registry-mirror=https://registry.docker-cn.com vbox</span><br></pre></td></tr></table></figure>
+
+<p>如果没有安装virtualbox会报错的，先安装virtualbox:<a target="_blank" rel="noopener" href="https://www.virtualbox.org/wiki/Linux_Downloads">参考wiki</a>或者<a target="_blank" rel="noopener" href="https://ywnz.com/linuxyffq/3304.html">教程</a>。</p>
+<p>接着我们再重新执行创建Machine命令。不出意外，将启动一个全新的虚拟机，并安装Docker引擎。</p>
+<p>由于服务器是阿里云ESC不支持虚拟机里虚拟机，所以作者这一步没有执行验证了。</p>
+<p>除了virtualbox驱动外，docker也还支持其他的虚拟化平台。</p>
+<p>后面的管理操作就与前面本地主机一致，这里就不再复述。</p>
+</li>
+</ol>
+<h4 id="在阿里云使用"><a href="#在阿里云使用" class="headerlink" title="在阿里云使用"></a>在阿里云使用</h4><p>参考：<a target="_blank" rel="noopener" href="https://blog.csdn.net/bwlab/article/details/79515045">https://blog.csdn.net/bwlab/article/details/79515045</a></p>
+<h4 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h4><ol>
+<li><a target="_blank" rel="noopener" href="https://www.cntofu.com/book/139/machine/README.md">Docker 三剑客之 Machine 项目</a></li>
+<li><a target="_blank" rel="noopener" href="https://idig8.com/2018/07/29/docker-zhongji-11/">『中级篇』在linux/mac下通过Docker-Machine在阿里云上的使用（11）</a></li>
+</ol>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">平心</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://pingxin0521.gitee.io/2019/07/08/%E5%AE%B9%E5%99%A8-Docker-3-1/">https://pingxin0521.gitee.io/2019/07/08/%E5%AE%B9%E5%99%A8-Docker-3-1/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://pingxin0521.gitee.io" target="_blank">平心de小屋</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E5%AE%B9%E5%99%A8/">容器</a><a class="post-meta__tags" href="/tags/Docker/">Docker</a></div><div class="post_share"><div class="social-share" data-image="https://i.loli.net/2020/05/08/HjVAdIuT7bZJypS.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2019/07/08/%E5%AE%B9%E5%99%A8-Docker-3-0/"><img class="prev-cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/7dHvepmfYOLWTrX.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">Docker 三剑客--Swarm</div></div></a></div><div class="next-post pull-right"><a href="/2019/07/08/%E5%AE%B9%E5%99%A8-Docker-3-2/"><img class="next-cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/okfOw28KlZFbE7z.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">Docker 三剑客--compose</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span> 相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2019/07/05/容器-Docker-0-2/" title="Docker 基础概念"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/7dHvepmfYOLWTrX.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2019-11-14</div><div class="title">Docker 基础概念</div></div></a></div><div><a href="/2019/08/11/容器-Docker-5-2/" title="Docker 卷数据备份和恢复"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/7dHvepmfYOLWTrX.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2019-11-15</div><div class="title">Docker 卷数据备份和恢复</div></div></a></div><div><a href="/2019/08/11/容器-Docker-5-3/" title="Docker 监控"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/okfOw28KlZFbE7z.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2019-11-15</div><div class="title">Docker 监控</div></div></a></div><div><a href="/2019/07/04/容器-Docker-0-1/" title="Docker 介绍"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/PFDRNxj93taz6pw.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2019-09-03</div><div class="title">Docker 介绍</div></div></a></div><div><a href="/2019/07/08/容器-Docker-3-0/" title="Docker 三剑客--Swarm"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/7dHvepmfYOLWTrX.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2019-11-15</div><div class="title">Docker 三剑客--Swarm</div></div></a></div><div><a href="/2019/07/10/容器-Docker-4/" title="Docker 安全和底层实现（理论）"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/HjVAdIuT7bZJypS.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2019-10-25</div><div class="title">Docker 安全和底层实现（理论）</div></div></a></div></div></div><hr/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div class="vcomment" id="vcomment"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="card-info-avatar is-center"><img class="avatar-img" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://s2.ax1x.com/2020/02/11/1ovw6J.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/><div class="author-info__name">平心</div><div class="author-info__description">年轻人的life、learn and think</div></div><div class="card-info-data"><div class="card-info-data-item is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">449</div></a></div><div class="card-info-data-item is-center"><a href="/tags/"><div class="headline">标签</div><div class="length-num">77</div></a></div><div class="card-info-data-item is-center"><a href="/categories/"><div class="headline">分类</div><div class="length-num">68</div></a></div></div><a class="button--animated" id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/hanyunpeng0521"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/hanyunpeng0521" target="_blank" title="Github"><i class="fa fa-github"></i></a><a class="social-icon" href="mailto:m13839441583@163.com" target="_blank" title="Email"><i class="fa fa-envelope"></i></a><a class="social-icon" href="/atom.xml" target="_blank" title=""><i class="fa fa-rss"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn card-announcement-animation"></i><span>公告</span></div><div class="announcement_content">为什么呢？开始提问吧</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#Machine"><span class="toc-number">1.</span> <span class="toc-text">Machine</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%AE%89%E8%A3%85"><span class="toc-number">1.1.</span> <span class="toc-text">安装</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%91%BD%E4%BB%A4"><span class="toc-number">1.2.</span> <span class="toc-text">命令</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%AE%9E%E6%88%98"><span class="toc-number">1.3.</span> <span class="toc-text">实战</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%9C%A8%E9%98%BF%E9%87%8C%E4%BA%91%E4%BD%BF%E7%94%A8"><span class="toc-number">1.4.</span> <span class="toc-text">在阿里云使用</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%8F%82%E8%80%83"><span class="toc-number">1.5.</span> <span class="toc-text">参考</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2021/05/15/node-2-4/" title="Egg.js -- 为企业级框架和应用而生"><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/okfOw28KlZFbE7z.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Egg.js -- 为企业级框架和应用而生"/></a><div class="content"><a class="title" href="/2021/05/15/node-2-4/" title="Egg.js -- 为企业级框架和应用而生">Egg.js -- 为企业级框架和应用而生</a><time datetime="2021-05-15T10:18:59.000Z" title="发表于 2021-05-15 18:18:59">2021-05-15</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/04/30/node-2-3/" title="Koa -- 基于Node.js平台的下一代Web开发框架"><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/HjVAdIuT7bZJypS.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Koa -- 基于Node.js平台的下一代Web开发框架"/></a><div class="content"><a class="title" href="/2021/04/30/node-2-3/" title="Koa -- 基于Node.js平台的下一代Web开发框架">Koa -- 基于Node.js平台的下一代Web开发框架</a><time datetime="2021-04-30T10:18:59.000Z" title="发表于 2021-04-30 18:18:59">2021-04-30</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/04/01/node-2-1/" title="Node.JS web开发前置知识"><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/gGE57HRvpcKPfDY.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Node.JS web开发前置知识"/></a><div class="content"><a class="title" href="/2021/04/01/node-2-1/" title="Node.JS web开发前置知识">Node.JS web开发前置知识</a><time datetime="2021-04-01T03:18:59.000Z" title="发表于 2021-04-01 11:18:59">2021-04-01</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2020/12/26/%E5%91%A8%E8%AE%B0-10-1/" title="第十一周--谷歌浏览器插件"><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/gGE57HRvpcKPfDY.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="第十一周--谷歌浏览器插件"/></a><div class="content"><a class="title" href="/2020/12/26/%E5%91%A8%E8%AE%B0-10-1/" title="第十一周--谷歌浏览器插件">第十一周--谷歌浏览器插件</a><time datetime="2020-12-26T10:18:59.000Z" title="发表于 2020-12-26 18:18:59">2020-12-26</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2020/12/26/%E5%91%A8%E8%AE%B0-10-0/" title="第十一周--浏览器技术"><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/vCnKyoFJZ1g4XYR.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="第十一周--浏览器技术"/></a><div class="content"><a class="title" href="/2020/12/26/%E5%91%A8%E8%AE%B0-10-0/" title="第十一周--浏览器技术">第十一周--浏览器技术</a><time datetime="2020-12-26T06:18:59.000Z" title="发表于 2020-12-26 14:18:59">2020-12-26</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2019 - 2021 By 平心</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div id="local-search"><div class="search-dialog"><div class="search-dialog__title" id="local-search-title">本地搜索</div><div id="local-input-panel"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div></div><hr/><div id="local-search-results"></div><span class="search-close-button"><i class="fas fa-times"></i></span></div><div id="search-mask"></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload/dist/lazyload.iife.min.js"></script><script src="/js/search/local-search.js"></script><div class="js-pjax"><script>function loadValine () {
+  function initValine () {
+    const valine = new Valine(Object.assign({
+      el: '#vcomment',
+      appId: '4lfIXzqxaC1ONs0MJO4oHu07-gzGzoHsz',
+      appKey: 'qw99Bw8FD0KVKU9m457CwWsr',
+      placeholder: 'Please leave your footprints',
+      avatar: 'monsterid',
+      meta: 'nick,mail,link'.split(','),
+      pageSize: '10',
+      lang: 'zh-CN',
+      recordIP: true,
+      serverURLs: '',
+      emojiCDN: '',
+      emojiMaps: "",
+      enableQQ: true,
+      path: window.location.pathname,
+      requiredFields: ["nick,mail"],
+      visitor: false
+    }, null))
+  }
+
+  if (typeof Valine === 'function') initValine() 
+  else getScript('https://cdn.jsdelivr.net/npm/valine/dist/Valine.min.js').then(initValine)
+}
+
+if ('Valine' === 'Valine' || !false) {
+  if (false) btf.loadComment(document.getElementById('vcomment'),loadValine)
+  else setTimeout(loadValine, 0)
+} else {
+  function loadOtherComment () {
+    loadValine()
+  }
+}</script></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>

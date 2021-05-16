@@ -1,0 +1,462 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>设计模式--结构型（上） | 平心de小屋</title><meta name="keywords" content="Java,设计模式"><meta name="author" content="平心"><meta name="copyright" content="平心"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="装饰器模式装饰器模式（Decorator Pattern）允许向一个现有的对象添加新的功能，同时又不改变其结构。这种类型的设计模式属于结构型模式，它是作为现有的类的一个包装。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="设计模式--结构型（上）">
+<meta property="og:url" content="https://pingxin0521.gitee.io/2019/05/23/Java-%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-3/index.html">
+<meta property="og:site_name" content="平心de小屋">
+<meta property="og:description" content="装饰器模式装饰器模式（Decorator Pattern）允许向一个现有的对象添加新的功能，同时又不改变其结构。这种类型的设计模式属于结构型模式，它是作为现有的类的一个包装。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://i.loli.net/2020/05/08/gGE57HRvpcKPfDY.jpg">
+<meta property="article:published_time" content="2019-05-23T06:18:59.000Z">
+<meta property="article:modified_time" content="2020-02-12T14:54:03.851Z">
+<meta property="article:author" content="平心">
+<meta property="article:tag" content="Java">
+<meta property="article:tag" content="设计模式">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.loli.net/2020/05/08/gGE57HRvpcKPfDY.jpg"><link rel="shortcut icon" href="https://s2.ax1x.com/2020/02/11/1ovFOA.png"><link rel="canonical" href="https://pingxin0521.gitee.io/2019/05/23/Java-%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-3/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"search.xml","languages":{"hits_empty":"找不到您查询的内容：${query}"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    jQuery: 'https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js',
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+    },
+    fancybox: {
+      js: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css'
+    }
+  },
+  isPhotoFigcaption: true,
+  islazyload: true,
+  isanchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '设计模式--结构型（上）',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2020-02-12 22:54:03'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    })(window)</script><meta name="generator" content="Hexo 5.4.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="author-avatar"><img class="avatar-img" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://s2.ax1x.com/2020/02/11/1ovw6J.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data"><div class="data-item is-center"><div class="data-item-link"><a href="/archives/"><div class="headline">文章</div><div class="length-num">449</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/tags/"><div class="headline">标签</div><div class="length-num">77</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/categories/"><div class="headline">分类</div><div class="length-num">68</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fa fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fa fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://i.loli.net/2020/05/08/gGE57HRvpcKPfDY.jpg')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">平心de小屋</a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fa fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fa fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">设计模式--结构型（上）</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2019-05-23T06:18:59.000Z" title="发表于 2019-05-23 14:18:59">2019-05-23</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2020-02-12T14:54:03.851Z" title="更新于 2020-02-12 22:54:03">2020-02-12</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/Java/">Java</a><i class="fas fa-angle-right post-meta-separator"></i><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/Java/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">设计模式</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">7.5k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>26分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="设计模式--结构型（上）"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h3 id="装饰器模式"><a href="#装饰器模式" class="headerlink" title="装饰器模式"></a>装饰器模式</h3><p>装饰器模式（Decorator Pattern）允许向一个现有的对象添加新的功能，同时又不改变其结构。这种类型的设计模式属于结构型模式，它是作为现有的类的一个包装。</p>
+<span id="more"></span>
+
+<p>这种模式创建了一个装饰类，用来包装原有的类，并在保持类方法签名完整性的前提下，提供了额外的功能。</p>
+<p>我们通过下面的实例来演示装饰器模式的用法。其中，我们将把一个形状装饰上不同的颜色，同时又不改变形状类</p>
+<p>装饰者模式是以对客户端透明的方式扩展对象的功能，是继承关系的一种替代方案！<br>以下情况可以考虑是想用对象组合（组合与委托）：</p>
+<ul>
+<li>在不影响其他对象的情况下,以动态、透明的方式给单个对象添加职责；</li>
+<li>处理那些可以撤消的职责；</li>
+<li>当不能采用生成子类的方法进行扩充时：一种情况是，可能有大量独立的扩展，为支持每一种组合将产生大量的子类，使得子类数目呈爆炸性增长。另一种情况可能是因为类定义被隐藏，或类定义不能用于生成子类</li>
+</ul>
+<p><strong>意图：</strong>动态地给一个对象添加一些额外的职责。就增加功能来说，装饰器模式相比生成子类更为灵活。</p>
+<p><strong>主要解决：</strong>一般的，我们为了扩展一个类经常使用继承方式实现，由于继承为类引入静态特征，并且随着扩展功能的增多，子类会很膨胀。</p>
+<p><strong>何时使用：</strong>在不想增加很多子类的情况下扩展类。</p>
+<p><strong>如何解决：</strong>将具体功能职责划分，同时继承装饰者模式。</p>
+<p><strong>关键代码：</strong> </p>
+<ol>
+<li>Component 类充当抽象角色，不应该具体实现。</li>
+<li>修饰类引用和继承 Component 类，具体扩展类重写父类方法。 </li>
+</ol>
+<p><strong>应用实例：</strong> </p>
+<ol>
+<li>孙悟空有 72 变，当他变成”庙宇”后，他的根本还是一只猴子，但是他又有了庙宇的功能。 </li>
+<li>不论一幅画有没有画框都可以挂在墙上，但是通常都是有画框的，并且实际上是画框被挂在墙上。在挂在墙上之前，画可以被蒙上玻璃，装到框子里；这时画、玻璃和画框形成了一个物体。 </li>
+</ol>
+<p><strong>优点：</strong>装饰类和被装饰类可以独立发展，不会相互耦合，装饰模式是继承的一个替代模式，装饰模式可以动态扩展一个实现类的功能。</p>
+<p><strong>缺点：</strong>多层装饰比较复杂。</p>
+<p><strong>使用场景：</strong></p>
+<ol>
+<li>扩展一个类的功能。 </li>
+<li>动态增加功能，动态撤销。 </li>
+</ol>
+<p><strong>注意事项：</strong>可代替继承。</p>
+<h4 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h4><p>奶茶店列了一张单子，写出所有饮品的价格：</p>
+<blockquote>
+<p>奶茶：</p>
+<ul>
+<li>原味奶茶：5块</li>
+<li>珍珠奶茶：7块</li>
+<li>椰果奶茶：7块</li>
+<li>珍珠椰果奶茶：9块</li>
+</ul>
+<p>柠檬茶：</p>
+<ul>
+<li>原味柠檬茶：3块</li>
+<li>金桔柠檬茶：5块</li>
+</ul>
+</blockquote>
+<p>然后顾客要什么点什么，按着菜单收费就好了，然而用户的 需求都是多变的，他们觉得配料那里可以加点红豆，然后你 的菜单需要新增：</p>
+<blockquote>
+<ul>
+<li>红豆奶茶：7块</li>
+<li>红豆珍珠奶茶：9块</li>
+<li>红豆椰果奶茶：9块</li>
+<li>红豆珍珠椰果奶茶：11块</li>
+</ul>
+</blockquote>
+<p>食客又说，还可以加点其他的配料啊，黑钻，果冻，凉粉，奶盖， 烧仙草等，然后你的菜单就爆炸了，<strong>奶盖果冻黑钻烧仙草珍珠椰果奶茶</strong></p>
+<p>我们必须想一个更优的套路，这个时候可以考虑引入<strong>装饰者模式</strong>， 简单来说就是：<strong>一层套一层</strong>，比如说要椰果珍珠奶茶：</p>
+<p><strong>奶茶</strong>  –&gt; 套一层珍珠 –&gt; <strong>珍珠(奶茶)</strong> –&gt; 套一层椰果 –&gt; <strong>椰果(珍珠(奶茶))</strong></p>
+<ol>
+<li><p>先定义一个抽象茶的父类，定义茶的名字与定义价格的抽象方法</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">//Tea.java</span><br><span class="line">abstract class Tea &#123;</span><br><span class="line">    private String name = &quot;茶&quot;;</span><br><span class="line"></span><br><span class="line">    public String getName() &#123; return name; &#125;</span><br><span class="line"></span><br><span class="line">    void setName(String name) &#123; this.name = name; &#125;</span><br><span class="line"></span><br><span class="line">    public abstract int price();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li><p>接着定义配料的抽象类，所有配料都来继承这个东东</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">//Decorator.java</span><br><span class="line">abstract class Decorator extends Tea&#123;</span><br><span class="line">    public abstract String getName();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li><p>接着定义基本茶品，奶茶和柠檬茶</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">//MilkTea.java</span><br><span class="line">class MilkTea extends Tea &#123;</span><br><span class="line">    MilkTea() &#123; setName(&quot;奶茶&quot;); &#125;</span><br><span class="line">    @Override public int price() &#123; return 5; &#125;</span><br><span class="line">&#125;</span><br><span class="line">//LemonTea.java</span><br><span class="line">class LemonTea extends Tea&#123;</span><br><span class="line">    LemonTea() &#123; setName(&quot;柠檬茶&quot;); &#125;</span><br><span class="line">    @Override public int price() &#123; return 3; &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li><p>接着是各种配料，珍珠，椰果，红豆，金桔，都是继承配料类</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//ZhenZhu.java</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ZhenZhu</span> <span class="keyword">extends</span> <span class="title">Decorator</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    Tea tea;</span><br><span class="line"></span><br><span class="line">    ZhenZhu(Tea tea) &#123; <span class="keyword">this</span>.tea = tea; &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span> <span class="function"><span class="keyword">public</span> String <span class="title">getName</span><span class="params">()</span> </span>&#123; <span class="keyword">return</span> <span class="string">&quot;珍珠&quot;</span> + tea.getName(); &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span> <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">price</span><span class="params">()</span> </span>&#123; <span class="keyword">return</span> <span class="number">2</span> + tea.price(); &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//YeGuo.java</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">YeGuo</span> <span class="keyword">extends</span> <span class="title">Decorator</span></span>&#123;</span><br><span class="line"></span><br><span class="line">    Tea tea;</span><br><span class="line"></span><br><span class="line">    YeGuo(Tea tea) &#123; <span class="keyword">this</span>.tea = tea; &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span> <span class="function"><span class="keyword">public</span> String <span class="title">getName</span><span class="params">()</span> </span>&#123; <span class="keyword">return</span> <span class="string">&quot;椰果&quot;</span> + tea.getName(); &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span>  <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">price</span><span class="params">()</span> </span>&#123; <span class="keyword">return</span> <span class="number">2</span> + tea.price(); &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//HongDou.java</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">HongDou</span> <span class="keyword">extends</span> <span class="title">Decorator</span></span>&#123;</span><br><span class="line"></span><br><span class="line">    Tea tea;</span><br><span class="line"></span><br><span class="line">    HongDou(Tea tea) &#123; <span class="keyword">this</span>.tea = tea; &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span> <span class="function"><span class="keyword">public</span> String <span class="title">getName</span><span class="params">()</span> </span>&#123; <span class="keyword">return</span> <span class="string">&quot;红豆&quot;</span> + tea.getName(); &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span>  <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">price</span><span class="params">()</span> </span>&#123; <span class="keyword">return</span> <span class="number">2</span> + tea.price(); &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//JinJu.java</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">JinJu</span> <span class="keyword">extends</span> <span class="title">Decorator</span></span>&#123;</span><br><span class="line"></span><br><span class="line">    Tea tea;</span><br><span class="line"></span><br><span class="line">    JinJu(Tea tea) &#123; <span class="keyword">this</span>.tea = tea; &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span> <span class="function"><span class="keyword">public</span> String <span class="title">getName</span><span class="params">()</span> </span>&#123; <span class="keyword">return</span> <span class="string">&quot;金桔&quot;</span> + tea.getName(); &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span> <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">price</span><span class="params">()</span> </span>&#123; <span class="keyword">return</span> <span class="number">1</span> + tea.price(); &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure></li>
+<li><p>接着开始自由搭配了：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//Store.java</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Store</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        Tea tea1 = <span class="keyword">new</span> MilkTea();</span><br><span class="line">        System.out.println(<span class="string">&quot;你点的是：&quot;</span> + tea1.getName() + <span class="string">&quot; 价格为：&quot;</span> + tea1.price());</span><br><span class="line"></span><br><span class="line">        Tea tea2 = <span class="keyword">new</span> LemonTea();</span><br><span class="line">        tea2 = <span class="keyword">new</span> JinJu(tea2);</span><br><span class="line">        System.out.println(<span class="string">&quot;你点的是：&quot;</span> + tea2.getName() + <span class="string">&quot; 价格为：&quot;</span> + tea2.price());</span><br><span class="line"></span><br><span class="line">        Tea tea3 = <span class="keyword">new</span> MilkTea();</span><br><span class="line">        tea3 = <span class="keyword">new</span> ZhenZhu(tea3);</span><br><span class="line">        tea3 = <span class="keyword">new</span> YeGuo(tea3);</span><br><span class="line">        tea3 = <span class="keyword">new</span> HongDou(tea3);</span><br><span class="line">        tea3 = <span class="keyword">new</span> JinJu(tea3);</span><br><span class="line">        System.out.println(<span class="string">&quot;你点的是：&quot;</span> + tea3.getName() + <span class="string">&quot; 价格为：&quot;</span> + tea3.price());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>可以，没毛病，如果你要<strong>奶盖果冻黑钻烧仙草珍珠椰果奶茶</strong>，也无压力， 没新增一个配料就建一个类而已,不用每次都去新建一堆类，然后又 去继承。</p>
+</li>
+</ol>
+<p><strong>四个角色</strong>：</p>
+<ul>
+<li>Component：抽象组件，可以是接口或抽象类，具体组件与抽象装饰类的共同父类，声明了在具体组件中实现的业务方法，可以使客户端以一致的方式处理未修饰对象与修饰后的对象，实现了客户端的透明操作，比如这里的Tea类。</li>
+<li>ConcreteComponent：具体组件，实现抽象组件中生命的方法，装饰器类可以给他增加额外的责任(方法)，比如这里的MilkTea和LemonTea。</li>
+<li>Decorator：抽象装饰类，装饰组件对象的，内部一定要有一个指向组件对象的引用！！！通过该引用可以调用装饰前构建对象的方法，并通过其子类扩展该方法，已达到装饰的目的，比如这里的Decorator类。</li>
+<li>ConcreteDecorator：具体装饰类，抽象装饰类的具体实现，可以调用抽象<br>装饰类中定义的方法，也可以新增新的方法来扩充对象的行为。</li>
+</ul>
+<p>UML类图</p>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2019/06/04/5cf6888976e0359120.png" alt="5.png"></p>
+<h3 id="适配器模式"><a href="#适配器模式" class="headerlink" title="适配器模式"></a>适配器模式</h3><p>适配器模式（Adapter Pattern）是作为两个不兼容的接口之间的桥梁。这种类型的设计模式属于结构型模式，它结合了两个独立接口的功能。</p>
+<p>这种模式涉及到一个单一的类，该类负责加入独立的或不兼容的接口功能。举个真实的例子，读卡器是作为内存卡和笔记本之间的适配器。您将内存卡插入读卡器，再将读卡器插入笔记本，这样就可以通过笔记本来读取内存卡。</p>
+<p><strong>意图：</strong>将一个类的接口转换成客户希望的另外一个接口。适配器模式使得原本由于接口不兼容而不能一起工作的那些类可以一起工作。</p>
+<p><strong>主要解决：</strong>主要解决在软件系统中，常常要将一些”现存的对象”放到新的环境中，而新环境要求的接口是现对象不能满足的。</p>
+<p><strong>何时使用：</strong></p>
+<ol>
+<li>系统需要使用现有的类，而此类的接口不符合系统的需要。 </li>
+<li>想要建立一个可以重复使用的类，用于与一些彼此之间没有太大关联的一些类，包括一些可能在将来引进的类一起工作，这些源类不一定有一致的接口。</li>
+<li>通过接口转换，将一个类插入另一个类系中。（比如老虎和飞禽，现在多了一个飞虎，在不增加实体的需求下，增加一个适配器，在里面包容一个虎对象，实现飞的接口。） </li>
+</ol>
+<p><strong>如何解决：</strong>继承或依赖（推荐）。</p>
+<p><strong>关键代码：</strong>适配器继承或依赖已有的对象，实现想要的目标接口。</p>
+<p><strong>应用实例：</strong> </p>
+<ol>
+<li>美国电器 110V，中国 220V，就要有一个适配器将 110V 转化为 220V。 </li>
+<li>JAVA JDK 1.1 提供了 Enumeration 接口，而在 1.2 中提供了 Iterator 接口，想要使用 1.2 的 JDK，则要将以前系统的 Enumeration 接口转化为 Iterator 接口，这时就需要适配器模式。 </li>
+<li>在 LINUX 上运行 WINDOWS 程序。 </li>
+<li>JAVA 中的 jdbc。 </li>
+<li>在 JAVA的IO类库中有很多这样的需求，如将字符串数据转变成字节数据保存到文件中，将字节数据转变成流数据等。</li>
+</ol>
+<p><strong>优点：</strong> </p>
+<ol>
+<li>可以让任何两个没有关联的类一起运行。 </li>
+<li>提高了类的复用。</li>
+<li>增加了类的透明度。</li>
+<li>灵活性好。 </li>
+</ol>
+<p><strong>缺点：</strong></p>
+<ol>
+<li>过多地使用适配器，会让系统非常零乱，不易整体进行把握。比如，明明看到调用的是 A 接口，其实内部被适配成了 B 接口的实现，一个系统如果太多出现这种情况，无异于一场灾难。因此如果不是很有必要，可以不使用适配器，而是直接对系统进行重构。</li>
+<li>由于 JAVA 至多继承一个类，所以至多只能适配一个适配者类，而且目标类必须是抽象类。 </li>
+</ol>
+<p><strong>使用场景：</strong>有动机地修改一个正常运行的系统的接口，这时应该考虑使用适配器模式。</p>
+<p><strong>注意事项：</strong>适配器不是在详细设计时添加的，而是解决正在服役的项目的问题。</p>
+<p><strong>两种适配器模式</strong>：</p>
+<p>根据适配器类与适配者类的关系不同，适配器模式可分为 类适配器 和对象适配器两种，尽管都是三个角色，但还是有些差别的！</p>
+<p>另外，类适配器的适配器和适配者是 继承 关系，而对象适配器则是 引用 关系。</p>
+<p><strong>类适配器的三个角色：</strong></p>
+<ul>
+<li>目标接口(Target)：客户所期待的接口，目标是接口；</li>
+<li>需要适配的类(Adaptee)：需要适配的类或适配者类；</li>
+<li>适配器(Adapter)：实现了抽象目标类接口Target，并继承了适配者类Adaptee</li>
+</ul>
+<p><strong>对象适配器的三个角色</strong>：</p>
+<ul>
+<li><strong>目标接口</strong>(Target)：客户所期待的接口，可以是<strong>具体的或抽象的类</strong>，也可以是<strong>接口</strong></li>
+<li><strong>需要适配的类</strong>(Adaptee)：需要适配的类或适配者类；</li>
+<li><strong>适配器</strong>(Adapter)：通过包装一个需要适配的对象，把原接口转换成目标接口；</li>
+</ul>
+<p>UML类图</p>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2019/06/04/5cf67daf87e0e86725.png" alt="2.png"></p>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2019/06/04/5cf67dafa341a63110.png" alt="3.png"></p>
+<p><strong>对象适配器</strong>支持传入一个被适配器对象，因此可以做到对多种被适 配接口进行适配。而类适配器直接继承，无法动态修改，所以一般情况 下对象适配器使用得更多！（Java不支持多重继承！！！）</p>
+<p>当不需要实现一个接口所提供的所有方法时，可先设计一个抽象类实现该接口，并为接口中每个方法提供一个默认实现（空方法），那么该抽象类的子类可以选择性地覆盖父类的某些方法来实现需求，它适用于不想使用一个接口中的所有方法的情况，又称为单接口适配器模式。</p>
+<p>简单点说就是：不想实现接口里的所有方法，写个基类去继承这个接口，然后重写所有方法，子类再去继承这个基类，按需重写！</p>
+<h4 id="示例-1"><a href="#示例-1" class="headerlink" title="示例"></a>示例</h4><p>简单的抽象一个场景：手机充电需要将220V的交流电转化为手机锂电池需要的5V直流电，我们的demo就是写一个电源适配器，将 AC220v ——&gt; DC5V，其实适配器模式可以简单的分为三类：类适配器模式、对象的适配器模式、接口的适配器模式。我们就以这三种模式来实现上述步骤。</p>
+<p><strong>类适配器模式</strong></p>
+<p>就上面提到的功能，简单的使用类适配器模式，Source类如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">public class AC220 &#123;</span><br><span class="line">    public int output220V()&#123;</span><br><span class="line">        int output = 220;</span><br><span class="line">        return output;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>我们的目标类Destination,只需要定义方法，由适配器来转化：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">public interface DC5 &#123;</span><br><span class="line">    int output5V();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>Adapter类如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">public class PowerAdapter extends AC220 implements DC5 &#123;</span><br><span class="line">    @Override</span><br><span class="line">    public int output5V() &#123;</span><br><span class="line">        int output = output220V();</span><br><span class="line">        return (output / 44);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>对于使用，也很简单：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">private void initClassAdapter() &#123;</span><br><span class="line">       DC5 dc5 = new PowerAdapter();</span><br><span class="line">       dc5.output5V();</span><br><span class="line">   &#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>因为java单继承的缘故，Destination类必须是接口，以便于Adapter去继承Source并实现Destination，完成适配的功能，但这样就导致了Adapter里暴露了Source类的方法，使用起来的成本就增加了。</p>
+<p><strong>对象适配器模式</strong></p>
+<p>对于同样的逻辑，我们在以对象适配器模式实现。我们保留AC220和DC5两个基本类，我们让Adapter持有Destination类的实例，然后再实现DC5，以这种持有对象的方式来实现适配器功能：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">public class PowerAdapter implements DC5&#123;</span><br><span class="line">    private AC220 mAC220;</span><br><span class="line"></span><br><span class="line">    public PowerAdapter(AC220 ac220)&#123;</span><br><span class="line">        this.mAC220 = ac220;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public int output5V() &#123;</span><br><span class="line">        int output = 0;</span><br><span class="line">        if (mAC220 != null) &#123;</span><br><span class="line">            output = mAC220.output220V() / 44;</span><br><span class="line">        &#125;</span><br><span class="line">        return output;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>使用</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">  /**</span><br><span class="line">   * 对象适配器模式demo</span><br><span class="line">   */</span><br><span class="line">  private void initObjAdapter() &#123;</span><br><span class="line">PowerAdapter adapter = new PowerAdapter(new AC220());</span><br><span class="line">      adapter.output5V();</span><br><span class="line">  &#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>对象适配器和类适配器其实算是同一种思想，只不过实现方式不同。再回想装饰者模式，装饰者是对Source的装饰，使用者毫无察觉到Source被装饰，也就是用法不变。而对于适配器模式用法还是有改变的。</p>
+<p><strong>接口适配器模式</strong></p>
+<p>对于接口适配器模式，我们就不用担着眼于220-&gt;5,我们的接口可以有更多的抽象方法，这一点在android开发中有很多影子，动画的适配器有很多接口，但我们只需要关心我们需要的回调方法（详见AnimatorListenerAdapter类），我们把接口比作万能适配器：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">public interface DCOutput &#123;</span><br><span class="line">    int output5V();</span><br><span class="line">    int output9V();</span><br><span class="line">    int output12V();</span><br><span class="line">    int output24V();</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>然后我们要用的是5V的电压，所以关心5V的适配：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">public class Power5VAdapter extends PowerAdapter &#123;</span><br><span class="line"></span><br><span class="line">    public Power5VAdapter(AC220 ac220) &#123;</span><br><span class="line">        super(ac220);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public int output5V() &#123;</span><br><span class="line">        int output = 0;</span><br><span class="line">        if (mAC220 != null) &#123;</span><br><span class="line">            output = mAC220.output220V() / 44;</span><br><span class="line">        &#125;</span><br><span class="line">        return output;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>但是我们必须存在一个中间适配器，用于实现默认的接口方法，以至于减少我们适配器的代码量，让代码更加清晰：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line"> * Created by italkbb on 2018/1/24.</span><br><span class="line"> */</span><br><span class="line">public abstract class PowerAdapter implements DCOutput&#123;</span><br><span class="line">    protected AC220 mAC220;</span><br><span class="line"></span><br><span class="line">    public PowerAdapter(AC220 ac220)&#123;</span><br><span class="line">        this.mAC220 = ac220;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public int output5V() &#123;</span><br><span class="line">        return mAC220.output220V();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public int output9V() &#123;</span><br><span class="line">        return mAC220.output220V();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public int output12V() &#123;</span><br><span class="line">        return mAC220.output220V();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public int output24V() &#123;</span><br><span class="line">        return mAC220.output220V();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>这样一来我们就只需要重写父类我们关心的方法了，当然我们有时候可以省略Power5VAdapter类，因为内部类可以实现我们的方法，就跟使用setOnClickOnLintener(new OnClickOnLintener(){…})一样，我们来看使用：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line"> * 接口适配器模式demo</span><br><span class="line"> */</span><br><span class="line">private void initinterfaceAdapter() &#123;</span><br><span class="line">    // 已经实现了子类</span><br><span class="line">    Power5VAdapter power5VAdapter = new Power5VAdapter(new AC220());</span><br><span class="line">    power5VAdapter.output5V();</span><br><span class="line"></span><br><span class="line">    // 直接实现子类</span><br><span class="line">    PowerAdapter powerAdapter = new PowerAdapter(new AC220()) &#123;</span><br><span class="line">        @Override</span><br><span class="line">        public int output5V() &#123;</span><br><span class="line">            int output = 0;</span><br><span class="line">            if (mAC220 != null) &#123;</span><br><span class="line">                output = mAC220.output220V() / 44;</span><br><span class="line">            &#125;</span><br><span class="line">            return output;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;;</span><br><span class="line">    powerAdapter.output5V();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这样也实现了这个适配功能，而且可以说易于扩展。</p>
+<p>android开发中，ListView、RecyclerView等列表展示组件填充数据都会用到Adapter，这里面的Source相当于Datas，Destination相当于Views，然后Adapter去协调数据与显示。使用适配器模式会拥有更高的复用性以及更好的扩展性，但是过多的使用适配器模式，代码的可阅读性会有所下降，但是设计模式应该是对于相对应的情况，而不是盲目的使用。</p>
+<p>装饰器与适配器都有一个别名叫做 包装模式(Wrapper)，它们看似都是起到包装一个类或对象的作用，但是使用它们的目的很不一一样。适配器模式的意义是要将一个接口转变成另一个接口，它的目的是通过改变接口来达到重复使用的目的。</p>
+<p>而装饰器模式不是要改变被装饰对象的接口，而是恰恰要保持原有的接口，但是增强原有对象的功能，或者改变原有对象的处理方式而提升性能。所以这两个模式设计的目的是不同的。</p>
+<h3 id="组合模式"><a href="#组合模式" class="headerlink" title="组合模式"></a>组合模式</h3><p>组合模式（Composite Pattern），又叫部分整体模式，是用于把一组相似的对象当作一个单一的对象。组合模式依据树形结构来组合对象，用来表示部分以及整体层次。这种类型的设计模式属于结构型模式，它创建了对象组的树形结构。</p>
+<p>这种模式创建了一个包含自己对象组的类。该类提供了修改相同对象组的方式。</p>
+<p>组合模式，就是在一个对象中包含其他对象，这些被包含的对象可能是终点对象（不再包含别的对象），也有可能是非终点对象（其内部还包含其他对象，或叫组对象），我们将对象称为节点，即一个根节点包含许多子节点，这些子节点有的不再包含子节点，而有的仍然包含子节点，以此类推。</p>
+<p>所谓组合模式，其实说的是对象包含对象的问题，通过组合的方式（在对象内部引用对象）来进行布局，我认为这种组合是区别于继承的，而另一层含义是指树形结构子节点的抽象（将叶子节点与数枝节点抽象为子节点），区别于普通的分别定义叶子节点与数枝节点的方式</p>
+<p><strong>意图：</strong>将对象组合成树形结构以表示”部分-整体”的层次结构。组合模式使得用户对单个对象和组合对象的使用具有一致性。</p>
+<p><strong>主要解决：</strong>它在我们树型结构的问题中，模糊了简单元素和复杂元素的概念，客户程序可以向处理简单元素一样来处理复杂元素，从而使得客户程序与复杂元素的内部结构解耦。</p>
+<p><strong>何时使用：</strong> </p>
+<ol>
+<li>您想表示对象的部分-整体层次结构（树形结构）。</li>
+<li>您希望用户忽略组合对象与单个对象的不同，用户将统一地使用组合结构中的所有对象。 </li>
+</ol>
+<p><strong>如何解决：</strong>树枝和叶子实现统一接口，树枝内部组合该接口。</p>
+<p><strong>关键代码：</strong>树枝内部组合该接口，并且含有内部属性 List，里面放 Component。</p>
+<p><strong>应用实例：</strong> </p>
+<ol>
+<li>算术表达式包括操作数、操作符和另一个操作数，其中，另一个操作符也可以是操作数、操作符和另一个操作数。</li>
+<li>在 JAVA AWT 和 SWING 中，对于 Button 和 Checkbox 是树叶，Container 是树枝。 </li>
+</ol>
+<p><strong>优点：</strong> </p>
+<ol>
+<li>高层模块调用简单。 </li>
+<li>节点自由增加。 </li>
+</ol>
+<p><strong>缺点：</strong>在使用组合模式时，其叶子和树枝的声明都是实现类，而不是接口，违反了依赖倒置原则。</p>
+<p><strong>使用场景：</strong>部分、整体场景，如树形菜单，文件、文件夹的管理。</p>
+<p><strong>注意事项：</strong>定义时为具体类。</p>
+<h4 id="示例-2"><a href="#示例-2" class="headerlink" title="示例"></a>示例</h4><p>举个简单例子，菜单和菜品，同样是以小猪的奶茶店为例子：</p>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2019/06/05/5cf72dc7407f322439.png" alt="6.png"></p>
+<p>假设这两类需求如下：</p>
+<p><strong>菜单</strong>：菜单名，描述信息，添加，添加删除子菜单或菜品 。递归打印出所有的子菜单与菜品！</p>
+<p><strong>菜品</strong>：菜名，描述信息，价格，打印信息</p>
+<ol>
+<li><p>抽象出即可代表菜单又可代表菜品的类，这里我们只需要一个 add，get，getString三个抽象方法，让菜单和菜品去继承，菜品 只需完成getString方法重写，菜单需要重写add和get方法。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">//AbstractMenu.java</span><br><span class="line">abstract class AbstractMenu &#123;</span><br><span class="line">    public abstract void add(AbstractMenu menu);</span><br><span class="line">    public abstract AbstractMenu get(int index);</span><br><span class="line">    public abstract String getString();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li><p>四个菜品类</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br></pre></td><td class="code"><pre><span class="line">//FishBall.java</span><br><span class="line">class FishBall extends AbstractMenu &#123;</span><br><span class="line"></span><br><span class="line">    private String name;</span><br><span class="line">    private String desc;</span><br><span class="line">    private int price;</span><br><span class="line"></span><br><span class="line">    FishBall(String name, String desc, int price) &#123;</span><br><span class="line">        this.name = name;</span><br><span class="line">        this.desc = desc;</span><br><span class="line">        this.price = price;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override public void add(AbstractMenu menu) &#123; /*未使用*/ &#125;</span><br><span class="line"></span><br><span class="line">    @Override public AbstractMenu get(int index) &#123; return null; &#125;</span><br><span class="line"></span><br><span class="line">    @Override public String getString() &#123;</span><br><span class="line">        return &quot; - 【鱼蛋】* &quot; + name + &quot; 标注：&quot; + desc + &quot; 价格：&quot; + price;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">//HandCake.java</span><br><span class="line">class HandCake extends AbstractMenu &#123;</span><br><span class="line"></span><br><span class="line">    private String name;</span><br><span class="line">    private String desc;</span><br><span class="line">    private int price;</span><br><span class="line"></span><br><span class="line">    HandCake(String name, String desc, int price) &#123;</span><br><span class="line">        this.name = name;</span><br><span class="line">        this.desc = desc;</span><br><span class="line">        this.price = price;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override public void add(AbstractMenu menu) &#123; /*未使用*/ &#125;</span><br><span class="line"></span><br><span class="line">    @Override public AbstractMenu get(int index) &#123; return null; &#125;</span><br><span class="line"></span><br><span class="line">    @Override public String getString() &#123;</span><br><span class="line">        return &quot; - 【手抓饼】* &quot; + name + &quot; 标注：&quot; + desc + &quot; 价格：&quot; + price;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">//Juice.java</span><br><span class="line">class Juice extends AbstractMenu &#123;</span><br><span class="line"></span><br><span class="line">    private String name;</span><br><span class="line">    private String desc;</span><br><span class="line">    private int price;</span><br><span class="line"></span><br><span class="line">    Juice(String name, String desc, int price) &#123;</span><br><span class="line">        this.name = name;</span><br><span class="line">        this.desc = desc;</span><br><span class="line">        this.price = price;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override public void add(AbstractMenu menu) &#123; /*未使用*/ &#125;</span><br><span class="line"></span><br><span class="line">    @Override public AbstractMenu get(int index) &#123; return null; &#125;</span><br><span class="line"></span><br><span class="line">    @Override public String getString() &#123;</span><br><span class="line">        return &quot; - 【果汁】* &quot; + name + &quot; 标注：&quot; + desc + &quot; 价格：&quot; + price;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">//MilkTea.java</span><br><span class="line">class MilkTea extends AbstractMenu &#123;</span><br><span class="line">    private String name;</span><br><span class="line">    private String desc;</span><br><span class="line">    private int price;</span><br><span class="line"></span><br><span class="line">    MilkTea(String name, String desc, int price) &#123;</span><br><span class="line">        this.name = name;</span><br><span class="line">        this.desc = desc;</span><br><span class="line">        this.price = price;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override public void add(AbstractMenu menu) &#123; /*未使用*/ &#125;</span><br><span class="line"></span><br><span class="line">    @Override public AbstractMenu get(int index) &#123; return null; &#125;</span><br><span class="line"></span><br><span class="line">    @Override public String getString() &#123;</span><br><span class="line">        return &quot; - 【奶茶】* &quot; + name + &quot; 标注：&quot; + desc + &quot; 价格：&quot; + price;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">//MilkTea.java</span><br><span class="line">class MilkTea extends AbstractMenu &#123;</span><br><span class="line">    private String name;</span><br><span class="line">    private String desc;</span><br><span class="line">    private int price;</span><br><span class="line"></span><br><span class="line">    MilkTea(String name, String desc, int price) &#123;</span><br><span class="line">        this.name = name;</span><br><span class="line">        this.desc = desc;</span><br><span class="line">        this.price = price;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override public void add(AbstractMenu menu) &#123; /*未使用*/ &#125;</span><br><span class="line"></span><br><span class="line">    @Override public AbstractMenu get(int index) &#123; return null; &#125;</span><br><span class="line"></span><br><span class="line">    @Override public String getString() &#123;</span><br><span class="line">        return &quot; - 【奶茶】* &quot; + name + &quot; 标注：&quot; + desc + &quot; 价格：&quot; + price;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure></li>
+<li><p>菜单类</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">//Menu.java</span><br><span class="line">class Menu extends AbstractMenu &#123;</span><br><span class="line">    private String name;</span><br><span class="line">    private String desc;</span><br><span class="line">    private List&lt;AbstractMenu&gt; menus = new ArrayList&lt;&gt;();</span><br><span class="line"></span><br><span class="line">    Menu(String name, String desc) &#123;</span><br><span class="line">        this.name = name;</span><br><span class="line">        this.desc = desc;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override public void add(AbstractMenu menu) &#123; menus.add(menu); &#125;</span><br><span class="line"></span><br><span class="line">    @Override public AbstractMenu get(int index) &#123; return menus.get(index); &#125;</span><br><span class="line"></span><br><span class="line">    @Override public String getString() &#123;</span><br><span class="line">        StringBuilder sb = new StringBuilder(&quot;\n【菜单】：&quot; + name + &quot; 信息：&quot; + desc + &quot;\n&quot;);</span><br><span class="line">        for (AbstractMenu menu: menus) &#123; sb.append(menu.getString()).append(&quot;\n&quot;); &#125;</span><br><span class="line">        return sb.toString();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li><p>客户端调用</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">//Store</span><br><span class="line">public class Store &#123;</span><br><span class="line">    public static void main(String[] args) &#123;</span><br><span class="line">        AbstractMenu mainMenu = new Menu(&quot;大菜单&quot;, &quot;包含所有子菜单&quot;);</span><br><span class="line">        AbstractMenu drinkMenu = new Menu(&quot;饮品菜单&quot;, &quot;都是喝的&quot;);</span><br><span class="line">        AbstractMenu eatMenu = new Menu(&quot;小吃菜单&quot;, &quot;都是吃的&quot;);</span><br><span class="line">        AbstractMenu milkTea = new MilkTea(&quot;珍珠奶茶&quot;, &quot;奶茶+珍珠&quot;, 5);</span><br><span class="line">        AbstractMenu juice = new Juice(&quot;鲜榨猕猴桃枝&quot;, &quot;无添加即榨&quot;, 8);</span><br><span class="line">        AbstractMenu ball = new FishBall(&quot;咖喱鱼蛋&quot;, &quot;微辣&quot;, 6);</span><br><span class="line">        AbstractMenu cake = new HandCake(&quot;培根手抓饼&quot;, &quot;正宗台湾风味&quot;, 8);</span><br><span class="line"></span><br><span class="line">        drinkMenu.add(milkTea);</span><br><span class="line">        drinkMenu.add(juice);</span><br><span class="line">        eatMenu.add(ball);</span><br><span class="line">        eatMenu.add(cake);</span><br><span class="line">        mainMenu.add(drinkMenu);</span><br><span class="line">        mainMenu.add(eatMenu);</span><br><span class="line"></span><br><span class="line">        System.out.println(mainMenu.getString());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+</ol>
+<p><strong>三个角色</strong></p>
+<p>上面也说了合并模式是用一种树状的结构来组合对象，三个名词根节点，枝结点，叶子结点，类比上面那个菜单的图，根节点是菜单，枝结点是饮料菜单和小吃菜单，叶子结点是奶茶，果汁，手抓饼和鱼蛋！</p>
+<ul>
+<li>Component：抽象组件，为组合中的对象声明接口，让客户端可以通过这个接口来访问和管理整个对象结构，可以在里面为定义的功能提供缺省的实现，比如上面的AbstractMenu类。</li>
+<li>Composite：容器组件，继承抽象组件，实现抽象组件中与叶子组件相关的操作，比如上面的Menu类重写了get，set方法。</li>
+<li>Leaf：叶子组件，定义和实现叶子对象的行为，不再包含其它的子节点对象，比如上面的MilkTea，Juice，HandCake，FishBall。</li>
+</ul>
+<p>UML类图</p>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2019/06/05/5cf72e8beed5e46413.png" alt="7.png"></p>
+<h3 id="桥接模式"><a href="#桥接模式" class="headerlink" title="桥接模式"></a>桥接模式</h3><p>桥接（Bridge）是用于把抽象化与实现化解耦，使得二者可以独立变化。这种类型的设计模式属于结构型模式，它通过提供抽象化和实现化之间的桥接结构，来实现二者的解耦。</p>
+<p>这种模式涉及到一个作为桥接的接口，使得实体类的功能独立于接口实现类。这两种类型的类可被结构化改变而互不影响。</p>
+<p><strong>意图：</strong>将抽象部分与实现部分分离，使它们都可以独立的变化。</p>
+<p><strong>主要解决：</strong>在有多种可能会变化的情况下，用继承会造成类爆炸问题，扩展起来不灵活。</p>
+<p><strong>何时使用：</strong>实现系统可能有多个角度分类，每一种角度都可能变化。</p>
+<p><strong>如何解决：</strong>把这种多角度分类分离出来，让它们独立变化，减少它们之间耦合。</p>
+<p><strong>关键代码：</strong>抽象类依赖实现类。</p>
+<p><strong>应用实例：</strong> </p>
+<ol>
+<li>猪八戒从天蓬元帅转世投胎到猪，转世投胎的机制将尘世划分为两个等级，即：灵魂和肉体，前者相当于抽象化，后者相当于实现化。生灵通过功能的委派，调用肉体对象的功能，使得生灵可以动态地选择。</li>
+<li>墙上的开关，可以看到的开关是抽象的，不用管里面具体怎么实现的。</li>
+</ol>
+<p><strong>优点：</strong> </p>
+<ol>
+<li>抽象和实现的分离。</li>
+<li>优秀的扩展能力。 </li>
+<li>实现细节对客户透明。 </li>
+</ol>
+<p><strong>缺点：</strong>桥接模式的引入会增加系统的理解与设计难度，由于聚合关联关系建立在抽象层，要求开发者针对抽象进行设计与编程。</p>
+<p><strong>使用场景：</strong></p>
+<ol>
+<li>如果一个系统需要在构件的抽象化角色和具体化角色之间增加更多的灵活性，避免在两个层次之间建立静态的继承联系，通过桥接模式可以使它们在抽象层建立一个关联关系。</li>
+<li>对于那些不希望使用继承或因为多层次继承导致系统类的个数急剧增加的系统，桥接模式尤为适用。 </li>
+<li>一个类存在两个独立变化的维度，且这两个维度都需要进行扩展。 </li>
+</ol>
+<p><strong>注意事项：</strong>对于两个独立变化的维度，使用桥接模式再适合不过了。</p>
+<h4 id="示例-3"><a href="#示例-3" class="headerlink" title="示例"></a>示例</h4><ol>
+<li><p>创建桥接实现接口。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">//DrawAPI.java</span><br><span class="line">public interface DrawAPI &#123;</span><br><span class="line">   public void drawCircle(int radius, int x, int y);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li><p>创建实现了 <em>DrawAPI</em> 接口的实体桥接实现类。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">//RedCircle.java</span><br><span class="line">public class RedCircle implements DrawAPI &#123;</span><br><span class="line">   @Override</span><br><span class="line">   public void drawCircle(int radius, int x, int y) &#123;</span><br><span class="line">      System.out.println(&quot;Drawing Circle[ color: red, radius: &quot;</span><br><span class="line">         + radius +&quot;, x: &quot; +x+&quot;, &quot;+ y +&quot;]&quot;);</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">//GreenCircle.java</span><br><span class="line">public class GreenCircle implements DrawAPI &#123;</span><br><span class="line">   @Override</span><br><span class="line">   public void drawCircle(int radius, int x, int y) &#123;</span><br><span class="line">      System.out.println(&quot;Drawing Circle[ color: green, radius: &quot;</span><br><span class="line">         + radius +&quot;, x: &quot; +x+&quot;, &quot;+ y +&quot;]&quot;);</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li><p>使用 <em>DrawAPI</em> 接口创建抽象类 <em>Shape</em>。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">//Shape.java</span><br><span class="line">public abstract class Shape &#123;</span><br><span class="line">   protected DrawAPI drawAPI;</span><br><span class="line">   protected Shape(DrawAPI drawAPI)&#123;</span><br><span class="line">      this.drawAPI = drawAPI;</span><br><span class="line">   &#125;</span><br><span class="line">   public abstract void draw();  </span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure></li>
+<li><p>创建实现了 <em>Shape</em> 接口的实体类。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">//Circle.java</span><br><span class="line">public class Circle extends Shape &#123;</span><br><span class="line">   private int x, y, radius;</span><br><span class="line"> </span><br><span class="line">   public Circle(int x, int y, int radius, DrawAPI drawAPI) &#123;</span><br><span class="line">      super(drawAPI);</span><br><span class="line">      this.x = x;  </span><br><span class="line">      this.y = y;  </span><br><span class="line">      this.radius = radius;</span><br><span class="line">   &#125;</span><br><span class="line"> </span><br><span class="line">   public void draw() &#123;</span><br><span class="line">      drawAPI.drawCircle(radius,x,y);</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure></li>
+<li><p>使用 <em>Shape</em> 和 <em>DrawAPI</em> 类画出不同颜色的圆。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">//BridgePatternDemo.java</span><br><span class="line">public class BridgePatternDemo &#123;</span><br><span class="line">   public static void main(String[] args) &#123;</span><br><span class="line">      Shape redCircle = new Circle(100,100, 10, new RedCircle());</span><br><span class="line">      Shape greenCircle = new Circle(100,100, 10, new GreenCircle());</span><br><span class="line"> </span><br><span class="line">      redCircle.draw();</span><br><span class="line">      greenCircle.draw();</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure></li>
+<li><p>执行程序，输出结果：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Drawing Circle[ color: red, radius: 10, x: 100, 100]</span><br><span class="line">Drawing Circle[  color: green, radius: 10, x: 100, 100]</span><br></pre></td></tr></table></figure></li>
+</ol>
+<p>桥接模式基于单一职责原则，如果系统中的类存在多个变化的维度，通过该模式可以将这几个维度分离出来，然后进行独立扩展。这些分离开来的维度，通过在抽象层持有其他维度的引用来进行关联，就好像在两个维度间搭了桥一样，所以叫桥接模式。</p>
+<p>把<strong>变化的因素都分离出来</strong>(抽象类)，让他<strong>独立变化</strong>(继承)，然后在程序运行时 动态地将抽象与实现部分组合起来。而多维桥接需要互相持有</p>
+<p><strong>四个角色</strong></p>
+<ul>
+<li><p>Abstraction：抽象部分的接口。通常在这个对象里面，要维护一个实现部分<br>的对象引用，在抽象对象里面的方法，需要调用实现部分的对象来完成。<br>这个对象里面的方法，通常都是跟具体的业务相关的方法。</p>
+</li>
+<li><p>Refined Abstraction：扩展抽象部分的接口，通常在这些对象里面，<br>定义跟实际业务相关的方法，这些方法的实现通常会使用Abstraction中<br>定义的方法，也可能需要调用实现部分的对象来完成。</p>
+</li>
+<li><p>Implementor：定义实现部分的接口，这个接口不用和Abstraction<br>里面的方法一致，通常是由Implementor接口提供基本的操作，而<br>Abstraction里面定义的是基于这些基本操作的业务方法，也就是说<br>Abstraction定义了基于这些基本操作的较高层次的操作。</p>
+</li>
+<li><p>ConcreteImplementor：真正实现Implementor接口的对象。</p>
+</li>
+</ul>
+<p>UML类图</p>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2019/06/05/5cf7428680e7671247.png" alt="8.png"></p>
+<p>参考：<a target="_blank" rel="noopener" href="https://blog.csdn.net/coder_pig/article/details/54885435">如何让孩子爱上设计模式 ——10.桥接模式(Bridge Pattern)</a></p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">平心</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://pingxin0521.gitee.io/2019/05/23/Java-%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-3/">https://pingxin0521.gitee.io/2019/05/23/Java-%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-3/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://pingxin0521.gitee.io" target="_blank">平心de小屋</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/Java/">Java</a><a class="post-meta__tags" href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">设计模式</a></div><div class="post_share"><div class="social-share" data-image="https://i.loli.net/2020/05/08/gGE57HRvpcKPfDY.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2019/05/23/Java-%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-7/"><img class="prev-cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/gGE57HRvpcKPfDY.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">设计模式--结构型（下）</div></div></a></div><div class="next-post pull-right"><a href="/2019/05/22/Java-%E6%A1%86%E6%9E%B6-4-3-1/"><img class="next-cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/okfOw28KlZFbE7z.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">Spring JDBC</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span> 相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2019/05/21/Java-设计模式-1/" title="设计模式入坑"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/7dHvepmfYOLWTrX.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2019-06-07</div><div class="title">设计模式入坑</div></div></a></div><div><a href="/2019/05/25/Java-设计模式-6/" title="JavaEE 模式"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/vCnKyoFJZ1g4XYR.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2019-06-06</div><div class="title">JavaEE 模式</div></div></a></div><div><a href="/2019/05/22/Java-设计模式-2/" title="设计模式--创造型"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/PFDRNxj93taz6pw.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2020-02-12</div><div class="title">设计模式--创造型</div></div></a></div><div><a href="/2019/05/24/Java-设计模式-5/" title="设计模式--行为型（下）"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/okfOw28KlZFbE7z.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2019-06-05</div><div class="title">设计模式--行为型（下）</div></div></a></div><div><a href="/2019/05/23/Java-设计模式-7/" title="设计模式--结构型（下）"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/gGE57HRvpcKPfDY.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2019-06-05</div><div class="title">设计模式--结构型（下）</div></div></a></div><div><a href="/2019/05/24/Java-设计模式-4/" title="设计模式--行为型（上）"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/PFDRNxj93taz6pw.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2020-02-12</div><div class="title">设计模式--行为型（上）</div></div></a></div></div></div><hr/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div class="vcomment" id="vcomment"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="card-info-avatar is-center"><img class="avatar-img" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://s2.ax1x.com/2020/02/11/1ovw6J.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/><div class="author-info__name">平心</div><div class="author-info__description">年轻人的life、learn and think</div></div><div class="card-info-data"><div class="card-info-data-item is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">449</div></a></div><div class="card-info-data-item is-center"><a href="/tags/"><div class="headline">标签</div><div class="length-num">77</div></a></div><div class="card-info-data-item is-center"><a href="/categories/"><div class="headline">分类</div><div class="length-num">68</div></a></div></div><a class="button--animated" id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/hanyunpeng0521"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/hanyunpeng0521" target="_blank" title="Github"><i class="fa fa-github"></i></a><a class="social-icon" href="mailto:m13839441583@163.com" target="_blank" title="Email"><i class="fa fa-envelope"></i></a><a class="social-icon" href="/atom.xml" target="_blank" title=""><i class="fa fa-rss"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn card-announcement-animation"></i><span>公告</span></div><div class="announcement_content">为什么呢？开始提问吧</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%A3%85%E9%A5%B0%E5%99%A8%E6%A8%A1%E5%BC%8F"><span class="toc-number">1.</span> <span class="toc-text">装饰器模式</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%A4%BA%E4%BE%8B"><span class="toc-number">1.1.</span> <span class="toc-text">示例</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%80%82%E9%85%8D%E5%99%A8%E6%A8%A1%E5%BC%8F"><span class="toc-number">2.</span> <span class="toc-text">适配器模式</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%A4%BA%E4%BE%8B-1"><span class="toc-number">2.1.</span> <span class="toc-text">示例</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BB%84%E5%90%88%E6%A8%A1%E5%BC%8F"><span class="toc-number">3.</span> <span class="toc-text">组合模式</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%A4%BA%E4%BE%8B-2"><span class="toc-number">3.1.</span> <span class="toc-text">示例</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%A1%A5%E6%8E%A5%E6%A8%A1%E5%BC%8F"><span class="toc-number">4.</span> <span class="toc-text">桥接模式</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%A4%BA%E4%BE%8B-3"><span class="toc-number">4.1.</span> <span class="toc-text">示例</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2021/05/15/node-2-4/" title="Egg.js -- 为企业级框架和应用而生"><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/okfOw28KlZFbE7z.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Egg.js -- 为企业级框架和应用而生"/></a><div class="content"><a class="title" href="/2021/05/15/node-2-4/" title="Egg.js -- 为企业级框架和应用而生">Egg.js -- 为企业级框架和应用而生</a><time datetime="2021-05-15T10:18:59.000Z" title="发表于 2021-05-15 18:18:59">2021-05-15</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/04/30/node-2-3/" title="Koa -- 基于Node.js平台的下一代Web开发框架"><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/HjVAdIuT7bZJypS.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Koa -- 基于Node.js平台的下一代Web开发框架"/></a><div class="content"><a class="title" href="/2021/04/30/node-2-3/" title="Koa -- 基于Node.js平台的下一代Web开发框架">Koa -- 基于Node.js平台的下一代Web开发框架</a><time datetime="2021-04-30T10:18:59.000Z" title="发表于 2021-04-30 18:18:59">2021-04-30</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/04/01/node-2-1/" title="Node.JS web开发前置知识"><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/gGE57HRvpcKPfDY.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Node.JS web开发前置知识"/></a><div class="content"><a class="title" href="/2021/04/01/node-2-1/" title="Node.JS web开发前置知识">Node.JS web开发前置知识</a><time datetime="2021-04-01T03:18:59.000Z" title="发表于 2021-04-01 11:18:59">2021-04-01</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2020/12/26/%E5%91%A8%E8%AE%B0-10-1/" title="第十一周--谷歌浏览器插件"><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/gGE57HRvpcKPfDY.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="第十一周--谷歌浏览器插件"/></a><div class="content"><a class="title" href="/2020/12/26/%E5%91%A8%E8%AE%B0-10-1/" title="第十一周--谷歌浏览器插件">第十一周--谷歌浏览器插件</a><time datetime="2020-12-26T10:18:59.000Z" title="发表于 2020-12-26 18:18:59">2020-12-26</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2020/12/26/%E5%91%A8%E8%AE%B0-10-0/" title="第十一周--浏览器技术"><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/vCnKyoFJZ1g4XYR.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="第十一周--浏览器技术"/></a><div class="content"><a class="title" href="/2020/12/26/%E5%91%A8%E8%AE%B0-10-0/" title="第十一周--浏览器技术">第十一周--浏览器技术</a><time datetime="2020-12-26T06:18:59.000Z" title="发表于 2020-12-26 14:18:59">2020-12-26</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2019 - 2021 By 平心</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div id="local-search"><div class="search-dialog"><div class="search-dialog__title" id="local-search-title">本地搜索</div><div id="local-input-panel"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div></div><hr/><div id="local-search-results"></div><span class="search-close-button"><i class="fas fa-times"></i></span></div><div id="search-mask"></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload/dist/lazyload.iife.min.js"></script><script src="/js/search/local-search.js"></script><div class="js-pjax"><script>function loadValine () {
+  function initValine () {
+    const valine = new Valine(Object.assign({
+      el: '#vcomment',
+      appId: '4lfIXzqxaC1ONs0MJO4oHu07-gzGzoHsz',
+      appKey: 'qw99Bw8FD0KVKU9m457CwWsr',
+      placeholder: 'Please leave your footprints',
+      avatar: 'monsterid',
+      meta: 'nick,mail,link'.split(','),
+      pageSize: '10',
+      lang: 'zh-CN',
+      recordIP: true,
+      serverURLs: '',
+      emojiCDN: '',
+      emojiMaps: "",
+      enableQQ: true,
+      path: window.location.pathname,
+      requiredFields: ["nick,mail"],
+      visitor: false
+    }, null))
+  }
+
+  if (typeof Valine === 'function') initValine() 
+  else getScript('https://cdn.jsdelivr.net/npm/valine/dist/Valine.min.js').then(initValine)
+}
+
+if ('Valine' === 'Valine' || !false) {
+  if (false) btf.loadComment(document.getElementById('vcomment'),loadValine)
+  else setTimeout(loadValine, 0)
+} else {
+  function loadOtherComment () {
+    loadValine()
+  }
+}</script></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>

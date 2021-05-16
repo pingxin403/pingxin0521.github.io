@@ -1,0 +1,437 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Redis实现与设计 阅读笔记 | 平心de小屋</title><meta name="keywords" content="数据库,阅读笔记"><meta name="author" content="平心"><meta name="copyright" content="平心"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="数据结构与对象简单动态字符串Redis使用简单动态字符串（SDS）的抽象类型作为默认字符串表示。 使用C字符串作为字面量 SDS用于描述可以被修改的字符串值，如包含字符串的键值对；SDS还用做缓冲区：AOF模块的AOF缓冲区，客户端状态中的输入缓冲区 定义每个sds.h&#x2F;sdshdr结构表示一个SDS值  空字符结尾，不算在len中。 SDS跟C字符串区别  常数级O(1)获取字符串长度，场景">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Redis实现与设计 阅读笔记">
+<meta property="og:url" content="https://pingxin0521.gitee.io/2020/03/23/%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0-1-2/index.html">
+<meta property="og:site_name" content="平心de小屋">
+<meta property="og:description" content="数据结构与对象简单动态字符串Redis使用简单动态字符串（SDS）的抽象类型作为默认字符串表示。 使用C字符串作为字面量 SDS用于描述可以被修改的字符串值，如包含字符串的键值对；SDS还用做缓冲区：AOF模块的AOF缓冲区，客户端状态中的输入缓冲区 定义每个sds.h&#x2F;sdshdr结构表示一个SDS值  空字符结尾，不算在len中。 SDS跟C字符串区别  常数级O(1)获取字符串长度，场景">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://i.loli.net/2020/05/08/HjVAdIuT7bZJypS.jpg">
+<meta property="article:published_time" content="2020-03-23T05:18:59.000Z">
+<meta property="article:modified_time" content="2020-04-07T09:09:29.241Z">
+<meta property="article:author" content="平心">
+<meta property="article:tag" content="数据库">
+<meta property="article:tag" content="阅读笔记">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.loli.net/2020/05/08/HjVAdIuT7bZJypS.jpg"><link rel="shortcut icon" href="https://s2.ax1x.com/2020/02/11/1ovFOA.png"><link rel="canonical" href="https://pingxin0521.gitee.io/2020/03/23/%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0-1-2/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"search.xml","languages":{"hits_empty":"找不到您查询的内容：${query}"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    jQuery: 'https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js',
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+    },
+    fancybox: {
+      js: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css'
+    }
+  },
+  isPhotoFigcaption: true,
+  islazyload: true,
+  isanchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'Redis实现与设计 阅读笔记',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2020-04-07 17:09:29'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    })(window)</script><meta name="generator" content="Hexo 5.4.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="author-avatar"><img class="avatar-img" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://s2.ax1x.com/2020/02/11/1ovw6J.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data"><div class="data-item is-center"><div class="data-item-link"><a href="/archives/"><div class="headline">文章</div><div class="length-num">449</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/tags/"><div class="headline">标签</div><div class="length-num">77</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/categories/"><div class="headline">分类</div><div class="length-num">68</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fa fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fa fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://i.loli.net/2020/05/08/HjVAdIuT7bZJypS.jpg')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">平心de小屋</a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fa fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fa fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">Redis实现与设计 阅读笔记</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2020-03-23T05:18:59.000Z" title="发表于 2020-03-23 13:18:59">2020-03-23</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2020-04-07T09:09:29.241Z" title="更新于 2020-04-07 17:09:29">2020-04-07</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/">阅读笔记</a><i class="fas fa-angle-right post-meta-separator"></i><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">2.8k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>9分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="Redis实现与设计 阅读笔记"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><span id="more"></span>
+
+<h3 id="数据结构与对象"><a href="#数据结构与对象" class="headerlink" title="数据结构与对象"></a>数据结构与对象</h3><h4 id="简单动态字符串"><a href="#简单动态字符串" class="headerlink" title="简单动态字符串"></a>简单动态字符串</h4><p>Redis使用简单动态字符串（SDS）的抽象类型作为默认字符串表示。</p>
+<p>使用C字符串作为字面量</p>
+<p>SDS用于描述可以被修改的字符串值，如包含字符串的键值对；SDS还用做缓冲区：AOF模块的AOF缓冲区，客户端状态中的输入缓冲区</p>
+<h5 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h5><p>每个sds.h/sdshdr结构表示一个SDS值</p>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://s1.ax1x.com/2020/04/07/Gc0c34.png" alt="Gc0c34.png"></p>
+<p>空字符结尾，不算在len中。</p>
+<p>SDS跟C字符串区别</p>
+<ul>
+<li>常数级O(1)获取字符串长度，场景：STRLEN(str)</li>
+<li>杜绝缓冲区溢出</li>
+<li>减少修改字符串时带来的内存重分配次数：空间预分配、惰性空间释放</li>
+<li>所有api二进制安全</li>
+<li>兼容部分C字符串函数</li>
+</ul>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://s1.ax1x.com/2020/04/07/GcBWRg.png" alt="GcBWRg.png"></p>
+<h4 id="链表"><a href="#链表" class="headerlink" title="链表"></a>链表</h4><p>redis自建链表结构，除了链表键之外，发布与订阅、慢查询、监视器等功能页用到链表，Redis</p>
+<p>服务器本身还使用链表来保存多个客户端的状态信息，以及使用链表来构建客户端输出缓冲区。</p>
+<p>链表节点结构：adlist.h/listNode</p>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://s1.ax1x.com/2020/04/07/Gc5S3R.png" alt="Gc5S3R.png"></p>
+<p>链表结构：adlist.h/list</p>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://s1.ax1x.com/2020/04/07/Gc5Pu6.png" alt="Gc5Pu6.png"></p>
+<p>match函数用于对比链表节点所保存的值和另一个输入值是否相等</p>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://s1.ax1x.com/2020/04/07/Gc53VS.png" alt="Gc53VS.png"></p>
+<h4 id="字典"><a href="#字典" class="headerlink" title="字典"></a>字典</h4><p>键值对</p>
+<h5 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h5><ol>
+<li><p>哈希表：dict.h/dictht</p>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://s1.ax1x.com/2020/04/07/Gc5fr6.png" alt="Gc5fr6.png"></p>
+</li>
+<li><p>哈希表节点dictEntity</p>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://s1.ax1x.com/2020/04/07/Gc5oIe.png" alt="Gc5oIe.png"></p>
+</li>
+<li><p>字典：dict.h/dict</p>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://s1.ax1x.com/2020/04/07/GcICGj.png" alt="GcICGj.png"></p>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://s1.ax1x.com/2020/04/07/GcIkMq.png" alt="GcIkMq.png"></p>
+</li>
+</ol>
+<p>普通状态的字典</p>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://s1.ax1x.com/2020/04/07/GcIedU.png" alt="GcIedU.png"></p>
+<h5 id="哈希算法"><a href="#哈希算法" class="headerlink" title="哈希算法"></a>哈希算法</h5><p>根据key计算哈希值和索引值</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">hash=dict-&gt;type-&gt;hashFunction(key);</span><br><span class="line">index=hash&amp;dict-&gt;ht[x].sizemask;</span><br></pre></td></tr></table></figure>
+
+<p>Redis使用<a target="_blank" rel="noopener" href="https://baike.baidu.com/item/Murmur%E5%93%88%E5%B8%8C/22689658">MurmurHash2</a>算法来计算键的hash值</p>
+<p>MurmurHash算法由Austin Appleby发明于2008年，是一种非加密hash算法，适用于基于hash查找的场景。murmurhash最新版本是MurMurHash3，支持32位，64位及128位值的产生。</p>
+<h5 id="解决键冲突"><a href="#解决键冲突" class="headerlink" title="解决键冲突"></a>解决键冲突</h5><p>当多个key被分配到哈希表数组的同一个索引上，则是发生了冲突，Redis使用链地址法来解决</p>
+<h5 id="rehash"><a href="#rehash" class="headerlink" title="rehash"></a>rehash</h5><p>扩容和收缩哈希表时进行重新散列，当数据量大于负载因子时，进行扩容默认为原来的2倍；当哈希表的负载因子小于0.1时，程序开始对哈希表执行收缩操作，默认为原来的1/2</p>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://s1.ax1x.com/2020/04/07/GcTpgs.png" alt="GcTpgs.png"></p>
+<h4 id="跳表"><a href="#跳表" class="headerlink" title="跳表"></a>跳表</h4><p>skiplist是一种有序数据结构，通过在每个节点中维护指向其他节点的指针，从而达到快速访问节点的目的</p>
+<p>平均O(logN)、最坏O(N)复杂度的节点查找，还可以通过顺序性操作来批量处理节点</p>
+<p>skiplist效率媲美平衡树，切实现更简单，所以很多程序使用跳表代替平衡树</p>
+<p>Redis使用skiplist作为有序集合键的底层实现之一，如果一个有序集合包含的元素数量较多、或者有序集合中元素的成员是较长的字符串时，Redis就会使用跳表来作为有序集合键的底层实现</p>
+<p>实现：redis.h/zskiplistNode和redis.h/zskiplist</p>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://s1.ax1x.com/2020/04/07/Gc7aYF.png" alt="Gc7aYF.png"></p>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://s1.ax1x.com/2020/04/07/Gc7cTK.png" alt="Gc7cTK.png"></p>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://s1.ax1x.com/2020/04/07/Gcbn2Q.png" alt="Gcbn2Q.png"></p>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://s1.ax1x.com/2020/04/07/GcbN24.png" alt="GcbN24.png"></p>
+<h4 id="整数集合"><a href="#整数集合" class="headerlink" title="整数集合"></a>整数集合</h4><p>整数集合intset是集合键的底层实现之一，当一个集合只包含整数值元素，并且这个集合的元素数量不多时，Redis就会使用整数集合作为集合键的底层实现</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">127.0.0.1:6379&gt; SADD numbers 1 3 5 7 9</span><br><span class="line">(integer) 5</span><br><span class="line">127.0.0.1:6379&gt; OBJECT encoding numbers</span><br><span class="line">&quot;intset&quot;</span><br></pre></td></tr></table></figure>
+
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://s1.ax1x.com/2020/04/07/GcqaY8.png" alt="GcqaY8.png"></p>
+<p>contents数组是整数集合的底层实现：整数集合的每个元素都是contents数组的一个数组项，各个项在数组中按值的大小从小到大有序地排序，并且数组中不包含任何重复项</p>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://s1.ax1x.com/2020/04/07/GcLE9S.png" alt="GcLE9S.png"></p>
+<ul>
+<li>升级</li>
+<li>降级</li>
+</ul>
+<h4 id="压缩列表"><a href="#压缩列表" class="headerlink" title="压缩列表"></a>压缩列表</h4><p>ziplist是列表键和哈希键的底层实现之一。当一个列表键只包含少数列表项，并且每个列表项要么就是小整数值，要么就是长度比较短的字符串，Redis就会使用压缩列表来做liebaio1键的底层实现；另外，</p>
+<p>压缩列表是Redis为了节约内存而进行开发的，是由一系列特殊编码的连续内存块组成的顺序型数据结构，可以包含任意多个节点，每个节点可以保存一个字节数组或者一个整数值</p>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://s1.ax1x.com/2020/04/07/GcXzX4.png" alt="GcXzX4.png"></p>
+<h5 id="构成"><a href="#构成" class="headerlink" title="构成"></a>构成</h5><p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://s1.ax1x.com/2020/04/07/GcjQAI.png" alt="GcjQAI.png"></p>
+<ul>
+<li><p>previous_entity_length:以字节为单位，记录压缩列表的前一个节点的长度。该属性的长度可以是1字节或者5字节（1：pre&lt;254 ; 5:pre&gt;254），可以使用该属性和指针来从表尾节点向表头节点遍历整个列表</p>
+</li>
+<li><p>encoding:记录content属性保存数据的类型以及长度。</p>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://s1.ax1x.com/2020/04/07/GcvbWV.png" alt="GcvbWV.png"></p>
+</li>
+<li><p>content：保存节点值，可以是一个字节数组或者整数</p>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://s1.ax1x.com/2020/04/07/GcznuF.png" alt="GcznuF.png"></p>
+</li>
+</ul>
+<h4 id="对象"><a href="#对象" class="headerlink" title="对象"></a>对象</h4><p>使用对象时：</p>
+<ul>
+<li>程序会自动根据使用场景不同，为对象设置多种不同的数据结构实现，从而优化；</li>
+<li>对象系统基于引用计数技术的内存回收机制；实现了对象共享机制，让多个数据库键共享同一个对象来解决内存</li>
+<li>对象带有访问时间记录信息，可以用于计算数据库键的空转时长，在服务器启用了maxmemory功能的情况下，空转时长较大的键会被优先删除</li>
+</ul>
+<h5 id="对象的类型与编码"><a href="#对象的类型与编码" class="headerlink" title="对象的类型与编码"></a>对象的类型与编码</h5><p>每个对象都由一个redisObject结构表示</p>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://s1.ax1x.com/2020/04/07/GgSIdH.png" alt="GgSIdH.png"></p>
+<ol>
+<li><p>类型</p>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://s1.ax1x.com/2020/04/07/GgSbWt.png" alt="GgSbWt.png"></p>
+<p>可以使用<code>TYPE</code>进行查看对象类型</p>
+</li>
+<li><p>编码：对象ptr指针指向对象的底层实现数据结构，数据结构由对象的encoding属性决定</p>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://s1.ax1x.com/2020/04/07/GgSxeg.png" alt="GgSxeg.png"></p>
+<p>每个类型的对象至少使用两种不同的编码</p>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://s1.ax1x.com/2020/04/07/GgpY0e.png" alt="GgpY0e.png"></p>
+<p>可以使用<code>OBJECT ENCODING</code>命令查看数据库键的值对象的编码</p>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://s1.ax1x.com/2020/04/07/GgpynS.png" alt="GgpynS.png"></p>
+</li>
+</ol>
+<h5 id="字符串对象"><a href="#字符串对象" class="headerlink" title="字符串对象"></a>字符串对象</h5><p>字符串对象编码：int（可以使用long进行表示）、raw、embstr</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">127.0.0.1:6379&gt; set number 10086</span><br><span class="line">OK</span><br><span class="line">127.0.0.1:6379&gt; OBJECT encoding number</span><br><span class="line">&quot;int&quot;</span><br><span class="line">127.0.0.1:6379&gt; set story &quot;Long,long ago there lived a king ...&quot;</span><br><span class="line">OK</span><br><span class="line">127.0.0.1:6379&gt; strlen story</span><br><span class="line">(integer) 36</span><br><span class="line">127.0.0.1:6379&gt; OBJECT encoding story</span><br><span class="line">&quot;embstr&quot;</span><br><span class="line">127.0.0.1:6379&gt; set msg 1.25</span><br><span class="line">OK</span><br><span class="line">127.0.0.1:6379&gt; OBJECT encoding msg</span><br><span class="line">&quot;embstr&quot;</span><br></pre></td></tr></table></figure>
+
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://s1.ax1x.com/2020/04/07/GgCPMV.png" alt="GgCPMV.png"></p>
+<ol>
+<li><p>编码的转换</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">127.0.0.1:6379&gt; set number 10086</span><br><span class="line">OK</span><br><span class="line">127.0.0.1:6379&gt; OBJECT encoding number</span><br><span class="line">&quot;int&quot;</span><br><span class="line">127.0.0.1:6379&gt; APPEND number &quot; is a good number!&quot;</span><br><span class="line">(integer) 23</span><br><span class="line">127.0.0.1:6379&gt; OBJECT encoding number</span><br><span class="line">&quot;raw&quot;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">127.0.0.1:6379&gt; set msg 1.25</span><br><span class="line">OK</span><br><span class="line">127.0.0.1:6379&gt; OBJECT encoding msg</span><br><span class="line">&quot;embstr&quot;</span><br><span class="line">127.0.0.1:6379&gt; APPEND msg &quot; again!&quot;</span><br><span class="line">(integer) 11</span><br><span class="line">127.0.0.1:6379&gt; OBJECT encoding msg</span><br><span class="line">&quot;raw&quot;</span><br></pre></td></tr></table></figure></li>
+<li><p>命令的实现</p>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://s1.ax1x.com/2020/04/07/GgCfyV.png" alt="GgCfyV.png"></p>
+</li>
+</ol>
+<h5 id="列表对象"><a href="#列表对象" class="headerlink" title="列表对象"></a>列表对象</h5><p>编码可以是：ziplist或者linkedlist</p>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://s1.ax1x.com/2020/04/07/GgP360.png" alt="GgP360.png"></p>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://s1.ax1x.com/2020/04/07/GgCzwD.png" alt="GgCzwD.png"></p>
+<h5 id="哈希对象"><a href="#哈希对象" class="headerlink" title="哈希对象"></a>哈希对象</h5><p>编码：ziplist或者hashtable</p>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://s1.ax1x.com/2020/04/07/GgPZm8.png" alt="GgPZm8.png"></p>
+<p>命令实现</p>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://s1.ax1x.com/2020/04/07/GgP8XV.png" alt="GgP8XV.png"></p>
+<h5 id="集合对象"><a href="#集合对象" class="headerlink" title="集合对象"></a>集合对象</h5><p>编码：intset或者hashtable</p>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://s1.ax1x.com/2020/04/07/GgPRtH.png" alt="GgPRtH.png"></p>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://s1.ax1x.com/2020/04/07/GgPHHS.png" alt="GgPHHS.png"></p>
+<h5 id="有序集合对象"><a href="#有序集合对象" class="headerlink" title="有序集合对象"></a>有序集合对象</h5><p>编码：ziplist或者skiplist</p>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://s1.ax1x.com/2020/04/07/GgPLNQ.png" alt="GgPLNQ.png"></p>
+<p>命令</p>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://s1.ax1x.com/2020/04/07/Ggi9BT.png" alt="Ggi9BT.png"></p>
+<h5 id="类型检查与命令多态"><a href="#类型检查与命令多态" class="headerlink" title="类型检查与命令多态"></a>类型检查与命令多态</h5><ul>
+<li><p>可以对任何类型键执行的命令</p>
+</li>
+<li><p>只能对特定类型的键执行</p>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://s1.ax1x.com/2020/04/07/Ggi14H.png" alt="Ggi14H.png"></p>
+</li>
+</ul>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://s1.ax1x.com/2020/04/07/GgFGoF.png" alt="GgFGoF.png"></p>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://s1.ax1x.com/2020/04/07/GgFNW9.png" alt="GgFNW9.png"></p>
+<h5 id="内存回收"><a href="#内存回收" class="headerlink" title="内存回收"></a>内存回收</h5><p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://s1.ax1x.com/2020/04/07/GgkZm6.png" alt="GgkZm6.png"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">//创建一个字符串对象s，对象的引用计数为1</span><br><span class="line">robj *s=createStringObject(...)</span><br><span class="line">//各种操作</span><br><span class="line"></span><br><span class="line">//对对象s的引用技术减一，使得对象的引用计数变为0</span><br><span class="line">decrRefCount(s)</span><br></pre></td></tr></table></figure>
+
+<h5 id="对象共享"><a href="#对象共享" class="headerlink" title="对象共享"></a>对象共享</h5><p>多个键共享同一个值对象，共享的值对象引用计数加1。</p>
+<p>使用<code>OBJECT REFCOUNT</code>查看键对应值对象的引用计数</p>
+<h5 id="对象的空转时长"><a href="#对象的空转时长" class="headerlink" title="对象的空转时长"></a>对象的空转时长</h5><p>lru属性记录对象最后一次被命令程序访问的时间</p>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://s1.ax1x.com/2020/04/07/GgAgKI.png" alt="GgAgKI.png"></p>
+<h3 id="单机数据库的实现"><a href="#单机数据库的实现" class="headerlink" title="单机数据库的实现"></a>单机数据库的实现</h3><h4 id="数据库"><a href="#数据库" class="headerlink" title="数据库"></a>数据库</h4><p>服务器将数据库都保存在服务器状态redis.h/redisServer结果的db数组中，db数组的每个项都是一个redsi.h/redsiDb结构：</p>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://s1.ax1x.com/2020/04/07/GgE6FU.png" alt="GgE6FU.png"></p>
+<p>在初始化数据库时，程序会根据服务器状态的dbnum属性来决定创建多少个数据库</p>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://s1.ax1x.com/2020/04/07/GgEIw6.png" alt="GgEIw6.png"></p>
+<p>dbnum属性的值由服务器配置的database选项决定</p>
+<p>客户端状态redisClient结构的db属性记录了客户端当前的目标数据库，一个指向redisDb结构的指针</p>
+<h5 id="数据库键空间"><a href="#数据库键空间" class="headerlink" title="数据库键空间"></a>数据库键空间</h5><p>dict字典保存数据库中所有键值对</p>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://s1.ax1x.com/2020/04/07/GgZiE6.png" alt="GgZiE6.png"></p>
+<p>每个键都是字符串对象，值可以是任何对象</p>
+<h5 id="过期时间键空间"><a href="#过期时间键空间" class="headerlink" title="过期时间键空间"></a>过期时间键空间</h5><p>expires是字典类型，包含key和过期时间</p>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://s1.ax1x.com/2020/04/07/Gge8dx.png" alt="Gge8dx.png"></p>
+<p>过期键删除策略：</p>
+<ul>
+<li>定时删除</li>
+<li>惰性删除</li>
+<li>定期删除</li>
+</ul>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://s1.ax1x.com/2020/04/07/Ggml9S.png" alt="Ggml9S.png"></p>
+<h5 id="AOF、RDB和复制功能对过期键的处理"><a href="#AOF、RDB和复制功能对过期键的处理" class="headerlink" title="AOF、RDB和复制功能对过期键的处理"></a>AOF、RDB和复制功能对过期键的处理</h5><ol>
+<li><p>生成rdb文件：已过期键不会保存</p>
+</li>
+<li><p>载入rdb文件：</p>
+<ul>
+<li>主服务器：载入时，对文件中保存的键进行检查，过期键会被忽略</li>
+<li>从服务器：载入时，键无论是否过期都会加载。后面再与主服务器同步时会自动删除过期键。</li>
+</ul>
+</li>
+<li><p>aof文件写入：只有当键过期，但没有被惰性删除或者定期删除，AOF文件不会收到过期键影响，当被删除时，会追加一条DEL命令</p>
+</li>
+<li><p>AOF重写：载入时，对文件中保存的键进行检查，过期键会被忽略</p>
+</li>
+<li><p>复制：从服务器过期键删除动作由主服务器控制</p>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://s1.ax1x.com/2020/04/07/GgudlF.png" alt="GgudlF.png"></p>
+</li>
+</ol>
+<h5 id="数据库通知"><a href="#数据库通知" class="headerlink" title="数据库通知"></a>数据库通知</h5><p>关注”某个键执行什么命令”的通知称为键空间通知，除此之外为键事件通知，关注”某个命令被什么键执行了”</p>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://s1.ax1x.com/2020/04/07/GgK09f.png" alt="GgK09f.png"></p>
+<h4 id="RDB持久化"><a href="#RDB持久化" class="headerlink" title="RDB持久化"></a>RDB持久化</h4><ul>
+<li>SAVE：阻塞主进程主线程</li>
+<li>BGSAVE：创建子进程执行</li>
+<li>程序自动执行BGSAVE</li>
+</ul>
+<p>载入时会一直阻塞</p>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://s1.ax1x.com/2020/04/07/GgKLU1.png" alt="GgKLU1.png"></p>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://s1.ax1x.com/2020/04/07/GgM15q.png" alt="GgM15q.png"></p>
+<p>rdbtools:<a target="_blank" rel="noopener" href="https://github.com/sripathikrishnan/redis-rdb-tools/">https://github.com/sripathikrishnan/redis-rdb-tools/</a></p>
+<p>redis-rdb-tools 是一个 python 的解析 rdb 文件的工具，在分析内存的时候，我们主要用它生成内存快照。</p>
+<p>主要有以下三个功能：</p>
+<ul>
+<li>生成内存快照</li>
+<li>转储成 json 格式</li>
+<li>使用标准的 diff 工具比较两个 dump 文件</li>
+</ul>
+<h4 id="AOF持久化"><a href="#AOF持久化" class="headerlink" title="AOF持久化"></a>AOF持久化</h4><p>保存redis写命令日志，附加写，保存格式以Redis的命令请求协议格式</p>
+<ul>
+<li>命令追加：将写命令按照协议内容追加到aof_buf缓冲区</li>
+<li>文件写入</li>
+<li>文件同步</li>
+</ul>
+<p>载入与数据还原：</p>
+<ul>
+<li><p>创建一个不带网络连接的伪客户端：因为Redis命令只能在客户端上下文执行</p>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://s1.ax1x.com/2020/04/07/Ggld41.png" alt="Ggld41.png"></p>
+</li>
+</ul>
+<p>AOF重写：</p>
+<ul>
+<li>BGWRITEAOF命令</li>
+</ul>
+<h4 id="事件"><a href="#事件" class="headerlink" title="事件"></a>事件</h4><ul>
+<li><p>文件事件：IO多路复用监听多个套字节</p>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://s1.ax1x.com/2020/04/07/Gg1BIs.png" alt="Gg1BIs.png"></p>
+</li>
+<li><p>时间事件：定时、周期时间</p>
+<ul>
+<li>id：全局标识</li>
+<li>timeProc：时间事件处理器</li>
+<li>when：时间戳，时间事件的到达时间</li>
+</ul>
+</li>
+</ul>
+<h4 id="客户端"><a href="#客户端" class="headerlink" title="客户端"></a>客户端</h4><p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://s1.ax1x.com/2020/04/07/Gg3QyT.png" alt="Gg3QyT.png"></p>
+<h4 id="服务器"><a href="#服务器" class="headerlink" title="服务器"></a>服务器</h4><p>命令执行过程：</p>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://s1.ax1x.com/2020/04/07/Gg88jf.png" alt="Gg88jf.png"></p>
+<h3 id="多机数据库的实现"><a href="#多机数据库的实现" class="headerlink" title="多机数据库的实现"></a>多机数据库的实现</h3><h4 id="复制"><a href="#复制" class="headerlink" title="复制"></a>复制</h4><p>slaveof设置主服务器</p>
+<ol>
+<li><p>PSYNC:完整重同步、部分重同步</p>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://s1.ax1x.com/2020/04/07/GgGpKf.png" alt="GgGpKf.png"></p>
+<p>部分重同步：复制偏移量</p>
+</li>
+<li><p>命令传播：运行过程中，主从服务器一致性保证</p>
+</li>
+</ol>
+<p>复制实现：</p>
+<ol>
+<li>设置主服务器的地址和端口</li>
+<li>建立套字节连接</li>
+<li>发送PING命令</li>
+<li>收到PONG回复后，进行身份认证</li>
+<li>发送从服务器端口信息</li>
+<li>同步：从服务器向主服务器发送PSYNC命令</li>
+<li>命令传播</li>
+</ol>
+<p>心跳检测：</p>
+<p>从服务器默认每秒一次向主服务器发送：<code>replconf ask &lt;replication_offset&gt;</code></p>
+<ul>
+<li>检查主从服务器之间的网络连接状态</li>
+<li>辅助实现min-slaves选项</li>
+<li>检测命令丢失</li>
+</ul>
+<h4 id="哨兵Sentinel"><a href="#哨兵Sentinel" class="headerlink" title="哨兵Sentinel"></a>哨兵Sentinel</h4><p>哨兵检测主从服务器状态，进行主服务器的选举</p>
+<ul>
+<li>主观下线</li>
+<li>客观下线</li>
+</ul>
+<h4 id="集群"><a href="#集群" class="headerlink" title="集群"></a>集群</h4><p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://s1.ax1x.com/2020/04/07/GgYJu6.png" alt="GgYJu6.png"></p>
+<p>Hash槽2^16</p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">平心</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://pingxin0521.gitee.io/2020/03/23/%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0-1-2/">https://pingxin0521.gitee.io/2020/03/23/%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0-1-2/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://pingxin0521.gitee.io" target="_blank">平心de小屋</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a><a class="post-meta__tags" href="/tags/%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/">阅读笔记</a></div><div class="post_share"><div class="social-share" data-image="https://i.loli.net/2020/05/08/HjVAdIuT7bZJypS.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2020/04/03/%E6%9C%8D%E5%8A%A1%E5%99%A8-Jetty-1/"><img class="prev-cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/vCnKyoFJZ1g4XYR.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">Jetty 轻量级的servlet服务器</div></div></a></div><div class="next-post pull-right"><a href="/2020/03/13/%E5%91%A8%E8%AE%B0-9-0/"><img class="next-cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/gGE57HRvpcKPfDY.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">第十周--在阿里云上部署web应用</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span> 相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2020/02/06/阅读笔记-1-0/" title="MySQL技术内幕--InnoDB存储引擎 阅读笔记"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/PFDRNxj93taz6pw.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2020-03-23</div><div class="title">MySQL技术内幕--InnoDB存储引擎 阅读笔记</div></div></a></div><div><a href="/2019/10/06/数据库-MySQL-1-2/" title="MySQL 架构和底层知识"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/vCnKyoFJZ1g4XYR.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2020-02-15</div><div class="title">MySQL 架构和底层知识</div></div></a></div><div><a href="/2019/10/15/数据库-MySQL-15-0/" title="MySQL集群结构"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/gGE57HRvpcKPfDY.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2020-02-16</div><div class="title">MySQL集群结构</div></div></a></div><div><a href="/2019/11/16/数据库-MySQL-15-1-2/" title="MySQL数据库 分库分表  MyCat（三）"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/vCnKyoFJZ1g4XYR.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2020-02-15</div><div class="title">MySQL数据库 分库分表  MyCat（三）</div></div></a></div><div><a href="/2019/10/18/数据库-Redis-1-4/" title="Redis 事务、发布订阅"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/HjVAdIuT7bZJypS.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2019-11-24</div><div class="title">Redis 事务、发布订阅</div></div></a></div><div><a href="/2019/10/19/数据库-Redis-1-5/" title="Redis 高级类型"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/okfOw28KlZFbE7z.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2020-02-14</div><div class="title">Redis 高级类型</div></div></a></div></div></div><hr/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div class="vcomment" id="vcomment"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="card-info-avatar is-center"><img class="avatar-img" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://s2.ax1x.com/2020/02/11/1ovw6J.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/><div class="author-info__name">平心</div><div class="author-info__description">年轻人的life、learn and think</div></div><div class="card-info-data"><div class="card-info-data-item is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">449</div></a></div><div class="card-info-data-item is-center"><a href="/tags/"><div class="headline">标签</div><div class="length-num">77</div></a></div><div class="card-info-data-item is-center"><a href="/categories/"><div class="headline">分类</div><div class="length-num">68</div></a></div></div><a class="button--animated" id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/hanyunpeng0521"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/hanyunpeng0521" target="_blank" title="Github"><i class="fa fa-github"></i></a><a class="social-icon" href="mailto:m13839441583@163.com" target="_blank" title="Email"><i class="fa fa-envelope"></i></a><a class="social-icon" href="/atom.xml" target="_blank" title=""><i class="fa fa-rss"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn card-announcement-animation"></i><span>公告</span></div><div class="announcement_content">为什么呢？开始提问吧</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E5%AF%B9%E8%B1%A1"><span class="toc-number">1.</span> <span class="toc-text">数据结构与对象</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%AE%80%E5%8D%95%E5%8A%A8%E6%80%81%E5%AD%97%E7%AC%A6%E4%B8%B2"><span class="toc-number">1.1.</span> <span class="toc-text">简单动态字符串</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%AE%9A%E4%B9%89"><span class="toc-number">1.1.1.</span> <span class="toc-text">定义</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%93%BE%E8%A1%A8"><span class="toc-number">1.2.</span> <span class="toc-text">链表</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%AD%97%E5%85%B8"><span class="toc-number">1.3.</span> <span class="toc-text">字典</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%AE%9E%E7%8E%B0"><span class="toc-number">1.3.1.</span> <span class="toc-text">实现</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%93%88%E5%B8%8C%E7%AE%97%E6%B3%95"><span class="toc-number">1.3.2.</span> <span class="toc-text">哈希算法</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E8%A7%A3%E5%86%B3%E9%94%AE%E5%86%B2%E7%AA%81"><span class="toc-number">1.3.3.</span> <span class="toc-text">解决键冲突</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#rehash"><span class="toc-number">1.3.4.</span> <span class="toc-text">rehash</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%B7%B3%E8%A1%A8"><span class="toc-number">1.4.</span> <span class="toc-text">跳表</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%95%B4%E6%95%B0%E9%9B%86%E5%90%88"><span class="toc-number">1.5.</span> <span class="toc-text">整数集合</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%8E%8B%E7%BC%A9%E5%88%97%E8%A1%A8"><span class="toc-number">1.6.</span> <span class="toc-text">压缩列表</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%9E%84%E6%88%90"><span class="toc-number">1.6.1.</span> <span class="toc-text">构成</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%AF%B9%E8%B1%A1"><span class="toc-number">1.7.</span> <span class="toc-text">对象</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%AF%B9%E8%B1%A1%E7%9A%84%E7%B1%BB%E5%9E%8B%E4%B8%8E%E7%BC%96%E7%A0%81"><span class="toc-number">1.7.1.</span> <span class="toc-text">对象的类型与编码</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%AD%97%E7%AC%A6%E4%B8%B2%E5%AF%B9%E8%B1%A1"><span class="toc-number">1.7.2.</span> <span class="toc-text">字符串对象</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%88%97%E8%A1%A8%E5%AF%B9%E8%B1%A1"><span class="toc-number">1.7.3.</span> <span class="toc-text">列表对象</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%93%88%E5%B8%8C%E5%AF%B9%E8%B1%A1"><span class="toc-number">1.7.4.</span> <span class="toc-text">哈希对象</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E9%9B%86%E5%90%88%E5%AF%B9%E8%B1%A1"><span class="toc-number">1.7.5.</span> <span class="toc-text">集合对象</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%9C%89%E5%BA%8F%E9%9B%86%E5%90%88%E5%AF%B9%E8%B1%A1"><span class="toc-number">1.7.6.</span> <span class="toc-text">有序集合对象</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E7%B1%BB%E5%9E%8B%E6%A3%80%E6%9F%A5%E4%B8%8E%E5%91%BD%E4%BB%A4%E5%A4%9A%E6%80%81"><span class="toc-number">1.7.7.</span> <span class="toc-text">类型检查与命令多态</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%86%85%E5%AD%98%E5%9B%9E%E6%94%B6"><span class="toc-number">1.7.8.</span> <span class="toc-text">内存回收</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%AF%B9%E8%B1%A1%E5%85%B1%E4%BA%AB"><span class="toc-number">1.7.9.</span> <span class="toc-text">对象共享</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%AF%B9%E8%B1%A1%E7%9A%84%E7%A9%BA%E8%BD%AC%E6%97%B6%E9%95%BF"><span class="toc-number">1.7.10.</span> <span class="toc-text">对象的空转时长</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8D%95%E6%9C%BA%E6%95%B0%E6%8D%AE%E5%BA%93%E7%9A%84%E5%AE%9E%E7%8E%B0"><span class="toc-number">2.</span> <span class="toc-text">单机数据库的实现</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E5%BA%93"><span class="toc-number">2.1.</span> <span class="toc-text">数据库</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E5%BA%93%E9%94%AE%E7%A9%BA%E9%97%B4"><span class="toc-number">2.1.1.</span> <span class="toc-text">数据库键空间</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E8%BF%87%E6%9C%9F%E6%97%B6%E9%97%B4%E9%94%AE%E7%A9%BA%E9%97%B4"><span class="toc-number">2.1.2.</span> <span class="toc-text">过期时间键空间</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#AOF%E3%80%81RDB%E5%92%8C%E5%A4%8D%E5%88%B6%E5%8A%9F%E8%83%BD%E5%AF%B9%E8%BF%87%E6%9C%9F%E9%94%AE%E7%9A%84%E5%A4%84%E7%90%86"><span class="toc-number">2.1.3.</span> <span class="toc-text">AOF、RDB和复制功能对过期键的处理</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E5%BA%93%E9%80%9A%E7%9F%A5"><span class="toc-number">2.1.4.</span> <span class="toc-text">数据库通知</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#RDB%E6%8C%81%E4%B9%85%E5%8C%96"><span class="toc-number">2.2.</span> <span class="toc-text">RDB持久化</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#AOF%E6%8C%81%E4%B9%85%E5%8C%96"><span class="toc-number">2.3.</span> <span class="toc-text">AOF持久化</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BA%8B%E4%BB%B6"><span class="toc-number">2.4.</span> <span class="toc-text">事件</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%AE%A2%E6%88%B7%E7%AB%AF"><span class="toc-number">2.5.</span> <span class="toc-text">客户端</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%9C%8D%E5%8A%A1%E5%99%A8"><span class="toc-number">2.6.</span> <span class="toc-text">服务器</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%A4%9A%E6%9C%BA%E6%95%B0%E6%8D%AE%E5%BA%93%E7%9A%84%E5%AE%9E%E7%8E%B0"><span class="toc-number">3.</span> <span class="toc-text">多机数据库的实现</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%A4%8D%E5%88%B6"><span class="toc-number">3.1.</span> <span class="toc-text">复制</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%93%A8%E5%85%B5Sentinel"><span class="toc-number">3.2.</span> <span class="toc-text">哨兵Sentinel</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%9B%86%E7%BE%A4"><span class="toc-number">3.3.</span> <span class="toc-text">集群</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2021/05/15/node-2-4/" title="Egg.js -- 为企业级框架和应用而生"><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/okfOw28KlZFbE7z.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Egg.js -- 为企业级框架和应用而生"/></a><div class="content"><a class="title" href="/2021/05/15/node-2-4/" title="Egg.js -- 为企业级框架和应用而生">Egg.js -- 为企业级框架和应用而生</a><time datetime="2021-05-15T10:18:59.000Z" title="发表于 2021-05-15 18:18:59">2021-05-15</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/04/30/node-2-3/" title="Koa -- 基于Node.js平台的下一代Web开发框架"><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/HjVAdIuT7bZJypS.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Koa -- 基于Node.js平台的下一代Web开发框架"/></a><div class="content"><a class="title" href="/2021/04/30/node-2-3/" title="Koa -- 基于Node.js平台的下一代Web开发框架">Koa -- 基于Node.js平台的下一代Web开发框架</a><time datetime="2021-04-30T10:18:59.000Z" title="发表于 2021-04-30 18:18:59">2021-04-30</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/04/01/node-2-1/" title="Node.JS web开发前置知识"><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/gGE57HRvpcKPfDY.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Node.JS web开发前置知识"/></a><div class="content"><a class="title" href="/2021/04/01/node-2-1/" title="Node.JS web开发前置知识">Node.JS web开发前置知识</a><time datetime="2021-04-01T03:18:59.000Z" title="发表于 2021-04-01 11:18:59">2021-04-01</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2020/12/26/%E5%91%A8%E8%AE%B0-10-1/" title="第十一周--谷歌浏览器插件"><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/gGE57HRvpcKPfDY.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="第十一周--谷歌浏览器插件"/></a><div class="content"><a class="title" href="/2020/12/26/%E5%91%A8%E8%AE%B0-10-1/" title="第十一周--谷歌浏览器插件">第十一周--谷歌浏览器插件</a><time datetime="2020-12-26T10:18:59.000Z" title="发表于 2020-12-26 18:18:59">2020-12-26</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2020/12/26/%E5%91%A8%E8%AE%B0-10-0/" title="第十一周--浏览器技术"><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/vCnKyoFJZ1g4XYR.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="第十一周--浏览器技术"/></a><div class="content"><a class="title" href="/2020/12/26/%E5%91%A8%E8%AE%B0-10-0/" title="第十一周--浏览器技术">第十一周--浏览器技术</a><time datetime="2020-12-26T06:18:59.000Z" title="发表于 2020-12-26 14:18:59">2020-12-26</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2019 - 2021 By 平心</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div id="local-search"><div class="search-dialog"><div class="search-dialog__title" id="local-search-title">本地搜索</div><div id="local-input-panel"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div></div><hr/><div id="local-search-results"></div><span class="search-close-button"><i class="fas fa-times"></i></span></div><div id="search-mask"></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload/dist/lazyload.iife.min.js"></script><script src="/js/search/local-search.js"></script><div class="js-pjax"><script>function loadValine () {
+  function initValine () {
+    const valine = new Valine(Object.assign({
+      el: '#vcomment',
+      appId: '4lfIXzqxaC1ONs0MJO4oHu07-gzGzoHsz',
+      appKey: 'qw99Bw8FD0KVKU9m457CwWsr',
+      placeholder: 'Please leave your footprints',
+      avatar: 'monsterid',
+      meta: 'nick,mail,link'.split(','),
+      pageSize: '10',
+      lang: 'zh-CN',
+      recordIP: true,
+      serverURLs: '',
+      emojiCDN: '',
+      emojiMaps: "",
+      enableQQ: true,
+      path: window.location.pathname,
+      requiredFields: ["nick,mail"],
+      visitor: false
+    }, null))
+  }
+
+  if (typeof Valine === 'function') initValine() 
+  else getScript('https://cdn.jsdelivr.net/npm/valine/dist/Valine.min.js').then(initValine)
+}
+
+if ('Valine' === 'Valine' || !false) {
+  if (false) btf.loadComment(document.getElementById('vcomment'),loadValine)
+  else setTimeout(loadValine, 0)
+} else {
+  function loadOtherComment () {
+    loadValine()
+  }
+}</script></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>

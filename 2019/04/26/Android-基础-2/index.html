@@ -1,0 +1,582 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Android Activity | 平心de小屋</title><meta name="keywords" content="Android"><meta name="author" content="平心"><meta name="copyright" content="平心"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="ActivityAndroid应用程序由许多组件组成，其中Activity是程序中使用频率最高、最基本的组件，Activity中的内容在屏幕上的显示称作用户界面（User Interface，即UI）。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Android Activity">
+<meta property="og:url" content="https://pingxin0521.gitee.io/2019/04/26/Android-%E5%9F%BA%E7%A1%80-2/index.html">
+<meta property="og:site_name" content="平心de小屋">
+<meta property="og:description" content="ActivityAndroid应用程序由许多组件组成，其中Activity是程序中使用频率最高、最基本的组件，Activity中的内容在屏幕上的显示称作用户界面（User Interface，即UI）。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://i.loli.net/2020/05/08/PFDRNxj93taz6pw.jpg">
+<meta property="article:published_time" content="2019-04-26T15:18:59.000Z">
+<meta property="article:modified_time" content="2019-07-02T02:04:22.000Z">
+<meta property="article:author" content="平心">
+<meta property="article:tag" content="Android">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.loli.net/2020/05/08/PFDRNxj93taz6pw.jpg"><link rel="shortcut icon" href="https://s2.ax1x.com/2020/02/11/1ovFOA.png"><link rel="canonical" href="https://pingxin0521.gitee.io/2019/04/26/Android-%E5%9F%BA%E7%A1%80-2/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"search.xml","languages":{"hits_empty":"找不到您查询的内容：${query}"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    jQuery: 'https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js',
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+    },
+    fancybox: {
+      js: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css'
+    }
+  },
+  isPhotoFigcaption: true,
+  islazyload: true,
+  isanchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'Android Activity',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2019-07-02 10:04:22'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    })(window)</script><meta name="generator" content="Hexo 5.4.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="author-avatar"><img class="avatar-img" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://s2.ax1x.com/2020/02/11/1ovw6J.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data"><div class="data-item is-center"><div class="data-item-link"><a href="/archives/"><div class="headline">文章</div><div class="length-num">449</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/tags/"><div class="headline">标签</div><div class="length-num">77</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/categories/"><div class="headline">分类</div><div class="length-num">68</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fa fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fa fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://i.loli.net/2020/05/08/PFDRNxj93taz6pw.jpg')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">平心de小屋</a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fa fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fa fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">Android Activity</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2019-04-26T15:18:59.000Z" title="发表于 2019-04-26 23:18:59">2019-04-26</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2019-07-02T02:04:22.000Z" title="更新于 2019-07-02 10:04:22">2019-07-02</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/Android/">Android</a><i class="fas fa-angle-right post-meta-separator"></i><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/Android/%E5%9F%BA%E7%A1%80/">基础</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">8.7k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>27分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="Android Activity"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h3 id="Activity"><a href="#Activity" class="headerlink" title="Activity"></a>Activity</h3><p>Android应用程序由许多组件组成，其中Activity是程序中使用频率最高、最基本的组件，Activity中的内容在屏幕上的显示称作用户界面（User Interface，即UI）。</p>
+<span id="more"></span>
+
+<p>UI是实现在屏幕上进行显示数据、选择和输入数据等操作的用户交互窗口。<br>UI的布局（Layout）为Activity构造用户界面的结构，定义各窗体控件的排列位置。</p>
+<p>Android的UI元素:</p>
+<ul>
+<li>View类：是所有可视化窗体控件的基类。</li>
+<li>ViewGroup类：是控件的容器。其下层子控件既可以是View，也可以是ViewGroup。</li>
+<li>Widget是窗体控件的包，包含各种UI元素，大部分是可见的控件，如文本框、按钮、列表框、图片、进度条等。</li>
+</ul>
+<p>每个布局都有一组布局参数，用于描述其内控件的分布属性 。Android界面布局设计有两种方法：xml声明法和程序代码设计法。</p>
+<p>xml声明法：</p>
+<ul>
+<li>应用程序的可视控件及其布局信息，由xml文件定义声明，此文件称为布局文件。</li>
+<li>每个Activity对应一个布局文件。</li>
+<li>所有布局文件都存放在工程文件夹下的“res\layout”子文件夹内。</li>
+</ul>
+<p>通常使用xml声明法定义布局，使用java代码来控制Activity组件状态、执行UI交互操作。</p>
+<p>Activity类的Java代码文件存放在应用项目的“src”目录的包内。</p>
+<p>activity类处于android.app包中，继承体系如下： <code>java.lang.Object -&gt; android.content.Context  -&gt; android.app.ApplicationContext -&gt;android.app.Activity</code>；</p>
+<p>Activity类通常需要重载的方法：</p>
+<ul>
+<li>onCreate()：初始化Activity。</li>
+<li>onPause()：离开一个Activity时，提交用户所做的修改。</li>
+</ul>
+<p>一个activity可以启动另外一个，甚至包括与它不在同一应用程序之中的activity。</p>
+<p><strong>每一个Activity必须在Androidmanifest.xml文件中声明。</strong></p>
+<p> Android中提供的Activity类，与其子类的类图如下图所示。</p>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2019/05/11/5cd6cdd6eb693.jpeg" alt="1.jpeg"></p>
+<p>从上图可以看到，Activity类间接或直接地继承了 Context、ContextWrapper、 ContextThemeWrapper等基类，因此Activity及其子类都可以直接调用它们的方法。其子类的作用分别为：</p>
+<ul>
+<li><p>AccountAuthenticatorActivity：帐号身份验证Activity，即一个用于实现账户身份验证的Activity。</p>
+</li>
+<li><p>TabActivity：实现Tab界面的Activity，在上一期已经学习了解过。</p>
+</li>
+<li><p>AliasActivity：存根Activity，根据组件自己Manifest文件中的meta-data的信息启动另一个指定的Activity，并且Finish自身。</p>
+</li>
+<li><p>ExpandableListActivity：实现可展开列表界面的Activity。</p>
+</li>
+<li><p>ListActivity：含有一个ListView组件的Activity，在之前也已经学过。</p>
+</li>
+<li><p>LauncherActivity：实现一个列表界面的Activity，当单机列表项时，所对应的Activity被启动。</p>
+</li>
+<li><p>PreferenceActivity：实现一个程序参数设置、存储功能的Activity。</p>
+</li>
+<li><p>FragmentActivity：用来解决Android 3.0 之前没有Fragment的接口，方便在Activity中就能嵌入Fragment来实现你想要的布局效果。</p>
+</li>
+</ul>
+<p>一般创建Activity的步骤总结如下：</p>
+<ol>
+<li><p>定义一个类继承自 android.app.Activity或者其子类。</p>
+</li>
+<li><p>在res/layout目录中创建一个xml文件，用于创建 Activity的布局。</p>
+</li>
+<li><p>在 AndroidManifest.xml 文件中注册所创建的 Activity。</p>
+</li>
+<li><p>重写 Activity的 onCreate()方法，并在该方法中使用 setContentView()加载指定的布局文件。</p>
+</li>
+</ol>
+<p>需要注意的是setContentView()方法既可以接收View对象为参数，也可以接收布局文件对应的资源id为参数。</p>
+<p><strong>快速创建:</strong></p>
+<p> Android Studio开发工具非常便捷，其实上面创建MyActivity的几个步骤已经被封装好了，只需要几个简单操作即可完成。右击MainActivity所在的包名，依次选择New→Activity→Empty Activity，或者选择其他类型的Activity。</p>
+<p>在弹出的New Android Activity对话框中输入相应配置，如下图所示，点击Finish按钮完成Activity的创建。</p>
+<h4 id="任务栈"><a href="#任务栈" class="headerlink" title="任务栈"></a>任务栈</h4><p>组件的动态运行，有一个最与众不同的概念 – 任务.</p>
+<p>任务（Task）：完成用户的一个目的的所有Activity 。</p>
+<p>任务栈（Task Stack）：任务以一组栈的模式，将这些Activity组件聚集在一起的集合。Android系统用一个任务栈来记录一个任务。</p>
+<p>以往基于应用（application）的程序开发中，程序具有明确的边界，一个程序就是一个应用，一个应用为了实现功能可以采用开辟新线程甚至新进程来辅助，但是应用与应用之间不能复用资源和功能。</p>
+<p>而Android引入了基于组件开发的软件架构，虽然我们开发android程序，仍然使用一个apk工程一个Application的开发形式，但是对于Aplication的开发就用到了Activity、service等四大组件，其中的每一个组件，都是可以被跨应用复用的，这就是android的神奇之处。</p>
+<p>虽然组件可以跨应用被调用，但是一个组件所在的进程必须是在组件所在的Aplication进程中。由于android强化了组件概念，弱化了Aplication的概念，所以在android程序开发中，A应用的A组件想要使用拍照或录像的功能就可以不用去针对Camera类进行开发，直接调用系统自带的摄像头应用（称其B应用）中的组件（称其B组件）就可以了，</p>
+<p>但是这就引发了一个新问题，A组件运行在A应用中，B组件运行在B应用中，自然都不在同一个进程中，那么从B组件中返回的时候，如何实现正确返回到A组件呢？Task就是来负责实现这个功能的，它是从用户角度来理解应用而建立的一个抽象概念。因为用户所能看到的组件就是Activity，所以Task可以理解为实现一个功能而负责管理所有用到的Activity实例的栈。</p>
+<p>栈是一个先进后出的线性表，根据Activity在当前栈结构中的位置，来决定该Activity的状态。正常情况下，当一个Activity启动了另一个Activity的时候，新启动的Activity就会置于任务栈的顶端，并处于活动状态，而启动它的Activity虽然成功身退，但依然保留在任务栈中，处于停止状态，当用户按下返回键或者调用finish()方法时，系统会移除顶部Activity，让后面的Activity恢复活动状态。当然，世界不可能一直这么“和谐”，可以给Activity设置一些“特权”，来打破这种“和谐”的模式，这种特权，就是通过在AndroidManifest文件中的属性andorid:launchMode来设置或者通过Intent的flag来设置的，下面就先介绍下Activity的几种启动模式。</p>
+<p><strong>启动模式</strong></p>
+<p>Android开发者可以在AndroidManifest文件中一共设计了四种启动模式：</p>
+<ol>
+<li><p>standard</p>
+<p> 默认的启动模式，如果不指定Activity的启动模式，则使用这种模式来启动Activity，每次点击standard模式创建Activity之后，都会创建新的MainActivity覆盖在原有的Activity上，如下图。</p>
+<p> <img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2019/05/07/5cd0fd48c9f34.jpeg" alt="1.jpeg"><br> 如果以这种方式启动的Activity被跨进程调用，在5.0之前新启动的Activity实例会放入发送Intent的Task的栈的顶部，尽管它们属于不同的程序，这似乎有点费解看起来也不是那么合理，所以在5.0之后，上述情景会创建一个新的Task，新启动的Activity就会放入刚创建的Task中，这样就合理的多了。</p>
+</li>
+<li><p>singleTop</p>
+<p> 栈顶复用模式，如果要开启的activity在任务栈的顶部已经存在，就不会创建新的实例，而是调用 onNewIntent() 方法。避免栈顶的activity被重复的创建。应用场景：在通知栏点击收到的通知，然后需要启动一个Activity，这个Activity就可以用singleTop，否则每次点击都会新建一个Activity。当然实际的开发过程中，测试妹纸没准给你提过这样的bug：某个场景下连续快速点击，启动了两个Activity。如果这个时候待启动的Activity使用 singleTop模式也是可以避免这个Bug的。<br>   <img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2019/05/07/5cd0fd48dab70.jpeg" alt="2.jpeg"></p>
+<p>  同standard模式，如果是外部程序启动singleTop的Activity，在Android 5.0之前新创建的Activity会位于调用者的Task中，5.0及以后会放入新的Task中。</p>
+</li>
+<li><p>singleTask</p>
+<p> 栈内复用模式， activity只会在任务栈里面存在一个实例。如果要激活的activity，在任务栈里面已经存在，就不会创建新的activity，而是复用这个已经存在的activity，调用 onNewIntent() 方法，并且清空这个activity任务栈上面所有的activity。</p>
+<p> 应用场景：大多数App的主页。对于大部分应用，当我们在主界面点击回退按钮的时候都是退出应用，那么当我们第一次进入主界面之后，主界面位于栈底，以后不管我们打开了多少个Activity，只要我们再次回到主界面，都应该使用将主界面Activity上所有的Activity移除的方式来让主界面Activity处于栈顶，而不是往栈顶新加一个主界面Activity的实例，通过这种方式能够保证退出应用时所有的Activity都能报销毁。</p>
+<p> 在跨应用Intent传递时，如果系统中不存在singleTask Activity的实例，那么将创建一个新的Task，然后创建SingleTask Activity的实例，将其放入新的Task中。</p>
+<ul>
+<li><p>假如目前有个任务栈T1中的情况是ABC，这个时候ActivityD以singleTask模式请求启动，其所需要的任务栈正是T1，则系统会直接创建D的实例并将其入栈到T1中。<br><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2019/05/07/5cd0fd48e8886.jpeg" alt="3.jpeg"></p>
+</li>
+<li><p>假如D Activity启动所需要的任务栈为T2,由于T2和D的实例均不存在，那么系统会先创建任务栈T2，然后再创建D的实例并将其入栈到T2中。我们可以通过设置Activity的taskAffinity属性来模拟这一场景。</p>
+</li>
+</ul>
+ <figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">activity</span> <span class="attr">android:name</span>=<span class="string">&quot;.SingleTastActivtiy&quot;</span></span></span><br><span class="line"><span class="tag">          <span class="attr">android:label</span>=<span class="string">&quot;singleTask launchmode&quot;</span></span></span><br><span class="line"><span class="tag">          <span class="attr">android:launchMode</span>=<span class="string">&quot;signleTask&quot;</span></span></span><br><span class="line"><span class="tag">          <span class="attr">android:taskAffinity</span>=<span class="string">&quot;&quot;</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p> <img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2019/05/07/5cd0fd48e69f3.jpeg" alt="4.jpeg"></p>
+<ul>
+<li><p>如果D所需的任务栈为T3，并且当前任务栈T3的情况为ADBC，根据栈内复用的原则，此时D不会重新创建，系统会把D切换到栈顶并调用其onNewIntent()方法，同时由于singleTask默认具有ClearTop的效果，会导致栈内所有在D上面的Activity全部出栈，于是最终T3的情况为AD。<br><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2019/05/07/5cd0fd48dce86.jpeg" alt="5.jpeg"></p>
+</li>
+<li><p>假如目前有两个任务栈，前台任务栈T4的情况为AB,后台任务栈t4里存有CD,假设CD的启动模式均为singleTask，现在由B去启动D,那么整个后台任务都会被切换到前台，这个时候整个栈就变成了ABCD。<br><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2019/05/07/5cd0fd48f0a2d.jpeg" alt="6.jpeg"></p>
+</li>
+<li><p>假如上面的其他条件不变，B启动的是C而不是D,那么整个栈的情况就变成了ABC,因为D在C上面，会被清理出栈。<br><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2019/05/07/5cd0fd48df04a.jpeg" alt="7.jpeg"></p>
+</li>
+</ul>
+</li>
+</ol>
+<ol start="4">
+<li><p>singleInstance</p>
+<p> 单一实例模式，整个手机操作系统里面只有一个实例存在。不同的应用去打开这个activity 共享公用的同一个activity。他会运行在自己单独，独立的任务栈里面，并且任务栈里面只有他一个实例存在。应用场景：呼叫来电界面。这种模式的使用情况比较罕见，在Launcher中可能使用。或者你确定你需要使Activity只有一个实例。建议谨慎使用。</p>
+</li>
+</ol>
+<p>关于singleTop和singleInstance这两种启动模式还有一点需要特殊说明：</p>
+<p>如果在一个singleTop或者singleInstance的Activity中通过startActivityForResult()方法来启动另一个ActivityB, 那么系统将直接返回Activity_RESULT_CANCELED而不会再去等待返回。</p>
+<p>这是由于系统在framework层做了对这两种启动模式的限制，因为Android开发者认为，不同的Task中，默认是不能传递数据的。如果一定要传递数据的话，那么只能通过Intent去绑定数据。</p>
+<p><strong>设置Intent的Flag</strong></p>
+<p>系统提供了两种方式来设置一个Activity的启动模式，除了在AndroidManifest文件中设置以外，还可以通过Intent的Flag来设置一个Activity的启动模式，下面我们在简单介绍下一些Flag。</p>
+<ol>
+<li><p>FLAG_ACTIVITY_NEW_TASK</p>
+<p> 使用一个新的Task来启动一个Activity，但启动的每个Activity都讲在一个新的Task中。该Flag通常使用在从Service中启动Activity的场景，由于Service中并不存在Activity栈，所以使用该Flag来创建一个新的Activity栈，并创建新的Activity实例。</p>
+</li>
+<li><p>FLAG_ACTIVITY_SINGLE_TOP</p>
+<p>使用singletop模式启动一个Activity，与指定android：launchMode=“singleTop”效果相同。</p>
+</li>
+<li><p>FLAG_ACTIVITY_CLEAR_TOP</p>
+<p> 使用SingleTask模式来启动一个Activity，与指定android：launchMode=“singleTask”效果相同。</p>
+</li>
+<li><p>FLAG_ACTIVITY_NO_HISTORY</p>
+<p>  Activity使用这种模式启动Activity，当该Activity启动其他Activity后，该Activity就消失了，不会保留在Activity栈中。</p>
+</li>
+</ol>
+<p><strong>清空任务栈</strong></p>
+<p>系统同样提供了清空任务栈的方法来让我们讲一个Task清空，通常情况下，我们可以在activity的标签上使用以下几种属性来清空任务栈。</p>
+<ul>
+<li>clearTaskOnLaunch：每次返回Activity的时候，都将该Activity上的所有Activity都清除，通过这个属性，可以让这个Task每次初始化的时候，都只有一个Activity。</li>
+<li>finishTaskOnLaunch：这个属性和clearTaskOnLaunch有点类似，只不过clearTaskOnLaunch作用在别人身上，而finishTaskOnLaunch作用在自己身上，通过这个属性，当离开这个Activity所处的Task，那么用户再返回的时候，该Activity会被finish掉。</li>
+<li>alwaysRetainTaskState：Task的一道免死金牌，如果将Activity这个属性设置为true，那么该Activity所在的Task将不接受任何清除命令，一直保持当前Task的状态</li>
+</ul>
+<p>我们使用Activity任务栈的各种启动模式和清理方法，是为了更好地使用App中Activity，合理地设置Activity的启动模式会让程序运行更有效率，用户体验更好。</p>
+<p>但任务栈虽好，却也不能滥用，如果过度地使用Activity任务栈，则会导致整个App的栈管理混乱，不利于以后程序的拓展，而且在容易出现由于任务栈导致的显示异常，这样的bug是很难调的。所以，在App中使用Activity任务栈一定要根据实际项目的需要，而不是为了使用任务栈而使用任务栈。</p>
+<p><strong>LaunchMode与StartActivityForResult</strong></p>
+<p>我们在开发过程中经常会用到StartActivityForResult方法启动一个Activity，然后在onActivityResult()方法中可以接收到上个页面的回传值，但你有可能遇到过拿不到返回值的情况，那有可能是因为Activity的LaunchMode设置为了singleTask。5.0之后，android的LaunchMode与StartActivityForResult的关系发生了一些改变。两个Activity，A和B，现在由A页面跳转到B页面，看一下LaunchMode与StartActivityForResult之间的关系：</p>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2019/05/07/5cd0fd490f4bd.jpeg" alt="8.jpeg"></p>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2019/05/07/5cd0fd4917274.jpeg" alt="9.jpeg"></p>
+<p>这是因为ActivityStackSupervisor类中的startActivityUncheckedLocked方法在5.0中进行了修改。在5.0之前，当启动一个Activity时，系统将首先检查Activity的launchMode，如果为A页面设置为SingleInstance或者B页面设置为singleTask或者singleInstance,则会在LaunchFlags中加入FLAG_ACTIVITY_NEW_TASK标志，而如果含有FLAG_ACTIVITY_NEW_TASK标志的话，onActivityResult将会立即接收到一个cancle的信息，而5.0之后这个方法做了修改，修改之后即便启动的页面设置launchMode为singleTask或singleInstance，onActivityResult依旧可以正常工作，也就是说无论设置哪种启动方式，StartActivityForResult和onActivityResult()这一组合都是有效的。所以如果你目前正好基于5.0做相关开发，不要忘了向下兼容，这里有个坑请注意避让。</p>
+<p>实际开发过程中如果采用比较合理的Activity启动模式来做好任务栈的管理，可以事半功倍。在launchMode的选择上首先要搞清楚当前的Activity的作用，以及实际使用场景来做出合理选择。</p>
+<h4 id="进程和线程"><a href="#进程和线程" class="headerlink" title="进程和线程"></a>进程和线程</h4><p>进程是低级核心处理过程，用于运行应用程序代码。</p>
+<p>在Android操作系统中，进程完全是应用程序的具体实现。组件运行的进程由Androidmanifest文件控制。</p>
+<ul>
+<li>组件标签&lt; activity&gt;,&lt; service&gt;, &lt; receiver&gt;, 和&lt; provider&gt;包含一个process属性，这个属性可以设置组件运行的进程。</li>
+<li>&lt; application&gt;标签也包含process属性，用来设置程序中所有组件的默认进程。</li>
+<li>所有的组件在默认进程的主线程中实例化，系统对这些组件的调用从主线程中分离。</li>
+</ul>
+<p><strong>进程分类</strong></p>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2019/05/07/5cd0fe8db3198.png"></p>
+<ol>
+<li><p>前台进程：正在前台运行的进程,前台进程是必须的用户操作。</p>
+<p>  前台进程包括：</p>
+<ul>
+<li>正运行着的，与用户交互的Activity。</li>
+<li>正运行着的Activity所使用的一个Service。</li>
+<li>服务。正在执行回调方法（如onStart()、onCreate()或 onDestroy())的Service对象。</li>
+<li>正在执行onReceive()方法的BroadcastReceiver对象。</li>
+</ul>
+<p>一般情况下，前台进程不会被“杀死”。</p>
+</li>
+</ol>
+<ol start="2">
+<li><p>可见进程：在屏幕中显示，但用户没有直接与之进行交互,可见进程为用户在屏幕上可见但不能与用户进行交互的进程。</p>
+<p> 可见进程包括：</p>
+<ul>
+<li>一个不在前台但为用户可见的Activity（如在调用了方法onPause() 之后）。</li>
+<li>一个可视的Activity所绑定的Service。</li>
+</ul>
+<p>可见进程很重要，不到极端情况（如无法维持前台进程运行时），不会“销毁”可见进程。</p>
+</li>
+</ol>
+<ol start="3">
+<li><p>服务进程：不可见，在后台为用户服务; 一般不会被中断。</p>
+<p>服务进程包括：</p>
+<ul>
+<li><p>一个由startService()方法启动的Service。</p>
+</li>
+<li><p>支持正在处理的不需要可见界面运行的Service。</p>
+</li>
+</ul>
+<p>因为服务不是直接和用户打交道，它的优先级稍低于可见的活动。系统会尽量维持它们的运行，除非系统内存不足以维持前台进程和可见进程的运行需要。</p>
+</li>
+<li><p>后台进程：对用户作用不大，可能会被系统中止。</p>
+<p>  后台进程包括：</p>
+<ul>
+<li><p>目前不可见的Activity（即已调用了onStop()方法）。</p>
+</li>
+<li><p>目前没有服务的Service。<br>在一般情况下会有大量的后台进程，Android将会使用last-seen-first-killed模式来“杀死”进程来为前台进程获得资源。</p>
+</li>
+</ul>
+</li>
+<li><p>空进程：对用户没有任何作用，是首先被中止的进程。</p>
+<p> 为了改善系统的整体性能， Android通常在内存中保留生命周期结束了的应用。<br> Android使用这种缓存机制能够减少应用程序在再次启动时所需的启动时间。这些过程通常根据需要被杀死。</p>
+</li>
+</ol>
+<p><strong>线程</strong></p>
+<p>每个进程有一到多个线程运行在其中。进程中的所有组件都在UI线程中实例化，以保证应用程序是单线程的,线程通过java的标准对象Thread 创建。</p>
+<p>永远要记住：</p>
+<ul>
+<li>不要阻塞UI线程！如果在UI线程中执行阻塞或者耗时操作会导致UI线程无法响应用户请求。</li>
+<li>不能在非UI线程（也称为工作线程）中更新UI！这是因为android的UI控件都是线程不安全的。</li>
+</ul>
+<h4 id="Activity-生命周期"><a href="#Activity-生命周期" class="headerlink" title="Activity 生命周期"></a>Activity 生命周期</h4><p><strong>五大状态:</strong></p>
+<ul>
+<li>Start：Activity被压入栈顶。</li>
+<li>Running状态：一个新的Activity启动入栈后，它在屏幕最前端，处于栈的最顶端，此时它处于可见并可和用户交互的激活状态。</li>
+<li>Paused状态：当Activity被另一个透明或者Dialog样式的Activity覆盖时的状态。此时它依然与窗口管理器保持连接，系统继续维护其内部状态，它仍然可见，但它已经失去了焦点，故不可与用户交互。</li>
+<li>Stopped状态：当Activity不可见时，Activity处于Stopped状态。当Activity处于此状态时，一定要保存当前数据和当前的UI状态，否则一旦Activity退出或关闭时，当前的数据和UI状态就丢失了。</li>
+<li>Killed状态：Activity被杀掉以后或者被启动以前，处于Killed状态。这是Activity已从Activity堆栈中移除，需要重新启动才可以显示和使用。</li>
+</ul>
+<p>其中，Running状态和Paused状态是可见的，Stopped状态和Killed状态时不可见的。</p>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2019/05/07/5cd0f281ba3db.png"></p>
+<p><strong>生命周期函数:</strong></p>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2019/05/07/5cd0f47118936.png"></p>
+<ol>
+<li><p>onCreate()  </p>
+<p>在Activity生命周期开始时被调用，执行一次性的初始化工作。<br>提供Bundle参数：如果Activity之前是被冻结状态，其状态由Bundle提供；接受参数为null或由onSaveInstanceState()方法保存的状态信息。<br>其后调用onStart()或onRestart()方法。</p>
+</li>
+<li><p>onRestart()<br> 当activity从停止状态重新启动时调用</p>
+</li>
+<li><p>onStart()<br> 当activity对用户即将可见的时候调用。</p>
+</li>
+<li><p>onResume()<br> 当activity将要与用户交互时调用此方法，此时activity在activity栈的栈顶，用户输入已经 可以传递给它</p>
+</li>
+<li><p>onPause()<br> 当系统要启动一个其他的activity时调用（其他的activity显示之前），这个方法被用来提交那些持久数据的改变、停止动画、和其他占用CPU资源的东西。由于下一个activity在这个方法返回之前不会resumed，所以实现这个方法时代码执行要尽可能快。</p>
+</li>
+<li><p>onStop()<br> 当另外一个activity恢复并遮盖住此activity,导致其对用户不再可见时调用。一个新activity启动、其它activity被切换至前景、当前activity被销毁时都会发生这种场景。</p>
+</li>
+<li><p>onDestroy()<br> 在activity被销毁前所调用的最后一个方法，当进程终止时会出现这种情况；如果内存不足，系统会终止进程，可能不需要调用该方法。</p>
+</li>
+<li><p>onSaveInstanceState(Bundle)：<br> 调用该方法让活动可以保存每个实例的状态。</p>
+</li>
+<li><p>onRestoreInstanceState(Bundle)：<br> 使用onSaveInstanceState()方法保存的状态来重新初始化某个活动时调用该方法。</p>
+</li>
+</ol>
+<p><strong>理解</strong></p>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2019/05/07/5cd0f857f11be.png" alt="1.png"></p>
+<ol>
+<li><p>Activity启动和销毁过程</p>
+<p>在系统调用onCreate方法之后，就会马上调用onStart，然后继续调用onResume来进图运行状态，最后都会停在onResume状态，完成启动，系统会调用onDestroy来结束一个Activity的生命周期让他毁掉kill状态。<br>以上就是一个Activity的启动和销毁的过程。</p>
+<ul>
+<li><p>onCreate中创建基本的UI元素。</p>
+</li>
+<li><p>onPause和onStop：清除Acvtivity的资源，避免浪费。</p>
+</li>
+<li><p>onDestroy:因为引用会在Activity销毁的时候销毁，而线程不会，所以清除开启的线程。</p>
+</li>
+</ul>
+</li>
+<li><p>Activity的暂停和恢复过程</p>
+<p>当栈顶的Activity部分不可见的时候，就会倒置Activity进入onPause。</p>
+<ul>
+<li><p>onPause：释放系统资源。</p>
+</li>
+<li><p>onResume：需要重新初始化onPause释放的资源。</p>
+</li>
+</ul>
+</li>
+<li><p>Activity的停止过程</p>
+<p>栈顶的Activity部分不可见的时候，实际上后续会有两种可能，从部分不可见到可见，也就是恢复过程，从部分不可见到完全不可见，也就是停止过程，系统在当前Activity不可见的时候调用onPause。</p>
+</li>
+<li><p>Activity的重新创建过程</p>
+<p>最后我们来看看Activity是如何重新创建的，如果你的系统长时间处于stop的状态，而此时系统需要更多的内存或者系统内存比较紧张的时候，系统就会回收你的Activity，而系统为了补偿你，会将你的Activity状态通过onRestoreInstanceState()方法保存到Bundle中去，当然你也可以额外增加键值对去保存这些状态，当你重新需要创建这个Activity的时候，保存的Bundle对象就会传递到Activity的onRestoreInstanceState（）方法中去与onCreate方法中去，这也是onCreate的重要参数——saveInstanceState的来源。</p>
+<p>不过这里要注意的一点就是savedInstanceState方法并不是每次当Activity离开前台就会调用，如果用户使用finish方法结束，则不会调用，而且Android系统已经默认实现了控件的缓存状态，一次来减少开发者需要实现的缓存逻辑。</p>
+</li>
+</ol>
+<p><strong>举例：</strong></p>
+<p>有两个界面Activity A和Activity B。先启动第一个界面Activity A，方法回调的次序是：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">onCreate(A)--&gt;onStart(A)--&gt;onResume(A)</span><br></pre></td></tr></table></figure>
+<p>Activity A不关闭，跳转第二个Activity B，方法回调的次序是：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">onFreeze(A)--&gt;onPause(A)--&gt;onCreate(B)--&gt;onStart(B)--&gt;onResume(B)--onStop(A)</span><br></pre></td></tr></table></figure>
+<p>在点击back回到第一个界面，这时方法回调的次序是</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">onPause(B)--&gt;onActivityforResult(A)--&gt;onRestart(A)--&gt;onStart(A)--&gt;onResume(A)--&gt;onStop(B)--&gt;onDestroy(B)</span><br></pre></td></tr></table></figure>
+<p>在点击Exit退出应用时，方法回调的次序是：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">onPause(A)--&gt;onStop(A)--&gt;onDestroy(A)</span><br></pre></td></tr></table></figure>
+
+<h4 id="常用方法"><a href="#常用方法" class="headerlink" title="常用方法"></a>常用方法</h4><p> Activity启动其他Activity有如下两个方法。</p>
+<ul>
+<li><p>startActivity(Intent intent)：启动其他 Activity。</p>
+</li>
+<li><p>startActivityForResult(Intent intent, int requestCode)：以指定的请求码（requestCode）启动Activity，而且程序将会获取新启动的Activity返回的结果（通过重写 onActivityResult(..)方法来获取）。其中requestCode参数代表了启动Activity的请求码，该请求码的值由开发者根据业务自行设置，用于标识请求来源。</p>
+</li>
+</ul>
+<p>上面两个方法都用到了 Intent参数，Intent是Android应用里各组件之间通信的重要方式，一个Activity通过Intent来表达自己“意图”——想要启动哪个组件，被启动的组件既可是 Activity组件，也可是Service组件。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">// 方式一</span><br><span class="line"></span><br><span class="line">// 创建Intent对象</span><br><span class="line"></span><br><span class="line">Intentintent1=newIntent();</span><br><span class="line"></span><br><span class="line">// 设置需要启动的Activity，以及要启动Activity的上下文环境</span><br><span class="line"></span><br><span class="line">intent1.setClass(this,MyActivity.class);</span><br><span class="line"></span><br><span class="line">// 方式二</span><br><span class="line"></span><br><span class="line">// 直接创建Intent对象，包含要启动的Activity信息</span><br><span class="line"></span><br><span class="line">Intentintent2=newIntent(this,MyActivity.class);</span><br></pre></td></tr></table></figure>
+
+<p>Android为关闭Activity准备了如下两个方法。</p>
+<ul>
+<li><p>finish()：结束当前 Activity。</p>
+</li>
+<li><p>finishActivity(int requestCode)：结束以 startActivityForResult(Intent intent, int requestCode)方法启动的 Activity。</p>
+</li>
+</ul>
+<p><strong>主要的Activity属性有：</strong></p>
+<ol>
+<li>launchMode</li>
+<li>taskAffinity</li>
+<li>allowTaskReparenting</li>
+<li>clearTaskOnLaunch</li>
+<li>alwaysRetainTaskState</li>
+<li>finishOnTaskLaunch</li>
+</ol>
+<p>个人理解</p>
+<ol>
+<li><p>Activity launchMode设置不为standard,在跳转Activity时,如果新的Activity不再创建新的实例(不执行onCreate) 会调用onNewIntent方法。 （正常生命周期情况不会调用onNewIntent()）</p>
+</li>
+<li><p>Activity launchMode singleInstance实用场景—&gt;关于浏览器的LaunchMode为singleTask，所以如果当你点击一个连接下载文件时(由一个activity来处理下载，launchmode为standard)，如果再次进入浏览器，那么下载页面就被Destory了，那么这里我们可以把下载页面LaunchMode设置为singleInstance可以解决这个问题.(即:在使用singleTask的情况下 不想关闭的界面可单独新起一个task)</p>
+</li>
+<li><p>taskAffinty对lanuchMode的影响 ：</p>
+<p>当LanuchMode设置为 standard 和singTop，即使 taskAffinty不同，也不会新起Task.</p>
+<p>当LanuchMode设置为 singleTask ，以A启动B来说</p>
+<ol>
+<li>当A和B的taskAffinity相同时：第一次创建B的实例时，并不会启动新的task，而是直接将B添加到A所在的task；当B的实例已经存在时，将B所在task中位于B之上的全部Activity都删除，B就成为栈顶元素，实现跳转到B的功能。</li>
+<li>当A和B的taskAffinity不同时：第一次创建B的实例时，会启动新的task，然后将B添加到新建的task中；当B的实例引进存在，将B所在task中位于B之上的全部Activity都删除，B就成为栈顶元素（也是root Activity），实现跳转到B的功能。</li>
+</ol>
+<p>当LanuchMode设置为singleInstance</p>
+<p>当第一次创建该Activity实例时，会新建一个task，并将该Activity添加到该task中。注意：该task只能容纳该Activity实例，不会再添加其他的Activity实例！如果该Activity实例已经存在于某个task，则直接跳转到该task。</p>
+</li>
+<li><p>allowTaskReparenting 这个属性用来标记一个Activity实例在当前应用退居后台后，是否能从启动它的那个task移动到有共同affinity的task，“true”表示可以移动，“false”表示它必须呆在当前应用的task中，默认值为false。</p>
+</li>
+<li><p>clearTaskOnLaunch</p>
+<p>  程序回到home界面后，再次点击程序图标的效果。影响的是activity的生命周期。</p>
+<p>  简单的：</p>
+<p>  activity A（clearTaskOnLaunch设置为true)(为主界面)</p>
+<p>  activity B</p>
+<p>  程序启动A,在启动B。再点击HOME键回到桌面，再点击程序图标，效果是B执行onrestart，B执行ondestory。A界面显示。（如果clearTaskOnLaunch没设置，则是显示B界面）</p>
+<p>  稍微复杂点的：</p>
+<p>  activity A（clearTaskOnLaunch设置为true）,B（clearTaskOnLaunch设置为true）,C</p>
+<p>  依次启动A,B,C，点击HOME,再在桌面点击图标。启动的是A（执行onrestart）,B、C执行（ondestory）。</p>
+<p>  也就是说，优先启动第一个（A）已注册clearTaskOnLaunch为true的Activity，其余的后启动的activity(B、C)都销毁，除非前面A已经finish销毁，后面的已注册clearTaskOnLaunch为true的activity才会生效。</p>
+</li>
+</ol>
+<h3 id="Activity数据保存和横竖屏切换"><a href="#Activity数据保存和横竖屏切换" class="headerlink" title="Activity数据保存和横竖屏切换"></a>Activity数据保存和横竖屏切换</h3><h4 id="数据保存"><a href="#数据保存" class="headerlink" title="数据保存"></a>数据保存</h4><p>当 Activity失去焦点时，首先必然会执行onPause()方法，因此当项目中需要保存数据时，可以在onPause()方法中保存。同时，当两个Activity跳转时， MainActivity会先失去焦点让SecondActivity得到焦点，等到SecondActivity完全显示在前台时MainActivity才会切换到后台。</p>
+<p>可能有的同学已经发现，在 Activity的生命周期方法中，只有第一个 onCreate()回调方法带有参数 savedInstanceState，其他回调方法都是没有参数的，这个参数有什么作用呢？</p>
+<p>经常会出现用户按到 HOME键退出了界面，或者安卓系统意外回收了应用，这种情况下，使用 savedInstanceState就可以让用户再次打开应用时恢复原来的状态。</p>
+<p>在具体学习savedInstanceState之前，先来了解一下onSaveInstanceState() 和 onRestoreInstanceState() 方法，这两个方法并不是Activity的生命周期方法，它们不同于 onCreate()、onPause()等生命周期方法，它们并不一定会被回调。当应用遇到意外情况（如：内存不足、用户直接按HOME键）由系统销毁一个Activity时，onSaveInstanceState() 会被调用；但是当用户主动去销毁一个Activity时（如在应用中按返回键），onSaveInstanceState()就不会被调用。因为在这种情况下，用户的行为决定了不需要保存Activity的状态。通常onSaveInstanceState()只适合用于保存一些临时性的状态，而onPause()适合用于数据的持久化保存。</p>
+<p>在Activity被杀掉之前调用保存每个实例的状态，以保证该状态可以在onCreate(Bundle)或者onRestoreInstanceState(Bundle) （传入的Bundle参数是由onSaveInstanceState封装好的）中恢复。这个方法在一个Activity被杀死前调用，当该Activity在将来某个时刻回来时可以恢复其先前状态。 例如，如果Activity B启用后位于Activity A的前端，在某个时刻Activity A因为系统回收资源的问题要被杀掉，A通过onSaveInstanceState将有机会保存其用户界面状态，使得将来用户返回到Activity A时能通过onCreate(Bundle)或者onRestoreInstanceState(Bundle)恢复界面的状态。</p>
+<p>onSaveInstanceState()方法会在什么时候被执行，有这么几种情况：</p>
+<ul>
+<li><p>当用户按下HOME键时。</p>
+</li>
+<li><p>长按HOME键，选择运行其他的程序时。</p>
+</li>
+<li><p>按下电源按键（关闭屏幕显示）时。</p>
+</li>
+<li><p>从Activity A中启动一个新的Activity时。</p>
+</li>
+<li><p>屏幕方向切换时，例如从竖屏切换到横屏时。</p>
+</li>
+</ul>
+<p>总而言之，onSaveInstanceState()的调用遵循一个重要原则，即当系统存在“未经你许可”时销毁了我们的Activity的可能时，则onSaveInstanceState()会被系统调用，这是系统的责任，因为它必须要提供一个机会让你保存你的数据。</p>
+<p>onRestoreInstanceState()方法一般是在onStart()和onResume()之间执行。其被调用的前提是，Activity A确实被系统销毁了，而如果仅仅是停留在有这种可能性的情况下，则该方法不会被调用，例如，当正在显示Activity A的时候，用户按下HOME键回到主界面，然后用户紧接着又返回到Activity A，这种情况下Activity A一般不会因为内存的原因被系统销毁，故Activity A的onRestoreInstanceState方法不会被执行。此也说明上二者，大多数情况下不成对被使用</p>
+<h4 id="横竖屏切换"><a href="#横竖屏切换" class="headerlink" title="横竖屏切换"></a>横竖屏切换</h4><ol>
+<li><p>可以横竖屏切换但禁止销毁重建 </p>
+<p>当横竖屏切换时Activity会依次回调onPause()、onStop()、 onDestory()、onCreate()、onStar()、onResume()方法。这种情况对实际开发肯定会有影响，那应该如何解决呢？</p>
+<p>如果不希望在横竖屏切换时Activity被销毁重建，可以在 AndroidManifest.xml文件中设置 Activity的android:conflgChanges的属性，这样无论怎样切换Activity都不会销毁重新创建，具体设置代码如下所示： </p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">android:configChanges=&quot;orientation丨keyboardHidden丨screenSize&quot;</span><br></pre></td></tr></table></figure></li>
+<li><p>禁止横竖屏切换 </p>
+<p>如果希望某一个界面一直处于竖竖横屏状态，不随手机的晃动而改变，同样可以在清单文件中通过设置Activity的android:screenOrientation属性来完成。该属性主要有以下几个值：</p>
+<ul>
+<li>​    unspecified：默认值由系统来判断显示方向。判定的策略是和设备相关的，不同的设备会有不同的显示方向。</li>
+</ul>
+</li>
+</ol>
+<ul>
+<li>landscape：横屏显示（宽比高要长）。</li>
+</ul>
+<ul>
+<li>portrait：竖屏显示(高比宽要长)。</li>
+</ul>
+<ul>
+<li>user：用户当前首选的方向。</li>
+</ul>
+<ul>
+<li>behind：和该Activity下面的那个Activity的方向一致(在Activity堆栈中的)。</li>
+</ul>
+<ul>
+<li>sensor：有物理的感应器来决定。如果用户旋转设备这屏幕会横竖屏切换。</li>
+</ul>
+<ul>
+<li>nosensor：忽略物理感应器，这样就不会随着用户旋转设备而更改了（”unspecified”设置除外）。</li>
+</ul>
+<p>   比如设置为竖屏并不可切换方向，具体设置代码如下所示：</p>
+   <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">android:screenOrieritation=&quot;portrait&quot;</span><br></pre></td></tr></table></figure>
+
+<p>   除了在配置文件中配置，其实还可以在Java文件中设置，只要在onCreate方法中加一句代码即可，如保持竖屏代码为：</p>
+   <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);</span><br></pre></td></tr></table></figure>
+
+<p>   如保持横屏，代码为：</p>
+   <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);</span><br></pre></td></tr></table></figure>
+
+<p>   当然在实际开发中不可能每个Activity都这样多加一句，不仅维护麻烦而且容易出错。一般都是先定义一个BaseActivity，让其继承Activity，然后重写onCreate方法，并进行横竖屏设置，最后让其他的Activity继承BaseActivity即可。 </p>
+<ol start="3">
+<li><p>横竖屏切换同时切换不同布局</p>
+<p>在开发中有时候希望横竖屏时加载不同的布局，可以通过两种方式来实现：</p>
+<p>准备两套不同的布局，Android会自己根据横竖屏加载不同布局。layout-land为横屏，layout-port为竖屏。然后把这两套布局文件放这两文件夹里，文件名一样，Android就会自行判断加载相应布局。</p>
+<p>在Java代码中进行判断，自己想加载什么就加载什么。一般是在onCreate()方法中加载布局文件，可以对横竖屏的状态做下判断，关键代码如下</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">if(this.getResources().getConfiguration().orientation==Configuration.ORIENTATION_LANDSCAPE)&#123; </span><br><span class="line"> </span><br><span class="line">    setContentView(R.layout.横屏布局);</span><br><span class="line"> </span><br><span class="line">&#125;elseif(this.getResources().getConfiguration().orientation==Configuration.ORIENTATION_PORTRAIT)&#123; </span><br><span class="line"> </span><br><span class="line">   setContentView(R.layout.竖屏布局);</span><br><span class="line"> </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>当然在横竖屏切换过程中，可以让Activity销毁重建，需要注意的就是相关数据的保存，可以参考前面数据保存部分的内容，当然还可以通过其他方式来完成，如数据持久化，后期再逐步来学习。</p>
+</li>
+</ol>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">平心</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://pingxin0521.gitee.io/2019/04/26/Android-%E5%9F%BA%E7%A1%80-2/">https://pingxin0521.gitee.io/2019/04/26/Android-%E5%9F%BA%E7%A1%80-2/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://pingxin0521.gitee.io" target="_blank">平心de小屋</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/Android/">Android</a></div><div class="post_share"><div class="social-share" data-image="https://i.loli.net/2020/05/08/PFDRNxj93taz6pw.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2019/04/27/Android-%E5%9F%BA%E7%A1%80-3/"><img class="prev-cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/gGE57HRvpcKPfDY.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">Android  Intent和Application</div></div></a></div><div class="next-post pull-right"><a href="/2019/04/26/Linux-%E8%84%9A%E6%9C%AC-2/"><img class="next-cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/7dHvepmfYOLWTrX.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">Linux-bash流程（二）</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span> 相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2019/06/03/Android-基础-22/" title="Android  常见错误"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/vCnKyoFJZ1g4XYR.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2020-05-16</div><div class="title">Android  常见错误</div></div></a></div><div><a href="/2019/04/27/Android-基础-4/" title="Android 用户界面状态保存"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/gGE57HRvpcKPfDY.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2019-07-02</div><div class="title">Android 用户界面状态保存</div></div></a></div><div><a href="/2019/04/30/Android-基础-13/" title="Android  菜单"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/gGE57HRvpcKPfDY.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2019-07-02</div><div class="title">Android  菜单</div></div></a></div><div><a href="/2019/04/30/Android-基础-11/" title="Android  高级控件（一）"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/7dHvepmfYOLWTrX.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2019-07-02</div><div class="title">Android  高级控件（一）</div></div></a></div><div><a href="/2019/04/27/Android-基础-3/" title="Android  Intent和Application"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/gGE57HRvpcKPfDY.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2019-07-02</div><div class="title">Android  Intent和Application</div></div></a></div><div><a href="/2019/04/28/Android-基础-5/" title="Android 常用基本控件"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/vCnKyoFJZ1g4XYR.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2019-05-08</div><div class="title">Android 常用基本控件</div></div></a></div></div></div><hr/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div class="vcomment" id="vcomment"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="card-info-avatar is-center"><img class="avatar-img" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://s2.ax1x.com/2020/02/11/1ovw6J.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/><div class="author-info__name">平心</div><div class="author-info__description">年轻人的life、learn and think</div></div><div class="card-info-data"><div class="card-info-data-item is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">449</div></a></div><div class="card-info-data-item is-center"><a href="/tags/"><div class="headline">标签</div><div class="length-num">77</div></a></div><div class="card-info-data-item is-center"><a href="/categories/"><div class="headline">分类</div><div class="length-num">68</div></a></div></div><a class="button--animated" id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/hanyunpeng0521"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/hanyunpeng0521" target="_blank" title="Github"><i class="fa fa-github"></i></a><a class="social-icon" href="mailto:m13839441583@163.com" target="_blank" title="Email"><i class="fa fa-envelope"></i></a><a class="social-icon" href="/atom.xml" target="_blank" title=""><i class="fa fa-rss"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn card-announcement-animation"></i><span>公告</span></div><div class="announcement_content">为什么呢？开始提问吧</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#Activity"><span class="toc-number">1.</span> <span class="toc-text">Activity</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BB%BB%E5%8A%A1%E6%A0%88"><span class="toc-number">1.1.</span> <span class="toc-text">任务栈</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%BF%9B%E7%A8%8B%E5%92%8C%E7%BA%BF%E7%A8%8B"><span class="toc-number">1.2.</span> <span class="toc-text">进程和线程</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Activity-%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F"><span class="toc-number">1.3.</span> <span class="toc-text">Activity 生命周期</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%B8%B8%E7%94%A8%E6%96%B9%E6%B3%95"><span class="toc-number">1.4.</span> <span class="toc-text">常用方法</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Activity%E6%95%B0%E6%8D%AE%E4%BF%9D%E5%AD%98%E5%92%8C%E6%A8%AA%E7%AB%96%E5%B1%8F%E5%88%87%E6%8D%A2"><span class="toc-number">2.</span> <span class="toc-text">Activity数据保存和横竖屏切换</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E4%BF%9D%E5%AD%98"><span class="toc-number">2.1.</span> <span class="toc-text">数据保存</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%A8%AA%E7%AB%96%E5%B1%8F%E5%88%87%E6%8D%A2"><span class="toc-number">2.2.</span> <span class="toc-text">横竖屏切换</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2021/05/15/node-2-4/" title="Egg.js -- 为企业级框架和应用而生"><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/okfOw28KlZFbE7z.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Egg.js -- 为企业级框架和应用而生"/></a><div class="content"><a class="title" href="/2021/05/15/node-2-4/" title="Egg.js -- 为企业级框架和应用而生">Egg.js -- 为企业级框架和应用而生</a><time datetime="2021-05-15T10:18:59.000Z" title="发表于 2021-05-15 18:18:59">2021-05-15</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/04/30/node-2-3/" title="Koa -- 基于Node.js平台的下一代Web开发框架"><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/HjVAdIuT7bZJypS.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Koa -- 基于Node.js平台的下一代Web开发框架"/></a><div class="content"><a class="title" href="/2021/04/30/node-2-3/" title="Koa -- 基于Node.js平台的下一代Web开发框架">Koa -- 基于Node.js平台的下一代Web开发框架</a><time datetime="2021-04-30T10:18:59.000Z" title="发表于 2021-04-30 18:18:59">2021-04-30</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/04/01/node-2-1/" title="Node.JS web开发前置知识"><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/gGE57HRvpcKPfDY.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Node.JS web开发前置知识"/></a><div class="content"><a class="title" href="/2021/04/01/node-2-1/" title="Node.JS web开发前置知识">Node.JS web开发前置知识</a><time datetime="2021-04-01T03:18:59.000Z" title="发表于 2021-04-01 11:18:59">2021-04-01</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2020/12/26/%E5%91%A8%E8%AE%B0-10-1/" title="第十一周--谷歌浏览器插件"><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/gGE57HRvpcKPfDY.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="第十一周--谷歌浏览器插件"/></a><div class="content"><a class="title" href="/2020/12/26/%E5%91%A8%E8%AE%B0-10-1/" title="第十一周--谷歌浏览器插件">第十一周--谷歌浏览器插件</a><time datetime="2020-12-26T10:18:59.000Z" title="发表于 2020-12-26 18:18:59">2020-12-26</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2020/12/26/%E5%91%A8%E8%AE%B0-10-0/" title="第十一周--浏览器技术"><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/vCnKyoFJZ1g4XYR.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="第十一周--浏览器技术"/></a><div class="content"><a class="title" href="/2020/12/26/%E5%91%A8%E8%AE%B0-10-0/" title="第十一周--浏览器技术">第十一周--浏览器技术</a><time datetime="2020-12-26T06:18:59.000Z" title="发表于 2020-12-26 14:18:59">2020-12-26</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2019 - 2021 By 平心</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div id="local-search"><div class="search-dialog"><div class="search-dialog__title" id="local-search-title">本地搜索</div><div id="local-input-panel"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div></div><hr/><div id="local-search-results"></div><span class="search-close-button"><i class="fas fa-times"></i></span></div><div id="search-mask"></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload/dist/lazyload.iife.min.js"></script><script src="/js/search/local-search.js"></script><div class="js-pjax"><script>function loadValine () {
+  function initValine () {
+    const valine = new Valine(Object.assign({
+      el: '#vcomment',
+      appId: '4lfIXzqxaC1ONs0MJO4oHu07-gzGzoHsz',
+      appKey: 'qw99Bw8FD0KVKU9m457CwWsr',
+      placeholder: 'Please leave your footprints',
+      avatar: 'monsterid',
+      meta: 'nick,mail,link'.split(','),
+      pageSize: '10',
+      lang: 'zh-CN',
+      recordIP: true,
+      serverURLs: '',
+      emojiCDN: '',
+      emojiMaps: "",
+      enableQQ: true,
+      path: window.location.pathname,
+      requiredFields: ["nick,mail"],
+      visitor: false
+    }, null))
+  }
+
+  if (typeof Valine === 'function') initValine() 
+  else getScript('https://cdn.jsdelivr.net/npm/valine/dist/Valine.min.js').then(initValine)
+}
+
+if ('Valine' === 'Valine' || !false) {
+  if (false) btf.loadComment(document.getElementById('vcomment'),loadValine)
+  else setTimeout(loadValine, 0)
+} else {
+  function loadOtherComment () {
+    loadValine()
+  }
+}</script></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>

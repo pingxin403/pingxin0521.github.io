@@ -1,0 +1,585 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>第六周--http 2与http 3 | 平心de小屋</title><meta name="keywords" content="周记"><meta name="author" content="平心"><meta name="copyright" content="平心"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="本周速记方法论 本周来学习一下网站新技术  servlet 4 http 2与http 3  serverless SSL&#x2F;TLS">
+<meta property="og:type" content="article">
+<meta property="og:title" content="第六周--http 2与http 3">
+<meta property="og:url" content="https://pingxin0521.gitee.io/2019/12/18/%E5%91%A8%E8%AE%B0-5-1/index.html">
+<meta property="og:site_name" content="平心de小屋">
+<meta property="og:description" content="本周速记方法论 本周来学习一下网站新技术  servlet 4 http 2与http 3  serverless SSL&#x2F;TLS">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://i.loli.net/2020/05/08/okfOw28KlZFbE7z.jpg">
+<meta property="article:published_time" content="2019-12-18T10:18:59.000Z">
+<meta property="article:modified_time" content="2019-12-18T10:42:17.561Z">
+<meta property="article:author" content="平心">
+<meta property="article:tag" content="周记">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.loli.net/2020/05/08/okfOw28KlZFbE7z.jpg"><link rel="shortcut icon" href="https://s2.ax1x.com/2020/02/11/1ovFOA.png"><link rel="canonical" href="https://pingxin0521.gitee.io/2019/12/18/%E5%91%A8%E8%AE%B0-5-1/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"search.xml","languages":{"hits_empty":"找不到您查询的内容：${query}"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    jQuery: 'https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js',
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+    },
+    fancybox: {
+      js: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css'
+    }
+  },
+  isPhotoFigcaption: true,
+  islazyload: true,
+  isanchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '第六周--http 2与http 3',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2019-12-18 18:42:17'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    })(window)</script><meta name="generator" content="Hexo 5.4.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="author-avatar"><img class="avatar-img" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://s2.ax1x.com/2020/02/11/1ovw6J.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data"><div class="data-item is-center"><div class="data-item-link"><a href="/archives/"><div class="headline">文章</div><div class="length-num">449</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/tags/"><div class="headline">标签</div><div class="length-num">77</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/categories/"><div class="headline">分类</div><div class="length-num">68</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fa fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fa fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://i.loli.net/2020/05/08/okfOw28KlZFbE7z.jpg')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">平心de小屋</a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fa fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fa fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">第六周--http 2与http 3</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2019-12-18T10:18:59.000Z" title="发表于 2019-12-18 18:18:59">2019-12-18</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2019-12-18T10:42:17.561Z" title="更新于 2019-12-18 18:42:17">2019-12-18</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E5%91%A8%E8%AE%B0/">周记</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">10.6k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>32分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="第六周--http 2与http 3"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h4 id="本周速记"><a href="#本周速记" class="headerlink" title="本周速记"></a>本周速记</h4><p><strong>方法论</strong></p>
+<p>本周来学习一下网站新技术</p>
+<ol>
+<li>servlet 4</li>
+<li>http 2与http 3 </li>
+<li>serverless</li>
+<li>SSL/TLS</li>
+</ol>
+<span id="more"></span>
+
+<h3 id="Http协议"><a href="#Http协议" class="headerlink" title="Http协议"></a>Http协议</h3><p>这里的描述基于http 1.0、http 1.1 协议</p>
+<p>url：包括我们平时说的“网址”</p>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2019/12/18/d68VAcRbPY5pD2a.png" alt="UTOOLS1576650758860.png"></p>
+<p><strong>HTTP协议格式</strong></p>
+<p>HTTP：请求响应机制</p>
+<p>HTTP底层协议：TCP 协议</p>
+<p>TCP 的特点：面向连接，保证可靠性</p>
+<p>面向连接：我要和对应的服务器进行通信，第一件事情就是要把连接建立好</p>
+<p>一个简单的网络通信：</p>
+<ul>
+<li>建立连接</li>
+<li>发请求</li>
+<li>响应请求并断开连接</li>
+</ul>
+<p>应用层核心工作：把数据通过 TCP 实现从A点到B点，但是从A——&gt;B只是最基础阶段，它后续要对HTTP请求做出响应。</p>
+<p>HTTP 用 TCP要实现的两个基本功能：</p>
+<ol>
+<li>发数据；</li>
+<li>收数据。</li>
+</ol>
+<p>HTTP　不关心其他的细节问题。</p>
+<p>HTTP的任务：</p>
+<ol>
+<li>请求资源（从对方服务器将资源拿到）——更简单；</li>
+<li>提交信息（处理数据），从客户端把数据推送到服务器。</li>
+</ol>
+<h5 id="HTTP请求："><a href="#HTTP请求：" class="headerlink" title="HTTP请求："></a>HTTP请求：</h5><p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2019/12/18/WisTmRknOXEK7Mx.png" alt="UTOOLS1576650863523.png"></p>
+<p>请求报头每一行的格式：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Name：[空格]内容（一行就是一个属性，这里的“行”是以换行符作为标准）</span><br></pre></td></tr></table></figure>
+
+<p>Header 解析：</p>
+<ol>
+<li><p>请求行：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[请求方法]  [url]  [版本] 	（空格分开）</span><br></pre></td></tr></table></figure>
+
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2019/12/18/PfFlLrKUOWGtivp.png" alt="UTOOLS1576650925117.png"></p>
+</li>
+<li><p>Host ：请求的资源在哪个主机的端口上</p>
+</li>
+<li><p>Connection：该请求支持长连接（heep_alive）</p>
+</li>
+<li><p>Content-Length：正文内容长度</p>
+</li>
+<li><p>Content-Type：数据类型</p>
+</li>
+<li><p>User-Agent：声明用户的操作系统和浏览器版本信息</p>
+</li>
+<li><p>Accent：发起了请求</p>
+</li>
+<li><p>Referer：当前页面是从哪个页面跳转过来的</p>
+</li>
+<li><p>Accept-Encoding：接受的编码</p>
+<p>具体是怎么协商生成“会话密钥”的，上文提到了，这里还有一个疑问，为什么不直接使用crt证书里面的公钥进行加密，再使用服务器里面的私钥进行解密呢？更何况服务器里面的私钥也可以进行加密，crt里面的证书再进行解密即可。原因为：每一次对话（session），客户端和服务器端都生成一个”会话密钥”（session key），用它来加密信息。由于”对话密钥”是对称加密，所以运算速度非常快，而服务器公钥加密是非对称加密，比较耗时间，所以证书里面的公钥只用于加密”会话密钥”本身，这样就减少了加密运算的消耗时间。</p>
+</li>
+<li><p>Accept-Language：接受的语言类型</p>
+</li>
+<li><p>Cookie：用于在客户端存储少量信息，通常用于实现会话（session）功能</p>
+</li>
+</ol>
+<p><strong>详解 Connection：</strong></p>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2019/12/18/34OfTP5JnKg2XAo.png" alt="UTOOLS1576650975406.png"></p>
+<p>HTTP 是应用层协议，HTTP 用的是下层的 TCP协议，而 TCP 是保证可靠性的。</p>
+<p>TCP 为了保证可靠性，所以 TCP 是面向连接的。</p>
+<p>TCP 面向连接之前必须先建立连接——&gt; HTTP 向通信就要在底层先把连接建立好。</p>
+<p>然后，发送方根据已经建立好的连接向服务器发送一个请求。</p>
+<p>发过去之后对方就可以根据这个完整地读出来，对方再分析这个报文，然后对这个报文做出响应，HTTP 请求结束，之后断开连接。</p>
+<p>这种一来一回的形式成为短连接（一次请求一个）</p>
+<p><strong>读请求：按行读取</strong></p>
+<p>什么时候读完报头？：读到空行</p>
+<p><strong>有效载荷：正文</strong><br><strong>报头和有效载荷分离：空行</strong></p>
+<p>紧挨着的几个请求如何分开：那么读一个请求时，在读取正文部分就要精确正文要读取多少，需要严格控制，所以报头中有一个属性——&gt;Content-Length（正文的长度）</p>
+<h5 id="HTTP响应："><a href="#HTTP响应：" class="headerlink" title="HTTP响应："></a>HTTP响应：</h5><p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://s2.ax1x.com/2019/12/18/Q71R4U.png" alt="Q71R4U.png"></p>
+<p>Header 解析：</p>
+<p>状态行：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[版本号]  [状态码]  [状态码解释]           （空格分开）</span><br></pre></td></tr></table></figure>
+
+<h4 id="HTTP-方法"><a href="#HTTP-方法" class="headerlink" title="HTTP 方法"></a>HTTP 方法</h4><ol>
+<li>GET：获取资源</li>
+<li>POST：传输实体主体</li>
+<li>PUT：传输文件</li>
+<li>HEAD：获得报文首部（相当于GET方法获得的资源去掉正文）</li>
+<li>DELETE：删除文件</li>
+<li>OPTIONS：询问支持的方法（客户端问服务器）</li>
+<li>TRACE：追踪路径</li>
+<li>OCONNECT：要求用隧道协议连接代理</li>
+<li>LINK：建立与资源之间的联系</li>
+<li>UNLINE：断开连接关系</li>
+</ol>
+<p><strong>GET 方法和 POST 方法核心点：</strong></p>
+<ol>
+<li>传参的数据量不一样，一个通过 url，一个通过正文，所以 POST 能传更多的数据；</li>
+<li>GET 方法和 POST 方法传参位置上，可靠性问题。</li>
+</ol>
+<h4 id="HTTP-状态码"><a href="#HTTP-状态码" class="headerlink" title="HTTP 状态码"></a>HTTP 状态码</h4><ul>
+<li><code>1**</code>：请求收到，继续处理</li>
+<li><code>2**</code>：操作成功收到，分析、接受</li>
+<li><code>3**</code>：完成此请求必须进一步处理</li>
+<li><code>4**</code>：请求包含一个错误语法或不能完成</li>
+<li><code>5**</code>：服务器执行一个完全有效请求失败</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br></pre></td><td class="code"><pre><span class="line">--------------</span><br><span class="line">100——客户必须继续发出请求</span><br><span class="line">101——客户要求服务器根据请求转换HTTP协议版本</span><br><span class="line"></span><br><span class="line">--------------</span><br><span class="line">200——请求成功</span><br><span class="line">201——提示知道新文件的URL</span><br><span class="line">202——接受和处理、但处理未完成</span><br><span class="line">203——返回信息不确定或不完整</span><br><span class="line">204——请求收到，但返回信息为空</span><br><span class="line">205——服务器完成了请求，用户代理必须复位当前已经浏览过的文件</span><br><span class="line">206——服务器已经完成了部分用户的GET请求</span><br><span class="line"></span><br><span class="line">----------------</span><br><span class="line">300——请求的资源可在多处得到</span><br><span class="line">301——删除请求数据</span><br><span class="line">302——在其他地址发现了请求数据</span><br><span class="line">303——建议客户访问其他URL或访问方式</span><br><span class="line">304——客户端已经执行了GET，但文件未变化</span><br><span class="line">305——请求的资源必须从服务器指定的地址得到</span><br><span class="line">306——前一版本HTTP中使用的代码，现行版本中不再使用</span><br><span class="line">307——申明请求的资源临时性删除</span><br><span class="line"></span><br><span class="line">--------------------</span><br><span class="line">400——错误请求，如语法错误</span><br><span class="line">401——请求授权失败</span><br><span class="line">402——保留有效ChargeTo头响应</span><br><span class="line">403——请求不允许</span><br><span class="line">404——没有发现文件、查询或URl</span><br><span class="line">405——用户在Request-Line字段定义的方法不允许</span><br><span class="line">406——根据用户发送的Accept拖，请求资源不可访问</span><br><span class="line">407——类似401，用户必须首先在代理服务器上得到授权</span><br><span class="line">408——客户端没有在用户指定的饿时间内完成请求</span><br><span class="line">409——对当前资源状态，请求不能完成</span><br><span class="line">410——服务器上不再有此资源且无进一步的参考地址</span><br><span class="line">411——服务器拒绝用户定义的Content-Length属性请求</span><br><span class="line">412——一个或多个请求头字段在当前请求中错误</span><br><span class="line">413——请求的资源大于服务器允许的大小</span><br><span class="line">414——请求的资源URL长于服务器允许的长度</span><br><span class="line">415——请求资源不支持请求项目格式</span><br><span class="line">416——请求中包含Range请求头字段，在当前请求资源范围内没有range指示值，请求也不包含If-Range请求头字段</span><br><span class="line">417——服务器不满足请求Expect头字段指定的期望值，如果是代理服务器，可能是下一级服务器不能满足请求</span><br><span class="line"></span><br><span class="line">--------------------</span><br><span class="line">500——服务器产生内部错误</span><br><span class="line">501——服务器不支持请求的函数</span><br><span class="line">502——服务器暂时不可用，有时是为了防止发生系统过载</span><br><span class="line">503——服务器过载或暂停维修</span><br><span class="line">504——关口过载，服务器使用另一个关口或服务来响应用户，等待时间设定值较长</span><br><span class="line">505——服务器不支持或拒绝支请求头中指定的HTTP版本</span><br></pre></td></tr></table></figure>
+
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://s2.ax1x.com/2019/12/18/Q73joV.png" alt="Q73joV.png"></p>
+<h4 id="HTTP的工作原理"><a href="#HTTP的工作原理" class="headerlink" title="HTTP的工作原理"></a>HTTP的工作原理</h4><p>HTTP协议定义了web客户端如何从web服务器请求Web页面,以及服务器如何把Web页面传送给客户端.HTTP协议采用了请求/响应模型.客户端向服务器发送一个请求报文,请求报文包括请求的方法,url,协议版本,请求头部和请求数据.服务器以一个状态行作为响应,响应的内容包括协议的版本,成功或者错误代码,服务器信息,响应头部和响应数据</p>
+<p><strong>以下是HTTP协议的请求/响应步骤</strong></p>
+<ol>
+<li><p>客户端连接到we服务器</p>
+<p>一个HTTP客户端,通常是浏览器,与Web服务器的HTTP端口(默认是80)建立一个TCP套接字连接.</p>
+</li>
+<li><p>发送HTTP请求</p>
+<p>通过TCP套接字,客户端向Web服务器发送一个文本的请求报文,一个请求报文由请求行,请求头部,空行和请求体4个部分构成.</p>
+</li>
+<li><p>服务区接收解释请求并返回HTTP响应</p>
+<p>Web解析请求,定位请求资源.服务器将资源复本写到TCP套接字,由客户端获取.一个响应由状态行,响应 头,空行和响应数据4部分组成.</p>
+</li>
+<li><p>释放连接TCP连接</p>
+<p>若Connection模式为close,则服务器主动关闭TCP连接,客户端被动关闭TCP连接,释放TCP连接.若Connection为keepalive,则该连接会保持一段时间,该时间内可以持续使用该连接接收请求,做出响应</p>
+</li>
+<li><p>客户端浏览器解析HTML内容</p>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://s2.ax1x.com/2019/12/18/Q787tK.png" alt="Q787tK.png"></p>
+</li>
+</ol>
+<p><strong>HTTP几个重要的概念</strong></p>
+<ol>
+<li><p>连接: Connection</p>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://s2.ax1x.com/2019/12/18/Q7GF1g.png" alt="Q7GF1g.png"></p>
+</li>
+<li><p>消息: Message</p>
+<p>HTTP通讯的基本单位,包括一个结构化的八元组序列并通过连续传输</p>
+</li>
+<li><p>请求:Request</p>
+<p>一个客户端到服务器的请求消息包括应用于资源的方法,资源的标识符和协议的版本号</p>
+</li>
+<li><p>响应:Response<br>一个从服务器返回的信息包括HTTP协议的版本号、请求的状态(例如“成功”或“没找到”)和文档的MIME类型</p>
+</li>
+<li><p>资源: Resource<br>由URL标识的网络数据对象或服务</p>
+</li>
+<li><p>实体:Entity<br>数据资源或来自服务资源的回映的一种特殊表示方法，它可能被包围在一个请求或响应信息中。一个实体包括实体头信息和实体的本身内容</p>
+</li>
+<li><p>客户机:Client<br>一个为发送请求目的而建立连接的应用程序</p>
+</li>
+<li><p>用户代理:User-Agent<br>初始化一个请求的客户机.它们是浏览器,编辑器或者其他工具</p>
+</li>
+<li><p>代理:Proxy</p>
+<p>一个中间程序，它可以充当一个服务器，也可以充当一个客户机，为其它客户机建立请求。请求是通过可能的翻译在内部或经过传递到其它的服务器中。一个代理在发送请求信息之前，必须解释并且如果可能重写它。<br>代理经常作为通过防火墙的客户机端的门户，代理还可以作为一个帮助应用来通过协议处理没有被用户代理完成的请求。</p>
+</li>
+<li><p>网关:Gateway<br>一个作为其它服务器中间媒介的服务器。与代理不同的是，网关接受请求就好象对被请求的资源来说它就是源服务器；发出请求的客户机并没有意识到它在同网关打交道。<br>网关经常作为通过防火墙的服务器端的门户，网关还可以作为一个协议翻译器以便存取那些存储在非HTTP系统中的资源</p>
+</li>
+<li><p>通道：Tunnel<br>是作为两个连接中继的中介程序。一旦激活，通道便被认为不属于HTTP通讯，尽管通道可能是被一个HTTP请求初始化的。当被中继的连接两端关闭时，通道便消失。当一个门户(Portal)必须存在或中介(Intermediary)不能解释中继的通讯时通道被经常使用。</p>
+</li>
+<li><p>缓存：Cache<br>反应信息的局域存储</p>
+</li>
+</ol>
+<h3 id="Http-不同版本"><a href="#Http-不同版本" class="headerlink" title="Http 不同版本"></a>Http 不同版本</h3><p>早在HTTP建立之初，主要就是为了将超文本标记语言(HTML)文档从Web服务器传送到客户端的浏览器。</p>
+<p>也是说对于前端来说，我们所写的HTML页面将要放在我们的web服务器上，用户端通过浏览器访问url地址来获取网页的显示内容.</p>
+<p>但是到了WEB2.0以来，我们的页面变得复杂，不仅仅单纯的是一些简单的文字和图片，同时我们的HTML页面有了CSS，Java，来丰富我们的页面展示，当ajax的出现，我们又多了一种向服务器端获取数据的方法，这些其实都是基于HTTP协议的。</p>
+<p>同样到了移动互联网时代，我们页面可以跑在手机端浏览器里面，但是和PC相比，手机端的网络情况更加复杂，这使得我们开始了不得不对HTTP进行深入理解并不断优化过程中。</p>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://s2.ax1x.com/2019/12/18/Q7JWZR.png" alt="Q7JWZR.png"></p>
+<p><strong>HTTP的基本优化</strong></p>
+<p>影响一个 HTTP 网络请求的因素主要有两个：<strong>带宽和延迟。</strong></p>
+<ul>
+<li><p><strong>带宽：</strong>如果说我们还停留在拨号上网的阶段，带宽可能会成为一个比较严重影响请求的问题，但是现在网络基础建设已经使得带宽得到极大的提升，我们不再会担心由带宽而影响网速，那么就只剩下延迟了。</p>
+</li>
+<li><p><strong>延迟：</strong></p>
+</li>
+<li><ul>
+<li>浏览器阻塞（HOL blocking）：浏览器会因为一些原因阻塞请求。浏览器对于同一个域名，同时只能有 4 个连接（这个根据浏览器内核不同可能会有所差异），超过浏览器最大连接数限制，后续请求就会被阻塞。</li>
+<li>DNS 查询（DNS Lookup）：浏览器需要知道目标服务器的 IP 才能建立连接。将域名解析为 IP 的这个系统就是 DNS。这个通常可以利用DNS缓存结果来达到减少这个时间的目的。</li>
+<li>建立连接（Initial connection）：HTTP 是基于 TCP 协议的，浏览器最快也要在第三次握手时才能捎带 HTTP 请求报文，达到真正的建立连接，但是这些连接无法复用会导致每次请求都经历三次握手和慢启动。三次握手在高延迟的场景下影响较明显，慢启动则对文件类大请求影响较大。</li>
+</ul>
+</li>
+</ul>
+<h4 id="http-1-0"><a href="#http-1-0" class="headerlink" title="http 1.0"></a>http 1.0</h4><ol>
+<li><p>链接无法复用，即不支持持久链接</p>
+<p>http 1.0 规定浏览器与服务器保持较短时间的链接，浏览器每次请求都和服务器经过三次握手和慢启动（基本思想是当TCP开始传输数据或发现数据丢失并开始重发时，首先慢慢的对网路实际容量进行试探，避免由于发送了过量的数据而导致阻塞）建立一个TCP链接，服务器完成请求处理后立即断开TCP链接，而且不跟踪每个浏览器的历史请求。</p>
+<p>注意：由于http 1.0每次建立TCP链接对性能的影响实在是太大，http1.1实现持久化链接之后，又反向移植到http 1.0上，只是默认是没有开启持久链接的，通过http的header部分的 Connection: KeepAlive 来启用）</p>
+</li>
+<li><p>线头阻塞（Head of Line (HOL) Blocking）</p>
+<p>请求队列的第一个请求因为服务器正忙（或请求格式问题等其他原因），导致后面的请求被阻塞。</p>
+</li>
+</ol>
+<h4 id="http-1-1"><a href="#http-1-1" class="headerlink" title="http 1.1"></a>http 1.1</h4><ol>
+<li><p>支持持久链接（在request和response中的header中的connection是close或者Keep-Alive进行控制）</p>
+<p>一个TCP链接可以传送多个http请求和相应，减少了TCP建立链接和关闭链接的消耗。另外http1.1允许客户端不用等待上一次请求结果返回，就可以发出下一次请求，但服务器端必须按照接收到客户端请求的先后顺序依次回送响应结果，以保证客户端能 够区分出每次请求的响应内容。</p>
+</li>
+<li><p>支持http管道</p>
+<p>不使用管道的http请求，在使用持久链接时，必须严格满足先进先出的队列顺序（FIFO），即发送请求，等待响应完成，再发送客户端队列中的下一个请求。管道可以让我们把 FIFO 队列从客户端（请求队列）迁移到服务器（响应队列），即客户端可以并行，服务端串行。客户端可以不用等待前一个请求返回，发送请求，但服务器端必须顺序的返回客户端的请求响应结果。</p>
+<h5 id="缺点："><a href="#缺点：" class="headerlink" title="缺点："></a>缺点：</h5><p>a. 一个请求响应阻塞，就会阻塞后续所有请求</p>
+<p>b. 并行处理请求时，服务器必须缓冲管道中的响应，从而占用服务器资源，如果有个响应非常大，则很容易形成服务器的受攻击面；</p>
+<p>c. 响应失败可能终止 TCP 连接，从页强迫客户端重新发送对所有后续资源的请求，导致重复处理；</p>
+<p>d. 由于可能存在中间代理，因此检测管道兼容性，确保可靠性很重要；</p>
+<p>e. 如果中间代理不支持管道，那它可能会中断连接，也可能会把所有请求串联起来。</p>
+</li>
+<li><p>使用多个TCP链接</p>
+<p>http1.1 在客户端排队所有请求，然后通过一个TCP持久链接，一个接一个的发送请求（如果有http管道还必须顺序等待服务端的顺序返回结果）。但实际中，浏览器的开发时不会这么笨，浏览器允许我们打开N个TCP链接（大多说浏览器是6个TCP链接，这个数字越大，客户端和服务器的资源占用越多，这个数据也只是感觉安全的数字而已）。</p>
+<h5 id="带来的好处："><a href="#带来的好处：" class="headerlink" title="带来的好处："></a>带来的好处：</h5><ol>
+<li>客户端可以并行发送最多 N个请求；</li>
+<li>服务器可以并行处理最多 N个请求；</li>
+<li>第一次往返可以发送的累计分组数量（TCP cwnd）增长为原来的 N 倍。</li>
+</ol>
+<h5 id="代价："><a href="#代价：" class="headerlink" title="代价："></a>代价：</h5><p>1.更多的套接字会占用客户端、服务器以及代理的资源，包括内存缓冲区和 CPU时钟周期；</p>
+<p>2.并行 TCP 流之间竞争共享的带宽；</p>
+<p>3.由于处理多个套接字，实现复杂性更高；</p>
+<p>4.即使并行 TCP 流，应用的并行能力也受限制。</p>
+<p>因此使用多个TCP链接只是权宜之计，后续的http 2.0支持多路复用，很好的解决了上述问题。</p>
+</li>
+<li><p>http 1.1 增加了请求头和响应头来扩充功能</p>
+<p>举例：</p>
+<p>a. 支持Host请求：</p>
+<p>b. Connection: 请求头的值为Connection时，客户端通知服务器返回本次请求结果后保持连接；Connection请求头的值为close 时，客户端通知服务器返回本次请求结果后关闭连接</p>
+<p>c. 支持断点续传:</p>
+<p>d.身份认证：</p>
+<p>e.状态管理:</p>
+<p>f. 缓存处理：</p>
+</li>
+<li><p>域名分区</p>
+<p>域名分区是思想是将原来集中到一个服务器上的资源分布到多个服务器上，这样就可以突破浏览器的链接限制（一般是6个），提高并行能力。</p>
+<p>代价：</p>
+<ol>
+<li><p>每多一台主机都要多一次的 DNS 查询，每多一个套接字都会多消耗两端的一些资源；</p>
+</li>
+<li><p>必须手工分离一台主机上的资源到多台；.</p>
+</li>
+</ol>
+<p>实际实践中，效果并不是很明显，反而导致被滥用。</p>
+</li>
+<li><p>http的header的优化</p>
+<p>目前所有的header请求都是以没有经过压缩的纯文本的形式发送（通常会有600`1000字节），而通常使用的http请求body却很少（10~200字节），和header相比，显得很少，特别是在使用了cookie之后，这样的矛盾就更加突出，因此要减少header的数据。</p>
+</li>
+<li><p>减少连接次数</p>
+<p>即将需要多次才能获取的文件或资源组合并成一个，通过一次网络请求获取。这样减少了协议的开销，间接地将服务器端的管道思维移植到了客户端。缺点：增加复杂性，更缓存带来负担，页面的分步显示，改成一次显示，在网络慢的时候影响用户体验。</p>
+</li>
+<li><p>嵌入小的文件</p>
+<p>即将资源嵌入文档（通过URI嵌入图片，音频或PDF），可以减少请求次数。嵌入资源作为页面的返回一部分一次返回，即如果在多个页面中都嵌入同样的资源，那么这个资源将会随着每个页面的加载而被加载，从而增大每个页面的总体大小，如果嵌入资源被更新，客户端只能重新获取有效的资源。</p>
+<p>实践：一般只考虑嵌入1~2KB一下的资源</p>
+<h5 id="参照建议："><a href="#参照建议：" class="headerlink" title="参照建议："></a>参照建议：</h5><ol>
+<li><p>如果文件很小，而且只有个别页面使用，可以考虑嵌入；</p>
+</li>
+<li><p>如果文件很小，但需要在多个页面中重用，应该考虑集中打包；</p>
+</li>
+<li><p>如果小文件经常需要更新，就不要嵌入了；</p>
+</li>
+<li><p>通过减少 HTTP cookie 的大小将协议开销最小化。</p>
+</li>
+</ol>
+</li>
+</ol>
+<p><strong>HTTP1.0和HTTP1.1的一些区别</strong></p>
+<p>HTTP1.0最早在网页中使用是在1996年，那个时候只是使用一些较为简单的网页上和网络请求上，而HTTP1.1则在1999年才开始广泛应用于现在的各大浏览器网络请求中，同时HTTP1.1也是当前使用最为广泛的HTTP协议。 主要区别主要体现在：</p>
+<ol>
+<li><strong>缓存处理</strong>，在HTTP1.0中主要使用header里的If-Modified-Since,Expires来做为缓存判断的标准，HTTP1.1则引入了更多的缓存控制策略例如Entity tag，If-Unmodified-Since, If-Match, If-None-Match等更多可供选择的缓存头来控制缓存策略。</li>
+<li><strong>带宽优化及网络连接的使用</strong>，HTTP1.0中，存在一些浪费带宽的现象，例如客户端只是需要某个对象的一部分，而服务器却将整个对象送过来了，并且不支持断点续传功能，HTTP1.1则在请求头引入了range头域，它允许只请求资源的某个部分，即返回码是206（Partial Content），这样就方便了开发者自由的选择以便于充分利用带宽和连接。</li>
+<li><strong>错误通知的管理</strong>，在HTTP1.1中新增了24个错误状态响应码，如409（Conflict）表示请求的资源与资源的当前状态发生冲突；410（Gone）表示服务器上的某个资源被永久性的删除。</li>
+<li><strong>Host头处理</strong>，在HTTP1.0中认为每台服务器都绑定一个唯一的IP地址，因此，请求消息中的URL并没有传递主机名（hostname）。但随着虚拟主机技术的发展，在一台物理服务器上可以存在多个虚拟主机（Multi-homed Web Servers），并且它们共享一个IP地址。HTTP1.1的请求消息和响应消息都应支持Host头域，且请求消息中如果没有Host头域会报告一个错误（400 Bad Request）。</li>
+<li><strong>长连接</strong>，HTTP 1.1支持长连接（PersistentConnection）和请求的流水线（Pipelining）处理，在一个TCP连接上可以传送多个HTTP请求和响应，减少了建立和关闭连接的消耗和延迟，在HTTP1.1中默认开启Connection： keep-alive，一定程度上弥补了HTTP1.0每次请求都要创建连接的缺点。</li>
+</ol>
+<h4 id="http-2"><a href="#http-2" class="headerlink" title="http/2"></a>http/2</h4><p><strong>SPDY：HTTP1.x的优化</strong></p>
+<p>2012年google如一声惊雷提出了SPDY的方案，优化了HTTP1.X的请求延迟，解决了HTTP1.X的安全性，具体如下：</p>
+<ol>
+<li><p><strong>降低延迟</strong>，针对HTTP高延迟的问题，SPDY优雅的采取了多路复用（multiplexing）。多路复用通过多个请求stream共享一个tcp连接的方式，解决了HOL blocking的问题，降低了延迟同时提高了带宽的利用率。</p>
+</li>
+<li><p><strong>请求优先级</strong>（request prioritization）。多路复用带来一个新的问题是，在连接共享的基础之上有可能会导致关键请求被阻塞。SPDY允许给每个request设置优先级，这样重要的请求就会优先得到响应。比如浏览器加载首页，首页的html内容应该优先展示，之后才是各种静态资源文件，脚本文件等加载，这样可以保证用户能第一时间看到网页内容。</p>
+</li>
+<li><p><strong>header压缩。</strong>前面提到HTTP1.x的header很多时候都是重复多余的。选择合适的压缩算法可以减小包的大小和数量。</p>
+</li>
+<li><p><strong>基于HTTPS的加密协议传输</strong>，大大提高了传输数据的可靠性。</p>
+</li>
+<li><p><strong>服务端推送</strong>（server push），采用了SPDY的网页，例如我的网页有一个sytle.css的请求，在客户端收到sytle.css数据的同时，服务端会将sytle.js的文件推送给客户端，当客户端再次尝试获取sytle.js时就可以直接从缓存中获取到，不用再发请求了。SPDY构成图：</p>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://s2.ax1x.com/2019/12/18/Q7av26.png" alt="Q7av26.png"></p>
+</li>
+</ol>
+<p>SPDY位于HTTP之下，TCP和SSL之上，这样可以轻松兼容老版本的HTTP协议(将HTTP1.x的内容封装成一种新的frame格式)，同时可以使用已有的SSL功能。</p>
+<p><strong>HTTP/2：SPDY的升级版</strong></p>
+<p>HTTP/2把解决性能问题的方案内置在了传输层，通过多路复用来减少延迟，通过压缩 HTTP首部降低开销，同时增加请求优先级和服务器端推送的功能。</p>
+<ol>
+<li><p>支持多路复用</p>
+<p>多路复用允许同时通过单一的 HTTP/2 连接发起多重的请求-响应消息，即所有HTTP/2 连接都是持久化的，而且客户端与服务器之间也只需要一个连接即可，所有数据流共用同一个连接 ，减少了因http链接多而引起的网络拥塞（在 HTTP1.1 协议中，同一时间，浏览器会针对同一域名下的请求有一定数量限制），解决了慢启动针对突发性和短时性的http链接低效的问题。</p>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://s2.ax1x.com/2019/12/18/Q7aeHJ.png" alt="Q7aeHJ.png"></p>
+</li>
+<li><p>将通信的基本单位缩小为帧</p>
+<p>即应用层(HTTP)和传输层(TCP or UDP)之间增加一个二进制分帧层，因此在多向请求和响应时，客户端和服务器可以把HTTP消息分解为互不依赖的帧，然后乱序发送，最后再在另一端把它们重新组合起来，解决了<code>http 1.*</code>的对手阻塞问题。</p>
+</li>
+<li><p>首部压缩</p>
+<p>HTTP/2支持DEFLATE和HPACK 算法的压缩。</p>
+</li>
+<li><p>服务端推送</p>
+<p>指客户端请求之前发送数据的机制，在 HTTP 2.0 中，服务器可以对客户端的一个请求发送多个响应。</p>
+</li>
+<li><p>请求优先级</p>
+<p>HTTP/2 使用一个31比特的优先值,0表示最高优先级, 2(31)-1表示最低优先级，服务器端就可以根据优先级，控制资源分配，优先处理和返回最高优先级的请求帧给客户端。</p>
+</li>
+</ol>
+<p><strong>HTTP/2和SPDY的区别：</strong></p>
+<ol>
+<li>HTTP/2 支持明文 HTTP 传输，而 SPDY 强制使用 HTTPS</li>
+<li>HTTP/2 消息头的压缩算法采用 <strong>HPACK</strong> <a target="_blank" rel="noopener" href="http://http2.github.io/http2-spec/compression.html%EF%BC%8C%E8%80%8C%E9%9D%9E">http://http2.github.io/http2-spec/compression.html，而非</a> SPDY 采用的 <strong>DEFLATE</strong> <a target="_blank" rel="noopener" href="http://zh.wikipedia.org/wiki/DEFLATE">http://zh.wikipedia.org/wiki/DEFLATE</a></li>
+</ol>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://s2.ax1x.com/2019/12/18/QHAXz6.png" alt="QHAXz6.png"></p>
+<h4 id="HTTPS"><a href="#HTTPS" class="headerlink" title="HTTPS"></a>HTTPS</h4><p>HTTP协议传输的数据都是未加密的，也就是明文的，因此使用HTTP协议传输隐私信息非常不安全。为了保证这些隐私数据能加密传输，于是网景公司设计了SSL（Secure Sockets Layer）协议用于对HTTP协议传输的数据进行加密，从而就诞生了HTTPS。现在的HTTPS都是用的TLS协议，但是由于SSL出现的时间比较早，并且依旧被现在浏览器所支持，因此SSL依然是HTTPS的代名词。</p>
+<p>HTTPS在传输数据之前需要客户端（浏览器）与服务端（网站）之间进行一次握手，在握手过程中将确立双方加密传输数据的密码信息。TLS/SSL协议不仅仅是一套加密传输的协议，TLS/SSL中使用了非对称加密，对称加密以及HASH算法。握手过程的简单描述如下：</p>
+<ol>
+<li><p>浏览器将自己支持的一套加密规则发送给网站。</p>
+</li>
+<li><p>网站从中选出一组加密算法与HASH算法，并将自己的身份信息以证书的形式发回给浏览器。证书里面包含了网站地址，加密公钥，以及证书的颁发机构等信息。</p>
+</li>
+<li><p>获得网站证书之后浏览器要做以下工作：</p>
+<ul>
+<li>验证证书的合法性（颁发证书的机构是否合法，证书中包含的网站地址是否与正在访问的地址一致等），如果证书受信任，则浏览器栏里面会显示一个小锁头，否则会给出证书不受信的提示。</li>
+<li>如果证书受信任，或者是用户接受了不受信的证书，浏览器会生成一串随机数的密码，并用证书中提供的公钥加密。</li>
+<li>使用约定好的HASH计算握手消息，并使用生成的随机数对消息进行加密，最后将之前生成的所有信息发送给网站。</li>
+</ul>
+</li>
+<li><p>网站接收浏览器发来的数据之后要做以下的操作：</p>
+<ul>
+<li>使用自己的私钥将信息解密取出密码，使用密码解密浏览器发来的握手消息，并验证HASH是否与浏览器发来的一致。</li>
+<li>使用密码加密一段握手消息，发送给浏览器。</li>
+</ul>
+</li>
+<li><p>浏览器解密并计算握手消息的HASH，如果与服务端发来的HASH一致，此时握手过程结束，之后所有的通信数据将由之前浏览器生成的随机密码并利用对称加密算法进行加密。</p>
+</li>
+</ol>
+<p>这里浏览器与网站互相发送加密的握手消息并验证，目的是为了保证双方都获得了一致的密码，并且可以正常的加密解密数据。其中非对称加密算法用于在握手过程中加密生成的密码，对称加密算法用于对真正传输的数据进行加密，而HASH算法用于验证数据的完整性。由于浏览器生成的密码是整个数据加密的关键，因此在传输的时候使用了非对称加密算法对其加密。非对称加密算法会生成公钥和私钥，公钥只能用于加密数据，因此可以随意传输，而网站的私钥用于对数据进行解密，所以网站都会非常小心的保管自己的私钥，防止泄漏。</p>
+<p>TLS握手过程中如果有任何错误，都会使加密连接断开，从而阻止了隐私信息的传输。正是由于HTTPS非常的安全，攻击者无法从中找到下手的地方，于是更多的是采用了假证书的手法来欺骗客户端，从而获取明文的信息。默认HTTP的端口号为80，HTTPS的端口号为443。</p>
+<p><strong>HTTPS与HTTP的一些区别</strong></p>
+<ul>
+<li>HTTPS协议需要到CA申请证书，一般免费证书很少，需要交费。</li>
+<li>HTTP协议运行在TCP之上，所有传输的内容都是明文，HTTPS运行在SSL/TLS之上，SSL/TLS运行在TCP之上，所有传输的内容都经过加密的。</li>
+<li>HTTP和HTTPS使用的是完全不同的连接方式，用的端口也不一样，前者是80，后者是443。</li>
+<li>HTTPS可以有效的防止运营商劫持，解决了防劫持的一个大问题。</li>
+</ul>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://s2.ax1x.com/2019/12/18/Q7YUSO.png" alt="Q7YUSO.png"></p>
+<h4 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h4><p><strong>HTTPS和HTTP2.0是什么关系。HTTPS是属于哪个版本号呢？</strong></p>
+<p>http2.0是http协议不断优化改造的升级版本，而https是一种通讯协议，是在http协议传输数据过程中，使用SSL加密；可以说https是http+SSL，这里的http就是不同版本的http，可以是http1.0、1.1、2.0。</p>
+<p><strong>使用http1.0还是http1.1由谁决定，服务器还是客户端或者是浏览器？</strong></p>
+<p>最终决定是由 服务器端决定，根据web容器的支持</p>
+<p><strong>在浏览器地址栏输入一个URL后回车，背后会进行哪些技术步骤？</strong></p>
+<p><a target="_blank" rel="noopener" href="https://www.zhihu.com/question/34873227/answer/518086565">https://www.zhihu.com/question/34873227/answer/518086565</a></p>
+<h3 id="Http-3"><a href="#Http-3" class="headerlink" title="Http 3"></a>Http 3</h3><p>HTTP/2 相比于 HTTP/1，可以说是大幅度提高了网页的性能，只需要升级到该协议就可以减少很多之前需要做的性能优化工作，当然兼容问题以及如何优雅降级应该是国内还不普遍使用的原因之一。</p>
+<p>虽然 HTTP/2 提高了网页的性能，但是并不代表它已经是完美的了，HTTP/3 就是为了解决 HTTP/2 所存在的一些问题而被推出来的。</p>
+<p>伴随着计算机网络和浏览器的诞生，HTTP1.0也随之而来，处于计算机网络中的应用层，HTTP是建立在TCP协议之上，所以<strong>HTTP协议的瓶颈及其优化技巧都是基于TCP协议本身的特性</strong>，例如TCP建立连接的3次握手和断开连接的4次挥手以及每次建立连接带来的RTT延迟时间。</p>
+<p>虽然 HTTP/2 解决了很多之前旧版本的问题，但是它还是存在一个巨大的问题，主要是底层支撑的 TCP 协议造成的。</p>
+<p>HTTP/2 使用了多路复用，一般来说同一域名下只需要使用一个 TCP 连接。但当这个连接中出现了丢包的情况，那就会导致 HTTP/2 的表现情况反倒不如 HTTP/1 了。</p>
+<p>因为在出现丢包的情况下，整个 TCP 都要开始等待重传，也就导致了后面的所有数据都被阻塞了。但是对于 HTTP/1.1 来说，可以开启多个 TCP 连接，出现这种情况反到只会影响其中一个连接，剩余的 TCP 连接还可以正常传输数据。</p>
+<p>那么可能就会有人考虑到去修改 TCP 协议，其实这已经是一件不可能完成的任务了。因为 TCP 存在的时间实在太长，已经充斥在各种设备中，并且这个协议是由操作系统实现的，更新起来不大现实。</p>
+<p>基于这个原因，<strong>Google 就更起炉灶搞了一个基于 UDP 协议的 QUIC 协议，并且使用在了 HTTP/3 上</strong>，HTTP/3 之前名为 HTTP-over-QUIC，从这个名字中我们也可以发现，HTTP/3 最大的改造就是使用了 QUIC。</p>
+<p>QUIC 虽然基于 UDP，但是在原本的基础上新增了很多功能，接下来我们重点介绍几个QUIC新功能。</p>
+<h4 id="QUIC新功能"><a href="#QUIC新功能" class="headerlink" title="QUIC新功能"></a>QUIC新功能</h4><ul>
+<li><p>0-RTT</p>
+<p>通过使用类似 TCP 快速打开的技术，缓存当前会话的上下文，在下次恢复会话的时候，只需要将之前的缓存传递给服务端验证通过就可以进行传输了。<strong>0RTT 建连可以说是 QUIC 相比 HTTP2 最大的性能优势</strong>。那什么是 0RTT 建连呢？</p>
+<p>这里面有两层含义:</p>
+<p>1.传输层 0RTT 就能建立连接。</p>
+<p>2.加密层 0RTT 就能建立加密连接。</p>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://s2.ax1x.com/2019/12/18/Q70l3q.png" alt="Q70l3q.png"></p>
+<p>上图左边是 HTTPS 的一次完全握手的建连过程，需要 3 个 RTT。就算是会话复用也需要至少 2 个 RTT。</p>
+<p>而 QUIC 呢？由于建立在 UDP 的基础上，同时又实现了 0RTT 的安全握手，所以在大部分情况下，只需要 0 个 RTT 就能实现数据发送，在实现前向加密的基础上，并且 0RTT 的成功率相比 TLS 的会话记录单要高很多。</p>
+</li>
+<li><p>多路复用</p>
+<p>虽然 HTTP/2 支持了多路复用，但是 TCP 协议终究是没有这个功能的。QUIC 原生就实现了这个功能，并且传输的单个数据流可以保证有序交付且不会影响其他的数据流，这样的技术就解决了之前 TCP 存在的问题。</p>
+<p>同HTTP2.0一样，同一条 QUIC连接上可以创建多个stream，来发送多个HTTP请求，但是，QUIC是基于UDP的，一个连接上的多个stream之间没有依赖。比如下图中stream2丢了一个UDP包，不会影响后面跟着 Stream3 和 Stream4，不存在 TCP 队头阻塞。虽然stream2的那个包需要重新传，但是stream3、stream4的包无需等待，就可以发给用户。</p>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://s2.ax1x.com/2019/12/18/Q70UUJ.png" alt="Q70UUJ.png"></p>
+<p>另外QUIC 在移动端的表现也会比 TCP 好。因为 TCP 是基于 IP 和端口去识别连接的，这种方式在多变的移动端网络环境下是很脆弱的。但是 QUIC 是通过 ID 的方式去识别一个连接，不管你网络环境如何变化，只要 ID 不变，就能迅速重连上。</p>
+</li>
+<li><p>加密认证的报文</p>
+<p>TCP 协议头部没有经过任何加密和认证，所以在传输过程中很容易被中间网络设备篡改，注入和窃听。比如修改序列号、滑动窗口。这些行为有可能是出于性能优化，也有可能是主动攻击。</p>
+<p>但是 QUIC 的 packet 可以说是武装到了牙齿。除了个别报文比如 PUBLIC_RESET 和 CHLO，所有报文头部都是经过认证的，报文 Body 都是经过加密的。</p>
+<p>这样只要对 QUIC 报文任何修改，接收端都能够及时发现，有效地降低了安全风险。</p>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://s2.ax1x.com/2019/12/18/Q70081.png" alt="Q70081.png"></p>
+</li>
+<li><p>向前纠错机制</p>
+<p>QUIC协议有一个非常独特的特性，称为向前纠错 (Forward Error Correction，FEC)，每个数据包除了它本身的内容之外，还包括了部分其他数据包的数据，因此少量的丢包可以通过其他包的冗余数据直接组装而无需重传。向前纠错牺牲了每个数据包可以发送数据的上限，但是减少了因为丢包导致的数据重传，因为数据重传将会消耗更多的时间（包括确认数据包丢失、请求重传、等待新数据包等步骤的时间消耗）。</p>
+<p>假如说这次我要发送三个包，那么协议会算出这三个包的异或值并单独发出一个校验包，也就是总共发出了四个包。当出现其中的非校验包丢包的情况时，可以通过另外三个包计算出丢失的数据包的内容。<strong>当然这种技术只能使用在丢失一个包的情况下，如果出现丢失多个包就不能使用纠错机制了，只能使用重传的方式了</strong>。</p>
+</li>
+</ul>
+<p>虽然QUIC有这么多好处，但可以看到，相比HTTP/2，它的改动相当大，所以问题也不会少。</p>
+<ol>
+<li><p>第一个问题是与遗留的网络设备的兼容问题。</p>
+<p>基于目前的应用情况，许多网络设备对TCP和UDP的策略相当固定，TCP限制在常用端口，而UDP大概只开放了53端口(DNS)。所以如果HTTP/3使用UDP，兼容性方面可能会有不少问题需要解决。</p>
+<p>不过如果这个问题可以解决，未来大概不会再出现这种问题，因为HTTP/3的设计思想中已经为未来做了考虑，应用层和传输层职责严格隔离，避免再出现“传输层一看端口就知道应用层在干什么”的情况。</p>
+</li>
+<li><p>第二个问题是QUIC的性能问题。</p>
+<p>TCP虽然也是很老的协议，但应用广泛，操作系统内核中有对应的处理代码，BBR之类的新特性也可以大幅提升TCP的性能。但是QUIC放弃了TCP，据Google的文档，恰恰是因为TCP太稳定了，内核里的代码更新特别麻烦。此外，因为Linux内核设计之初并没有考虑多核的扩展问题，在多核(core)情况下反而会产生反复的陷核，造成进程阻塞，严重影响性能。</p>
+<p>针对上面的问题，不少新的方案都把网络协议栈放到用户态处理，QUIC也顺应了这种大潮流。唯一的问题是，UDP的协议栈似乎还没有现成的让人满意的方案，或许我们还得再等待一段时间，才能用上可靠高效的方案。</p>
+</li>
+<li><p>第三个问题是服务端推送。</p>
+<p>虽然很多人很想要这个特性，而且HTTP/2也确实加入了它，但关于它的应用仍然存在许多争议。简单说，HTTP/2的推送打破了HTTP传统的“一问一答”的通讯模式，在客户端没有请求的时候，服务端就可以给客户端发送数据，这难免被滥用(想想随处可见的那些最喜欢“在商言商”，最不喜欢谈“道德”的留言吧)，尽管Chrome的开发人员说它们会检查推送并阻止恶意内容，那也是要在收到推送数据之后进行，这个方案并不完善。</p>
+<p>同时，服务端也可能不顾客户端的缓存，执意重复推送，造成带宽浪费。HTTP/3保留了推送，但机制有所不同。客户端需要先同意，服务端才可以推送。而且，客户端可以设置服务端推送上限，超过上限的推送会出错。尽管如此，推送如何能妥善利用，目前还没有公认明确的答案。</p>
+</li>
+<li><p>最后一个问题来自调试和支持的工具。</p>
+<p>任何技术要想大规模工程应用，靠“标准实现”单打一肯定是不行的，因为无法切片，无法细粒度调试。在经典的HTTP技术栈中，各层都有对应的工具，比如IP层有ping和traceroute，传输层有telnet，应用层有curl，正是有这些工具簇拥着，开发人员才可以很方便地定位问题所处的层次和细节。HTTP/2虽然有改动，但调试工具也不少，curl可以支持，还有nghttp2、h2c等工具，初步形成了完整的体系。HTTP/3的改动很大，如果没有对应的调试支持工具，可以想象部署和迁移都不会容易。</p>
+</li>
+</ol>
+<p>更多参考：<a target="_blank" rel="noopener" href="https://www.zhihu.com/question/302412059?sort=created">如何看待 HTTP/3 ？</a></p>
+<h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><ol>
+<li><a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/GICbiyJpINrHZ41u_4zT-A">HTTP1.0、HTTP1.1 和 HTTP2.0 的区别</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/52d86558ca57">面试时如何优雅的谈论HTTP／1.0／1.1／2.0</a></li>
+<li><a target="_blank" rel="noopener" href="http://www.sohu.com/a/299243519_115128">HTTP3 为什么比 HTTP2 靠谱？ | 技术头条 </a></li>
+<li><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/6a7b0255e129">解读HTTP/3</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.zhihu.com/question/302412059?sort=created">如何看待 HTTP/3 ？</a></li>
+</ol>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">平心</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://pingxin0521.gitee.io/2019/12/18/%E5%91%A8%E8%AE%B0-5-1/">https://pingxin0521.gitee.io/2019/12/18/%E5%91%A8%E8%AE%B0-5-1/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://pingxin0521.gitee.io" target="_blank">平心de小屋</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E5%91%A8%E8%AE%B0/">周记</a></div><div class="post_share"><div class="social-share" data-image="https://i.loli.net/2020/05/08/okfOw28KlZFbE7z.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2019/12/19/Java-%E9%AB%98%E7%BA%A7-2-5/"><img class="prev-cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/okfOw28KlZFbE7z.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">Jdk动态代理和Cglib动态代理 底层源码分析</div></div></a></div><div class="next-post pull-right"><a href="/2019/12/18/Java-%E6%A1%86%E6%9E%B6-8-1-1/"><img class="next-cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/7dHvepmfYOLWTrX.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">Thymeleaf 入门</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span> 相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2019/11/14/周记-0-0/" title="何为道？"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/gGE57HRvpcKPfDY.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2019-12-15</div><div class="title">何为道？</div></div></a></div><div><a href="/2019/11/14/周记-0-1/" title="第一周--云原生"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/vCnKyoFJZ1g4XYR.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2020-01-04</div><div class="title">第一周--云原生</div></div></a></div><div><a href="/2019/11/15/周记-0-2/" title="第一周--混合云"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/PFDRNxj93taz6pw.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2019-11-15</div><div class="title">第一周--混合云</div></div></a></div><div><a href="/2019/11/14/周记-0-3/" title="第一周--DevOps"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/HjVAdIuT7bZJypS.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2019-11-21</div><div class="title">第一周--DevOps</div></div></a></div><div><a href="/2020/12/26/周记-10-1/" title="第十一周--谷歌浏览器插件"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/gGE57HRvpcKPfDY.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2020-12-26</div><div class="title">第十一周--谷歌浏览器插件</div></div></a></div><div><a href="/2019/11/18/周记-1-1/" title="第二周--BT和BT种子"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/PFDRNxj93taz6pw.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2019-11-28</div><div class="title">第二周--BT和BT种子</div></div></a></div></div></div><hr/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div class="vcomment" id="vcomment"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="card-info-avatar is-center"><img class="avatar-img" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://s2.ax1x.com/2020/02/11/1ovw6J.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/><div class="author-info__name">平心</div><div class="author-info__description">年轻人的life、learn and think</div></div><div class="card-info-data"><div class="card-info-data-item is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">449</div></a></div><div class="card-info-data-item is-center"><a href="/tags/"><div class="headline">标签</div><div class="length-num">77</div></a></div><div class="card-info-data-item is-center"><a href="/categories/"><div class="headline">分类</div><div class="length-num">68</div></a></div></div><a class="button--animated" id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/hanyunpeng0521"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/hanyunpeng0521" target="_blank" title="Github"><i class="fa fa-github"></i></a><a class="social-icon" href="mailto:m13839441583@163.com" target="_blank" title="Email"><i class="fa fa-envelope"></i></a><a class="social-icon" href="/atom.xml" target="_blank" title=""><i class="fa fa-rss"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn card-announcement-animation"></i><span>公告</span></div><div class="announcement_content">为什么呢？开始提问吧</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%9C%AC%E5%91%A8%E9%80%9F%E8%AE%B0"><span class="toc-number">1.</span> <span class="toc-text">本周速记</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Http%E5%8D%8F%E8%AE%AE"><span class="toc-number"></span> <span class="toc-text">Http协议</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#HTTP%E8%AF%B7%E6%B1%82%EF%BC%9A"><span class="toc-number">0.1.</span> <span class="toc-text">HTTP请求：</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#HTTP%E5%93%8D%E5%BA%94%EF%BC%9A"><span class="toc-number">0.2.</span> <span class="toc-text">HTTP响应：</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#HTTP-%E6%96%B9%E6%B3%95"><span class="toc-number">1.</span> <span class="toc-text">HTTP 方法</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#HTTP-%E7%8A%B6%E6%80%81%E7%A0%81"><span class="toc-number">2.</span> <span class="toc-text">HTTP 状态码</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#HTTP%E7%9A%84%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86"><span class="toc-number">3.</span> <span class="toc-text">HTTP的工作原理</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Http-%E4%B8%8D%E5%90%8C%E7%89%88%E6%9C%AC"><span class="toc-number"></span> <span class="toc-text">Http 不同版本</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#http-1-0"><span class="toc-number">1.</span> <span class="toc-text">http 1.0</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#http-1-1"><span class="toc-number">2.</span> <span class="toc-text">http 1.1</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E7%BC%BA%E7%82%B9%EF%BC%9A"><span class="toc-number">2.1.</span> <span class="toc-text">缺点：</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%B8%A6%E6%9D%A5%E7%9A%84%E5%A5%BD%E5%A4%84%EF%BC%9A"><span class="toc-number">2.2.</span> <span class="toc-text">带来的好处：</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E4%BB%A3%E4%BB%B7%EF%BC%9A"><span class="toc-number">2.3.</span> <span class="toc-text">代价：</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%8F%82%E7%85%A7%E5%BB%BA%E8%AE%AE%EF%BC%9A"><span class="toc-number">2.4.</span> <span class="toc-text">参照建议：</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#http-2"><span class="toc-number">3.</span> <span class="toc-text">http&#x2F;2</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#HTTPS"><span class="toc-number">4.</span> <span class="toc-text">HTTPS</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%97%AE%E9%A2%98"><span class="toc-number">5.</span> <span class="toc-text">问题</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Http-3"><span class="toc-number"></span> <span class="toc-text">Http 3</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#QUIC%E6%96%B0%E5%8A%9F%E8%83%BD"><span class="toc-number">1.</span> <span class="toc-text">QUIC新功能</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8F%82%E8%80%83"><span class="toc-number"></span> <span class="toc-text">参考</span></a></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2021/05/15/node-2-4/" title="Egg.js -- 为企业级框架和应用而生"><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/okfOw28KlZFbE7z.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Egg.js -- 为企业级框架和应用而生"/></a><div class="content"><a class="title" href="/2021/05/15/node-2-4/" title="Egg.js -- 为企业级框架和应用而生">Egg.js -- 为企业级框架和应用而生</a><time datetime="2021-05-15T10:18:59.000Z" title="发表于 2021-05-15 18:18:59">2021-05-15</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/04/30/node-2-3/" title="Koa -- 基于Node.js平台的下一代Web开发框架"><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/HjVAdIuT7bZJypS.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Koa -- 基于Node.js平台的下一代Web开发框架"/></a><div class="content"><a class="title" href="/2021/04/30/node-2-3/" title="Koa -- 基于Node.js平台的下一代Web开发框架">Koa -- 基于Node.js平台的下一代Web开发框架</a><time datetime="2021-04-30T10:18:59.000Z" title="发表于 2021-04-30 18:18:59">2021-04-30</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/04/01/node-2-1/" title="Node.JS web开发前置知识"><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/gGE57HRvpcKPfDY.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Node.JS web开发前置知识"/></a><div class="content"><a class="title" href="/2021/04/01/node-2-1/" title="Node.JS web开发前置知识">Node.JS web开发前置知识</a><time datetime="2021-04-01T03:18:59.000Z" title="发表于 2021-04-01 11:18:59">2021-04-01</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2020/12/26/%E5%91%A8%E8%AE%B0-10-1/" title="第十一周--谷歌浏览器插件"><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/gGE57HRvpcKPfDY.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="第十一周--谷歌浏览器插件"/></a><div class="content"><a class="title" href="/2020/12/26/%E5%91%A8%E8%AE%B0-10-1/" title="第十一周--谷歌浏览器插件">第十一周--谷歌浏览器插件</a><time datetime="2020-12-26T10:18:59.000Z" title="发表于 2020-12-26 18:18:59">2020-12-26</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2020/12/26/%E5%91%A8%E8%AE%B0-10-0/" title="第十一周--浏览器技术"><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/vCnKyoFJZ1g4XYR.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="第十一周--浏览器技术"/></a><div class="content"><a class="title" href="/2020/12/26/%E5%91%A8%E8%AE%B0-10-0/" title="第十一周--浏览器技术">第十一周--浏览器技术</a><time datetime="2020-12-26T06:18:59.000Z" title="发表于 2020-12-26 14:18:59">2020-12-26</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2019 - 2021 By 平心</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div id="local-search"><div class="search-dialog"><div class="search-dialog__title" id="local-search-title">本地搜索</div><div id="local-input-panel"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div></div><hr/><div id="local-search-results"></div><span class="search-close-button"><i class="fas fa-times"></i></span></div><div id="search-mask"></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload/dist/lazyload.iife.min.js"></script><script src="/js/search/local-search.js"></script><div class="js-pjax"><script>function loadValine () {
+  function initValine () {
+    const valine = new Valine(Object.assign({
+      el: '#vcomment',
+      appId: '4lfIXzqxaC1ONs0MJO4oHu07-gzGzoHsz',
+      appKey: 'qw99Bw8FD0KVKU9m457CwWsr',
+      placeholder: 'Please leave your footprints',
+      avatar: 'monsterid',
+      meta: 'nick,mail,link'.split(','),
+      pageSize: '10',
+      lang: 'zh-CN',
+      recordIP: true,
+      serverURLs: '',
+      emojiCDN: '',
+      emojiMaps: "",
+      enableQQ: true,
+      path: window.location.pathname,
+      requiredFields: ["nick,mail"],
+      visitor: false
+    }, null))
+  }
+
+  if (typeof Valine === 'function') initValine() 
+  else getScript('https://cdn.jsdelivr.net/npm/valine/dist/Valine.min.js').then(initValine)
+}
+
+if ('Valine' === 'Valine' || !false) {
+  if (false) btf.loadComment(document.getElementById('vcomment'),loadValine)
+  else setTimeout(loadValine, 0)
+} else {
+  function loadOtherComment () {
+    loadValine()
+  }
+}</script></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>

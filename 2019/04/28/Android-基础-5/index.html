@@ -1,0 +1,351 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Android 常用基本控件 | 平心de小屋</title><meta name="keywords" content="Android"><meta name="author" content="平心"><meta name="copyright" content="平心"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="View在Android中，什么是View？View是Android中所有控件的基类，不管是简单的TextView，Button还是复杂的LinearLayout和ListView，它们的共同基类都是View； View是一种界面层的控件的一种抽象，它代表了一个控件，除了View还有ViewGroup，从名字来看ViewGroup可以翻译为控件组，即一组View；">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Android 常用基本控件">
+<meta property="og:url" content="https://pingxin0521.gitee.io/2019/04/28/Android-%E5%9F%BA%E7%A1%80-5/index.html">
+<meta property="og:site_name" content="平心de小屋">
+<meta property="og:description" content="View在Android中，什么是View？View是Android中所有控件的基类，不管是简单的TextView，Button还是复杂的LinearLayout和ListView，它们的共同基类都是View； View是一种界面层的控件的一种抽象，它代表了一个控件，除了View还有ViewGroup，从名字来看ViewGroup可以翻译为控件组，即一组View；">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://i.loli.net/2020/05/08/vCnKyoFJZ1g4XYR.jpg">
+<meta property="article:published_time" content="2019-04-28T05:18:59.000Z">
+<meta property="article:modified_time" content="2019-05-08T09:38:00.000Z">
+<meta property="article:author" content="平心">
+<meta property="article:tag" content="Android">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.loli.net/2020/05/08/vCnKyoFJZ1g4XYR.jpg"><link rel="shortcut icon" href="https://s2.ax1x.com/2020/02/11/1ovFOA.png"><link rel="canonical" href="https://pingxin0521.gitee.io/2019/04/28/Android-%E5%9F%BA%E7%A1%80-5/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"search.xml","languages":{"hits_empty":"找不到您查询的内容：${query}"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    jQuery: 'https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js',
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+    },
+    fancybox: {
+      js: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css'
+    }
+  },
+  isPhotoFigcaption: true,
+  islazyload: true,
+  isanchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'Android 常用基本控件',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2019-05-08 17:38:00'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    })(window)</script><meta name="generator" content="Hexo 5.4.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="author-avatar"><img class="avatar-img" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://s2.ax1x.com/2020/02/11/1ovw6J.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data"><div class="data-item is-center"><div class="data-item-link"><a href="/archives/"><div class="headline">文章</div><div class="length-num">449</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/tags/"><div class="headline">标签</div><div class="length-num">77</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/categories/"><div class="headline">分类</div><div class="length-num">68</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fa fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fa fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://i.loli.net/2020/05/08/vCnKyoFJZ1g4XYR.jpg')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">平心de小屋</a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fa fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fa fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">Android 常用基本控件</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2019-04-28T05:18:59.000Z" title="发表于 2019-04-28 13:18:59">2019-04-28</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2019-05-08T09:38:00.000Z" title="更新于 2019-05-08 17:38:00">2019-05-08</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/Android/">Android</a><i class="fas fa-angle-right post-meta-separator"></i><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/Android/%E5%9F%BA%E7%A1%80/">基础</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">4.2k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>15分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="Android 常用基本控件"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h3 id="View"><a href="#View" class="headerlink" title="View"></a>View</h3><p>在Android中，什么是View？View是Android中所有控件的基类，不管是简单的TextView，Button还是复杂的LinearLayout和ListView，它们的共同基类都是View；</p>
+<p>View是一种界面层的控件的一种抽象，它代表了一个控件，除了View还有ViewGroup，从名字来看ViewGroup可以翻译为控件组，即一组View；</p>
+<span id="more"></span>
+<p>在Android中，ViewGroup也继承了View，这就意味着View可以是单个控件，也可以是由多个控件组成的一组控件；</p>
+<p>Android应用的所有UI组件都是继承了View类，View组件非常类似于Swing编程的JPanel，它表示一个空白的矩形区域。View类还有一个很重要的子类：ViewGroup，但是ViewGroup通常作为其他组件的容器使用。Android的所有UI组件都是建立在View、ViewGroup基础之上的，Android采用了“组合器”模式来设计View和ViewGroup：ViewGroup是View的子类，因此ViewGroup也可以被当做View使用。对于一个Android应用的图形用户界面来说，ViewGroup作为容器来盛装其他组件，而ViewGroup里除了可以包含普通View组件之外，还可以再次包含ViewGroup组件。</p>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2019/05/07/5cd149d2acf45.jpeg" alt="1.jpeg"></p>
+<p> View和ViewGroup中有许多方法都值得我们去研究，不管是处理view的滑动冲突还是明白view的工作原理以至于我们要自定义view，都起到至关重要的作用。这里只是表明了它们之间的关系，具体到一些重要的方法函数，我会逐个介绍。</p>
+<h4 id="View的位置参数"><a href="#View的位置参数" class="headerlink" title="View的位置参数"></a>View的位置参数</h4><p>View和位置主要由它的四个顶点来决定，分别对应View的四个属性：top、left、right、bottom，top是左上角纵坐标，left是左上角横坐标，right是右下角横坐标，bottom是右下角纵坐标；对应如图所示：</p>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2019/05/07/5cd14302d98e5.png" alt="1.png"></p>
+<p>根据上图我们可以得到View的宽高和坐标的关系；</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">width = right - left;</span><br><span class="line">hight = bottom - top;</span><br></pre></td></tr></table></figure>
+<p>如何得到View的这四个参数呢？</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">left = getLeft();</span><br><span class="line">right = getRight();</span><br><span class="line">top = getTop();</span><br><span class="line">bottom = getBottom();</span><br></pre></td></tr></table></figure>
+<p>注：从Android 3.0开始，View增加了几个额外的参数：x，y，translationX和translationY，其中xy是View左上角的坐标，而translationX和translationY是View左上角相对于父容器的偏移量。这几个参数也是相对于父容器的坐标；这几个参数的换算关系如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">x = left + translationX;</span><br><span class="line">y = top + translationY;</span><br></pre></td></tr></table></figure>
+<p><strong>静态坐标系</strong></p>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2019/05/07/5cd14c12504ec.png"></p>
+<p>MationEvent 触摸事件坐标：<br><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2019/05/07/5cd14c125c184.png"></p>
+<p><strong>滑动坐标系</strong></p>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2019/05/07/5cd14c126e814.png" alt="3.png"></p>
+<p>用一张表格具体看看相关参数的含义：</p>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2019/05/07/5cd14c127c318.png"></p>
+<h4 id="MotionEvent"><a href="#MotionEvent" class="headerlink" title="MotionEvent"></a>MotionEvent</h4><p>当手指触摸屏幕是（View或ViewGroup派生的控件），将产生Touch事件。Touch事件的相关细节（触摸发生的位置、事件及怎么的触摸）被封装成MotionEvent对象。<br>在手指触摸屏幕后所产生的一系列Touch事件中，典型的事件类型如下几种：</p>
+<table>
+<thead>
+<tr>
+<th>事件类型</th>
+<th>具体动作</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>MotionEvent.ACTION_DOWN</td>
+<td>手指刚接触屏幕</td>
+</tr>
+<tr>
+<td>MotionEvent.ACTION_UP</td>
+<td>手指从屏幕上松开的一瞬间</td>
+</tr>
+<tr>
+<td>MotionEvent.ACTION_MOVE</td>
+<td>手指在屏幕上移动</td>
+</tr>
+<tr>
+<td>MotionEvent.ACTION_CANCEL</td>
+<td>动作取消（非人为）</td>
+</tr>
+</tbody></table>
+<p>正常情况下，一次手指触摸屏幕的行为会触发一系列点击事件，一般会有两种情况：<br>（1）点击屏幕后离开松开，事件序列为 DOWN -&gt; UP;<br>（2）点击屏幕滑动一会再松开，事件序列为 DOWN -&gt; MOVE -&gt;….-&gt; MOVE -&gt; UP;<br>在上述典型的三种Tocuh事件，我们可以通过TotionEvent对象得到点击事件发生的x和y的坐标。为此，系统提供了两组方法：getX/getY和getRawX/getRawY。区别如下：<br>（1）getX/getY：返回的是相对于当前View左上角的 x 和 y 坐标<br>（2）getRawX/getRawY ： 返回的是相对于手机屏幕左上角的 x 和 y 坐标</p>
+<p><strong>TouchSlop</strong></p>
+<p>TouchSlop是系统所能识别出的被认为是滑动的最小距离，即当手指在屏幕上滑动时，如果两次滑动之间的距离小于这个常量，那么系统就不认为你是在进行滑动操作。原因是：滑动的距离太短，系统不认为它不是滑动。这是个常量，和设备有关，在不同的设备上这个值是不同的，可通过：ViewConfiguration.get(getContext()).getScaledTouchSlop()来获取这个常量。<br>这个常量的意义在于：当我们在处理滑动时，可以利用这个常量来做一些过滤，比如当两次滑动事件的滑动距离小于这个值，我们就可以认为未达到滑动距离的临界值，因此就可以认为它们不是滑动，这样做可以有更好的用户体验。</p>
+<h4 id="View-的滑动"><a href="#View-的滑动" class="headerlink" title="View 的滑动"></a>View 的滑动</h4><p><strong>使用scrollTo/scrollBy</strong></p>
+<p>首先我们创建一个布局，有一个TextView和一个Button，当我们点击Button时，移动TextView；<br>当我们调用scrollTo方法时</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mTv.scrollTo(-100,-100);</span><br></pre></td></tr></table></figure>
+<p>这里我们可以看到TextView中的text值 Hello World！移动到（-100,-100）的位置，TextView本身并没有移动，所以scrollTo方法移动的只是View中的内容，而非View本身；</p>
+<p>这里说一下scrollTo和scrollBy的区别，scrollTo是基于所传递参数的绝对移动，而scrollBy是基于当前位置的相对移动；就是To是我就移动到这个位置就不动了，By是基于我当前的位置继续偏移；</p>
+<p>上面我们知道了什么是View以及View坐标的关系和如何获取坐标值，以及View的移动，接下来我们利用上面的知识来做一个小功能来巩固以下，需求是创建一个自定义的TextView，然后在屏幕上随我们的手指滑动而滑动；具体实现思路如下：<br>注：（这里需要用到View的触摸事件处理，要重写View的onTouchEvent方法，不理解的同学可以自行查阅相关资料）</p>
+<ol>
+<li>手指按下时我们获取到当前手指的坐标点；</li>
+<li>手指滑动时我们计算手指的偏移量并根据偏移量移动View<br>自定义的TextView完全代码如下：</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line">@SuppressLint(&quot;AppCompatCustomView&quot;)</span><br><span class="line">public class MyTextView extends TextView &#123;</span><br><span class="line">    private int mX;</span><br><span class="line">    private int mY;</span><br><span class="line">    float moveX;</span><br><span class="line">    float moveY;</span><br><span class="line"></span><br><span class="line">    public MyTextView(Context context) &#123;</span><br><span class="line">        super(context);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public MyTextView(Context context, @Nullable AttributeSet attrs) &#123;</span><br><span class="line">        super(context, attrs);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public MyTextView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) &#123;</span><br><span class="line">        super(context, attrs, defStyleAttr);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public boolean onTouchEvent(MotionEvent event) &#123;</span><br><span class="line">        switch (event.getAction()) &#123;</span><br><span class="line">            case MotionEvent.ACTION_DOWN://手指按下</span><br><span class="line">                //按下的时候获取手指触摸的坐标</span><br><span class="line">                mX = (int) event.getRawX();</span><br><span class="line">                mY = (int) event.getRawY();</span><br><span class="line">                break;</span><br><span class="line">            case MotionEvent.ACTION_MOVE://手指滑动</span><br><span class="line">                //滑动时计算偏移量</span><br><span class="line">                moveX = event.getRawX() - mX;</span><br><span class="line">                moveY = event.getRawY() - mY;</span><br><span class="line">                //随手指移动</span><br><span class="line">                setTranslationX(moveX);</span><br><span class="line">                setTranslationY(moveY);</span><br><span class="line">                break;</span><br><span class="line">            case MotionEvent.ACTION_UP://手指松开</span><br><span class="line">                break;</span><br><span class="line">        &#125;</span><br><span class="line">        return true;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>使用动画</strong></p>
+<p>还是上面的初始布局，这次我们来用动画移动View，首先我们创建一个位移动画xml文件</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;</span><br><span class="line">&lt;set xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;</span><br><span class="line">    android:duration=&quot;1000&quot;</span><br><span class="line">    android:fillAfter=&quot;true&quot;&gt;</span><br><span class="line"></span><br><span class="line">    &lt;translate</span><br><span class="line">        android:fromXDelta=&quot;0&quot;</span><br><span class="line">        android:fromYDelta=&quot;0&quot;</span><br><span class="line">        android:toXDelta=&quot;100&quot;</span><br><span class="line">        android:toYDelta=&quot;100&quot;&gt;&lt;/translate&gt;</span><br><span class="line">&lt;/set&gt;</span><br></pre></td></tr></table></figure>
+<p>延x轴和y轴平移100的距离</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Animation animation = AnimationUtils.loadAnimation(this, R.anim.move);</span><br><span class="line">mTv.startAnimation(animation);</span><br></pre></td></tr></table></figure>
+<p>可以看到动画实现了View的位移，移动的是View本身，而非View中的内容；<br>另外Android3.0版本之后我们也可以通过View本身的setTranslationX和setTranslationY方法来实现View的滑动，例如实现上面的滑动效果我们也可以用以下代码：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mTv.setTranslationX(100);</span><br><span class="line"> mTv.setTranslationY(100);</span><br></pre></td></tr></table></figure>
+<p>即View移动到(100,100)的位置，注意该移动方式为绝对移动，即类似于scrollTo;</p>
+<p><strong>Scroller</strong></p>
+<p>使用scrollTo()和scrollBy()来实现 View 的滑动的时候并不多，因为这两个方法产生的滑动时不连贯的，跳跃的，最终的效果也不够平滑。所以，Android提供了Scroller这个类来实现平滑的滑动。下面的也是让自定义的 View 跟随手指移动的核心代码为：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><span class="line">//初始化Scroller</span><br><span class="line">Scroller scroller = new Scroller(context);</span><br><span class="line"></span><br><span class="line">// 分别记录上次滑动的坐标</span><br><span class="line"> private int mLastX = 0;</span><br><span class="line"> private int mLastY = 0;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public boolean onTouchEvent(MotionEvent event) &#123;</span><br><span class="line"></span><br><span class="line">        int rawX = (int)event.getRawX();</span><br><span class="line">        int rawY = (int)event.getRawY();</span><br><span class="line"></span><br><span class="line">        switch (event.getAction())&#123;</span><br><span class="line">            case MotionEvent.ACTION_DOWN:</span><br><span class="line">                Log.i(&quot;MotionEvent&quot;,&quot;MotionEvent.ACTION_DOWN&quot;);</span><br><span class="line">                break;</span><br><span class="line">            case MotionEvent.ACTION_MOVE:</span><br><span class="line">                Log.i(&quot;MotionEvent&quot;,&quot;MotionEvent.ACTION_MOVE&quot;);</span><br><span class="line">                int offsetX = rawX - mLastX;</span><br><span class="line">                int offsetY = rawY - mLastY;</span><br><span class="line"></span><br><span class="line">                smoothScrollTo(-offsetX,-offsetY);</span><br><span class="line">                break;</span><br><span class="line">            case MotionEvent.ACTION_UP:</span><br><span class="line">                Log.i(&quot;MotionEvent&quot;,&quot;MotionEvent.ACTION_UP&quot;);</span><br><span class="line">                break;</span><br><span class="line">        &#125;</span><br><span class="line">        mLastX = rawX;</span><br><span class="line">        mLastY = rawY;</span><br><span class="line">       return super.onTouchEvent(event);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"> private void smoothScrollTo(int destX,int  destY)&#123;</span><br><span class="line">        scroller.startScroll(0,0,destX,destY,1000);</span><br><span class="line">        invalidate();</span><br><span class="line"> &#125;</span><br><span class="line"></span><br><span class="line"> @Override</span><br><span class="line"> public void computeScroll() &#123;</span><br><span class="line">        // 判断Scroller是否执行完毕</span><br><span class="line">        if(scroller.computeScrollOffset())&#123;</span><br><span class="line">             //使整个控件都滑动</span><br><span class="line">            ((View)getParent()).scrollBy(scroller.getCurrX(),scroller.getCurrY());</span><br><span class="line">            // 通过重绘来不断调用computeScroll</span><br><span class="line">            invalidate();</span><br><span class="line">        &#125;</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
+<p>startScroll()来开启平滑移动过程，前两个参数的意思是起始坐标，接下来的两个坐标是偏移量，最后一个是显示的时长。Scroller类提供了 computeScrollOffset()方法来判断是否完成了滑动，同时也提供了 getCurrX()和getCurrY()来获取当前滑动坐标。需要注意的是，invalidate()方法，因为只能在computeScroll()方法中获取滑动过程中的scrollX和scrollY的坐标。</p>
+<p>但是computeScroll()方法是不会自动调用的，只能通过 invalidate() –&gt;draw() –&gt; computeScroll() 来间接调用computeScroll()方法，所以，需要在上述代码中调用 invalidate(),实现循环获取 scrollX和scrollY的目的。当滑动结束后，scroller.computeScrollOffset()方法会返回false，从而实现整个平滑移动的过程。</p>
+<p><strong>layout</strong></p>
+<p>在View进行绘制时，会调用 onLayout()方法来设置显示的位置。当热，可以通过修改View的 left，top，right，bottom 四个属性来控制View 的坐标。在onTouchEvent()方法时调用onLayout()方法。下面的也是让自定义的 View 跟随手指移动的核心代码为：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">// 分别记录上次滑动的坐标</span><br><span class="line"> private int mLastX = 0;</span><br><span class="line"> private int mLastY = 0;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public boolean onTouchEvent(MotionEvent event) &#123;</span><br><span class="line"></span><br><span class="line">        int rawX = (int)event.getRawX();</span><br><span class="line">        int rawY = (int)event.getRawY();</span><br><span class="line"></span><br><span class="line">        switch (event.getAction())&#123;</span><br><span class="line">            case MotionEvent.ACTION_DOWN:</span><br><span class="line">                Log.i(&quot;MotionEvent&quot;,&quot;MotionEvent.ACTION_DOWN&quot;);</span><br><span class="line">                break;</span><br><span class="line">            case MotionEvent.ACTION_MOVE:</span><br><span class="line">                Log.i(&quot;MotionEvent&quot;,&quot;MotionEvent.ACTION_MOVE&quot;);</span><br><span class="line">                int offsetX = rawX - mLastX;</span><br><span class="line">                int offsetY = rawY - mLastY;</span><br><span class="line"></span><br><span class="line">                layout(getLeft()+offsetX,</span><br><span class="line">                        getTop()+offsetY,</span><br><span class="line">                        getRight()+offsetX,</span><br><span class="line">                        getBottom()+offsetY);</span><br><span class="line">                break;</span><br><span class="line">            case MotionEvent.ACTION_UP:</span><br><span class="line">                Log.i(&quot;MotionEvent&quot;,&quot;MotionEvent.ACTION_UP&quot;);</span><br><span class="line">                break;</span><br><span class="line">        &#125;</span><br><span class="line">        mLastX = rawX;</span><br><span class="line">        mLastY = rawY;</span><br><span class="line">       return super.onTouchEvent(event);</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p><strong>offsetLeftAndRight 和 offsetTopAndBottom</strong></p>
+<p>这个方法相当于系统提供的一个对上下、左右移动的封装。当计算出偏移量后，只要使用如下的自定义View 也可以跟随手指移动：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">// 分别记录上次滑动的坐标</span><br><span class="line"> private int mLastX = 0;</span><br><span class="line"> private int mLastY = 0;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public boolean onTouchEvent(MotionEvent event) &#123;</span><br><span class="line"></span><br><span class="line">        int rawX = (int)event.getRawX();</span><br><span class="line">        int rawY = (int)event.getRawY();</span><br><span class="line"></span><br><span class="line">        switch (event.getAction())&#123;</span><br><span class="line">            case MotionEvent.ACTION_DOWN:</span><br><span class="line">                Log.i(&quot;MotionEvent&quot;,&quot;MotionEvent.ACTION_DOWN&quot;);</span><br><span class="line">                break;</span><br><span class="line">            case MotionEvent.ACTION_MOVE:</span><br><span class="line">                Log.i(&quot;MotionEvent&quot;,&quot;MotionEvent.ACTION_MOVE&quot;);</span><br><span class="line">                int offsetX = rawX - mLastX;</span><br><span class="line">                int offsetY = rawY - mLastY;</span><br><span class="line"></span><br><span class="line">                // 同时对left和right进行偏移</span><br><span class="line">                offsetLeftAndRight(offsetX);</span><br><span class="line">                // 同时对top和bottom进行偏移</span><br><span class="line">                offsetTopAndBottom(offsetY);</span><br><span class="line">                break;</span><br><span class="line">            case MotionEvent.ACTION_UP:</span><br><span class="line">                Log.i(&quot;MotionEvent&quot;,&quot;MotionEvent.ACTION_UP&quot;);</span><br><span class="line">                break;</span><br><span class="line">        &#125;</span><br><span class="line">        mLastX = rawX;</span><br><span class="line">        mLastY = rawY;</span><br><span class="line">       return super.onTouchEvent(event);</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>LayoutParams</strong></p>
+<p>LayoutParams保存了一个View的布局参数。因此可以在程序中，通过改变LayoutParams来动态地修改一个布局的位置参数，从而达到改变View位置的效果。我们可以很方便地在程序中使用getLayoutParams()来获取一个View的LayouParams。当然，计算偏移量的方法与在Layout方法中计算offset也是一样。当获取到偏移量之后，就可以通过setLayoutParams来改变其LayoutParams，代码如下所示。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line">// 分别记录上次滑动的坐标</span><br><span class="line"> private int mLastX = 0;</span><br><span class="line"> private int mLastY = 0;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public boolean onTouchEvent(MotionEvent event) &#123;</span><br><span class="line"></span><br><span class="line">        int rawX = (int)event.getRawX();</span><br><span class="line">        int rawY = (int)event.getRawY();</span><br><span class="line"></span><br><span class="line">        switch (event.getAction())&#123;</span><br><span class="line">            case MotionEvent.ACTION_DOWN:</span><br><span class="line">                Log.i(&quot;MotionEvent&quot;,&quot;MotionEvent.ACTION_DOWN&quot;);</span><br><span class="line">                break;</span><br><span class="line">            case MotionEvent.ACTION_MOVE:</span><br><span class="line">                Log.i(&quot;MotionEvent&quot;,&quot;MotionEvent.ACTION_MOVE&quot;);</span><br><span class="line">                int offsetX = rawX - mLastX;</span><br><span class="line">                int offsetY = rawY - mLastY;</span><br><span class="line"></span><br><span class="line">//ConstraintLayout.LayoutParams layoutParams = (ConstraintLayout.LayoutParams) getLayoutParams();①</span><br><span class="line">//ViewGroup.MarginLayoutParams layoutParams = (ViewGroup.MarginLayoutParams) getLayoutParams();②</span><br><span class="line"></span><br><span class="line">                LinearLayout.LayoutParams layoutParams = (LinearLayout.LayoutParams) getLayoutParams();</span><br><span class="line">                layoutParams.leftMargin = getLeft() + offsetX;</span><br><span class="line">                layoutParams.topMargin = getTop() + offsetY;</span><br><span class="line">                Log.i(&quot;MotionEvent&quot;,&quot;MotionEvent.ACTION_MOVE leftMargin:&quot;+(getLeft() + offsetX));</span><br><span class="line">                Log.i(&quot;MotionEvent&quot;,&quot;MotionEvent.ACTION_MOVE topMargin:&quot;+(getTop() + offsetY));</span><br><span class="line">                setLayoutParams(layoutParams);</span><br><span class="line">                break;</span><br><span class="line">            case MotionEvent.ACTION_UP:</span><br><span class="line">                Log.i(&quot;MotionEvent&quot;,&quot;MotionEvent.ACTION_UP&quot;);</span><br><span class="line">                break;</span><br><span class="line">        &#125;</span><br><span class="line">        mLastX = rawX;</span><br><span class="line">        mLastY = rawY;</span><br><span class="line">       return super.onTouchEvent(event);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>通过getLayoutParams()获取LayoutParams时，需要根据View所在父布局的类型来设置不同的类型，比如这里将View放在LinearLayout中，那么就可以使用LinearLayout.LayoutParams。类似地，如果在RelativeLayout中，就要使用RelativeLayout.LayoutParams。当然，这一切的前提是你必须要有一个父布局，不然系统不法获取LayoutParams。不过这里需要注意的是，①和②两种方式的布局不能移动自定义View。</p>
+<p>Android提供的布局类都是LayoutParams的子类，LayoutParams的子类主要有：</p>
+<ul>
+<li><p> AbsListView.LayoutParams</p>
+</li>
+<li><p> AbsoluteLayout.LayoutParams</p>
+</li>
+<li><p> FrameLayout.LayoutParams</p>
+</li>
+<li><p>LinearLayout.LayoutParams</p>
+</li>
+<li><p> RadioGroup.LayoutParams</p>
+</li>
+<li><p> RelativeLayout.LayoutParams</p>
+</li>
+<li><p> TableLayout.LayoutParams</p>
+</li>
+<li><p> TableRow.LayoutParams</p>
+</li>
+<li><p> ViewGroup.MarginLayoutParams</p>
+</li>
+<li><p>WindowManager.LayoutParams</p>
+</li>
+</ul>
+<p>其中常用的是RelativeLayout.LayoutParams、LinearLayout.LayoutParams、ViewGroup.MarginLayoutParams。将会在后续内容中陆续学习，此处不在赘述。</p>
+<h3 id="自定义View"><a href="#自定义View" class="headerlink" title="自定义View"></a>自定义View</h3><p>很多初入Android开发的程序员，对于Android自定义View可能比较恐惧，但这又是高手进阶的必经之路，这里先不做过多学习，只是简单了解。</p>
+<p>如果说要按类型来划分的话，自定义View的实现方式大概可以分为三种：自绘控件、组合控件、以及继承控件。</p>
+<ul>
+<li><p>自绘控件：内容都是开发者自己绘制出来的，一般在View的onDraw方法中完成绘制。</p>
+</li>
+<li><p>组合控件：就是将一些小的控件组合起来形成一个新的控件，这些小的控件多是系统自带的控件。比如很多应用中普遍使用的标题栏控件，其实用的就是组合控件。</p>
+</li>
+<li><p>继承控件：继承已有的控件，创建新控件，保留继承的父控件的特性，并且还可以引入新特性。</p>
+</li>
+</ul>
+<p>介于目前掌握的Android基础知识较为薄弱，本节先简单学习一下自绘控件。首先定义一个继承View基类的子类，然后重写View 类的一个或多个方法。通常可以被用户重写的方法如下。</p>
+<ul>
+<li><p>构造器：重写构造器是定制View的最基本方式，当Java代码创建一个View实例，或根据XML布局文件加载并构建界面时将需要调用该构造器。</p>
+</li>
+<li><p>onFinishInflate()：这是一个回调方法，当应用从XML布局文件加载该组件并利用它 来构建界面之后，该方法将会被回调。</p>
+</li>
+<li><p>onMeasure(int, int)：调用该方法来检测View组件及其所包含的所有子组件的大小。</p>
+</li>
+<li><p>onLayout(boolean, int, int, int, int)：当该组件需要分配其子组件的位置、大小时，该方法就会被回调。</p>
+</li>
+<li><p>onSizeChanged(int, int, int, int)：当该组件的大小被改变时回调该方法。</p>
+</li>
+<li><p>onDraw(Canvas)：当该组件将要绘制它的内容时回调该方法进行绘制。</p>
+</li>
+<li><p>onKeyDown(int, KeyEvent)：当某个键被按下时触发该方法。</p>
+</li>
+<li><p>onKeyUp(int, KeyEvent)：当松开某个键时触发该方法。</p>
+</li>
+<li><p>onTrackballEvent(MotionEvent):当发生轨迹球事件时触发该方法。</p>
+</li>
+<li><p>onTouchEvent(MotionEvent)：当发生触摸屏事件时触发该方法。</p>
+</li>
+<li><p>onFocusChanged (boolean gainFocus, int direction, Rect previouslyFocusedRect)：当该组件焦点发生改变时触发该方法。</p>
+</li>
+<li><p>onWindowFocusChanged(boolean)：当包含该组件的窗口失去或得到焦点时触发该方法。</p>
+</li>
+<li><p>onAttachedToWindow()：当把该组件放入某个窗口时触发该方法。</p>
+</li>
+<li><p>onDetachedFromWindow()：当把该组件从某个窗口上分离时触发该方法。</p>
+</li>
+<li><p>onWindowVisibilityChanged(int)：当包含该组件的窗口的可见性发生改变时触发该方法。</p>
+</li>
+</ul>
+<p>当需要开发自定义View时，开发者并不需要重写上面列出的所有方法，而是可以根据业务需要重写其中部分方法。</p>
+<p>下面就实现一个简单的计数器，每点击它一次，计数值就加1并显示出来。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br></pre></td><td class="code"><pre><span class="line">import android.content.Context;</span><br><span class="line">import android.graphics.Canvas;</span><br><span class="line">import android.graphics.Color;</span><br><span class="line">import android.graphics.Paint;</span><br><span class="line">import android.graphics.Rect;</span><br><span class="line">import android.util.AttributeSet;</span><br><span class="line">import android.view.View;</span><br><span class="line"></span><br><span class="line">public class CounterView extends View &#123;</span><br><span class="line">    // 定义画笔</span><br><span class="line">    private Paint mPaint;</span><br><span class="line">    // 用于获取文字的宽和高</span><br><span class="line">    private Rect mBounds;</span><br><span class="line">    // 计数值，每点击一次本控件，其值增加1</span><br><span class="line">    private int mCount = 0;</span><br><span class="line"> </span><br><span class="line">    public CounterView(Context context, AttributeSet attrs) &#123;</span><br><span class="line">        super(context, attrs);</span><br><span class="line"> </span><br><span class="line">        // 初始化画笔、Rect</span><br><span class="line">        mPaint = new Paint(Paint.ANTI_ALIAS_FLAG);</span><br><span class="line">        mBounds = new Rect();</span><br><span class="line">        // 本控件的点击事件</span><br><span class="line">        setOnClickListener(new OnClickListener() &#123;</span><br><span class="line">            @Override</span><br><span class="line">            public void onClick(View view) &#123;</span><br><span class="line">                mCount ++;</span><br><span class="line"> </span><br><span class="line">                // 重绘</span><br><span class="line">                invalidate();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;</span><br><span class="line"> </span><br><span class="line">    @Override</span><br><span class="line">    protected void onDraw(Canvas canvas) &#123;</span><br><span class="line">        super.onDraw(canvas);</span><br><span class="line">        mPaint.setColor(Color.BLUE);</span><br><span class="line">        // 绘制一个填充色为蓝色的矩形</span><br><span class="line">        canvas.drawRect(0, 0, getWidth(), getHeight(), mPaint);</span><br><span class="line"> </span><br><span class="line">        mPaint.setColor(Color.YELLOW);</span><br><span class="line">        mPaint.setTextSize(50);</span><br><span class="line">        String text = String.valueOf(mCount);</span><br><span class="line">        // 获取文字的宽和高</span><br><span class="line">        mPaint.getTextBounds(text, 0, text.length(), mBounds);</span><br><span class="line">        float textWidth = mBounds.width();</span><br><span class="line">        float textHeight = mBounds.height();</span><br><span class="line"> </span><br><span class="line">        // 绘制字符串</span><br><span class="line">        canvas.drawText(text, getWidth() / 2 - textWidth / 2, getHeight() / 2</span><br><span class="line">                + textHeight / 2, mPaint);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>xml文件</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;</span><br><span class="line">&lt;LinearLayout xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;</span><br><span class="line">              android:layout_width=&quot;match_parent&quot;</span><br><span class="line">              android:layout_height=&quot;match_parent&quot;</span><br><span class="line">              android:orientation=&quot;vertical&quot;&gt;</span><br><span class="line"> </span><br><span class="line">    &lt;CounterView</span><br><span class="line">        android:id=&quot;@+id/counter_view&quot;</span><br><span class="line">        android:layout_width=&quot;100dp&quot;</span><br><span class="line">        android:layout_height=&quot;100dp&quot;/&gt;</span><br><span class="line">&lt;/LinearLayout&gt;</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+
+<h3 id="参考："><a href="#参考：" class="headerlink" title="参考："></a>参考：</h3><ol>
+<li><p><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/5a71014e7b1b">Android View的绘制流程</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://blog.csdn.net/wanliguodu/article/details/81412951">Android中View的知识体系之基础知识</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://www.gcssloop.com/customview/gestruedector">安卓自定义View进阶-手势检测(GestureDetector)</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://blog.csdn.net/cqkxzsxy/article/category/7017381">Android从入门到精通</a></p>
+</li>
+</ol>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">平心</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://pingxin0521.gitee.io/2019/04/28/Android-%E5%9F%BA%E7%A1%80-5/">https://pingxin0521.gitee.io/2019/04/28/Android-%E5%9F%BA%E7%A1%80-5/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://pingxin0521.gitee.io" target="_blank">平心de小屋</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/Android/">Android</a></div><div class="post_share"><div class="social-share" data-image="https://i.loli.net/2020/05/08/vCnKyoFJZ1g4XYR.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2019/04/28/Android-%E5%9F%BA%E7%A1%80-6/"><img class="prev-cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/okfOw28KlZFbE7z.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">Android 基本布局</div></div></a></div><div class="next-post pull-right"><a href="/2019/04/27/Android-%E5%9F%BA%E7%A1%80-4/"><img class="next-cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/gGE57HRvpcKPfDY.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">Android 用户界面状态保存</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span> 相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2019/06/03/Android-基础-22/" title="Android  常见错误"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/vCnKyoFJZ1g4XYR.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2020-05-16</div><div class="title">Android  常见错误</div></div></a></div><div><a href="/2019/04/27/Android-基础-4/" title="Android 用户界面状态保存"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/gGE57HRvpcKPfDY.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2019-07-02</div><div class="title">Android 用户界面状态保存</div></div></a></div><div><a href="/2019/04/30/Android-基础-13/" title="Android  菜单"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/gGE57HRvpcKPfDY.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2019-07-02</div><div class="title">Android  菜单</div></div></a></div><div><a href="/2019/04/30/Android-基础-11/" title="Android  高级控件（一）"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/7dHvepmfYOLWTrX.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2019-07-02</div><div class="title">Android  高级控件（一）</div></div></a></div><div><a href="/2019/04/27/Android-基础-3/" title="Android  Intent和Application"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/gGE57HRvpcKPfDY.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2019-07-02</div><div class="title">Android  Intent和Application</div></div></a></div><div><a href="/2019/04/30/Android-基础-9/" title="Android 事件处理"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/HjVAdIuT7bZJypS.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2019-05-08</div><div class="title">Android 事件处理</div></div></a></div></div></div><hr/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div class="vcomment" id="vcomment"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="card-info-avatar is-center"><img class="avatar-img" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://s2.ax1x.com/2020/02/11/1ovw6J.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/><div class="author-info__name">平心</div><div class="author-info__description">年轻人的life、learn and think</div></div><div class="card-info-data"><div class="card-info-data-item is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">449</div></a></div><div class="card-info-data-item is-center"><a href="/tags/"><div class="headline">标签</div><div class="length-num">77</div></a></div><div class="card-info-data-item is-center"><a href="/categories/"><div class="headline">分类</div><div class="length-num">68</div></a></div></div><a class="button--animated" id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/hanyunpeng0521"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/hanyunpeng0521" target="_blank" title="Github"><i class="fa fa-github"></i></a><a class="social-icon" href="mailto:m13839441583@163.com" target="_blank" title="Email"><i class="fa fa-envelope"></i></a><a class="social-icon" href="/atom.xml" target="_blank" title=""><i class="fa fa-rss"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn card-announcement-animation"></i><span>公告</span></div><div class="announcement_content">为什么呢？开始提问吧</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#View"><span class="toc-number">1.</span> <span class="toc-text">View</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#View%E7%9A%84%E4%BD%8D%E7%BD%AE%E5%8F%82%E6%95%B0"><span class="toc-number">1.1.</span> <span class="toc-text">View的位置参数</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#MotionEvent"><span class="toc-number">1.2.</span> <span class="toc-text">MotionEvent</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#View-%E7%9A%84%E6%BB%91%E5%8A%A8"><span class="toc-number">1.3.</span> <span class="toc-text">View 的滑动</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%87%AA%E5%AE%9A%E4%B9%89View"><span class="toc-number">2.</span> <span class="toc-text">自定义View</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8F%82%E8%80%83%EF%BC%9A"><span class="toc-number">3.</span> <span class="toc-text">参考：</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2021/05/15/node-2-4/" title="Egg.js -- 为企业级框架和应用而生"><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/okfOw28KlZFbE7z.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Egg.js -- 为企业级框架和应用而生"/></a><div class="content"><a class="title" href="/2021/05/15/node-2-4/" title="Egg.js -- 为企业级框架和应用而生">Egg.js -- 为企业级框架和应用而生</a><time datetime="2021-05-15T10:18:59.000Z" title="发表于 2021-05-15 18:18:59">2021-05-15</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/04/30/node-2-3/" title="Koa -- 基于Node.js平台的下一代Web开发框架"><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/HjVAdIuT7bZJypS.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Koa -- 基于Node.js平台的下一代Web开发框架"/></a><div class="content"><a class="title" href="/2021/04/30/node-2-3/" title="Koa -- 基于Node.js平台的下一代Web开发框架">Koa -- 基于Node.js平台的下一代Web开发框架</a><time datetime="2021-04-30T10:18:59.000Z" title="发表于 2021-04-30 18:18:59">2021-04-30</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/04/01/node-2-1/" title="Node.JS web开发前置知识"><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/gGE57HRvpcKPfDY.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Node.JS web开发前置知识"/></a><div class="content"><a class="title" href="/2021/04/01/node-2-1/" title="Node.JS web开发前置知识">Node.JS web开发前置知识</a><time datetime="2021-04-01T03:18:59.000Z" title="发表于 2021-04-01 11:18:59">2021-04-01</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2020/12/26/%E5%91%A8%E8%AE%B0-10-1/" title="第十一周--谷歌浏览器插件"><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/gGE57HRvpcKPfDY.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="第十一周--谷歌浏览器插件"/></a><div class="content"><a class="title" href="/2020/12/26/%E5%91%A8%E8%AE%B0-10-1/" title="第十一周--谷歌浏览器插件">第十一周--谷歌浏览器插件</a><time datetime="2020-12-26T10:18:59.000Z" title="发表于 2020-12-26 18:18:59">2020-12-26</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2020/12/26/%E5%91%A8%E8%AE%B0-10-0/" title="第十一周--浏览器技术"><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/vCnKyoFJZ1g4XYR.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="第十一周--浏览器技术"/></a><div class="content"><a class="title" href="/2020/12/26/%E5%91%A8%E8%AE%B0-10-0/" title="第十一周--浏览器技术">第十一周--浏览器技术</a><time datetime="2020-12-26T06:18:59.000Z" title="发表于 2020-12-26 14:18:59">2020-12-26</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2019 - 2021 By 平心</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div id="local-search"><div class="search-dialog"><div class="search-dialog__title" id="local-search-title">本地搜索</div><div id="local-input-panel"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div></div><hr/><div id="local-search-results"></div><span class="search-close-button"><i class="fas fa-times"></i></span></div><div id="search-mask"></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload/dist/lazyload.iife.min.js"></script><script src="/js/search/local-search.js"></script><div class="js-pjax"><script>function loadValine () {
+  function initValine () {
+    const valine = new Valine(Object.assign({
+      el: '#vcomment',
+      appId: '4lfIXzqxaC1ONs0MJO4oHu07-gzGzoHsz',
+      appKey: 'qw99Bw8FD0KVKU9m457CwWsr',
+      placeholder: 'Please leave your footprints',
+      avatar: 'monsterid',
+      meta: 'nick,mail,link'.split(','),
+      pageSize: '10',
+      lang: 'zh-CN',
+      recordIP: true,
+      serverURLs: '',
+      emojiCDN: '',
+      emojiMaps: "",
+      enableQQ: true,
+      path: window.location.pathname,
+      requiredFields: ["nick,mail"],
+      visitor: false
+    }, null))
+  }
+
+  if (typeof Valine === 'function') initValine() 
+  else getScript('https://cdn.jsdelivr.net/npm/valine/dist/Valine.min.js').then(initValine)
+}
+
+if ('Valine' === 'Valine' || !false) {
+  if (false) btf.loadComment(document.getElementById('vcomment'),loadValine)
+  else setTimeout(loadValine, 0)
+} else {
+  function loadOtherComment () {
+    loadValine()
+  }
+}</script></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>

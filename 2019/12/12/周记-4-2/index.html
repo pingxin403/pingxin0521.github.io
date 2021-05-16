@@ -1,0 +1,354 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>第五周--csrf/cros | 平心de小屋</title><meta name="keywords" content="周记"><meta name="author" content="平心"><meta name="copyright" content="平心"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="本周速记方法论 本周来学习一下常见的网站漏洞应对方案：https:&#x2F;&#x2F;www.bilibili.com&#x2F;video&#x2F;av52972331  Sql注入 xss攻击 csrf&#x2F;cros">
+<meta property="og:type" content="article">
+<meta property="og:title" content="第五周--csrf&#x2F;cros">
+<meta property="og:url" content="https://pingxin0521.gitee.io/2019/12/12/%E5%91%A8%E8%AE%B0-4-2/index.html">
+<meta property="og:site_name" content="平心de小屋">
+<meta property="og:description" content="本周速记方法论 本周来学习一下常见的网站漏洞应对方案：https:&#x2F;&#x2F;www.bilibili.com&#x2F;video&#x2F;av52972331  Sql注入 xss攻击 csrf&#x2F;cros">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://i.loli.net/2020/05/08/HjVAdIuT7bZJypS.jpg">
+<meta property="article:published_time" content="2019-12-12T10:18:59.000Z">
+<meta property="article:modified_time" content="2019-12-17T14:42:43.334Z">
+<meta property="article:author" content="平心">
+<meta property="article:tag" content="周记">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.loli.net/2020/05/08/HjVAdIuT7bZJypS.jpg"><link rel="shortcut icon" href="https://s2.ax1x.com/2020/02/11/1ovFOA.png"><link rel="canonical" href="https://pingxin0521.gitee.io/2019/12/12/%E5%91%A8%E8%AE%B0-4-2/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"search.xml","languages":{"hits_empty":"找不到您查询的内容：${query}"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    jQuery: 'https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js',
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+    },
+    fancybox: {
+      js: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css'
+    }
+  },
+  isPhotoFigcaption: true,
+  islazyload: true,
+  isanchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '第五周--csrf/cros',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2019-12-17 22:42:43'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    })(window)</script><meta name="generator" content="Hexo 5.4.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="author-avatar"><img class="avatar-img" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://s2.ax1x.com/2020/02/11/1ovw6J.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data"><div class="data-item is-center"><div class="data-item-link"><a href="/archives/"><div class="headline">文章</div><div class="length-num">449</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/tags/"><div class="headline">标签</div><div class="length-num">77</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/categories/"><div class="headline">分类</div><div class="length-num">68</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fa fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fa fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://i.loli.net/2020/05/08/HjVAdIuT7bZJypS.jpg')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">平心de小屋</a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fa fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fa fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">第五周--csrf/cros</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2019-12-12T10:18:59.000Z" title="发表于 2019-12-12 18:18:59">2019-12-12</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2019-12-17T14:42:43.334Z" title="更新于 2019-12-17 22:42:43">2019-12-17</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E5%91%A8%E8%AE%B0/">周记</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">3.4k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>12分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="第五周--csrf/cros"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h4 id="本周速记"><a href="#本周速记" class="headerlink" title="本周速记"></a>本周速记</h4><p><strong>方法论</strong></p>
+<p>本周来学习一下常见的网站漏洞应对方案：<a target="_blank" rel="noopener" href="https://www.bilibili.com/video/av52972331">https://www.bilibili.com/video/av52972331</a></p>
+<ol>
+<li>Sql注入</li>
+<li>xss攻击</li>
+<li>csrf/cros</li>
+</ol>
+<span id="more"></span>
+
+<h4 id="csrf"><a href="#csrf" class="headerlink" title="csrf"></a>csrf</h4><p>CSRF攻击的全称是<strong>跨站请求伪造</strong>（ cross site request forgery)，是一种对网站的恶意利用，尽管听起来跟XSS跨站脚本攻击有点相似，但事实上CSRF与XSS差别很大，XSS利用的是站点内的信任用户，而CSRF则是通过伪装来自受信任用户的请求来利用受信任的网站。你可以这么理解CSRF攻击：攻击者盗用了你的身份，以你的名义向第三方网站发送恶意请求。 CRSF能做的事情包括利用你的身份发邮件、发短信、进行交易转账等，甚至盗取你的账号。</p>
+<p><strong>CRSF攻击原理</strong></p>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2019/12/16/RtXNFoHeyzpUmil.png" alt="UTOOLS1576509507709.png"></p>
+<ol>
+<li>首先用户C浏览并登录了受信任站点A；</li>
+<li>登录信息验证通过以后，站点A会在返回给浏览器的信息中带上已登录的cookie，cookie信息会在浏览器端保存一定时间（根据服务端设置而定）；</li>
+<li>完成这一步以后，用户在没有登出（清除站点A的cookie）站点A的情况下，访问恶意站点B；</li>
+<li>这时恶意站点 B的某个页面向站点A发起请求，而这个请求会带上浏览器端所保存的站点A的cookie；</li>
+<li>站点A根据请求所带的cookie，判断此请求为用户C所发送的。</li>
+</ol>
+<p>因此，站点A会报据用户C的权限来处理恶意站点B所发起的请求，而这个请求可能以用户C的身份发送 邮件、短信、消息，以及进行转账支付等操作，这样恶意站点B就达到了伪造用户C请求站点 A的目的。<br> 受害者只需要做下面两件事情，攻击者就能够完成CSRF攻击：</p>
+<ul>
+<li>登录受信任站点 A，并在本地生成cookie；</li>
+<li>在不登出站点A（清除站点A的cookie）的情况下，访问恶意站点B。</li>
+</ul>
+<p>很多情况下所谓的恶意站点，很有可能是一个存在其他漏洞（如XSS）的受信任且被很多人访问的站点，这样，普通用户可能在不知不觉中便成为了受害者。</p>
+<p><strong>CSRF的防御</strong></p>
+<ol>
+<li><p>尽量使用POST，限制GET</p>
+<p>GET接口太容易被拿来做CSRF攻击，看上面示例就知道，只要构造一个img标签，而img标签又是不能过滤的数据。接口最好限制为POST使用，GET则无效，降低攻击风险。<br> 当然POST并不是万无一失，攻击者只要构造一个form就可以，但需要在第三方页面做，这样就增加暴露的可能性。</p>
+</li>
+<li><p>将cookie设置为HttpOnly</p>
+<p>CRSF攻击很大程度上是利用了浏览器的cookie，为了防止站内的XSS漏洞盗取cookie,需要在cookie中设置“HttpOnly”属性，这样通过程序（如JavaScript脚本、Applet等）就无法读取到cookie信息，避免了攻击者伪造cookie的情况出现。</p>
+<p> 在Java的Servlet的API中设置cookie为HttpOnly的代码如下：<br> <code>response.setHeader( &quot;Set-Cookie&quot;, &quot;cookiename=cookievalue;HttpOnly&quot;);</code></p>
+</li>
+<li><p>增加token</p>
+<p>CSRF攻击之所以能够成功，是因为攻击者可以伪造用户的请求，该请求中所有的用户验证信息都存在于cookie中，因此攻击者可以在不知道用户验证信息的情况下直接利用用户的cookie来通过安全验证。由此可知，抵御CSRF攻击的关键在于：<strong>在请求中放入攻击者所不能伪造的信息，并且该信总不存在于cookie之中</strong>。鉴于此，系统开发人员可以在HTTP请求中以参数的形式加入一个随机产生的token，并在服务端进行token校验，如果请求中没有token或者token内容不正确，则认为是CSRF攻击而拒绝该请求。</p>
+<p>假设请求通过POST方式提交，则可以在相应的表单中增加一个隐藏域：</p>
+<p><code>&lt;input type=&quot;hidden&quot; name=&quot;_toicen&quot; value=&quot;tokenvalue&quot;/&gt;</code></p>
+<p> token的值通过服务端生成，表单提交后token的值通过POST请求与参数一同带到服务端，每次会话可以使用相同的token，会话过期，则token失效，攻击者因无法获取到token，也就无法伪造请求。</p>
+<p>在session中添加token的实现代码：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">HttpSession session = request.getSession();</span><br><span class="line">Object token = session.getAttribute(<span class="string">&quot;_token&quot;</span>);</span><br><span class="line"><span class="keyword">if</span>(token == <span class="keyword">null</span> I I <span class="string">&quot;&quot;</span>.equals(token)) &#123;</span><br><span class="line">    session.setAttribute(<span class="string">&quot;_token&quot;</span>, UUID.randomUUIDO .toString());</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li><p>通过Referer识别</p>
+<p>根据HTTP协议，在HTTP头中有一个字段叫Referer，它记录了该HTTP请求的来源地址。在通常情况下，访问一个安全受限的页面的请求都来自于同一个网站。</p>
+<p>比如某银行的转账是通过用户访问<code>http://www.xxx.com/transfer.do</code>页面完成的，用户必须先登录<code>www.xxx.com</code>，然后通过单击页面上的提交按钮来触发转账事件。当用户提交请求时，该转账请求的Referer值就会是提交按钮所在页面的URL（本例为<a target="_blank" rel="noopener" href="https://link.jianshu.com/?t=http://www.xxx">www.xxx</a>.com/<a target="_blank" rel="noopener" href="https://link.jianshu.com/?t=http://transfer.do">transfer.do</a>）。</p>
+<p>如果攻击者要对银行网站实施CSRF攻击，他只能在其他网站构造请求，当用户通过其他网站发送请求到银行时，该请求的Referer的值是其他网站的地址，而不是银行转账页面的地址。</p>
+<p>因此，要防御CSRF攻击，银行网站只需要对于每一个转账请求验证其Referer值即可，如果是以<code>www.xx.om</code>域名开头的地址，则说明该请求是来自银行网站自己的请求，是合法的；如果Referer是其他网站，就有可能是CSRF攻击，则拒绝该请求。</p>
+<p>取得HTTP请求Referer：<br> <code>String referer = request.getHeader(&quot;Referer&quot;);</code></p>
+</li>
+</ol>
+<p><strong>总结</strong></p>
+<p>CSRF攻击是攻击者利用用户的身份操作用户帐户的一种攻击方式，通常使用Anti CSRF Token来防御CSRF攻击，同时要注意Token的保密性和随机性。</p>
+<p>并且CSRF攻击问题一般是由服务端解决。</p>
+<h4 id="cros"><a href="#cros" class="headerlink" title="cros"></a>cros</h4><p>什么是跨域请求？</p>
+<blockquote>
+<p>当一个资源向与本身所在服务器不同的域或者端口发起请求时，会发起一个跨域HTTP请求。</p>
+</blockquote>
+<p>为什么有跨域限制？</p>
+<blockquote>
+<p>跨域资源共享（CORS即Cross Origin Resource Sharing）机制允许Web服务器进行跨域访问控制，从而可以安全地进行跨域访问，览器支持在 API 容器中使用 CORS，以降低跨域 HTTP 请求所带来的风险。</p>
+</blockquote>
+<p> <strong>产生跨域的原因</strong></p>
+<ol>
+<li><p>浏览器限制</p>
+</li>
+<li><p>跨域</p>
+</li>
+<li><p>XHR（XMLHttpRequest）请求</p>
+</li>
+</ol>
+<p>同源策略如下：</p>
+<table>
+<thead>
+<tr>
+<th align="left">URL</th>
+<th align="left">说明</th>
+<th align="left">是否允许通信</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><a target="_blank" rel="noopener" href="http://www.a.com/a.js">http://www.a.com/a.js</a> <a target="_blank" rel="noopener" href="http://www.a.com/b.js">http://www.a.com/b.js</a></td>
+<td align="left">同一域名下</td>
+<td align="left">允许</td>
+</tr>
+<tr>
+<td align="left"><a target="_blank" rel="noopener" href="http://www.a.com/lab/a.js">http://www.a.com/lab/a.js</a> <a target="_blank" rel="noopener" href="http://www.a.com/script/b.js">http://www.a.com/script/b.js</a></td>
+<td align="left">同一域名下不同文件夹</td>
+<td align="left">允许</td>
+</tr>
+<tr>
+<td align="left"><a target="_blank" rel="noopener" href="http://www.a.com:8000/a.js">http://www.a.com:8000/a.js</a> <a target="_blank" rel="noopener" href="http://www.a.com/b.js">http://www.a.com/b.js</a></td>
+<td align="left">同一域名，不同端口</td>
+<td align="left">不允许</td>
+</tr>
+<tr>
+<td align="left"><a target="_blank" rel="noopener" href="http://www.a.com/a.js">http://www.a.com/a.js</a> <a target="_blank" rel="noopener" href="https://www.a.com/b.js">https://www.a.com/b.js</a></td>
+<td align="left">同一域名，不同协议</td>
+<td align="left">不允许</td>
+</tr>
+<tr>
+<td align="left"><a target="_blank" rel="noopener" href="http://www.a.com/a.js">http://www.a.com/a.js</a> <a target="_blank" rel="noopener" href="http://70.32.92.74/b.js">http://70.32.92.74/b.js</a></td>
+<td align="left">域名和域名对应ip</td>
+<td align="left">不允许</td>
+</tr>
+<tr>
+<td align="left"><a target="_blank" rel="noopener" href="http://www.a.com/a.js">http://www.a.com/a.js</a> <a target="_blank" rel="noopener" href="http://script.a.com/b.js">http://script.a.com/b.js</a></td>
+<td align="left">主域相同，子域不同</td>
+<td align="left">不允许</td>
+</tr>
+<tr>
+<td align="left"><a target="_blank" rel="noopener" href="http://www.a.com/a.js">http://www.a.com/a.js</a> <a target="_blank" rel="noopener" href="http://a.com/b.js">http://a.com/b.js</a></td>
+<td align="left">同一域名，不同二级域名（同上）</td>
+<td align="left">不允许（cookie这种情况下也不允许访问）</td>
+</tr>
+<tr>
+<td align="left"><a target="_blank" rel="noopener" href="http://www.cnblogs.com/a.js">http://www.cnblogs.com/a.js</a> <a target="_blank" rel="noopener" href="http://www.a.com/b.js">http://www.a.com/b.js</a></td>
+<td align="left">不同域名</td>
+<td align="left">不允许</td>
+</tr>
+</tbody></table>
+<p>特别注意两点：</p>
+<p>第一，如果是协议和端口造成的跨域问题“前台”是无能为力的，</p>
+<p>第二：在跨域问题上，域仅仅是通过“URL的首部”来识别而不会去尝试判断相同的ip地址对应着两个域或两个域是否在同一个ip上。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">“URL的首部”指window.location.protocol +window.location.host，也可以理解为“Domains, protocols and ports must match”。</span><br></pre></td></tr></table></figure>
+
+<p>CORS分成简单请求和复杂请求，简单请求大致满足以下条件：</p>
+<p>使用下列方法之一：</p>
+<ol>
+<li>GET</li>
+<li>HEAD</li>
+<li>POST</li>
+</ol>
+<p>HTTP头不超过以下字段：</p>
+<ol>
+<li>Accept</li>
+<li>Accept-Language</li>
+<li>Content-Language</li>
+<li>DPR</li>
+<li>Downlink</li>
+<li>Save-Data</li>
+<li>Viewport-Width</li>
+<li>Width</li>
+</ol>
+<p>其中Content-Type 只能为以下之一：</p>
+<ol>
+<li>text/plain</li>
+<li>multipart/form-data</li>
+<li>application/x-www-form-urlencoded</li>
+</ol>
+<p>如不满足以上条件，都可以视为复杂请求。</p>
+<p>若服务器不能响应跨域请求，则需要在服务端带上<code>Access-Control-Allow-Origin</code>的响应头，</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Access-Control-Allow-Origin:*</span><br></pre></td></tr></table></figure>
+
+<p>其中“ * ”表示该数据对任何人可见，如果只希望特定的地址访问，可以把*改为对应的地址</p>
+<p>复杂请求会先发送一个预请求，该请求以OPTIONS方法发起，预请求会对服务器进行检测，以获取服务器是否允许该请求，预请求可以避免跨域请求对服务器产生的未知影响。</p>
+<p>当进行复杂请求时需要对服务端进行设置：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Access-Control-Allow-Origin: *</span><br><span class="line">Access-Control-Allow-Methods: GET, POST, PUT,DELETE,OPTIONS,PATCH</span><br><span class="line">Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Accept, Authorization</span><br></pre></td></tr></table></figure>
+
+<p>其中<code>Access-Control-Allow-Method</code>表示预请求后所允许的请求方式，<code>Access-Control-Allow-Headers</code>表示预请求后所允许的响应头，如果预请求成功，就可以进行实际请求。</p>
+<h5 id="解决跨域的方案"><a href="#解决跨域的方案" class="headerlink" title="解决跨域的方案"></a>解决跨域的方案</h5><ol>
+<li><p>方式一：使用ajax的jsonp;缺点：请求方式只能是get请求</p>
+</li>
+<li><p>方式二：使用jQuery的jsonp插件;与方式一相比，请求方式不只局限于get请求，还可以是post请求，但从服务器从获取的数据依然是jsonp格式</p>
+</li>
+<li><p>使用cors:与前两种方式相比，前端代码和未处理跨域前一样，即普通的ajax请求，但服务器代码添加了一段解决跨域的代码</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 设置：Access-Control-Allow-Origin头，处理Session问题</span></span><br><span class="line">response.setHeader(<span class="string">&quot;Access-Control-Allow-Origin&quot;</span>, request.getHeader(<span class="string">&quot;Origin&quot;</span>));</span><br><span class="line">response.setHeader(<span class="string">&quot;Access-Control-Allow-Credentials&quot;</span>, <span class="string">&quot;true&quot;</span>);</span><br><span class="line">response.setHeader(<span class="string">&quot;P3P&quot;</span>, <span class="string">&quot;CP=CAO PSA OUR&quot;</span>);</span><br><span class="line"><span class="keyword">if</span> (request.getHeader(<span class="string">&quot;Access-Control-Request-Method&quot;</span>) != <span class="keyword">null</span> &amp;&amp; <span class="string">&quot;OPTIONS&quot;</span>.equals(request.getMethod())) &#123;</span><br><span class="line">response.addHeader(<span class="string">&quot;Access-Control-Allow-Methods&quot;</span>, <span class="string">&quot;POST,GET,TRACE,OPTIONS&quot;</span>);</span><br><span class="line">response.addHeader(<span class="string">&quot;Access-Control-Allow-Headers&quot;</span>, <span class="string">&quot;Content-Type,Origin,Accept&quot;</span>);</span><br><span class="line">response.addHeader(<span class="string">&quot;Access-Control-Max-Age&quot;</span>, <span class="string">&quot;120&quot;</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>在springmvc中配置拦截器,创建跨域拦截器实现HandlerInterceptor接口，并实现其方法，在请求处理前设置头信息，并放行,在springmvc的配置文件中配置拦截器，注意拦截的是所有的文件</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> org.springframework.util.StringUtils;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> javax.servlet.*;</span><br><span class="line"><span class="keyword">import</span> javax.servlet.FilterConfig;</span><br><span class="line"><span class="keyword">import</span> javax.servlet.http.HttpServletRequest;</span><br><span class="line"><span class="keyword">import</span> javax.servlet.http.HttpServletResponse;</span><br><span class="line"><span class="keyword">import</span> java.io.IOException;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * &lt;br&gt;</span></span><br><span class="line"><span class="comment"> * 标题: 服务端解决跨域&lt;br&gt;</span></span><br><span class="line"><span class="comment"> * 描述: 使用Filter&lt;br&gt;</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">CrosFilter</span> <span class="keyword">implements</span> <span class="title">Filter</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">init</span><span class="params">(FilterConfig filterConfig)</span> <span class="keyword">throws</span> ServletException </span>&#123;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">doFilter</span><span class="params">(ServletRequest request, ServletResponse response, FilterChain chain)</span> <span class="keyword">throws</span> IOException, ServletException </span>&#123;</span><br><span class="line">        HttpServletResponse res = (HttpServletResponse)response;</span><br><span class="line"></span><br><span class="line">        HttpServletRequest req = (HttpServletRequest)request;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 支持所有域</span></span><br><span class="line">        String origin = req.getHeader(<span class="string">&quot;Origin&quot;</span>);</span><br><span class="line">        <span class="keyword">if</span> (!StringUtils.isEmpty(origin))&#123;</span><br><span class="line">            <span class="comment">// 支持任何域名的跨域调用 且 支持带cookie（是被调用方域名的cookie，而不是调用方的cookie）</span></span><br><span class="line">            res.addHeader(<span class="string">&quot;Access-Control-Allow-Origin&quot;</span>,origin);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">// 指定允许的域，带cookie时，origin必须是全匹配，不能使用 *</span></span><br><span class="line"><span class="comment">//        res.addHeader(&quot;Access-Control-Allow-Origin&quot;,&quot;http://localhost:8081&quot;);</span></span><br><span class="line">        <span class="comment">// 允许所有域，但不能满足带 cookie 的跨域请求</span></span><br><span class="line"><span class="comment">//        res.addHeader(&quot;Access-Control-Allow-Origin&quot;,&quot;*&quot;);</span></span><br><span class="line"></span><br><span class="line">        <span class="comment">// 支持所有自定义头</span></span><br><span class="line">        String headers = req.getHeader(<span class="string">&quot;Access-Control-Allow-Headers&quot;</span>);</span><br><span class="line">        <span class="keyword">if</span> (!StringUtils.isEmpty(headers))&#123;</span><br><span class="line">            <span class="comment">// 允许所有header</span></span><br><span class="line">            res.addHeader(<span class="string">&quot;Access-Control-Allow-Headers&quot;</span>,headers);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">// 允许所有header</span></span><br><span class="line"><span class="comment">//        res.addHeader(&quot;Access-Control-Allow-Headers&quot;,&quot;*&quot;);</span></span><br><span class="line"></span><br><span class="line">        <span class="comment">// 指定允许的方法</span></span><br><span class="line"><span class="comment">//        res.addHeader(&quot;Access-Control-Allow-Methods&quot;,&quot;GET&quot;);</span></span><br><span class="line">        <span class="comment">// 允许所有方法</span></span><br><span class="line">        res.addHeader(<span class="string">&quot;Access-Control-Allow-Methods&quot;</span>,<span class="string">&quot;*&quot;</span>);</span><br><span class="line">        <span class="comment">// 允许浏览器在一个小时内，缓存跨域访问信息（即上面三个信息）</span></span><br><span class="line">        res.addHeader(<span class="string">&quot;Access-Control-Max-Age&quot;</span>,<span class="string">&quot;3600&quot;</span>);</span><br><span class="line">        <span class="comment">// 启用 cookie</span></span><br><span class="line">        res.addHeader(<span class="string">&quot;Access-Control-Allow-Credentials&quot;</span>,<span class="string">&quot;true&quot;</span>);</span><br><span class="line"></span><br><span class="line">        chain.doFilter(request,response);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">destroy</span><span class="params">()</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> org.springframework.boot.web.servlet.FilterRegistrationBean;</span><br><span class="line"><span class="keyword">import</span> org.springframework.context.annotation.Bean;</span><br><span class="line"><span class="keyword">import</span> org.springframework.context.annotation.Configuration;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * &lt;br&gt;</span></span><br><span class="line"><span class="comment"> * 标题: 配置类&lt;br&gt;</span></span><br><span class="line"><span class="comment"> * 描述: 注册CrosFilter&lt;br&gt;</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="meta">@Configuration</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">FilterConfig</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Bean</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> FilterRegistrationBean <span class="title">registrationBean</span><span class="params">()</span></span>&#123;</span><br><span class="line">        FilterRegistrationBean filter = <span class="keyword">new</span> FilterRegistrationBean();</span><br><span class="line">        filter.addUrlPatterns(<span class="string">&quot;/*&quot;</span>);</span><br><span class="line">        filter.setFilter(<span class="keyword">new</span> CrosFilter());</span><br><span class="line">        <span class="keyword">return</span> filter;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li><p>nginx代理</p>
+<p>配置nginx进行反向代理解决跨域:反向代理的原理就是讲前端的地址和后端的地址用nginx转发到同一个地址下，如5500端口和3000端口都转到3003端口下</p>
+<p>或者服务端解决跨域</p>
+<figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="section">server</span></span><br><span class="line">&#123;</span><br><span class="line"> <span class="attribute">listen</span> <span class="number">3002</span>;</span><br><span class="line"> <span class="attribute">server_name</span> localhost;</span><br><span class="line"> <span class="attribute">location</span> /ok &#123;</span><br><span class="line"> <span class="attribute">proxy_pass</span> http://localhost:3000;</span><br><span class="line"> <span class="comment"># 指定允许跨域的方法，*代表所有</span></span><br><span class="line"> <span class="attribute">add_header</span> Access-Control-Allow-Methods *;</span><br><span class="line"> <span class="comment"># 预检命令的缓存，如果不缓存每次会发送两次请求</span></span><br><span class="line"> <span class="attribute">add_header</span> Access-Control-Max-Age <span class="number">3600</span>;</span><br><span class="line"> <span class="comment"># 带cookie请求需要加上这个字段，并设置为true</span></span><br><span class="line"> <span class="attribute">add_header</span> Access-Control-Allow-Credentials <span class="literal">true</span>;</span><br><span class="line"> <span class="comment"># 表示允许这个域跨域调用（客户端发送请求的域名和端口） </span></span><br><span class="line"> <span class="comment"># $http_origin动态获取请求客户端请求的域 不用*的原因是带cookie的请求不支持*号</span></span><br><span class="line"> <span class="attribute">add_header</span> Access-Control-Allow-Origin $http_origin;</span><br><span class="line"> <span class="comment"># 表示请求头的字段 动态获取</span></span><br><span class="line"> <span class="attribute">add_header</span> Access-Control-Allow-Headers </span><br><span class="line"> $http_access_control_request_headers;</span><br><span class="line"> <span class="comment"># OPTIONS预检命令，预检命令通过时才发送请求</span></span><br><span class="line"> <span class="comment"># 检查请求的类型是不是预检命令</span></span><br><span class="line"> <span class="attribute">if</span> ($request_method = OPTIONS)&#123;</span><br><span class="line"> <span class="attribute">return</span> <span class="number">200</span>;</span><br><span class="line"> &#125;</span><br><span class="line"> &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>发送预检命令的是非简单请求，具体可以看慕课网ajax跨域完全讲解</p>
+<p>实际上不是非简单请求的且不带cookie只需2个字段即可解决跨域</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">add_header Access-Control-Allow-Methods *;</span><br><span class="line">add_header Access-Control-Allow-Origin $http_origin;</span><br></pre></td></tr></table></figure></li>
+</ol>
+<p>慕课网教程：<a target="_blank" rel="noopener" href="https://www.imooc.com/learn/947">https://www.imooc.com/learn/947</a></p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">平心</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://pingxin0521.gitee.io/2019/12/12/%E5%91%A8%E8%AE%B0-4-2/">https://pingxin0521.gitee.io/2019/12/12/%E5%91%A8%E8%AE%B0-4-2/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://pingxin0521.gitee.io" target="_blank">平心de小屋</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E5%91%A8%E8%AE%B0/">周记</a></div><div class="post_share"><div class="social-share" data-image="https://i.loli.net/2020/05/08/HjVAdIuT7bZJypS.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2019/12/17/Java-%E9%AB%98%E7%BA%A7-2-4/"><img class="prev-cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/7dHvepmfYOLWTrX.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">Java Unsafe类</div></div></a></div><div class="next-post pull-right"><a href="/2019/12/11/%E5%91%A8%E8%AE%B0-4-1/"><img class="next-cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/7dHvepmfYOLWTrX.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">第五周--XSS 攻击</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span> 相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2019/11/14/周记-0-0/" title="何为道？"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/gGE57HRvpcKPfDY.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2019-12-15</div><div class="title">何为道？</div></div></a></div><div><a href="/2019/11/14/周记-0-1/" title="第一周--云原生"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/vCnKyoFJZ1g4XYR.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2020-01-04</div><div class="title">第一周--云原生</div></div></a></div><div><a href="/2019/11/15/周记-0-2/" title="第一周--混合云"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/PFDRNxj93taz6pw.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2019-11-15</div><div class="title">第一周--混合云</div></div></a></div><div><a href="/2019/11/14/周记-0-3/" title="第一周--DevOps"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/HjVAdIuT7bZJypS.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2019-11-21</div><div class="title">第一周--DevOps</div></div></a></div><div><a href="/2020/12/26/周记-10-1/" title="第十一周--谷歌浏览器插件"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/gGE57HRvpcKPfDY.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2020-12-26</div><div class="title">第十一周--谷歌浏览器插件</div></div></a></div><div><a href="/2019/11/18/周记-1-1/" title="第二周--BT和BT种子"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/PFDRNxj93taz6pw.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2019-11-28</div><div class="title">第二周--BT和BT种子</div></div></a></div></div></div><hr/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div class="vcomment" id="vcomment"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="card-info-avatar is-center"><img class="avatar-img" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://s2.ax1x.com/2020/02/11/1ovw6J.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/><div class="author-info__name">平心</div><div class="author-info__description">年轻人的life、learn and think</div></div><div class="card-info-data"><div class="card-info-data-item is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">449</div></a></div><div class="card-info-data-item is-center"><a href="/tags/"><div class="headline">标签</div><div class="length-num">77</div></a></div><div class="card-info-data-item is-center"><a href="/categories/"><div class="headline">分类</div><div class="length-num">68</div></a></div></div><a class="button--animated" id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/hanyunpeng0521"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/hanyunpeng0521" target="_blank" title="Github"><i class="fa fa-github"></i></a><a class="social-icon" href="mailto:m13839441583@163.com" target="_blank" title="Email"><i class="fa fa-envelope"></i></a><a class="social-icon" href="/atom.xml" target="_blank" title=""><i class="fa fa-rss"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn card-announcement-animation"></i><span>公告</span></div><div class="announcement_content">为什么呢？开始提问吧</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%9C%AC%E5%91%A8%E9%80%9F%E8%AE%B0"><span class="toc-number">1.</span> <span class="toc-text">本周速记</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#csrf"><span class="toc-number">2.</span> <span class="toc-text">csrf</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#cros"><span class="toc-number">3.</span> <span class="toc-text">cros</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E8%A7%A3%E5%86%B3%E8%B7%A8%E5%9F%9F%E7%9A%84%E6%96%B9%E6%A1%88"><span class="toc-number">3.1.</span> <span class="toc-text">解决跨域的方案</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2021/05/15/node-2-4/" title="Egg.js -- 为企业级框架和应用而生"><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/okfOw28KlZFbE7z.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Egg.js -- 为企业级框架和应用而生"/></a><div class="content"><a class="title" href="/2021/05/15/node-2-4/" title="Egg.js -- 为企业级框架和应用而生">Egg.js -- 为企业级框架和应用而生</a><time datetime="2021-05-15T10:18:59.000Z" title="发表于 2021-05-15 18:18:59">2021-05-15</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/04/30/node-2-3/" title="Koa -- 基于Node.js平台的下一代Web开发框架"><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/HjVAdIuT7bZJypS.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Koa -- 基于Node.js平台的下一代Web开发框架"/></a><div class="content"><a class="title" href="/2021/04/30/node-2-3/" title="Koa -- 基于Node.js平台的下一代Web开发框架">Koa -- 基于Node.js平台的下一代Web开发框架</a><time datetime="2021-04-30T10:18:59.000Z" title="发表于 2021-04-30 18:18:59">2021-04-30</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/04/01/node-2-1/" title="Node.JS web开发前置知识"><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/gGE57HRvpcKPfDY.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Node.JS web开发前置知识"/></a><div class="content"><a class="title" href="/2021/04/01/node-2-1/" title="Node.JS web开发前置知识">Node.JS web开发前置知识</a><time datetime="2021-04-01T03:18:59.000Z" title="发表于 2021-04-01 11:18:59">2021-04-01</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2020/12/26/%E5%91%A8%E8%AE%B0-10-1/" title="第十一周--谷歌浏览器插件"><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/gGE57HRvpcKPfDY.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="第十一周--谷歌浏览器插件"/></a><div class="content"><a class="title" href="/2020/12/26/%E5%91%A8%E8%AE%B0-10-1/" title="第十一周--谷歌浏览器插件">第十一周--谷歌浏览器插件</a><time datetime="2020-12-26T10:18:59.000Z" title="发表于 2020-12-26 18:18:59">2020-12-26</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2020/12/26/%E5%91%A8%E8%AE%B0-10-0/" title="第十一周--浏览器技术"><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/vCnKyoFJZ1g4XYR.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="第十一周--浏览器技术"/></a><div class="content"><a class="title" href="/2020/12/26/%E5%91%A8%E8%AE%B0-10-0/" title="第十一周--浏览器技术">第十一周--浏览器技术</a><time datetime="2020-12-26T06:18:59.000Z" title="发表于 2020-12-26 14:18:59">2020-12-26</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2019 - 2021 By 平心</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div id="local-search"><div class="search-dialog"><div class="search-dialog__title" id="local-search-title">本地搜索</div><div id="local-input-panel"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div></div><hr/><div id="local-search-results"></div><span class="search-close-button"><i class="fas fa-times"></i></span></div><div id="search-mask"></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload/dist/lazyload.iife.min.js"></script><script src="/js/search/local-search.js"></script><div class="js-pjax"><script>function loadValine () {
+  function initValine () {
+    const valine = new Valine(Object.assign({
+      el: '#vcomment',
+      appId: '4lfIXzqxaC1ONs0MJO4oHu07-gzGzoHsz',
+      appKey: 'qw99Bw8FD0KVKU9m457CwWsr',
+      placeholder: 'Please leave your footprints',
+      avatar: 'monsterid',
+      meta: 'nick,mail,link'.split(','),
+      pageSize: '10',
+      lang: 'zh-CN',
+      recordIP: true,
+      serverURLs: '',
+      emojiCDN: '',
+      emojiMaps: "",
+      enableQQ: true,
+      path: window.location.pathname,
+      requiredFields: ["nick,mail"],
+      visitor: false
+    }, null))
+  }
+
+  if (typeof Valine === 'function') initValine() 
+  else getScript('https://cdn.jsdelivr.net/npm/valine/dist/Valine.min.js').then(initValine)
+}
+
+if ('Valine' === 'Valine' || !false) {
+  if (false) btf.loadComment(document.getElementById('vcomment'),loadValine)
+  else setTimeout(loadValine, 0)
+} else {
+  function loadOtherComment () {
+    loadValine()
+  }
+}</script></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>

@@ -1,0 +1,627 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>微服务架构实战 阅读笔记 | 平心de小屋</title><meta name="keywords" content="分布式,阅读笔记"><meta name="author" content="平心"><meta name="copyright" content="平心"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="微服务：软件架构模式，对系统进行模板划分，强调模块松耦合">
+<meta property="og:type" content="article">
+<meta property="og:title" content="微服务架构实战 阅读笔记">
+<meta property="og:url" content="https://pingxin0521.gitee.io/2020/04/29/%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0-3-0/index.html">
+<meta property="og:site_name" content="平心de小屋">
+<meta property="og:description" content="微服务：软件架构模式，对系统进行模板划分，强调模块松耦合">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://i.loli.net/2020/05/08/vCnKyoFJZ1g4XYR.jpg">
+<meta property="article:published_time" content="2020-04-29T05:18:59.000Z">
+<meta property="article:modified_time" content="2020-05-08T04:50:34.587Z">
+<meta property="article:author" content="平心">
+<meta property="article:tag" content="分布式">
+<meta property="article:tag" content="阅读笔记">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.loli.net/2020/05/08/vCnKyoFJZ1g4XYR.jpg"><link rel="shortcut icon" href="https://s2.ax1x.com/2020/02/11/1ovFOA.png"><link rel="canonical" href="https://pingxin0521.gitee.io/2020/04/29/%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0-3-0/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"search.xml","languages":{"hits_empty":"找不到您查询的内容：${query}"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    jQuery: 'https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js',
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+    },
+    fancybox: {
+      js: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css'
+    }
+  },
+  isPhotoFigcaption: true,
+  islazyload: true,
+  isanchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '微服务架构实战 阅读笔记',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2020-05-08 12:50:34'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    })(window)</script><meta name="generator" content="Hexo 5.4.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="author-avatar"><img class="avatar-img" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://s2.ax1x.com/2020/02/11/1ovw6J.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data"><div class="data-item is-center"><div class="data-item-link"><a href="/archives/"><div class="headline">文章</div><div class="length-num">449</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/tags/"><div class="headline">标签</div><div class="length-num">77</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/categories/"><div class="headline">分类</div><div class="length-num">68</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fa fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fa fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://i.loli.net/2020/05/08/vCnKyoFJZ1g4XYR.jpg')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">平心de小屋</a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fa fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fa fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">微服务架构实战 阅读笔记</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2020-04-29T05:18:59.000Z" title="发表于 2020-04-29 13:18:59">2020-04-29</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2020-05-08T04:50:34.587Z" title="更新于 2020-05-08 12:50:34">2020-05-08</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/">阅读笔记</a><i class="fas fa-angle-right post-meta-separator"></i><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/%E5%88%86%E5%B8%83%E5%BC%8F/">分布式</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">9k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>28分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="微服务架构实战 阅读笔记"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><p>微服务：软件架构模式，对系统进行模板划分，强调模块松耦合</p>
+<span id="more"></span>
+
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://s1.ax1x.com/2020/05/06/YEq1Et.png" alt="YEq1Et.png"></p>
+<p>优点：</p>
+<ul>
+<li>开发简单：每个服务完成独立的功能</li>
+<li>技术栈灵活：可以选择不同的语言完成不同的服务</li>
+<li>服务独立无依赖</li>
+<li>独立按需扩展</li>
+<li>可用性高</li>
+<li>复杂应用解耦为下而众的服务：将耗时的应用解耦</li>
+<li>各服务精而专</li>
+<li>服务间通信通过API完成</li>
+</ul>
+<p>缺点：</p>
+<ul>
+<li>多服务增加运维的复杂度</li>
+<li>系统部署之间会有依赖</li>
+<li>服务之间通信成本</li>
+<li>数据一致性</li>
+<li>系统集成挑战</li>
+<li>重复工作</li>
+<li>性能监控</li>
+<li>沟通成本成倍增加</li>
+</ul>
+<p>单体架构与分布式微服务架构对比：</p>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://s1.ax1x.com/2020/05/06/YEXmgU.png" alt="YEXmgU.png"></p>
+<p>单体应用改进</p>
+<ol>
+<li>按服务垂直划分解决单体容错性差</li>
+<li>服务与客户端使用API网关解决客户端调用复杂</li>
+<li>增加注册中心解决服务之间调用复杂</li>
+<li>应用服务的容错性，容错机制、告警机制+网关层的反向代理</li>
+</ol>
+<p>微服务可扩展性：</p>
+<ul>
+<li>性能：尽量使用具有并发性和异步性的组件，具有完成通知功能的工作队列要优于同步连接到数据库</li>
+<li>可用性：CAP理论，BASE理论：推荐整体使用最终一致性</li>
+<li>维护：软件和服务，尽量使用自动化平台的工具监控和更新应用程序</li>
+<li>成本：开发、维护和运营成本</li>
+</ul>
+<h4 id="常见微服务组件"><a href="#常见微服务组件" class="headerlink" title="常见微服务组件"></a>常见微服务组件</h4><ul>
+<li>服务注册：记录当前可用的微服务实例的网络信息数据库，是服务发现机制的主要核心，服务注册表包含查询API（获取可用实例）、管理API（注册、注销）</li>
+<li>服务发现：服务调用方从服务注册中心找到自己需要调用的服务的地址，可以选择客户端发现，亦可以选择服务端服务发现</li>
+<li>负载均衡：服务提供方一般以多实例的形式提供服务，负载均衡功能能够让服务调用方连接道合适的服务节点，并且节点选择的工作对服务调用方来说是透明。服务端、客户端负载均衡</li>
+<li>服务网关：服务调用的唯一入口，可以实现用户鉴权、动态路由、灰度发布、A/B测试、负载限流等功能，网关也应考虑高可用</li>
+<li>配置中心：见本地化配置信息注册到配置中心，方便配置的统一维护和管理，高可用</li>
+<li>API管理：API文档的统一管理，加入版本控制</li>
+<li>集成框架：需要将各个组件以配置的形式将所有微服务组件集成到统一的界面框架下</li>
+<li>分布式事务：保证数据一致性</li>
+<li>调用链：记录完成一个业务逻辑时调用到的微服务，同时统计各个服务的调用次数</li>
+<li>支撑平台：需要平台提供服务的部署、运维、监控，例如，储蓄集成、蓝绿发布、健康检查、性能健康等</li>
+</ul>
+<h4 id="常用微服务框架"><a href="#常用微服务框架" class="headerlink" title="常用微服务框架"></a>常用微服务框架</h4><ul>
+<li>主流：Spring Cloud、Dubbo</li>
+<li>新锐微服务：Istio(服务网格)</li>
+</ul>
+<h4 id="微服务架构设计模式"><a href="#微服务架构设计模式" class="headerlink" title="微服务架构设计模式"></a>微服务架构设计模式</h4><ul>
+<li><p>聚合器微服务设计模式</p>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://s1.ax1x.com/2020/05/06/YVpvZD.png" alt="YVpvZD.png"></p>
+</li>
+<li><p>代理微服务设计模式</p>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://s1.ax1x.com/2020/05/06/YV93LT.png" alt="YV93LT.png"></p>
+</li>
+<li><p>链式微服务设计模式</p>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://s1.ax1x.com/2020/05/06/YV92Yd.png" alt="YV92Yd.png"></p>
+</li>
+<li><p>分支微服务设计模式：聚合器的扩展</p>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://s1.ax1x.com/2020/05/06/YV9T0S.png" alt="YV9T0S.png"></p>
+</li>
+<li><p>数据共享微服务设计模式：单体到微服务，两个服务之间存在强耦合关系，需要共享缓存或者数据库</p>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://s1.ax1x.com/2020/05/06/YVCNB8.png" alt="YVCNB8.png"></p>
+</li>
+<li><p>异步消息传递微服务设计模式：避免类似REST设计模式的同步阻塞，使用消息队列代替REST请求、响应</p>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://s1.ax1x.com/2020/05/06/YVCr3n.png" alt="YVCr3n.png"></p>
+</li>
+</ul>
+<h3 id="微服务设计原则"><a href="#微服务设计原则" class="headerlink" title="微服务设计原则"></a>微服务设计原则</h3><h4 id="分层架构"><a href="#分层架构" class="headerlink" title="分层架构"></a>分层架构</h4><ul>
+<li>MVC:模型、视图、控制</li>
+<li>MVP</li>
+<li>MVVM</li>
+</ul>
+<p>领域模型架构：</p>
+<ul>
+<li>Domain：核心实体Entity、值对象Value Object</li>
+<li>Service：领域服务Domain Service</li>
+<li>Repositories：实体与值对象的存储和查询逻辑</li>
+</ul>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://s1.ax1x.com/2020/05/07/YeuaUs.png" alt="YeuaUs.png"></p>
+<h4 id="统一通信协议"><a href="#统一通信协议" class="headerlink" title="统一通信协议"></a>统一通信协议</h4><ul>
+<li>Web Service </li>
+<li>REST</li>
+</ul>
+<p>通信协议：</p>
+<ul>
+<li>GRPC</li>
+<li>BRPC</li>
+</ul>
+<h4 id="单一职责"><a href="#单一职责" class="headerlink" title="单一职责"></a>单一职责</h4><p>SRP：降低函数、模块的功能复杂度</p>
+<h4 id="服务拆分"><a href="#服务拆分" class="headerlink" title="服务拆分"></a>服务拆分</h4><p>按照单一职责原则和康威定律，在业务域、团队和技术上平衡粒度</p>
+<p>AKF扩展立方体</p>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://s1.ax1x.com/2020/05/07/YeK0dH.png" alt="YeK0dH.png"></p>
+<ul>
+<li>x 轴 : 水平复制,即在负载均衡服务器后增加多个 Web 服务器 。</li>
+<li>y 轴 : 功能分解,将不同职能的模块分成不同的服务。从 y 轴方向扩展,才能将巨型应用分解为一组不同的服务,例如,订单管理中心、商品信息管理中心、库存管理中心等。</li>
+<li>z 轴 : 对数据库的扩展,即分库分表(分库是将关系紧密的表放在一台数据库服务器上,分表是因为 一 张表的数据太多,需要将一张表的数据通过 Hash 放在不同的数据库服务器上) 。</li>
+</ul>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://s1.ax1x.com/2020/05/07/YeKfeg.png" alt="YeKfeg.png"></p>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://s1.ax1x.com/2020/05/07/YeKblV.png" alt="YeKblV.png"></p>
+<h4 id="前后端分离"><a href="#前后端分离" class="headerlink" title="前后端分离"></a>前后端分离</h4><ul>
+<li>前后端技术分离,可以由各自的专家来对各自的领域进行优化,这样前端的用户体验优化效果会更好。</li>
+<li>分离模式下,前后端交互界面更加清晰,就剩下了接口和模型,后端的接口简洁明了,更容易维护。</li>
+<li>前端多渠道集成场景更容易实现,后端服务无须变更,采用统一的数据和模型,可以支撑前端的 Web UI/移动 App 等访 问 。</li>
+</ul>
+<p>前后端分离意味着前后端之间使用 J SON 来交流,两个开发团队之间使用 API 作为契约进行交互 。 从此,后台选用的技术技不影响前台 。</p>
+<p>前后端分离的核心: 后台提供数据 ,前端负责显示。</p>
+<h4 id="版本控制"><a href="#版本控制" class="headerlink" title="版本控制"></a>版本控制</h4><p>在团队的内部,尤其是 API 设计优先 的微服务架构中,接口的版本管理显得尤其重要。</p>
+<p>如果对现有服务执行破坏性的 API 更改,应决定如何管理这些更改 :</p>
+<ul>
+<li>该服务是否会处理 API 的所有版本?</li>
+<li>是否会维护服务的独立版本,以支持 API 的每个版本?</li>
+<li>服务是否仅支持 API 的最新版本 ,依 靠其他适应层来与旧 API 来回转换?</li>
+</ul>
+<p>通常可通过3种方式处理阻ST 资源的版本控制 。</p>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://s1.ax1x.com/2020/05/07/YeMG7Q.png" alt="YeMG7Q.png"></p>
+<h4 id="围绕业务构建"><a href="#围绕业务构建" class="headerlink" title="围绕业务构建"></a>围绕业务构建</h4><p>系统可以根据业务切分为不同的子系统,子系统又可以根据重要程度切分为核 心和 非核心子系统。切分的目的就是当出现问题时,保证核 心业务模块正常运行,不影响业务的正常操作。同时解决各个模块子系统间的祸合、维护及拓展性 。方便单独部署,确保当 一 个系统出现问题时,不会 出现连锁反应而导致整个系统瘫痪 。</p>
+<p>各个系统间合理地使用消息队列,解决系统或模块 间的 异步通信,实现高可用、高性能的通信系统 。</p>
+<h4 id="并发流量控制"><a href="#并发流量控制" class="headerlink" title="并发流量控制"></a>并发流量控制</h4><p>大流量一般的衡量指标就是系统的 TPS (每秒事务量)和 QPS (每秒请求量〉。其实这个没有一个绝对的标准,一般都是根据机器的配置情况而定的,如果当前配置不能应对请求量,那么就可以视为大流量了。</p>
+<p>一般的应对方案包括 :</p>
+<ul>
+<li><p>缓存<br>预先准备好数据,减少对数据库的请求。</p>
+</li>
+<li><p>降级<br>如果不是核心链路,那么就把这个服务降级,保证主干畅通 。</p>
+</li>
+<li><p>限流<br>在一定时间内把请求限制在一定范围内,保证系统不被冲垮,同时尽可能提升系统的吞吐量。 限流的方式有几种,最简单的就是使用计数器,在 一段时间内,进行计数,与阔值进行比较,到了时间 临 界点,将计数器清 0 。</p>
+<p>应对并发,很重要的一点就是区分 CPU 密集型和 1/0 密集型。</p>
+</li>
+<li><p>CPU 密集型 ( CPU-bound)</p>
+<p>CPU 密集型也叫计算密集型,指 的是系统的硬盘、内存性能相对 CPU 要好很多 。 此时,系统运作大部分的状况是 CPU Loading 100%, CPU 要读/写 I/0 (硬盘/内存〉在很短的时间就可以完成,而 CPU 还有许多运算要处理, CPU Loading 很高 。</p>
+<p>CPU bound 的程序一般而言 CPU 占用率相当高。这可能是因为任务本身不太需要访问 1/0设备,也可能是因为程序是多线程实现,因 此屏蔽掉了等待 I/0 的时间 。</p>
+</li>
+<li><p>I/0 密集型( I/0 bound )</p>
+<p>I/0 密集型指的是系统的 CPU 性能相对硬盘、内存要好很多。 此时,系统运作大部分的状况是 CPU 在等 1/0 (硬盘/内存)的读/写操作,此时 CPU Loading 并不 高。</p>
+<p>I/O bound 的程序 一般在达到性能极限时, CPU 占用率仍然较低。这可能是因为任务本身需要大量 1/0 操作,而 pipeline 做得不是很好,没有充分利用处理器能力。</p>
+</li>
+</ul>
+<h4 id="CAP"><a href="#CAP" class="headerlink" title="CAP"></a>CAP</h4><p>Consistency (一致性 )、 Availabili可(可用性)和 Partition tolerance (分区容错性),三者不可兼得</p>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://s1.ax1x.com/2020/05/07/YeQk3q.png" alt="YeQk3q.png"></p>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://s1.ax1x.com/2020/05/07/YeQmbF.png" alt="YeQmbF.png"></p>
+<h4 id="EDA-事件驱动"><a href="#EDA-事件驱动" class="headerlink" title="EDA 事件驱动"></a>EDA 事件驱动</h4><p>EDA 是一种以事件为媒介,实现组件或服务之间最大松耦合的方式 。</p>
+<p>事件驱动则是调用者和被调用者互相不知道对方,两者只和中间消息队列相合 。</p>
+<p>在事件驱动的架构中,跨服务完成业务逻辑的一个关键点是每个服务自动更新数据库和发布事件, 也就是要 以 原子粒度更新数据库和发布事件 。</p>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://s1.ax1x.com/2020/05/07/YeQd5d.png" alt="YeQd5d.png"></p>
+<h4 id="CQRS"><a href="#CQRS" class="headerlink" title="CQRS"></a>CQRS</h4><p>CQRS 是命令查询责任分离 。最终 一致性<br>CQRS 架构由于本身只是 一个读写分离的思想,实现方式多种多样 。</p>
+<p>比如数据存储不分离,仅仅只是代码层面读写分离,也是 CQRS 的体现 : 数据存储的读写分离, C 端负责数据存储,<br>Q 端负责数据查询, Q 端的数据通过 C 端产生的 Event 来同步,这种也是 CQRS 架构的 一种实现。</p>
+<p>很多时候,我们也会放弃数据的强一致性,而采用最终 一致性;从 CAP 定理的角度来说,就是放弃 一致性,选择可用性 。</p>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://s1.ax1x.com/2020/05/07/YeQqZF.png" alt="YeQqZF.png"></p>
+<p>将 一个微服务分为命令端、查询端和事件处理器,这三个部分可以相互独立地部署。</p>
+<ul>
+<li>命令端<br>请求采取命令的形式,可以驱动对微服务所拥有的领域数据的状态更改 。</li>
+<li>事件处理器<br>事件处理器可通过很多有用的方式对新的领域事件做出响应 。一个领域事件可以生成多个<br>事件,这些事件可以发送到其他微服务 。</li>
+<li>查询端<br>查询端将提供一个 REST API ,允许 HTTP 客户端读取从己处理事件生成的实体化视图 。</li>
+</ul>
+<h4 id="基础设施自动化"><a href="#基础设施自动化" class="headerlink" title="基础设施自动化"></a>基础设施自动化</h4><p>基础设施应该包括提供给业务相关的应用所有基础保障的服务和设施,比如 :</p>
+<ul>
+<li>DNS/CDN;</li>
+<li>防火墙/Load Balancer;</li>
+<li>应用服务器、数据库(物理机/虚拟机):</li>
+<li>日志、监控、报警服务 。</li>
+</ul>
+<p>一个服务应当被独立部署,并且包含所有的依赖、环境等物理资源。</p>
+<h4 id="数据一致性"><a href="#数据一致性" class="headerlink" title="数据一致性"></a>数据一致性</h4><p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://s1.ax1x.com/2020/05/07/Yel9sK.png" alt="Yel9sK.png"></p>
+<h4 id="设计模式"><a href="#设计模式" class="headerlink" title="设计模式"></a>设计模式</h4><p>微服务的设计模式主要有以下几种:链式设计模式、聚合器设计模式、数据共享设计模式和异步消息控制模式。</p>
+<ul>
+<li><p>链式设计模式<br>链式设计模式是常见的 一种设计模式,用于微服务之间的调用,应用请求通过网关到达第一个微服务,微服务经过基础业务处理,发现不能满足要求,继续调用第二个服务,然后将多个服务的结果统一返回到请求中</p>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://s1.ax1x.com/2020/05/07/YelZRI.png" alt="YelZRI.png"></p>
+</li>
+<li><p>聚合器设计模式<br>聚合器设计模式是将请求统一由网关路由到聚合器,聚合器向下路由到指定的微服务中获取结果,并且完成聚合。首页展现、分类搜索和个人中心等通常都使用这种设计。</p>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://s1.ax1x.com/2020/05/07/Yel1oQ.png" alt="Yel1oQ.png"></p>
+</li>
+<li><p>数据共享模式<br>数据共享模式也是微服务设计模式的一种。应用通过网关调用多个微服务,微服务之间的数据共享通过同一个数据库,这样能够有效地减少请求次数,并且对于某些数据量小的情况非常适合</p>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://s1.ax1x.com/2020/05/07/YelaLT.png" alt="YelaLT.png"></p>
+</li>
+<li><p>异步消息设计模式<br>异步消息设计模式乍看起来跟聚合器的设计方式很像,唯 一 的区别就是网关和微服务之间的通信是通过消息队列而不是通过聚合器的方式来进行的,采用的是异步交互的方式</p>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://s1.ax1x.com/2020/05/07/YelrFJ.png" alt="YelrFJ.png"></p>
+</li>
+</ul>
+<h4 id="DevOps"><a href="#DevOps" class="headerlink" title="DevOps"></a>DevOps</h4><p>DevOps 希望做到的是软件产品交付过程中 IT 工具链的 打通,使得各个团队减少时间损耗,更加高效地协同工作</p>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://s1.ax1x.com/2020/05/07/YelgQx.png" alt="YelgQx.png"></p>
+<p>无尽头的可能性: DevOps 涵盖了代码、部署目标的发布和反馈等环节,闭合成一个完整的DevOps 能力闭环 。</p>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://s1.ax1x.com/2020/05/07/YelROK.png" alt="YelROK.png"></p>
+<h4 id="无状态服务"><a href="#无状态服务" class="headerlink" title="无状态服务"></a>无状态服务</h4><p>无状态服务原则并不是说在微服务架构里就不允许存在状态,其表达的真实意思是要把有状态的业务服务改变为无状态的计算类服务,那么状态数据也就相应地迁移到对应的“有状态数据服务”中。</p>
+<p>无状态服务( Stateless Service )<strong>对单次请求的处理,不依赖其他请求</strong>,也就是说,处理一次请求所需的全部信息,要么都包含在这个请求里,要么可以从外部获取到(比如数据库),服务器本身不存储任何信息 。 Server 要设计为无状态的 。</p>
+<h3 id="Spring-Boot"><a href="#Spring-Boot" class="headerlink" title="Spring Boot"></a>Spring Boot</h3><h4 id="四大神器"><a href="#四大神器" class="headerlink" title="四大神器"></a>四大神器</h4><ul>
+<li>自动配置<br>Spring Boot 的 自动配置功能可基于类路径检测自动为运行中的应用配置依赖关系,不需要提供额外的 XML 配置。</li>
+<li>Starters<br>Spring Boot 可提供一系 列称为 POM Starters 的精细依赖关系。 Spring Boot 熟知如何配置这些依赖关系, 同时让组织能够扩展 Spring Boot 来配置自定义的依赖关系。</li>
+<li>Actuator<br>Actuator 可提供运行状况检查和指标等生产就绪型功能 。这些功能通过 Spring Boot 应用内的 REST 终端提供,只需要简单的配置就可 以 实现强大 的监控和检查。</li>
+<li>开发工具<br>这些工具旨在缩短开发和测试周期,其中包括一个可在资源变更时触发浏览器刷新的嵌入式 LiveReload 服务器。这些工具还提供了应用自动重启功能,只要类路径上的文件发生更改,该功能即可启动。重启技术使用两种类加载器,未更改的分类(例如,来自第三方 JAR 的 类)被加载到基础类加载器,而开发中的分类则被加载到重启类加载器。当应用重启时,重启类加载器会被丢弃, 同时创 建一个新的类加载器。这种方法意 味着应用重启 的速度通常要 比“ 冷启动”的速度快得多,因为基础类加载器已准备就绪且己填充完毕,从而快速实现应用的热部署,对于简单的修改这种场景能够非常有效地提高效率。</li>
+</ul>
+<p>本章主要是Spring Boot的基本使用</p>
+<h3 id="Docker"><a href="#Docker" class="headerlink" title="Docker"></a>Docker</h3><p>容器的实现之一</p>
+<p>Docker 的目标 :</p>
+<ul>
+<li>提供轻量简单的建模方式 ;</li>
+<li>职责的逻辑分离;</li>
+<li>快速高效的开发生命周期:</li>
+<li>鼓励使用面向服务 的 架构 ,即 单个容器运行单个应用。</li>
+</ul>
+<p>Docker 依赖的 Linux 的内 核特性包括 Name spaces 命名空间和 Control groups(c groups)控制组。</p>
+<p>Namespaces 命名空间:</p>
+<ul>
+<li>PID ( process ID ) ,进程 ID 隔离 ;</li>
+<li>NET ( network ),管理 网络端口:</li>
+<li>IPC ( Inter Process Communication ),进程间通信;</li>
+<li>管理跨进程通信的访问 :</li>
+<li>MNT ( Mount ),管理挂载点 ;</li>
+<li>UTS (UNIX Timesharing System ) ,隔离内核和版本标识:</li>
+<li>Control groups(c groups) ,控制组。</li>
+</ul>
+<p>Control groups(c groups)控制组 :</p>
+<ul>
+<li>资源限制;</li>
+<li>优先级设定:</li>
+<li>资源度量 :</li>
+<li>资源控制及资源分配 ;</li>
+</ul>
+<p>Docker 容器 的 能力包括 :</p>
+<ul>
+<li>文件系统隔离一一每个容器都有自己的 root 文件系统,可以独立挂载外部文件系统。</li>
+<li>进程隔离一一每个容器都运行在自己的进程环境中,相互之间互不干扰。</li>
+<li>网络隔离 一一容器间的虚拟网络接口和IP地址都是分开 的 。</li>
+<li>资源隔离和分组</li>
+</ul>
+<p>Docker的安装、使用、Dockerfile、网络模式、数据卷</p>
+<p><strong>Maven与docker结合</strong></p>
+<ol>
+<li><p>xml</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">plugin</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupid</span>&gt;</span>com.spotify<span class="tag">&lt;/<span class="name">groupid</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactid</span> &gt;</span>dockerfile-maven-plugin<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>l.3.4<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">configuration</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">repository</span> &gt;</span>$&#123;docker.image.prefix&#125;/$&#123;project.artifactid&#125;<span class="tag">&lt;/<span class="name">repository</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">configuration</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">plugin</span>&gt;</span></span><br></pre></td></tr></table></figure></li>
+<li><p>在项目根目录添加 Dockerfile 文件</p>
+<figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">FROM</span> openjdk:<span class="number">8</span>-jdk-alpine</span><br><span class="line"><span class="keyword">MAINTAINER</span> hyp</span><br><span class="line"><span class="keyword">LABEL</span><span class="bash"> app=<span class="string">&quot;test-web&quot;</span> version=<span class="string">&quot;1.0.0&quot;</span> by=<span class="string">&quot;hyp&quot;</span></span></span><br><span class="line"><span class="keyword">COPY</span><span class="bash"> ./target/test-web-1.0.0.jar app.jar</span></span><br><span class="line"><span class="keyword">EXPOSE</span> <span class="number">8080</span></span><br><span class="line"><span class="keyword">ENTRYPOINT</span><span class="bash"> [<span class="string">&quot;java&quot;</span>,<span class="string">&quot;-Djava.security.egd=file:/dev/./urandom -Xms10m -Xmx128m&quot;</span>,<span class="string">&quot;-jar&quot;</span>,<span class="string">&quot;/app.jar&quot;</span>]</span></span><br></pre></td></tr></table></figure></li>
+<li><p>构建 Docker 镜像 </p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mvn install dockerfile:build</span><br></pre></td></tr></table></figure></li>
+</ol>
+<h3 id="Spring-Cloud"><a href="#Spring-Cloud" class="headerlink" title="Spring Cloud"></a>Spring Cloud</h3><p>简化分布式系统基础设施的开发，如服务发现注册、配置中心、消息总线、负载均衡、断路器、数据监控等，都可以用Spring Boot的开发风格做到一键启动和部署</p>
+<p>Spring Cloud 下的“ Spring Cloud Netflix “ 模块主要封装了 Netflix的以下项目。</p>
+<ul>
+<li>Eureka :基于阻 ST 服务的分布式中间件,主要用于服务管理。</li>
+<li>Hystrix : 容错框架,通过添加延迟阔值及容错的逻辑来帮助我们 控制分布式系统间组件的交互。</li>
+<li>Feign :一个 REST 客户端,目的是简化 Web Servic巳 客户端的开发 。</li>
+<li>Ribbon : 负载均衡框架,在微服务集群中为各个客户端的通信提供支持,它主要实现中间层应用程序的负载均衡 。</li>
+<li>Zuul :为微服务集群提供过代理、过滤 、 路由等功能。</li>
+</ul>
+<p>除了 Spring Cloud Netflix 模块, Spring C loud 还包括以下几个重要的模块。</p>
+<ul>
+<li>Spring Cloud Config :为分布式系统提供了配置服务器和配置客户端,通过对它们的配<br>置,可以很好地管理集群 中的配置文件。</li>
+<li>Spring Cloud Sleuth :服务跟踪框架 ,可以 与 Zipkin 、 Apache HTrace 和 ELK 等数据分<br>析、服务跟踪系统进行整合,为服务跟踪 、 解决问题提供了便利 。</li>
+<li>Spring Cloud S仕earn : 用于构建消息驱动微服务的框架,该框架在 Spring Boot 的基础<br>上 , 整合了“ Spring Integration ,, 来连接消息、代理中 间 件。</li>
+<li>Spring Cloud Bus :连接 RabbitMQ 、 Kafka 等消息代理的集群消息总线。</li>
+</ul>
+<p>Spring Cloud 抛弃了 Dubbo 的盯C 通信,采用的是基于 HTTP 的阻ST 方式,这两种方式各有优劣。虽然牺牲了服务调用的性能,但也避免了上面提到的原生 RPC 带来的问题。而且REST 相比 盯C 更为灵活,服务提供方和调用方的依赖只依靠一纸契约,不存在代码级别的强依赖,这在强调快速演化的微服务环境下显得更加合适 。</p>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://s1.ax1x.com/2020/05/08/YnQfGd.png" alt="YnQfGd.png"></p>
+<p>各组件的 运行流程如下 :</p>
+<ul>
+<li>所有请求都统一通过 API 网关( Zuul) 来访问内部服务。</li>
+<li>网关接收到请求后 ,从注册 中 心 (Eureka )获取可用服务。</li>
+<li>由Ribbon 进行均衡负载后 , 分发 到后 端 的 具体实例 。</li>
+<li>微服务之间通过Feign进行通信处理业务。</li>
+<li>Hystrix负责处理服务超时熔断。</li>
+<li>Turbine 监控服务间的调用和熔断相关指标。</li>
+</ul>
+<p>后面讲述SC各模块的使用</p>
+<h3 id="自动化测试与质量管理"><a href="#自动化测试与质量管理" class="headerlink" title="自动化测试与质量管理"></a>自动化测试与质量管理</h3><p>微服务在带来好处的同时,同样也带来了挑战, 具体可以总结为以下几点 。</p>
+<ul>
+<li><p>系统依赖性增加</p>
+<p>由单体应用过渡到微服务架构时, 需要加入更多的隔离组件,这些组件的加入势必会带来更多的依赖性 。 也就是说,复杂性会变得更高 。 这同样给测试带来了相应的复杂度,原本只 需要从接口层开始的测试, 一 下子从深度上 多 出来更多的依赖,测试的工作量也是成倍地增加 。</p>
+<p>我们 拿一 个单体应用有 10 个接口的 工程举例,原本测试只 需 要测试这 10 个接口就可以,但是使用微服务构建之后,接口的数量 明显增加,每一个接口所衍生出来的新接口都需要测试,这样可能是一个倍数的关系 。 所以,微服务的接口抽象及经验就显得非常重要 。</p>
+</li>
+<li><p>并行开发<br>接口数量的增加还会带来一 个问题,就是原本一 个团队维护的项目,被拆分之后,可能是两个或者更多的团队来进行维护 。 在需求变化时, 一 个接口的变动,导致的可能是连锁反应,当其中的 一 个接口出现延期时,整个测试计划就很难得到保证 。 团队需要等待其他团队以完整相关微服务的并行开发,微服务数量越 多 ,需要考虑的对象就越广泛,这意味着以并行方式开发及发布新功能就变得更加困难 。 所以,微服务的并行开发同样带来了管理上的挑战 。</p>
+</li>
+<li><p>与传统测试的冲突<br>对于单块应用,在一个机器上就可以模拟出所有的依赖,但是在微服务场景下,由于依赖的服务往往很多,因此要 搭建一个完整的环境非常困难 。</p>
+</li>
+<li><p>更多潜在的故障<br>微服务迁移的另 一 大负面影 响在于引发大量独立故障点 。</p>
+</li>
+<li><p>更多的团队交互<br>微服务的方式对于测试来说,意味着 需要交互和沟通的人数必然增加,因为 一般的团队很难做到需求和实现的高效沟通。 沟通成本的增加有可能导致某个重要的功能点没得到优先测试,而不重要的功能点却被优先测试,从而导致整体工期的拖延 。</p>
+</li>
+</ul>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://s1.ax1x.com/2020/05/08/Yn1vD0.png" alt="Yn1vD0.png"></p>
+<ul>
+<li><p>UI/UE 测试</p>
+<p>功能测试、兼容性测试、安装卸载测试等</p>
+</li>
+<li><p>端对端测试</p>
+</li>
+<li><p>API 测试</p>
+<p>API 测试是针对系统所提供的 API 做各方面的验证。</p>
+</li>
+<li><p>组件接口测试</p>
+<p>尽管单独测试模块非常重要,但测试各个模块能否正确交互,并测试其作为子系统的交互性以查看接口的缺陷同样重要,这项工作可以通过集成测试来完成</p>
+</li>
+<li><p>单元测试</p>
+<p>单元测试的范围局限在服务内部,它是围绕着一组相关联的案例编写的。</p>
+</li>
+</ul>
+<p>P3C、FindBugs、SonarQube</p>
+<p><strong>SonarQube</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">docker pull sonarqube:community</span><br><span class="line">docker run -d --name sonartest -p 8079:9000 sonarqube:community</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="JHipster"><a href="#JHipster" class="headerlink" title="JHipster"></a>JHipster</h3><p>代码生成器是按照特定编码规范输出代码的软件,可以直接生成项目,也可以单页生成,自从编程开始就有很多人进行过各种尝试。国内 也有很多这种快速开发的框架,但是这些框架除了个别的开源项目,往往持续性不够 , 不能够及时跟上技术发展的步伐 。 而且,对于代码的质 量 也没有进行很好的监控,没有一套完整的方案。那么,在微服务大行其道的当下,是不是有一款适合构建微服务的代码生成框架呢?答案就是 JHipster 。</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://start.jhipster.tech/#/">https://start.jhipster.tech/#/</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.jhipster.tech/cn/">https://www.jhipster.tech/cn/</a></li>
+</ul>
+<h3 id="自动化部署"><a href="#自动化部署" class="headerlink" title="自动化部署"></a>自动化部署</h3><h4 id="私有仓库搭建"><a href="#私有仓库搭建" class="headerlink" title="私有仓库搭建"></a>私有仓库搭建</h4><p>私服是架设在局域网的 一种特殊的远程仓库,目的是代理远程仓库及部署第三方构件。有了私服之后,当 Maven 需要下载构件时,直接请求私服,私服上存在则下载到本地仓库:否则,私服请求外部的远程仓库,将构件下载到私服,再提供给本地仓库下载 。</p>
+<p><a target="_blank" rel="noopener" href="http://www.sonatype.org/nexus/go">Nexus</a></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">docker pull sonatype/nexus3</span><br><span class="line">docker volume create nexus3_data</span><br><span class="line">docker run -p 8081:8081 --name nexus3  -v  nexus3_data:/nexus-data -d  sonatype/nexus3</span><br></pre></td></tr></table></figure>
+
+<h4 id="Ansible"><a href="#Ansible" class="headerlink" title="Ansible"></a><a target="_blank" rel="noopener" href="https://docs.ansible.com/">Ansible</a></h4><p>自动化运维工具</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">sudo yum install ansible 或者dnf install ansible</span><br><span class="line">sudo apt install ansible</span><br><span class="line"></span><br><span class="line">pip install --user ansible</span><br><span class="line"><span class="meta">#</span><span class="bash">或者全局性安装</span></span><br><span class="line">sudo pip install ansible</span><br></pre></td></tr></table></figure>
+
+<h4 id="持续集成"><a href="#持续集成" class="headerlink" title="持续集成"></a>持续集成</h4><p>持续集成( Continuous integration ,简称 CD 是一种软件开发实践,即团队开发成员经常集成它们的工作,通常每个成员每天至少集成一次,也就意味着每天可能会发生多次集成。每次集成都通过自动化的构建(包括编译、发布、自动化测试〉来验证,从而尽快地发现集成错误。许多团队发现这个过程可以大大减少集成的问题,让团队能够更快地开发内聚的软件。</p>
+<p>持续集成的优点:</p>
+<ul>
+<li>快速发现错误。每完成一点更新,就集成到主干,可以快速发现错误,定位错误也比较容易。</li>
+<li>防 止 分支大幅偏离主干。 如 果不是经常集成,主干又在不断更新, 则 会导致以后集成的难度变大,甚至难以集成 。</li>
+</ul>
+<p>持续集成的一些原则 :</p>
+<ul>
+<li>所有的开发人员需要在本地机器上做本地构建,然后提交到版本控制库中 , 从而确保他们的 变更不会导致持续集成失败。</li>
+<li>开发人员每天至少 向 版本控制库中提交一次代码。</li>
+<li>开发人员每天至少需要从版本控制库中更新 一次代码到本地机器。</li>
+<li>需要有专 门 的集成服务器来执行集成构建,每天要执行多次构建。</li>
+<li>每次构建都要 100%通过。</li>
+<li>每次构建都可 以 生成可发布的产品。</li>
+<li>修复失败的构建是优先级最高的事情。</li>
+</ul>
+<p>持续集成工具如下。</p>
+<ul>
+<li>Apache Continuum:</li>
+<li>CruiseControl:</li>
+<li>Hudson:</li>
+<li><a target="_blank" rel="noopener" href="https://www.jenkins.io/zh/">Jenkins</a>: </li>
+<li>Luntbuild :</li>
+</ul>
+<p>选择Jenkins：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">docker pull jenkins/jenkins:lts-alpine</span><br><span class="line">docker volume create jenkins_data</span><br><span class="line">docker run -d --name jenkins -p 8082:8080 -p 50000:50000 -v jenkins_data:/var/jenkins_home jenkins/jenkins:lts-alpine</span><br></pre></td></tr></table></figure>
+
+<h3 id="日志收集与监控"><a href="#日志收集与监控" class="headerlink" title="日志收集与监控"></a>日志收集与监控</h3><p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://s1.ax1x.com/2020/05/08/YnBJLF.png" alt="YnBJLF.png"></p>
+<p>从左至右,先是从宿主服务器上去收集日志,紧接着是一个 管道 ,负责数据传输,接着数据被分流,一部分进了存储系统,比如 Elasticsearch 、 Hadoop ,一部分进了实时分析系统,比如 Storm 、 Spark Streaming 。这个架构已经被很多互联网公司采用。但这个架构设计有 几个地方值得大家关注 :</p>
+<ul>
+<li>管道除了传输,还有很多能力,最常用的是简单预处理和数据缓冲。</li>
+<li>传输可以是多级, 一般来说规模大到 一定程度 时,数据往一个点的海量汇聚很容易出问题,分级处理是个很好的方式 。</li>
+<li>日志收集方式尽量统一,很多设计里对于业务日志、容器日志(如 Docker )、宿主机日志等采用不同 agent ,这是一个不好 的设计方式 , agent 也 要管理 ,引入太多 agent只会给自 己增加不必要的麻烦。</li>
+</ul>
+<p>现在,组件托管在位于私有云、公共云或两者的混合体之间的虚拟化机器或容器内。并不需要关 心服务 CPU 用了多少,内存用了 多少。 只需要确保这些服务相互通信以提供所需的结果即可。需要从监控的角度看 几件事情 :</p>
+<ul>
+<li>微服务集群中是否所有的服务的吞吐率 、响 应时间都正常?</li>
+<li>服务调用线中哪些线负载过大 ,哪些线负 载过小?</li>
+<li>服务的错误率,如 HTTP 500 错误。</li>
+</ul>
+<h4 id="ELK-搜集与分析"><a href="#ELK-搜集与分析" class="headerlink" title="ELK 搜集与分析"></a>ELK 搜集与分析</h4><p>ELK 是 Elasticsearch 、 Logstash 和 Kibana 的 简称,这三套开源工具组合起来能搭建一套强大的集中式日志管理平台。</p>
+<ul>
+<li>Elasticsearch 是一个开源的分布式搜索引擎,提供搜索、分析、存储数据三大功能 。 它的特点有 : 分布式、自动发现、和 | 自动分片 、 索引 副 本机制、阻STful 风格接口、多数据源及自动搜索负载等。</li>
+<li>Logstash 是一个开源的用来收集、解析、过滤日志的工具 , 支持几乎任何类型 的日志,包括系统日志、业务日志和安全日志 。它 可以从许多来源接收日志,这些来源主要包括 Syslog 、消息传递(例如, RabbitMQ )和 </li>
+<li>Filebeat ;能够 以 多种方式输出数据,这些方式主要包括电子邮件、 Web Sockets 和 Elasticsearch 。<br>Kibana 是一个基于 Web 的 友好图形界面 ,用于搜索 、 分析和可视化存储在 Elasticsearch 中的 数据。它利用 Elasticsearch 的 RESTful 接口来检索数据,不仅允许用户定制仪表板视图,还允许他们以特殊的方式查询、汇总和过滤数据。</li>
+</ul>
+<p>在需要收集日志的所有服务上部署 logstash , 作为 logstash agent ( logstash shipper )用于监控并过滤收集日志,将过滤后的内容发送到 Redis , 然后 logstash indexer 将日 志收集在一起交给全文搜索服务 Elasticsearch ,可以 用 Elasticsearch 进行自定义搜索,通过 Kibana 结合自定义搜索进行页面展示。 Logstash 收集 App Server 产生 的 Log , 并存放到 El asticsearch 集群中 ,而 Kibana则从 ES 集群 中 查询数据生成图表 ,再返回给 Browser 。</p>
+<p>日志收集主要分为访问日志和业务日志两部分。</p>
+<p><strong>部署</strong></p>
+<p>开启Linux系统Rsyslog服务：</p>
+<p>修改Rsyslog服务配置文件：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vim /etc/rsyslog.conf</span><br></pre></td></tr></table></figure>
+
+<p>开启下面三个参数：</p>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$ModLoad</span> imtcp</span><br><span class="line"><span class="variable">$InputTCPServerRun</span> <span class="number">514</span></span><br><span class="line"></span><br><span class="line">*.* <span class="variable">@@localhost</span><span class="symbol">:</span><span class="number">4560</span></span><br></pre></td></tr></table></figure>
+
+<p>意图很简单：让Rsyslog加载imtcp模块并监听514端口，然后将Rsyslog中收集的数据转发到本地4560端口！</p>
+<p>然后重启Rsyslog服务：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">systemctl restart rsyslog</span><br></pre></td></tr></table></figure>
+
+<p>查看rsyslog启动状态：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">netstat -tnl</span><br></pre></td></tr></table></figure>
+
+
+
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">docker pull elasticsearch:latest</span><br><span class="line">docker pull kibana:latest</span><br><span class="line">docker pull logstash:latest</span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="bash">启动Elasticsearch</span></span><br><span class="line">docker volume create elasticsearch_data</span><br><span class="line">docker run --name elasticsearch \</span><br><span class="line">-v elasticsearch_data:/usr/share/elasticsearch/data \</span><br><span class="line">-p 9200:9200 \</span><br><span class="line">-d elasticsearch</span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="bash">启动Kibana</span></span><br><span class="line">docker run --name kibana \</span><br><span class="line">--link elasticsearch:elasticsearch \</span><br><span class="line">-e ELASTICSEARCH_URL=http://elasticsearch:9200 \</span><br><span class="line">-p 5601:5601 \</span><br><span class="line">-d kibana</span><br><span class="line"><span class="meta">#</span><span class="bash">容器启动后用浏览器访问5601端口</span></span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="bash">启动Logstash</span></span><br><span class="line"><span class="meta">#</span><span class="bash">以nginx的访问日志为例，我们配置logstash读取nginx的access.log，然后把日志转发到Elasticsearch</span></span><br></pre></td></tr></table></figure>
+
+<p>logstash.conf</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">input &#123;</span><br><span class="line">  syslog &#123;</span><br><span class="line">    type =&gt; &quot;rsyslog&quot;</span><br><span class="line">    port =&gt; 4560</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">output &#123;</span><br><span class="line">  elasticsearch &#123;</span><br><span class="line">    hosts =&gt; [ &quot;elasticsearch:9200&quot; ]</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>启动容器，这里我们把nginx的日志放在/tmp/nginx/logs/access.log，为了让容器能读到这个日志，需要把日志目录映射到容器里面。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">docker run -d -p 4560:4560 \</span><br><span class="line">-v ~/logstash/logstash.conf:/etc/logstash.conf \</span><br><span class="line">--link elasticsearch:elasticsearch \</span><br><span class="line">--name logstash logstash \</span><br><span class="line">logstash -f /etc/logstash.conf</span><br></pre></td></tr></table></figure>
+
+<p>启动nginx容器来生产日志</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">docker run -d -p 90:80 --log-driver syslog --log-opt \</span><br><span class="line">syslog-address=tcp://localhost:514 \</span><br><span class="line">--log-opt tag=&quot;nginx&quot; --name nginx nginx</span><br></pre></td></tr></table></figure>
+
+<p><strong>监控工具</strong></p>
+<ul>
+<li>Open-Falcon</li>
+<li>Zabbix</li>
+</ul>
+<p><strong>APM 监控</strong></p>
+<p>APM = Application Performance Management ,应用性能 管理,对企业系统即时监控以实现对应用程序性能管理和故障管理的系统化的解决方案。</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="http://naver.github.io/pinpoint/">Pinpoint</a></li>
+<li>SkyWalking</li>
+<li>Zipkin</li>
+<li>CAT</li>
+</ul>
+<h3 id="微服务核心功能推荐"><a href="#微服务核心功能推荐" class="headerlink" title="微服务核心功能推荐"></a>微服务核心功能推荐</h3><h4 id="工作流引擎"><a href="#工作流引擎" class="headerlink" title="工作流引擎"></a>工作流引擎</h4><p>作流( workflow )就是工作流程的计算模型,即将工作流程中的工作如何前后组织在一起的逻辑和规则在计算机中以恰当的模型进行表示并对其实施计算 。 它 主要解决 的是“使在 多 个参与者之间按照某种预定义的规则传递文档、信息或任务的过程自动进行,从而实现某个预期的业务目标,或者促使此目标的实现”。</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://www.activiti.org/">Activiti</a></li>
+<li><a target="_blank" rel="noopener" href="https://gitee.com/mirrors/uflo">UFLO</a></li>
+<li>Drools</li>
+<li>URule</li>
+</ul>
+<h4 id="调度系统"><a href="#调度系统" class="headerlink" title="调度系统"></a>调度系统</h4><p><a target="_blank" rel="noopener" href="https://github.com/xuxueli/xxl-job">XXL-JOB</a> 是一个轻量级分布式任务调度框架,其核心设计目标是开发迅速、学习简单、轻量级、易扩展。现己开放源代码并接入多家公司线上产品线,开箱即用 。</p>
+<h4 id="消息推送"><a href="#消息推送" class="headerlink" title="消息推送"></a>消息推送</h4><p><a target="_blank" rel="noopener" href="https://github.com/mpusher/mpush">MPUSH</a> 是一款开源的实 时消息推送系统,采用 Java 语 言 开发,服务端采用模块化设计,具有协议简洁、传输安全、接口流畅、实时高效、扩展性强、可配置化、部署方便、监控完善等特点,同时也是少有的可商用的开源推送系统。</p>
+<h4 id="网关申闰件"><a href="#网关申闰件" class="headerlink" title="网关申闰件"></a>网关申闰件</h4><p>常用的网关中间件有 Zuul、Kong、Tyk 和 Orange 等。</p>
+<h4 id="分库分表申闰件"><a href="#分库分表申闰件" class="headerlink" title="分库分表申闰件"></a>分库分表申闰件</h4><ul>
+<li>Sharding-JDBC</li>
+<li>MyCat</li>
+</ul>
+<h4 id="报表引擎"><a href="#报表引擎" class="headerlink" title="报表引擎"></a>报表引擎</h4><p><a target="_blank" rel="noopener" href="https://github.com/youseries/ureport">UReport2</a> 是一款基于架构在 Spring 之上的纯 Java 的高性能报表引擎,通过迭代单元格可以实现任意复杂的中国式报表 。 相比 UReport1, UReport2 重写了全部代码,弥补了 UReport1在功能及性能上的各种不足 。</p>
+<h4 id="数据处理"><a href="#数据处理" class="headerlink" title="数据处理"></a>数据处理</h4><p>ETL 中三个字母分别代表的是 Extract、 Transform、 Load ,即抽取、转换、加载 。</p>
+<ul>
+<li>数据抽 取 : 从源数据源系统抽取目的数据源系统需 要 的数据。</li>
+<li>数据转换 : 将从源数据源获取的数据按照业务需求,转换成目的数据源要求的形式,并对错误、不一致的数据进行清洗和加工。</li>
+<li>数据加载 : 将转换后的数据装载到目的数据源 。</li>
+</ul>
+<p>ETL 原本是作为构建数据仓库的 一个环节 ,负 责将分布的、异构数据源中的数据(如关系数据、平面数据文件等)抽取到临时中间层后进行清洗、转换、集成,最后加载到数据仓库或数据集市中,成为联机分析处理、数据挖掘的基础 。 现在也越来越多地将 ETL 应用于 一般信息系统中数据的迁移、交换和同步。</p>
+<ul>
+<li>Spring Batch</li>
+<li>Kettle</li>
+</ul>
+<h4 id="并发编程"><a href="#并发编程" class="headerlink" title="并发编程"></a>并发编程</h4><p><a target="_blank" rel="noopener" href="https://akka.io/">Akka</a> 是 NM 平台上构 建高并发、分布式和容错应用的工具包和运行 时 。 Akka 用 Scala 语言写 成,同时提供了 Scala 和 Java 的开发接口。</p>
+<p>使用 Akka 框架编 写 的应用 程序既可 以横 向扩 展( Scale Out ) ,也可纵向扩展 ( Scale Up ) 。</p>
+<h4 id="分布式配置"><a href="#分布式配置" class="headerlink" title="分布式配置"></a>分布式配置</h4><p>在 Spring Cloud 中, 由 Spring Cloud config 实现分布式配置,其实有 已经集成好的分布式配置的项目可供我们选择 。</p>
+<ul>
+<li>Disconf</li>
+<li>Apollo</li>
+</ul>
+<h4 id="CAS"><a href="#CAS" class="headerlink" title="CAS"></a>CAS</h4><p>CAS 框架 : CAS ( Central Authentication Service ) 是实现 s so 单点登录的框架。</p>
+<p>从结构上看, CAS 包含两个部分: CAS Server 和 CAS Client 。 CAS Server 需要独立部署 ,主要负责对用户 的认证工作; CAS Client 负 责处理对客户端受保护资源的访 问请求, 需要登录时,重定向到 CAS Server 。</p>
+<p>CAS Client 与 受保护 的客户端应用部署在一起,以 Filter 方式保护 Web 应用的受保护资源,过滤从客户端过来的每一个 Web 请求,同时, CAS Client 会分析 HTTP 请求中是否包请求 Service Ticket ,如果没有,则说明 该用户是没有经过认证的,于是 CAS Client 会重定向用户请求到 CAS Server。</p>
+<p>然后是用户认证过程,如果用户提供了正确的 Credentials, CAS Server 会产生 一个随机的Service Ticket 。缓存该 Ticket ,并且重定向用户到 CAS Client (附带刚才产生的 Service Ticket ),Service Ticket 是不可以伪造的 。最后 CAS Client 和 CAS Server 之间完成了 一 个对用户的身份核实 ,用 Ticket 查到 Username o 该协议完成了 一个很简单的任务,所有与 CAS 的交互均采用 SSL协议,确保 ST 和 TGC 的安全性 。 协议工作过程会有 2 次重定向过程,但是 CAS Client 与 CAS Server 之间进行 Ticket 验证的过程对于用户是透明的。</p>
+<p>CAS 认证的协议包括 CAS 、 OA.uth 、 OpenID 、 SAML 、 REST 。</p>
+<h4 id="WebFlux"><a href="#WebFlux" class="headerlink" title="WebFlux"></a>WebFlux</h4><p>反应式编程</p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">平心</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://pingxin0521.gitee.io/2020/04/29/%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0-3-0/">https://pingxin0521.gitee.io/2020/04/29/%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0-3-0/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://pingxin0521.gitee.io" target="_blank">平心de小屋</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E5%88%86%E5%B8%83%E5%BC%8F/">分布式</a><a class="post-meta__tags" href="/tags/%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/">阅读笔记</a></div><div class="post_share"><div class="social-share" data-image="https://i.loli.net/2020/05/08/vCnKyoFJZ1g4XYR.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2020/04/29/%E6%B5%8B%E8%AF%95-3-0/"><img class="prev-cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/PFDRNxj93taz6pw.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">压力测试--JMeter</div></div></a></div><div class="next-post pull-right"><a href="/2020/04/29/%E6%B5%8B%E8%AF%95-1-3/"><img class="next-cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/HjVAdIuT7bZJypS.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">mock测试--Mockito</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span> 相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2020/04/18/分布式-1-1/" title="ZooKeeper 实现分布式锁"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/gGE57HRvpcKPfDY.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2020-05-11</div><div class="title">ZooKeeper 实现分布式锁</div></div></a></div><div><a href="/2020/04/17/分布式-3-3/" title="一致性Hash--分布式缓存的管中窥豹"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/okfOw28KlZFbE7z.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2020-05-11</div><div class="title">一致性Hash--分布式缓存的管中窥豹</div></div></a></div><div><a href="/2020/07/18/Java-框架-3-2-1/" title="分布式任务调度框架--XXL-JOB"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/gGE57HRvpcKPfDY.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2020-11-07</div><div class="title">分布式任务调度框架--XXL-JOB</div></div></a></div><div><a href="/2020/04/10/分布式-3-0/" title="分布式理论"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/7dHvepmfYOLWTrX.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2020-05-11</div><div class="title">分布式理论</div></div></a></div><div><a href="/2020/04/19/分布式-1-2/" title="ZooKeeper 深入"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/HjVAdIuT7bZJypS.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2020-05-11</div><div class="title">ZooKeeper 深入</div></div></a></div><div><a href="/2020/04/15/分布式-3-1/" title="分布式ID 方案"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/gGE57HRvpcKPfDY.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2020-05-11</div><div class="title">分布式ID 方案</div></div></a></div></div></div><hr/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div class="vcomment" id="vcomment"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="card-info-avatar is-center"><img class="avatar-img" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://s2.ax1x.com/2020/02/11/1ovw6J.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/><div class="author-info__name">平心</div><div class="author-info__description">年轻人的life、learn and think</div></div><div class="card-info-data"><div class="card-info-data-item is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">449</div></a></div><div class="card-info-data-item is-center"><a href="/tags/"><div class="headline">标签</div><div class="length-num">77</div></a></div><div class="card-info-data-item is-center"><a href="/categories/"><div class="headline">分类</div><div class="length-num">68</div></a></div></div><a class="button--animated" id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/hanyunpeng0521"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/hanyunpeng0521" target="_blank" title="Github"><i class="fa fa-github"></i></a><a class="social-icon" href="mailto:m13839441583@163.com" target="_blank" title="Email"><i class="fa fa-envelope"></i></a><a class="social-icon" href="/atom.xml" target="_blank" title=""><i class="fa fa-rss"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn card-announcement-animation"></i><span>公告</span></div><div class="announcement_content">为什么呢？开始提问吧</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%B8%B8%E8%A7%81%E5%BE%AE%E6%9C%8D%E5%8A%A1%E7%BB%84%E4%BB%B6"><span class="toc-number">1.</span> <span class="toc-text">常见微服务组件</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%B8%B8%E7%94%A8%E5%BE%AE%E6%9C%8D%E5%8A%A1%E6%A1%86%E6%9E%B6"><span class="toc-number">2.</span> <span class="toc-text">常用微服务框架</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%BE%AE%E6%9C%8D%E5%8A%A1%E6%9E%B6%E6%9E%84%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F"><span class="toc-number">3.</span> <span class="toc-text">微服务架构设计模式</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BE%AE%E6%9C%8D%E5%8A%A1%E8%AE%BE%E8%AE%A1%E5%8E%9F%E5%88%99"><span class="toc-number"></span> <span class="toc-text">微服务设计原则</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%88%86%E5%B1%82%E6%9E%B6%E6%9E%84"><span class="toc-number">1.</span> <span class="toc-text">分层架构</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%BB%9F%E4%B8%80%E9%80%9A%E4%BF%A1%E5%8D%8F%E8%AE%AE"><span class="toc-number">2.</span> <span class="toc-text">统一通信协议</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%8D%95%E4%B8%80%E8%81%8C%E8%B4%A3"><span class="toc-number">3.</span> <span class="toc-text">单一职责</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%9C%8D%E5%8A%A1%E6%8B%86%E5%88%86"><span class="toc-number">4.</span> <span class="toc-text">服务拆分</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%89%8D%E5%90%8E%E7%AB%AF%E5%88%86%E7%A6%BB"><span class="toc-number">5.</span> <span class="toc-text">前后端分离</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%89%88%E6%9C%AC%E6%8E%A7%E5%88%B6"><span class="toc-number">6.</span> <span class="toc-text">版本控制</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%9B%B4%E7%BB%95%E4%B8%9A%E5%8A%A1%E6%9E%84%E5%BB%BA"><span class="toc-number">7.</span> <span class="toc-text">围绕业务构建</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%B9%B6%E5%8F%91%E6%B5%81%E9%87%8F%E6%8E%A7%E5%88%B6"><span class="toc-number">8.</span> <span class="toc-text">并发流量控制</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#CAP"><span class="toc-number">9.</span> <span class="toc-text">CAP</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#EDA-%E4%BA%8B%E4%BB%B6%E9%A9%B1%E5%8A%A8"><span class="toc-number">10.</span> <span class="toc-text">EDA 事件驱动</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#CQRS"><span class="toc-number">11.</span> <span class="toc-text">CQRS</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%9F%BA%E7%A1%80%E8%AE%BE%E6%96%BD%E8%87%AA%E5%8A%A8%E5%8C%96"><span class="toc-number">12.</span> <span class="toc-text">基础设施自动化</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E4%B8%80%E8%87%B4%E6%80%A7"><span class="toc-number">13.</span> <span class="toc-text">数据一致性</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F"><span class="toc-number">14.</span> <span class="toc-text">设计模式</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#DevOps"><span class="toc-number">15.</span> <span class="toc-text">DevOps</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%97%A0%E7%8A%B6%E6%80%81%E6%9C%8D%E5%8A%A1"><span class="toc-number">16.</span> <span class="toc-text">无状态服务</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Spring-Boot"><span class="toc-number"></span> <span class="toc-text">Spring Boot</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%9B%9B%E5%A4%A7%E7%A5%9E%E5%99%A8"><span class="toc-number">1.</span> <span class="toc-text">四大神器</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Docker"><span class="toc-number"></span> <span class="toc-text">Docker</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Spring-Cloud"><span class="toc-number"></span> <span class="toc-text">Spring Cloud</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%87%AA%E5%8A%A8%E5%8C%96%E6%B5%8B%E8%AF%95%E4%B8%8E%E8%B4%A8%E9%87%8F%E7%AE%A1%E7%90%86"><span class="toc-number"></span> <span class="toc-text">自动化测试与质量管理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#JHipster"><span class="toc-number"></span> <span class="toc-text">JHipster</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%87%AA%E5%8A%A8%E5%8C%96%E9%83%A8%E7%BD%B2"><span class="toc-number"></span> <span class="toc-text">自动化部署</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%A7%81%E6%9C%89%E4%BB%93%E5%BA%93%E6%90%AD%E5%BB%BA"><span class="toc-number">1.</span> <span class="toc-text">私有仓库搭建</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Ansible"><span class="toc-number">2.</span> <span class="toc-text">Ansible</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%8C%81%E7%BB%AD%E9%9B%86%E6%88%90"><span class="toc-number">3.</span> <span class="toc-text">持续集成</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%97%A5%E5%BF%97%E6%94%B6%E9%9B%86%E4%B8%8E%E7%9B%91%E6%8E%A7"><span class="toc-number"></span> <span class="toc-text">日志收集与监控</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#ELK-%E6%90%9C%E9%9B%86%E4%B8%8E%E5%88%86%E6%9E%90"><span class="toc-number">1.</span> <span class="toc-text">ELK 搜集与分析</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BE%AE%E6%9C%8D%E5%8A%A1%E6%A0%B8%E5%BF%83%E5%8A%9F%E8%83%BD%E6%8E%A8%E8%8D%90"><span class="toc-number"></span> <span class="toc-text">微服务核心功能推荐</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%B7%A5%E4%BD%9C%E6%B5%81%E5%BC%95%E6%93%8E"><span class="toc-number">1.</span> <span class="toc-text">工作流引擎</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%B0%83%E5%BA%A6%E7%B3%BB%E7%BB%9F"><span class="toc-number">2.</span> <span class="toc-text">调度系统</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%B6%88%E6%81%AF%E6%8E%A8%E9%80%81"><span class="toc-number">3.</span> <span class="toc-text">消息推送</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%BD%91%E5%85%B3%E7%94%B3%E9%97%B0%E4%BB%B6"><span class="toc-number">4.</span> <span class="toc-text">网关申闰件</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%88%86%E5%BA%93%E5%88%86%E8%A1%A8%E7%94%B3%E9%97%B0%E4%BB%B6"><span class="toc-number">5.</span> <span class="toc-text">分库分表申闰件</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%8A%A5%E8%A1%A8%E5%BC%95%E6%93%8E"><span class="toc-number">6.</span> <span class="toc-text">报表引擎</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E5%A4%84%E7%90%86"><span class="toc-number">7.</span> <span class="toc-text">数据处理</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B"><span class="toc-number">8.</span> <span class="toc-text">并发编程</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%88%86%E5%B8%83%E5%BC%8F%E9%85%8D%E7%BD%AE"><span class="toc-number">9.</span> <span class="toc-text">分布式配置</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#CAS"><span class="toc-number">10.</span> <span class="toc-text">CAS</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#WebFlux"><span class="toc-number">11.</span> <span class="toc-text">WebFlux</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2021/05/15/node-2-4/" title="Egg.js -- 为企业级框架和应用而生"><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/okfOw28KlZFbE7z.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Egg.js -- 为企业级框架和应用而生"/></a><div class="content"><a class="title" href="/2021/05/15/node-2-4/" title="Egg.js -- 为企业级框架和应用而生">Egg.js -- 为企业级框架和应用而生</a><time datetime="2021-05-15T10:18:59.000Z" title="发表于 2021-05-15 18:18:59">2021-05-15</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/04/30/node-2-3/" title="Koa -- 基于Node.js平台的下一代Web开发框架"><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/HjVAdIuT7bZJypS.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Koa -- 基于Node.js平台的下一代Web开发框架"/></a><div class="content"><a class="title" href="/2021/04/30/node-2-3/" title="Koa -- 基于Node.js平台的下一代Web开发框架">Koa -- 基于Node.js平台的下一代Web开发框架</a><time datetime="2021-04-30T10:18:59.000Z" title="发表于 2021-04-30 18:18:59">2021-04-30</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/04/01/node-2-1/" title="Node.JS web开发前置知识"><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/gGE57HRvpcKPfDY.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Node.JS web开发前置知识"/></a><div class="content"><a class="title" href="/2021/04/01/node-2-1/" title="Node.JS web开发前置知识">Node.JS web开发前置知识</a><time datetime="2021-04-01T03:18:59.000Z" title="发表于 2021-04-01 11:18:59">2021-04-01</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2020/12/26/%E5%91%A8%E8%AE%B0-10-1/" title="第十一周--谷歌浏览器插件"><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/gGE57HRvpcKPfDY.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="第十一周--谷歌浏览器插件"/></a><div class="content"><a class="title" href="/2020/12/26/%E5%91%A8%E8%AE%B0-10-1/" title="第十一周--谷歌浏览器插件">第十一周--谷歌浏览器插件</a><time datetime="2020-12-26T10:18:59.000Z" title="发表于 2020-12-26 18:18:59">2020-12-26</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2020/12/26/%E5%91%A8%E8%AE%B0-10-0/" title="第十一周--浏览器技术"><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/vCnKyoFJZ1g4XYR.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="第十一周--浏览器技术"/></a><div class="content"><a class="title" href="/2020/12/26/%E5%91%A8%E8%AE%B0-10-0/" title="第十一周--浏览器技术">第十一周--浏览器技术</a><time datetime="2020-12-26T06:18:59.000Z" title="发表于 2020-12-26 14:18:59">2020-12-26</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2019 - 2021 By 平心</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div id="local-search"><div class="search-dialog"><div class="search-dialog__title" id="local-search-title">本地搜索</div><div id="local-input-panel"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div></div><hr/><div id="local-search-results"></div><span class="search-close-button"><i class="fas fa-times"></i></span></div><div id="search-mask"></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload/dist/lazyload.iife.min.js"></script><script src="/js/search/local-search.js"></script><div class="js-pjax"><script>function loadValine () {
+  function initValine () {
+    const valine = new Valine(Object.assign({
+      el: '#vcomment',
+      appId: '4lfIXzqxaC1ONs0MJO4oHu07-gzGzoHsz',
+      appKey: 'qw99Bw8FD0KVKU9m457CwWsr',
+      placeholder: 'Please leave your footprints',
+      avatar: 'monsterid',
+      meta: 'nick,mail,link'.split(','),
+      pageSize: '10',
+      lang: 'zh-CN',
+      recordIP: true,
+      serverURLs: '',
+      emojiCDN: '',
+      emojiMaps: "",
+      enableQQ: true,
+      path: window.location.pathname,
+      requiredFields: ["nick,mail"],
+      visitor: false
+    }, null))
+  }
+
+  if (typeof Valine === 'function') initValine() 
+  else getScript('https://cdn.jsdelivr.net/npm/valine/dist/Valine.min.js').then(initValine)
+}
+
+if ('Valine' === 'Valine' || !false) {
+  if (false) btf.loadComment(document.getElementById('vcomment'),loadValine)
+  else setTimeout(loadValine, 0)
+} else {
+  function loadOtherComment () {
+    loadValine()
+  }
+}</script></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>

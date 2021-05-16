@@ -1,0 +1,612 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Ubuntu 基础配置和美化 | 平心de小屋</title><meta name="keywords" content="Linux,Ubuntu"><meta name="author" content="平心"><meta name="copyright" content="平心"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="前言由于博主的电脑老化，运行Windows时风扇高速运转，电脑时不时卡顿，所以为了更好的体验和使用，我开始寻找是否有一些可以对用户友好，并且占用更少资源的操作系统，然后发现其实Ubuntu就是一个很好的操作系统，并且具有很高水平的可定制桌面，有QQ、百度网盘的解决方案，现在转入Ubuntu可以说风险更小一些，当然Ubuntu有它的不足，很多在Windows上常用的软件在Ubuntu上很少有适合的，">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Ubuntu 基础配置和美化">
+<meta property="og:url" content="https://pingxin0521.gitee.io/2019/04/20/Linux-Ubuntu-1/index.html">
+<meta property="og:site_name" content="平心de小屋">
+<meta property="og:description" content="前言由于博主的电脑老化，运行Windows时风扇高速运转，电脑时不时卡顿，所以为了更好的体验和使用，我开始寻找是否有一些可以对用户友好，并且占用更少资源的操作系统，然后发现其实Ubuntu就是一个很好的操作系统，并且具有很高水平的可定制桌面，有QQ、百度网盘的解决方案，现在转入Ubuntu可以说风险更小一些，当然Ubuntu有它的不足，很多在Windows上常用的软件在Ubuntu上很少有适合的，">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://i.loli.net/2020/05/08/vCnKyoFJZ1g4XYR.jpg">
+<meta property="article:published_time" content="2019-04-20T13:55:22.000Z">
+<meta property="article:modified_time" content="2020-10-01T09:37:12.410Z">
+<meta property="article:author" content="平心">
+<meta property="article:tag" content="Linux">
+<meta property="article:tag" content="Ubuntu">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.loli.net/2020/05/08/vCnKyoFJZ1g4XYR.jpg"><link rel="shortcut icon" href="https://s2.ax1x.com/2020/02/11/1ovFOA.png"><link rel="canonical" href="https://pingxin0521.gitee.io/2019/04/20/Linux-Ubuntu-1/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"search.xml","languages":{"hits_empty":"找不到您查询的内容：${query}"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    jQuery: 'https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js',
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+    },
+    fancybox: {
+      js: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css'
+    }
+  },
+  isPhotoFigcaption: true,
+  islazyload: true,
+  isanchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'Ubuntu 基础配置和美化',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2020-10-01 17:37:12'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    })(window)</script><meta name="generator" content="Hexo 5.4.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="author-avatar"><img class="avatar-img" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://s2.ax1x.com/2020/02/11/1ovw6J.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data"><div class="data-item is-center"><div class="data-item-link"><a href="/archives/"><div class="headline">文章</div><div class="length-num">449</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/tags/"><div class="headline">标签</div><div class="length-num">77</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/categories/"><div class="headline">分类</div><div class="length-num">68</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fa fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fa fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://i.loli.net/2020/05/08/vCnKyoFJZ1g4XYR.jpg')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">平心de小屋</a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fa fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fa fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">Ubuntu 基础配置和美化</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2019-04-20T13:55:22.000Z" title="发表于 2019-04-20 21:55:22">2019-04-20</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2020-10-01T09:37:12.410Z" title="更新于 2020-10-01 17:37:12">2020-10-01</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/Linux/">Linux</a><i class="fas fa-angle-right post-meta-separator"></i><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/Linux/Ubuntu/">Ubuntu</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">9.8k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>40分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="Ubuntu 基础配置和美化"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>由于博主的电脑老化，运行Windows时风扇高速运转，电脑时不时卡顿，所以为了更好的体验和使用，我开始寻找是否有一些可以对用户友好，并且占用更少资源的操作系统，然后发现其实Ubuntu就是一个很好的操作系统，并且具有很高水平的可定制桌面，有QQ、百度网盘的解决方案，现在转入Ubuntu可以说风险更小一些，当然Ubuntu有它的不足，很多在Windows上常用的软件在Ubuntu上很少有适合的，所以有所取舍。</p>
+<p>推荐安装Ubuntu 20.04 LTS，因为是长期支持版，更适合在个人电脑上安装，新版本在虚拟机安装玩玩就行了。</p>
+<p>Ubuntu 镜像下载地址：<a target="_blank" rel="noopener" href="http://tel.mirrors.163.com/ubuntu-releases/20.04/">http://tel.mirrors.163.com/ubuntu-releases/20.04/</a></p>
+<span id="more"></span>
+
+
+<p>每两年的 4 月份，都会推出一个长期支持版本（LTS），其支持期长达五年，而非 LTS 版本的支持期通常只有半年。</p>
+<h3 id="配置脚本"><a href="#配置脚本" class="headerlink" title="配置脚本"></a>配置脚本</h3><p>目标：节省Ubuntu 18.04安装时间，在安装完系统后运行，自动换源和安装常用软件。</p>
+<p>位置：<a target="_blank" rel="noopener" href="https://github.com/hanyunpeng0521/UbuntuAutoScript-18.04/">https://github.com/hanyunpeng0521/UbuntuAutoScript-18.04/</a></p>
+<p>缺点：博主自己写的，功能不是很大，后期会更改</p>
+<p>另一个脚本：<a target="_blank" rel="noopener" href="https://github.com/the0demiurge/CharlesScripts">https://github.com/the0demiurge/CharlesScripts</a></p>
+<h3 id="优化"><a href="#优化" class="headerlink" title="优化"></a>优化</h3><h4 id="设置-root-用户密码"><a href="#设置-root-用户密码" class="headerlink" title="设置 root 用户密码"></a>设置 root 用户密码</h4><p>在 Terminal 下输入 <code>sudo passwd root</code><br>输入当前用户密码，回车<br>输入新密码，回车，这个密码就是 su 用户的密码。</p>
+<h4 id="设置使用-sudo-时免输密码"><a href="#设置使用-sudo-时免输密码" class="headerlink" title="设置使用 sudo 时免输密码"></a>设置使用 sudo 时免输密码</h4><p>每次使用 sudo 时都需要输入密码确实烦人, 毕竟是私人电脑, 安全性有锁屏密码保护就可以了, 为了使用方便, 不仿取消使用 sudo 时需要输入 root 用户密码的设定:</p>
+<p>同时按下 ctrl + alt + t 打开终端, 输入 sudo visudo , 在打开的文件中, 将</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">%sudo ALL=(ALL:ALL) ALL</span><br></pre></td></tr></table></figure>
+<p>改为：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">%sudo ALL=(ALL:ALL) NOPASSWD:ALL</span><br></pre></td></tr></table></figure>
+<p>即可。</p>
+<h4 id="隐藏-grub-引导菜单"><a href="#隐藏-grub-引导菜单" class="headerlink" title="隐藏 grub 引导菜单"></a>隐藏 grub 引导菜单</h4><p>修改/etc/grub.d/30_os-prober中的timeout=10为timeout=0 （如果没有这一步，第二步中设置为0秒后会重置为10秒)</p>
+<p>接下来修改/etc/default/gru</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo vim /etc/default/grub</span><br></pre></td></tr></table></figure>
+<p>修改内容为:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">GRUB_DEFAULT=0</span><br><span class="line"># GRUB_HIDDEN_TIMEOUT=0</span><br><span class="line"># GRUB_HIDDEN_TIMEOUT_QUIET=true</span><br><span class="line">GRUB_TIMEOUT=0</span><br><span class="line">GRUB_DISTRIBUTOR=`lsb_release -i -s 2&gt; /dev/null || echo Debian`</span><br><span class="line">GRUB_CMDLINE_LINUX_DEFAULT=&quot;quiet splash&quot;</span><br><span class="line">GRUB_CMDLINE_LINUX=&quot;&quot;</span><br><span class="line">GRUB_DISABLE_OS_PROBER=true</span><br></pre></td></tr></table></figure>
+<p>更新 grub:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo update-grub</span><br></pre></td></tr></table></figure>
+<p>之后开机就不会再出现 grub 引导界面啦, 如果需要临时显示启动页面, 只需要在开机过程中长按 空格 键就好了.</p>
+<h4 id="更改软件源"><a href="#更改软件源" class="headerlink" title="更改软件源"></a>更改软件源</h4><p>按 win 键召唤 bash 栏, 搜索 update 并在搜索结果中打开 “软件更新器”, 软件打开时会自动检查更新, 点 “停止” 即可.</p>
+<p>选择 “设置” - “Ubuntu 软件” , 在 “下载自” 下拉列表中选择合适的服务器, 个人推荐 “中国的服务器”, 相对来说软件版本会比较新.</p>
+<p>取消”ubuntu软件”-“可从互联网下载” - “有版权和合法性问题的软件”。</p>
+<p>“更新”推荐，使用太新的软件可能会引入不必要的依赖</p>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2019/04/20/5cbaf6424c90d.png"></p>
+<p>在”附加驱动”查询适合自己电脑的驱动，这样会加速电脑的运行。</p>
+<p>关闭”软件和更新”时会更新缓存。根据需要进行更新软件。</p>
+<h4 id="更新软件"><a href="#更新软件" class="headerlink" title="更新软件"></a>更新软件</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sudo apt update #更新缓存</span><br><span class="line">sudo apt upgrade #更新软件</span><br><span class="line">sudo apt dist-upgrade #系统更新</span><br></pre></td></tr></table></figure>
+<h4 id="安装wine"><a href="#安装wine" class="headerlink" title="安装wine"></a>安装wine</h4><p>建议使用deepin-wine:<a target="_blank" rel="noopener" href="https://gitee.com/wszqkzqk/deepin-wine-for-ubuntu">https://gitee.com/wszqkzqk/deepin-wine-for-ubuntu</a></p>
+<h4 id="运行Android应用"><a href="#运行Android应用" class="headerlink" title="运行Android应用"></a>运行Android应用</h4><p>20.04上安装有坑</p>
+<p>安装<a target="_blank" rel="noopener" href="https://www.linzhuotech.com/index.php/home/index/xdroid.html">xDroid</a>，安装方法很简单，下载最新版安装包，解压后使用命令行，在解压文件夹目录下，运行 <code>./install.sh</code>,之后安装方法和Windows应用相同，安装包会安装到 <code>/opt/xdroid</code>下，安装完成后可以通过应用中的商店进行安装Android应用。</p>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2019/10/10/AamNoT2YRyvJjwh.png" alt="image.png"></p>
+<h4 id="WeChat-amp-Tim"><a href="#WeChat-amp-Tim" class="headerlink" title="WeChat &amp; Tim"></a>WeChat &amp; Tim</h4><p>我个人推荐 deepin-wine-ubuntu 移植的 WeChat 和 Tim, electronic 用户体验不太好.</p>
+<p><a target="_blank" rel="noopener" href="https://github.com/wszqkzqk/deepin-wine-ubuntu">wszqkzqk/deepin-wine-ubuntu</a></p>
+<p>这个项目是 Deepin-wine 环境的 Ubuntu 移植版, 可以在 Ubuntu 上运行 Tim, 微信, 网易云音乐, 百度云网盘, 迅雷等 Windows 软件, 可以说是很良心了. 使用方法参见项目文档.</p>
+<p><a target="_blank" rel="noopener" href="https://github.com/geeeeeeeeek/electronic-wechat">electronic-wechat</a></p>
+<p>Linux 下一种退而求其次的 Wechat 客户端解决方案吧, 虽然不像官方客户端那么好用, 但毕竟比网页版强很多.</p>
+<p>下载地址：<a target="_blank" rel="noopener" href="https://github.com/geeeeeeeeek/electronic-wechat/releases">Download | electronic-wechat</a></p>
+<h4 id="安装-Chrome-浏览器"><a href="#安装-Chrome-浏览器" class="headerlink" title="安装 Chrome 浏览器"></a>安装 Chrome 浏览器</h4><p>Ubuntu 自带的是 Firefox 浏览器, 直接下载 Chrome 安装包 <a target="_blank" rel="noopener" href="https://www.google.com/chrome/">Chrome</a>, 然后使用 Ubuntu 自带软件管理器安装或者使用<code>sudo dpkg -i  &lt;安装包&gt;</code>安装。</p>
+<blockquote>
+<p>Chrome好像在Ubuntu上占用更多内存，不太推荐</p>
+</blockquote>
+<h4 id="firefox优化"><a href="#firefox优化" class="headerlink" title="firefox优化"></a>firefox优化</h4><p>没有扩展的Firefox，就不是Firefox。——wistone</p>
+<p>（但是不要装太多的扩展。）</p>
+<p>（1）Adblock Plus（广告已成往事！）这是所有浏览器中广告过滤最好的！！比Chrome强太多了。</p>
+<p>（2） IE Tab（让Firefox也能内嵌IE，用双核心）</p>
+<p>（3） DownThemAll!（Firefox的批量下载工具）应该花一些时间看看怎么使用，然后你会觉得这是神器！！</p>
+<p>（4）如意淘 如果你喜欢购物，这个不可或缺。</p>
+<p>（5） all in one gesture ,通过鼠标手势能控制整个浏览器。</p>
+<h4 id="opera"><a href="#opera" class="headerlink" title="opera"></a>opera</h4><p>轻量级可多端同步的浏览器，已经使用三个月，性能功能良好，但功能上还是不是很舒服，比如翻译和截图等都不是很舒服。</p>
+<p>官网下载：<a target="_blank" rel="noopener" href="https://www.opera.com/zh-cn/download?os=linux">https://www.opera.com/zh-cn/download?os=linux</a></p>
+<p>直接下载安装即可，建议不要安装安装包里面的源，更新速度超慢，如果需要更新，请从官网下载新的安装包。</p>
+<h4 id="安装flash"><a href="#安装flash" class="headerlink" title="安装flash"></a>安装flash</h4><p>Adobe Flash 2020年将不再更新。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">#火狐</span><br><span class="line">$ sudo apt-get install flashplugin-installer</span><br><span class="line">#其他</span><br><span class="line">$ sudo add-apt-repository &quot;deb http://archive.canonical.com/ bionic partner&quot;</span><br><span class="line">$ sudo apt update</span><br><span class="line">$ sudo apt-get install adobe-flashplugin</span><br></pre></td></tr></table></figure>
+
+<h4 id="安装-apt-fast"><a href="#安装-apt-fast" class="headerlink" title="安装 apt-fast"></a>安装 apt-fast</h4><p>apt-fast是一个为 apt-get 和 aptitude 做的“ shell脚本封装 ”，通过对每个包进行并发下载的方式可以大大减少APT的下载时间。apt-fast使用aria2c下载管理器来减少APT下载时间。就像传统的apt-get包管理器一样，apt-fast支持几乎所有的apt-get功能，如， install , remove , update , upgrade , dist-upgrade 等等，并且更重要的是它也支持proxy。</p>
+<p>直白点说, apt-fast 就是一个多线程的 apt-get , 对于我们通过 apt-get 安装软件时尤其有用.</p>
+<p>安装命令:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sudo add-apt-repository ppa:apt-fast/stable</span><br><span class="line">sudo apt-get update</span><br><span class="line">sudo apt-get -y install apt-fast</span><br></pre></td></tr></table></figure>
+<p>使用时, 将对应命令中的 apt-get 替换为 apt-fast 即可. 享受多线程飞一般的速度吧!</p>
+<h4 id="安装-aptitude"><a href="#安装-aptitude" class="headerlink" title="安装 aptitude"></a>安装 aptitude</h4><p>aptitude是一个能够自行解决安装包依赖的命令。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt install aptitude</span><br></pre></td></tr></table></figure>
+
+<h4 id="安装-Git-Vim-NeoVim"><a href="#安装-Git-Vim-NeoVim" class="headerlink" title="安装 Git / Vim / NeoVim"></a>安装 Git / Vim / NeoVim</h4><p>执行命令:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt install git vim neovim -y</span><br></pre></td></tr></table></figure>
+<p>即可.</p>
+<p>neoVim是vim的扩展项目，功能强大，具体介绍查看官网：<a target="_blank" rel="noopener" href="https://github.com/neovim/neovim">https://github.com/neovim/neovim</a></p>
+<p>vim美化：</p>
+<p>如果你需要配置vim，只需在Home目录创建一个**<del>/.vimrc**文件即可以配置vim了，如需安装插件，在</del>/.vim目录下创建一个bundle文件夹，插件装在里面。（我通过Vundle管理插件，自行百度Vundle怎么使用）,可以参考我的vimrc配置文件：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br><span class="line">201</span><br><span class="line">202</span><br><span class="line">203</span><br><span class="line">204</span><br><span class="line">205</span><br><span class="line">206</span><br><span class="line">207</span><br><span class="line">208</span><br><span class="line">209</span><br><span class="line">210</span><br><span class="line">211</span><br><span class="line">212</span><br><span class="line">213</span><br><span class="line">214</span><br><span class="line">215</span><br><span class="line">216</span><br><span class="line">217</span><br><span class="line">218</span><br><span class="line">219</span><br><span class="line">220</span><br><span class="line">221</span><br><span class="line">222</span><br><span class="line">223</span><br><span class="line">224</span><br><span class="line">225</span><br><span class="line">226</span><br><span class="line">227</span><br><span class="line">228</span><br><span class="line">229</span><br><span class="line">230</span><br><span class="line">231</span><br><span class="line">232</span><br><span class="line">233</span><br><span class="line">234</span><br><span class="line">235</span><br><span class="line">236</span><br><span class="line">237</span><br><span class="line">238</span><br><span class="line">239</span><br><span class="line">240</span><br><span class="line">241</span><br><span class="line">242</span><br><span class="line">243</span><br><span class="line">244</span><br><span class="line">245</span><br><span class="line">246</span><br><span class="line">247</span><br><span class="line">248</span><br><span class="line">249</span><br><span class="line">250</span><br><span class="line">251</span><br><span class="line">252</span><br><span class="line">253</span><br><span class="line">254</span><br><span class="line">255</span><br><span class="line">256</span><br><span class="line">257</span><br><span class="line">258</span><br><span class="line">259</span><br><span class="line">260</span><br><span class="line">261</span><br><span class="line">262</span><br><span class="line">263</span><br><span class="line">264</span><br><span class="line">265</span><br><span class="line">266</span><br><span class="line">267</span><br><span class="line">268</span><br><span class="line">269</span><br><span class="line">270</span><br><span class="line">271</span><br><span class="line">272</span><br></pre></td><td class="code"><pre><span class="line">set nocompatible</span><br><span class="line">filetype on</span><br><span class="line"> </span><br><span class="line">set rtp+=~/.vim/bundle/Vundle.vim</span><br><span class="line">call vundle#begin()</span><br><span class="line"> </span><br><span class="line"> </span><br><span class="line">&quot; 这里根据自己需要的插件来设置，以下是我的配置 &quot;</span><br><span class="line">&quot;</span><br><span class="line">&quot; YouCompleteMe:语句补全插件</span><br><span class="line">set runtimepath+=~/.vim/bundle/YouCompleteMe</span><br><span class="line">autocmd InsertLeave * if pumvisible() == 0|pclose|endif &quot;离开插入模式后自动关闭预览窗口&quot;</span><br><span class="line">let g:ycm_collect_identifiers_from_tags_files = 1           &quot; 开启 YCM基于标签引擎</span><br><span class="line">let g:ycm_collect_identifiers_from_comments_and_strings = 1 &quot; 注释与字符串中的内容也用于补全</span><br><span class="line">let g:syntastic_ignore_files=[&quot;.*\.py$&quot;]</span><br><span class="line">let g:ycm_seed_identifiers_with_syntax = 1                  &quot; 语法关键字补全</span><br><span class="line">let g:ycm_complete_in_comments = 1</span><br><span class="line">let g:ycm_confirm_extra_conf = 0                            &quot; 关闭加载.ycm_extra_conf.py提示</span><br><span class="line">let g:ycm_key_list_select_completion = [&#x27;&lt;c-n&gt;&#x27;, &#x27;&lt;Down&gt;&#x27;]  &quot; 映射按键,没有这个会拦截掉tab, 导致其他插件的tab不能用.</span><br><span class="line">let g:ycm_key_list_previous_completion = [&#x27;&lt;c-p&gt;&#x27;, &#x27;&lt;Up&gt;&#x27;]</span><br><span class="line">let g:ycm_complete_in_comments = 1                          &quot; 在注释输入中也能补全</span><br><span class="line">let g:ycm_complete_in_strings = 1                           &quot; 在字符串输入中也能补全</span><br><span class="line">let g:ycm_collect_identifiers_from_comments_and_strings = 1 &quot; 注释和字符串中的文字也会被收入补全</span><br><span class="line">let g:ycm_global_ycm_extra_conf=&#x27;~/.vim/bundle/YouCompleteMe/third_party/ycmd/cpp/ycm/.ycm_extra_conf.py&#x27;</span><br><span class="line">let g:ycm_show_diagnostics_ui = 0                           &quot; 禁用语法检查</span><br><span class="line">inoremap &lt;expr&gt; &lt;CR&gt; pumvisible() ? &quot;\&lt;C-y&gt;&quot; : &quot;\&lt;CR&gt;&quot;             &quot; 回车即选中当前项</span><br><span class="line">nnoremap &lt;c-j&gt; :YcmCompleter GoToDefinitionElseDeclaration&lt;CR&gt;     &quot; 跳转到定义处</span><br><span class="line">let g:ycm_min_num_of_chars_for_completion=2                 &quot; 从第2个键入字符就开始罗列匹配项</span><br><span class="line">&quot;</span><br><span class="line">&quot; github 仓库中的插件 &quot;</span><br><span class="line">Plugin &#x27;VundleVim/Vundle.vim&#x27;</span><br><span class="line">Plugin &#x27;vim-airline/vim-airline&#x27;</span><br><span class="line">&quot;vim-airline配置:优化vim界面&quot;</span><br><span class="line">&quot;let g:airline#extensions#tabline#enabled = 1</span><br><span class="line">&quot; airline设置</span><br><span class="line">&quot; 显示颜色</span><br><span class="line">set t_Co=256</span><br><span class="line">set laststatus=2</span><br><span class="line">&quot; 使用powerline打过补丁的字体</span><br><span class="line">let g:airline_powerline_fonts = 1</span><br><span class="line">&quot; 开启tabline</span><br><span class="line">let g:airline#extensions#tabline#enabled = 1</span><br><span class="line">&quot; tabline中当前buffer两端的分隔字符</span><br><span class="line">let g:airline#extensions#tabline#left_sep = &#x27; &#x27;</span><br><span class="line">&quot; tabline中未激活buffer两端的分隔字符</span><br><span class="line">let g:airline#extensions#tabline#left_alt_sep = &#x27; &#x27;</span><br><span class="line">&quot; tabline中buffer显示编号</span><br><span class="line">let g:airline#extensions#tabline#buffer_nr_show = 1</span><br><span class="line">&quot; 映射切换buffer的键位</span><br><span class="line">nnoremap [b :bp&lt;CR&gt;</span><br><span class="line">nnoremap ]b :bn&lt;CR&gt;</span><br><span class="line">&quot; 映射&lt;leader&gt;num到num buffer</span><br><span class="line">map &lt;leader&gt;1 :b 1&lt;CR&gt;</span><br><span class="line">map &lt;leader&gt;2 :b 2&lt;CR&gt;</span><br><span class="line">map &lt;leader&gt;3 :b 3&lt;CR&gt;</span><br><span class="line">map &lt;leader&gt;4 :b 4&lt;CR&gt;</span><br><span class="line">map &lt;leader&gt;5 :b 5&lt;CR&gt;</span><br><span class="line">map &lt;leader&gt;6 :b 6&lt;CR&gt;</span><br><span class="line">map &lt;leader&gt;7 :b 7&lt;CR&gt;</span><br><span class="line">map &lt;leader&gt;8 :b 8&lt;CR&gt;</span><br><span class="line">map &lt;leader&gt;9 :b 9&lt;CR&gt;</span><br><span class="line">&quot; vim-scripts 中的插件 &quot;</span><br><span class="line">Plugin &#x27;taglist.vim&#x27;</span><br><span class="line">&quot;ctags 配置:F3快捷键显示程序中的各种tags，包括变量和函数等。</span><br><span class="line">map &lt;F3&gt; :TlistToggle&lt;CR&gt;</span><br><span class="line">let Tlist_Use_Right_Window=1</span><br><span class="line">let Tlist_Show_One_File=1</span><br><span class="line">let Tlist_Exit_OnlyWindow=1</span><br><span class="line">let Tlist_WinWidt=25</span><br><span class="line"> </span><br><span class="line">Plugin &#x27;The-NERD-tree&#x27;</span><br><span class="line">&quot;NERDTree 配置:F2快捷键显示当前目录树</span><br><span class="line">map &lt;F2&gt; :NERDTreeToggle&lt;CR&gt;</span><br><span class="line">let NERDTreeWinSize=25 </span><br><span class="line">Plugin &#x27;indentLine.vim&#x27;</span><br><span class="line">Plugin &#x27;delimitMate.vim&#x27;</span><br><span class="line">&quot; 非 github 仓库的插件&quot;</span><br><span class="line">&quot; Plugin &#x27;git://git.wincent.com/command-t.git&#x27;</span><br><span class="line">&quot; 本地仓库的插件 &quot;</span><br><span class="line"> </span><br><span class="line">call vundle#end()</span><br><span class="line"> </span><br><span class="line">&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;</span><br><span class="line">&quot;&quot;&quot;&quot;&quot;新文件标题</span><br><span class="line">&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;</span><br><span class="line">&quot;新建.c,.h,.sh,.java文件，自动插入文件头 </span><br><span class="line">autocmd BufNewFile *.cpp,*.[ch],*.sh,*.java exec &quot;:call SetTitle()&quot; </span><br><span class="line">&quot;&quot;定义函数SetTitle，自动插入文件头 </span><br><span class="line">func SetTitle() </span><br><span class="line">	&quot;如果文件类型为.sh文件 </span><br><span class="line">	if &amp;filetype == &#x27;sh&#x27; </span><br><span class="line">		call setline(1, &quot;##########################################################################&quot;) </span><br><span class="line">		call append(line(&quot;.&quot;), &quot;# File Name: &quot;.expand(&quot;%&quot;)) </span><br><span class="line">		call append(line(&quot;.&quot;)+1, &quot;# Author: amoscykl&quot;) </span><br><span class="line">		call append(line(&quot;.&quot;)+2, &quot;# mail: amoscykl980629@163.com&quot;) </span><br><span class="line">		call append(line(&quot;.&quot;)+3, &quot;# Created Time: &quot;.strftime(&quot;%c&quot;)) </span><br><span class="line">		call append(line(&quot;.&quot;)+4, &quot;#########################################################################&quot;) </span><br><span class="line">		call append(line(&quot;.&quot;)+5, &quot;#!/bin/zsh&quot;)</span><br><span class="line">		call append(line(&quot;.&quot;)+6, &quot;PATH=/home/edison/bin:/home/edison/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/work/tools/gcc-3.4.5-glibc-2.3.6/bin&quot;)</span><br><span class="line">		call append(line(&quot;.&quot;)+7, &quot;export PATH&quot;)</span><br><span class="line">		call append(line(&quot;.&quot;)+8, &quot;&quot;)</span><br><span class="line">	else </span><br><span class="line">		call setline(1, &quot;/*************************************************************************&quot;) </span><br><span class="line">		call append(line(&quot;.&quot;), &quot;	&gt; File Name: &quot;.expand(&quot;%&quot;)) </span><br><span class="line">		call append(line(&quot;.&quot;)+1, &quot;	&gt; Author: amoscykl&quot;) </span><br><span class="line">		call append(line(&quot;.&quot;)+2, &quot;	&gt; Mail: amoscykl@163.com &quot;) </span><br><span class="line">		call append(line(&quot;.&quot;)+3, &quot;	&gt; Created Time: &quot;.strftime(&quot;%c&quot;)) </span><br><span class="line">		call append(line(&quot;.&quot;)+4, &quot; ************************************************************************/&quot;) </span><br><span class="line">		call append(line(&quot;.&quot;)+5, &quot;&quot;)</span><br><span class="line">	endif</span><br><span class="line">	if &amp;filetype == &#x27;cpp&#x27;</span><br><span class="line">		call append(line(&quot;.&quot;)+6, &quot;#include&lt;iostream&gt;&quot;)</span><br><span class="line">    	call append(line(&quot;.&quot;)+7, &quot;using namespace std;&quot;)</span><br><span class="line">		call append(line(&quot;.&quot;)+8, &quot;&quot;)</span><br><span class="line">	endif</span><br><span class="line">	if &amp;filetype == &#x27;c&#x27;</span><br><span class="line">		call append(line(&quot;.&quot;)+6, &quot;#include&lt;stdio.h&gt;&quot;)</span><br><span class="line">		call append(line(&quot;.&quot;)+7, &quot;&quot;)</span><br><span class="line">	endif</span><br><span class="line">	&quot;	if &amp;filetype == &#x27;java&#x27;</span><br><span class="line">	&quot;		call append(line(&quot;.&quot;)+6,&quot;public class &quot;.expand(&quot;%&quot;))</span><br><span class="line">	&quot;		call append(line(&quot;.&quot;)+7,&quot;&quot;)</span><br><span class="line">	&quot;	endif</span><br><span class="line">	&quot;新建文件后，自动定位到文件末尾</span><br><span class="line">	autocmd BufNewFile * normal G</span><br><span class="line">endfunc </span><br><span class="line">&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;</span><br><span class="line">&quot;键盘命令</span><br><span class="line">&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;</span><br><span class="line"> </span><br><span class="line">nmap &lt;leader&gt;w :w!&lt;cr&gt;</span><br><span class="line">nmap &lt;leader&gt;f :find&lt;cr&gt;</span><br><span class="line"> </span><br><span class="line">&quot; 映射全选+复制 ctrl+a</span><br><span class="line">map &lt;C-A&gt; ggVGY</span><br><span class="line">map! &lt;C-A&gt; &lt;Esc&gt;ggVGY</span><br><span class="line">map &lt;F12&gt; gg=G</span><br><span class="line">&quot; 选中状态下 Ctrl+c 复制</span><br><span class="line">vmap &lt;C-c&gt; &quot;+y</span><br><span class="line">&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;</span><br><span class="line">&quot;&quot;实用设置</span><br><span class="line">&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;</span><br><span class="line">&quot; 设置当文件被改动时自动载入</span><br><span class="line">set autoread</span><br><span class="line">&quot; quickfix模式</span><br><span class="line">autocmd FileType c,cpp map &lt;buffer&gt; &lt;leader&gt;&lt;space&gt; :w&lt;cr&gt;:make&lt;cr&gt;</span><br><span class="line">&quot;代码补全 </span><br><span class="line">set completeopt=preview,menu </span><br><span class="line">&quot;允许插件  </span><br><span class="line">filetype plugin on</span><br><span class="line">&quot;共享剪贴板  </span><br><span class="line">set clipboard=unnamed </span><br><span class="line">&quot;从不备份  </span><br><span class="line">set nobackup</span><br><span class="line">&quot;make 运行</span><br><span class="line">:set makeprg=g++\ -Wall\ \ %</span><br><span class="line">&quot;自动保存</span><br><span class="line">set autowrite</span><br><span class="line">set ruler                   &quot; 打开状态栏标尺</span><br><span class="line">set cursorline              &quot; 突出显示当前行</span><br><span class="line">set magic                   &quot; 设置魔术</span><br><span class="line">set guioptions-=T           &quot; 隐藏工具栏</span><br><span class="line">set guioptions-=m           &quot; 隐藏菜单栏</span><br><span class="line">&quot;set statusline=\ %&lt;%F[%1*%M%*%n%R%H]%=\ %y\ %0(%&#123;&amp;fileformat&#125;\ %&#123;&amp;encoding&#125;\ %c:%l/%L%)\</span><br><span class="line">&quot; 设置在状态行显示的信息</span><br><span class="line">set foldcolumn=0</span><br><span class="line">set foldmethod=indent </span><br><span class="line">set foldlevel=3 </span><br><span class="line">set foldenable              &quot; 开始折叠</span><br><span class="line">&quot; 不要使用vi的键盘模式，而是vim自己的</span><br><span class="line">set nocompatible</span><br><span class="line">&quot; 语法高亮</span><br><span class="line">set syntax=on</span><br><span class="line">&quot; 去掉输入错误的提示声音</span><br><span class="line">set noeb</span><br><span class="line">&quot; 在处理未保存或只读文件的时候，弹出确认</span><br><span class="line">set confirm</span><br><span class="line">&quot; 自动缩进</span><br><span class="line">set autoindent</span><br><span class="line">set cindent</span><br><span class="line">&quot; Tab键的宽度</span><br><span class="line">set tabstop=4</span><br><span class="line">&quot; 统一缩进为4</span><br><span class="line">set softtabstop=4</span><br><span class="line">set shiftwidth=4</span><br><span class="line">&quot; 不要用空格代替制表符</span><br><span class="line">set noexpandtab</span><br><span class="line">&quot; 在行和段开始处使用制表符</span><br><span class="line">set smarttab</span><br><span class="line">&quot; 显示行号</span><br><span class="line">set number</span><br><span class="line">&quot; 历史记录数</span><br><span class="line">set history=1000</span><br><span class="line">&quot;禁止生成临时文件</span><br><span class="line">set nobackup</span><br><span class="line">set noswapfile</span><br><span class="line">&quot;搜索忽略大小写</span><br><span class="line">set ignorecase</span><br><span class="line">&quot;搜索逐字符高亮</span><br><span class="line">set hlsearch</span><br><span class="line">set incsearch</span><br><span class="line">&quot;行内替换</span><br><span class="line">set gdefault</span><br><span class="line">&quot;编码设置</span><br><span class="line">set enc=utf-8</span><br><span class="line">set fencs=utf-8,ucs-bom,shift-jis,gb18030,gbk,gb2312,cp936</span><br><span class="line">&quot;语言设置</span><br><span class="line">set langmenu=zh_CN.UTF-8</span><br><span class="line">set helplang=cn</span><br><span class="line">&quot; 我的状态行显示的内容（包括文件类型和解码）</span><br><span class="line">set statusline=%F%m%r%h%w\ [FORMAT=%&#123;&amp;ff&#125;]\ [TYPE=%Y]\ [POS=%l,%v][%p%%]\ %&#123;strftime(\&quot;%d/%m/%y\ -\ %H:%M\&quot;)&#125;</span><br><span class="line">set statusline=[%F]%y%r%m%*%=[Line:%l/%L,Column:%c][%p%%]</span><br><span class="line">&quot; 总是显示状态行</span><br><span class="line">set laststatus=2</span><br><span class="line">&quot; 命令行（在状态行下）的高度，默认为1，这里是2</span><br><span class="line">set cmdheight=2</span><br><span class="line">&quot; 侦测文件类型</span><br><span class="line">filetype on</span><br><span class="line">&quot; 载入文件类型插件</span><br><span class="line">filetype plugin on</span><br><span class="line">&quot; 为特定文件类型载入相关缩进文件</span><br><span class="line">filetype indent on</span><br><span class="line">&quot; 保存全局变量</span><br><span class="line">set viminfo+=!</span><br><span class="line">&quot; 带有如下符号的单词不要被换行分割</span><br><span class="line">set iskeyword+=_,$,@,%,#,-</span><br><span class="line">&quot; 字符间插入的像素行数目</span><br><span class="line">set linespace=0</span><br><span class="line">&quot; 增强模式中的命令行自动完成操作</span><br><span class="line">set wildmenu</span><br><span class="line">&quot; 使回格键（backspace）正常处理indent, eol, start等</span><br><span class="line">set backspace=2</span><br><span class="line">&quot; 允许backspace和光标键跨越行边界</span><br><span class="line">set whichwrap+=&lt;,&gt;,h,l</span><br><span class="line">&quot; 可以在buffer的任何地方使用鼠标（类似office中在工作区双击鼠标定位）</span><br><span class="line">set mouse=a</span><br><span class="line">set selection=exclusive</span><br><span class="line">set selectmode=mouse,key</span><br><span class="line">&quot; 通过使用: commands命令，告诉我们文件的哪一行被改变过</span><br><span class="line">set report=0</span><br><span class="line">&quot; 在被分割的窗口间显示空白，便于阅读</span><br><span class="line">set fillchars=vert:\ ,stl:\ ,stlnc:\</span><br><span class="line">&quot; 高亮显示匹配的括号</span><br><span class="line">set showmatch</span><br><span class="line">&quot; 匹配括号高亮的时间（单位是十分之一秒）</span><br><span class="line">set matchtime=1</span><br><span class="line">&quot; 光标移动到buffer的顶部和底部时保持3行距离</span><br><span class="line">set scrolloff=3</span><br><span class="line">&quot; 为C程序提供自动缩进</span><br><span class="line">set smartindent</span><br><span class="line">&quot; 高亮显示普通txt文件（需要txt.vim脚本）</span><br><span class="line"> au BufRead,BufNewFile *  setfiletype txt</span><br><span class="line">&quot;自动补全</span><br><span class="line">:inoremap ( ()&lt;ESC&gt;i</span><br><span class="line">:inoremap ) &lt;c-r&gt;=ClosePair(&#x27;)&#x27;)&lt;CR&gt;</span><br><span class="line">&quot;:inoremap &#123; &#123;&lt;CR&gt;&#125;&lt;ESC&gt;O</span><br><span class="line">&quot;:inoremap &#125; &lt;c-r&gt;=ClosePair(&#x27;&#125;&#x27;)&lt;CR&gt;</span><br><span class="line">:inoremap [ []&lt;ESC&gt;i</span><br><span class="line">:inoremap ] &lt;c-r&gt;=ClosePair(&#x27;]&#x27;)&lt;CR&gt;</span><br><span class="line">:inoremap &quot; &quot;&quot;&lt;ESC&gt;i</span><br><span class="line">:inoremap &#x27; &#x27;&#x27;&lt;ESC&gt;i</span><br><span class="line">function! ClosePair(char)</span><br><span class="line">	if getline(&#x27;.&#x27;)[col(&#x27;.&#x27;) - 1] == a:char</span><br><span class="line">		return &quot;\&lt;Right&gt;&quot;</span><br><span class="line">	else</span><br><span class="line">		return a:char</span><br><span class="line">	endif</span><br><span class="line">endfunction</span><br><span class="line">filetype plugin indent on </span><br><span class="line">&quot;打开文件类型检测, 加了这句才可以用智能补全</span><br><span class="line">set completeopt=longest,menu</span><br><span class="line">&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;</span><br></pre></td></tr></table></figure>
+
+<p><strong>安装 Vundle</strong></p>
+<p>它的使用方法很简单，安装一个插件只需要在 ~/.vimrc 按照规则中添加 Plugin 的名称，某些需要添加路径，之后在 Vim 中使用:PluginInstall既可以自动化安装。</p>
+<ol>
+<li>先新建目录</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mkdir ~/.vim/bundle/Vundle.vim</span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li>git 克隆 Vundle 工程到本地</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git clone https://github.com/gmarik/Vundle.vim.git ~/.vim/bundle/Vundle.vim</span><br></pre></td></tr></table></figure>
+
+<ol start="3">
+<li><p>修改 ~/.vimrc 配置 Plugins。在 ~/.vimrc 文件中添加如下内容并保存(已配置)</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">set nocompatible &quot; be iMproved, required</span><br><span class="line">filetype off &quot; required</span><br><span class="line"></span><br><span class="line">&quot; set the runtime path to include Vundle and initialize</span><br><span class="line">set rtp+=~/.vim/bundle/Vundle.vim</span><br><span class="line">call vundle#begin()</span><br><span class="line">&quot; alternatively, pass a path where Vundle should install plugins</span><br><span class="line">&quot;call vundle#begin(&#x27;~/some/path/here&#x27;)</span><br><span class="line"></span><br><span class="line">&quot; let Vundle manage Vundle, required</span><br><span class="line">Plugin &#x27;VundleVim/Vundle.vim&#x27;</span><br><span class="line"></span><br><span class="line">&quot; The following are examples of different formats supported.</span><br><span class="line">&quot; Keep Plugin commands between vundle#begin/end.</span><br><span class="line"></span><br><span class="line">&quot; All of your Plugins must be added before the following line</span><br><span class="line">call vundle#end() &quot; required</span><br><span class="line">filetype plugin indent on &quot; required</span><br><span class="line">&quot; To ignore plugin indent changes, instead use:</span><br><span class="line">&quot;filetype plugin on</span><br><span class="line">&quot;</span><br><span class="line">&quot; Brief help</span><br><span class="line">&quot; :PluginList - lists configured plugins</span><br><span class="line">&quot; :PluginInstall - installs plugins; append `!` to update or just :PluginUpdate</span><br><span class="line">&quot; :PluginSearch foo - searches for foo; append `!` to refresh local cache</span><br><span class="line">&quot; :PluginClean - confirms removal of unused plugins; append `!` to auto-approve removal</span><br><span class="line">&quot;</span><br><span class="line">&quot; see :h vundle for more details or wiki for FAQ</span><br><span class="line">&quot; Put your non-Plugin stuff after this line</span><br></pre></td></tr></table></figure></li>
+<li><p>进入 <code>vim</code> 运行命令</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">:PluginInstall</span><br></pre></td></tr></table></figure></li>
+</ol>
+<p>Vundle 命令</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"># 安装插件</span><br><span class="line">:BundleInstall [插件名]</span><br><span class="line"># 更新插件</span><br><span class="line">:BundleUpdate</span><br><span class="line"># 清除不需要的插件</span><br><span class="line">:BundleClean</span><br><span class="line"># 列出当前的插件</span><br><span class="line">:BundleList</span><br><span class="line"># 搜索插件</span><br><span class="line">:BundleSearch</span><br></pre></td></tr></table></figure>
+
+<p><strong>注意</strong></p>
+<p>插件配置不要在 <code>call vundle#end()</code> 之前，不然插件无法生效<br>如果配置错误，需要重新配置后，在vim中运行命令 <code>:PluginInstall</code></p>
+<h4 id="Git-优化"><a href="#Git-优化" class="headerlink" title="Git 优化"></a>Git 优化</h4><p>如果 git log 等命令中中文显示乱码, 可以尝试设置 git config –global core.quotepath false 修复.</p>
+<p>另外可以使用以下命令美化 git log :</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git config --global alias.lg &quot;log --color --graph --pretty=format:&#x27;%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)&lt;%an&gt;%Creset&#x27; --abbrev-commit&quot;</span><br></pre></td></tr></table></figure>
+<p>设置之后运行 git lg , 即可体验更好的 git log 效果.</p>
+<h4 id="搜狗输入法"><a href="#搜狗输入法" class="headerlink" title="搜狗输入法"></a>搜狗输入法</h4><p>略微考虑了一下，姑且把输入法也算作系统增强的一部分吧。 首先安装 fcitx:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install fcitx-bin fcitx fcitx-table</span><br></pre></td></tr></table></figure>
+<p>然后下载搜狗输入法 <a target="_blank" rel="noopener" href="https://pinyin.sogou.com/linux/">Download | sougouinput</a> 并安装；</p>
+<p>dash 搜索 language 打开“语言支持”，将“键盘输入法系统”改为“fcitx”，重启电脑； 点击屏幕右上角的键盘图标，选择“配置当前输入法”，选择搜狗即可。 参见<a target="_blank" rel="noopener" href="https://pinyin.sogou.com/linux/help.php">搜狗输入法 for linux 安装指南</a>。</p>
+<h4 id="使用-alias-简化常用命令"><a href="#使用-alias-简化常用命令" class="headerlink" title="使用 alias 简化常用命令"></a>使用 alias 简化常用命令</h4><p>在 Linux 我们可以使用 alias 别名来简化常用命令，直接在 terminal 下输入 alias 就可以查看系统现有别名。</p>
+<h4 id="设置快捷键"><a href="#设置快捷键" class="headerlink" title="设置快捷键"></a>设置快捷键</h4><p>继承了我在 Windows 下的操作习惯，总是习惯用 win + E 快捷键来打开文件管理器，不妨在 Ubuntu 中设置一样的快捷键，方便日常操作：</p>
+<ul>
+<li>依次打开 “设置” - “设备” - “键盘”，拉到页面最下方，添加自定义快捷键；</li>
+<li>“名称” 写 “打开文件管理器”， “命令” 写 “nautilus”，不怕自己误操作的可以在 nautilus 前加上 sudo 以管理员权限运行；</li>
+<li>最后设置快捷键即可；</li>
+<li>其他命令同理。</li>
+</ul>
+<h4 id="安装-unar"><a href="#安装-unar" class="headerlink" title="安装 unar"></a>安装 unar</h4><p>Ubuntu 18.04 下使用 nautilus 解压 .zip 文件会产生乱码, 可以使用 unar 工具解压. (ubuntu 18.10 已经修复此问题).</p>
+<p>安装命令:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install unar</span><br></pre></td></tr></table></figure>
+<h4 id="安装-TimeShift"><a href="#安装-TimeShift" class="headerlink" title="安装 TimeShift"></a>安装 TimeShift</h4><p>TimeShift 是一款 Linux 下的系统备份还原工具, 支持自动备份和增量备份.</p>
+<p>安装命令:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sudo add-apt-repository -y ppa:teejee2008/ppa</span><br><span class="line">sudo apt-get update</span><br><span class="line">sudo apt-get install timeshift</span><br></pre></td></tr></table></figure>
+<h4 id="用TLP降低发热"><a href="#用TLP降低发热" class="headerlink" title="用TLP降低发热"></a>用TLP降低发热</h4><p>TLP 是一款有助于系统冷却的应用程序，可以让 Ubuntu 系统运行得更快、更顺畅。安装完成后，运行命令启动它即可，而无需任何配置。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">sudo add-apt-repository ppa:linrunner/tlp</span><br><span class="line">sudo apt update</span><br><span class="line">sudo apt install tlp tlp-rdw</span><br><span class="line">sudo tlp start</span><br></pre></td></tr></table></figure>
+
+<h4 id="安装Preload"><a href="#安装Preload" class="headerlink" title="安装Preload"></a>安装Preload</h4><p>Preload（预加载）会在后台工作，以「研究」您如何使用计算机并增强计算机的应用程序处理能力。安装好 Preload 后，您使用频率最高的应用程序的加载速度就会明显快于不经常使用的应用程序。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt install preload</span><br></pre></td></tr></table></figure>
+
+
+<h3 id="软件安装"><a href="#软件安装" class="headerlink" title="软件安装"></a>软件安装</h3><p>想了一下, 软件也算是系统的一部分, 软件好用了系统用起来自然更舒畅, 所以这里收集了一些自我感觉良好的软件.</p>
+<h4 id="系统监控indicator-sysmonitor"><a href="#系统监控indicator-sysmonitor" class="headerlink" title="系统监控indicator-sysmonitor"></a>系统监控indicator-sysmonitor</h4><p>安装<strong>indicator-sysmonitor</strong>:<a target="_blank" rel="noopener" href="https://github.com/fossfreedom/indicator-sysmonitor">https://github.com/fossfreedom/indicator-sysmonitor</a></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sudo add-apt-repository ppa:fossfreedom/indicator-sysmonitor</span><br><span class="line">sudo apt-get update</span><br><span class="line">sudo apt-get install indicator-sysmonitor</span><br></pre></td></tr></table></figure>
+
+<p>启动：</p>
+<p>indicator-sysmonitor &amp;</p>
+<p>添加</p>
+<p>cpu: {cpu} 内存: {mem} 网络: {net}保存</p>
+<h4 id="下载软件-motrix"><a href="#下载软件-motrix" class="headerlink" title="下载软件:motrix"></a>下载软件:motrix</h4><p>一款全能的下载工具:<a target="_blank" rel="noopener" href="https://motrix.app/zh-CN/">https://motrix.app/zh-CN/</a></p>
+<h4 id="截图工具"><a href="#截图工具" class="headerlink" title="截图工具"></a>截图工具</h4><p><strong>deepin-screenshot &amp; deepin-screen-recorder</strong></p>
+<p>之前使用过 deepin 系统的人应该都知道, 深度截图可以说是目前 linux 下最好用的截图工具了, 没有之一.</p>
+<p>今天意外发现深度截图居然上架 Ubuntu 应用商店了, 惊喜满满, 直接到 Ubuntu 应用商店下载安装即可.</p>
+<p>此外, 深度录屏也可以在 Ubuntu 应用商店安装, 可用于录制屏幕录像或者 GIF 动图.</p>
+<h5 id="peek"><a href="#peek" class="headerlink" title="peek"></a>peek</h5><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sudo add-apt-repository ppa:peek-developers/stable</span><br><span class="line">sudo apt-get update</span><br><span class="line">sudo apt-get install peek</span><br></pre></td></tr></table></figure>
+
+<h4 id="音视频软件"><a href="#音视频软件" class="headerlink" title="音视频软件"></a>音视频软件</h4><p><strong>网易云音乐</strong></p>
+<p>网易云音乐算是目前为止 Linux 下最好用的音乐客户端了吧, 直接到 <a target="_blank" rel="noopener" href="http://music.163.com/#/download">网易云音乐官网</a> 下载 deb 安装包，在安装包所在目录运行:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo dpkg -i $&#123;网易云音乐安装包文件名&#125;</span><br></pre></td></tr></table></figure>
+<p>即可.</p>
+<p>目前网易云音乐客户端有一个小 bug, 必须以 root 身份运行才可以正常使用. 可以通过 alias 别名简化操作, 或者直接在桌面快捷方式中的 Exec 命令前加上 sudo 使快捷方式正常运行.</p>
+<h4 id="视频播放器-VLC"><a href="#视频播放器-VLC" class="headerlink" title="视频播放器 VLC"></a>视频播放器 VLC</h4><p>支持倍速播放, 界面相对来说也比较美观, 安装命令:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install vlc</span><br></pre></td></tr></table></figure>
+<h4 id="Thunderbird"><a href="#Thunderbird" class="headerlink" title="Thunderbird"></a>Thunderbird</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sudo add-apt-repository ppa:ubuntu-mozilla-security/ppa</span><br><span class="line">sudo apt-get update</span><br><span class="line">sudo apt-get install thunderbird thunderbird-locale-zh-cn</span><br></pre></td></tr></table></figure>
+
+<h4 id="办公软件"><a href="#办公软件" class="headerlink" title="办公软件"></a>办公软件</h4><p><strong>XMind ZEN</strong></p>
+<p>超赞的思维导图软件, 下载对应的安装包安装即可</p>
+<p>下载地址: <a target="_blank" rel="noopener" href="https://www.xmind.cn/zen/">Download | XMind ZEN deb</a></p>
+<p>当然也可以选择使用在线的作图工具：<a target="_blank" rel="noopener" href="https://www.processon.com/i/5ba47363e4b06fc64affadcd">ProcessON</a></p>
+<p><strong>WPS Office</strong></p>
+<p>虽然不及 Windows 上面的 Office 那般强大, 但这也确实是 Linux 下的最好选择了.</p>
+<p>下载地址: <a target="_blank" rel="noopener" href="http://community.wps.cn/download/">Download | WPS Office</a></p>
+<p>字体文件: <a target="_blank" rel="noopener" href="https://github.com/IamDH4/ttf-wps-fonts">IamDH4/ttf-wps-fonts | Download| WPS Fonts</a></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install -y ttf-wqy-microhei xfonts-wqy ttf-wqy-zenhei --fix-missing</span><br></pre></td></tr></table></figure>
+
+<p>当然也可以使用在线的文档编辑：<a target="_blank" rel="noopener" href="https://account.wps.cn/">金山文档</a></p>
+<h4 id="MarkDown-编辑器"><a href="#MarkDown-编辑器" class="headerlink" title="MarkDown 编辑器"></a>MarkDown 编辑器</h4><p>用户体验上来讲我个人首推 Typora, 但是毕竟 Haroopad 支持 vim 快捷键, 程序员可以尝试一下</p>
+<p><strong>Typora</strong></p>
+<p>Typora 是一款轻量、优雅、跨平台、实时预览的 MarkDown 编辑器。并且可以将 Markdown 文件转化为多种格式输出.</p>
+<p>下载地址：<a target="_blank" rel="noopener" href="https://typora.io/#linux">Download | Typora</a></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">wget -qO - https://typora.io/linux/public-key.asc | sudo apt-key add -</span><br><span class="line"></span><br><span class="line"># add Typora&#x27;s repository</span><br><span class="line"></span><br><span class="line">sudo add-apt-repository &#x27;deb https://typora.io/linux ./&#x27;</span><br><span class="line"></span><br><span class="line">sudo apt-get update</span><br><span class="line"></span><br><span class="line"># install typora</span><br><span class="line"></span><br><span class="line">sudo apt-get install typora</span><br></pre></td></tr></table></figure>
+
+<p><strong>Vnote</strong><br>VNote 是一个受Vim启发开发的专门为 Markdown 而优化、设计的笔记软件。VNote是一个更了解程序员和Markdown的笔记软件。</p>
+<p>Vnote 的定义是一款笔记软件, 配合 Github 或者 gitee 使用可以当做云笔记来使用.</p>
+<p>下载地址: <a target="_blank" rel="noopener" href="https://github.com/tamlok/vnote/releases">Download | Vnote</a><a target="_blank" rel="noopener" href="http://pad.haroopress.com/user.html#download">http://pad.haroopress.com/user.html#download</a>)</p>
+<p><strong>Atom</strong></p>
+<p>Atom 是github专门为程序员推出的一个跨平台文本编辑器。具有简洁和直观的图形用户界面，并有很多有趣的特点：支持CSS，HTML，JavaScript等网页编程语言。它支持宏，自动完成分屏功能，集成了文件管理器。</p>
+<p>下载地址:<a target="_blank" rel="noopener" href="https://github.com/atom/atom">Download | Atom</a></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sudo add-apt-repository ppa:webupd8team/atom  </span><br><span class="line">sudo apt-get update  </span><br><span class="line">sudo apt-get install atom  </span><br></pre></td></tr></table></figure>
+
+<h4 id="卸载使用以下命令："><a href="#卸载使用以下命令：" class="headerlink" title="卸载使用以下命令："></a>卸载使用以下命令：</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get remove Atom</span><br><span class="line">sudo add-apt-repository --remove ppa:webupd8tem/atom</span><br></pre></td></tr></table></figure>
+
+<p>以上只会卸载该软件，要卸载附加的一些软件包，请使用命令：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get autoremove</span><br></pre></td></tr></table></figure>
+
+
+<h4 id="创建软链"><a href="#创建软链" class="headerlink" title="创建软链"></a>创建软链</h4><p>有一些软件下载之后就是可执行文件, 比如 Telegram, electronic-wechat 等等, 每次运行都要 cd 到软件所在目录也是麻烦, 除了 alias 别名之外还有一种方法就是创建软链, 在 /usr/bin/ 目录下创建软链之后就可以在系统任何地方执行命令了.</p>
+<p>创建软链的命令如下:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo ln -s $&#123;file_path&#125;/$&#123;file_name&#125; /usr/bin/$&#123;new_command&#125;</span><br></pre></td></tr></table></figure>
+<p>其中:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$&#123;file_path&#125; 代表可执行文件所在的路径;</span><br><span class="line">$&#123;file_name&#125; 代表可执行文件的文件名;</span><br><span class="line">$&#123;new_command&#125; 代表新的命令;</span><br></pre></td></tr></table></figure>
+<p>之后, 就可以在人以终端输入 ${new_command} 来打开软链指向的程序了.</p>
+<h4 id="为应用添加启动图标"><a href="#为应用添加启动图标" class="headerlink" title="为应用添加启动图标"></a>为应用添加启动图标</h4><p>依然是针对极个别的可执行文件, 安装之后在 dash 栏是搜索不到的, 因为在 /usr/share/applications/ 目录下没有他们的 .desktop 文件呀, 既然没有, 创建一个便是.</p>
+<p>以 electronic-wechat 为例:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo vim /usr/share/application/electronic-wechat.desktop</span><br></pre></td></tr></table></figure>
+<p>填入以下内容:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">[Desktop Entry]</span><br><span class="line">Name=Electronic Wechat</span><br><span class="line">Name[zh_CN]=微信电脑版</span><br><span class="line">Name[zh_TW]=微信电脑版</span><br><span class="line">Exec=/opt/electronic-wechat-linux-x64/electronic-wechat</span><br><span class="line">Icon=/opt/icons_customer/wechat1.png</span><br><span class="line">Terminal=false</span><br><span class="line">X-MultipleArgs=false</span><br><span class="line">Type=Application</span><br><span class="line">Encoding=UTF-8</span><br><span class="line">Categories=Application;Utility;Network;InstantMessaging;</span><br><span class="line">StartupNotify=false</span><br><span class="line">StartupWMClass=electronic-wechat</span><br></pre></td></tr></table></figure>
+<p>其中:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Name 是应用名称, 也就是在 dash 栏搜索是需要输入的内容;</span><br><span class="line">Exec 是可执行程序路径;</span><br><span class="line">Icon 是应用图标, 当 Type=Application 时有效;</span><br><span class="line">StartupWMClass 是图标分类依据, 这个字段值相同的图标会自动被分为一组.</span><br></pre></td></tr></table></figure>
+<p>其他字段不多说, 自行查找资料吧.</p>
+<h4 id="添加托盘图标"><a href="#添加托盘图标" class="headerlink" title="添加托盘图标"></a>添加托盘图标</h4><p>Elementary OS颜值很高，但它有个反人类的设计（取消系统托盘）;本文提供一种解决方法，可以给Elementary OS添加系统托盘</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ sudo add-apt-repository ppa:yunnxx/elementary</span><br><span class="line">$ sudo apt update</span><br><span class="line">$ sudo apt install indicator-application wingpanel-indicator-ayatana</span><br></pre></td></tr></table></figure>
+
+<p>编辑配置</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo vim /etc/xdg/autostart/indicator-application.desktop</span><br></pre></td></tr></table></figure>
+
+<p>找到这一行</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">OnlyShowIn=Unity;GNOME;</span><br></pre></td></tr></table></figure>
+
+<p>在后面添加Pantheon;</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">OnlyShowIn=Unity;GNOME;Pantheon;</span><br></pre></td></tr></table></figure>
+
+<p>安装完需要重启一下，回来应该就能看见托盘图标了(<em>^__^</em>) 嘻嘻……</p>
+<h4 id="Utools：多功能搜索控件"><a href="#Utools：多功能搜索控件" class="headerlink" title="Utools：多功能搜索控件"></a>Utools：多功能搜索控件</h4><p>你的生产力工具集:<a target="_blank" rel="noopener" href="https://www.u.tools/">https://www.u.tools/</a></p>
+<h4 id="编辑器-VS-Code"><a href="#编辑器-VS-Code" class="headerlink" title="编辑器 VS Code"></a>编辑器 VS Code</h4><p><a target="_blank" rel="noopener" href="https://code.visualstudio.com/download">微软官网</a>下载deb安装即可。</p>
+<h4 id="安装navicat"><a href="#安装navicat" class="headerlink" title="安装navicat"></a>安装navicat</h4><p><strong>相关工具</strong></p>
+<ul>
+<li>navicat15-premium-cs.AppImage：Navicat 15 premium 官方简体中文试用版</li>
+<li>navicat-patcher：补丁</li>
+<li>navicat-keygen ：注册机</li>
+<li>appimagetool-x86_64.AppImage：Linux 独立运行软件打包工具</li>
+</ul>
+<p><a target="_blank" rel="noopener" href="https://pan.baidu.com/s/1u01pL0Fz7A0L1sfvU6_ZHg">相关工具百度网盘下载地址</a> 『提取码』：jjtr</p>
+<p><strong>系统环境配置</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install libcapstone-dev</span><br><span class="line">sudo apt-get install cmake</span><br><span class="line">git clone https://github.com/keystone-engine/keystone.git</span><br><span class="line">cd keystone</span><br><span class="line">mkdir build</span><br><span class="line">cd build</span><br><span class="line">../make-share.sh</span><br><span class="line">sudo make install</span><br><span class="line">sudo ldconfig</span><br><span class="line">sudo apt-get install rapidjson-dev</span><br></pre></td></tr></table></figure>
+
+<p><strong>操作步骤</strong></p>
+<ol>
+<li><p>赋予执行权限</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">chmod +x appimagetool-x86_64.AppImage</span><br><span class="line">chmod +x navicat-patcher</span><br><span class="line">chmod +x navicat-keygen</span><br></pre></td></tr></table></figure></li>
+<li><p>解包官方软件</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">mkdir navicat15</span><br><span class="line">sudo mount -o loop navicat15-premium-cs.AppImage navicat15</span><br><span class="line">cp -r navicat15 navicat15-patched</span><br></pre></td></tr></table></figure></li>
+<li><p>运行补丁</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./navicat-patcher navicat15-patched</span><br></pre></td></tr></table></figure>
+
+<p>生成RegPrivateKey.pem文件</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">**********************************************************</span><br><span class="line">*       Navicat Patcher (Linux) by @DoubleLabyrinth      *</span><br><span class="line">*                  Version: 1.0                          *</span><br><span class="line">**********************************************************</span><br><span class="line">[*] New RSA-2048 private key has been saved to</span><br><span class="line">    ./RegPrivateKey.pem</span><br><span class="line">*******************************************************</span><br><span class="line">*           PATCH HAS BEEN DONE SUCCESSFULLY!         *</span><br><span class="line">*                  HAVE FUN AND ENJOY~                *</span><br><span class="line">*******************************************************</span><br><span class="line"></span><br></pre></td></tr></table></figure></li>
+<li><p>打包成独立运行软件</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./appimagetool-x86_64.Appimage navicat15-patched navicat15-premium-cs-pathed.AppImage</span><br></pre></td></tr></table></figure></li>
+<li><p>运行补丁后软件包</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">chmod +x navicat15-premium-cs-pathed.AppImage</span><br><span class="line">./navicat15-premium-cs-pathed.AppImage</span><br></pre></td></tr></table></figure></li>
+<li><p>运行注册机</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">navicat-keygen --text ./RegPrivateKey.pem </span><br></pre></td></tr></table></figure>
+
+<p><strong>选择产品类型：</strong> <em>1 Premium</em></p>
+<p><strong>选择语言：</strong> <em>1 Simplified Chinese</em></p>
+<p><strong>选择版本：</strong> <em>15</em></p>
+<p><strong>生成序列号：</strong> <em>填写至软件注册页面，并在断网后选择手工激活</em></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[*] Serial number:</span><br><span class="line">NAVC-PJWW-BKN4-C4YW</span><br></pre></td></tr></table></figure>
+
+<p><strong>填写个人信息：</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[*] Your name: zenghaiming</span><br><span class="line">[*] Your organization: hh</span><br></pre></td></tr></table></figure>
+
+<p><strong>输入注册码：</strong> <em>复制软件激活页面注册码并粘贴此处</em></p>
+<p><strong>生成激活码：</strong> <em>复制Activation Code内容粘贴至软件激活页面</em></p>
+</li>
+</ol>
+<p>打完收工</p>
+<h4 id="微信开发者工具安装"><a href="#微信开发者工具安装" class="headerlink" title="微信开发者工具安装"></a>微信开发者工具安装</h4><p>前提：</p>
+<ol>
+<li><code>GUI</code>环境</li>
+<li>需要<a target="_blank" rel="noopener" href="https://gitee.com/MrxR/wechat_web_devtools#%E5%AE%89%E8%A3%85Wine">安装<code>wine</code></a></li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">$ git clone https://git.dev.tencent.com/pingxin0521/wechat_web_devtools.git</span><br><span class="line">$ sudo mv wechat_web_devtools /opt/</span><br><span class="line">$ cd /opt/wechat_web_devtools</span><br><span class="line"># 自动下载最新 `nw.js` , 同时部署目录 `~/.config/wechat_web_devtools/`</span><br><span class="line">$ ./bin/wxdt install</span><br><span class="line">$ ./bin/wxdt # 启动</span><br></pre></td></tr></table></figure>
+
+<p>更多参考：<a target="_blank" rel="noopener" href="https://gitee.com/CodeHero1024/wechat_web_devtools">https://gitee.com/CodeHero1024/wechat_web_devtools</a></p>
+<h4 id="MacOS软件包管理器"><a href="#MacOS软件包管理器" class="headerlink" title="MacOS软件包管理器"></a>MacOS软件包管理器</h4><p>MacOS也是类unix操作系统，其brew包管理器也可以在Linux上使用，而且还比较方便安装一些开发环境 </p>
+<p>Homebrew（以前称为Linuxbrew）软件包管理器推出的新版本已经支持Linux和Windows 10中的Linux子系统（WSL），也就是说你可以在这两个Linux平台上使用Homebrew了。在Linux或WSL上运行时，Homebrew以前被称为Linuxbrew，它可以安装在你的主目录中，在这种情况下它不使用sudo，Homebrew不使用主机系统提供的任何库，除非glibc和gcc足够新，Homebrew可以为旧的Linux发行版安装自己当前版本的glibc和gcc。</p>
+<ul>
+<li>可以将软件安装到你的主目录，因此不需要sudo。</li>
+<li>安装未由主机分发包装的软件。</li>
+<li>在主机分发较旧时安装最新版本的软件。</li>
+<li>使用相同的软件包管理器来管理macOS、Linux和Windows系统。</li>
+</ul>
+<p>Homebrew目前不支持32位x86平台。</p>
+<p>官网：<a target="_blank" rel="noopener" href="https://github.com/Homebrew/brew">https://github.com/Homebrew/brew</a></p>
+<p><strong>安装</strong></p>
+<p>参考：</p>
+<ol>
+<li><p><a target="_blank" rel="noopener" href="https://brew.sh/index_zh-cn">https://brew.sh/index_zh-cn</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://blog.csdn.net/xibeichengf/article/details/48290297">Ubuntu下查看glibc版本</a></p>
+</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install build-essential curl file git gcc -y</span><br><span class="line">sh -c <span class="string">&quot;<span class="subst">$(curl -fsSL https://raw.githubusercontent.com/Linuxbrew/install/master/install.sh)</span>&quot;</span></span><br><span class="line"></span><br><span class="line">Next steps:</span><br><span class="line">- Install the Homebrew dependencies <span class="keyword">if</span> you have sudo access:</span><br><span class="line">  Debian, Ubuntu, etc.</span><br><span class="line">    sudo apt-get install build-essential</span><br><span class="line">  Fedora, Red Hat, CentOS, etc.</span><br><span class="line">    sudo yum groupinstall <span class="string">&#x27;Development Tools&#x27;</span></span><br><span class="line">  See https://docs.brew.sh/linux <span class="keyword">for</span> more information.</span><br><span class="line">- Configure Homebrew <span class="keyword">in</span> your ~/.profile by running</span><br><span class="line">    <span class="built_in">echo</span> <span class="string">&#x27;eval $(/home/linuxbrew/.linuxbrew/bin/brew shellenv)&#x27;</span> &gt;&gt;~/.profile</span><br><span class="line">- Add Homebrew to your PATH</span><br><span class="line">    <span class="built_in">eval</span> $(/home/linuxbrew/.linuxbrew/bin/brew shellenv)</span><br><span class="line">- We recommend that you install GCC by running:</span><br><span class="line">    brew install gcc</span><br><span class="line">- Run `brew <span class="built_in">help</span>` to get started</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">brew install hello</span><br></pre></td></tr></table></figure>
+
+<p><strong>用法</strong></p>
+<ul>
+<li><code>brew install package</code> - 安装软件包</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ brew install redis</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><code>brew uninstall package</code> - 卸载软件包</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ brew uninstall redis</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><code>brew search package</code> - 查找软件包</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ brew search redis</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><code>brew list</code> - 显示所有已安装软件</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ brew list</span><br><span class="line">redis</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><code>brew services start package</code> - 启动服务</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ brew services start redis</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><code>brew services stop package</code> - 停止服务</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ brew services stop redis</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><code>brew services restart package</code> - 重启服务</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ brew services restart redis</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><code>brew services list</code> - 查看所有服务状态</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ brew services list</span><br><span class="line">Name       Status  User      Plist</span><br><span class="line">redis      started zhangjian /Users/zhangjian/Library/LaunchAgents/homebrew.mxcl.redis.plist</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><code>brew update</code> - 更新Homebrew到最新版本</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ brew update</span><br></pre></td></tr></table></figure>
+
+<p><strong>链接</strong></p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://brew.sh/">Homebrew官网</a></li>
+<li><a target="_blank" rel="noopener" href="https://formulae.brew.sh/formula/">Homebrew支持软件列表</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/hongdada/p/9528560.html">安装</a></li>
+</ul>
+<h3 id="美化"><a href="#美化" class="headerlink" title="美化"></a>美化</h3><h4 id="Terminal"><a href="#Terminal" class="headerlink" title="Terminal"></a>Terminal</h4><p>在终端中右键-&gt;preferences中，禁止菜单，禁止滚动条，以及在配色中选择透明度等配置。</p>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2019/04/20/5cbaff2072b34.png"></p>
+<h4 id="换用zsh"><a href="#换用zsh" class="headerlink" title="换用zsh"></a>换用zsh</h4><p><strong>bash</strong>这个是目前大多数Linux系统默认使用的shell，全名是BourneAgain Shell，一共有40个命令。包含的功能几乎可以涵盖shell所具有的功能，所以一般的shell脚本都会指定它为执行路径。</p>
+<p>在 Linux 里执行这个命令和 Mac 略有不同，你会发现 Mac 多了一个 zsh，也就是说 OS X 系统预装了个 zsh，它是什么呢？</p>
+<p>zsh 是一款功能强大的 shell 软件，它可以兼容 bash，并且提供了很多高效的改进。它是Linux里最庞大的一种shell，它有84个内部命令，也提供了更为强大的功能:</p>
+<ul>
+<li>更好的自动补全</li>
+<li>更好的文件名展开</li>
+<li>丰富的插件</li>
+<li>强大的定制性</li>
+</ul>
+<p>但是由于配置过于复杂，一般情况下，我们不会使用该shell，直到「oh my zsh」的出现。</p>
+<p>如果你用 Mac，Mac默认已经安装；<br>如果你用 Redhat Linux，执行：sudo yum install zsh；<br>如果你用 Ubuntu Linux，执行：sudo apt-get install zsh；</p>
+<p>Oh My Zsh(<a target="_blank" rel="noopener" href="http://ohmyz.sh/)%E6%98%AF%E4%B8%80%E6%AC%BE%E7%A4%BE%E5%8C%BA%E9%A9%B1%E5%8A%A8%E7%9A%84%E5%91%BD%E4%BB%A4%E8%A1%8C%E5%B7%A5%E5%85%B7%EF%BC%8C%E6%AD%A3%E5%A6%82%E5%AE%83%E7%9A%84%E4%B8%BB%E9%A1%B5%E4%B8%8A%E8%AF%B4%E7%9A%84%EF%BC%8COh">http://ohmyz.sh/)是一款社区驱动的命令行工具，正如它的主页上说的，Oh</a> My Zsh 是一种生活方式。它基于zsh命令行，提供了主题配置，插件机制，已经内置的便捷操作。给我们一种全新的方式使用命令行。</p>
+<p>Oh My Zsh只是一个对zsh命令行环境的配置包装框架，但它不提供命令行窗口，更不是一个独立的APP。</p>
+<p><strong>安装</strong></p>
+<p>官网推荐安装方式：</p>
+<p>Via curl:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sh -c &quot;$(curl -fsSL https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh)&quot;</span><br></pre></td></tr></table></figure>
+
+<p>Via wget:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sh -c &quot;$(wget https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh -O -)&quot;</span><br></pre></td></tr></table></figure>
+
+<p>切换系统shell：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo chsh -s /bin/zsh $USER</span><br></pre></td></tr></table></figure>
+
+<p><strong>配置</strong></p>
+<p>zsh的配置文件存在当前用户目录中的.zshrc文件，如果你发现切换了shell之后，以前的配置的环境变量不生效了，可以打开 .zshrc文件，找到：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># User configuration</span><br><span class="line">source ~/.bash_profile</span><br></pre></td></tr></table></figure>
+
+<p>指定配置的环境变量文件，之后运行：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">source .zshrc</span><br></pre></td></tr></table></figure>
+
+<p>更多参考：<a target="_blank" rel="noopener" href="https://www.cnblogs.com/monsterdev/p/11166720.html">https://www.cnblogs.com/monsterdev/p/11166720.html</a></p>
+<p>后续需要更改vscode、idea终端的字体</p>
+<p><strong>优化</strong></p>
+<p>sh 的交互式体验堪称是最强的——丰富的插件，强大的框架，将 zsh 的交互式体验推向了极致。然而另一方面，过多的插件，臃肿的主题，也让 zsh 变得反应迟钝，反过来破坏了交互式体验。</p>
+<p>很多人反映的 zsh 的慢主要体现在两个方面：1. 启动速度，2. prompt 反应速度慢</p>
+<p>影响第一点的主要是插件的数量和质量，影响第二点的则是主题。 因此不少人想到的第一个解决方案就是精简插件和主题。诚然，这是最有效的解决方案，但是这就和使用 zsh 的初衷相违背了：使用 zsh，不就是希望自己的 shell 能够用起来更方便么？</p>
+<p>众所周知，尽管不少人会给 zsh 配上一堆插件，但很多插件都不是启动一个 shell 以后立马就需要使用的。 比如说 thefuck，这个插件只有在你打错的命令的时候才会被激活。然而为此你却需要在启动时花费数百毫秒来加载，这显然是一种浪费，为什么不能将这类插件的加载延迟到 zsh 启动以后呢？</p>
+<p>zinit 就是在这个方向上的一次成功尝试。它提供了 “Turbo Mode”，允许延迟加载插件，一般来讲可以加速 50% 到 70%！</p>
+<ol>
+<li><p>安装</p>
+<p>刚正朴实的安装方式，官方推荐</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sh -c <span class="string">&quot;<span class="subst">$(curl -fsSL https://raw.githubusercontent.com/zdharma/zinit/master/doc/install.sh)</span>&quot;</span></span><br></pre></td></tr></table></figure></li>
+<li><p>配置</p>
+<p>作者的配置：<a href="https://link.zhihu.com/?target=https://github.com/zdharma/zplugin-configs/blob/master/psprint/zshrc.zsh">https://github.com/zdharma/zinit-configs/blob/master/psprint/zshrc.zsh</a><br>非常复杂，用到了很多 zinit 的高级功能，好处是兼容性强，不必依赖包管理来安装插件（比如 fzf, ripgrep 一类的）</p>
+</li>
+</ol>
+<h4 id="主题"><a href="#主题" class="headerlink" title="主题"></a>主题</h4><p>首先安装 tweaks，使用该软件统一管理主题中的各个部分</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt install gnome-tweak-tool</span><br></pre></td></tr></table></figure>
+<p>从Ubuntu软件中安装常用插件：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">shell拓展blyr 类似Mac模糊的拓展</span><br><span class="line">dash to dock 比Ubuntu dock更强大</span><br><span class="line">hide top bar 顶部栏隐藏</span><br><span class="line">netspeed 网速显示</span><br><span class="line">topicons plus 托盘显示</span><br></pre></td></tr></table></figure>
+
+<p>删除扩展：</p>
+<ol>
+<li>找到扩展<a target="_blank" rel="noopener" href="http://www.onlinedown.net/soft/267407.htm">文件</a>。打开 /usr/share/gnome-shell/extensions目录，用root权限删除目录中的文件。</li>
+</ol>
+<p>　2. 将~/.local/share/gnome-shell目录下的<a target="_blank" rel="noopener" href="http://www.onlinedown.net/soft/629588.htm">文件删除</a>。</p>
+<p>　3. alt+f2后输入r重新启动gnome-shell后。</p>
+<p>而具体的各种图标/shell theme/gtk theme等可以在<a target="_blank" rel="noopener" href="https://www.gnome-look.org/">https://www.gnome-look.org/</a>找到，非常多，下面选择几个我觉得好看的设置。</p>
+<p><strong>Icon</strong></p>
+<p>使用<a target="_blank" rel="noopener" href="https://github.com/vinceliuice/McMojave-circle">McMojave-circle</a>,配置非常简单：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">git <span class="built_in">clone</span> https://github.com/vinceliuice/McMojave-circle.git</span><br><span class="line"><span class="built_in">cd</span> McMojave-circle</span><br><span class="line">sudo ./install.sh</span><br></pre></td></tr></table></figure>
+
+<p><strong>主题</strong></p>
+<p>使用**<a target="_blank" rel="noopener" href="https://github.com/vinceliuice/Mojave-gtk-theme"> Mojave-gtk-theme</a>**，安装配置很简单</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install gtk2-engines-murrine gtk2-engines-pixbuf</span><br><span class="line">sudo apt install sassc libcanberra-gtk-module libglib2.0-dev</span><br><span class="line">git clone https://github.com/vinceliuice/Mojave-gtk-theme.git</span><br><span class="line">cd Mojave-gtk-theme</span><br><span class="line">sudo ./install.sh</span><br></pre></td></tr></table></figure>
+<p>安装主题，并在TWeaks-&gt;外观-&gt; 应用程序(或者Shell) 中打开</p>
+<p>如果Shell显示不可修改，</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt install gnome-shell-extensions</span><br></pre></td></tr></table></figure>
+
+<p>即可，更多配置参考文档</p>
+<p><strong>Dock</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt install gnome-shell-extension-dash-to-dock</span><br></pre></td></tr></table></figure>
+<p>安装插件，并在TWeaks-&gt;extensions中打开<br>然后启动dash to Dock,按照自己的喜好配置。</p>
+<p><strong>grup</strong></p>
+<p>Flat Design themes for Grub2:<a target="_blank" rel="noopener" href="https://github.com/vinceliuice/grub2-themes">https://github.com/vinceliuice/grub2-themes</a></p>
+<p>安装方法：<code>sudo ./install.sh </code></p>
+<p><strong>cursors</strong></p>
+<p>McMojave-cursors: <a target="_blank" rel="noopener" href="https://github.com/vinceliuice/McMojave-cursors">https://github.com/vinceliuice/McMojave-cursors</a></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git clone https://github.com/vinceliuice/McMojave-cursors.git</span><br><span class="line">sudo ./install.sh</span><br></pre></td></tr></table></figure>
+
+<h4 id="登录桌面美化"><a href="#登录桌面美化" class="headerlink" title="登录桌面美化"></a>登录桌面美化</h4><p>我已经从将脚本上传到网上，需要的请下载后进行配置,选择stwaskpass。</p>
+<p>链接：<a target="_blank" rel="noopener" href="https://pan.baidu.com/s/1WDk8Le0LcAE7b0vYwlAYag">https://pan.baidu.com/s/1WDk8Le0LcAE7b0vYwlAYag</a> 密码：bmf9</p>
+<p>下载之后解压，执行里面的<code>./install.sh</code>文件。然后右键选择图片，使用脚本-&gt;SetAsWallpaper,当前图片就会变成壁纸，顺便会把图片模糊处理并设置成锁屏壁纸，输入密码后完成，退出登录后查看效果。</p>
+<p>如果没有起效果，请更改<code>/usr/share/gnome-shell/theme/gdm3.css</code>，找到指定位置更改内部内容即可：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">#lockDialogGroup &#123;</span><br><span class="line">    background: #2c001e url(file:///usr/share/backgrounds/gdmlock.jpg);</span><br><span class="line">    /*lockscreen wallpaper*/</span><br><span class="line">    background-repeat: no-repeat;</span><br><span class="line">    background-size: cover;</span><br><span class="line">    background-position: center;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="隐藏登录界面中的用户"><a href="#隐藏登录界面中的用户" class="headerlink" title="隐藏登录界面中的用户"></a>隐藏登录界面中的用户</h4><p>首先跳转到以下目录</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cd /var/lib/AccountsService/users/</span><br></pre></td></tr></table></figure>
+<p>ls后可以看到你想要隐藏的某个用户文件，然后打开该文件</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vim username</span><br></pre></td></tr></table></figure>
+<p>进行更改</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[User]</span><br><span class="line">SystemAccount=false  //将false改为true</span><br></pre></td></tr></table></figure>
+
+<h4 id="安装windows字体"><a href="#安装windows字体" class="headerlink" title="安装windows字体"></a>安装windows字体</h4><p>Windows的字体一般存放在c:\windows\fonts目录下，打开以后看到那么多的字体文件，不管那么多了全部Copy过来，我是直接复制到了Ubuntu中/usr/share/fonts/zh_CN/这个文件夹下面，其中zh_CN这个文件夹是我自己新建的，拷贝完成后更新字体缓存，命令如下：</p>
+<p><code> sudo fc-cache</code></p>
+<p>现在，差不多在Ubuntu系统中就可以使用刚才你拷贝的那些XP字体了，为了让整体显示更加好看，还可以修改/etc/fonts/fonts.conf这个文件，对字体的渲染顺序进行调整。</p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">平心</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://pingxin0521.gitee.io/2019/04/20/Linux-Ubuntu-1/">https://pingxin0521.gitee.io/2019/04/20/Linux-Ubuntu-1/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://pingxin0521.gitee.io" target="_blank">平心de小屋</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/Linux/">Linux</a><a class="post-meta__tags" href="/tags/Ubuntu/">Ubuntu</a></div><div class="post_share"><div class="social-share" data-image="https://i.loli.net/2020/05/08/vCnKyoFJZ1g4XYR.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2019/04/21/%E5%B7%A5%E5%85%B7-Git-6/"><img class="prev-cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/7dHvepmfYOLWTrX.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">Git 命令大全</div></div></a></div><div class="next-post pull-right"><a href="/2019/04/20/Java-%E9%AB%98%E7%BA%A7-2-1-1/"><img class="next-cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/okfOw28KlZFbE7z.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">Java 高级特性(一) SPI机制--JDK的第三方库的动态替换发现</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span> 相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2019/05/22/Linux-Ubuntu-4/" title="Ubuntu 点滴笔记"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/PFDRNxj93taz6pw.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2019-10-18</div><div class="title">Ubuntu 点滴笔记</div></div></a></div><div><a href="/2019/05/22/Linux-Ubuntu-3/" title="Ubuntu 软件包管理命令"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/okfOw28KlZFbE7z.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2019-09-27</div><div class="title">Ubuntu 软件包管理命令</div></div></a></div><div><a href="/2019/04/22/Linux-Ubuntu-2-0/" title="Ubuntu 优化"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/7dHvepmfYOLWTrX.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2019-10-14</div><div class="title">Ubuntu 优化</div></div></a></div><div><a href="/2019/04/22/Linux-Ubuntu-2-1/" title="Ubuntu 常用软件"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/okfOw28KlZFbE7z.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2020-10-01</div><div class="title">Ubuntu 常用软件</div></div></a></div><div><a href="/2019/03/23/Linux-基础-12/" title="Linux-服务管理"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/PFDRNxj93taz6pw.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2019-04-03</div><div class="title">Linux-服务管理</div></div></a></div><div><a href="/2019/03/20/Linux-基础-5/" title="Linux-文本处理三剑客--grep"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/HjVAdIuT7bZJypS.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2019-10-10</div><div class="title">Linux-文本处理三剑客--grep</div></div></a></div></div></div><hr/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div class="vcomment" id="vcomment"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="card-info-avatar is-center"><img class="avatar-img" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://s2.ax1x.com/2020/02/11/1ovw6J.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/><div class="author-info__name">平心</div><div class="author-info__description">年轻人的life、learn and think</div></div><div class="card-info-data"><div class="card-info-data-item is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">449</div></a></div><div class="card-info-data-item is-center"><a href="/tags/"><div class="headline">标签</div><div class="length-num">77</div></a></div><div class="card-info-data-item is-center"><a href="/categories/"><div class="headline">分类</div><div class="length-num">68</div></a></div></div><a class="button--animated" id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/hanyunpeng0521"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/hanyunpeng0521" target="_blank" title="Github"><i class="fa fa-github"></i></a><a class="social-icon" href="mailto:m13839441583@163.com" target="_blank" title="Email"><i class="fa fa-envelope"></i></a><a class="social-icon" href="/atom.xml" target="_blank" title=""><i class="fa fa-rss"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn card-announcement-animation"></i><span>公告</span></div><div class="announcement_content">为什么呢？开始提问吧</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%89%8D%E8%A8%80"><span class="toc-number">1.</span> <span class="toc-text">前言</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%85%8D%E7%BD%AE%E8%84%9A%E6%9C%AC"><span class="toc-number">2.</span> <span class="toc-text">配置脚本</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BC%98%E5%8C%96"><span class="toc-number">3.</span> <span class="toc-text">优化</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%AE%BE%E7%BD%AE-root-%E7%94%A8%E6%88%B7%E5%AF%86%E7%A0%81"><span class="toc-number">3.1.</span> <span class="toc-text">设置 root 用户密码</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%AE%BE%E7%BD%AE%E4%BD%BF%E7%94%A8-sudo-%E6%97%B6%E5%85%8D%E8%BE%93%E5%AF%86%E7%A0%81"><span class="toc-number">3.2.</span> <span class="toc-text">设置使用 sudo 时免输密码</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%9A%90%E8%97%8F-grub-%E5%BC%95%E5%AF%BC%E8%8F%9C%E5%8D%95"><span class="toc-number">3.3.</span> <span class="toc-text">隐藏 grub 引导菜单</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%9B%B4%E6%94%B9%E8%BD%AF%E4%BB%B6%E6%BA%90"><span class="toc-number">3.4.</span> <span class="toc-text">更改软件源</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%9B%B4%E6%96%B0%E8%BD%AF%E4%BB%B6"><span class="toc-number">3.5.</span> <span class="toc-text">更新软件</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%AE%89%E8%A3%85wine"><span class="toc-number">3.6.</span> <span class="toc-text">安装wine</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%BF%90%E8%A1%8CAndroid%E5%BA%94%E7%94%A8"><span class="toc-number">3.7.</span> <span class="toc-text">运行Android应用</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#WeChat-amp-Tim"><span class="toc-number">3.8.</span> <span class="toc-text">WeChat &amp; Tim</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%AE%89%E8%A3%85-Chrome-%E6%B5%8F%E8%A7%88%E5%99%A8"><span class="toc-number">3.9.</span> <span class="toc-text">安装 Chrome 浏览器</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#firefox%E4%BC%98%E5%8C%96"><span class="toc-number">3.10.</span> <span class="toc-text">firefox优化</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#opera"><span class="toc-number">3.11.</span> <span class="toc-text">opera</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%AE%89%E8%A3%85flash"><span class="toc-number">3.12.</span> <span class="toc-text">安装flash</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%AE%89%E8%A3%85-apt-fast"><span class="toc-number">3.13.</span> <span class="toc-text">安装 apt-fast</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%AE%89%E8%A3%85-aptitude"><span class="toc-number">3.14.</span> <span class="toc-text">安装 aptitude</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%AE%89%E8%A3%85-Git-Vim-NeoVim"><span class="toc-number">3.15.</span> <span class="toc-text">安装 Git &#x2F; Vim &#x2F; NeoVim</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Git-%E4%BC%98%E5%8C%96"><span class="toc-number">3.16.</span> <span class="toc-text">Git 优化</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%90%9C%E7%8B%97%E8%BE%93%E5%85%A5%E6%B3%95"><span class="toc-number">3.17.</span> <span class="toc-text">搜狗输入法</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8-alias-%E7%AE%80%E5%8C%96%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4"><span class="toc-number">3.18.</span> <span class="toc-text">使用 alias 简化常用命令</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%AE%BE%E7%BD%AE%E5%BF%AB%E6%8D%B7%E9%94%AE"><span class="toc-number">3.19.</span> <span class="toc-text">设置快捷键</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%AE%89%E8%A3%85-unar"><span class="toc-number">3.20.</span> <span class="toc-text">安装 unar</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%AE%89%E8%A3%85-TimeShift"><span class="toc-number">3.21.</span> <span class="toc-text">安装 TimeShift</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%94%A8TLP%E9%99%8D%E4%BD%8E%E5%8F%91%E7%83%AD"><span class="toc-number">3.22.</span> <span class="toc-text">用TLP降低发热</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%AE%89%E8%A3%85Preload"><span class="toc-number">3.23.</span> <span class="toc-text">安装Preload</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BD%AF%E4%BB%B6%E5%AE%89%E8%A3%85"><span class="toc-number">4.</span> <span class="toc-text">软件安装</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%B3%BB%E7%BB%9F%E7%9B%91%E6%8E%A7indicator-sysmonitor"><span class="toc-number">4.1.</span> <span class="toc-text">系统监控indicator-sysmonitor</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%B8%8B%E8%BD%BD%E8%BD%AF%E4%BB%B6-motrix"><span class="toc-number">4.2.</span> <span class="toc-text">下载软件:motrix</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%88%AA%E5%9B%BE%E5%B7%A5%E5%85%B7"><span class="toc-number">4.3.</span> <span class="toc-text">截图工具</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#peek"><span class="toc-number">4.3.1.</span> <span class="toc-text">peek</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%9F%B3%E8%A7%86%E9%A2%91%E8%BD%AF%E4%BB%B6"><span class="toc-number">4.4.</span> <span class="toc-text">音视频软件</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%A7%86%E9%A2%91%E6%92%AD%E6%94%BE%E5%99%A8-VLC"><span class="toc-number">4.5.</span> <span class="toc-text">视频播放器 VLC</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Thunderbird"><span class="toc-number">4.6.</span> <span class="toc-text">Thunderbird</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%8A%9E%E5%85%AC%E8%BD%AF%E4%BB%B6"><span class="toc-number">4.7.</span> <span class="toc-text">办公软件</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#MarkDown-%E7%BC%96%E8%BE%91%E5%99%A8"><span class="toc-number">4.8.</span> <span class="toc-text">MarkDown 编辑器</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%8D%B8%E8%BD%BD%E4%BD%BF%E7%94%A8%E4%BB%A5%E4%B8%8B%E5%91%BD%E4%BB%A4%EF%BC%9A"><span class="toc-number">4.9.</span> <span class="toc-text">卸载使用以下命令：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%88%9B%E5%BB%BA%E8%BD%AF%E9%93%BE"><span class="toc-number">4.10.</span> <span class="toc-text">创建软链</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%B8%BA%E5%BA%94%E7%94%A8%E6%B7%BB%E5%8A%A0%E5%90%AF%E5%8A%A8%E5%9B%BE%E6%A0%87"><span class="toc-number">4.11.</span> <span class="toc-text">为应用添加启动图标</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%B7%BB%E5%8A%A0%E6%89%98%E7%9B%98%E5%9B%BE%E6%A0%87"><span class="toc-number">4.12.</span> <span class="toc-text">添加托盘图标</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Utools%EF%BC%9A%E5%A4%9A%E5%8A%9F%E8%83%BD%E6%90%9C%E7%B4%A2%E6%8E%A7%E4%BB%B6"><span class="toc-number">4.13.</span> <span class="toc-text">Utools：多功能搜索控件</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%BC%96%E8%BE%91%E5%99%A8-VS-Code"><span class="toc-number">4.14.</span> <span class="toc-text">编辑器 VS Code</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%AE%89%E8%A3%85navicat"><span class="toc-number">4.15.</span> <span class="toc-text">安装navicat</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%BE%AE%E4%BF%A1%E5%BC%80%E5%8F%91%E8%80%85%E5%B7%A5%E5%85%B7%E5%AE%89%E8%A3%85"><span class="toc-number">4.16.</span> <span class="toc-text">微信开发者工具安装</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#MacOS%E8%BD%AF%E4%BB%B6%E5%8C%85%E7%AE%A1%E7%90%86%E5%99%A8"><span class="toc-number">4.17.</span> <span class="toc-text">MacOS软件包管理器</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BE%8E%E5%8C%96"><span class="toc-number">5.</span> <span class="toc-text">美化</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Terminal"><span class="toc-number">5.1.</span> <span class="toc-text">Terminal</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%8D%A2%E7%94%A8zsh"><span class="toc-number">5.2.</span> <span class="toc-text">换用zsh</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%B8%BB%E9%A2%98"><span class="toc-number">5.3.</span> <span class="toc-text">主题</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%99%BB%E5%BD%95%E6%A1%8C%E9%9D%A2%E7%BE%8E%E5%8C%96"><span class="toc-number">5.4.</span> <span class="toc-text">登录桌面美化</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%9A%90%E8%97%8F%E7%99%BB%E5%BD%95%E7%95%8C%E9%9D%A2%E4%B8%AD%E7%9A%84%E7%94%A8%E6%88%B7"><span class="toc-number">5.5.</span> <span class="toc-text">隐藏登录界面中的用户</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%AE%89%E8%A3%85windows%E5%AD%97%E4%BD%93"><span class="toc-number">5.6.</span> <span class="toc-text">安装windows字体</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2021/05/15/node-2-4/" title="Egg.js -- 为企业级框架和应用而生"><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/okfOw28KlZFbE7z.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Egg.js -- 为企业级框架和应用而生"/></a><div class="content"><a class="title" href="/2021/05/15/node-2-4/" title="Egg.js -- 为企业级框架和应用而生">Egg.js -- 为企业级框架和应用而生</a><time datetime="2021-05-15T10:18:59.000Z" title="发表于 2021-05-15 18:18:59">2021-05-15</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/04/30/node-2-3/" title="Koa -- 基于Node.js平台的下一代Web开发框架"><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/HjVAdIuT7bZJypS.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Koa -- 基于Node.js平台的下一代Web开发框架"/></a><div class="content"><a class="title" href="/2021/04/30/node-2-3/" title="Koa -- 基于Node.js平台的下一代Web开发框架">Koa -- 基于Node.js平台的下一代Web开发框架</a><time datetime="2021-04-30T10:18:59.000Z" title="发表于 2021-04-30 18:18:59">2021-04-30</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/04/01/node-2-1/" title="Node.JS web开发前置知识"><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/gGE57HRvpcKPfDY.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Node.JS web开发前置知识"/></a><div class="content"><a class="title" href="/2021/04/01/node-2-1/" title="Node.JS web开发前置知识">Node.JS web开发前置知识</a><time datetime="2021-04-01T03:18:59.000Z" title="发表于 2021-04-01 11:18:59">2021-04-01</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2020/12/26/%E5%91%A8%E8%AE%B0-10-1/" title="第十一周--谷歌浏览器插件"><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/gGE57HRvpcKPfDY.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="第十一周--谷歌浏览器插件"/></a><div class="content"><a class="title" href="/2020/12/26/%E5%91%A8%E8%AE%B0-10-1/" title="第十一周--谷歌浏览器插件">第十一周--谷歌浏览器插件</a><time datetime="2020-12-26T10:18:59.000Z" title="发表于 2020-12-26 18:18:59">2020-12-26</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2020/12/26/%E5%91%A8%E8%AE%B0-10-0/" title="第十一周--浏览器技术"><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/vCnKyoFJZ1g4XYR.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="第十一周--浏览器技术"/></a><div class="content"><a class="title" href="/2020/12/26/%E5%91%A8%E8%AE%B0-10-0/" title="第十一周--浏览器技术">第十一周--浏览器技术</a><time datetime="2020-12-26T06:18:59.000Z" title="发表于 2020-12-26 14:18:59">2020-12-26</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2019 - 2021 By 平心</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div id="local-search"><div class="search-dialog"><div class="search-dialog__title" id="local-search-title">本地搜索</div><div id="local-input-panel"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div></div><hr/><div id="local-search-results"></div><span class="search-close-button"><i class="fas fa-times"></i></span></div><div id="search-mask"></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload/dist/lazyload.iife.min.js"></script><script src="/js/search/local-search.js"></script><div class="js-pjax"><script>function loadValine () {
+  function initValine () {
+    const valine = new Valine(Object.assign({
+      el: '#vcomment',
+      appId: '4lfIXzqxaC1ONs0MJO4oHu07-gzGzoHsz',
+      appKey: 'qw99Bw8FD0KVKU9m457CwWsr',
+      placeholder: 'Please leave your footprints',
+      avatar: 'monsterid',
+      meta: 'nick,mail,link'.split(','),
+      pageSize: '10',
+      lang: 'zh-CN',
+      recordIP: true,
+      serverURLs: '',
+      emojiCDN: '',
+      emojiMaps: "",
+      enableQQ: true,
+      path: window.location.pathname,
+      requiredFields: ["nick,mail"],
+      visitor: false
+    }, null))
+  }
+
+  if (typeof Valine === 'function') initValine() 
+  else getScript('https://cdn.jsdelivr.net/npm/valine/dist/Valine.min.js').then(initValine)
+}
+
+if ('Valine' === 'Valine' || !false) {
+  if (false) btf.loadComment(document.getElementById('vcomment'),loadValine)
+  else setTimeout(loadValine, 0)
+} else {
+  function loadOtherComment () {
+    loadValine()
+  }
+}</script></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>

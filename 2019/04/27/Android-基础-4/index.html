@@ -1,0 +1,263 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Android 用户界面状态保存 | 平心de小屋</title><meta name="keywords" content="Android"><meta name="author" content="平心"><meta name="copyright" content="平心"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="用户界面状态保存一个Activity被激活并运行，即为建立了一个Activity的实例。 Activity实例与用户交互，产生界面状态信息。如用户所选取的值，光标的位置等。 当Activity实例进入“暂停”功“停止”状态时，需要保存这些临时的状态信息。保存状态信息的方法：SharedPreferences对象、Bundle对象。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Android 用户界面状态保存">
+<meta property="og:url" content="https://pingxin0521.gitee.io/2019/04/27/Android-%E5%9F%BA%E7%A1%80-4/index.html">
+<meta property="og:site_name" content="平心de小屋">
+<meta property="og:description" content="用户界面状态保存一个Activity被激活并运行，即为建立了一个Activity的实例。 Activity实例与用户交互，产生界面状态信息。如用户所选取的值，光标的位置等。 当Activity实例进入“暂停”功“停止”状态时，需要保存这些临时的状态信息。保存状态信息的方法：SharedPreferences对象、Bundle对象。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://i.loli.net/2020/05/08/gGE57HRvpcKPfDY.jpg">
+<meta property="article:published_time" content="2019-04-27T15:18:59.000Z">
+<meta property="article:modified_time" content="2019-07-02T02:13:30.000Z">
+<meta property="article:author" content="平心">
+<meta property="article:tag" content="Android">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.loli.net/2020/05/08/gGE57HRvpcKPfDY.jpg"><link rel="shortcut icon" href="https://s2.ax1x.com/2020/02/11/1ovFOA.png"><link rel="canonical" href="https://pingxin0521.gitee.io/2019/04/27/Android-%E5%9F%BA%E7%A1%80-4/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"search.xml","languages":{"hits_empty":"找不到您查询的内容：${query}"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    jQuery: 'https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js',
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+    },
+    fancybox: {
+      js: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css'
+    }
+  },
+  isPhotoFigcaption: true,
+  islazyload: true,
+  isanchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'Android 用户界面状态保存',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2019-07-02 10:13:30'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    })(window)</script><meta name="generator" content="Hexo 5.4.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="author-avatar"><img class="avatar-img" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://s2.ax1x.com/2020/02/11/1ovw6J.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data"><div class="data-item is-center"><div class="data-item-link"><a href="/archives/"><div class="headline">文章</div><div class="length-num">449</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/tags/"><div class="headline">标签</div><div class="length-num">77</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/categories/"><div class="headline">分类</div><div class="length-num">68</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fa fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fa fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://i.loli.net/2020/05/08/gGE57HRvpcKPfDY.jpg')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">平心de小屋</a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fa fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fa fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">Android 用户界面状态保存</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2019-04-27T15:18:59.000Z" title="发表于 2019-04-27 23:18:59">2019-04-27</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2019-07-02T02:13:30.000Z" title="更新于 2019-07-02 10:13:30">2019-07-02</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/Android/">Android</a><i class="fas fa-angle-right post-meta-separator"></i><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/Android/%E5%9F%BA%E7%A1%80/">基础</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">2.9k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>10分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="Android 用户界面状态保存"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h3 id="用户界面状态保存"><a href="#用户界面状态保存" class="headerlink" title="用户界面状态保存"></a>用户界面状态保存</h3><p>一个Activity被激活并运行，即为建立了一个Activity的实例。</p>
+<p>Activity实例与用户交互，产生界面状态信息。如用户所选取的值，光标的位置等。</p>
+<p>当Activity实例进入“暂停”功“停止”状态时，需要保存这些临时的状态信息。保存状态信息的方法：SharedPreferences对象、Bundle对象。</p>
+<span id="more"></span>
+<h4 id="SharedPreferences对象"><a href="#SharedPreferences对象" class="headerlink" title="SharedPreferences对象"></a>SharedPreferences对象</h4><p>SharedPreferences存储方式是Android中存储轻量级数据的一种方式。SharedPreferences存储主要用来存储一些简单的配置信息，内部以Map方式进行存储，因此需要使用键值对提交和保存数据，保存的数据以xml格式存放在本地的<code>/data/data/&lt;package name&gt;/shares_prefs</code>文件夹下。</p>
+<ol>
+<li>使用简单，便于存储轻量级的数据；</li>
+<li>只支持Java基本数据类型，不支持自定义数据类型；</li>
+<li>SharedPreferences是单例对象，在整个应用内数据共享，无法在其他应用内共享数据；</li>
+</ol>
+<p>SharedPreferences创建的时候使用的文件名不同，得到的对象不同，在存储位置会创建多个xml文件，不同文件名的SharedPreferences的数据不会共享；创建时采用相同的文件名，得到多个SharedPreferences引用，此时这多个引用共享同一个xml文件，它们操作的数据为相同的数据；</p>
+<p>针对数据的增删改查操作只有在提交后操作才能生效，此步骤最容易被忽略，当执行了对数据的操作后得不到需要的效果时，请查看是否没有提交操作。</p>
+<p>三种创建模式中最好采用MODE_PRIVATE，使用其他两种模式创建容易引起安全问题，就算采用MODE_PRIVATE，当别人活得root权限后也可能泄露用户的重要信息，因此建议使用SharedPreferences时，如果要存储用户名和密码时，不要明文存储，应该使用加密存储，防止重要隐私泄露，引起损失。</p>
+<ol>
+<li> <strong>获得SharedPreferences对象</strong></li>
+</ol>
+<p>   SharedPreferences对象必须使用上下文获得，使用时注意先要获得上下文。获得SharedPreferences对象方法为：</p>
+   <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SharedPreferences sharedPreferences = getSharedPreferences(参数一, 参数二);</span><br></pre></td></tr></table></figure>
+
+<p>   参数一为要保存的xml文件名，不同的文件名产生的对象不同，但同一文件名可以产生多个引用，从而可以保证数据共享。此处注意指定参数一时，不用加xml后缀，由系统自动添加。</p>
+<p>   参数二为创建模式，共有三个值：</p>
+   <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">MODE_PRIVATE: 私有方式存储,其他应用无法访问（默认方式）</span><br><span class="line">MODE_WORLD_READABLE: 表示当前文件可以被其他应用读取;不是一个安全的模式，不建议使用。再说，跨进程通信也不会使用SP。</span><br><span class="line">MODE_WORLD_WRITEABLE: 表示当前文件可以被其他应用写入</span><br></pre></td></tr></table></figure>
+
+<p>   第一个值使得SharedPreferences存储的数据只能在本应用内获得，第二个和第三个值分别使得其他应用可以读和读写本应用SharedPreferences存储的数据。由此可能带来安全问题，请参考本文二(3)部分。</p>
+<ol start="2">
+<li><strong>获得editor对象</strong><br> 使用以上获得的SharedPreferences对象产生editor，方法为：<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Editor editor = sharedPreferences.edit();</span><br></pre></td></tr></table></figure></li>
+<li><strong>对数据实现增删改查</strong><br> 添加数据使用以下方法：<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">editor.putString(key, value);</span><br></pre></td></tr></table></figure>
+可以实现数据的更新只需添加同键的键值对，和操作Map集合一样。</li>
+</ol>
+<p>  删除数据：<br>  <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">editor.remove(key);</span><br></pre></td></tr></table></figure><br>  删除参数部分键的键值对。</p>
+<p>  查询数据：<br>  <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">String result = sharedPreferences.getString(key1, key2);</span><br></pre></td></tr></table></figure><br>  Key1是要查询的键，返回对应的值，当键不存在时，返回key2作为结果。</p>
+<p>  清空数据<br>  <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">editor.clear();</span><br></pre></td></tr></table></figure><br>  注意：无论是否同一个sharedPreferences对象，若是产生多个editor，不同的editor之间对数据的操作不会相互影响，此处容易犯错误，例如,以下的程序：<br>  <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">sharedPreferences.edit().putString(key1, value1);</span><br><span class="line">sharedPreferences.edit().putString(key2, value2);</span><br><span class="line">sharedPreferences.edit().putString(key3, value3);</span><br><span class="line">sharedPreferences.edit().commit();</span><br></pre></td></tr></table></figure><br>  执行后这种方式无法存储，因为sp.edit()每次都会返回一个新的Editor对象，Editor的实现类EditorImpl里面会有一个缓存的Map，最后commit的时候先将缓存里面的Map写入内存中的Map，然后将内存中的Map写进XML文件中。使用上面的方式commit，由于sp.edit()又重新返回了一个新的Editor对象，缓存中的Map是空的，所以导致数据无法被存储。这里即需要注意，只有提交时，不同的editor无法完成既定的任务。而增加，删除，更新，查询，若是同一个sharedPreferences产生的editor，则对共享的数据有效，会按照既定的顺序工作。而不同sharedPreferences产生的editor则因为处理的xml文件不同而不能共享数据。</p>
+<p>  再次强调：<strong>所有使用editor操作的数据，必须经过同一个editor提交即commit后才能生效。</strong><br>4. 文件生成的时机<br>    SP有两个方法可以提交数据：<br>  <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">editor.commit();//效率低，线程安全</span><br><span class="line">editor.apply();//效率高，线程不安全</span><br></pre></td></tr></table></figure><br>  以上两个方法执行时，如果没有文件，则创建文件。</p>
+<p>  区别：</p>
+<ul>
+<li>apply没有返回值而commit返回boolean表明修改是否提交成功</li>
+<li>apply是将修改数据原子提交到内存, 而后异步真正提交到硬件磁盘, 而commit是同步的提交到硬件磁盘，因此，在多个并发的提交commit的时候，他们会等待正在处理的commit保存到磁盘后在操作，从而降低了效率。而apply只是原子的提交到内容，后面有调用apply的函数的将会直接覆盖前面的内存数据，这样从一定程度上提高了很多效率。</li>
+<li>apply方法不会提示任何失败的提示。<br>由于在一个进程中，sharedPreference是单实例，一般不会出现并发冲突，如果对提交的结果不关心的话，建议使用apply，当然需要确保提交成功且有后续操作的话，还是需要用commit的。</li>
+</ul>
+<p><strong>获取SP对象的三种方法</strong></p>
+<p>（1）基于Context，需指定文件名和读写模式</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SharedPreferences sharedPreferences = getSharedPreferences(&quot;wenjianming&quot;, Context.MODE_PRIVATE);//创建SP对象，指定文件名为wenjianming和指定读写模式为私有模式</span><br></pre></td></tr></table></figure>
+
+<p>（2）基于Context，获取默认SP</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);</span><br></pre></td></tr></table></figure>
+<p>默认SP的文件名和读写模式可以从源码中可以看出</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">public static String getDefaultSharedPreferencesName(Context context) &#123;</span><br><span class="line">    return context.getPackageName() + &quot;_preferences&quot;;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">private static int getDefaultSharedPreferencesMode() &#123;</span><br><span class="line">    return Context.MODE_PRIVATE;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>（3）基于Activity获取SP对象，只需要指定模式</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SharedPreferences sharedPreferences = getPreferences(Context.MODE_PRIVATE);</span><br></pre></td></tr></table></figure>
+<p>文件的命名方式可以从源码中可以看出</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">@NonNull</span><br><span class="line">public String getLocalClassName() &#123;</span><br><span class="line">    final String pkg = getPackageName();</span><br><span class="line">    final String cls = mComponent.getClassName();</span><br><span class="line">    int packageLen = pkg.length();</span><br><span class="line">    if (!cls.startsWith(pkg) || cls.length() &lt;= packageLen</span><br><span class="line">            || cls.charAt(packageLen) != &#x27;.&#x27;) &#123;</span><br><span class="line">        return cls;</span><br><span class="line">    &#125;</span><br><span class="line">    return cls.substring(packageLen+1);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h4><p>养成良好的封装习惯</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br></pre></td><td class="code"><pre><span class="line">import android.content.Context;</span><br><span class="line">import android.content.SharedPreferences;</span><br><span class="line"></span><br><span class="line">public class SharePreferencesUtils &#123;</span><br><span class="line"></span><br><span class="line">    private SharedPreferences sharedPreferences;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 构造方法</span><br><span class="line">     * @param context</span><br><span class="line">     * @param fileName</span><br><span class="line">     */</span><br><span class="line">    public SharePreferencesUtils(Context context, String fileName) &#123;</span><br><span class="line">        sharedPreferences = context.getSharedPreferences(fileName, Context.MODE_PRIVATE);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 创建一个内部类使用，里面有key和value这两个值</span><br><span class="line">     */</span><br><span class="line">    public static class ContentValue &#123;</span><br><span class="line">        String key;</span><br><span class="line">        Object value;</span><br><span class="line"></span><br><span class="line">        public ContentValue(String key, Object value) &#123;</span><br><span class="line">            this.key = key;</span><br><span class="line">            this.value = value;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 传值</span><br><span class="line">     * @param contentValues</span><br><span class="line">     */</span><br><span class="line">    public void putValues(ContentValue... contentValues) &#123;</span><br><span class="line"></span><br><span class="line">        SharedPreferences.Editor editor = sharedPreferences.edit();</span><br><span class="line"></span><br><span class="line">        for (ContentValue contentValue : contentValues) &#123;</span><br><span class="line">            //如果是字符型类型</span><br><span class="line">            if (contentValue.value instanceof String) &#123;</span><br><span class="line">                editor.putString(contentValue.key, contentValue.value.toString()).commit();</span><br><span class="line">            &#125;</span><br><span class="line">            //如果是int类型</span><br><span class="line">            if (contentValue.value instanceof Integer) &#123;</span><br><span class="line">                editor.putInt(contentValue.key, Integer.parseInt(contentValue.value.toString())).commit();</span><br><span class="line">            &#125;</span><br><span class="line">            //如果是Long类型</span><br><span class="line">            if (contentValue.value instanceof Long) &#123;</span><br><span class="line">                editor.putLong(contentValue.key, Long.parseLong(contentValue.value.toString())).commit();</span><br><span class="line">            &#125;</span><br><span class="line">            //如果是布尔类型</span><br><span class="line">            if (contentValue.value instanceof Boolean) &#123;</span><br><span class="line">                editor.putBoolean(contentValue.key, Boolean.parseBoolean(contentValue.value.toString())).commit();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    public String getString(String key) &#123;</span><br><span class="line">        return sharedPreferences.getString(key, null);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public boolean getBoolean(String key) &#123;</span><br><span class="line">        return sharedPreferences.getBoolean(key, false);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public int getInt(String key) &#123;</span><br><span class="line">        return sharedPreferences.getInt(key, -1);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public long getLong(String key) &#123;</span><br><span class="line">        return sharedPreferences.getLong(key, -1);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    //清除当前文件的所有的数据</span><br><span class="line">    public void clear() &#123;</span><br><span class="line">        sharedPreferences.edit().clear().commit();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>SP是一个轻量级的存储类，因为考虑到内存问题，key和value字符不能太长，字符越长，文件占用的存储空间越大，读取配置文件的时间太长，占用的内存过大，导致手机卡顿。</p>
+<h3 id="Bundle"><a href="#Bundle" class="headerlink" title="Bundle"></a>Bundle</h3><p>Bundle主要用于传递数据；它保存的数据，是以key-value(键值对)的形式存在的。</p>
+<p>我们经常使用Bundle在Activity之间传递数据，传递的数据可以是boolean、byte、int、long、float、double、string等基本类型或它们对应的数组，也可以是对象或对象数组。当Bundle传递的是对象或对象数组时，必须实现Serializable 或Parcelable接口。下面分别介绍Activity之间如何传递基本类型、传递对象。</p>
+<p>Bundle提供了各种putXxx()/getXxx()方法，用于读写基本数据类型，Bundle用于读写基本数据类型的API有：</p>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2019/05/07/5cd13c0bce396.png" alt="1.png"></p>
+<p>写数据的方法：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">Bundle bundle=new Bundle();</span><br><span class="line">bundle.putString(&quot;name&quot;,&quot;police&quot;);</span><br><span class="line">bundle.putInt(&quot;years&quot;,8);</span><br><span class="line">final Intent intent=new Intent().setClassName(&quot;police.myapp&quot;,&quot;police.myapp.Main2Activity&quot;);</span><br><span class="line">intent.putExtras(bundle);</span><br><span class="line">startActivity(intent);</span><br></pre></td></tr></table></figure>
+<p>执行后将bundle绑定到intent，传递到Mian2Activity</p>
+<p>读数据的方法：<br>(Intent.getExtras()获取bundle对象)</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Bundle bundle=this.getIntent().getExtras();</span><br><span class="line">String bundleString=bundle.getString(&quot;name&quot;);</span><br><span class="line">int bundleInt=bundle.getInt(&quot;years&quot;);</span><br><span class="line">textView.setText(bundleString+bundleInt);</span><br></pre></td></tr></table></figure>
+
+
+<p><strong>Bundle与SharedPreferences的区别</strong></p>
+<ul>
+<li>SharedPreferences是简单的存储持久化的设置，它只是一些简单的键值对存储方式。它将数据保存在一个xml文件中。</li>
+<li>Bundle是将数据传递到另一个上下文中或保存或回复你自己状态的数据存储方式。它的数据不是持久化存储状态。</li>
+</ul>
+<h4 id="传递Parcelable类型的对象"><a href="#传递Parcelable类型的对象" class="headerlink" title="传递Parcelable类型的对象"></a>传递Parcelable类型的对象</h4><p>Parcelable是Android自定义的一个接口，它包括将数据写入Parcel和从Parcel中读出的API。<br>一个实体（用类来表示），如果需要封装到Bundle中去，可以通过实现Parcelable接口来完成。</p>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2019/05/07/5cd13ccaa6433.jpg" alt="1.jpg"></p>
+<p><strong>Parcelable接口说明</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">public interface Parcelable &#123;  </span><br><span class="line">  //内容描述接口，基本不用管  </span><br><span class="line">  public int describeContents();  </span><br><span class="line">  //写入接口函数，打包  </span><br><span class="line">  public void writeToParcel(Parcel dest, int flags);  </span><br><span class="line">  //读取接口，目的是要从Parcel中构造一个实现了Parcelable的类的实例处理。因为实现类在这里还是不可知的，所以需要用到模板的方式，继承类名通过模板参数传入。  </span><br><span class="line">  //为了能够实现模板参数的传入，这里定义Creator嵌入接口,内含两个接口函数分别返回单个和多个继承类实例。  </span><br><span class="line">  public interface Creator&lt;T&gt; &#123;  </span><br><span class="line">      public T createFromParcel(Parcel source);  </span><br><span class="line">      public T[] newArray(int size);  </span><br><span class="line">&#125;  </span><br><span class="line">&#125;  </span><br></pre></td></tr></table></figure>
+<p><strong>Parcelable接口的实现方法</strong></p>
+<p>从parcelable接口定义中，我们可以看到，实现parcelable接口，需要我们实现下面几个方法：</p>
+<ol>
+<li><p>describeContents方法。内容接口描述，默认返回0就可以;</p>
+</li>
+<li><p>writeToParcel 方法。该方法将类的数据写入外部提供的Parcel中.即打包需要传递的数据到Parcel容器保存，以便从parcel容器获取数据，该方法声明如下：writeToParcel(Parcel dest, int flags)</p>
+</li>
+<li><p>静态的Parcelable.Creator接口，本接口有两个方法：<br> createFromParcel(Parcelin)  从Parcel容器中读取传递数据值，封装成Parcelable对象返回逻辑层。<br> newArray(int size) 创建一个类型为T，长度为size的数组，仅一句话（returnnew T[size])即可。方法是供外部类反序列化本类数组使用。</p>
+</li>
+</ol>
+<h4 id="传递Serializable类型的对象"><a href="#传递Serializable类型的对象" class="headerlink" title="传递Serializable类型的对象"></a>传递Serializable类型的对象</h4><p> Serializable是一个对象序列化的接口。一个类只有实现了Serializable接口，它的对象才是可序列化的。因此如果要序列化某些类的对象，这些类就必须实现Serializable接口。而实际上，Serializable是一个空接口，没有什么具体内容，它的目的只是简单的标识一个类的对象可以被序列化。</p>
+<p>很简单，只要implements Serializable接口就可以了</p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">平心</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://pingxin0521.gitee.io/2019/04/27/Android-%E5%9F%BA%E7%A1%80-4/">https://pingxin0521.gitee.io/2019/04/27/Android-%E5%9F%BA%E7%A1%80-4/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://pingxin0521.gitee.io" target="_blank">平心de小屋</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/Android/">Android</a></div><div class="post_share"><div class="social-share" data-image="https://i.loli.net/2020/05/08/gGE57HRvpcKPfDY.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2019/04/28/Android-%E5%9F%BA%E7%A1%80-5/"><img class="prev-cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/vCnKyoFJZ1g4XYR.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">Android 常用基本控件</div></div></a></div><div class="next-post pull-right"><a href="/2019/04/27/Android-%E5%9F%BA%E7%A1%80-3/"><img class="next-cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/gGE57HRvpcKPfDY.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">Android  Intent和Application</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span> 相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2019/06/03/Android-基础-22/" title="Android  常见错误"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/vCnKyoFJZ1g4XYR.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2020-05-16</div><div class="title">Android  常见错误</div></div></a></div><div><a href="/2019/04/30/Android-基础-13/" title="Android  菜单"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/gGE57HRvpcKPfDY.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2019-07-02</div><div class="title">Android  菜单</div></div></a></div><div><a href="/2019/04/30/Android-基础-11/" title="Android  高级控件（一）"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/7dHvepmfYOLWTrX.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2019-07-02</div><div class="title">Android  高级控件（一）</div></div></a></div><div><a href="/2019/04/27/Android-基础-3/" title="Android  Intent和Application"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/gGE57HRvpcKPfDY.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2019-07-02</div><div class="title">Android  Intent和Application</div></div></a></div><div><a href="/2019/04/28/Android-基础-5/" title="Android 常用基本控件"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/vCnKyoFJZ1g4XYR.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2019-05-08</div><div class="title">Android 常用基本控件</div></div></a></div><div><a href="/2019/04/30/Android-基础-9/" title="Android 事件处理"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/HjVAdIuT7bZJypS.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2019-05-08</div><div class="title">Android 事件处理</div></div></a></div></div></div><hr/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div class="vcomment" id="vcomment"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="card-info-avatar is-center"><img class="avatar-img" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://s2.ax1x.com/2020/02/11/1ovw6J.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/><div class="author-info__name">平心</div><div class="author-info__description">年轻人的life、learn and think</div></div><div class="card-info-data"><div class="card-info-data-item is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">449</div></a></div><div class="card-info-data-item is-center"><a href="/tags/"><div class="headline">标签</div><div class="length-num">77</div></a></div><div class="card-info-data-item is-center"><a href="/categories/"><div class="headline">分类</div><div class="length-num">68</div></a></div></div><a class="button--animated" id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/hanyunpeng0521"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/hanyunpeng0521" target="_blank" title="Github"><i class="fa fa-github"></i></a><a class="social-icon" href="mailto:m13839441583@163.com" target="_blank" title="Email"><i class="fa fa-envelope"></i></a><a class="social-icon" href="/atom.xml" target="_blank" title=""><i class="fa fa-rss"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn card-announcement-animation"></i><span>公告</span></div><div class="announcement_content">为什么呢？开始提问吧</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%94%A8%E6%88%B7%E7%95%8C%E9%9D%A2%E7%8A%B6%E6%80%81%E4%BF%9D%E5%AD%98"><span class="toc-number">1.</span> <span class="toc-text">用户界面状态保存</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#SharedPreferences%E5%AF%B9%E8%B1%A1"><span class="toc-number">1.1.</span> <span class="toc-text">SharedPreferences对象</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%A4%BA%E4%BE%8B"><span class="toc-number">1.2.</span> <span class="toc-text">示例</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Bundle"><span class="toc-number">2.</span> <span class="toc-text">Bundle</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BC%A0%E9%80%92Parcelable%E7%B1%BB%E5%9E%8B%E7%9A%84%E5%AF%B9%E8%B1%A1"><span class="toc-number">2.1.</span> <span class="toc-text">传递Parcelable类型的对象</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BC%A0%E9%80%92Serializable%E7%B1%BB%E5%9E%8B%E7%9A%84%E5%AF%B9%E8%B1%A1"><span class="toc-number">2.2.</span> <span class="toc-text">传递Serializable类型的对象</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2021/05/15/node-2-4/" title="Egg.js -- 为企业级框架和应用而生"><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/okfOw28KlZFbE7z.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Egg.js -- 为企业级框架和应用而生"/></a><div class="content"><a class="title" href="/2021/05/15/node-2-4/" title="Egg.js -- 为企业级框架和应用而生">Egg.js -- 为企业级框架和应用而生</a><time datetime="2021-05-15T10:18:59.000Z" title="发表于 2021-05-15 18:18:59">2021-05-15</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/04/30/node-2-3/" title="Koa -- 基于Node.js平台的下一代Web开发框架"><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/HjVAdIuT7bZJypS.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Koa -- 基于Node.js平台的下一代Web开发框架"/></a><div class="content"><a class="title" href="/2021/04/30/node-2-3/" title="Koa -- 基于Node.js平台的下一代Web开发框架">Koa -- 基于Node.js平台的下一代Web开发框架</a><time datetime="2021-04-30T10:18:59.000Z" title="发表于 2021-04-30 18:18:59">2021-04-30</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/04/01/node-2-1/" title="Node.JS web开发前置知识"><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/gGE57HRvpcKPfDY.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Node.JS web开发前置知识"/></a><div class="content"><a class="title" href="/2021/04/01/node-2-1/" title="Node.JS web开发前置知识">Node.JS web开发前置知识</a><time datetime="2021-04-01T03:18:59.000Z" title="发表于 2021-04-01 11:18:59">2021-04-01</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2020/12/26/%E5%91%A8%E8%AE%B0-10-1/" title="第十一周--谷歌浏览器插件"><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/gGE57HRvpcKPfDY.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="第十一周--谷歌浏览器插件"/></a><div class="content"><a class="title" href="/2020/12/26/%E5%91%A8%E8%AE%B0-10-1/" title="第十一周--谷歌浏览器插件">第十一周--谷歌浏览器插件</a><time datetime="2020-12-26T10:18:59.000Z" title="发表于 2020-12-26 18:18:59">2020-12-26</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2020/12/26/%E5%91%A8%E8%AE%B0-10-0/" title="第十一周--浏览器技术"><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/vCnKyoFJZ1g4XYR.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="第十一周--浏览器技术"/></a><div class="content"><a class="title" href="/2020/12/26/%E5%91%A8%E8%AE%B0-10-0/" title="第十一周--浏览器技术">第十一周--浏览器技术</a><time datetime="2020-12-26T06:18:59.000Z" title="发表于 2020-12-26 14:18:59">2020-12-26</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2019 - 2021 By 平心</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div id="local-search"><div class="search-dialog"><div class="search-dialog__title" id="local-search-title">本地搜索</div><div id="local-input-panel"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div></div><hr/><div id="local-search-results"></div><span class="search-close-button"><i class="fas fa-times"></i></span></div><div id="search-mask"></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload/dist/lazyload.iife.min.js"></script><script src="/js/search/local-search.js"></script><div class="js-pjax"><script>function loadValine () {
+  function initValine () {
+    const valine = new Valine(Object.assign({
+      el: '#vcomment',
+      appId: '4lfIXzqxaC1ONs0MJO4oHu07-gzGzoHsz',
+      appKey: 'qw99Bw8FD0KVKU9m457CwWsr',
+      placeholder: 'Please leave your footprints',
+      avatar: 'monsterid',
+      meta: 'nick,mail,link'.split(','),
+      pageSize: '10',
+      lang: 'zh-CN',
+      recordIP: true,
+      serverURLs: '',
+      emojiCDN: '',
+      emojiMaps: "",
+      enableQQ: true,
+      path: window.location.pathname,
+      requiredFields: ["nick,mail"],
+      visitor: false
+    }, null))
+  }
+
+  if (typeof Valine === 'function') initValine() 
+  else getScript('https://cdn.jsdelivr.net/npm/valine/dist/Valine.min.js').then(initValine)
+}
+
+if ('Valine' === 'Valine' || !false) {
+  if (false) btf.loadComment(document.getElementById('vcomment'),loadValine)
+  else setTimeout(loadValine, 0)
+} else {
+  function loadOtherComment () {
+    loadValine()
+  }
+}</script></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>

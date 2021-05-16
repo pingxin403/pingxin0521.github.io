@@ -1,0 +1,452 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>java对象模型、类加载 | 平心de小屋</title><meta name="keywords" content="Java"><meta name="author" content="平心"><meta name="copyright" content="平心"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="Java虚拟机为Java程序提供运行时环境，其中一项重要的任务就是管理类和对象的生命周期。类的生命周期。类的生命周期从类被加载、连接和初始化开始，到类被卸载结束。当类处于生命周期中时，它的二进制数据位于方法区内，在堆区中还会有一个相应的描述这个类的Class对象（当Java程序使用任何一个类时，系统都会为之创建一个java.lang.Class对象）。只有当类处于生命周期中时，Java程序才能使用">
+<meta property="og:type" content="article">
+<meta property="og:title" content="java对象模型、类加载">
+<meta property="og:url" content="https://pingxin0521.gitee.io/2019/06/09/Java-JVM-3-3/index.html">
+<meta property="og:site_name" content="平心de小屋">
+<meta property="og:description" content="Java虚拟机为Java程序提供运行时环境，其中一项重要的任务就是管理类和对象的生命周期。类的生命周期。类的生命周期从类被加载、连接和初始化开始，到类被卸载结束。当类处于生命周期中时，它的二进制数据位于方法区内，在堆区中还会有一个相应的描述这个类的Class对象（当Java程序使用任何一个类时，系统都会为之创建一个java.lang.Class对象）。只有当类处于生命周期中时，Java程序才能使用">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://i.loli.net/2020/05/08/PFDRNxj93taz6pw.jpg">
+<meta property="article:published_time" content="2019-06-09T11:18:59.000Z">
+<meta property="article:modified_time" content="2020-01-02T16:30:01.375Z">
+<meta property="article:author" content="平心">
+<meta property="article:tag" content="Java">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.loli.net/2020/05/08/PFDRNxj93taz6pw.jpg"><link rel="shortcut icon" href="https://s2.ax1x.com/2020/02/11/1ovFOA.png"><link rel="canonical" href="https://pingxin0521.gitee.io/2019/06/09/Java-JVM-3-3/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"search.xml","languages":{"hits_empty":"找不到您查询的内容：${query}"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    jQuery: 'https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js',
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+    },
+    fancybox: {
+      js: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css'
+    }
+  },
+  isPhotoFigcaption: true,
+  islazyload: true,
+  isanchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'java对象模型、类加载',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2020-01-03 00:30:01'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    })(window)</script><meta name="generator" content="Hexo 5.4.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="author-avatar"><img class="avatar-img" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://s2.ax1x.com/2020/02/11/1ovw6J.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data"><div class="data-item is-center"><div class="data-item-link"><a href="/archives/"><div class="headline">文章</div><div class="length-num">449</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/tags/"><div class="headline">标签</div><div class="length-num">77</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/categories/"><div class="headline">分类</div><div class="length-num">68</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fa fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fa fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://i.loli.net/2020/05/08/PFDRNxj93taz6pw.jpg')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">平心de小屋</a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fa fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fa fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">java对象模型、类加载</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2019-06-09T11:18:59.000Z" title="发表于 2019-06-09 19:18:59">2019-06-09</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2020-01-02T16:30:01.375Z" title="更新于 2020-01-03 00:30:01">2020-01-03</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/Java/">Java</a><i class="fas fa-angle-right post-meta-separator"></i><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/Java/JVM/">JVM</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">8.3k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>26分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="java对象模型、类加载"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><p>Java虚拟机为Java程序提供运行时环境，其中一项重要的任务就是管理类和对象的生命周期。类的生命周期。类的生命周期从类被加载、连接和初始化开始，到类被卸载结束。当类处于生命周期中时，它的二进制数据位于方法区内，在堆区中还会有一个相应的描述这个类的Class对象（<strong>当Java程序使用任何一个类时，系统都会为之创建一个java.lang.Class对象</strong>）。只有当类处于生命周期中时，Java程序才能使用它，比如调用类的静态成员或者创建类的实例。</p>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://s2.ax1x.com/2019/11/04/KvPNxf.png" alt="KvPNxf.png"></p>
+<span id="more"></span>
+
+<p>当通过java命令运行一个Java程序时，就启动了一个Java虚拟机进程。Java虚拟机进程从启动到终止的过程，称为Java虚拟机的生命周期。在以下情况中，Java虚拟机将结束生命周期。</p>
+<ol>
+<li>程序正常执行结束,如main运行return；</li>
+<li>程序在执行中因为出现异常或错误而异常终止；</li>
+<li>执行了System.exit()或者Runtime.getRuntime().exit()；</li>
+<li>由于操作系用出现错误而导致Java虚拟机进程终止；</li>
+</ol>
+<p>当Java虚拟机处于生命周期中时，它的总任务就是运行Java程序。Java程序从开始运行带终止的过程称为程序的生命周期，它和Java虚拟机的生命周期的一致的</p>
+<p>当Java程序运行结束时，JVM进程结束，在进程在内存中的状态将全部丢失。下面通过一个小例子来说明。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">A</span> </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">int</span> a = <span class="number">5</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ATest1</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        A.a++;</span><br><span class="line">        System.out.println(A.a);<span class="comment">//6</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ATest2</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        System.out.println(A.a);<span class="comment">//5</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>观察输出结果，原因就是ATest1和ATest2是两次运行JVM进程，第一次运行结束后它对A类所做的修改将全部丢失；第二次运行JVM将再次初始化A类。</p>
+<p>一些初学者会认为A类中的a是静态成员变量，同一个类中所有实例的静态变量共享同一块内存区，错误的认为第二次运行会输出被第一次改变后的结果。但实际上两次运行Java程序处于两个不同的JVM进程中，故两个JVM之间不会共享数据。</p>
+<h4 id="Java虚拟机类加载机制"><a href="#Java虚拟机类加载机制" class="headerlink" title="Java虚拟机类加载机制"></a>Java虚拟机类加载机制</h4><p>虚拟机把描述类的数据从 Class 文件加载到内存，并对数据进行校验、转换解析和初始化，最终形成可以被虚拟机直接使用的 Java 类型，这就是虚拟机的类加载机制。</p>
+<p>在Java语言里面，类型的加载、连接和初始化过程都是在程序运行期间完成的</p>
+<h5 id="类加载的过程"><a href="#类加载的过程" class="headerlink" title="类加载的过程"></a>类加载的过程</h5><p>类的个生命周期如下图：</p>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://s2.ax1x.com/2020/01/03/lNcFs0.png" alt="lNcFs0.png"></p>
+<p>为支持运行时绑定，解析过程在某些情况下可在初始化之后再开始，除解析过程外的其他加载过程必须按照如图顺序开始。</p>
+<h5 id="加载"><a href="#加载" class="headerlink" title="加载"></a>加载</h5><ol>
+<li>通过全限定类名来获取定义此类的二进制字节流。</li>
+<li>将这个字节流所代表的静态存储结构转化为方法区的运行时数据结构。</li>
+<li>在内存中生成一个代表这个类的 java.lang.Class 对象，作为方法区这个类的各种数据的访问入口。</li>
+</ol>
+<h5 id="验证"><a href="#验证" class="headerlink" title="验证"></a>验证</h5><p>验证是连接阶段的第一步，这一阶段的目的是为了确保 Class 文件的字节流中包含的信息符合当前虚拟机的要求，并且不会危害虚拟机自身的安全。</p>
+<ol>
+<li>文件格式验证：如是否以魔数 0xCAFEBABE 开头、主、次版本号是否在当前虚拟机处理范围之内、常量合理性验证等。<br>此阶段保证输入的字节流能正确地解析并存储于方法区之内，格式上符合描述一个 Java类型信息的要求。</li>
+<li>元数据验证：是否存在父类，父类的继承链是否正确，抽象类是否实现了其父类或接口之中要求实现的所有方法，字段、方法是否与父类产生矛盾等。<br>第二阶段，保证不存在不符合 Java 语言规范的元数据信息。</li>
+<li>字节码验证：通过数据流和控制流分析，确定程序语义是合法的、符合逻辑的。例如保证跳转指令不会跳转到方法体以外的字节码指令上。</li>
+<li>符号引用验证：在解析阶段中发生，保证可以将符号引用转化为直接引用。</li>
+</ol>
+<p>可以考虑使用 <code>-Xverify:none</code> 参数来关闭大部分的类验证措施，以缩短虚拟机类加载的时间。</p>
+<h5 id="准备"><a href="#准备" class="headerlink" title="准备"></a>准备</h5><p>为<strong>类变量</strong>分配内存并设置类变量初始值，这些变量所使用的内存都将在方法区中进行分配。</p>
+<h5 id="解析"><a href="#解析" class="headerlink" title="解析"></a>解析</h5><p>虚拟机将常量池内的符号引用替换为直接引用的过程。<br>解析动作主要针对类或接口、字段、类方法、接口方法、方法类型、方法句柄和调用点限定符 7 类符号引用进行。</p>
+<h5 id="初始化"><a href="#初始化" class="headerlink" title="初始化"></a>初始化</h5><p>到初始化阶段，才真正开始执行类中定义的 Java 程序代码，此阶段是执行 <code>&lt;clinit&gt;()</code> 方法的过程。</p>
+<p><code>&lt;clinit&gt;()</code> 方法是由编译器按语句在源文件中出现的顺序，依次自动收集类中的所有<strong>类变量</strong>的赋值动作和静态代码块中的语句合并产生的。（不包括构造器中的语句。构造器是初始化对象的，类加载完成后，创建对象时候将调用的 <code>&lt;init&gt;()</code> 方法来初始化对象）</p>
+<p>静态语句块中只能访问到定义在静态语句块之前的变量，定义在它之后的变量，在前面的静态语句块可以赋值，但是不能访问，如下程序：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Test</span> </span>&#123;</span><br><span class="line">    <span class="keyword">static</span> &#123;</span><br><span class="line">        <span class="comment">// 给变量赋值可以正常编译通过</span></span><br><span class="line">        i = <span class="number">0</span>;</span><br><span class="line">        <span class="comment">// 这句编译器会提示&quot;非法向前引用&quot;</span></span><br><span class="line">        System.out.println(i);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">static</span> <span class="keyword">int</span> i = <span class="number">1</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><code>&lt;clinit&gt;()</code> 不需要显式调用父类（接口除外，接口不需要调用父接口的初始化方法，只有使用到父接口中的静态变量时才需要调用）的初始化方法 <code>&lt;clinit&gt;()</code>，虚拟机会保证在子类的 <code>&lt;clinit&gt;()</code> 方法执行之前，父类的 <code>&lt;clinit&gt;()</code> 方法已经执行完毕，也就意味着父类中定义的静态语句块要优先于子类的变量赋值操作。</p>
+<p><code>&lt;clinit&gt;()</code> 方法对于类或接口来说并不是必需的，如果一个类中没有静态语句块，也没有对变量的赋值操作，那么编译器可以不为这个类生成 <code>&lt;clinit&gt;()</code> 方法。</p>
+<p>虚拟机会保证一个类的 <code>&lt;clinit&gt;()</code> 方法在多线程环境中被正确地加锁、同步，如果多个线程同时去初始化一个类，那么只会有一个线程去执行这个类的 <code>&lt;clinit&gt;()</code> 方法，其他线程都需要阻塞等待，直到活动线程执行 <code>&lt;clinit&gt;()</code> 方法完毕。</p>
+<h5 id="类加载的时机"><a href="#类加载的时机" class="headerlink" title="类加载的时机"></a>类加载的时机</h5><p>对于初始化阶段，虚拟机规范规定了有且只有 5 种情况必须立即对类进行“初始化”（而加载、验证、准备自然需要在此之前开始）：</p>
+<ol>
+<li>遇到new、getstatic 和 putstatic 或 invokestatic 这4条字节码指令时，如果类没有进行过初始化，则需要先触发其初始化。对应场景是：使用 new 实例化对象、读取或设置一个类的静态字段（被 final 修饰、已在编译期把结果放入常量池的静态字段除外）、以及调用一个类的静态方法。</li>
+<li>对类进行反射调用的时候，如果类没有进行过初始化，则需要先触发其初始化。</li>
+<li>当初始化类的父类还没有进行过初始化，则需要先触发其父类的初始化。（而一个接口在初始化时，并不要求其父接口全部都完成了初始化）</li>
+<li>虚拟机启动时，用户需要指定一个要执行的主类（包含 main() 方法的那个类），<br>虚拟机会先初始化这个主类。</li>
+</ol>
+<blockquote>
+<ol>
+<li>当使用 JDK 1.7 的动态语言支持时，如果一个 java.lang.invoke.MethodHandle 实例最后的解析结果 REF_getStatic、REF_putStatic、REF_invokeStatic 的方法句柄，并且这个方法句柄所对应的类没有进行过初始化，则需要先触发其初始化。</li>
+</ol>
+</blockquote>
+<p>第5种情况，我暂时看不懂。</p>
+<p>以上这 5 种场景中的行为称为对一个类进行主动引用。除此之外，所有引用类的方式都不会触发初始化，称为被动引用，例如：</p>
+<ol>
+<li>通过子类引用父类的静态字段，不会导致子类初始化。</li>
+<li>通过数组定义来引用类，不会触发此类的初始化。<code>MyClass[] cs = new MyClass[10];</code></li>
+<li>常量在编译阶段会存入调用类的常量池中，本质上并没有直接引用到定义常量的类，因此不会触发定义常量的类的初始化。</li>
+</ol>
+<h5 id="new一个对象过程中发生了什么？"><a href="#new一个对象过程中发生了什么？" class="headerlink" title="new一个对象过程中发生了什么？"></a>new一个对象过程中发生了什么？</h5><ol>
+<li><strong>确认类元信息是否存在。</strong>当 JVM 接收到 new 指令时，首先在 metaspace 内检查需要创建的类元信息是否存在。 若不存在，那么在双亲委派模式下，使用当前类加载器以 ClassLoader + 包名＋类名为 Key 进行查找对应的 class 文件。 如果没有找到文件，则抛出 ClassNotFoundException 异常 ， 如果找到，则进行类加载（加载 - 验证 - 准备 - 解析 - 初始化），并生成对应的 Class 类对象。</li>
+<li><strong>分配对象内存。</strong> 首先计算对象占用空间大小，如果实例成员变量是引用变量，仅分配引用变量空间即可，即 4 个字节大小，接着在堆中划分—块内存给新对象。 在分配内存空间时，需要进行同步操作，比如采用 CAS (Compare And Swap) 失败重试、 区域加锁等方式保证分配操作的原子性。</li>
+<li><strong>设定默认值。</strong> 成员变量值都需要设定为默认值， 即各种不同形式的零值。</li>
+<li><strong>设置对象头。</strong>设置新对象的哈希码、 GC 信息、锁信息、对象所属的类元信息等。这个过程的具体设置方式取决于 JVM 实现。</li>
+<li><strong>执行 init 方法。</strong> 初始化成员变量，执行实例化代码块，调用类的构造方法，并把堆内对象的首地址赋值给引用变量。</li>
+</ol>
+<h4 id="类加载"><a href="#类加载" class="headerlink" title="类加载"></a>类加载</h4><p>类加载器把class文件中的二进制数据读入到内存中，存放在方法区，然后在堆区创建一个java.lang.Class对象，用来封装类在方法区内的数据结构。类加载的步骤如下：</p>
+<ol>
+<li><p>加载：查找并加载类的二进制数据（把class文件里面的信息加载到内存里面）</p>
+</li>
+<li><p>连接：把内存中类的二进制数据合并到虚拟机的运行时环境中</p>
+<ul>
+<li><p>验证：确保被加载的类的正确性。包括：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">A、类文件的结构检查：检查是否满足Java类文件的固定格式</span><br><span class="line">B、语义检查：确保类本身符合Java的语法规范</span><br><span class="line">C、字节码验证：确保字节码流可以被Java虚拟机安全的执行。字节码流是操作码组成的序列。每一个操作码后面都会跟着一个或者多个操作数。字节码检查这个步骤会检查每一个操作码是否合法。</span><br><span class="line">D、二进制兼容性验证：确保相互引用的类之间是协调一致的。</span><br></pre></td></tr></table></figure></li>
+<li><p>准备：为类的静态变量分配内存，并将其初始化为默认值</p>
+</li>
+<li><p>解析：把类中的符号引用转化为直接引用（比如说方法的符号引用，是有方法名和相关描述符组成，在解析阶段，JVM把符号引用替换成一个指针，这个指针就是直接引用，它指向该类的该方法在方法区中的内存位置）</p>
+</li>
+</ul>
+</li>
+<li><p>初始化：为类的静态变量赋予正确的初始值。当静态变量的等号右边的值是一个常量表达式时，不会调用static代码块进行初始化。只有等号右边的值是一个运行时运算出来的值，才会调用static初始化。</p>
+</li>
+</ol>
+<h5 id="双亲委派模型"><a href="#双亲委派模型" class="headerlink" title="双亲委派模型"></a>双亲委派模型</h5><p>当一个类加载器收到类加载请求的时候，它首先不会自己去加载这个类的信息，而是把该<br>请求转发给父类加载器，依次向上。所以所有的类加载请求都会被传递到父类加载器中，只有当父类加载器中无法加载到所需的类，子类加载器才会自己尝试去加载该类。当当前类加载器和所有父类加载器都无法加载该类时，抛出ClassNotFindException异常。</p>
+<blockquote>
+<p>提高系统的安全性。用户自定义的类加载器不可能加载应该由父加载器加载的可靠类。（比如用户定义了一个恶意代码，自定义的类加载器首先让系统加载器去加载，系统加载器检查该代码不符合规范，于是就不继续加载了）</p>
+<p>并且在相同的类只会加载一次</p>
+</blockquote>
+<p>定义类加载器：如果某个类加载器能够加载一个类，那么这个类加载器就叫做定义类加载器</p>
+<p>初始类加载器：定义类加载器及其所有子加载器都称作初始类加载器。</p>
+<p>运行时包：</p>
+<ul>
+<li>由同一个类加载器加载并且拥有相同包名的类组成运行时包</li>
+<li>只有属于同一个运行时包的类，才能访问包可见（default）的类和类成员。作用是 <strong>限制用户自定义的类冒充核心类库的类去访问核心类库的包可见成员。</strong></li>
+</ul>
+<p>加载两份相同的class对象的情况：A和B不属于父子类加载器关系，并且各自都加载了同一个类</p>
+<p><strong>特点</strong></p>
+<p>全盘负责：当一个类加载器加载一个类时，该类所依赖的其他类也会被这个类加载器加载到内存中。</p>
+<p>缓存机制：所有的Class对象都会被缓存，当程序需要使用某个Class时，类加载器先从缓存中查找，找不到，才从class文件中读取数据，转化成Class对象，存入缓存中。</p>
+<p><strong>类加载器</strong></p>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2019/04/09/5cac620a7be78.png" alt="java类加载.png"></p>
+<p>两种类型的类加载器：</p>
+<ol>
+<li><p>JVM自带的类加载器（3种）</p>
+<ul>
+<li><p>根类加载器（Bootstrap）</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">a、C++编写的，程序员无法在程序中获取该类</span><br><span class="line">b、负责加载虚拟机的核心库，比如java.lang.Object</span><br><span class="line">c、没有继承ClassLoader类</span><br></pre></td></tr></table></figure></li>
+<li><p>扩展类加载器（Extension）</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">a、Java编写的，从指定目录中加载类库</span><br><span class="line">b、父加载器是根类加载器</span><br><span class="line">c、是ClassLoader的子类</span><br><span class="line">d、如果用户把创建的jar文件放到指定目录中，也会被扩展加载器加载。</span><br></pre></td></tr></table></figure></li>
+<li><p>系统加载器（System）或者应用加载器(App)</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">a、Java编写的</span><br><span class="line">b、父加载器是扩展类加载器</span><br><span class="line">c、从环境变量或者class.path中加载类</span><br><span class="line">d、是用户自定义类加载的默认父加载器</span><br><span class="line">e、是ClassLoader的子类</span><br></pre></td></tr></table></figure></li>
+</ul>
+</li>
+<li><p>用户自定义的类加载器</p>
+<ul>
+<li><p>Java.lang.ClassLoader类的子类</p>
+</li>
+<li><p>用户可以定制类的加载方式</p>
+</li>
+<li><p>父类加载器是系统加载器</p>
+</li>
+<li><p>编写步骤：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">A、继承ClassLoader</span><br><span class="line">B、重写findClass方法。从特定位置加载class文件，得到字节数组，然后利用defineClass把字节数组转化为Class对象</span><br></pre></td></tr></table></figure></li>
+<li><p>为什么要自定义类加载器？</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">A、可以从指定位置加载class文件，比如说从数据库、云端加载class文件</span><br><span class="line">B、加密：Java代码可以被轻易的反编译，因此，如果需要对代码进行加密，那么加密以后的代码，就不能使用Java自带的ClassLoader来加载这个类了，需要自定义ClassLoader，对这个类进行解密，然后加载。</span><br></pre></td></tr></table></figure></li>
+</ul>
+</li>
+</ol>
+<p> 为什么要这么做呢？</p>
+<p> 如果没有使用双亲委派模型，由各个类加载器自行加载的话，如果用户自己编写了一个称为java.lang.Object的类，并放在程序的ClassPath中，那系统将会出现多个不同的Object类， Java类型体系中最基础的行为就无法保证。应用程序也将会变得一片混乱。</p>
+<p><strong>双亲委任模型时如何实现的？</strong></p>
+<p>非常简单：所有的代码都在java.lang.ClassLoader中的loadClass方法之中，代码如下：</p>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://s2.ax1x.com/2019/12/29/lntqqs.png" alt="lntqqs.png"></p>
+<p>先检查是否已经被加载过，若没有加载则调用父加载器的loadClass方法， 如父加载器为空则默认使用启动类加载器作为父加载器。如果父类加载失败，抛出ClassNotFoundException 异常后，再调用自己的findClass方法进行加载。</p>
+<p><strong>问题：Java程序对类的执行有几种方式：</strong></p>
+<ol>
+<li><p>主动使用（6种情况）</p>
+<p>JVM必须在每个类“首次 主动使用”的时候，才会初始化这些类。</p>
+<ul>
+<li>创建类的实例</li>
+<li>读写某个类或者接口的静态变量</li>
+<li>调用类的静态方法</li>
+<li>同过反射的API（Class.forName()）获取类</li>
+<li>初始化一个类的子类</li>
+<li>JVM启动的时候，被标明启动类的类（包含Main方法的类）</li>
+</ul>
+<p>只有当程序使用的静态变量或者静态方法确实在该类中定义时，该可以认为是对该类或者接口的主动使用。</p>
+</li>
+<li><p>被动使用：除了主动使用的6种情况，其他情况都是被动使用，都不会导致类的初始化。</p>
+</li>
+<li><p>JVM规范允许类加载器在预料某个类将要被使用的时候，就预先加载它。如果该class文件缺失或者存在错误，则在程序“首次 主动使用”的时候，才报告这个错误。（Linkage Error错误）。如果这个类一直没有被程序“主动使用”，就不会报错。</p>
+</li>
+</ol>
+<p><strong>类加载机制与接口</strong></p>
+<ol>
+<li>当Java虚拟机初始化一个类时，不会初始化该类实现的接口。</li>
+<li>在初始化一个接口时，不会初始化这个接口父接口。</li>
+<li>只有当程序首次使用该接口的静态变量时，才导致该接口的初始化。</li>
+</ol>
+<p>ClassLoader：调用Classloader的loadClass方法去加载一个类，不是主动使用，因此不会进行类的初始化</p>
+<p><strong>类的卸载</strong></p>
+<p>有JVM自带的三种类加载器（根、扩展、系统）加载的类始终不会卸载。因为JVM始终引用这些类加载器，这些类加载器使用引用他们所加载的类，因此这些Class类对象始终是可到达的。</p>
+<p>由用户自定义类加载器加载的类，是可以被卸载的。</p>
+<h5 id="如何破坏双亲委任模型？"><a href="#如何破坏双亲委任模型？" class="headerlink" title="如何破坏双亲委任模型？"></a>如何破坏双亲委任模型？</h5><p>双亲委任模型不是一个强制性的约束模型，而是一个建议型的类加载器实现方式。在Java的世界中大部分的类加载器都遵循者模型，但也有例外，到目前为止，双亲委派模型有过3次大规模的“被破坏”的情况。<br><strong>第一次</strong>：在双亲委派模型出现之前—–即JDK1.2发布之前。<br><strong>第二次</strong>：是这个模型自身的缺陷导致的。我们说，双亲委派模型很好的解决了各个类加载器的基础类的统一问题（越基础的类由越上层的加载器进行加载），基础类之所以称为“基础”，是因为它们总是作为被用户代码调用的API， 但没有绝对，<strong>如果基础类调用会用户的代码</strong>怎么办呢？</p>
+<p>这不是没有可能的。一个典型的例子就是JNDI服务，JNDI现在已经是Java的标准服务，它的代码由启动类加载器去加载（在JDK1.3时就放进去的rt.jar）,但它需要调用由独立厂商实现并部署在应用程序的ClassPath下的JNDI接口提供者（SPI， Service Provider Interface）的代码，但启动类加载器不可能“认识“这些代码啊。因为这些类不在rt.jar中，但是启动类加载器又需要加载。怎么办呢？</p>
+<p>为了解决这个问题，Java设计团队只好引入了一个不太优雅的设计：<strong>线程上下文类加载器（Thread Context ClassLoader）</strong>。这个类加载器可以通过java.lang.Thread类的setContextClassLoader方法进行设置。如果创建线程时还未设置，它将会从父线程中继承一个，如果在应用程序的全局范围内都没有设置过多的话，那这个类加载器默认即使应用程序类加载器。</p>
+<p>嘿嘿，有了线程上下文加载器，JNDI服务使用这个线程上下文加载器去加载所需要的SPI代码，也就是父类加载器请求子类加载器去完成类加载的动作，这种行为实际上就是打通了双亲委派模型的层次结构来逆向使用类加载器，实际上已经违背了双亲委派模型的一般性原则。但这无可奈何，Java中所有涉及SPI的加载动作基本胜都采用这种方式。例如JNDI，<strong>JDBC</strong>，JCE，JAXB，JBI等。</p>
+<p><strong>第三次</strong>：为了实现热插拔，热部署，模块化，意思是添加一个功能或减去一个功能不用重启，只需要把这模块连同类加载器一起换掉就实现了代码的热替换。</p>
+<h4 id="对象的创建"><a href="#对象的创建" class="headerlink" title="对象的创建"></a>对象的创建</h4><p>java程序在运行过程中无时无刻都有对象被创建出来，那么创建对象是个怎么样的过程呢？</p>
+<p><strong>判断是否已经执行类加载</strong></p>
+<p>当虚拟机遇到一条new指令时 ，首先去检查这个指令的参数是否能在常量池中定位到一个类的符号引用，并且检查这个符号引用代表的类是否已经被加载、解析和初始化过，如果没有，那必须先执行相应的类加载过程。（类加载过程参考上面）</p>
+<p><strong>内存分配</strong></p>
+<p>当已经执行过类加载过程后，会为新对象在Java堆中分配一个大小已经确定的内存，具体的内存分配规则有两种：</p>
+<ol>
+<li><strong>指针碰撞（Bump the Pointer）</strong>如果Java堆中的内存是绝对规整的，所有用过的内存放一边，空闲的内存放到一边，中间放着指针为分界点，分配内存就是把指针向空闲的一边挪动一段与对象大小相等的距离。</li>
+<li>**空闲列表 (Free List )**如果Java堆中的内存并不是规整对的，已使用的内存和空间相互交错，虚拟机会将可以用的内存维护到一个列表上，在分配内存时从这个列表中找到一块足够大的空间划给对象。然后更新列表记录。</li>
+</ol>
+<p>Java堆中的内存是否是规整的是根据虚拟机所采用的垃圾收集器是否带有压缩整理功能决定的。Serial、ParNew带压缩整理的分配内存用指针碰撞，CMS这种通常用空闲列表方式分配内存</p>
+<p><strong>防止并发</strong></p>
+<p>在虚拟机上创建对象是非常频繁的行为，所以要做到防止并发，有以下两种方式可实现：</p>
+<ol>
+<li>堆分配内存空间的动作进行同步处理，实际上JVM采用CAS(Cmpare And Set)配上失败重试的方式保证更新操作的原子性；</li>
+<li>把内存分配的动作按照线程划分在不同的空间之中进行，即为每个线程在java堆中预先分配一块小内存，称为本地线程分配缓冲区（Thread Local Allocation Buffer,TLAB）。分配内存时在线程的TLBA上分配，只有TLAB用完并分配新的TLAB时，才需要同步锁定。JVM是否使用TLAB可以通过-XX:+UseTLAB参数来设定。</li>
+</ol>
+<p><strong>初始化对象内存空间</strong></p>
+<p>内存分配完成后，JVM将分配到的内存空间都初始化为零值（不包括对象头）。</p>
+<p><strong>对象头的设置</strong></p>
+<p>将对象的类、哈希码、对象的GC分代年龄等信息设置到对象头之中。</p>
+<p><strong>执行Java的init方法</strong></p>
+<p>设置完对象头后，从JVM的角度来看一个对象已经完成了，但是从java程序的角度来看还没有创建完成呢。此时就需要执行init方法，调用构造方法等过程，这样一个真正可用的对象才算完全的产生出来。</p>
+<h3 id="对象的内存布局"><a href="#对象的内存布局" class="headerlink" title="对象的内存布局"></a>对象的内存布局</h3><p>创建完对象后，对象对分配给自己的内存是如何布局的呢？下面来介绍一下。</p>
+<h4 id="Java对象的表示模型"><a href="#Java对象的表示模型" class="headerlink" title="Java对象的表示模型"></a>Java对象的表示模型</h4><p>Hotspot主要是用C++写的，所以它定义的Java对象表示模型也是基于C++实现的。</p>
+<p>Java对象的表示模型叫做“OOP-Klass”二分模型，包括两部分:</p>
+<ol>
+<li>OOP，即Ordinary Object Point，普通对象指针。说实话这个名称挺难理解。说白了其实就是表示对象的实例信息</li>
+<li>Klass，即Java类的C++对等体，用来描述Java类，包含了元数据和方法信息等</li>
+</ol>
+<p>一个Java对象就包括两部分，数据和方法，分别对应到OOP和Klass。最简单的理解就是如果让你自己用Java语言来开发一套新的语言，你如何来表示这个新的语言的对象呢。肯定也是类似的思路，一个模块是用Java类来实现表示数据的部分，一个模块是用Java类实现表示方法和元数据的部分。</p>
+<p>JVM运行时加载一个Class时，会在JVM内部创建一个instanceKlass对象，表示这个类的运行时元数据。创建一个这个Class的Java对象时，会在JVM内部相应的创建一个instanceOop来表示这个Java对象。熟悉JVM的同学可以明白，instanceKlass对象放在了方法区，instanceOop放在了堆，instanceOop的引用放在了JVM栈。</p>
+<p>JVM是基于栈来运行的，当一个线程调用一个对象的方法时，会在它的JVM栈的栈顶创建一个栈帧（Frame）的数据结构，这个数据结构是用来保存方法的局部变量，操作数栈，动态连接和方法返回值的。通过参数传递的值和在方法中new出来的对象的引用都保持在局部变量表里面。</p>
+<p>Java的方法调用是值传递，不是引用传递，原因就在这里，传递进来的参数相当于在局部变量表里面拷贝了一份，实际计算时，操作数栈操作的是局部变量变量里面的值，而不是外部的变量<br><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://s2.ax1x.com/2020/01/01/lJYOVf.png" alt="lJYOVf.png"></p>
+<p>对象在堆内存中的布局可分为三部分：<strong>对象头（Header）</strong>，**实例数据(Instance Data)<strong>，</strong>对齐填充(Padding)**。</p>
+<p><strong>普通对象的结构</strong>如下，按64位机器的长度计算</p>
+<ol>
+<li><p>对象头(_mark)， 8个字节</p>
+</li>
+<li><p>Oop指针，如果是32G内存以下的，默认开启对象指针压缩，4个字节</p>
+</li>
+<li><p>数据区</p>
+</li>
+<li><p>Padding(内存对齐)，按照8的倍数对齐</p>
+</li>
+</ol>
+<p>如果是数组对象的话，还多了一个部分，就是数组长度。</p>
+<p>数组对象结构是：</p>
+<ol>
+<li><p>对象头(_mark)， 8个字节</p>
+</li>
+<li><p>Oop指针，如果是32G内存以下的，默认开启对象指针压缩，4个字节</p>
+</li>
+<li><p>数组长度，4个字节</p>
+</li>
+<li><p>数据区</p>
+</li>
+<li><p>Padding(内存对齐)，按照8的倍数对齐</p>
+</li>
+</ol>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://s2.ax1x.com/2020/01/01/lJteG4.png" alt="lJteG4.png"></p>
+<p>对象头主要存储对象运行时记录信息，如hashcode, GC分代年龄，锁状态标志，偏向线程ID，偏向时间戳等。对象头的长度和JVM的字长一致，比如32位JVM的对象头是32位，64位JVM的对象头是64位。</p>
+<p>这里可以看到，所谓的给一个对象加锁，其实就是设置了对象头某些位。当其他线程看到这个对象的状态是加锁状态后，就等待释放锁。</p>
+<p>在方法区的instanceKlass对象相当于Class加载后创建的运行时对象，它包含了运行时常量池，字段，方法等元数据，当调用一个对象的方法时，如上面的图所示，实际定位到了方法区的instanceKlass对象的方法元数据。</p>
+<p>下面我们通过一个实例，使用HSDB来看看运行时的instanceKlass和instanceOop到底是什么样的。在方法区</p>
+<p>创建一个Person类，有name, age, sex实例属性，有一个sayHi方法</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> main;</span><br><span class="line"> </span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Person</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> String name;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> age;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">boolean</span> sex;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">sayHi</span><span class="params">()</span></span>&#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;Say hi from ITer_ZC&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span></span>&#123;</span><br><span class="line">        Person p = <span class="keyword">new</span> Person();</span><br><span class="line">        p.sayHi();</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            Thread.sleep(<span class="number">500000</span>);</span><br><span class="line">        &#125; <span class="keyword">catch</span> (InterruptedException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"> </span><br></pre></td></tr></table></figure>
+
+<p>HSDB是一款内置与SA的GUI调试工具，集成了各种JVM监控工具，可以用来深入分析JVM内部状态。</p>
+<p>启动HSDB:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">java -cp $&#123;JAVA_HOME&#125;/lib/sa-jdi.jar sun.jvm.hotspot.HSDB</span><br></pre></td></tr></table></figure>
+
+<p>运行Person，使用JPS查看进程ID;使用HSDB attach Person进程;Attach成功后看到21461进程里的各个子进程</p>
+<p>在Class Browser里面找到Person对应的instanceKlass的运行时实例,运行地址为0x0000000100060828</p>
+<p>在inspector里面查看0x0000000100060828这个对象实例，我们可以看到instanceKlass的字段，方法，运行时常量池，父类，兄弟类等元数据信息</p>
+<p>在Object Histogram里面找到main.Person对象;查看main.Person Oop的运行时实例</p>
+<p>_mark就是对象头，接着是实例数据信息。HSDB没有显示类对象指针</p>
+<h4 id="大小计算"><a href="#大小计算" class="headerlink" title="大小计算"></a>大小计算</h4><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!-- https://mvnrepository.com/artifact/org.openjdk.jol/jol-core --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.openjdk.jol<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>jol-core<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>0.9<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>测试类：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SizeofWithInstrumetation</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">ObjectA</span> </span>&#123;</span><br><span class="line">        String str;  <span class="comment">// 4</span></span><br><span class="line">        <span class="keyword">int</span> i1; <span class="comment">// 4</span></span><br><span class="line">        <span class="keyword">byte</span> b1; <span class="comment">// 1</span></span><br><span class="line">        <span class="keyword">byte</span> b2; <span class="comment">// 1</span></span><br><span class="line">        <span class="keyword">int</span> i2;     <span class="comment">// 4</span></span><br><span class="line">        ObjectB obj; <span class="comment">//4</span></span><br><span class="line">        <span class="keyword">byte</span> b3;  <span class="comment">// 1</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">ObjectB</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> Unsafe unsafe;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//方法一：我们可以令我们的代码“受信任”。运行程序时，使用bootclasspath选项，指定系统类路径加上你使用的一个Unsafe路径</span></span><br><span class="line"><span class="comment">//    java -Xbootclasspath:/usr/jdk1.7.0/jre/lib/rt.jar:. com.mishadoff.magic.UnsafeClient</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">// 方法二</span></span><br><span class="line">    <span class="keyword">static</span> &#123;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            Field field = Unsafe.class.getDeclaredField(<span class="string">&quot;theUnsafe&quot;</span>);</span><br><span class="line">            field.setAccessible(<span class="keyword">true</span>);</span><br><span class="line">            unsafe = (Unsafe) field.get(<span class="keyword">null</span>);</span><br><span class="line">        &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line"><span class="comment">//        System.out.println(ObjectShallowSize.sizeOf(new ObjectA()));</span></span><br><span class="line"></span><br><span class="line">        Field[] fields =</span><br><span class="line">                ObjectA.class.getDeclaredFields();</span><br><span class="line">        <span class="keyword">for</span> (Field f : fields) &#123;</span><br><span class="line">            System.out.println(f.getName() + <span class="string">&quot; offset: &quot;</span> + unsafe.objectFieldOffset(f));</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//str offset: 24</span></span><br><span class="line"><span class="comment">//i1 offset: 12</span></span><br><span class="line"><span class="comment">//b1 offset: 20</span></span><br><span class="line"><span class="comment">//b2 offset: 21</span></span><br><span class="line"><span class="comment">//i2 offset: 16</span></span><br><span class="line"><span class="comment">//obj offset: 28</span></span><br><span class="line"><span class="comment">//b3 offset: 22</span></span><br><span class="line"><span class="comment">//size : 32</span></span><br></pre></td></tr></table></figure>
+
+<p>HotSpot创建的对象的字段会先按照给定顺序排列一下,默认的顺序如下，<strong>从长到短排列，引用排最后</strong>: long/double –&gt; int/float –&gt; short/char –&gt; byte/boolean –&gt; Reference</p>
+<p>这个顺序可以使用JVM参数: -XX:FieldsAllocationSylte=0(默认是1)来改变。</p>
+<p>可以看到确实是按照从长到短，引用排最后的方式在内存中排列的。按照这种方法我们来重新计算下ObjectA创建的对象的长度:</p>
+<p>8(_mark) + 4(oop指针) + 4(i1) + 4(i2) + 1(b1) + 1(b2) + 1(b3) + 1(padding) +  4(str) + 4(obj) = 32</p>
+<p>再来测试一下数组对象的长度。有两个类如下:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">ObjectC</span> </span>&#123;</span><br><span class="line">    	ObjectD[] array = <span class="keyword">new</span> ObjectD[<span class="number">2</span>];</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">ObjectD</span> </span>&#123;</span><br><span class="line">    	<span class="keyword">int</span> value;</span><br><span class="line">    &#125;</span><br><span class="line"> </span><br></pre></td></tr></table></figure>
+
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://s2.ax1x.com/2020/01/01/lJ0yF0.png" alt="lJ0yF0.png"></p>
+<p>我们可以手工计算一下ObjectC obj = new ObjectC()的大小：</p>
+<p>ObjectC的Shallow size = 8(_mark) + 4(oop指针)  + 4(ObjectD[]引用) = 16</p>
+<p>new ObjectD[2]数组的长度 =  8(_mark) + 4(oop指针) + 4(数组长度占4个字节) + 4(ObjectD[0]引用) + 4(ObjectD[1]引用) = 24</p>
+<p>由于ObjectD[]数组没有指向具体的对象大小，所以我们手工计算的结果是16 + 24 = 40</p>
+<p>再给ObjectD[]数组指向具体的ObjectD对象，再测试一下结果：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">ObjectC</span> </span>&#123;</span><br><span class="line">  	ObjectD[] array = <span class="keyword">new</span> ObjectD[<span class="number">2</span>];</span><br><span class="line">  	</span><br><span class="line">  	<span class="function"><span class="keyword">public</span> <span class="title">ObjectC</span><span class="params">()</span></span>&#123;</span><br><span class="line">  		array[<span class="number">0</span>] = <span class="keyword">new</span> ObjectD();</span><br><span class="line">  		array[<span class="number">1</span>] = <span class="keyword">new</span> ObjectD();</span><br><span class="line">  	&#125;</span><br><span class="line">  &#125;</span><br><span class="line">  </span><br><span class="line">  <span class="keyword">private</span> <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">ObjectD</span> </span>&#123;</span><br><span class="line">  	<span class="keyword">int</span> value;</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+
+<p>我们可以手工计算一下ObjectC obj = new ObjectC()的大小：<br>ObjectC的Shallow size = 8(_mark) + 4(oop指针)  + 4(ObjectD[]引用) = 16</p>
+<p>new ObjectD[2]数组的长度 =  8(_mark) + 4(oop指针) + 4(数组长度占4个字节) + 4(ObjectD[0]引用) + 4(ObjectD[1]引用) = 24</p>
+<p>ObjectD对象长度 = 8(_mark) + 4(oop指针) + 4(value) = 16</p>
+<p>所以ObjectC实际占用的空间 = 16 + 24 + 2 * 16 = 72</p>
+<h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><ol>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/czwbig/p/11127222.html">Java虚拟机类加载机制</a></li>
+</ol>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">平心</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://pingxin0521.gitee.io/2019/06/09/Java-JVM-3-3/">https://pingxin0521.gitee.io/2019/06/09/Java-JVM-3-3/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://pingxin0521.gitee.io" target="_blank">平心de小屋</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/Java/">Java</a></div><div class="post_share"><div class="social-share" data-image="https://i.loli.net/2020/05/08/PFDRNxj93taz6pw.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2019/06/09/Java-JVM-3-2/"><img class="prev-cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/okfOw28KlZFbE7z.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">java内存模型</div></div></a></div><div class="next-post pull-right"><a href="/2019/06/09/Java-JVM-3-4/"><img class="next-cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/okfOw28KlZFbE7z.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">Java中的内存泄露和GC</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span> 相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2019/07/12/Java-SpringBoot-1-4-2/" title="Spring boot 数据访问 MongoDB"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/okfOw28KlZFbE7z.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2020-01-25</div><div class="title">Spring boot 数据访问 MongoDB</div></div></a></div><div><a href="/2019/12/10/Java-SpringBoot-1-6-1/" title="Spring boot 消息队列(使用RabbitMQ)"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/7dHvepmfYOLWTrX.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2020-02-09</div><div class="title">Spring boot 消息队列(使用RabbitMQ)</div></div></a></div><div><a href="/2019/05/30/Java-SpringCloud-0-0/" title="Spring Cloud 入门 (一)"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/7dHvepmfYOLWTrX.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2020-12-27</div><div class="title">Spring Cloud 入门 (一)</div></div></a></div><div><a href="/2019/11/01/Java-SpringCloud-3-0/" title="Spring Cloud 组件之Hystrix (五)"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/vCnKyoFJZ1g4XYR.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2020-12-27</div><div class="title">Spring Cloud 组件之Hystrix (五)</div></div></a></div><div><a href="/2019/10/27/Java-SpringCloud-6-0/" title="微服务组件--分布式追踪系统"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/PFDRNxj93taz6pw.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2020-12-27</div><div class="title">微服务组件--分布式追踪系统</div></div></a></div><div><a href="/2019/11/03/Java-SpringCloud-6-2/" title="SpringCloud组件之Spring Cloud Sleuth (八)"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/gGE57HRvpcKPfDY.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2020-12-27</div><div class="title">SpringCloud组件之Spring Cloud Sleuth (八)</div></div></a></div></div></div><hr/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div class="vcomment" id="vcomment"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="card-info-avatar is-center"><img class="avatar-img" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://s2.ax1x.com/2020/02/11/1ovw6J.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/><div class="author-info__name">平心</div><div class="author-info__description">年轻人的life、learn and think</div></div><div class="card-info-data"><div class="card-info-data-item is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">449</div></a></div><div class="card-info-data-item is-center"><a href="/tags/"><div class="headline">标签</div><div class="length-num">77</div></a></div><div class="card-info-data-item is-center"><a href="/categories/"><div class="headline">分类</div><div class="length-num">68</div></a></div></div><a class="button--animated" id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/hanyunpeng0521"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/hanyunpeng0521" target="_blank" title="Github"><i class="fa fa-github"></i></a><a class="social-icon" href="mailto:m13839441583@163.com" target="_blank" title="Email"><i class="fa fa-envelope"></i></a><a class="social-icon" href="/atom.xml" target="_blank" title=""><i class="fa fa-rss"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn card-announcement-animation"></i><span>公告</span></div><div class="announcement_content">为什么呢？开始提问吧</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#Java%E8%99%9A%E6%8B%9F%E6%9C%BA%E7%B1%BB%E5%8A%A0%E8%BD%BD%E6%9C%BA%E5%88%B6"><span class="toc-number">1.</span> <span class="toc-text">Java虚拟机类加载机制</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E7%B1%BB%E5%8A%A0%E8%BD%BD%E7%9A%84%E8%BF%87%E7%A8%8B"><span class="toc-number">1.1.</span> <span class="toc-text">类加载的过程</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%8A%A0%E8%BD%BD"><span class="toc-number">1.2.</span> <span class="toc-text">加载</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E9%AA%8C%E8%AF%81"><span class="toc-number">1.3.</span> <span class="toc-text">验证</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%87%86%E5%A4%87"><span class="toc-number">1.4.</span> <span class="toc-text">准备</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E8%A7%A3%E6%9E%90"><span class="toc-number">1.5.</span> <span class="toc-text">解析</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%88%9D%E5%A7%8B%E5%8C%96"><span class="toc-number">1.6.</span> <span class="toc-text">初始化</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E7%B1%BB%E5%8A%A0%E8%BD%BD%E7%9A%84%E6%97%B6%E6%9C%BA"><span class="toc-number">1.7.</span> <span class="toc-text">类加载的时机</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#new%E4%B8%80%E4%B8%AA%E5%AF%B9%E8%B1%A1%E8%BF%87%E7%A8%8B%E4%B8%AD%E5%8F%91%E7%94%9F%E4%BA%86%E4%BB%80%E4%B9%88%EF%BC%9F"><span class="toc-number">1.8.</span> <span class="toc-text">new一个对象过程中发生了什么？</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%B1%BB%E5%8A%A0%E8%BD%BD"><span class="toc-number">2.</span> <span class="toc-text">类加载</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%8F%8C%E4%BA%B2%E5%A7%94%E6%B4%BE%E6%A8%A1%E5%9E%8B"><span class="toc-number">2.1.</span> <span class="toc-text">双亲委派模型</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%A6%82%E4%BD%95%E7%A0%B4%E5%9D%8F%E5%8F%8C%E4%BA%B2%E5%A7%94%E4%BB%BB%E6%A8%A1%E5%9E%8B%EF%BC%9F"><span class="toc-number">2.2.</span> <span class="toc-text">如何破坏双亲委任模型？</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%AF%B9%E8%B1%A1%E7%9A%84%E5%88%9B%E5%BB%BA"><span class="toc-number">3.</span> <span class="toc-text">对象的创建</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AF%B9%E8%B1%A1%E7%9A%84%E5%86%85%E5%AD%98%E5%B8%83%E5%B1%80"><span class="toc-number"></span> <span class="toc-text">对象的内存布局</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Java%E5%AF%B9%E8%B1%A1%E7%9A%84%E8%A1%A8%E7%A4%BA%E6%A8%A1%E5%9E%8B"><span class="toc-number">1.</span> <span class="toc-text">Java对象的表示模型</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%A4%A7%E5%B0%8F%E8%AE%A1%E7%AE%97"><span class="toc-number">2.</span> <span class="toc-text">大小计算</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8F%82%E8%80%83"><span class="toc-number"></span> <span class="toc-text">参考</span></a></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2021/05/15/node-2-4/" title="Egg.js -- 为企业级框架和应用而生"><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/okfOw28KlZFbE7z.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Egg.js -- 为企业级框架和应用而生"/></a><div class="content"><a class="title" href="/2021/05/15/node-2-4/" title="Egg.js -- 为企业级框架和应用而生">Egg.js -- 为企业级框架和应用而生</a><time datetime="2021-05-15T10:18:59.000Z" title="发表于 2021-05-15 18:18:59">2021-05-15</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/04/30/node-2-3/" title="Koa -- 基于Node.js平台的下一代Web开发框架"><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/HjVAdIuT7bZJypS.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Koa -- 基于Node.js平台的下一代Web开发框架"/></a><div class="content"><a class="title" href="/2021/04/30/node-2-3/" title="Koa -- 基于Node.js平台的下一代Web开发框架">Koa -- 基于Node.js平台的下一代Web开发框架</a><time datetime="2021-04-30T10:18:59.000Z" title="发表于 2021-04-30 18:18:59">2021-04-30</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/04/01/node-2-1/" title="Node.JS web开发前置知识"><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/gGE57HRvpcKPfDY.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Node.JS web开发前置知识"/></a><div class="content"><a class="title" href="/2021/04/01/node-2-1/" title="Node.JS web开发前置知识">Node.JS web开发前置知识</a><time datetime="2021-04-01T03:18:59.000Z" title="发表于 2021-04-01 11:18:59">2021-04-01</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2020/12/26/%E5%91%A8%E8%AE%B0-10-1/" title="第十一周--谷歌浏览器插件"><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/gGE57HRvpcKPfDY.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="第十一周--谷歌浏览器插件"/></a><div class="content"><a class="title" href="/2020/12/26/%E5%91%A8%E8%AE%B0-10-1/" title="第十一周--谷歌浏览器插件">第十一周--谷歌浏览器插件</a><time datetime="2020-12-26T10:18:59.000Z" title="发表于 2020-12-26 18:18:59">2020-12-26</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2020/12/26/%E5%91%A8%E8%AE%B0-10-0/" title="第十一周--浏览器技术"><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/vCnKyoFJZ1g4XYR.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="第十一周--浏览器技术"/></a><div class="content"><a class="title" href="/2020/12/26/%E5%91%A8%E8%AE%B0-10-0/" title="第十一周--浏览器技术">第十一周--浏览器技术</a><time datetime="2020-12-26T06:18:59.000Z" title="发表于 2020-12-26 14:18:59">2020-12-26</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2019 - 2021 By 平心</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div id="local-search"><div class="search-dialog"><div class="search-dialog__title" id="local-search-title">本地搜索</div><div id="local-input-panel"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div></div><hr/><div id="local-search-results"></div><span class="search-close-button"><i class="fas fa-times"></i></span></div><div id="search-mask"></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload/dist/lazyload.iife.min.js"></script><script src="/js/search/local-search.js"></script><div class="js-pjax"><script>function loadValine () {
+  function initValine () {
+    const valine = new Valine(Object.assign({
+      el: '#vcomment',
+      appId: '4lfIXzqxaC1ONs0MJO4oHu07-gzGzoHsz',
+      appKey: 'qw99Bw8FD0KVKU9m457CwWsr',
+      placeholder: 'Please leave your footprints',
+      avatar: 'monsterid',
+      meta: 'nick,mail,link'.split(','),
+      pageSize: '10',
+      lang: 'zh-CN',
+      recordIP: true,
+      serverURLs: '',
+      emojiCDN: '',
+      emojiMaps: "",
+      enableQQ: true,
+      path: window.location.pathname,
+      requiredFields: ["nick,mail"],
+      visitor: false
+    }, null))
+  }
+
+  if (typeof Valine === 'function') initValine() 
+  else getScript('https://cdn.jsdelivr.net/npm/valine/dist/Valine.min.js').then(initValine)
+}
+
+if ('Valine' === 'Valine' || !false) {
+  if (false) btf.loadComment(document.getElementById('vcomment'),loadValine)
+  else setTimeout(loadValine, 0)
+} else {
+  function loadOtherComment () {
+    loadValine()
+  }
+}</script></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>

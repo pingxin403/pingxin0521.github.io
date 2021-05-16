@@ -1,0 +1,478 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Node.JS 入门 | 平心de小屋</title><meta name="keywords" content="Node.JS,后端"><meta name="author" content="平心"><meta name="copyright" content="平心"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="简单的说 Node.js 就是运行在服务端的 JavaScript。 Node.js 是一个基于Chrome JavaScript 运行时建立的一个平台。 Node.js 是一个基于 Chrome V8 引擎的 JavaScript 运行环境。Node.js 使用了一个事件驱动、非阻塞式 I&#x2F;O 的模型，使其轻量又高效。  中文文档">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Node.JS 入门">
+<meta property="og:url" content="https://pingxin0521.gitee.io/2019/06/07/node-1-0/index.html">
+<meta property="og:site_name" content="平心de小屋">
+<meta property="og:description" content="简单的说 Node.js 就是运行在服务端的 JavaScript。 Node.js 是一个基于Chrome JavaScript 运行时建立的一个平台。 Node.js 是一个基于 Chrome V8 引擎的 JavaScript 运行环境。Node.js 使用了一个事件驱动、非阻塞式 I&#x2F;O 的模型，使其轻量又高效。  中文文档">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://i.loli.net/2020/05/08/okfOw28KlZFbE7z.jpg">
+<meta property="article:published_time" content="2019-06-07T06:18:59.000Z">
+<meta property="article:modified_time" content="2021-04-01T03:54:54.172Z">
+<meta property="article:author" content="平心">
+<meta property="article:tag" content="Node.JS">
+<meta property="article:tag" content="后端">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.loli.net/2020/05/08/okfOw28KlZFbE7z.jpg"><link rel="shortcut icon" href="https://s2.ax1x.com/2020/02/11/1ovFOA.png"><link rel="canonical" href="https://pingxin0521.gitee.io/2019/06/07/node-1-0/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"search.xml","languages":{"hits_empty":"找不到您查询的内容：${query}"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    jQuery: 'https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js',
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+    },
+    fancybox: {
+      js: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css'
+    }
+  },
+  isPhotoFigcaption: true,
+  islazyload: true,
+  isanchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'Node.JS 入门',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2021-04-01 11:54:54'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    })(window)</script><meta name="generator" content="Hexo 5.4.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="author-avatar"><img class="avatar-img" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://s2.ax1x.com/2020/02/11/1ovw6J.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data"><div class="data-item is-center"><div class="data-item-link"><a href="/archives/"><div class="headline">文章</div><div class="length-num">449</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/tags/"><div class="headline">标签</div><div class="length-num">77</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/categories/"><div class="headline">分类</div><div class="length-num">68</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fa fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fa fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://i.loli.net/2020/05/08/okfOw28KlZFbE7z.jpg')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">平心de小屋</a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fa fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fa fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">Node.JS 入门</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2019-06-07T06:18:59.000Z" title="发表于 2019-06-07 14:18:59">2019-06-07</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2021-04-01T03:54:54.172Z" title="更新于 2021-04-01 11:54:54">2021-04-01</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E5%90%8E%E7%AB%AF/">后端</a><i class="fas fa-angle-right post-meta-separator"></i><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E5%90%8E%E7%AB%AF/Node-JS/">Node.JS</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">6.3k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>21分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="Node.JS 入门"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><p>简单的说 Node.js 就是运行在服务端的 JavaScript。</p>
+<p>Node.js 是一个基于Chrome JavaScript 运行时建立的一个平台。</p>
+<p>Node.js 是一个基于 <strong>Chrome V8 引擎</strong>的 <strong>JavaScript 运行环境</strong>。Node.js 使用了一个<strong>事件驱动、非阻塞式 I/O</strong> 的模型，使其轻量又高效。</p>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2019/08/24/UEAexu7iaZjMYQk.jpg" alt="2.jpeg"></p>
+<p><a target="_blank" rel="noopener" href="http://nodejs.cn/api/">中文文档</a></p>
+<span id="more"></span>
+
+<p>Node.js还提供了各种丰富的JavaScript模块库，它极大简化了使用Node.js来扩展Web应用程序的研究与开发。</p>
+<p>Node.js = 运行环境+ JavaScript库</p>
+<h4 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h4><h5 id="Node-js特性"><a href="#Node-js特性" class="headerlink" title="Node.js特性"></a>Node.js特性</h5><ul>
+<li>Node.js库的异步和事件驱动的API全部都是异步就是非阻塞。它主要是指基于Node.js的服务器不会等待API返回的数据。服务器移动到下一个API调用，Node.js发生的事件通知机制后有助于服务器获得从之前的API调用的响应。</li>
+<li>非常快的内置谷歌Chrome的V8 JavaScript引擎，Node.js库代码执行是非常快的。</li>
+<li>单线程但高度可扩展 - Node.js使用具有循环事件单线程模型。事件机制有助于服务器在一个非阻塞的方式响应并使得服务器高度可扩展，而不是创建线程限制来处理请求的传统服务器。Node.js使用单线程的程序，但可以提供比传统的服务器(比如Apache HTTP服务器)的请求服务数量要大得多。</li>
+<li>没有缓冲 - Node.js的应用从来不使用缓冲任何数据。这些应用只是输出数据在块中。</li>
+<li>许可证协议 - Node.js 在 <a target="_blank" rel="noopener" href="https://raw.githubusercontent.com/joyent/node/v0.12.0/LICENSE">MIT 协议</a> 下发布</li>
+</ul>
+<h5 id="在哪里可以使用Node-js？"><a href="#在哪里可以使用Node-js？" class="headerlink" title="在哪里可以使用Node.js？"></a>在哪里可以使用Node.js？</h5><p>以下是Node.js证明自己完美的技术的合作伙伴的领域。</p>
+<ul>
+<li><pre><code>         I/O 密集型应用程序
+</code></pre>
+</li>
+<li><pre><code>         数据流应用
+</code></pre>
+</li>
+<li><pre><code>         数据密集型实时应用(DIRT)
+</code></pre>
+</li>
+<li><pre><code>         JSON API的应用程序
+</code></pre>
+</li>
+<li><pre><code>         单页面应用
+</code></pre>
+</li>
+</ul>
+<h5 id="在哪些地方不要使用Node-js？"><a href="#在哪些地方不要使用Node-js？" class="headerlink" title="在哪些地方不要使用Node.js？"></a>在哪些地方不要使用Node.js？</h5><p>不建议使用Node.js的就是针对<strong>CPU密集型应用</strong>。</p>
+<h5 id="Node服务器和java服务起的对比"><a href="#Node服务器和java服务起的对比" class="headerlink" title="Node服务器和java服务起的对比"></a>Node服务器和java服务起的对比</h5><p><strong>运行时环境</strong></p>
+<p>我们众所周知Java具有一个称作JRE的运行时环境来使得java程序能够顺利运行。JRE有一个称为JVM的虚拟机。JVM有许多组件，如垃圾回收器（GC），即时（JIT）编译器，解释器，类装载器，线程管理器，异常处理器，用于在不同时间执行不同的任务。JRE还有一系列的库来帮助运行时的Java程序。</p>
+<p>我们为什么要突然牵扯到JRE运行时环境呢，其实正是为了与Node作比较，Node不是一种语言，也不是框架，更不是工具，它是运行JavaScript应用程序的运行时环境。Node.js有一个称为JavaScript Virtual Machine的虚拟机。它为基于JavaScript的应用程序生成机器代码，以便在不同的平台上启用它。这个虚拟机就是Google的V8引擎，也有主要组件，如JIT和GC，分别用于执行任务，运行时编译，和内存管理。</p>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2019/08/24/8QBq9hFiOGjeMHE.jpg" alt="1.jpeg"></p>
+<p><strong>发展潜力</strong></p>
+<p>判断Java和Node的发展潜力可能要从其背后的生态社区和支持库上切入，然而以Java为核心的传统体系自然比不上Node这样的新势力，简而言之，Java成熟而庞大，Node迅捷而活跃。Java其功能性和实用性自然不必多说，但是Java包含了大量的样品代码，扰乱了程序猿所想表达的意图，就不如Java三大框架之一的spring，程序猿在使用spring的时候servlet,数据持久，以及构成系统的底层的东西，spring框架已经封装好会帮助你处理这一切，我们只需要专注于写业务层代码就足以。但是在Spring中，子系统一个接一个，哪怕你犯最微小的错误，它都会用让你崩溃的异常来惩罚你。可能紧接着你就会看到巨大的异常信息。里面包含着一个一个你根本不知道的封装好的方法，Spring做了许多工作来实现代码的功能。这种级别的抽象显然需要大量的逻辑，长长的异常信息不一定是坏事，它指出了一个症状：这需要多少内存和性能上的额外开销？spring是怎么执行的？框架需要解析方法名、猜测程序员的意图、构建类似于抽象语法树的东西、生成SQL等等。这些事情的额外开销有多大？所以说使用Java掩盖复杂性并不会因此简单化，只会让系统更复杂。Java严格的类型检查使得Java帮你避免许多类型的bug，因为不好的代码无法通过编译。Java的强类型的缺点就是太多样板代码。程序员要不断进行类型转换，程序员要花掉更多时间写精确的代码，使用更多的样板代码，以图早期发现错误并改正。</p>
+<p>而Node.js恰恰相反。线程会导致更复杂化的系统。所以Node.js采用轻量级，单线程的系统，利用了js的匿名函数进行异步回调，你只需要简单的使用匿名函数，也就是闭包。不需要搜索正确的抽象接口，只需要写下业务代码，没有任何冗余。这就是使用Node.js的最大好处，不过异步回调自然也出现一个急需解决的问题：回调陷阱。</p>
+<p>在Node.js中，我们不断嵌套回调函数的同时，很容易就陷入回调函数的陷阱中，每层嵌套都会让代码更复杂，使得错误处理和结果处理更困难。一个相关的问题就是js语言不会帮助程序员恰当地表达异步执行。其实有些库会使用Promise来简化异步操作，但是看起来我们把问题简单化了，但是事实上代码层面更复杂化了，Promise用了许多样板代码，掩盖了程序员的真实意图。后来Node.js支持ES5与ES6，可以采用async/await函数重写回调函数。还是同样的异步结构，但使用了正常的循环结构来书写。错误和结果处理的位置也很自然，代码更易于理解，更容易编写，而且也可以很容易地理解程序员的意图。回调陷阱并不是用掩盖复杂性的方式解决的。相反，语言和范式的改变解决了回调陷阱的问题，同时还解决了过多样板代码的问题。有了async函数，代码就更漂亮了。简单化的解决方法，将Node.js的缺点转化为了优点。</p>
+<p>但是JavaScript的类型很松散。而且在你书写代码的时候不会进行报错，许多类型不需要定义，通常也不需要用类型转换。因此代码更清晰易读，但存在漏掉编码错误的风险，只有在编译的时候才会去检查你语法以及逻辑是否存在问题，所以在Node.js中，为了更好的调试BUG，Node支持将程序分成不同的模块，因为有模块的存在，将错误发生的范围缩小到某个范围内，使得Node.js模块更容易测试。</p>
+<p><strong>包管理</strong></p>
+<p>Java最重要的问题之一就是没有统一的包管理系统，可能有人会和我说Maven.但是无论是用途、易用性还是功能上，Maven与Node.js的包管理系统相比简直是天壤之别。npm 是 Node.js 官方提供的包管理工具，他已经成了 Node.js 包的标准发布平台，用于 Node.js 包的发布、传播、依赖控制。npm 提供了命令行工具，使你可以方便地下载、安装、升级、删除包，也可以让你作为开发者发布并维护包。最好的地方是npm代码库不仅供Node.js使用，也可以让前端工程师使用。所有的前端JavaScript库都以npm包的形式存在。许多前端工具如Webpack都是用Node.js编写的。</p>
+<p><strong>性能</strong></p>
+<p>Java使用HotSpot这个超级虚拟机，它采用了多字节编译策略。它会检测经常执行的代码，一段代码执行次数越多，就会应用越多的优化。因此HotSpot性能相对来说更快。Node底层选择用c++和v8引擎来实现的，Node.js的事件驱动机制，这意味着要面对大规模的http请求，Node.js是凭借事件驱动来完成的，性能部分是不用担心的，并且很出色。而且，由于V8引擎的改进，Node.js的每次发布都会带来巨大的性能提升。</p>
+<p>虽然Node对高并发应用有着极高的性能，但是Node.js也有着自己的缺点：</p>
+<ul>
+<li>Node不适合CPU密集型应用，因为CPU密集型应用如果有长时间的运算，不如大循环，将会导致CPU时间片不能释放，使得后续的IO操作全部暂停。</li>
+<li>而且Node只支持单核CPU，不能充分利用CPU资源.<br>可靠性低，一旦代码某个环节崩溃，将会导致整个系统都崩溃，原因就在于Node是使用单进程。<br>Node的开源组件库质量参差不齐，更新快，而且不向下兼容。</li>
+<li>其实Node.js作为后端能实现几乎所有应用，只是我们选择的时候考虑更多的是这个应用选择Node.js是不是最适合的。</li>
+</ul>
+<h4 id="模块化和组件化"><a href="#模块化和组件化" class="headerlink" title="模块化和组件化"></a>模块化和组件化</h4><p>组件化与模块化已经深入体现到软件开发当中，也是为了让开发者更好的去解决软件上的<strong>高耦合、低内聚、无重用</strong>的3大代码问题。很多人在实践过程中也存在不少疑惑（很多时候不知道选择用组件还是模块，或者有时候根本分不清自己这得是组件还是模块。云里雾里~~）。因此为了解决这些疑惑帮自己统一了组件化与模块化的使用方式与概念、定位。</p>
+<h5 id="组件化"><a href="#组件化" class="headerlink" title="组件化"></a>组件化</h5><p>就是”基础库”或者“基础组件”，意思是把代码重复的部分提炼出一个个组件供给功能使用。</p>
+<ul>
+<li><p>使用：Dialog，各种自定义的UI控件、能在项目或者不同项目重复应用的代码等等。</p>
+</li>
+<li><p>目的：复用，解耦。</p>
+</li>
+<li><p>依赖：组件之间低依赖，比较独立。</p>
+</li>
+<li><p>架构定位：纵向分层（位于架构底层，被其他层所依赖）。</p>
+</li>
+</ul>
+<h5 id="模块化"><a href="#模块化" class="headerlink" title="模块化"></a>模块化</h5><p>就是”业务框架”或者“业务模块”，也可以理解为“框架”，意思是把功能进行划分，将同一类型的代码整合在一起，所以模块的功能相对复杂，但都同属于一个业务。</p>
+<ul>
+<li>使用：按照项目功能需求划分成不同类型的业务框架（例如：注册、登录、外卖、直播…..）</li>
+<li>目的：隔离/封装 （高内聚）。</li>
+<li>依赖：模块之间有依赖的关系，可通过路由器进行模块之间的耦合问题。</li>
+<li>架构定位：横向分块（位于架构业务框架层）。</li>
+</ul>
+<p>其实组件相当于库，把一些能在项目里或者不同类型项目中可复用的代码进行工具性的封装。</p>
+<p>而模块相应于业务逻辑模块，把同一类型项目里的功能逻辑进行进行需求性的封装。</p>
+<p><strong>更多参考</strong>：<a target="_blank" rel="noopener" href="http://outofmemory.cn/html/front-end-project-component">http://outofmemory.cn/html/front-end-project-component</a></p>
+<h4 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h4><h5 id="包安装"><a href="#包安装" class="headerlink" title="包安装"></a>包安装</h5><p>环境：Ubuntu 18.04</p>
+<ol>
+<li>安装</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ sudo apt-get install nodejs</span><br><span class="line">$ sudo apt-get install npm</span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li><p>更改镜像源</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#得到原本的镜像地址</span></span><br><span class="line">$ npm get registry </span><br><span class="line">&gt; https://registry.npmjs.org/</span><br><span class="line"><span class="comment">#设成淘宝的</span></span><br><span class="line">$ npm config <span class="built_in">set</span> registry http://registry.npm.taobao.org/</span><br></pre></td></tr></table></figure></li>
+<li><p>升级</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#升级npm</span></span><br><span class="line">$ sudo npm install npm -g</span><br><span class="line"><span class="comment">#升级node.js，n为版本号，</span></span><br><span class="line"><span class="comment">#n latest(升级node.js到最新版)  or $ n stable（升级node.js到最新稳定版）</span></span><br><span class="line"><span class="comment">#n后面也可以跟随版本号比如：$ n v0.10.26 或者 $ n 0.10.26</span></span><br><span class="line">$ sudo npm install -g n</span><br><span class="line">$ sudo n latest</span><br><span class="line"></span><br></pre></td></tr></table></figure></li>
+<li><p>选装cnpm</p>
+<p>因为npm安装插件是从国外服务器下载，受网络影响大，可能出现异常，如果npm的服务器在中国就好了，所以我们乐于分享的淘宝团队干了这事。！来自官网：“这是一个完整 npmjs.org 镜像，你可以用此代替官方版本(只读)，同步频率目前为 10分钟 一次以保证尽量与官方服务同步。”；</p>
+<p><strong>官方网址：<a target="_blank" rel="noopener" href="http://npm.taobao.org/">http://npm.taobao.org</a></strong></p>
+<p>安装：命令提示符执行<code>npm install cnpm -g --registry=https://registry.npm.taobao.org</code>；  注意：安装完后最好查看其版本号cnpm -v或关闭命令提示符重新打开，安装完直接使用有可能会出现错误；</p>
+<p>注：cnpm跟npm用法完全一致，只是在执行命令时将npm改为cnpm（以下操作将以cnpm代替npm）</p>
+</li>
+<li><p>全局安装与本地安装</p>
+<p>npm 的包安装分为本地安装（local）、全局安装（global）两种，从敲的命令行来看，差别只是有没有-g而已，比如我们使用 npm 命令安装常用的 Node.js web框架模块 express:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ npm install express          # 本地安装</span><br><span class="line">$ npm install express -g       # 全局安装</span><br></pre></td></tr></table></figure></li>
+</ol>
+<h5 id="源码安装"><a href="#源码安装" class="headerlink" title="源码安装"></a>源码安装</h5><p> 以下部分我们将介绍在 Ubuntu Linux 下使用源码安装 Node.js 。 其他的 Linux 系统，如 Centos 等类似如下安装步骤。 </p>
+<p> 在 <a target="_blank" rel="noopener" href="http://nodejs.cn/">中文官网</a>上获取 Node.js 源码：</p>
+<p>使用 <strong>./configure</strong> 创建编译文件，并按照：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ cd node</span><br><span class="line">$ ./configure  --prefix=/opt/node</span><br><span class="line">$ make</span><br><span class="line">$ sudo make install</span><br></pre></td></tr></table></figure>
+
+<p>查看 node 版本：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ node -v</span><br></pre></td></tr></table></figure>
+
+<h4 id="创建第一个应用"><a href="#创建第一个应用" class="headerlink" title="创建第一个应用"></a>创建第一个应用</h4><p>如果我们使用PHP来编写后端的代码时，需要Apache 或者 Nginx 的HTTP 服务器，并配上 mod_php5 模块和php-cgi。</p>
+<p> 从这个角度看，整个”接收 HTTP 请求并提供 Web 页面”的需求根本不需 要 PHP 来处理。</p>
+<p> 不过对 Node.js 来说，概念完全不一样了。使用 Node.js 时，我们不仅仅 在实现一个应用，同时还实现了整个 HTTP 服务器。事实上，我们的 Web 应用以及对应的 Web 服务器基本上是一样的。 </p>
+<p>在我们创建 Node.js 第一个 “Hello, World!” 应用前，让我们先了解下 Node.js 应用是由哪几部分组成的：</p>
+<ol>
+<li><strong>引入 required 模块：</strong>我们可以使用 <strong>require</strong> 指令来载入 Node.js 模块。</li>
+<li><strong>创建服务器：</strong>服务器可以监听客户端的请求，类似于 Apache 、Nginx 等 HTTP 服务器。</li>
+<li><strong>接收请求与响应请求</strong> 服务器很容易创建，客户端可以使用浏览器或终端发送 HTTP 请求，服务器接收请求后返回响应数据。</li>
+</ol>
+<p>步骤一、引入 required 模块</p>
+<p>我们使用 <strong>require</strong> 指令来载入 http 模块，并将实例化的 HTTP 赋值给变量 http，实例如下: </p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">var http = require(&quot;http&quot;);</span><br></pre></td></tr></table></figure>
+
+<p>步骤二、创建服务器</p>
+<p>接下来我们使用 http.createServer() 方法创建服务器，并使用 listen 方法绑定 8888 端口。 函数通过 request, response 参数来接收和响应数据。</p>
+<p>实例如下，在你项目的根目录下创建一个叫 server.js 的文件，并写入以下代码：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">var http = require(&#x27;http&#x27;);</span><br><span class="line"></span><br><span class="line">http.createServer(function (request, response) &#123;</span><br><span class="line"></span><br><span class="line">    // 发送 HTTP 头部 </span><br><span class="line">    // HTTP 状态值: 200 : OK</span><br><span class="line">    // 内容类型: text/plain</span><br><span class="line">    response.writeHead(200, &#123;&#x27;Content-Type&#x27;: &#x27;text/plain&#x27;&#125;);</span><br><span class="line"></span><br><span class="line">    // 发送响应数据 &quot;Hello World&quot;</span><br><span class="line">    response.end(&#x27;Hello World\n&#x27;);</span><br><span class="line">&#125;).listen(8888);</span><br><span class="line"></span><br><span class="line">// 终端打印如下信息</span><br><span class="line">console.log(&#x27;Server running at http://127.0.0.1:8888/&#x27;);</span><br></pre></td></tr></table></figure>
+
+<p>以上代码我们完成了一个可以工作的 HTTP 服务器。</p>
+<p>使用 <strong>node</strong> 命令执行以上的代码：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">node server.js</span><br><span class="line">Server running at http://127.0.0.1:8888/</span><br></pre></td></tr></table></figure>
+
+<p> 接下来，打开浏览器访问 <a target="_blank" rel="noopener" href="http://127.0.0.1:8888/%EF%BC%8C%E4%BD%A0%E4%BC%9A%E7%9C%8B%E5%88%B0%E4%B8%80%E4%B8%AA%E5%86%99%E7%9D%80">http://127.0.0.1:8888/，你会看到一个写着</a> “Hello World”的网页。  </p>
+<p><strong>分析Node.js 的 HTTP 服务器：</strong></p>
+<ul>
+<li> 第一行请求（require）Node.js 自带的  http  模块，并且把它赋值给  http 变量。</li>
+<li>  接下来我们调用 http 模块提供的函数：  createServer  。这个函数会返回 一个对象，这个对象有一个叫做  listen  的方法，这个方法有一个数值参数， 指定这个 HTTP 服务器监听的端口号。 </li>
+</ul>
+<h4 id="NPM-包管理器使用介绍"><a href="#NPM-包管理器使用介绍" class="headerlink" title="NPM 包管理器使用介绍"></a>NPM 包管理器使用介绍</h4><p>NPM是随同NodeJS一起安装的包管理工具，能解决NodeJS代码部署上的很多问题，常见的使用场景有以下几种：</p>
+<ul>
+<li>允许用户从NPM服务器下载别人编写的第三方包到本地使用。 </li>
+<li> 允许用户从NPM服务器下载并安装别人编写的命令行程序到本地使用。 </li>
+<li> 允许用户将自己编写的包或命令行程序上传到NPM服务器供别人使用。</li>
+</ul>
+<p> 由于新版的nodejs已经集成了npm，所以之前npm也一并安装好了。同样可以通过输入 <strong>“npm -v”</strong> 来测试是否成功安装。出现版本提示表示安装成功</p>
+<h5 id="使用-npm-命令安装模块"><a href="#使用-npm-命令安装模块" class="headerlink" title="使用 npm 命令安装模块"></a>使用 npm 命令安装模块</h5><p>npm 安装 Node.js 模块语法格式如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ npm install &lt;Module Name&gt;</span><br></pre></td></tr></table></figure>
+
+<p>以下实例，我们使用 npm 命令安装常用的 Node.js web框架模块 <strong>express</strong>:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ npm install express</span><br></pre></td></tr></table></figure>
+
+<p> 安装好之后，express 包就放在了工程目录下的 node_modules 目录中，因此在代码中只需要通过 <strong>require(‘express’)</strong> 的方式就好，无需指定第三方包路径。 </p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">var express = require(&#x27;express&#x27;);</span><br></pre></td></tr></table></figure>
+
+<h5 id="全局安装与本地安装"><a href="#全局安装与本地安装" class="headerlink" title="全局安装与本地安装"></a>全局安装与本地安装</h5><p> npm 的包安装分为本地安装（local）、全局安装（global）两种，从敲的命令行来看，差别只是有没有-g而已，比如 </p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">npm install express          # 本地安装</span><br><span class="line">npm install express -g   # 全局安装</span><br></pre></td></tr></table></figure>
+
+<p>如果出现以下错误：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm err! Error: connect ECONNREFUSED 127.0.0.1:8087 </span><br></pre></td></tr></table></figure>
+
+<p>解决办法为：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ npm config set proxy null</span><br></pre></td></tr></table></figure>
+
+<p><strong>本地安装</strong></p>
+<ol>
+<li><p>将安装包放在 ./node_modules 下（运行 npm 命令时所在的目录），如果没有 node_modules 目录，会在当前执行 npm 命令的目录下生成 node_modules 目录。 </p>
+</li>
+<li><p>可以通过 require() 来引入本地安装的包。 </p>
+</li>
+</ol>
+<p> <strong>全局安装</strong></p>
+<ol>
+<li><p>将安装包放在 /usr/local 下或者你 node 的安装目录。</p>
+</li>
+<li><p>可以直接在命令行里使用。</p>
+</li>
+</ol>
+<p>如果你希望具备两者功能，则需要在两个地方安装它或使用 <strong>npm link</strong>。</p>
+<p>接下来我们使用全局方式安装 express</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ npm install express -g</span><br></pre></td></tr></table></figure>
+
+<p>你可以使用以下命令来查看所有全局安装的模块：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ npm list -g</span><br></pre></td></tr></table></figure>
+
+<p>如果要查看某个模块的版本号，可以使用命令如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ npm list grunt</span><br></pre></td></tr></table></figure>
+
+<h5 id="使用-package-json"><a href="#使用-package-json" class="headerlink" title="使用 package.json"></a>使用 package.json</h5><p>package.json 位于模块的目录下，用于定义包的属性。接下来让我们来看下 express 包的 package.json 文件，位于 node_modules/express/package.json 内容</p>
+<p><strong>Package.json 属性说明</strong></p>
+<ul>
+<li><strong>name</strong> - 包名。</li>
+<li><strong>version</strong> - 包的版本号。</li>
+<li><strong>description</strong> - 包的描述。</li>
+<li><strong>homepage</strong> - 包的官网 url 。</li>
+<li><strong>author</strong> - 包的作者姓名。</li>
+<li><strong>contributors</strong> - 包的其他贡献者姓名。</li>
+<li><strong>dependencies</strong> - 依赖包列表。如果依赖包没有安装，npm 会自动将依赖包安装在 node_module 目录下。</li>
+<li><strong>repository</strong> - 包代码存放的地方的类型，可以是 git 或 svn，git 可在 Github 上。</li>
+<li><strong>main</strong> - main 字段指定了程序的主入口文件，require(‘moduleName’) 就会加载这个文件。这个字段的默认值是模块根目录下面的 index.js。</li>
+<li><strong>keywords</strong> - 关键字</li>
+</ul>
+<h5 id="卸载模块"><a href="#卸载模块" class="headerlink" title="卸载模块"></a>卸载模块</h5><p> 我们可以使用以下命令来卸载 Node.js 模块。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ npm uninstall express</span><br></pre></td></tr></table></figure>
+
+<p>卸载后，你可以到 /node_modules/ 目录下查看包是否还存在，或者使用以下命令查看：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ npm ls</span><br></pre></td></tr></table></figure>
+
+<h5 id="更新模块"><a href="#更新模块" class="headerlink" title="更新模块"></a>更新模块</h5><p>我们可以使用以下命令更新模块：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ npm update express</span><br></pre></td></tr></table></figure>
+
+<h5 id="搜索模块"><a href="#搜索模块" class="headerlink" title="搜索模块"></a>搜索模块</h5><p> 使用以下来搜索模块：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ npm search express</span><br></pre></td></tr></table></figure>
+
+<h5 id="创建模块"><a href="#创建模块" class="headerlink" title="创建模块"></a>创建模块</h5><p>创建模块，package.json 文件是必不可少的。我们可以使用 NPM 生成 package.json 文件，生成的文件包含了基本的结果。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">$ npm init</span><br><span class="line">This utility will walk you through creating a package.json file.</span><br><span class="line">It only covers the most common items, and tries to guess sensible defaults.</span><br><span class="line"></span><br><span class="line">See `npm help json` for definitive documentation on these fields</span><br><span class="line">and exactly what they do.</span><br><span class="line"></span><br><span class="line">Use `npm install &lt;pkg&gt; --save` afterwards to install a package and</span><br><span class="line">save it as a dependency in the package.json file.</span><br><span class="line"></span><br><span class="line">Press ^C at any time to quit.</span><br><span class="line">name: (node_modules) runoob                   # 模块名</span><br><span class="line">version: (1.0.0) </span><br><span class="line">description: Node.js 测试模块(www.runoob.com)  # 描述</span><br><span class="line">entry point: (index.js) </span><br><span class="line">test command: make test</span><br><span class="line">git repository: https://github.com/runoob/runoob.git  # Github 地址</span><br><span class="line">keywords: </span><br><span class="line">author: </span><br><span class="line">license: (ISC) </span><br><span class="line">About to write to ……/node_modules/package.json:      # 生成地址</span><br><span class="line"></span><br><span class="line">&#123;</span><br><span class="line">  &quot;name&quot;: &quot;runoob&quot;,</span><br><span class="line">  &quot;version&quot;: &quot;1.0.0&quot;,</span><br><span class="line">  &quot;description&quot;: &quot;Node.js 测试模块(www.runoob.com)&quot;,</span><br><span class="line">  ……</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">Is this ok? (yes) yes</span><br></pre></td></tr></table></figure>
+
+<p>以上的信息，你需要根据你自己的情况输入。在最后输入 “yes” 后会生成 package.json 文件。</p>
+<p>  接下来我们可以使用以下命令在 npm 资源库中注册用户（使用邮箱注册）：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ npm adduser</span><br><span class="line">Username: mcmohd</span><br><span class="line">Password:</span><br><span class="line">Email: (this IS public) mcmohd@gmail.com</span><br></pre></td></tr></table></figure>
+
+<p>接下来我们就用以下命令来发布模块：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ npm publish</span><br></pre></td></tr></table></figure>
+
+<p>如果你以上的步骤都操作正确，你就可以跟其他模块一样使用 npm 来安装。</p>
+<h5 id="版本号"><a href="#版本号" class="headerlink" title="版本号"></a>版本号</h5><p> 使用NPM下载和发布代码时都会接触到版本号。NPM使用语义版本号来管理代码，这里简单介绍一下。 </p>
+<p> 语义版本号分为X.Y.Z三位，分别代表主版本号、次版本号和补丁版本号。当代码变更时，版本号按以下原则更新。 </p>
+<ul>
+<li> 如果只是修复bug，需要更新Z位。</li>
+<li>  如果是新增了功能，但是向下兼容，需要更新Y位。</li>
+<li>  如果有大变动，向下不兼容，需要更新X位。</li>
+</ul>
+<p> 版本号有了这个保证后，在申明第三方包依赖时，除了可依赖于一个固定版本号外，还可依赖于某个范围的版本号。例如”argv”: “0.0.x”表示依赖于0.0.x系列的最新版argv。</p>
+<p>NPM支持的所有版本号范围指定方式可以查看<a target="_blank" rel="noopener" href="https://npmjs.org/doc/files/package.json.html#dependencies">官方文档</a>。 </p>
+<h5 id="NPM-常用命令"><a href="#NPM-常用命令" class="headerlink" title="NPM 常用命令"></a>NPM 常用命令</h5><p>除了可以在<a target="_blank" rel="noopener" href="https://npmjs.org/doc/">npmjs.org/doc/</a>查看官方文档外，这里再介绍一些NPM常用命令。 </p>
+<p> NPM提供了很多命令，例如install和publish，使用npm help可查看所有命令。 </p>
+<ul>
+<li>NPM提供了很多命令，例如<code>install</code>和<code>publish</code>，使用<code>npm help</code>可查看所有命令。</li>
+<li>使用<code>npm help &lt;command&gt;</code>可查看某条命令的详细帮助，例如<code>npm help install</code>。</li>
+<li>在<code>package.json</code>所在目录下使用<code>npm install . -g</code>可先在本地安装当前命令行程序，可用于发布前的本地测试。</li>
+<li>使用<code>npm update &lt;package&gt;</code>可以把当前目录下<code>node_modules</code>子目录里边的对应模块更新至最新版本。</li>
+<li>使用<code>npm update &lt;package&gt; -g</code>可以把全局安装的对应命令行程序更新至最新版。</li>
+<li>使用<code>npm cache clear</code>可以清空NPM本地缓存，用于对付使用相同版本号发布新版本代码的人。</li>
+<li>使用<code>npm unpublish &lt;package&gt;@&lt;version&gt;</code>可以撤销发布自己发布过的某个版本代码。</li>
+</ul>
+<h5 id="使用淘宝-NPM-镜像"><a href="#使用淘宝-NPM-镜像" class="headerlink" title="使用淘宝 NPM 镜像"></a>使用淘宝 NPM 镜像</h5><p>大家都知道国内直接使用 npm 的官方镜像是非常慢的，这里推荐使用淘宝 NPM 镜像。</p>
+<p>淘宝 NPM 镜像是一个完整 npmjs.org 镜像，你可以用此代替官方版本(只读)，同步频率目前为 10分钟 一次以保证尽量与官方服务同步。</p>
+<p>你可以使用淘宝定制的 cnpm (gzip 压缩支持) 命令行工具代替默认的 npm:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ npm install -g cnpm --registry=https://registry.npm.taobao.org</span><br></pre></td></tr></table></figure>
+
+<p>这样就可以使用 cnpm 命令来安装模块了：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ cnpm install [name]</span><br></pre></td></tr></table></figure>
+
+<p>更多信息可以查阅：<a target="_blank" rel="noopener" href="http://npm.taobao.org/%E3%80%82">http://npm.taobao.org/。</a></p>
+<p>如果你遇到了使用 npm 安 装node_modules 总是提示报错：报错: **npm resource busy or locked…..**。</p>
+<p>可以先删除以前安装的 node_modules :</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ npm cache clean</span><br><span class="line">$ npm install</span><br></pre></td></tr></table></figure>
+
+<h4 id="REPL"><a href="#REPL" class="headerlink" title="REPL"></a>REPL</h4><p>REPL代表读取评估和演示打印循环，它就像 Window 下的控制台的计算机环境，或 Unix/Linux 系统的 Shell命令输入响应输出。 Node.js或Node 捆绑了一个REPL环境。可执行以下任务。</p>
+<ul>
+<li><pre><code>         **读取**- 读取用户的输入，解析输入的JavaScript数据结构并存储在内存
+</code></pre>
+</li>
+<li><pre><code>         **计算**- 采取并评估计算数据结构
+</code></pre>
+</li>
+<li><pre><code>         **打印**- 打印结果
+</code></pre>
+</li>
+<li><pre><code>         **循环** - 循环上面的命令，直到用户按Ctrl-C两次终止
+</code></pre>
+</li>
+</ul>
+<p> Node 的REPL 与 Node.js 的实验代码非常有用，用于调试JavaScript代码。</p>
+<p><strong>特点</strong></p>
+<p>REPL可以通过简单地在shell/控制台运行node不带任何参数来启动。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ node</span><br></pre></td></tr></table></figure>
+
+<ol>
+<li>简单的表达式</li>
+<li>使用变量</li>
+<li>多行表达</li>
+<li>下划线变量</li>
+</ol>
+<p><strong>命令</strong></p>
+<ul>
+<li><p>ctrl + c - 终止当前命令</p>
+</li>
+<li><p>ctrl + c twice - 终止 Node REPL</p>
+</li>
+<li><p>ctrl + d - 终止 Node REPL</p>
+</li>
+<li><p>Up/Down Keys - 查看命令历史记录和修改以前的命令</p>
+</li>
+<li><p>tab Keys - 当前命令列表</p>
+</li>
+<li><p>.help - 列出所有命令</p>
+</li>
+<li><p>.break - 退出多行表达</p>
+</li>
+<li><p>.clear - 从多行表达式退出</p>
+</li>
+<li><p>.save - 当前 Node REPL会话保存到一个文件</p>
+</li>
+<li><p>.load - 加载文件的内容到当前Node REPL会话</p>
+</li>
+</ul>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">平心</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://pingxin0521.gitee.io/2019/06/07/node-1-0/">https://pingxin0521.gitee.io/2019/06/07/node-1-0/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://pingxin0521.gitee.io" target="_blank">平心de小屋</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/Node-JS/">Node.JS</a><a class="post-meta__tags" href="/tags/%E5%90%8E%E7%AB%AF/">后端</a></div><div class="post_share"><div class="social-share" data-image="https://i.loli.net/2020/05/08/okfOw28KlZFbE7z.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2019/06/09/Java-JVM-3-4/"><img class="prev-cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/okfOw28KlZFbE7z.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">Java中的内存泄露和GC</div></div></a></div><div class="next-post pull-right"><a href="/2019/06/07/node-1-1/"><img class="next-cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/HjVAdIuT7bZJypS.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">Node.JS 入门</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span> 相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2021/04/01/node-2-1/" title="Node.JS web开发前置知识"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/gGE57HRvpcKPfDY.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2021-05-09</div><div class="title">Node.JS web开发前置知识</div></div></a></div><div><a href="/2019/07/01/node-2-2/" title="Node.JS 再深入 -- http"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/7dHvepmfYOLWTrX.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2021-05-09</div><div class="title">Node.JS 再深入 -- http</div></div></a></div><div><a href="/2019/06/07/node-1-1/" title="Node.JS 入门"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/HjVAdIuT7bZJypS.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2021-04-01</div><div class="title">Node.JS 入门</div></div></a></div><div><a href="/2019/06/30/node-1-2/" title="Node.JS 深入"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/7dHvepmfYOLWTrX.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2021-05-09</div><div class="title">Node.JS 深入</div></div></a></div><div><a href="/2021/04/30/node-2-3/" title="Koa -- 基于Node.js平台的下一代Web开发框架"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/HjVAdIuT7bZJypS.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2021-05-10</div><div class="title">Koa -- 基于Node.js平台的下一代Web开发框架</div></div></a></div><div><a href="/2021/05/15/node-2-4/" title="Egg.js -- 为企业级框架和应用而生"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/okfOw28KlZFbE7z.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2021-05-16</div><div class="title">Egg.js -- 为企业级框架和应用而生</div></div></a></div></div></div><hr/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div class="vcomment" id="vcomment"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="card-info-avatar is-center"><img class="avatar-img" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://s2.ax1x.com/2020/02/11/1ovw6J.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/><div class="author-info__name">平心</div><div class="author-info__description">年轻人的life、learn and think</div></div><div class="card-info-data"><div class="card-info-data-item is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">449</div></a></div><div class="card-info-data-item is-center"><a href="/tags/"><div class="headline">标签</div><div class="length-num">77</div></a></div><div class="card-info-data-item is-center"><a href="/categories/"><div class="headline">分类</div><div class="length-num">68</div></a></div></div><a class="button--animated" id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/hanyunpeng0521"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/hanyunpeng0521" target="_blank" title="Github"><i class="fa fa-github"></i></a><a class="social-icon" href="mailto:m13839441583@163.com" target="_blank" title="Email"><i class="fa fa-envelope"></i></a><a class="social-icon" href="/atom.xml" target="_blank" title=""><i class="fa fa-rss"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn card-announcement-animation"></i><span>公告</span></div><div class="announcement_content">为什么呢？开始提问吧</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%AE%80%E4%BB%8B"><span class="toc-number">1.</span> <span class="toc-text">简介</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#Node-js%E7%89%B9%E6%80%A7"><span class="toc-number">1.1.</span> <span class="toc-text">Node.js特性</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%9C%A8%E5%93%AA%E9%87%8C%E5%8F%AF%E4%BB%A5%E4%BD%BF%E7%94%A8Node-js%EF%BC%9F"><span class="toc-number">1.2.</span> <span class="toc-text">在哪里可以使用Node.js？</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%9C%A8%E5%93%AA%E4%BA%9B%E5%9C%B0%E6%96%B9%E4%B8%8D%E8%A6%81%E4%BD%BF%E7%94%A8Node-js%EF%BC%9F"><span class="toc-number">1.3.</span> <span class="toc-text">在哪些地方不要使用Node.js？</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#Node%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%92%8Cjava%E6%9C%8D%E5%8A%A1%E8%B5%B7%E7%9A%84%E5%AF%B9%E6%AF%94"><span class="toc-number">1.4.</span> <span class="toc-text">Node服务器和java服务起的对比</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%A8%A1%E5%9D%97%E5%8C%96%E5%92%8C%E7%BB%84%E4%BB%B6%E5%8C%96"><span class="toc-number">2.</span> <span class="toc-text">模块化和组件化</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E7%BB%84%E4%BB%B6%E5%8C%96"><span class="toc-number">2.1.</span> <span class="toc-text">组件化</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%A8%A1%E5%9D%97%E5%8C%96"><span class="toc-number">2.2.</span> <span class="toc-text">模块化</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%AE%89%E8%A3%85"><span class="toc-number">3.</span> <span class="toc-text">安装</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%8C%85%E5%AE%89%E8%A3%85"><span class="toc-number">3.1.</span> <span class="toc-text">包安装</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%BA%90%E7%A0%81%E5%AE%89%E8%A3%85"><span class="toc-number">3.2.</span> <span class="toc-text">源码安装</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%88%9B%E5%BB%BA%E7%AC%AC%E4%B8%80%E4%B8%AA%E5%BA%94%E7%94%A8"><span class="toc-number">4.</span> <span class="toc-text">创建第一个应用</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#NPM-%E5%8C%85%E7%AE%A1%E7%90%86%E5%99%A8%E4%BD%BF%E7%94%A8%E4%BB%8B%E7%BB%8D"><span class="toc-number">5.</span> <span class="toc-text">NPM 包管理器使用介绍</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8-npm-%E5%91%BD%E4%BB%A4%E5%AE%89%E8%A3%85%E6%A8%A1%E5%9D%97"><span class="toc-number">5.1.</span> <span class="toc-text">使用 npm 命令安装模块</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%85%A8%E5%B1%80%E5%AE%89%E8%A3%85%E4%B8%8E%E6%9C%AC%E5%9C%B0%E5%AE%89%E8%A3%85"><span class="toc-number">5.2.</span> <span class="toc-text">全局安装与本地安装</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8-package-json"><span class="toc-number">5.3.</span> <span class="toc-text">使用 package.json</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%8D%B8%E8%BD%BD%E6%A8%A1%E5%9D%97"><span class="toc-number">5.4.</span> <span class="toc-text">卸载模块</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%9B%B4%E6%96%B0%E6%A8%A1%E5%9D%97"><span class="toc-number">5.5.</span> <span class="toc-text">更新模块</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%90%9C%E7%B4%A2%E6%A8%A1%E5%9D%97"><span class="toc-number">5.6.</span> <span class="toc-text">搜索模块</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%88%9B%E5%BB%BA%E6%A8%A1%E5%9D%97"><span class="toc-number">5.7.</span> <span class="toc-text">创建模块</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E7%89%88%E6%9C%AC%E5%8F%B7"><span class="toc-number">5.8.</span> <span class="toc-text">版本号</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#NPM-%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4"><span class="toc-number">5.9.</span> <span class="toc-text">NPM 常用命令</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8%E6%B7%98%E5%AE%9D-NPM-%E9%95%9C%E5%83%8F"><span class="toc-number">5.10.</span> <span class="toc-text">使用淘宝 NPM 镜像</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#REPL"><span class="toc-number">6.</span> <span class="toc-text">REPL</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2021/05/15/node-2-4/" title="Egg.js -- 为企业级框架和应用而生"><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/okfOw28KlZFbE7z.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Egg.js -- 为企业级框架和应用而生"/></a><div class="content"><a class="title" href="/2021/05/15/node-2-4/" title="Egg.js -- 为企业级框架和应用而生">Egg.js -- 为企业级框架和应用而生</a><time datetime="2021-05-15T10:18:59.000Z" title="发表于 2021-05-15 18:18:59">2021-05-15</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/04/30/node-2-3/" title="Koa -- 基于Node.js平台的下一代Web开发框架"><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/HjVAdIuT7bZJypS.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Koa -- 基于Node.js平台的下一代Web开发框架"/></a><div class="content"><a class="title" href="/2021/04/30/node-2-3/" title="Koa -- 基于Node.js平台的下一代Web开发框架">Koa -- 基于Node.js平台的下一代Web开发框架</a><time datetime="2021-04-30T10:18:59.000Z" title="发表于 2021-04-30 18:18:59">2021-04-30</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/04/01/node-2-1/" title="Node.JS web开发前置知识"><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/gGE57HRvpcKPfDY.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Node.JS web开发前置知识"/></a><div class="content"><a class="title" href="/2021/04/01/node-2-1/" title="Node.JS web开发前置知识">Node.JS web开发前置知识</a><time datetime="2021-04-01T03:18:59.000Z" title="发表于 2021-04-01 11:18:59">2021-04-01</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2020/12/26/%E5%91%A8%E8%AE%B0-10-1/" title="第十一周--谷歌浏览器插件"><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/gGE57HRvpcKPfDY.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="第十一周--谷歌浏览器插件"/></a><div class="content"><a class="title" href="/2020/12/26/%E5%91%A8%E8%AE%B0-10-1/" title="第十一周--谷歌浏览器插件">第十一周--谷歌浏览器插件</a><time datetime="2020-12-26T10:18:59.000Z" title="发表于 2020-12-26 18:18:59">2020-12-26</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2020/12/26/%E5%91%A8%E8%AE%B0-10-0/" title="第十一周--浏览器技术"><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/vCnKyoFJZ1g4XYR.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="第十一周--浏览器技术"/></a><div class="content"><a class="title" href="/2020/12/26/%E5%91%A8%E8%AE%B0-10-0/" title="第十一周--浏览器技术">第十一周--浏览器技术</a><time datetime="2020-12-26T06:18:59.000Z" title="发表于 2020-12-26 14:18:59">2020-12-26</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2019 - 2021 By 平心</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div id="local-search"><div class="search-dialog"><div class="search-dialog__title" id="local-search-title">本地搜索</div><div id="local-input-panel"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div></div><hr/><div id="local-search-results"></div><span class="search-close-button"><i class="fas fa-times"></i></span></div><div id="search-mask"></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload/dist/lazyload.iife.min.js"></script><script src="/js/search/local-search.js"></script><div class="js-pjax"><script>function loadValine () {
+  function initValine () {
+    const valine = new Valine(Object.assign({
+      el: '#vcomment',
+      appId: '4lfIXzqxaC1ONs0MJO4oHu07-gzGzoHsz',
+      appKey: 'qw99Bw8FD0KVKU9m457CwWsr',
+      placeholder: 'Please leave your footprints',
+      avatar: 'monsterid',
+      meta: 'nick,mail,link'.split(','),
+      pageSize: '10',
+      lang: 'zh-CN',
+      recordIP: true,
+      serverURLs: '',
+      emojiCDN: '',
+      emojiMaps: "",
+      enableQQ: true,
+      path: window.location.pathname,
+      requiredFields: ["nick,mail"],
+      visitor: false
+    }, null))
+  }
+
+  if (typeof Valine === 'function') initValine() 
+  else getScript('https://cdn.jsdelivr.net/npm/valine/dist/Valine.min.js').then(initValine)
+}
+
+if ('Valine' === 'Valine' || !false) {
+  if (false) btf.loadComment(document.getElementById('vcomment'),loadValine)
+  else setTimeout(loadValine, 0)
+} else {
+  function loadOtherComment () {
+    loadValine()
+  }
+}</script></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>

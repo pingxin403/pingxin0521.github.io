@@ -1,0 +1,328 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>第八周--RBAC | 平心de小屋</title><meta name="keywords" content="周记"><meta name="author" content="平心"><meta name="copyright" content="平心"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="本周速记方法论 本周来学习一下  RBAC DDOS攻击">
+<meta property="og:type" content="article">
+<meta property="og:title" content="第八周--RBAC">
+<meta property="og:url" content="https://pingxin0521.gitee.io/2020/02/07/%E5%91%A8%E8%AE%B0-7-0/index.html">
+<meta property="og:site_name" content="平心de小屋">
+<meta property="og:description" content="本周速记方法论 本周来学习一下  RBAC DDOS攻击">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://i.loli.net/2020/05/08/okfOw28KlZFbE7z.jpg">
+<meta property="article:published_time" content="2020-02-07T10:18:59.000Z">
+<meta property="article:modified_time" content="2020-02-08T07:12:35.272Z">
+<meta property="article:author" content="平心">
+<meta property="article:tag" content="周记">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.loli.net/2020/05/08/okfOw28KlZFbE7z.jpg"><link rel="shortcut icon" href="https://s2.ax1x.com/2020/02/11/1ovFOA.png"><link rel="canonical" href="https://pingxin0521.gitee.io/2020/02/07/%E5%91%A8%E8%AE%B0-7-0/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"search.xml","languages":{"hits_empty":"找不到您查询的内容：${query}"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    jQuery: 'https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js',
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+    },
+    fancybox: {
+      js: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css'
+    }
+  },
+  isPhotoFigcaption: true,
+  islazyload: true,
+  isanchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '第八周--RBAC',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2020-02-08 15:12:35'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    })(window)</script><meta name="generator" content="Hexo 5.4.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="author-avatar"><img class="avatar-img" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://s2.ax1x.com/2020/02/11/1ovw6J.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data"><div class="data-item is-center"><div class="data-item-link"><a href="/archives/"><div class="headline">文章</div><div class="length-num">449</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/tags/"><div class="headline">标签</div><div class="length-num">77</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/categories/"><div class="headline">分类</div><div class="length-num">68</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fa fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fa fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://i.loli.net/2020/05/08/okfOw28KlZFbE7z.jpg')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">平心de小屋</a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fa fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fa fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">第八周--RBAC</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2020-02-07T10:18:59.000Z" title="发表于 2020-02-07 18:18:59">2020-02-07</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2020-02-08T07:12:35.272Z" title="更新于 2020-02-08 15:12:35">2020-02-08</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E5%91%A8%E8%AE%B0/">周记</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">3.2k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>9分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="第八周--RBAC"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h4 id="本周速记"><a href="#本周速记" class="headerlink" title="本周速记"></a>本周速记</h4><p><strong>方法论</strong></p>
+<p>本周来学习一下</p>
+<ol>
+<li>RBAC</li>
+<li>DDOS攻击</li>
+</ol>
+<span id="more"></span>
+
+<h3 id="RBAC"><a href="#RBAC" class="headerlink" title="RBAC"></a>RBAC</h3><p>RBAC（Role-Based Access Control ）基于角色的访问控制。</p>
+<p>RBAC认为权限的过程可以抽象概括为：判断【Who是否可以对What进行How的访问操作（Operator）】这个逻辑表达式的值是否为True的求解过程。即将权限问题转换为Who、What、How的问题。who、what、how构成了访问权限三元组。</p>
+<p>RBAC96是一个模型族，其中包括RBAC0~RBAC3四个概念性模型。</p>
+<ol>
+<li><p>基本模型RBAC0定义了完全支持RBAC概念的任何系统的最低需求。</p>
+</li>
+<li><p>RBAC1和RBAC2两者都包含RBAC0，但各自都增加了独立的特点，它们被称为高级模型。</p>
+<p>RBAC1中增加了角色分级的概念，一个角色可以从另一个角色继承许可权。</p>
+<p>RBAC2中增加了一些限制，强调在RBAC的不同组件中在配置方面的一些限制。</p>
+</li>
+<li><p>RBAC3称为统一模型，它包含了RBAC1和RBAC2，利用传递性，也把RBAC0包括在内。这些模型构成了RBAC96模型族。</p>
+</li>
+</ol>
+<h4 id="扩展RBAC用户角色权限设计方案"><a href="#扩展RBAC用户角色权限设计方案" class="headerlink" title="扩展RBAC用户角色权限设计方案"></a>扩展RBAC用户角色权限设计方案</h4><p>RBAC（Role-Based Access Control，基于角色的访问控制），就是用户通过角色与权限进行关联。简单地说，一个用户拥有若干角色，每一个角色拥有若干权限。这样，就构造成“用户-角色-权限”的授权模型。在这种模型中，用户与角色之间，角色与权限之间，一般者是多对多的关系。（如下图）</p>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://s2.ax1x.com/2020/02/07/1gRoUH.png" alt="1gRoUH.png"></p>
+<p>角色是什么？可以理解为一定数量的权限的集合，权限的载体。例如：一个论坛系统，“超级管理员”、“版主”都是角色。版主可管理版内的帖子、可管理版内的用户等，这些是权限。要给某个用户授予这些权限，不需要直接将权限授予用户，可将“版主”这个角色赋予该用户。</p>
+<p>当用户的数量非常大时，要给系统每个用户逐一授权（授角色），是件非常烦琐的事情。这时，就需要给用户分组，每个用户组内有多个用户。除了可给用户授权外，还可以给用户组授权。这样一来，用户拥有的所有权限，就是用户个人拥有的权限与该用户所在用户组拥有的权限之和。（下图为用户组、用户与角色三者的关联关系）</p>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://s2.ax1x.com/2020/02/07/1gWtde.png" alt="1gWtde.png"></p>
+<p>在应用系统中，权限表现成什么？对功能模块的操作，对上传文件的删改，菜单的访问，甚至页面上某个按钮、某个图片的可见性控制，都可属于权限的范畴。有些权限设计，会把功能操作作为一类，而把文件、菜单、页面元素等作为另一类，这样构成“用户-角色-权限-资源”的授权模型。而在做数据表建模时，可把功能操作和资源统一管理，也就是都直接与权限表进行关联，这样可能更具便捷性和易扩展性。（见下图）</p>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://s2.ax1x.com/2020/02/07/1gW7eU.png" alt="1gW7eU.png"></p>
+<p>请留意权限表中有一列“权限类型”，我们根据它的取值来区分是哪一类权限，如“MENU”表示菜单的访问权限、“OPERATION”表示功能模块的操作权限、“FILE”表示文件的修改权限、“ELEMENT”表示页面元素的可见性控制等。</p>
+<p>这样设计的好处有二。其一，不需要区分哪些是权限操作，哪些是资源，（实际上，有时候也不好区分，如菜单，把它理解为资源呢还是功能模块权限呢？）。其二，方便扩展，当系统要对新的东西进行权限控制时，我只需要建立一个新的关联表“权限XX关联表”，并确定这类权限的权限类型字符串。</p>
+<p>这里要注意的是，权限表与权限菜单关联表、权限菜单关联表与菜单表都是一对一的关系。（文件、页面权限点、功能操作等同理）。也就是每添加一个菜单，就得同时往这三个表中各插入一条记录。这样，可以不需要权限菜单关联表，让权限表与菜单表直接关联，此时，须在权限表中新增一列用来保存菜单的ID，权限表通过“权限类型”和这个ID来区分是种类型下的哪条记录。</p>
+<p>到这里，RBAC权限模型的扩展模型的完整设计图如下：</p>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://s2.ax1x.com/2020/02/07/1gfkYd.png" alt="1gfkYd.png"></p>
+<p>随着系统的日益庞大，为了方便管理，可引入角色组对角色进行分类管理，跟用户组不同，角色组不参与授权。例如：某电网系统的权限管理模块中，角色就是挂在区局下，而区局在这里可当作角色组，它不参于权限分配。另外，为方便上面各主表自身的管理与查找，可采用树型结构，如菜单树、功能树等，当然这些可不需要参于权限分配。</p>
+<p>以上，是从基本的RBAC模型进行了扩展，具体的设计要根据项目业务的需要作调整。</p>
+<h4 id="基于RBAC的几种权限体系设计"><a href="#基于RBAC的几种权限体系设计" class="headerlink" title="基于RBAC的几种权限体系设计"></a>基于RBAC的几种权限体系设计</h4><h5 id="用户-角色-权限"><a href="#用户-角色-权限" class="headerlink" title="用户-角色-权限"></a>用户-角色-权限</h5><p>这种权限体系其实就是RBAC0的模式了。这里面又包含了2种：</p>
+<ol>
+<li><p>用户和角色是多对一关系，即：一个用户只充当一种角色，一种角色可以有多个用户担当；</p>
+</li>
+<li><p>用户和角色是多对多关系，即：一个用户可同时充当好几种角色，一种角色可以有多个用户担当；</p>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://s2.ax1x.com/2020/02/07/1gRFBD.png" alt="1gRFBD.png"></p>
+</li>
+</ol>
+<p>如上图：对于左边的用户-角色对应，每个人只能同时拥有一种角色，但是同一个角色里边，可能会含有多个用户（如：李四和王麻子都是业务员）；而右边的用户-角色对应，是在左边的基础上，增加了一个用户可拥有多种角色的情况（如：小马哥既是经理，也要负责财务的工作）；</p>
+<p>那么，什么时候该使用多对一的权限体系，什么时候又该使用多对多的权限体系呢？</p>
+<p>我的建议是：尽量可能地使用多对多的权限体系。如果这个系统的功能比较单一、使用人员较少、岗位权限相对清晰且不会出现兼岗的情况，这种情况也可以考虑用多对一的权限体系。</p>
+<h5 id="用户-组织-角色-权限"><a href="#用户-组织-角色-权限" class="headerlink" title="用户-组织-角色-权限"></a>用户-组织-角色-权限</h5><p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://s2.ax1x.com/2020/02/07/1gRZ4A.png" alt="1gRZ4A.png"></p>
+<p>在“用户-角色-权限”的基础上，我们增加了用户与组织的关联关系，组织决定了用户的数据可视权限。但要想真正达到这个效果，我们还需要做2件事：</p>
+<ol>
+<li><p>组织层级划分。如下图，我们需要对组织进行梳理，并划分层级；</p>
+</li>
+<li><p>数据可视权限规则制定。比如：上级组织职能看到下级组织员工负责的数据，而不能看到其他平级组织及其下级组织的员工数据等。</p>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://s2.ax1x.com/2020/02/07/1gRn3t.png" alt="1gRn3t.png"></p>
+</li>
+</ol>
+<p>通过以上两点，系统就可以在用户登录时，自动判断要给用户展示哪些数据了。</p>
+<h5 id="用户-组织-岗位-角色-权限"><a href="#用户-组织-岗位-角色-权限" class="headerlink" title="用户-组织-岗位-角色-权限"></a>用户-组织-岗位-角色-权限</h5><p>第三种权限体系又是在第二种权限体系上进行优化的，增加了用户与岗位的关联关系，示意图如下：</p>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://s2.ax1x.com/2020/02/07/1gR8EQ.png" alt="1gR8EQ.png"></p>
+<p>增加岗位有以下几点好处：</p>
+<ol>
+<li>识别用户的主要身份。一个人可能身兼多职（多个角色），但是他的主要职能是固定的，那怎么告诉系统用户的主要职能是什么呢？答案就是：通过岗位！拿上面的小马哥举例：小马哥虽然身兼经理和财务两种身份，但他的本职工作是“经理”，因此，他的系统岗位应该“经理”。当他登录时，系统会识别他的身份为“经理”，只不过这个“经理”刚好兼具了其他岗位的职能而已；</li>
+<li>通过“组织-岗位”关联，快速甄别用户岗位。公司在不断地发展的过程中，系统的用户角色也会不断增加，当角色达到一定数量以后，管理员每新增一个用户都要花相当的时间去寻找角色。引入岗位后，可将组织和岗位、岗位和角色提前进行关联，配置账号时，管理员只要选定组织，系统就给出与该组织关联的岗位，而这些岗位，又是提前关联好角色的，选择起来，既方便又高效！</li>
+</ol>
+<h4 id="代码实现"><a href="#代码实现" class="headerlink" title="代码实现"></a>代码实现</h4><p><a target="_blank" rel="noopener" href="https://gitee.com/renrenio/renren-security">renren-security</a>是”人人社区”社区开源的轻量级权限管理系统。系统采用SprinBoot、Mybatis、Shiro框架进行开发，极低门槛，拿来即用，支持分布式部署、Quartz分布式集群调度、部门管理、数据权限、云存储等功能。</p>
+<p>文档：<a target="_blank" rel="noopener" href="https://www.renren.io/guide/security">https://www.renren.io/guide/security</a></p>
+<p><strong>项目说明</strong></p>
+<ul>
+<li>采用SpringBoot、MyBatis、Shiro框架，开发的一套权限系统，极低门槛，拿来即用。设计之初，就非常注重安全性，为企业系统保驾护航，让一切都变得如此简单。</li>
+<li>提供了代码生成器，只需编写30%左右代码，其余的代码交给系统自动生成，可快速完成开发任务</li>
+<li>支持MySQL、Oracle、SQL Server、PostgreSQL等主流数据库</li>
+</ul>
+<p><strong>具有如下特点</strong></p>
+<ul>
+<li>灵活的权限控制，可控制到页面或按钮，满足绝大部分的权限需求</li>
+<li>完善的部门管理及数据权限，通过注解实现数据权限的控制</li>
+<li>完善的XSS防范及脚本过滤，彻底杜绝XSS攻击</li>
+<li>支持分布式部署，session存储在redis中</li>
+<li>友好的代码结构及注释，便于阅读及二次开发</li>
+<li>引入quartz定时任务，可动态完成任务的添加、修改、删除、暂停、恢复及日志查看等功能</li>
+<li>页面交互使用Vue2.x，极大的提高了开发效率</li>
+<li>引入swagger文档支持，方便编写API接口文档</li>
+</ul>
+<p><strong>数据权限设计思想</strong></p>
+<ul>
+<li>管理员管理、角色管理、部门管理，可操作本部门及子部门数据</li>
+<li>菜单管理、定时任务、参数管理、字典管理、系统日志，没有数据权限</li>
+<li>业务功能，按照用户数据权限，查询、操作数据【没有本部门数据权限，也能查询本人数据】</li>
+</ul>
+<p><strong>项目结构</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">renren-security</span><br><span class="line">├─renren-common     公共模块</span><br><span class="line">│ </span><br><span class="line">├─renren-admin      管理后台</span><br><span class="line">│    ├─db  数据库SQL脚本</span><br><span class="line">│    │ </span><br><span class="line">│    ├─modules  模块</span><br><span class="line">│    │    ├─job 定时任务</span><br><span class="line">│    │    ├─oss 文件存储</span><br><span class="line">│    │    └─sys 系统管理(核心)</span><br><span class="line">│    │ </span><br><span class="line">│    └─resources </span><br><span class="line">│        ├─mapper   MyBatis文件</span><br><span class="line">│        ├─statics  静态资源</span><br><span class="line">│        ├─template 系统页面</span><br><span class="line">│        │    ├─modules      模块页面</span><br><span class="line">│        │    ├─index.html   AdminLTE主题风格（默认主题）</span><br><span class="line">│        │    └─index1.html  Layui主题风格</span><br><span class="line">│        └─application.yml   全局配置文件</span><br><span class="line">│       </span><br><span class="line">│ </span><br><span class="line">├─renren-api        API服务</span><br><span class="line">│ </span><br><span class="line">├─renren-generator  代码生成器</span><br><span class="line">│        └─resources </span><br><span class="line">│           ├─mapper   MyBatis文件</span><br><span class="line">│           ├─template 代码生成器模板（可增加或修改相应模板）</span><br><span class="line">│           ├─application.yml    全局配置文件</span><br><span class="line">│           └─generator.properties   代码生成器，配置文件</span><br><span class="line">│</span><br></pre></td></tr></table></figure>
+
+<p><strong>技术选型：</strong></p>
+<ul>
+<li>核心框架：Spring Boot 2.1</li>
+<li>安全框架：Apache Shiro 1.4</li>
+<li>视图框架：Spring MVC 5.0</li>
+<li>持久层框架：MyBatis 3.5</li>
+<li>定时器：Quartz 2.3</li>
+<li>数据库连接池：Druid 1.1</li>
+<li>日志管理：SLF4J 1.7、Log4j</li>
+<li>页面交互：Vue2.x</li>
+</ul>
+<p><strong>软件需求</strong></p>
+<ul>
+<li>JDK1.8</li>
+<li>MySQL5.5+</li>
+<li>Maven3.0+</li>
+</ul>
+<p><strong>本地部署</strong></p>
+<ul>
+<li><p>通过git下载源码</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git clone https://gitee.com/renrenio/renren-security.git</span><br></pre></td></tr></table></figure></li>
+<li><p>idea、eclipse需安装lombok插件，不然会提示找不到entity的get set方法</p>
+</li>
+<li><p>创建数据库renren_security，数据库编码为UTF-8</p>
+</li>
+<li><p>执行db/mysql.sql文件，初始化数据【按需导入表结构及数据】</p>
+</li>
+<li><p>修改application-dev.yml文件，更新MySQL账号和密码</p>
+</li>
+<li><p>在renren-security目录下，执行mvn clean install</p>
+</li>
+</ul>
+<ul>
+<li>Eclipse、IDEA运行AdminApplication.java，则可启动项目【renren-admin】</li>
+<li>renren-admin访问路径：<a target="_blank" rel="noopener" href="http://localhost:8080/renren-admin">http://localhost:8080/renren-admin</a></li>
+<li>swagger文档路径：<a target="_blank" rel="noopener" href="http://localhost:8080/renren-admin/swagger/index.html">http://localhost:8080/renren-admin/swagger/index.html</a></li>
+<li>swagger注解路径：<a target="_blank" rel="noopener" href="http://localhost:8080/renren-admin/swagger-ui.html">http://localhost:8080/renren-admin/swagger-ui.html</a></li>
+<li>账号密码：admin/admin</li>
+</ul>
+<ul>
+<li>Eclipse、IDEA运行ApiApplication.java，则可启动项目【renren-api】</li>
+<li>renren-api访问路径：<a target="_blank" rel="noopener" href="http://localhost:8081/renren-api/swagger-ui.html">http://localhost:8081/renren-api/swagger-ui.html</a></li>
+</ul>
+<ul>
+<li>Eclipse、IDEA运行GeneratorApplication.java，则可启动项目【renren-generator】</li>
+<li>renren-generator访问路径：<a target="_blank" rel="noopener" href="http://localhost:8082/renren-generator">http://localhost:8082/renren-generator</a></li>
+</ul>
+<p><strong>集群部署</strong></p>
+<ul>
+<li>集群部署，需要安装redis，并配置redis信息</li>
+<li>需要配置【renren.redis.open=true】，表示开启redis缓存</li>
+<li>需要配置【renren.cluster=true】，表示开启集群环境</li>
+</ul>
+<p><strong>项目演示</strong></p>
+<ul>
+<li>演示地址：<a target="_blank" rel="noopener" href="http://demo.open.renren.io/renren-security">http://demo.open.renren.io/renren-security</a></li>
+<li>账号密码：admin/admin</li>
+</ul>
+<h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><ol>
+<li><a target="_blank" rel="noopener" href="http://www.woshipm.com/pd/872372.html">基于RBAC模型的权限设计：如何设计系统权限体系？</a></li>
+</ol>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">平心</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://pingxin0521.gitee.io/2020/02/07/%E5%91%A8%E8%AE%B0-7-0/">https://pingxin0521.gitee.io/2020/02/07/%E5%91%A8%E8%AE%B0-7-0/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://pingxin0521.gitee.io" target="_blank">平心de小屋</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E5%91%A8%E8%AE%B0/">周记</a></div><div class="post_share"><div class="social-share" data-image="https://i.loli.net/2020/05/08/okfOw28KlZFbE7z.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2020/02/08/%E5%91%A8%E8%AE%B0-7-1/"><img class="prev-cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/PFDRNxj93taz6pw.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">第八周--DDOS攻击</div></div></a></div><div class="next-post pull-right"><a href="/2020/02/06/%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0-1-0/"><img class="next-cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/PFDRNxj93taz6pw.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">MySQL技术内幕--InnoDB存储引擎 阅读笔记</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span> 相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2019/11/14/周记-0-0/" title="何为道？"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/gGE57HRvpcKPfDY.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2019-12-15</div><div class="title">何为道？</div></div></a></div><div><a href="/2019/11/14/周记-0-1/" title="第一周--云原生"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/vCnKyoFJZ1g4XYR.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2020-01-04</div><div class="title">第一周--云原生</div></div></a></div><div><a href="/2019/11/15/周记-0-2/" title="第一周--混合云"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/PFDRNxj93taz6pw.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2019-11-15</div><div class="title">第一周--混合云</div></div></a></div><div><a href="/2019/11/14/周记-0-3/" title="第一周--DevOps"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/HjVAdIuT7bZJypS.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2019-11-21</div><div class="title">第一周--DevOps</div></div></a></div><div><a href="/2020/12/26/周记-10-1/" title="第十一周--谷歌浏览器插件"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/gGE57HRvpcKPfDY.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2020-12-26</div><div class="title">第十一周--谷歌浏览器插件</div></div></a></div><div><a href="/2019/11/18/周记-1-1/" title="第二周--BT和BT种子"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/PFDRNxj93taz6pw.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2019-11-28</div><div class="title">第二周--BT和BT种子</div></div></a></div></div></div><hr/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div class="vcomment" id="vcomment"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="card-info-avatar is-center"><img class="avatar-img" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://s2.ax1x.com/2020/02/11/1ovw6J.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/><div class="author-info__name">平心</div><div class="author-info__description">年轻人的life、learn and think</div></div><div class="card-info-data"><div class="card-info-data-item is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">449</div></a></div><div class="card-info-data-item is-center"><a href="/tags/"><div class="headline">标签</div><div class="length-num">77</div></a></div><div class="card-info-data-item is-center"><a href="/categories/"><div class="headline">分类</div><div class="length-num">68</div></a></div></div><a class="button--animated" id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/hanyunpeng0521"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/hanyunpeng0521" target="_blank" title="Github"><i class="fa fa-github"></i></a><a class="social-icon" href="mailto:m13839441583@163.com" target="_blank" title="Email"><i class="fa fa-envelope"></i></a><a class="social-icon" href="/atom.xml" target="_blank" title=""><i class="fa fa-rss"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn card-announcement-animation"></i><span>公告</span></div><div class="announcement_content">为什么呢？开始提问吧</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%9C%AC%E5%91%A8%E9%80%9F%E8%AE%B0"><span class="toc-number">1.</span> <span class="toc-text">本周速记</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#RBAC"><span class="toc-number"></span> <span class="toc-text">RBAC</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%89%A9%E5%B1%95RBAC%E7%94%A8%E6%88%B7%E8%A7%92%E8%89%B2%E6%9D%83%E9%99%90%E8%AE%BE%E8%AE%A1%E6%96%B9%E6%A1%88"><span class="toc-number">1.</span> <span class="toc-text">扩展RBAC用户角色权限设计方案</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%9F%BA%E4%BA%8ERBAC%E7%9A%84%E5%87%A0%E7%A7%8D%E6%9D%83%E9%99%90%E4%BD%93%E7%B3%BB%E8%AE%BE%E8%AE%A1"><span class="toc-number">2.</span> <span class="toc-text">基于RBAC的几种权限体系设计</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E7%94%A8%E6%88%B7-%E8%A7%92%E8%89%B2-%E6%9D%83%E9%99%90"><span class="toc-number">2.1.</span> <span class="toc-text">用户-角色-权限</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E7%94%A8%E6%88%B7-%E7%BB%84%E7%BB%87-%E8%A7%92%E8%89%B2-%E6%9D%83%E9%99%90"><span class="toc-number">2.2.</span> <span class="toc-text">用户-组织-角色-权限</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E7%94%A8%E6%88%B7-%E7%BB%84%E7%BB%87-%E5%B2%97%E4%BD%8D-%E8%A7%92%E8%89%B2-%E6%9D%83%E9%99%90"><span class="toc-number">2.3.</span> <span class="toc-text">用户-组织-岗位-角色-权限</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BB%A3%E7%A0%81%E5%AE%9E%E7%8E%B0"><span class="toc-number">3.</span> <span class="toc-text">代码实现</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8F%82%E8%80%83"><span class="toc-number"></span> <span class="toc-text">参考</span></a></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2021/05/15/node-2-4/" title="Egg.js -- 为企业级框架和应用而生"><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/okfOw28KlZFbE7z.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Egg.js -- 为企业级框架和应用而生"/></a><div class="content"><a class="title" href="/2021/05/15/node-2-4/" title="Egg.js -- 为企业级框架和应用而生">Egg.js -- 为企业级框架和应用而生</a><time datetime="2021-05-15T10:18:59.000Z" title="发表于 2021-05-15 18:18:59">2021-05-15</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/04/30/node-2-3/" title="Koa -- 基于Node.js平台的下一代Web开发框架"><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/HjVAdIuT7bZJypS.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Koa -- 基于Node.js平台的下一代Web开发框架"/></a><div class="content"><a class="title" href="/2021/04/30/node-2-3/" title="Koa -- 基于Node.js平台的下一代Web开发框架">Koa -- 基于Node.js平台的下一代Web开发框架</a><time datetime="2021-04-30T10:18:59.000Z" title="发表于 2021-04-30 18:18:59">2021-04-30</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/04/01/node-2-1/" title="Node.JS web开发前置知识"><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/gGE57HRvpcKPfDY.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Node.JS web开发前置知识"/></a><div class="content"><a class="title" href="/2021/04/01/node-2-1/" title="Node.JS web开发前置知识">Node.JS web开发前置知识</a><time datetime="2021-04-01T03:18:59.000Z" title="发表于 2021-04-01 11:18:59">2021-04-01</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2020/12/26/%E5%91%A8%E8%AE%B0-10-1/" title="第十一周--谷歌浏览器插件"><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/gGE57HRvpcKPfDY.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="第十一周--谷歌浏览器插件"/></a><div class="content"><a class="title" href="/2020/12/26/%E5%91%A8%E8%AE%B0-10-1/" title="第十一周--谷歌浏览器插件">第十一周--谷歌浏览器插件</a><time datetime="2020-12-26T10:18:59.000Z" title="发表于 2020-12-26 18:18:59">2020-12-26</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2020/12/26/%E5%91%A8%E8%AE%B0-10-0/" title="第十一周--浏览器技术"><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/vCnKyoFJZ1g4XYR.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="第十一周--浏览器技术"/></a><div class="content"><a class="title" href="/2020/12/26/%E5%91%A8%E8%AE%B0-10-0/" title="第十一周--浏览器技术">第十一周--浏览器技术</a><time datetime="2020-12-26T06:18:59.000Z" title="发表于 2020-12-26 14:18:59">2020-12-26</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2019 - 2021 By 平心</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div id="local-search"><div class="search-dialog"><div class="search-dialog__title" id="local-search-title">本地搜索</div><div id="local-input-panel"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div></div><hr/><div id="local-search-results"></div><span class="search-close-button"><i class="fas fa-times"></i></span></div><div id="search-mask"></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload/dist/lazyload.iife.min.js"></script><script src="/js/search/local-search.js"></script><div class="js-pjax"><script>function loadValine () {
+  function initValine () {
+    const valine = new Valine(Object.assign({
+      el: '#vcomment',
+      appId: '4lfIXzqxaC1ONs0MJO4oHu07-gzGzoHsz',
+      appKey: 'qw99Bw8FD0KVKU9m457CwWsr',
+      placeholder: 'Please leave your footprints',
+      avatar: 'monsterid',
+      meta: 'nick,mail,link'.split(','),
+      pageSize: '10',
+      lang: 'zh-CN',
+      recordIP: true,
+      serverURLs: '',
+      emojiCDN: '',
+      emojiMaps: "",
+      enableQQ: true,
+      path: window.location.pathname,
+      requiredFields: ["nick,mail"],
+      visitor: false
+    }, null))
+  }
+
+  if (typeof Valine === 'function') initValine() 
+  else getScript('https://cdn.jsdelivr.net/npm/valine/dist/Valine.min.js').then(initValine)
+}
+
+if ('Valine' === 'Valine' || !false) {
+  if (false) btf.loadComment(document.getElementById('vcomment'),loadValine)
+  else setTimeout(loadValine, 0)
+} else {
+  function loadOtherComment () {
+    loadValine()
+  }
+}</script></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>

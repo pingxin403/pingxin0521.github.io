@@ -1,0 +1,500 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Gradle 依赖管理 | 平心de小屋</title><meta name="keywords" content="工具,Gradle"><meta name="author" content="平心"><meta name="copyright" content="平心"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="依赖关系管理什么是依赖管理？ 软件项目很少孤立地工作。 在大多数情况下，项目依赖于库中可重用的功能，或者分解为单独的组件以组成模块化系统。 依赖关系管理是一种以自动方式声明，解析和使用项目所需的依赖关系的技术。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Gradle 依赖管理">
+<meta property="og:url" content="https://pingxin0521.gitee.io/2019/05/06/%E5%B7%A5%E5%85%B7-Gradle-5/index.html">
+<meta property="og:site_name" content="平心de小屋">
+<meta property="og:description" content="依赖关系管理什么是依赖管理？ 软件项目很少孤立地工作。 在大多数情况下，项目依赖于库中可重用的功能，或者分解为单独的组件以组成模块化系统。 依赖关系管理是一种以自动方式声明，解析和使用项目所需的依赖关系的技术。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://i.loli.net/2020/05/08/gGE57HRvpcKPfDY.jpg">
+<meta property="article:published_time" content="2019-05-06T08:18:59.000Z">
+<meta property="article:modified_time" content="2019-05-12T12:02:44.000Z">
+<meta property="article:author" content="平心">
+<meta property="article:tag" content="工具">
+<meta property="article:tag" content="Gradle">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.loli.net/2020/05/08/gGE57HRvpcKPfDY.jpg"><link rel="shortcut icon" href="https://s2.ax1x.com/2020/02/11/1ovFOA.png"><link rel="canonical" href="https://pingxin0521.gitee.io/2019/05/06/%E5%B7%A5%E5%85%B7-Gradle-5/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"search.xml","languages":{"hits_empty":"找不到您查询的内容：${query}"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    jQuery: 'https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js',
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+    },
+    fancybox: {
+      js: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css'
+    }
+  },
+  isPhotoFigcaption: true,
+  islazyload: true,
+  isanchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'Gradle 依赖管理',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2019-05-12 20:02:44'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    })(window)</script><meta name="generator" content="Hexo 5.4.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="author-avatar"><img class="avatar-img" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://s2.ax1x.com/2020/02/11/1ovw6J.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data"><div class="data-item is-center"><div class="data-item-link"><a href="/archives/"><div class="headline">文章</div><div class="length-num">449</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/tags/"><div class="headline">标签</div><div class="length-num">77</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/categories/"><div class="headline">分类</div><div class="length-num">68</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fa fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fa fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://i.loli.net/2020/05/08/gGE57HRvpcKPfDY.jpg')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">平心de小屋</a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fa fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fa fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">Gradle 依赖管理</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2019-05-06T08:18:59.000Z" title="发表于 2019-05-06 16:18:59">2019-05-06</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2019-05-12T12:02:44.000Z" title="更新于 2019-05-12 20:02:44">2019-05-12</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E5%B7%A5%E5%85%B7/">工具</a><i class="fas fa-angle-right post-meta-separator"></i><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E5%B7%A5%E5%85%B7/Gradle/">Gradle</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">6.8k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>23分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="Gradle 依赖管理"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h3 id="依赖关系管理"><a href="#依赖关系管理" class="headerlink" title="依赖关系管理"></a>依赖关系管理</h3><p><strong>什么是依赖管理</strong>？</p>
+<p>软件项目很少孤立地工作。 在大多数情况下，项目依赖于库中可重用的功能，或者分解为单独的组件以组成模块化系统。 依赖关系管理是一种以自动方式声明，解析和使用项目所需的依赖关系的技术。</p>
+<span id="more"></span>
+
+<p><strong>Gradle中的依赖管理</strong></p>
+<p>Gradle内置了对依赖管理的支持，并且完成了履行现代软件项目中遇到的典型场景的任务。 我们将在示例项目的帮助下探索主要概念。 下图应该为您提供所有运动部件的概述。</p>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2019/05/12/5cd7f6786c7bf.png" alt="1.png"></p>
+<p>示例项目构建Java源代码。 一些Java源文件从Google Guava导入类，这是一个提供丰富实用功能的开源库。 除了Guava之外，该项目还需要JUnit库来编译和执行测试代码。</p>
+<p>Guava和JUnit代表了这个项目的依赖关系。 构建脚本开发人员可以声明不同范围的依赖关系，例如 只是为了编译源代码或执行测试。 在Gradle中，依赖关系的范围称为配置。 </p>
+<p>通常，依赖关系以模块的形式出现。 您需要告诉Gradle在哪里找到这些模块，以便它们可以被构建使用。 存储模块的位置称为存储库。 通过为构建声明存储库，Gradle将知道如何查找和检索模块。 存储库可以采用不同的形式：作为本地目录或远程存储库。 存储库类型的参考提供了有关此主题的广泛报道。</p>
+<p>在运行时，Gradle将根据操作特定任务的需要找到声明的依赖项。 可能需要从远程存储库下载依赖项，从本地目录检索依赖项或者需要在多项目设置中构建另一个项目。 此过程称为依赖性解析。 您可以在依赖项解析的工作原理中找到详细的讨论。</p>
+<p>解析后，解析机制将依赖项的基础文件存储在本地缓存中，也称为依赖性缓存。 Future构建重用存储在缓存中的文件以避免不必要的网络调用。</p>
+<p>模块可以提供其他元数据。 元数据是更详细地描述模块的数据，例如 在存储库中查找它的坐标，有关项目的信息或其作者。 作为元数据的一部分，模块可以定义需要其他模块才能正常工作。 例如，JUnit 5平台模块还需要平台commons模块。 Gradle自动解析那些附加模块，即所谓的传递依赖项。 如果需要，您可以自定义处理传递依赖项的行为以满足项目的要求。</p>
+<p>具有数十或数百个声明的依赖项的项目很容易受到依赖地狱的影响。 Gradle提供了足够的工具，可以借助构建扫描或内置任务来可视化，导航和分析项目的依赖关系图。 了解有关检查依赖关系的更多信息。</p>
+<h4 id="依赖解析如何工作"><a href="#依赖解析如何工作" class="headerlink" title="依赖解析如何工作"></a>依赖解析如何工作</h4><p>Gradle接受您的依赖项声明和存储库定义，并尝试通过称为依赖项解析的过程下载所有依赖项。 以下是此过程如何工作的简要概述。</p>
+<ul>
+<li>给定所需的依赖关系，Gradle尝试通过搜索依赖关系指向的模块来解决依赖关系。 按顺序检查每个存储库。 根据存储库的类型，Gradle会查找描述模块（.module，.pom或ivy.xml文件）的元数据文件，或直接查找工件文件。<ul>
+<li>​     如果依赖项被声明为动态版本（如1. +，[1.0，），[1.0,2.0）），Gradle将把它解析为存储库中最高的可用具体版本（如1.2）。 对于Maven存储库，这是使用maven-metadata.xml文件完成的，而对于Ivy存储库，这是通过目录列表完成的。</li>
+<li>​     如果模块元数据是已声明父POM的POM文件，则Gradle将递归尝试解析POM的每个父模块。</li>
+</ul>
+</li>
+<li>一旦检查了每个存储库的模块，Gradle将选择要使用的“最佳”存储库。 这是使用以下标准完成的：<ul>
+<li>​     对于动态版本，“更高”的具体版本优于“较低”版本。</li>
+<li>​     由模块元数据文件（.module，.pom或ivy.xml文件）声明的模块优先于仅具有工件文件的模块。</li>
+<li>​     早期存储库中的模块优先于后续存储库中的模块。</li>
+<li>​     当具体版本声明依赖关系并且在存储库中找到模块元数据文件时，不需要继续搜索以后的存储库，并且该过程的其余部分被短路。</li>
+</ul>
+</li>
+<li>然后，从上面的过程中选择的相同存储库请求模块的所有工件。</li>
+</ul>
+<p>依赖项解析过程可高度自定义以满足企业要求。 </p>
+<h4 id="HTTP重试"><a href="#HTTP重试" class="headerlink" title="HTTP重试"></a>HTTP重试</h4><p>Gradle会多次尝试连接到给定的存储库。 如果失败，Gradle将重试，增加每次重试之间等待的时间。 在最大次数的失败尝试之后，存储库将被列入黑名单以用于整个构建。</p>
+<h4 id="解析典型的构建脚本"><a href="#解析典型的构建脚本" class="headerlink" title="解析典型的构建脚本"></a>解析典型的构建脚本</h4><p>让我们看一下基于Java的项目的一个非常简单的构建脚本。 它应用Java库插件，该插件自动引入标准项目布局，提供执行典型工作的任务以及对依赖关系管理的充分支持。</p>
+<p>基于Java的项目的依赖性声明:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">//build.gradle</span><br><span class="line">   id &#x27;java-library&#x27;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">repositories &#123;</span><br><span class="line">    mavenCentral()</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">dependencies &#123;</span><br><span class="line">    implementation &#x27;org.hibernate:hibernate-core:3.6.7.Final&#x27;</span><br><span class="line">    api &#x27;com.google.guava:guava:23.0&#x27;</span><br><span class="line">    testImplementation &#x27;junit:junit:4.+&#x27;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p> Project.dependencies {}代码块声明需要Hibernate核心3.6.7.Final来编译项目的生产源代码。 它还指出编译项目测试需要junit&gt; = 4.0。 应该在Project.repositories {}定义的Maven Central存储库中查找所有依赖项。 以下部分更详细地解释了每个方面。</p>
+<h4 id="声明模块依赖项"><a href="#声明模块依赖项" class="headerlink" title="声明模块依赖项"></a>声明模块依赖项</h4><p>您可以声明各种类型的依赖项。 一种这样的类型是模块依赖性。 模块依赖性表示对具有在当前构建之外构建的特定版本的模块的依赖性。 模块通常存储在存储库中，例如Maven Central，公司Maven或Ivy存储库，或本地文件系统中的目录。</p>
+<p>要定义模块依赖关系，请将其添加到依赖关系配置：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">//build.gradle</span><br><span class="line">dependencies &#123;</span><br><span class="line">    implementation &#x27;org.hibernate:hibernate-core:3.6.7.Final&#x27;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="使用依赖配置"><a href="#使用依赖配置" class="headerlink" title="使用依赖配置"></a>使用依赖配置</h4><p>Configuration是一组命名的依赖项和工件。 配置有三个主要目的：</p>
+<p><strong>声明依赖项</strong></p>
+<p> 插件使用配置使构建作者可以轻松地在执行插件定义的任务期间声明其他各种子项目或外部工件用于各种目的。 例如，插件可能需要Spring Web框架依赖项来编译源代码。</p>
+<p><strong>解决依赖关系</strong></p>
+<p> 插件使用配置来查找（并可能下载）它定义的任务的输入。 例如，Gradle需要从Maven Central下载Spring Web框架JAR文件。</p>
+<p><strong>暴露artifacts以供消费</strong></p>
+<p> 插件使用配置来定义它为其他项目生成的工件。 例如，项目希望将打包在JAR文件中的已编译源代码发布到内部Artifactory存储库。</p>
+<p>考虑到这三个目的，让我们看一下Java Library Plugin定义的一些标准配置。</p>
+<p><strong>implementation</strong></p>
+<p> 编译项目的生产源所需的依赖项，这些依赖项不是项目公开的API的一部分。 例如，该项目使用Hibernate进行内部持久层实现。</p>
+<p><strong>API</strong></p>
+<p> 编译项目的生产源所需的依赖项，这是项目公开的API的一部分。 例如，项目使用Guava并在方法签名中公开具有Guava类的公共接口。</p>
+<p><strong>testImplementation</strong></p>
+<p> 编译和运行项目测试源所需的依赖项。 例如，项目决定使用测试框架JUnit编写测试代码。</p>
+<p>各种插件增加了进一步的标准配置。 您还可以通过Project.configurations {}在构建中定义自己的自定义配置。 有关定义和自定义依赖关系配置的详细信息。</p>
+<h4 id="声明常见的Java-repositories"><a href="#声明常见的Java-repositories" class="headerlink" title="声明常见的Java repositories"></a>声明常见的Java repositories</h4><p>Gradle如何知道在哪里可以找到外部依赖项的文件？ Gradle在存储库中查找它们。 存储库是模块的集合，按组，名称和版本组织。 Gradle了解不同的存储库类型，例如Maven和Ivy，并支持通过HTTP或其他协议访问存储库的各种方法。</p>
+<p>默认情况下，Gradle不定义任何存储库。 在使用模块依赖项之前，需要在Project.repositories {}的帮助下定义至少一个。 一种选择是使用Maven Central存储库：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">//build.gradle</span><br><span class="line">repositories &#123;</span><br><span class="line">    mavenCentral()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>您还可以在本地文件系统上拥有存储库。 这适用于Maven和Ivy存储库。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">//build.gradle</span><br><span class="line">repositories &#123;</span><br><span class="line">    ivy &#123;</span><br><span class="line">        // URL can refer to a local directory</span><br><span class="line">        url &quot;../local-repo&quot;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p> 一个项目可以有多个存储库。 Gradle将按照指定的顺序在每个存储库中查找依赖项，并在包含所请求模块的第一个存储库中停止。</p>
+<p><strong>发布artifacts</strong></p>
+<p>依赖关系配置也用于发布文件。 Gradle调用这些文件发布工件，或者通常只是工件。 作为用户，您需要告诉Gradle在哪里发布工件。 您可以通过为uploadArchives任务声明存储库来完成此操作。 以下是发布到Maven存储库的示例：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">//build.gradle</span><br><span class="line">plugins &#123;</span><br><span class="line">    id &#x27;maven&#x27;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">uploadArchives &#123;</span><br><span class="line">    repositories &#123;</span><br><span class="line">        mavenDeployer &#123;</span><br><span class="line">            repository(url: &quot;file://localhost/tmp/myRepo/&quot;)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>现在，当您运行gradle uploadArchives时，gradle将构建JAR文件，生成.pom文件并上载工件。</p>
+<h3 id="声明存储库"><a href="#声明存储库" class="headerlink" title="声明存储库"></a>声明存储库</h3><h4 id="声明一个公开可用的存储库"><a href="#声明一个公开可用的存储库" class="headerlink" title="声明一个公开可用的存储库"></a>声明一个公开可用的存储库</h4><p>构建软件的组织可能希望利用公共二进制存储库来下载和使用开源依赖项。 流行的公共存储库包括Maven Central，Bintray JCenter和Google Android存储库。 Gradle为最广泛使用的存储库提供内置的快捷方法。</p>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2019/05/12/5cd7fccd69b57.png" alt="1.png"></p>
+<p>要将JCenter声明为存储库，请将此代码添加到构建脚本中：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">//build.gradle</span><br><span class="line">repositories &#123;</span><br><span class="line">    jcenter()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p> 在底层，Gradle从快捷方法定义的公共存储库的相应URL解析依赖关系。 所有快捷方法都可以通过RepositoryHandler API获得。 或者，您可以拼出存储库的URL以进行更细粒度的控制。</p>
+<h4 id="按URL声明自定义存储库"><a href="#按URL声明自定义存储库" class="headerlink" title="按URL声明自定义存储库"></a>按URL声明自定义存储库</h4><p>大多数企业项目都设置了仅在Intranet中可用的二进制存储库。 内部存储库使团队能够发布内部二进制文件，设置用户管理和安全措施，并确保正常运行时间和可用性。 如果要声明不太流行但可公开使用的存储库，则指定自定义URL也很有用。</p>
+<p>添加以下代码以声明可通过自定义URL访问的内部存储库。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">//build.gradle</span><br><span class="line">repositories &#123;</span><br><span class="line">    maven &#123;</span><br><span class="line">      url &#x27;http://repo.mycompany.com/maven2&#x27;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>通过调用RepositoryHandler API上提供的相应方法，可以将具有自定义URL的存储库指定为Maven或Ivy存储库。 Gradle支持除http或https之外的其他协议作为自定义URL的一部分，例如 文件，sftp或s3。 有关完整报道，请参阅支持的传输协议的参考手册。</p>
+<p>您还可以使用ivy {}存储库定义自己的存储库布局，因为它们在存储库中如何组织模块方面非常灵活。</p>
+<h4 id="声明多个存储库"><a href="#声明多个存储库" class="headerlink" title="声明多个存储库"></a>声明多个存储库</h4><p>您可以定义多个存储库以解决依赖关系。 如果某些依赖项仅在一个存储库中可用而在另一个存储库中不可用，则声明多个存储库很有用。 您可以混合参考部分中描述的任何类型的存储库。</p>
+<p>此示例演示如何为项目声明各种快捷方式和自定义URL存储库：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">//build.gradle</span><br><span class="line">repositories &#123;</span><br><span class="line">    jcenter()</span><br><span class="line">    maven &#123;</span><br><span class="line">        url &quot;https://maven.springframework.org/release&quot;</span><br><span class="line">    &#125;</span><br><span class="line">    maven &#123;</span><br><span class="line">        url &quot;https://maven.restlet.com&quot;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>声明顺序决定了Gradle如何在运行时检查依赖项。 如果Gradle在特定存储库中找到模块描述符，它将尝试从同一存储库下载该模块的所有工件。</p>
+<h4 id="将存储库与依赖项匹配"><a href="#将存储库与依赖项匹配" class="headerlink" title="将存储库与依赖项匹配"></a>将存储库与依赖项匹配</h4><p>Gradle公开API以声明存储库可能包含或不包含的内容。 它有不同的用例：</p>
+<ul>
+<li><p> 性能，当您知道在特定存储库中永远不会找到依赖项时</p>
+</li>
+<li><p> 安全性，避免泄漏私有项目中使用的依赖项</p>
+</li>
+<li><p> 可靠性，当某些存储库包含损坏的元数据或工件时</p>
+</li>
+</ul>
+<p>考虑到存储库的顺序很重要，这一点更为重要。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">//build.gradle</span><br><span class="line">repositories &#123;</span><br><span class="line">    maven &#123;</span><br><span class="line">        url &quot;http://repo.mycompany.com/maven2&quot;</span><br><span class="line">        content &#123;</span><br><span class="line">            // this repository *only* contains artifacts with group &quot;my.company&quot;</span><br><span class="line">            includeGroup &quot;my.company&quot;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    jcenter &#123;</span><br><span class="line">        content &#123;</span><br><span class="line">            // this repository contains everything BUT artifacts with group starting with &quot;my.company&quot;</span><br><span class="line">            excludeGroupByRegex &quot;my\\.company.*&quot;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>默认情况下，存储库包含所有内容而不排除任何内容：</p>
+<ul>
+<li><p> 如果您声明一个包含，那么它会排除除了包含的内容之外的所有内容。</p>
+</li>
+<li><p> 如果您声明一个排除，那么它包括除排除的内容之外的所有内容。</p>
+</li>
+<li><p> 如果您同时声明包含和排除，则它仅包括明确包含但未排除的内容。</p>
+</li>
+</ul>
+<p>可以通过显式组，模块或版本严格过滤或使用正则表达式过滤。 </p>
+<h4 id="Maven存储库过滤"><a href="#Maven存储库过滤" class="headerlink" title="Maven存储库过滤"></a>Maven存储库过滤</h4><p>对于Maven存储库，通常情况下存储库将包含版本或快照。 Gradle允许您使用此DSL声明在存储库中找到哪种工件</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">//build.gradle</span><br><span class="line">repositories &#123;</span><br><span class="line">    maven &#123;</span><br><span class="line">        url &quot;http://repo.mycompany.com/releases&quot;</span><br><span class="line">        mavenContent &#123;</span><br><span class="line">            releasesOnly()</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    maven &#123;</span><br><span class="line">        url &quot;http://repo.mycompany.com/snapshots&quot;</span><br><span class="line">        mavenContent &#123;</span><br><span class="line">            snapshotsOnly()</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="Repository-Types"><a href="#Repository-Types" class="headerlink" title="Repository Types"></a>Repository Types</h3><h4 id="Flat目录存储库"><a href="#Flat目录存储库" class="headerlink" title="Flat目录存储库"></a>Flat目录存储库</h4><p>某些项目可能更喜欢将依赖项存储在共享驱动器上，或者作为项目源代码的一部分而不是二进制存储库产品。 如果要将（平面）文件系统目录用作存储库，只需键入：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">//build.gradle</span><br><span class="line">repositories &#123;</span><br><span class="line">    flatDir &#123;</span><br><span class="line">        dirs &#x27;lib&#x27;</span><br><span class="line">    &#125;</span><br><span class="line">    flatDir &#123;</span><br><span class="line">        dirs &#x27;lib1&#x27;, &#x27;lib2&#x27;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p> 这会添加存储库，这些存储库会查找一个或多个目录以查找依赖项。 请注意，此类型的存储库不支持任何元数据格式，如Ivy XML或Maven POM文件。 相反，Gradle将根据工件的存在动态生成模块描述符（没有任何依赖性信息）。 但是，由于Gradle更喜欢使用其描述符是从真实元数据创建而不是生成的模块，因此不能使用平面目录存储库来覆盖来自其他存储库的真实元数据的工件。 例如，如果Gradle在平面目录存储库中仅找到jmxri-1.2.1.jar，而在另一个支持元数据的存储库中找到jmxri-1.2.1.pom，则它将使用第二个存储库来提供模块。</p>
+<p>对于使用本地覆盖远程工件的用例，请考虑使用Ivy或Maven存储库，而不是其URL指向本地目录。 如果仅使用平面目录存储库，则无需设置依赖关系的所有属性。</p>
+<h4 id="Maven-Central存储库"><a href="#Maven-Central存储库" class="headerlink" title="Maven Central存储库"></a>Maven Central存储库</h4><p>Maven Central是托管开源库的流行存储库，供Java项目使用。</p>
+<p>要为您的构建声明中央Maven存储库，请将其添加到您的脚本中：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">//build.gradle</span><br><span class="line">repositories &#123;</span><br><span class="line">    mavenCentral()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="JCenter-Maven存储库"><a href="#JCenter-Maven存储库" class="headerlink" title="JCenter Maven存储库"></a>JCenter Maven存储库</h4><p>Bintray的JCenter是所有流行的Maven OSS工件的最新集合，包括直接发布给Bintray的工件。</p>
+<p>要声明JCenter Maven存储库，请将其添加到构建脚本中：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">//build.gradle</span><br><span class="line">repositories &#123;</span><br><span class="line">    jcenter()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="Google-Maven存储库"><a href="#Google-Maven存储库" class="headerlink" title="Google Maven存储库"></a>Google Maven存储库</h4><p>Google存储库托管Android特定的工件，包括Android SDK。 要声明Google Maven存储库，请将其添加到构建脚本中：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">repositories &#123;</span><br><span class="line">    google()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="本地Maven存储库"><a href="#本地Maven存储库" class="headerlink" title="本地Maven存储库"></a>本地Maven存储库</h4><p>Gradle可以使用本地Maven存储库中可用的依赖项。 声明此存储库对于使用一个项目发布到本地Maven存储库并在另一个项目中使用Gradle的工件的团队是有益的。</p>
+<p> Gradle将已解析的依赖项存储在自己的缓存中。 即使您从基于Maven的远程存储库中解析依赖关系，构建也不需要声明本地Maven存储库</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">repositories &#123;</span><br><span class="line">    mavenLocal()</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p> Gradle使用与Maven相同的逻辑来标识本地Maven缓存的位置。 如果在settings.xml中定义了本地存储库位置，则将使用此位置。 USER_HOME <code>/.m2</code>中的settings.xml优先于M2_HOME /conf中的settings.xml。 如果没有settings.xml可用，Gradle将使用默认位置<code>USER_HOME/.m2/repository</code>。</p>
+<h4 id="自定义Maven存储库"><a href="#自定义Maven存储库" class="headerlink" title="自定义Maven存储库"></a>自定义Maven存储库</h4><p>许多组织在只能在公司网络中访问的内部Maven存储库中托管依赖项。 Gradle可以通过URL声明Maven存储库。</p>
+<p>要添加自定义Maven存储库，您可以执行以下操作：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">repositories &#123;</span><br><span class="line">    maven &#123;</span><br><span class="line">        url &quot;http://repo.mycompany.com/maven2&quot;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p> 有时，存储库会将POM发布到一个位置，并在另一个位置发布JAR和其他工件。 要定义这样的存储库，您可以：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">repositories &#123;</span><br><span class="line">    maven &#123;</span><br><span class="line">        // Look for POMs and artifacts, such as JARs, here</span><br><span class="line">        url &quot;http://repo2.mycompany.com/maven2&quot;</span><br><span class="line">        // Look for artifacts here if not found at the above location</span><br><span class="line">        artifactUrls &quot;http://repo.mycompany.com/jars&quot;</span><br><span class="line">        artifactUrls &quot;http://repo.mycompany.com/jars2&quot;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p> Gradle将查看POM和JAR的第一个URL。 如果在那里找不到JAR，则工件URL用于查找JAR。</p>
+<h4 id="自定义Ivy存储库"><a href="#自定义Ivy存储库" class="headerlink" title="自定义Ivy存储库"></a>自定义Ivy存储库</h4><p>组织可能决定在内部Ivy存储库中托管依赖项。 Gradle可以通过URL声明Ivy存储库。</p>
+<p>使用标准布局定义Ivy存储库</p>
+<p>要使用标准布局声明Ivy存储库，不需要额外的自定义。 您只需声明URL即可。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">repositories &#123;</span><br><span class="line">    ivy &#123;</span><br><span class="line">        url &quot;http://repo.mycompany.com/repo&quot;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p> 为Ivy存储库定义命名布局</p>
+<p>您可以使用命名布局指定存储库符合Ivy或Maven默认布局。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">repositories &#123;</span><br><span class="line">    ivy &#123;</span><br><span class="line">        url &quot;http://repo.mycompany.com/repo&quot;</span><br><span class="line">        layout &quot;maven&quot;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p> 为存储库指定的每个工件或常春藤都会添加其他模式以供使用。 模式按照定义的顺序使用。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">repositories &#123;</span><br><span class="line">    ivy &#123;</span><br><span class="line">        url &quot;http://repo.mycompany.com/repo&quot;</span><br><span class="line">        patternLayout &#123;</span><br><span class="line">            artifact &quot;3rd-party-artifacts/[organisation]/[module]/[revision]/[artifact]-[revision].[ext]&quot;</span><br><span class="line">            artifact &quot;company-artifacts/[organisation]/[module]/[revision]/[artifact]-[revision].[ext]&quot;</span><br><span class="line">            ivy &quot;ivy-files/[organisation]/[module]/[revision]/ivy.xml&quot;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p> 可选地，具有模式布局的存储库可以使其“组织”部分以Maven样式布局，正斜杠将点替换为分隔符。 例如，组织my.company将表示为<code>my/company</code>。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">repositories &#123;</span><br><span class="line">    ivy &#123;</span><br><span class="line">        url &quot;http://repo.mycompany.com/repo&quot;</span><br><span class="line">        patternLayout &#123;</span><br><span class="line">            artifact &quot;[organisation]/[module]/[revision]/[artifact]-[revision].[ext]&quot;</span><br><span class="line">            m2compatible = true</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>访问受密码保护的常春藤存储库</p>
+<p>您可以为基本身份验证保护的Ivy存储库指定凭据。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">repositories &#123;</span><br><span class="line">    ivy &#123;</span><br><span class="line">        url &quot;http://repo.mycompany.com&quot;</span><br><span class="line">        credentials &#123;</span><br><span class="line">            username &quot;user&quot;</span><br><span class="line">            password &quot;password&quot;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="支持的元数据源"><a href="#支持的元数据源" class="headerlink" title="支持的元数据源"></a>支持的元数据源</h4><p>在存储库中搜索模块时，默认情况下，Gradle会检查该存储库中支持的元数据文件格式。 在Maven存储库中，Gradle查找.pom文件，在常春藤存储库中查找ivy.xml文件，在平面目录存储库中，它直接查找.jar文件，因为它不期望任何元数据。 从5.0开始，Gradle还会查找.module（Gradle模块元数据）文件。</p>
+<p>但是，如果定义自定义存储库，则可能需要配置此行为。 例如，您可以定义不包含.pom文件的Maven存储库，但只能定义jar。 为此，您可以为任何存储库配置元数据源。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">repositories &#123;</span><br><span class="line">    maven &#123;</span><br><span class="line">        url &quot;http://repo.mycompany.com/repo&quot;</span><br><span class="line">        metadataSources &#123;</span><br><span class="line">            mavenPom()</span><br><span class="line">            artifact()</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>您可以指定多个源来告诉Gradle继续查找是否找不到文件。 在这种情况下，预定义检查源的顺序。</p>
+<p>支持以下元数据源：</p>
+<table>
+<thead>
+<tr>
+<th>Metadata source</th>
+<th>Description</th>
+<th>Order</th>
+<th>Maven</th>
+<th>Ivy / flat dir</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>gradleMetadata()</code></td>
+<td>Look for Gradle <code>.module</code> files</td>
+<td>1st</td>
+<td>yes</td>
+<td>yes</td>
+</tr>
+<tr>
+<td><code>mavenPom()</code></td>
+<td>Look for Maven <code>.pom</code> files</td>
+<td>2nd</td>
+<td>yes</td>
+<td>yes</td>
+</tr>
+<tr>
+<td><code>ivyDescriptor()</code></td>
+<td>Look for <code>ivy.xml</code> files</td>
+<td>2nd</td>
+<td>no</td>
+<td>yes</td>
+</tr>
+<tr>
+<td><code>artifact()</code></td>
+<td>Look directly for artifact</td>
+<td>3rd</td>
+<td>yes</td>
+<td>yes</td>
+</tr>
+</tbody></table>
+<h4 id="支持的存储库传输协议"><a href="#支持的存储库传输协议" class="headerlink" title="支持的存储库传输协议"></a>支持的存储库传输协议</h4><p>Maven和Ivy存储库支持使用各种传输协议。 目前支持以下协议：</p>
+<table>
+<thead>
+<tr>
+<th>Type</th>
+<th>Credential types</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>file</code></td>
+<td>none</td>
+</tr>
+<tr>
+<td><code>http</code></td>
+<td>username/password</td>
+</tr>
+<tr>
+<td><code>https</code></td>
+<td>username/password</td>
+</tr>
+<tr>
+<td><code>sftp</code></td>
+<td>username/password</td>
+</tr>
+<tr>
+<td><code>s3</code></td>
+<td>access key/secret key/session token or Environment variables</td>
+</tr>
+<tr>
+<td><code>gcs</code></td>
+<td>default application credentials sourced from well known files, Environment variables etc.</td>
+</tr>
+</tbody></table>
+<p>绝不应以纯文本格式将用户名和密码作为构建文件的一部分检入版本控制。 您可以将凭据存储在本地gradle.properties文件中，并使用其中一个开源Gradle插件来加密和使用凭据，例如 <a target="_blank" rel="noopener" href="https://plugins.gradle.org/plugin/nu.studer.credentials">凭证插件</a>。</p>
+<p>传输协议是存储库的URL定义的一部分。 以下构建脚本演示了如何创建基于HTTP的Maven和Ivy存储库：</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">repositories &#123;</span><br><span class="line">    maven &#123;</span><br><span class="line">        url <span class="string">&quot;http://repo.mycompany.com/maven2&quot;</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    ivy &#123;</span><br><span class="line">        url <span class="string">&quot;http://repo.mycompany.com/repo&quot;</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>下面的示例展示了如何声明SFTP存储库</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">repositories &#123;</span><br><span class="line">    maven &#123;</span><br><span class="line">        url <span class="string">&quot;sftp://repo.mycompany.com:22/maven2&quot;</span></span><br><span class="line">        credentials &#123;</span><br><span class="line">            username <span class="string">&quot;user&quot;</span></span><br><span class="line">            password <span class="string">&quot;password&quot;</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    ivy &#123;</span><br><span class="line">        url <span class="string">&quot;sftp://repo.mycompany.com:22/repo&quot;</span></span><br><span class="line">        credentials &#123;</span><br><span class="line">            username <span class="string">&quot;user&quot;</span></span><br><span class="line">            password <span class="string">&quot;password&quot;</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p> 使用AWS S3支持的存储库时，您需要使用AwsCredentials进行身份验证，提供访问密钥和私钥。 以下示例显示如何声明S3支持的存储库并提供AWS凭据：</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">repositories &#123;</span><br><span class="line">    maven &#123;</span><br><span class="line">        url <span class="string">&quot;s3://myCompanyBucket/maven2&quot;</span></span><br><span class="line">        credentials(AwsCredentials) &#123;</span><br><span class="line">            accessKey <span class="string">&quot;someKey&quot;</span></span><br><span class="line">            secretKey <span class="string">&quot;someSecret&quot;</span></span><br><span class="line">            <span class="comment">// optional</span></span><br><span class="line">            sessionToken <span class="string">&quot;someSTSToken&quot;</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    ivy &#123;</span><br><span class="line">        url <span class="string">&quot;s3://myCompanyBucket/ivyrepo&quot;</span></span><br><span class="line">        credentials(AwsCredentials) &#123;</span><br><span class="line">            accessKey <span class="string">&quot;someKey&quot;</span></span><br><span class="line">            secretKey <span class="string">&quot;someSecret&quot;</span></span><br><span class="line">            <span class="comment">// optional</span></span><br><span class="line">            sessionToken <span class="string">&quot;someSTSToken&quot;</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p> 您还可以使用AwsImAuthentication将所有凭据委派给AWS sdk。 以下示例显示了如何：</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">repositories &#123;</span><br><span class="line">    maven &#123;</span><br><span class="line">        url <span class="string">&quot;s3://myCompanyBucket/maven2&quot;</span></span><br><span class="line">        authentication &#123;</span><br><span class="line">           awsIm(AwsImAuthentication) <span class="comment">// load from EC2 role or env var</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    ivy &#123;</span><br><span class="line">        url <span class="string">&quot;s3://myCompanyBucket/ivyrepo&quot;</span></span><br><span class="line">        authentication &#123;</span><br><span class="line">           awsIm(AwsImAuthentication)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p> 使用Google云端存储支持的存储库时，将使用默认应用程序凭据，无需进一步配置：</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">repositories &#123;</span><br><span class="line">    maven &#123;</span><br><span class="line">        url <span class="string">&quot;gcs://myCompanyBucket/maven2&quot;</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    ivy &#123;</span><br><span class="line">        url <span class="string">&quot;gcs://myCompanyBucket/ivyrepo&quot;</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p> <strong>S3配置属性</strong></p>
+<p>以下系统属性可用于配置与s3存储库的交互：</p>
+<p>org.gradle.s3.endpoint： 用于在使用非AWS，S3 API兼容的存储服务时覆盖AWS S3端点。</p>
+<p>org.gradle.s3.maxErrorRetry： 指定在S3服务器使用HTTP 5xx状态代码响应时重试请求的最大次数。 未指定时，使用默认值3。</p>
+<p><strong>S3 URL格式</strong></p>
+<p>S3 URL是“虚拟托管样式”，必须采用以下格式</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">s3://&lt;bucketName&gt;[.&lt;regionSpecificEndpoint&gt;]/&lt;s3Key&gt;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">e.g. s3://myBucket.s3.eu-central-1.amazonaws.com/maven/release</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>myBucket是AWS S3存储桶名称。</p>
+</li>
+<li><p>s3.eu-central-1.amazonaws.com是可选的区域特定端点。</p>
+</li>
+<li><p>/ maven / release是AWS S3密钥（存储桶中对象的唯一标识符）</p>
+</li>
+</ul>
+<p><strong>S3代理设置</strong></p>
+<p>可以使用以下系统属性配置S3的代理：</p>
+<ul>
+<li><code>https.proxyHost</code></li>
+<li><code>https.proxyPort</code></li>
+<li><code>https.proxyUser</code></li>
+<li><code>https.proxyPassword</code></li>
+<li><code>http.nonProxyHosts</code></li>
+</ul>
+<p> 如果使用http（而非https）URI指定了“org.gradle.s3.endpoint”属性，则可以使用以下系统代理设置：</p>
+<ul>
+<li><code>http.proxyHost</code></li>
+<li><code>http.proxyPort</code></li>
+<li><code>http.proxyUser</code></li>
+<li><code>http.proxyPassword</code></li>
+<li><code>http.nonProxyHosts</code></li>
+</ul>
+<p><strong>AWS S3 V4签名（AWS4-HMAC-SHA256）</strong></p>
+<p>某些AWS S3区域（eu-central-1 - Frankfurt）要求所有HTTP请求都根据AWS的签名版本4进行签名。建议在使用需要V4签名的存储桶时指定包含区域特定端点的S3 URL。 例如</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">s3://somebucket.s3.eu-central-1.amazonaws.com/maven/release</span><br></pre></td></tr></table></figure>
+
+<p> <strong>AWS S3跨账户访问</strong></p>
+<p>某些组织可能拥有多个AWS账户，例如 每个团队一个。 存储桶拥有者的AWS账户通常与工件发布者和消费者不同。 存储桶拥有者需要能够授予消费者访问权限，否则工件只能由发布者的帐户使用。 这是通过将bucket-owner-full-control Canned ACL添加到上载的对象来完成的。 Gradle将在每次上传时执行此操作。 确保发布者具有所需的IAM权限，PutObjectAcl（如果启用了桶版本，则为PutObjectVersionAcl），可以直接或通过假定的IAM角色（具体取决于您的情况）。 您可以在AWS S3 Access权限中阅读更多内容。</p>
+<p><strong>Google云端存储配置属性</strong></p>
+<p>以下系统属性可用于配置与Google云存储存储库的交互：</p>
+<p>org.gradle.gcs.endpoint</p>
+<p> 用于在使用非Google Cloud Platform，兼容Google云端存储API的存储服务时覆盖Google云端存储终端。</p>
+<p>org.gradle.gcs.servicePath</p>
+<p> 用于覆盖Google云端存储客户端构建请求的Google云端存储根服务路径，默认为/。</p>
+<p> <strong>Google云端存储网址格式</strong></p>
+<p> Google云端存储网址是“虚拟托管式”，必须采用以下格式：gcs：// &lt;存储桶名称&gt; / &lt;对象密钥&gt;</p>
+<p>e.g. <code>gcs://myBucket/maven/release</code></p>
+<p>myBucket是Google云端存储桶名称。</p>
+<p>/ maven / release是Google Cloud Storage密钥（存储桶中对象的唯一标识符）</p>
+<p> <strong>配置HTTP身份验证方案</strong></p>
+<p>使用HTTP或HTTPS传输协议配置存储库时，可以使用多种身份验证方案。 默认情况下，Gradle将尝试使用此处记录的Apache HttpClient库支持的所有方案。 在某些情况下，最好明确指定在与远程服务器交换凭据时应使用哪些身份验证方案。 显式声明时，仅在对远程存储库进行身份验证时使用这些方案。</p>
+<p>您可以使用api：org.gradle.api.credentials.PasswordCredentials []为基本身份验证保护的Maven存储库指定凭据。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">repositories &#123;</span><br><span class="line">    maven &#123;</span><br><span class="line">        url &quot;http://repo.mycompany.com/maven2&quot;</span><br><span class="line">        credentials &#123;</span><br><span class="line">            username &quot;user&quot;</span><br><span class="line">            password &quot;password&quot;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>下面的示例演示如何配置存储库，使其只使用api:org.gradle.authentication.http.DigestAuthentication</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">repositories &#123;</span><br><span class="line">    maven &#123;</span><br><span class="line">        url <span class="string">&#x27;https://repo.mycompany.com/maven2&#x27;</span></span><br><span class="line">        credentials &#123;</span><br><span class="line">            username <span class="string">&quot;user&quot;</span></span><br><span class="line">            password <span class="string">&quot;password&quot;</span></span><br><span class="line">        &#125;</span><br><span class="line">        authentication &#123;</span><br><span class="line">            digest(DigestAuthentication)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p> 目前支持的认证方案是：</p>
+<p>BasicAuthentication:HTTP上的基本访问身份验证。 使用此方案时，会先发送凭据。</p>
+<p>DigestAuthentication:通过HTTP摘要访问身份验证。</p>
+<p>HttpHeaderAuthentication: 基于任何自定义HTTP标头的身份验证，例如 私人代币，OAuth代币等</p>
+<p><strong>使用抢先身份验证</strong></p>
+<p>Gradle的默认行为是仅在服务器以HTTP 401响应的形式响应身份验证质询时才提交凭据。 在某些情况下，服务器将使用不同的代码进行响应（例如，对于在GitHub上托管的存储库，将返回404），从而导致依赖性解析失败。 为了解决此问题，可以抢先将凭据发送到服务器。 要启用抢先身份验证，只需将存储库配置为显式使用BasicAuthentication方案：</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">repositories &#123;</span><br><span class="line">    maven &#123;</span><br><span class="line">        url <span class="string">&#x27;https://repo.mycompany.com/maven2&#x27;</span></span><br><span class="line">        credentials &#123;</span><br><span class="line">            username <span class="string">&quot;user&quot;</span></span><br><span class="line">            password <span class="string">&quot;password&quot;</span></span><br><span class="line">        &#125;</span><br><span class="line">        authentication &#123;</span><br><span class="line">            basic(BasicAuthentication)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p> <strong>使用HTTP头身份验证</strong></p>
+<p>您可以使用api：org.gradle.api.credentials.HttpHeaderCredentials []和api：org.gradle.authentication.http.HttpHeaderAuthentication []为需要令牌，OAuth2或其他基于HTTP头的身份验证的安全Maven存储库指定任何HTTP头.</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">repositories &#123;</span><br><span class="line">    maven &#123;</span><br><span class="line">        url <span class="string">&quot;http://repo.mycompany.com/maven2&quot;</span></span><br><span class="line">        credentials(HttpHeaderCredentials) &#123;</span><br><span class="line">            name = <span class="string">&quot;Private-Token&quot;</span></span><br><span class="line">            value = <span class="string">&quot;TOKEN&quot;</span></span><br><span class="line">        &#125;</span><br><span class="line">        authentication &#123;</span><br><span class="line">            header(HttpHeaderAuthentication)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">平心</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://pingxin0521.gitee.io/2019/05/06/%E5%B7%A5%E5%85%B7-Gradle-5/">https://pingxin0521.gitee.io/2019/05/06/%E5%B7%A5%E5%85%B7-Gradle-5/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://pingxin0521.gitee.io" target="_blank">平心de小屋</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E5%B7%A5%E5%85%B7/">工具</a><a class="post-meta__tags" href="/tags/Gradle/">Gradle</a></div><div class="post_share"><div class="social-share" data-image="https://i.loli.net/2020/05/08/gGE57HRvpcKPfDY.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2019/05/06/%E5%B7%A5%E5%85%B7-Gradle-2/"><img class="prev-cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/gGE57HRvpcKPfDY.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">Gradle 构建Java库</div></div></a></div><div class="next-post pull-right"><a href="/2019/05/06/Java-%E9%AB%98%E7%BA%A7-1-2-4/"><img class="next-cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/7dHvepmfYOLWTrX.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">Java Thread 安全--Condition等待/通知机制（四）</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span> 相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2019/05/06/工具-Gradle-4/" title="Gradle Project"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/HjVAdIuT7bZJypS.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2019-05-12</div><div class="title">Gradle Project</div></div></a></div><div><a href="/2019/05/06/工具-Gradle-1/" title="Gradle 入门"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/gGE57HRvpcKPfDY.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2019-05-12</div><div class="title">Gradle 入门</div></div></a></div><div><a href="/2019/05/08/工具-Gradle-3/" title="Gradle 范例"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/HjVAdIuT7bZJypS.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2019-05-11</div><div class="title">Gradle 范例</div></div></a></div><div><a href="/2019/05/06/工具-Gradle-2/" title="Gradle 构建Java库"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/gGE57HRvpcKPfDY.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2019-05-12</div><div class="title">Gradle 构建Java库</div></div></a></div><div><a href="/2019/03/18/工具-Git-1/" title="Git入门"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/gGE57HRvpcKPfDY.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2019-09-25</div><div class="title">Git入门</div></div></a></div><div><a href="/2019/03/21/工具-Git-5/" title="Git设置SSH key"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/PFDRNxj93taz6pw.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2019-08-02</div><div class="title">Git设置SSH key</div></div></a></div></div></div><hr/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div class="vcomment" id="vcomment"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="card-info-avatar is-center"><img class="avatar-img" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://s2.ax1x.com/2020/02/11/1ovw6J.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/><div class="author-info__name">平心</div><div class="author-info__description">年轻人的life、learn and think</div></div><div class="card-info-data"><div class="card-info-data-item is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">449</div></a></div><div class="card-info-data-item is-center"><a href="/tags/"><div class="headline">标签</div><div class="length-num">77</div></a></div><div class="card-info-data-item is-center"><a href="/categories/"><div class="headline">分类</div><div class="length-num">68</div></a></div></div><a class="button--animated" id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/hanyunpeng0521"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/hanyunpeng0521" target="_blank" title="Github"><i class="fa fa-github"></i></a><a class="social-icon" href="mailto:m13839441583@163.com" target="_blank" title="Email"><i class="fa fa-envelope"></i></a><a class="social-icon" href="/atom.xml" target="_blank" title=""><i class="fa fa-rss"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn card-announcement-animation"></i><span>公告</span></div><div class="announcement_content">为什么呢？开始提问吧</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BE%9D%E8%B5%96%E5%85%B3%E7%B3%BB%E7%AE%A1%E7%90%86"><span class="toc-number">1.</span> <span class="toc-text">依赖关系管理</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BE%9D%E8%B5%96%E8%A7%A3%E6%9E%90%E5%A6%82%E4%BD%95%E5%B7%A5%E4%BD%9C"><span class="toc-number">1.1.</span> <span class="toc-text">依赖解析如何工作</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#HTTP%E9%87%8D%E8%AF%95"><span class="toc-number">1.2.</span> <span class="toc-text">HTTP重试</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%A7%A3%E6%9E%90%E5%85%B8%E5%9E%8B%E7%9A%84%E6%9E%84%E5%BB%BA%E8%84%9A%E6%9C%AC"><span class="toc-number">1.3.</span> <span class="toc-text">解析典型的构建脚本</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%A3%B0%E6%98%8E%E6%A8%A1%E5%9D%97%E4%BE%9D%E8%B5%96%E9%A1%B9"><span class="toc-number">1.4.</span> <span class="toc-text">声明模块依赖项</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8%E4%BE%9D%E8%B5%96%E9%85%8D%E7%BD%AE"><span class="toc-number">1.5.</span> <span class="toc-text">使用依赖配置</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%A3%B0%E6%98%8E%E5%B8%B8%E8%A7%81%E7%9A%84Java-repositories"><span class="toc-number">1.6.</span> <span class="toc-text">声明常见的Java repositories</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%A3%B0%E6%98%8E%E5%AD%98%E5%82%A8%E5%BA%93"><span class="toc-number">2.</span> <span class="toc-text">声明存储库</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%A3%B0%E6%98%8E%E4%B8%80%E4%B8%AA%E5%85%AC%E5%BC%80%E5%8F%AF%E7%94%A8%E7%9A%84%E5%AD%98%E5%82%A8%E5%BA%93"><span class="toc-number">2.1.</span> <span class="toc-text">声明一个公开可用的存储库</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%8C%89URL%E5%A3%B0%E6%98%8E%E8%87%AA%E5%AE%9A%E4%B9%89%E5%AD%98%E5%82%A8%E5%BA%93"><span class="toc-number">2.2.</span> <span class="toc-text">按URL声明自定义存储库</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%A3%B0%E6%98%8E%E5%A4%9A%E4%B8%AA%E5%AD%98%E5%82%A8%E5%BA%93"><span class="toc-number">2.3.</span> <span class="toc-text">声明多个存储库</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%B0%86%E5%AD%98%E5%82%A8%E5%BA%93%E4%B8%8E%E4%BE%9D%E8%B5%96%E9%A1%B9%E5%8C%B9%E9%85%8D"><span class="toc-number">2.4.</span> <span class="toc-text">将存储库与依赖项匹配</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Maven%E5%AD%98%E5%82%A8%E5%BA%93%E8%BF%87%E6%BB%A4"><span class="toc-number">2.5.</span> <span class="toc-text">Maven存储库过滤</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Repository-Types"><span class="toc-number">3.</span> <span class="toc-text">Repository Types</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Flat%E7%9B%AE%E5%BD%95%E5%AD%98%E5%82%A8%E5%BA%93"><span class="toc-number">3.1.</span> <span class="toc-text">Flat目录存储库</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Maven-Central%E5%AD%98%E5%82%A8%E5%BA%93"><span class="toc-number">3.2.</span> <span class="toc-text">Maven Central存储库</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#JCenter-Maven%E5%AD%98%E5%82%A8%E5%BA%93"><span class="toc-number">3.3.</span> <span class="toc-text">JCenter Maven存储库</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Google-Maven%E5%AD%98%E5%82%A8%E5%BA%93"><span class="toc-number">3.4.</span> <span class="toc-text">Google Maven存储库</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%9C%AC%E5%9C%B0Maven%E5%AD%98%E5%82%A8%E5%BA%93"><span class="toc-number">3.5.</span> <span class="toc-text">本地Maven存储库</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%87%AA%E5%AE%9A%E4%B9%89Maven%E5%AD%98%E5%82%A8%E5%BA%93"><span class="toc-number">3.6.</span> <span class="toc-text">自定义Maven存储库</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%87%AA%E5%AE%9A%E4%B9%89Ivy%E5%AD%98%E5%82%A8%E5%BA%93"><span class="toc-number">3.7.</span> <span class="toc-text">自定义Ivy存储库</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%94%AF%E6%8C%81%E7%9A%84%E5%85%83%E6%95%B0%E6%8D%AE%E6%BA%90"><span class="toc-number">3.8.</span> <span class="toc-text">支持的元数据源</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%94%AF%E6%8C%81%E7%9A%84%E5%AD%98%E5%82%A8%E5%BA%93%E4%BC%A0%E8%BE%93%E5%8D%8F%E8%AE%AE"><span class="toc-number">3.9.</span> <span class="toc-text">支持的存储库传输协议</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2021/05/15/node-2-4/" title="Egg.js -- 为企业级框架和应用而生"><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/okfOw28KlZFbE7z.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Egg.js -- 为企业级框架和应用而生"/></a><div class="content"><a class="title" href="/2021/05/15/node-2-4/" title="Egg.js -- 为企业级框架和应用而生">Egg.js -- 为企业级框架和应用而生</a><time datetime="2021-05-15T10:18:59.000Z" title="发表于 2021-05-15 18:18:59">2021-05-15</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/04/30/node-2-3/" title="Koa -- 基于Node.js平台的下一代Web开发框架"><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/HjVAdIuT7bZJypS.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Koa -- 基于Node.js平台的下一代Web开发框架"/></a><div class="content"><a class="title" href="/2021/04/30/node-2-3/" title="Koa -- 基于Node.js平台的下一代Web开发框架">Koa -- 基于Node.js平台的下一代Web开发框架</a><time datetime="2021-04-30T10:18:59.000Z" title="发表于 2021-04-30 18:18:59">2021-04-30</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/04/01/node-2-1/" title="Node.JS web开发前置知识"><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/gGE57HRvpcKPfDY.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Node.JS web开发前置知识"/></a><div class="content"><a class="title" href="/2021/04/01/node-2-1/" title="Node.JS web开发前置知识">Node.JS web开发前置知识</a><time datetime="2021-04-01T03:18:59.000Z" title="发表于 2021-04-01 11:18:59">2021-04-01</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2020/12/26/%E5%91%A8%E8%AE%B0-10-1/" title="第十一周--谷歌浏览器插件"><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/gGE57HRvpcKPfDY.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="第十一周--谷歌浏览器插件"/></a><div class="content"><a class="title" href="/2020/12/26/%E5%91%A8%E8%AE%B0-10-1/" title="第十一周--谷歌浏览器插件">第十一周--谷歌浏览器插件</a><time datetime="2020-12-26T10:18:59.000Z" title="发表于 2020-12-26 18:18:59">2020-12-26</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2020/12/26/%E5%91%A8%E8%AE%B0-10-0/" title="第十一周--浏览器技术"><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/vCnKyoFJZ1g4XYR.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="第十一周--浏览器技术"/></a><div class="content"><a class="title" href="/2020/12/26/%E5%91%A8%E8%AE%B0-10-0/" title="第十一周--浏览器技术">第十一周--浏览器技术</a><time datetime="2020-12-26T06:18:59.000Z" title="发表于 2020-12-26 14:18:59">2020-12-26</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2019 - 2021 By 平心</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div id="local-search"><div class="search-dialog"><div class="search-dialog__title" id="local-search-title">本地搜索</div><div id="local-input-panel"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div></div><hr/><div id="local-search-results"></div><span class="search-close-button"><i class="fas fa-times"></i></span></div><div id="search-mask"></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload/dist/lazyload.iife.min.js"></script><script src="/js/search/local-search.js"></script><div class="js-pjax"><script>function loadValine () {
+  function initValine () {
+    const valine = new Valine(Object.assign({
+      el: '#vcomment',
+      appId: '4lfIXzqxaC1ONs0MJO4oHu07-gzGzoHsz',
+      appKey: 'qw99Bw8FD0KVKU9m457CwWsr',
+      placeholder: 'Please leave your footprints',
+      avatar: 'monsterid',
+      meta: 'nick,mail,link'.split(','),
+      pageSize: '10',
+      lang: 'zh-CN',
+      recordIP: true,
+      serverURLs: '',
+      emojiCDN: '',
+      emojiMaps: "",
+      enableQQ: true,
+      path: window.location.pathname,
+      requiredFields: ["nick,mail"],
+      visitor: false
+    }, null))
+  }
+
+  if (typeof Valine === 'function') initValine() 
+  else getScript('https://cdn.jsdelivr.net/npm/valine/dist/Valine.min.js').then(initValine)
+}
+
+if ('Valine' === 'Valine' || !false) {
+  if (false) btf.loadComment(document.getElementById('vcomment'),loadValine)
+  else setTimeout(loadValine, 0)
+} else {
+  function loadOtherComment () {
+    loadValine()
+  }
+}</script></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>

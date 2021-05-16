@@ -1,0 +1,370 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>第九周--零拷贝（高性能IO的关键之一） | 平心de小屋</title><meta name="keywords" content="周记"><meta name="author" content="平心"><meta name="copyright" content="平心"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="本周速记方法论 本周来学习一下  零拷贝">
+<meta property="og:type" content="article">
+<meta property="og:title" content="第九周--零拷贝（高性能IO的关键之一）">
+<meta property="og:url" content="https://pingxin0521.gitee.io/2020/03/07/%E5%91%A8%E8%AE%B0-8-0/index.html">
+<meta property="og:site_name" content="平心de小屋">
+<meta property="og:description" content="本周速记方法论 本周来学习一下  零拷贝">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://i.loli.net/2020/05/08/7dHvepmfYOLWTrX.jpg">
+<meta property="article:published_time" content="2020-03-07T10:18:59.000Z">
+<meta property="article:modified_time" content="2020-03-09T13:28:41.692Z">
+<meta property="article:author" content="平心">
+<meta property="article:tag" content="周记">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.loli.net/2020/05/08/7dHvepmfYOLWTrX.jpg"><link rel="shortcut icon" href="https://s2.ax1x.com/2020/02/11/1ovFOA.png"><link rel="canonical" href="https://pingxin0521.gitee.io/2020/03/07/%E5%91%A8%E8%AE%B0-8-0/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"search.xml","languages":{"hits_empty":"找不到您查询的内容：${query}"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    jQuery: 'https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js',
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+    },
+    fancybox: {
+      js: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css'
+    }
+  },
+  isPhotoFigcaption: true,
+  islazyload: true,
+  isanchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '第九周--零拷贝（高性能IO的关键之一）',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2020-03-09 21:28:41'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    })(window)</script><meta name="generator" content="Hexo 5.4.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="author-avatar"><img class="avatar-img" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://s2.ax1x.com/2020/02/11/1ovw6J.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data"><div class="data-item is-center"><div class="data-item-link"><a href="/archives/"><div class="headline">文章</div><div class="length-num">449</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/tags/"><div class="headline">标签</div><div class="length-num">77</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/categories/"><div class="headline">分类</div><div class="length-num">68</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fa fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fa fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://i.loli.net/2020/05/08/7dHvepmfYOLWTrX.jpg')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">平心de小屋</a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fa fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fa fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">第九周--零拷贝（高性能IO的关键之一）</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2020-03-07T10:18:59.000Z" title="发表于 2020-03-07 18:18:59">2020-03-07</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2020-03-09T13:28:41.692Z" title="更新于 2020-03-09 21:28:41">2020-03-09</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E5%91%A8%E8%AE%B0/">周记</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">4.8k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>15分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="第九周--零拷贝（高性能IO的关键之一）"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h4 id="本周速记"><a href="#本周速记" class="headerlink" title="本周速记"></a>本周速记</h4><p><strong>方法论</strong></p>
+<p>本周来学习一下</p>
+<ol>
+<li>零拷贝</li>
+</ol>
+<span id="more"></span>
+
+<h3 id="零拷贝"><a href="#零拷贝" class="headerlink" title="零拷贝"></a>零拷贝</h3><p>传统的 Linux 操作系统的标准 I/O 接口是基于数据拷贝操作的，即 I/O 操作会导致数据在操作系统内核地址空间的缓冲区和应用程序地址空间定义的缓冲区之间进行传输。这样做最大的好处是可以减少磁盘 I/O 的操作，因为如果所请求的数据已经存放在操作系统的高速缓冲存储器中，那么就不需要再进行实际的物理磁盘 I/O 操作。但是数据传输过程中的数据拷贝操作却导致了极大的 CPU 开销，限制了操作系统有效进行数据传输操作的能力。</p>
+<p>零拷贝（ zero-copy ）这种技术可以有效地改善数据传输的性能，在内核驱动程序（比如网络堆栈或者磁盘存储驱动程序）处理 I/O 数据的时候，零拷贝技术可以在某种程度上减少甚至完全避免不必要 CPU 数据拷贝操作。现代的 CPU 和存储体系结构提供了很多特征可以有效地实现零拷贝技术，但是因为存储体系结构非常复杂，而且网络协议栈有时需要对数据进行必要的处理，所以零拷贝技术有可能会产生很多负面的影响，甚至会导致零拷贝技术自身的优点完全丧失。</p>
+<p>零拷贝从字面意思理解就是数据不需要来回的拷贝，大大提升了系统的性能；这个词我们也经常在java nio，netty，kafka，RocketMQ等框架中听到，经常作为其提升性能的一大亮点；下面从I/O的几个概念开始，进而在分析零拷贝。</p>
+<h4 id="概念"><a href="#概念" class="headerlink" title="概念"></a>概念</h4><h5 id="术语"><a href="#术语" class="headerlink" title="术语"></a>术语</h5><ol>
+<li><p>零拷贝</p>
+<p>“零拷贝”中的”拷贝”是操作系统在I/O操作中,将数据从一个内存区域复制到另外一个内存区域. 而”零”并不是指0次复制, 更多的是指在用户态和内核态之前的复制是0次.</p>
+</li>
+<li><p>CPU COPY</p>
+<p>通过计算机的组成原理我们知道, 内存的读写操作是需要CPU的协调数据总线,地址总线和控制总线来完成的</p>
+<p>因此在”拷贝”发生的时候,往往需要CPU暂停现有的处理逻辑,来协助内存的读写.这种我们称为CPU COPY</p>
+<p>cpu copy不但占用了CPU资源,还占用了总线的带宽.</p>
+</li>
+<li><p>DMA COPY</p>
+<p>DMA(DIRECT MEMORY ACCESS)是现代计算机的重要功能. 它的一个重要 的特点就是, 当需要与外设进行数据交换时, CPU只需要初始化这个动作便可以继续执行其他指令,剩下的数据传输的动作完全由DMA来完成</p>
+<p>可以看到DMA COPY是可以避免大量的CPU中断的</p>
+</li>
+<li><p>上下文切换</p>
+<p>由用户态切换到内核态, 以及由内核态切换到用户态</p>
+</li>
+</ol>
+<h5 id="I-O概念"><a href="#I-O概念" class="headerlink" title="I/O概念"></a>I/O概念</h5><ol>
+<li><p>缓冲区</p>
+<p>缓冲区是所有I/O的基础，I/O讲的无非就是把数据移进或移出缓冲区；进程执行I/O操作，就是向操作系统发出请求，让它要么把缓冲区的数据排干(写)，要么填充缓冲区(读)；下面看一个java进程发起read请求加载数据大致的流程图：</p>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://s2.ax1x.com/2020/03/07/3XNpVO.png" alt="3XNpVO.png"></p>
+<p>进程发起read请求之后，内核接收到read请求之后，会先检查内核空间中是否已经存在进程所需要的数据，如果已经存在，则直接把数据copy给进程的缓冲区；如果没有内核随即向磁盘控制器发出命令，要求从磁盘读取数据，磁盘控制器把数据直接写入内核read缓冲区，这一步通过DMA完成；接下来就是内核将数据copy到进程的缓冲区；</p>
+<p>如果进程发起write请求，同样需要把用户缓冲区里面的数据copy到内核的socket缓冲区里面，然后再通过DMA把数据copy到网卡中，发送出去；</p>
+<p>你可能觉得这样挺浪费空间的，每次都需要把内核空间的数据拷贝到用户空间中，所以零拷贝的出现就是为了解决这种问题的；</p>
+<p>关于零拷贝提供了两种方式分别是：mmap+write方式，sendfile方式；</p>
+</li>
+<li><p>虚拟内存</p>
+<p>所有现代操作系统都使用虚拟内存，使用虚拟的地址取代物理地址，这样做的好处是：</p>
+<p>1）一个以上的虚拟地址可以指向同一个物理内存地址，</p>
+<p>2）虚拟内存空间可大于实际可用的物理地址；</p>
+<p>利用第一条特性可以把内核空间地址和用户空间的虚拟地址映射到同一个物理地址，这样DMA就可以填充对内核和用户空间进程同时可见的缓冲区了，大致如下图所示：</p>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://s2.ax1x.com/2020/03/07/3XNKIg.png" alt="3XNKIg.png"></p>
+<p>省去了内核与用户空间的往来拷贝，java也利用操作系统的此特性来提升性能，下面重点看看java对零拷贝都有哪些支持。</p>
+</li>
+<li><p>mmap+write方式</p>
+<p>使用mmap+write方式代替原来的read+write方式，mmap是一种内存映射文件的方法，即将一个文件或者其它对象映射到进程的地址空间，实现文件磁盘地址和进程虚拟地址空间中一段虚拟地址的一一对映关系；这样就可以省掉原来内核read缓冲区copy数据到用户缓冲区，但是还是需要内核read缓冲区将数据copy到内核socket缓冲区，大致如下图所示：</p>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://s2.ax1x.com/2020/03/07/3XNGMq.png" alt="3XNGMq.png"></p>
+</li>
+<li><p>sendfile方式</p>
+<p>sendfile系统调用在内核版本2.1中被引入，目的是简化通过网络在两个通道之间进行的数据传输过程。sendfile系统调用的引入，不仅减少了数据复制，还减少了上下文切换的次数，大致如下图所示：</p>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://s2.ax1x.com/2020/03/07/3XNaoF.png" alt="3XNaoF.png"></p>
+<p>数据传送只发生在内核空间，所以减少了一次上下文切换；但是还是存在一次copy，能不能把这一次copy也省略掉，Linux2.4内核中做了改进，将Kernel buffer中对应的数据描述信息（内存地址，偏移量）记录到相应的socket缓冲区当中，这样连内核空间中的一次cpu copy也省掉了；</p>
+</li>
+</ol>
+<h4 id="优化过程"><a href="#优化过程" class="headerlink" title="优化过程"></a>优化过程</h4><p><strong>存在多次拷贝的原因</strong></p>
+<ol>
+<li>操作系统为了保护系统不被应用程序有意或无意地破坏,为操作系统设置了用户态和内核态两种状态.用户态想要获取系统资源(例如访问硬盘), 必须通过系统调用进入到内核态, 由内核态获取到系统资源,再切换回用户态返回应用程序.</li>
+<li>出于”readahead cache”和异步写入等等性能优化的需要, 操作系统在内核态中也增加了一个”内核缓冲区”(kernel buffer). 读取数据时并不是直接把数据读取到应用程序的buffer, 而先读取到kernel buffer, 再由kernel buffer复制到应用程序的buffer. 因此,数据在被应用程序使用之前,可能需要被多次拷贝</li>
+</ol>
+<h5 id="都有哪些不必要的拷贝"><a href="#都有哪些不必要的拷贝" class="headerlink" title="都有哪些不必要的拷贝"></a>都有哪些不必要的拷贝</h5><p>再回答这个问题之前, 我们先来看一个应用场景</p>
+<p>回想现实世界的所有系统中, 不管是web应用服务器, ftp服务器,数据库服务器, 静态文件服务器等等, 所有涉及到数据传输的场景, 无非就一种:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">从硬盘上读取文件数据, 发送到网络上去.</span><br></pre></td></tr></table></figure>
+
+<p>这个场景我们简化为一个模型:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">File.read(fileDesc, buf, len);</span><br><span class="line"> Socket.send(socket, buf, len);</span><br></pre></td></tr></table></figure>
+
+<p>为了方便描述,上面这两行代码, 我们给它起个名字: read-send模型</p>
+<p>操作系统在实现这个read-send模型时,需要有以下步骤:</p>
+<ol>
+<li>应用程序开始读文件的操作</li>
+<li>应用程序发起系统调用, 从用户态切换到内核态(第一次上下文切换)</li>
+<li>内核态中把数据从硬盘文件读取到内核中间缓冲区(kernel buf)</li>
+<li>数据从内核中间缓冲区(kernel buf)复制到(用户态)应用程序缓冲区(app buf),从内核态切换回到用户态(第二次上下文切换)</li>
+<li>应用程序开始发送数据到网络上</li>
+<li>应用程序发起系统调用,从用户态切换到内核态(第三次上下文切换)</li>
+<li>内核中把数据从应用程序(app buf)的缓冲区复制到socket的缓冲区(socket)</li>
+<li>内核中再把数据从socket的缓冲区(socket buf)发送的网卡的缓冲区(NIC buf)上</li>
+<li>从内核态切换回到用户态(第四次上下文切换)</li>
+</ol>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://s2.ax1x.com/2020/03/07/3XafxA.png" alt="3XafxA.png"></p>
+<p>由上图可以很清晰地看到, 一次read-send涉及到了四次拷贝:</p>
+<ol>
+<li>硬盘拷贝到内核缓冲区(DMA COPY)</li>
+<li>内核缓冲区拷贝到应用程序缓冲区(CPU COPY)</li>
+<li>应用程序缓冲区拷贝到socket缓冲区(CPU COPY)</li>
+<li>socket buf拷贝到网卡的buf(DMA COPY)</li>
+</ol>
+<p>其中涉及到2次cpu中断, 还有4次的上下文切换</p>
+<p>很明显,第2次和第3次的的copy只是把数据复制到app buffer又原封不动的复制回来, 为此带来了两次的cpu copy和两次上下文切换, 是完全没有必要的</p>
+<p>linux的零拷贝技术就是为了优化掉这两次不必要的拷贝</p>
+<h5 id="sendFile"><a href="#sendFile" class="headerlink" title="sendFile"></a>sendFile</h5><p>linux内核2.1开始引入一个叫sendFile系统调用,这个系统调用可以在内核态内把数据从内核缓冲区直接复制到套接字(SOCKET)缓冲区内, 从而可以减少上下文的切换和不必要数据的复制</p>
+<p>这个系统调用其实就是一个高级I/O函数, 函数签名如下:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">#include&lt;sys/sendfile.h&gt;</span><br><span class="line">ssize_t senfile(int out_fd,int in_fd,off_t* offset,size_t count);</span><br></pre></td></tr></table></figure>
+
+<ol>
+<li>out_fd是写出的文件描述符,而且必须是一个socket</li>
+<li>in_fd是读取内容的文件描述符,必须是一个真实的文件, 不能是管道或socket</li>
+<li>offset是开始读的位置</li>
+<li>count是将要读取的字节数</li>
+</ol>
+<p>有了sendFile这个系统调用后, 我们read-send模型就可以简化为:</p>
+<ol>
+<li>应用程序开始读文件的操作</li>
+<li>应用程序发起系统调用, 从用户态切换到内核态(第一次上下文切换)</li>
+<li>内核态中把数据从硬盘文件读取到内核中间缓冲区</li>
+<li>通过sendFile,在内核态中把数据从内核缓冲区复制到socket的缓冲区</li>
+<li>内核中再把数据从socket的缓冲区发送的网卡的buf上</li>
+<li>从内核态切换到用户态(第二次上下文切换)</li>
+</ol>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://s2.ax1x.com/2020/03/07/3XdUdf.png" alt="3XdUdf.png"></p>
+<p>涉及到数据拷贝变成:</p>
+<ol>
+<li>硬盘拷贝到内核缓冲区(DMA COPY)</li>
+<li>内核缓冲区拷贝到socket缓冲区(CPU COPY)</li>
+<li>socket缓冲区拷贝到网卡的buf(DMA COPY)</li>
+</ol>
+<p>可以看到,一次read-send模型中, 利用sendFile系统调用后, 可以将4次数据拷贝减少到3次, 4次上下文切换减少到2次, 2次CPU中断减少到1次</p>
+<p>相对传统I/O, 这种零拷贝技术通过减少两次上下文切换, 1次cpu copy, 可以将I/O性能提高50%以上(网络数据, 未亲测)</p>
+<p>开始的术语中说到, 所谓的零拷贝的”零”, 是指用户态和内核态之间的拷贝次数为0, 从这个定义上来说, 现在的这个零拷贝技术已经是真正的”零”了</p>
+<p>然而, 对性能追求极致的伟大的科学家和工程师们并不满足于此. 精益求精的他们对中间第2次的cpu copy依旧耿耿于怀, 想尽千方百计要去掉这一次没有必要的数据拷贝和CPU中断</p>
+<h5 id="支持scatter-gather特性的sendFile"><a href="#支持scatter-gather特性的sendFile" class="headerlink" title="支持scatter-gather特性的sendFile"></a>支持scatter-gather特性的sendFile</h5><p>在内核2.4以后的版本中, linux内核对socket缓冲区描述符做了优化. 通过这次优化, sendFile系统调用可以在只复制kernel buffer的少量元信息的基础上, 把数据直接从kernel buffer 复制到网卡的buffer中去.从而避免了从”内核缓冲区”拷贝到”socket缓冲区”的这一次拷贝.</p>
+<p>这个优化后的sendFile, 我们称之为支持scatter-gather特性的sendFile</p>
+<p>在支持scatter-gather特性的sendFile的支撑下, 我们的read-send模型可以优化为:</p>
+<ol>
+<li>应用程序开始读文件的操作</li>
+<li>应用程序发起系统调用, 从用户态进入到内核态(第一次上下文切换)</li>
+<li>内核态中把数据从硬盘文件读取到内核中间缓冲区</li>
+<li>内核态中把数据在内核缓冲区的位置(offset)和数据大小(size)两个信息追加(append)到socket的缓冲区中去</li>
+<li>网卡的buf上根据socekt缓冲区的offset和size从内核缓冲区中直接拷贝数据</li>
+<li>从内核态返回到用户态(第二次上下文切换)</li>
+</ol>
+<p>这个过程如下图所示:</p>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://s2.ax1x.com/2020/03/07/3XdLTK.png" alt="3XdLTK.png"></p>
+<p>最后数据拷贝变成只有两次DMA COPY:</p>
+<ol>
+<li>硬盘拷贝到内核缓冲区(DMA COPY)</li>
+<li>内核缓冲区拷贝到网卡的buf(DMA COPY)</li>
+</ol>
+<p>完美</p>
+<h5 id="mmap和sendFile"><a href="#mmap和sendFile" class="headerlink" title="mmap和sendFile"></a>mmap和sendFile</h5><p>MMAP(内存映射文件), 是指将文件映射到进程的地址空间去, 实现硬盘上的物理地址跟进程空间的虚拟地址的一一对应关系.</p>
+<p>MMAP是另外一个用于实现零拷贝的系统调用.跟sendFile不一样的地方是, 它是利用共享内存空间的方式, 避免app buf和kernel buf之间的数据拷贝(两个buf共享同一段内存)</p>
+<p>mmap相对于sendFile的好处:</p>
+<ol>
+<li>多个进程访问同一个文件时, 可以节省大量内存.</li>
+<li>由于数据在内核中直接发送到网络上, 用户态中的应用程序无法再次操作数据.</li>
+</ol>
+<p>mmap相对于sendFile的缺点:</p>
+<ol>
+<li>当内存映射一个文件，然后调用write，而另一个进程截断同一个文件,可能被总线错误信号SIGBUS中断, 这个信号的默认行为是kill掉进程和dump core.这个是一般服务器不能接受的</li>
+<li>连续顺序访问小文件时,不如sendFile的readahead cahce高效</li>
+</ol>
+<h4 id="场景"><a href="#场景" class="headerlink" title="场景"></a>场景</h4><h5 id="Java零拷贝"><a href="#Java零拷贝" class="headerlink" title="Java零拷贝"></a>Java零拷贝</h5><ol>
+<li><p>MappedByteBuffer</p>
+<p>java nio提供的FileChannel提供了map()方法，该方法可以在一个打开的文件和MappedByteBuffer之间建立一个虚拟内存映射，MappedByteBuffer继承于ByteBuffer，类似于一个基于内存的缓冲区，只不过该对象的数据元素存储在磁盘的一个文件中；调用get()方法会从磁盘中获取数据，此数据反映该文件当前的内容，调用put()方法会更新磁盘上的文件，并且对文件做的修改对其他阅读者也是可见的；下面看一个简单的读取实例，然后在对MappedByteBuffer进行分析：</p>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://s2.ax1x.com/2020/03/07/3XN0JJ.png" alt="3XN0JJ.png"></p>
+<p>主要通过FileChannel提供的map()来实现映射，map()方法如下：</p>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://s2.ax1x.com/2020/03/07/3XNBW9.png" alt="3XNBW9.png"></p>
+<p>分别提供了三个参数，MapMode，Position和size；分别表示：</p>
+<p><strong>MapMode：映射的模式，可选项包括：READ_ONLY，READ_WRITE，PRIVATE；</strong></p>
+<p><strong>Position：从哪个位置开始映射，字节数的位置；</strong></p>
+<p><strong>Size：从position开始向后多少个字节；</strong></p>
+<p>重点看一下MapMode，请两个分别表示只读和可读可写，当然请求的映射模式受到Filechannel对象的访问权限限制，如果在一个没有读权限的文件上启用READ_ONLY，将抛出NonReadableChannelException；PRIVATE模式表示写时拷贝的映射，意味着通过put()方法所做的任何修改都会导致产生一个私有的数据拷贝并且该拷贝中的数据只有MappedByteBuffer实例可以看到；该过程不会对底层文件做任何修改，而且一旦缓冲区被施以垃圾收集动作（garbage collected），那些修改都会丢失；大致浏览一下map()方法的源码：</p>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://s2.ax1x.com/2020/03/07/3XNfFe.png" alt="3XNfFe.png"></p>
+<p>大致意思就是通过native方法获取内存映射的地址，如果失败，手动gc再次映射；最后通过内存映射的地址实例化出MappedByteBuffer，MappedByteBuffer本身是一个抽象类，其实这里真正实例话出来的是DirectByteBuffer；</p>
+</li>
+<li><p>DirectByteBuffer</p>
+<p>DirectByteBuffer继承于MappedByteBuffer，从名字就可以猜测出开辟了一段直接的内存，并不会占用jvm的内存空间；上一节中通过Filechannel映射出的MappedByteBuffer其实际也是DirectByteBuffer，当然除了这种方式，也可以手动开辟一段空间：</p>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://s2.ax1x.com/2020/03/07/3XNbef.png" alt="3XNbef.png"></p>
+<p>如上开辟了100字节的直接内存空间；</p>
+</li>
+<li><p>Channel-to-Channel传输</p>
+<p>经常需要从一个位置将文件传输到另外一个位置，FileChannel提供了transferTo()方法用来提高传输的效率，首先看一个简单的实例：</p>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://s2.ax1x.com/2020/03/07/3XNqw8.png" alt="3XNqw8.png"></p>
+<p>通过FileChannel的transferTo()方法将文件数据传输到System.out通道，接口定义如下：</p>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://s2.ax1x.com/2020/03/07/3XNXFg.png" alt="3XNXFg.png"></p>
+<p>几个参数也比较好理解，分别是开始传输的位置，传输的字节数，以及目标通道；transferTo()允许将一个通道交叉连接到另一个通道，而不需要一个中间缓冲区来传递数据；</p>
+<p>注：这里不需要中间缓冲区有两层意思：第一层不需要用户空间缓冲区来拷贝内核缓冲区，另外一层两个通道都有自己的内核缓冲区，两个内核缓冲区也可以做到无需拷贝数据；</p>
+</li>
+</ol>
+<h5 id="Netty零拷贝"><a href="#Netty零拷贝" class="headerlink" title="Netty零拷贝"></a>Netty零拷贝</h5><p>netty提供了零拷贝的buffer，在传输数据时，最终处理的数据会需要对单个传输的报文，进行组合和拆分，Nio原生的ByteBuffer无法做到，netty通过提供的Composite(组合)和Slice(拆分)两种buffer来实现零拷贝；看下面一张图会比较清晰：</p>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://s2.ax1x.com/2020/03/07/3XUiwT.png" alt="3XUiwT.png"></p>
+<p>TCP层HTTP报文被分成了两个ChannelBuffer，这两个Buffer对我们上层的逻辑(HTTP处理)是没有意义的。但是两个ChannelBuffer被组合起来，就成为了一个有意义的HTTP报文，这个报文对应的ChannelBuffer，才是能称之为”Message”的东西，这里用到了一个词”Virtual Buffer”。</p>
+<p>可以看一下netty提供的CompositeChannelBuffer源码：</p>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://s2.ax1x.com/2020/03/07/3XUmlR.png" alt="3XUmlR.png"></p>
+<p>components用来保存的就是所有接收到的buffer，indices记录每个buffer的起始位置，lastAccessedComponentId记录上一次访问的ComponentId；CompositeChannelBuffer并不会开辟新的内存并直接复制所有ChannelBuffer内容，而是直接保存了所有ChannelBuffer的引用，并在子ChannelBuffer里进行读写，实现了零拷贝。</p>
+<h5 id="其他零拷贝"><a href="#其他零拷贝" class="headerlink" title="其他零拷贝"></a>其他零拷贝</h5><p>RocketMQ的消息采用顺序写到commitlog文件，然后利用consume queue文件作为索引；RocketMQ采用零拷贝mmap+write的方式来回应Consumer的请求；</p>
+<p>同样kafka中存在大量的网络数据持久化到磁盘和磁盘文件通过网络发送的过程，kafka使用了sendfile零拷贝方式；</p>
+<h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><ol>
+<li><a target="_blank" rel="noopener" href="https://juejin.im/post/5c70d808e51d45370467c30e">https://juejin.im/post/5c70d808e51d45370467c30e</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/e9f422586749">https://www.jianshu.com/p/e9f422586749</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.ibm.com/developerworks/cn/java/j-zerocopy/">https://www.ibm.com/developerworks/cn/java/j-zerocopy/</a></li>
+<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/u014303647/article/details/82081451">https://blog.csdn.net/u014303647/article/details/82081451</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/f3bea2f6c0b7">https://www.jianshu.com/p/f3bea2f6c0b7</a></li>
+</ol>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">平心</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://pingxin0521.gitee.io/2020/03/07/%E5%91%A8%E8%AE%B0-8-0/">https://pingxin0521.gitee.io/2020/03/07/%E5%91%A8%E8%AE%B0-8-0/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://pingxin0521.gitee.io" target="_blank">平心de小屋</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E5%91%A8%E8%AE%B0/">周记</a></div><div class="post_share"><div class="social-share" data-image="https://i.loli.net/2020/05/08/7dHvepmfYOLWTrX.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2020/03/08/%E5%91%A8%E8%AE%B0-8-1/"><img class="prev-cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/7dHvepmfYOLWTrX.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">第九周--离不开的二维码</div></div></a></div><div class="next-post pull-right"><a href="/2020/02/27/Java-%E5%9F%BA%E7%A1%80-3-5-0/"><img class="next-cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/PFDRNxj93taz6pw.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">Java 特殊集合类--BitSet</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span> 相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2019/11/14/周记-0-0/" title="何为道？"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/gGE57HRvpcKPfDY.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2019-12-15</div><div class="title">何为道？</div></div></a></div><div><a href="/2019/11/14/周记-0-1/" title="第一周--云原生"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/vCnKyoFJZ1g4XYR.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2020-01-04</div><div class="title">第一周--云原生</div></div></a></div><div><a href="/2019/11/15/周记-0-2/" title="第一周--混合云"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/PFDRNxj93taz6pw.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2019-11-15</div><div class="title">第一周--混合云</div></div></a></div><div><a href="/2019/11/14/周记-0-3/" title="第一周--DevOps"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/HjVAdIuT7bZJypS.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2019-11-21</div><div class="title">第一周--DevOps</div></div></a></div><div><a href="/2020/12/26/周记-10-1/" title="第十一周--谷歌浏览器插件"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/gGE57HRvpcKPfDY.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2020-12-26</div><div class="title">第十一周--谷歌浏览器插件</div></div></a></div><div><a href="/2019/11/18/周记-1-1/" title="第二周--BT和BT种子"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/PFDRNxj93taz6pw.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2019-11-28</div><div class="title">第二周--BT和BT种子</div></div></a></div></div></div><hr/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div class="vcomment" id="vcomment"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="card-info-avatar is-center"><img class="avatar-img" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://s2.ax1x.com/2020/02/11/1ovw6J.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/><div class="author-info__name">平心</div><div class="author-info__description">年轻人的life、learn and think</div></div><div class="card-info-data"><div class="card-info-data-item is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">449</div></a></div><div class="card-info-data-item is-center"><a href="/tags/"><div class="headline">标签</div><div class="length-num">77</div></a></div><div class="card-info-data-item is-center"><a href="/categories/"><div class="headline">分类</div><div class="length-num">68</div></a></div></div><a class="button--animated" id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/hanyunpeng0521"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/hanyunpeng0521" target="_blank" title="Github"><i class="fa fa-github"></i></a><a class="social-icon" href="mailto:m13839441583@163.com" target="_blank" title="Email"><i class="fa fa-envelope"></i></a><a class="social-icon" href="/atom.xml" target="_blank" title=""><i class="fa fa-rss"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn card-announcement-animation"></i><span>公告</span></div><div class="announcement_content">为什么呢？开始提问吧</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%9C%AC%E5%91%A8%E9%80%9F%E8%AE%B0"><span class="toc-number">1.</span> <span class="toc-text">本周速记</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%9B%B6%E6%8B%B7%E8%B4%9D"><span class="toc-number"></span> <span class="toc-text">零拷贝</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%A6%82%E5%BF%B5"><span class="toc-number">1.</span> <span class="toc-text">概念</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%9C%AF%E8%AF%AD"><span class="toc-number">1.1.</span> <span class="toc-text">术语</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#I-O%E6%A6%82%E5%BF%B5"><span class="toc-number">1.2.</span> <span class="toc-text">I&#x2F;O概念</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BC%98%E5%8C%96%E8%BF%87%E7%A8%8B"><span class="toc-number">2.</span> <span class="toc-text">优化过程</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E9%83%BD%E6%9C%89%E5%93%AA%E4%BA%9B%E4%B8%8D%E5%BF%85%E8%A6%81%E7%9A%84%E6%8B%B7%E8%B4%9D"><span class="toc-number">2.1.</span> <span class="toc-text">都有哪些不必要的拷贝</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#sendFile"><span class="toc-number">2.2.</span> <span class="toc-text">sendFile</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%94%AF%E6%8C%81scatter-gather%E7%89%B9%E6%80%A7%E7%9A%84sendFile"><span class="toc-number">2.3.</span> <span class="toc-text">支持scatter-gather特性的sendFile</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#mmap%E5%92%8CsendFile"><span class="toc-number">2.4.</span> <span class="toc-text">mmap和sendFile</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%9C%BA%E6%99%AF"><span class="toc-number">3.</span> <span class="toc-text">场景</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#Java%E9%9B%B6%E6%8B%B7%E8%B4%9D"><span class="toc-number">3.1.</span> <span class="toc-text">Java零拷贝</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#Netty%E9%9B%B6%E6%8B%B7%E8%B4%9D"><span class="toc-number">3.2.</span> <span class="toc-text">Netty零拷贝</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%85%B6%E4%BB%96%E9%9B%B6%E6%8B%B7%E8%B4%9D"><span class="toc-number">3.3.</span> <span class="toc-text">其他零拷贝</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8F%82%E8%80%83"><span class="toc-number"></span> <span class="toc-text">参考</span></a></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2021/05/15/node-2-4/" title="Egg.js -- 为企业级框架和应用而生"><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/okfOw28KlZFbE7z.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Egg.js -- 为企业级框架和应用而生"/></a><div class="content"><a class="title" href="/2021/05/15/node-2-4/" title="Egg.js -- 为企业级框架和应用而生">Egg.js -- 为企业级框架和应用而生</a><time datetime="2021-05-15T10:18:59.000Z" title="发表于 2021-05-15 18:18:59">2021-05-15</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/04/30/node-2-3/" title="Koa -- 基于Node.js平台的下一代Web开发框架"><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/HjVAdIuT7bZJypS.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Koa -- 基于Node.js平台的下一代Web开发框架"/></a><div class="content"><a class="title" href="/2021/04/30/node-2-3/" title="Koa -- 基于Node.js平台的下一代Web开发框架">Koa -- 基于Node.js平台的下一代Web开发框架</a><time datetime="2021-04-30T10:18:59.000Z" title="发表于 2021-04-30 18:18:59">2021-04-30</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/04/01/node-2-1/" title="Node.JS web开发前置知识"><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/gGE57HRvpcKPfDY.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Node.JS web开发前置知识"/></a><div class="content"><a class="title" href="/2021/04/01/node-2-1/" title="Node.JS web开发前置知识">Node.JS web开发前置知识</a><time datetime="2021-04-01T03:18:59.000Z" title="发表于 2021-04-01 11:18:59">2021-04-01</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2020/12/26/%E5%91%A8%E8%AE%B0-10-1/" title="第十一周--谷歌浏览器插件"><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/gGE57HRvpcKPfDY.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="第十一周--谷歌浏览器插件"/></a><div class="content"><a class="title" href="/2020/12/26/%E5%91%A8%E8%AE%B0-10-1/" title="第十一周--谷歌浏览器插件">第十一周--谷歌浏览器插件</a><time datetime="2020-12-26T10:18:59.000Z" title="发表于 2020-12-26 18:18:59">2020-12-26</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2020/12/26/%E5%91%A8%E8%AE%B0-10-0/" title="第十一周--浏览器技术"><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/vCnKyoFJZ1g4XYR.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="第十一周--浏览器技术"/></a><div class="content"><a class="title" href="/2020/12/26/%E5%91%A8%E8%AE%B0-10-0/" title="第十一周--浏览器技术">第十一周--浏览器技术</a><time datetime="2020-12-26T06:18:59.000Z" title="发表于 2020-12-26 14:18:59">2020-12-26</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2019 - 2021 By 平心</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div id="local-search"><div class="search-dialog"><div class="search-dialog__title" id="local-search-title">本地搜索</div><div id="local-input-panel"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div></div><hr/><div id="local-search-results"></div><span class="search-close-button"><i class="fas fa-times"></i></span></div><div id="search-mask"></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload/dist/lazyload.iife.min.js"></script><script src="/js/search/local-search.js"></script><div class="js-pjax"><script>function loadValine () {
+  function initValine () {
+    const valine = new Valine(Object.assign({
+      el: '#vcomment',
+      appId: '4lfIXzqxaC1ONs0MJO4oHu07-gzGzoHsz',
+      appKey: 'qw99Bw8FD0KVKU9m457CwWsr',
+      placeholder: 'Please leave your footprints',
+      avatar: 'monsterid',
+      meta: 'nick,mail,link'.split(','),
+      pageSize: '10',
+      lang: 'zh-CN',
+      recordIP: true,
+      serverURLs: '',
+      emojiCDN: '',
+      emojiMaps: "",
+      enableQQ: true,
+      path: window.location.pathname,
+      requiredFields: ["nick,mail"],
+      visitor: false
+    }, null))
+  }
+
+  if (typeof Valine === 'function') initValine() 
+  else getScript('https://cdn.jsdelivr.net/npm/valine/dist/Valine.min.js').then(initValine)
+}
+
+if ('Valine' === 'Valine' || !false) {
+  if (false) btf.loadComment(document.getElementById('vcomment'),loadValine)
+  else setTimeout(loadValine, 0)
+} else {
+  function loadOtherComment () {
+    loadValine()
+  }
+}</script></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>

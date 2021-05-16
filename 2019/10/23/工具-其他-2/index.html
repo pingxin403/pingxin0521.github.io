@@ -1,0 +1,356 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Vagrant--构建和管理虚拟机环境 | 平心de小屋</title><meta name="keywords" content="工具,其他"><meta name="author" content="平心"><meta name="copyright" content="平心"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="Vagrant 是一个用来构建和管理虚拟机环境的工具。Vagrant 有着易于使用的工作流，并且专注于自动化，降低了开发者搭建环境的时间，提高了生产力。解决了“在我的机器上可以工作”的问题。  Vagrant 是为了方便的实现虚拟化环境而设计的，使用 Ruby 开发，基于 VirtualBox 等虚拟机管理软件的接口，提供了一个可配置、轻量级的便携式虚拟开发环境。使用 Vagrant 可以很方便的">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Vagrant--构建和管理虚拟机环境">
+<meta property="og:url" content="https://pingxin0521.gitee.io/2019/10/23/%E5%B7%A5%E5%85%B7-%E5%85%B6%E4%BB%96-2/index.html">
+<meta property="og:site_name" content="平心de小屋">
+<meta property="og:description" content="Vagrant 是一个用来构建和管理虚拟机环境的工具。Vagrant 有着易于使用的工作流，并且专注于自动化，降低了开发者搭建环境的时间，提高了生产力。解决了“在我的机器上可以工作”的问题。  Vagrant 是为了方便的实现虚拟化环境而设计的，使用 Ruby 开发，基于 VirtualBox 等虚拟机管理软件的接口，提供了一个可配置、轻量级的便携式虚拟开发环境。使用 Vagrant 可以很方便的">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://i.loli.net/2020/05/08/vCnKyoFJZ1g4XYR.jpg">
+<meta property="article:published_time" content="2019-10-23T02:18:59.000Z">
+<meta property="article:modified_time" content="2019-10-30T09:10:13.036Z">
+<meta property="article:author" content="平心">
+<meta property="article:tag" content="工具">
+<meta property="article:tag" content="其他">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.loli.net/2020/05/08/vCnKyoFJZ1g4XYR.jpg"><link rel="shortcut icon" href="https://s2.ax1x.com/2020/02/11/1ovFOA.png"><link rel="canonical" href="https://pingxin0521.gitee.io/2019/10/23/%E5%B7%A5%E5%85%B7-%E5%85%B6%E4%BB%96-2/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"search.xml","languages":{"hits_empty":"找不到您查询的内容：${query}"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    jQuery: 'https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js',
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+    },
+    fancybox: {
+      js: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css'
+    }
+  },
+  isPhotoFigcaption: true,
+  islazyload: true,
+  isanchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'Vagrant--构建和管理虚拟机环境',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2019-10-30 17:10:13'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    })(window)</script><meta name="generator" content="Hexo 5.4.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="author-avatar"><img class="avatar-img" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://s2.ax1x.com/2020/02/11/1ovw6J.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data"><div class="data-item is-center"><div class="data-item-link"><a href="/archives/"><div class="headline">文章</div><div class="length-num">449</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/tags/"><div class="headline">标签</div><div class="length-num">77</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/categories/"><div class="headline">分类</div><div class="length-num">68</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fa fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fa fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://i.loli.net/2020/05/08/vCnKyoFJZ1g4XYR.jpg')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">平心de小屋</a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fa fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fa fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">Vagrant--构建和管理虚拟机环境</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2019-10-23T02:18:59.000Z" title="发表于 2019-10-23 10:18:59">2019-10-23</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2019-10-30T09:10:13.036Z" title="更新于 2019-10-30 17:10:13">2019-10-30</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E5%B7%A5%E5%85%B7/">工具</a><i class="fas fa-angle-right post-meta-separator"></i><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E5%B7%A5%E5%85%B7/%E5%85%B6%E4%BB%96/">其他</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">3.7k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>13分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="Vagrant--构建和管理虚拟机环境"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><p>Vagrant 是一个用来构建和管理虚拟机环境的工具。Vagrant 有着易于使用的工作流，并且专注于自动化，降低了开发者搭建环境的时间，提高了生产力。解决了“在我的机器上可以工作”的问题。</p>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://s2.ax1x.com/2019/10/30/K4ZAnP.png" alt="K4ZAnP.png"></p>
+<p>Vagrant 是为了方便的实现虚拟化环境而设计的，使用 Ruby 开发，基于 VirtualBox 等虚拟机管理软件的接口，提供了一个可配置、轻量级的便携式虚拟开发环境。使用 Vagrant 可以很方便的就建立起来一个虚拟环境，而且可以模拟多台虚拟机，这样我们平时还可以在开发机模拟分布式系统。</p>
+<span id="more"></span>
+
+<p>团队新员工加入，常常会遇到花一天甚至更多时间来从头搭建完整的开发环境，而有了Vagrant，只需要直接将已经打包好的 package（里面包括开发工具，代码库，配置好的服务器等）拿过来就可以工作了，这对于提升工作效率非常有帮助。</p>
+<p><strong>为什么选择 Vagrant</strong></p>
+<p>Vagrant 提供了一个易于配置，可重复使用，兼容的环境，通过一个单一的工作流程来控制，帮助你和团队最大化生产力和灵活性。<br>为了实现 Vagrant 的魔力，Vagrant 站在了巨人的肩膀上。虚拟机的配置基于 VirtualBox，VMware，AWS 或者其他提供商。然后一些配置工具，比如 shell 脚本，Chef 或者 Puppet 可以自动化地在虚拟机安装并配置软件。</p>
+<ol>
+<li><p>对于开发者人员</p>
+<p>如果你是一个开发者，Vagrant 将在一个一次性的、一致的环境中隔离依赖项及其配置，而不会影响你习惯使用的任何工具(编辑器、浏览器、调试器等)。一旦你或者其他人创建了一个 Vagrantfile，你只需要执行 vagrant up 所有的东西就自动安装和配置了。你团队中的其他成员使用同一个配置文件来创建开发环境，因此不管你工作在 Linux，MacOS X 还是 Windows， 所有团队的成员都可以在统一的环境环境中运行代码，这样就可以避免“在我的机器上可以工作”的问题。</p>
+</li>
+<li><p>对于运维人员</p>
+<p>如果你是一个运维工程师或者 DevOps 工程师，Vagrant 给予你一个一次性的环境来开发和测试基础架构管理脚本。你可以使用本地虚拟机（比如 VirtualBox 或者 VMware）马上测试一些东西，比如 shell 脚本，Chef cookbooks，Puppet 模块等。然后，你可以用同样的配置在远程云上，比如 AWS 或者 RackSpace，来测试这些脚本。抛弃之前自定义脚本来回收 EC2 实例吧，停止使用 SSH 在各种机器之间跳来跳去，请开始使用 Vagrant 来给你的工作带来更多便利。</p>
+</li>
+</ol>
+<p><strong>Vagrant 和 Terraform 的区别</strong></p>
+<p>Vagrant 和 Terraform 都出自同一个公司 HashiCorp，该公司主要做一些开源软件，相关的产品还有 Packer，Consul，Vault，Nomad 等。</p>
+<p>Terraform 的主要用途是管理云提供商的远程资源，比如 AWS。Terraform 可以管理横跨多个云提供商巨量的基础设施。而 Vagrant 主要用来管理仅使用少量虚拟机的本地开发环境。</p>
+<p>Vagrant 用于开发环境，Terraform 普遍用于基础设施管理。</p>
+<p><strong>VirtualBox 安装</strong></p>
+<p>VirtualBox 是 Oracle 开源的虚拟化系统，和 VMware 是同类产品，支持多个平台，可以到官方网站：<a target="_blank" rel="noopener" href="https://www.virtualbox.org/wiki/Downloads">https://www.virtualbox.org/wiki/Downloads</a> 下载适合你平台的 VirtualBox 最新版本并安装。</p>
+<p>安装后重启生效</p>
+<p>提示：对于 Mac 用户，如果系统为 OSX 10.13.3(mac OS High Sierra) 或者更高版本，安装过程可能会失败，报错提示安装失败，安装器遇到了一个错误导致安装失败…，原因是新版本 Mac 系统的安全机制阻止外部内核扩展安装，导致安装失败。两种解决方法：</p>
+<ol>
+<li>进入系统偏好设置&gt;安全性与隐私&gt;通用，然后手动允许；</li>
+<li>在终端敲命令禁用此安全特性：<code>sudo spctl --master-disable</code>；</li>
+</ol>
+<p><strong>Vagrant 安装</strong></p>
+<p>到官方网站下载相应系统平台的安装包：<a target="_blank" rel="noopener" href="http://www.vagrantup.com/downloads.html">http://www.vagrantup.com/downloads.html</a><br>直接根据向导进行操作即可完成安装，安装完后就可以在终端输入 vagrant 命令了。</p>
+<p>提示：尽量下载最新的程序，因为VirtualBox经常升级，升级后有些接口会变化，老的Vagrant 可能无法使用。</p>
+<h4 id="Vagrant-启动第一台虚拟机"><a href="#Vagrant-启动第一台虚拟机" class="headerlink" title="Vagrant 启动第一台虚拟机"></a>Vagrant 启动第一台虚拟机</h4><p>到此准备工作（VirtualBox 和 Vagrant 安装）基本上做完了，接下来就可以通过 Vagrant 来启动一台虚拟机了。</p>
+<p>在启动虚拟机之前先简单介绍下 Vagrant box：box 是一个打包好的操作系统，是一个后缀名为 .box 的文件，其实是一个压缩包，里面包含了 Vagrant 的配置信息和 VirtualBox 的虚拟机镜像文件。vagrant up 启动虚拟机是基于 box 文件的，因此在启动虚拟机前必须得把 box 文件准备好。或者也可以在启动的时候指定远程 box 地址，在这里我把 box 文件下载下来，然后启动时指定该文件。</p>
+<p>第三方box: <a target="_blank" rel="noopener" href="http://www.vagrantbox.es/">http://www.vagrantbox.es/</a> 提供了各发行版/provider的下载链接，貌似官方的url也有</p>
+<p><strong>使用清华镜像源</strong></p>
+<p>这里使用ubuntu 18.04 box，使用清华源进行下载</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">https://mirrors.tuna.tsinghua.edu.cn/ubuntu-cloud-images/bionic/current/</span><br></pre></td></tr></table></figure>
+
+<p>我一般是这样操作的，例如要使用ubuntu18的box，终端运行如下命令</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">vagrant box add \</span><br><span class="line">https://mirrors.tuna.tsinghua.edu.cn/ubuntu-cloud-images/bionic/current/bionic-server-cloudimg-amd64-vagrant.box \</span><br><span class="line">--name ubuntu/bionic</span><br><span class="line"><span class="meta">#</span><span class="bash"> ubuntu14的话用这个</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> vagrant box add https://mirrors.tuna.tsinghua.edu.cn/ubuntu-cloud-images/vagrant/trusty/current/trusty-server-cloudimg-amd64-vagrant-disk1.box --name ubuntu/trusty</span></span><br></pre></td></tr></table></figure>
+
+<p>Vagrantfile这样写：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">...</span><br><span class="line">config.vm.box = &quot;ubuntu/bionic&quot;</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+
+<p>接着就是<code>vagrant up &amp;&amp; vagrant ssh</code>了</p>
+<p><strong>离线添加vagrant box</strong></p>
+<ol>
+<li><p>Vagrant box Ubuntu 16.04 百度网盘下载地址</p>
+<p><a target="_blank" rel="noopener" href="http://pan.baidu.com/s/1gfNCud1">http://pan.baidu.com/s/1gfNCud1</a></p>
+</li>
+<li><p>Vagrant box Centos 7 百度网盘下载地址</p>
+<p><a target="_blank" rel="noopener" href="https://pan.baidu.com/s/1kVlAz59">https://pan.baidu.com/s/1kVlAz59</a></p>
+</li>
+<li><p>Vagrant box Debian 8 百度网盘下载地址</p>
+<p><a target="_blank" rel="noopener" href="http://pan.baidu.com/s/1mhAuONu">http://pan.baidu.com/s/1mhAuONu</a></p>
+</li>
+</ol>
+<p>下载后的使用方法</p>
+<ol>
+<li>添加vagrant box到box list</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vagrant box add centos7 CentOS-7.box</span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li>初始化一个虚拟机使用刚才添加的vagrant box</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vagrant init centos7</span><br></pre></td></tr></table></figure>
+
+<ol start="3">
+<li>启动vagrant box虚拟机</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vagrant up</span><br></pre></td></tr></table></figure>
+
+<p>或者参考这个：<a target="_blank" rel="noopener" href="https://blog.csdn.net/noobman/article/details/87705704">离线添加vagrant box</a></p>
+<p><strong>操作</strong></p>
+<p>使用清华源下载<code>.box</code>文件后</p>
+<ol>
+<li><p>新建一个目录作为 <code>Vagrant</code> 的工程目录 </p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ mkdir ubuntu-18   </span><br><span class="line">$ cd ubuntu-18 </span><br></pre></td></tr></table></figure></li>
+<li><p>添加前面下载的 <code>box</code><br>添加 <code>box</code> 命令格式：<code>vagrant box add &lt;本地 box 名称&gt; </code></p>
+<ul>
+<li>本地 <code>box</code> 名称：自定义名称，该名称是本地 <code>vagrant</code> 管理时使用的名称；</li>
+<li><code>box</code> 文件：前面下载的 <code>vagrant box</code> 文件或者远程 <code>box</code> url 地址；</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$ vagrant box add ubuntu-server-18.04  bionic-server-cloudimg-amd64-vagrant.box         1 ↵</span><br><span class="line">==&gt; box: Box file was not detected as metadata. Adding it directly...</span><br><span class="line">==&gt; box: Adding box &#x27;ubuntu-server-18.04&#x27; (v0) for provider: </span><br><span class="line">    box: Unpacking necessary files from: file:///home/hyp/bionic-server-cloudimg-amd64-vagrant.box</span><br><span class="line">==&gt; box: Successfully added box &#x27;ubuntu-server-18.04&#x27; (v0) for &#x27;virtualbox&#x27;!</span><br></pre></td></tr></table></figure></li>
+<li><p>查看 <code>box</code> 是否添加成功<br>查看当前 <code>vagrant</code> 中有哪些 <code>box</code>：<code>vagrant box list</code></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">vagrant box list</span><br><span class="line">ubuntu-server-18.04 (virtualbox, 0)</span><br></pre></td></tr></table></figure></li>
+<li><p>初始化上面添加的 box<br>初始化命令格式：vagrant init &lt;本地 box 名称&gt;<br>本地 box 名称：第 2 步中添加的 box 名称<br>这里初始化前面添加的 box，初始化后会在当前目录生产一个 Vagrantfile 文件，里面包含了虚拟机的各种配置，关于具体每个配置项是什么意思，后面会介绍。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$ vagrant init &#x27;ubuntu-server-18.04&#x27;</span><br><span class="line">A `Vagrantfile` has been placed in this directory. You are now</span><br><span class="line">ready to `vagrant up` your first virtual environment! Please read</span><br><span class="line">the comments in the Vagrantfile as well as documentation on</span><br><span class="line">`vagrantup.com` for more information on using Vagrant.</span><br></pre></td></tr></table></figure></li>
+<li><p>启动虚拟机</p>
+<p>虚拟机启动命令：<code>vagrant up</code><br>启动虚拟机时会自动将当前目录（即 Vagrantfile 文件所在目录），和虚拟机的 <code>/vagrant</code> 目录共享。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">$ vagrant up                                                                      </span><br><span class="line">Bringing machine &#x27;default&#x27; up with &#x27;virtualbox&#x27; provider...</span><br><span class="line">==&gt; default: Importing base box &#x27;ubuntu-server-18.04&#x27;...</span><br><span class="line">==&gt; default: Matching MAC address for NAT networking...</span><br><span class="line">==&gt; default: Setting the name of the VM: ubuntu-18_default_1572422605624_82147</span><br><span class="line">.....</span><br><span class="line">    default: Guest Additions Version: 5.2.32</span><br><span class="line">    default: VirtualBox Version: 6.0</span><br><span class="line">==&gt; default: Mounting shared folders...</span><br><span class="line">    default: /vagrant =&gt; /home/hyp/ubuntu-18</span><br></pre></td></tr></table></figure></li>
+<li><p>连接虚拟机</p>
+<p>命令格式：<code>vagrant ssh</code></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">$ vagrant ssh                                                                     </span><br><span class="line">Welcome to Ubuntu 18.04.3 LTS (GNU/Linux 4.15.0-66-generic x86_64)</span><br><span class="line"></span><br><span class="line"> * Documentation:  https://help.ubuntu.com</span><br><span class="line"> * Management:     https://landscape.canonical.com</span><br><span class="line"> * Support:        https://ubuntu.com/advantage</span><br><span class="line"></span><br><span class="line">  System information as of Wed Oct 30 08:04:50 UTC 2019</span><br><span class="line"></span><br><span class="line">  System load:  0.14              Processes:             98</span><br><span class="line">  Usage of /:   10.0% of 9.63GB   Users logged in:       0</span><br><span class="line">  Memory usage: 12%               IP address for enp0s3: 10.0.2.15</span><br><span class="line">  Swap usage:   0%</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">0 packages can be updated.</span><br><span class="line">0 updates are security updates.</span><br><span class="line"></span><br><span class="line">vagrant@ubuntu-bionic:~$ </span><br></pre></td></tr></table></figure></li>
+<li><p>查看 Vagrant 共享目录</p>
+<p>进入虚拟机后执行 <code>df -h</code> 可以看到 Vagrant 默认把宿主机 <code>Vagrantfile</code> 所在的目录和虚拟机的 <code>/vagrant</code> 目录共享，可以通过 <code>ls /vagrant/</code> 查看该目录内容，内容和宿主机对应目录一致。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">ubuntu@ubuntu-xenial:~$ df -h</span><br><span class="line">Filesystem      Size  Used Avail Use% Mounted on</span><br><span class="line">udev            490M     0  490M   0% /dev</span><br><span class="line">tmpfs           100M  3.1M   97M   4% /run</span><br><span class="line">/dev/sda1       9.7G  857M  8.8G   9% /</span><br><span class="line">tmpfs           497M     0  497M   0% /dev/shm</span><br><span class="line">tmpfs           5.0M     0  5.0M   0% /run/lock</span><br><span class="line">tmpfs           497M     0  497M   0% /sys/fs/cgroup</span><br><span class="line">vagrant         234G   49G  185G  21% /vagrant</span><br><span class="line">tmpfs           100M     0  100M   0% /run/user/1000</span><br><span class="line"></span><br><span class="line"># ls 查看该共享目录内容和宿主机内容一致，/vagrant =&gt; /home/hyp/ubuntu-18</span><br><span class="line">ubuntu@ubuntu-xenial:~$ ls /vagrant/</span><br><span class="line">ubuntu-xenial-16.04-cloudimg-console.log  Vagrantfile</span><br></pre></td></tr></table></figure></li>
+<li><p>关闭虚拟机</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ vagrant suspend                                                                 </span><br><span class="line">==&gt; default: Saving VM state and suspending execution...</span><br></pre></td></tr></table></figure></li>
+</ol>
+<h4 id="Vagrant-配置文件浅析"><a href="#Vagrant-配置文件浅析" class="headerlink" title="Vagrant 配置文件浅析"></a>Vagrant 配置文件浅析</h4><p>前面我们执行 vagrant init &lt;本地 box 名称&gt; 会在当前目录生成 Vagrantfile 文件，这个文件是非常重要的，一般给别人共享自己的环境时都是提供一个 Vagrantfile 和一个 box 文件，这样就可以很轻松地将环境共享给别人，别人能得到一模一样的统一的环境，这就是使用 Vagrant 的好处。</p>
+<p><code>Vagrantfile</code> 主要包括三个方面的配置，虚拟机的配置、SSH配置、Vagrant 的一些基础配置。Vagrant 是使用 Ruby 开发的，所以它的配置语法也是 Ruby 的，对于没有学过 Ruby 的朋友也没关系，根据例子模仿下就会了。</p>
+<p>修改完配置后需要执行 <code>vagrant reload</code> 重启 VM 使其配置生效。</p>
+<p>以下简单介绍下常用配置的配置项：</p>
+<ol>
+<li>box 名称设置</li>
+</ol>
+  <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">config.vm.box = &quot;base&quot;</span><br></pre></td></tr></table></figure>
+
+<p>  上面这配置展示了 Vagrant 要去启用那个box作为系统，也就是前面我们输入 <code>vagrant init &lt;本地 box 名称&gt;</code>时所指定的 box，如果沒有输入 box 名称的话，那么默认就是 base。</p>
+<ol start="2">
+<li><p>VM 相关配置</p>
+<p>VirtualBox 提供了 VBoxManage 这个命令行工具，可以让我们设定 VM，用modifyvm这个命令让我们可以设定 VM 的名称和内存大小等等，这里说的名称指的是在 VirtualBox 中显示的名称，我们也可以在 Vagrantfile 中进行设定，举例如下：</p>
+<blockquote>
+<p>调用 VBoxManage 的 <code>modifyvm</code> 的命令，设置 VM 的名称为 <code>ubuntu</code>，内存为 1024 MB。你可以类似的通过定制其它 VM 属性来定制你自己的 VM。</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">config.vm.provider &quot;virtualbox&quot; do |v|</span><br><span class="line">  v.customize [&quot;modifyvm&quot;, :id, &quot;--name&quot;, &quot;ubuntu&quot;, &quot;--memory&quot;, &quot;1024&quot;]</span><br><span class="line">end</span><br></pre></td></tr></table></figure></li>
+<li><p>网络设置</p>
+<p>Vagrant 有两种方式来进行网络连接，一种是 host-only (主机模式)，这种模式下所有的虚拟系统是可以互相通信的，但虚拟系统和真实的网络是被隔离开的，虚拟机和宿主机是可以互相通信的，相当于两台机器通过双绞线互联。另一种是Bridge(桥接模式)，该模式下的 VM 就像是局域网中的一台独立的主机，可以和局域网中的任何一台机器通信，这种情况下需要手动给 VM 配 IP 地址，子网掩码等。我们一般选择 host-only 模式，配置如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">config.vm.network :private_network, ip: &quot;11.11.11.11&quot;</span><br></pre></td></tr></table></figure></li>
+<li><p>hostname 设置</p>
+<p><code>hostname</code> 的设置非常简单：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">config.vm.hostname = &quot;kubernetes&quot;</span><br></pre></td></tr></table></figure></li>
+<li><p>目录共享</p>
+<p>我们前面介绍过<code>/vagrant</code>目录默认就是当前的开发目录，这是在虚拟机开启的时候默认挂载同步的。我们还可以通过配置来设置额外的同步目录：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># 第一个参数是主机的目录，第二个参数是虚拟机挂载的目录</span><br><span class="line">config.vm.synced_folder  &quot;/Users/haohao/data&quot;, &quot;/vagrant_data&quot;</span><br></pre></td></tr></table></figure></li>
+<li><p>端口转发</p>
+<p>对宿主机器上 8080 端口的访问请求 forward 到虚拟机的 80 端口的服务上：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">config.vm.network :forwarded_port, guest: 80, host: 8080</span><br></pre></td></tr></table></figure></li>
+</ol>
+<h4 id="Vagrant-常用命令清单"><a href="#Vagrant-常用命令清单" class="headerlink" title="Vagrant 常用命令清单"></a>Vagrant 常用命令清单</h4><ul>
+<li><p><code>vagrant box add</code> 添加box</p>
+</li>
+<li><p><code>vagrant init</code> 初始化 box</p>
+</li>
+<li><p><code>vagrant up</code> 启动虚拟机</p>
+</li>
+<li><p><code>vagrant ssh</code> 登录虚拟机</p>
+</li>
+<li><p><code>vagrant box list</code> 列出 Vagrant 当前 <code>box</code> 列表</p>
+</li>
+<li><p><code>vagrant box remove</code> 删除相应的 <code>box</code></p>
+</li>
+<li><p><code>vagrant destroy</code> 停止当前正在运行的虚拟机并销毁所有创建的资源</p>
+</li>
+<li><p><code>vagrant halt</code> 关机</p>
+</li>
+<li><p><code>vagrant package</code> 把当前的运行的虚拟机环境进行打包为 <code>box</code> 文件</p>
+</li>
+<li><p><code>vagrant plugin</code> 安装卸载插件</p>
+</li>
+<li><p><code>vagrant reload</code> 重新启动虚拟机，重新载入配置文件</p>
+</li>
+<li><p><code>vagrant resume</code> 恢复被挂起的状态</p>
+</li>
+<li><p><code>vagrant status</code> 获取当前虚拟机的状态</p>
+</li>
+<li><p><code>vagrant suspend</code> 挂起当前的虚拟机</p>
+</li>
+<li><p><code>vagrant global-status</code> 查看当前 vagrant 管理的所有 vm 信息</p>
+</li>
+<li><p><code>vagrant ssh-config</code> 输出用于 ssh 连接的一些信息</p>
+</li>
+<li><p><code>vagrant destroy</code> 销毁虚拟机</p>
+</li>
+</ul>
+<h4 id="Vagrant-启动虚拟机集群"><a href="#Vagrant-启动虚拟机集群" class="headerlink" title="Vagrant 启动虚拟机集群"></a>Vagrant 启动虚拟机集群</h4><p>前面我们都是通过一个 Vagrantfile 配置启动单台机器，如果我们要启动一个集群，那么可以把需要的节点在一个 Vagrantfile 写好，然后直接就可以通过 vagrant up 同时启动多个 VM 组成一个集群。以下示例配置一个 web 节点和一个 db 节点，两个节点在同一个网段，并且使用同一个 box 启动：</p>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">Vagrant.configure(<span class="string">&quot;2&quot;</span>) <span class="keyword">do</span> <span class="params">|config|</span></span><br><span class="line">  config.vm.define <span class="symbol">:web</span> <span class="keyword">do</span> <span class="params">|web|</span></span><br><span class="line">    web.vm.provider <span class="string">&quot;virtualbox&quot;</span> <span class="keyword">do</span> <span class="params">|v|</span></span><br><span class="line">          v.customize [<span class="string">&quot;modifyvm&quot;</span>, <span class="symbol">:id</span>, <span class="string">&quot;--name&quot;</span>, <span class="string">&quot;web&quot;</span>, <span class="string">&quot;--memory&quot;</span>, <span class="string">&quot;512&quot;</span>]</span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line">    web.vm.box = <span class="string">&quot;ubuntu-server-16.04&quot;</span></span><br><span class="line">    web.vm.hostname = <span class="string">&quot;web&quot;</span></span><br><span class="line">    web.vm.network <span class="symbol">:private_network</span>, <span class="symbol">ip:</span> <span class="string">&quot;11.11.1.1&quot;</span></span><br><span class="line">  <span class="keyword">end</span></span><br><span class="line"></span><br><span class="line">  config.vm.define <span class="symbol">:db</span> <span class="keyword">do</span> <span class="params">|db|</span></span><br><span class="line">    db.vm.provider <span class="string">&quot;virtualbox&quot;</span> <span class="keyword">do</span> <span class="params">|v|</span></span><br><span class="line">          v.customize [<span class="string">&quot;modifyvm&quot;</span>, <span class="symbol">:id</span>, <span class="string">&quot;--name&quot;</span>, <span class="string">&quot;db&quot;</span>, <span class="string">&quot;--memory&quot;</span>, <span class="string">&quot;512&quot;</span>]</span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line">    db.vm.box = <span class="string">&quot;ubuntu-server-16.04&quot;</span></span><br><span class="line">    db.vm.hostname = <span class="string">&quot;db&quot;</span></span><br><span class="line">    db.vm.network <span class="symbol">:private_network</span>, <span class="symbol">ip:</span> <span class="string">&quot;11.11.1.2&quot;</span></span><br><span class="line">  <span class="keyword">end</span></span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="实践"><a href="#实践" class="headerlink" title="实践"></a>实践</h4><ol>
+<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/linuxnews/article/details/53292896">用 Ansible 来交付 Vagrant 实例</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/b1acd5d8d53e">vagrant 增加硬盘容量实践记录</a></li>
+</ol>
+<h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><ol>
+<li><a target="_blank" rel="noopener" href="https://www.vagrantup.com/intro/index.html">https://www.vagrantup.com/intro/index.html</a></li>
+<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/rickiyeat/article/details/55097687">https://blog.csdn.net/rickiyeat/article/details/55097687</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/astaxie/go-best-practice/blob/master/ebook/zh/01.0.md">https://github.com/astaxie/go-best-practice/blob/master/ebook/zh/01.0.md</a></li>
+</ol>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">平心</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://pingxin0521.gitee.io/2019/10/23/%E5%B7%A5%E5%85%B7-%E5%85%B6%E4%BB%96-2/">https://pingxin0521.gitee.io/2019/10/23/%E5%B7%A5%E5%85%B7-%E5%85%B6%E4%BB%96-2/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://pingxin0521.gitee.io" target="_blank">平心de小屋</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E5%B7%A5%E5%85%B7/">工具</a><a class="post-meta__tags" href="/tags/%E5%85%B6%E4%BB%96/">其他</a></div><div class="post_share"><div class="social-share" data-image="https://i.loli.net/2020/05/08/vCnKyoFJZ1g4XYR.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2019/10/27/Java-SpringCloud-6-0/"><img class="prev-cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/PFDRNxj93taz6pw.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">微服务组件--分布式追踪系统</div></div></a></div><div class="next-post pull-right"><a href="/2019/10/20/%E6%95%B0%E6%8D%AE%E5%BA%93-Redis-2-4/"><img class="next-cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/PFDRNxj93taz6pw.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">Redis 高可用</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span> 相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2019/07/16/工具-其他-1/" title="Atom 编辑器使用"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/okfOw28KlZFbE7z.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2019-10-15</div><div class="title">Atom 编辑器使用</div></div></a></div><div><a href="/2019/10/16/工具-其他-3/" title="读取群晖硬盘"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/gGE57HRvpcKPfDY.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2020-05-08</div><div class="title">读取群晖硬盘</div></div></a></div><div><a href="/2019/03/18/工具-Git-1/" title="Git入门"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/gGE57HRvpcKPfDY.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2019-09-25</div><div class="title">Git入门</div></div></a></div><div><a href="/2019/03/21/工具-Git-5/" title="Git设置SSH key"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/PFDRNxj93taz6pw.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2019-08-02</div><div class="title">Git设置SSH key</div></div></a></div><div><a href="/2019/05/06/工具-Gradle-4/" title="Gradle Project"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/HjVAdIuT7bZJypS.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2019-05-12</div><div class="title">Gradle Project</div></div></a></div><div><a href="/2019/03/31/工具-Maven-7/" title="Maven插件"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/vCnKyoFJZ1g4XYR.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2019-04-07</div><div class="title">Maven插件</div></div></a></div></div></div><hr/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div class="vcomment" id="vcomment"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="card-info-avatar is-center"><img class="avatar-img" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://s2.ax1x.com/2020/02/11/1ovw6J.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/><div class="author-info__name">平心</div><div class="author-info__description">年轻人的life、learn and think</div></div><div class="card-info-data"><div class="card-info-data-item is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">449</div></a></div><div class="card-info-data-item is-center"><a href="/tags/"><div class="headline">标签</div><div class="length-num">77</div></a></div><div class="card-info-data-item is-center"><a href="/categories/"><div class="headline">分类</div><div class="length-num">68</div></a></div></div><a class="button--animated" id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/hanyunpeng0521"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/hanyunpeng0521" target="_blank" title="Github"><i class="fa fa-github"></i></a><a class="social-icon" href="mailto:m13839441583@163.com" target="_blank" title="Email"><i class="fa fa-envelope"></i></a><a class="social-icon" href="/atom.xml" target="_blank" title=""><i class="fa fa-rss"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn card-announcement-animation"></i><span>公告</span></div><div class="announcement_content">为什么呢？开始提问吧</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#Vagrant-%E5%90%AF%E5%8A%A8%E7%AC%AC%E4%B8%80%E5%8F%B0%E8%99%9A%E6%8B%9F%E6%9C%BA"><span class="toc-number">1.</span> <span class="toc-text">Vagrant 启动第一台虚拟机</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Vagrant-%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6%E6%B5%85%E6%9E%90"><span class="toc-number">2.</span> <span class="toc-text">Vagrant 配置文件浅析</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Vagrant-%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4%E6%B8%85%E5%8D%95"><span class="toc-number">3.</span> <span class="toc-text">Vagrant 常用命令清单</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Vagrant-%E5%90%AF%E5%8A%A8%E8%99%9A%E6%8B%9F%E6%9C%BA%E9%9B%86%E7%BE%A4"><span class="toc-number">4.</span> <span class="toc-text">Vagrant 启动虚拟机集群</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%AE%9E%E8%B7%B5"><span class="toc-number">5.</span> <span class="toc-text">实践</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8F%82%E8%80%83"><span class="toc-number"></span> <span class="toc-text">参考</span></a></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2021/05/15/node-2-4/" title="Egg.js -- 为企业级框架和应用而生"><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/okfOw28KlZFbE7z.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Egg.js -- 为企业级框架和应用而生"/></a><div class="content"><a class="title" href="/2021/05/15/node-2-4/" title="Egg.js -- 为企业级框架和应用而生">Egg.js -- 为企业级框架和应用而生</a><time datetime="2021-05-15T10:18:59.000Z" title="发表于 2021-05-15 18:18:59">2021-05-15</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/04/30/node-2-3/" title="Koa -- 基于Node.js平台的下一代Web开发框架"><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/HjVAdIuT7bZJypS.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Koa -- 基于Node.js平台的下一代Web开发框架"/></a><div class="content"><a class="title" href="/2021/04/30/node-2-3/" title="Koa -- 基于Node.js平台的下一代Web开发框架">Koa -- 基于Node.js平台的下一代Web开发框架</a><time datetime="2021-04-30T10:18:59.000Z" title="发表于 2021-04-30 18:18:59">2021-04-30</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/04/01/node-2-1/" title="Node.JS web开发前置知识"><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/gGE57HRvpcKPfDY.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Node.JS web开发前置知识"/></a><div class="content"><a class="title" href="/2021/04/01/node-2-1/" title="Node.JS web开发前置知识">Node.JS web开发前置知识</a><time datetime="2021-04-01T03:18:59.000Z" title="发表于 2021-04-01 11:18:59">2021-04-01</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2020/12/26/%E5%91%A8%E8%AE%B0-10-1/" title="第十一周--谷歌浏览器插件"><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/gGE57HRvpcKPfDY.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="第十一周--谷歌浏览器插件"/></a><div class="content"><a class="title" href="/2020/12/26/%E5%91%A8%E8%AE%B0-10-1/" title="第十一周--谷歌浏览器插件">第十一周--谷歌浏览器插件</a><time datetime="2020-12-26T10:18:59.000Z" title="发表于 2020-12-26 18:18:59">2020-12-26</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2020/12/26/%E5%91%A8%E8%AE%B0-10-0/" title="第十一周--浏览器技术"><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/vCnKyoFJZ1g4XYR.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="第十一周--浏览器技术"/></a><div class="content"><a class="title" href="/2020/12/26/%E5%91%A8%E8%AE%B0-10-0/" title="第十一周--浏览器技术">第十一周--浏览器技术</a><time datetime="2020-12-26T06:18:59.000Z" title="发表于 2020-12-26 14:18:59">2020-12-26</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2019 - 2021 By 平心</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div id="local-search"><div class="search-dialog"><div class="search-dialog__title" id="local-search-title">本地搜索</div><div id="local-input-panel"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div></div><hr/><div id="local-search-results"></div><span class="search-close-button"><i class="fas fa-times"></i></span></div><div id="search-mask"></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload/dist/lazyload.iife.min.js"></script><script src="/js/search/local-search.js"></script><div class="js-pjax"><script>function loadValine () {
+  function initValine () {
+    const valine = new Valine(Object.assign({
+      el: '#vcomment',
+      appId: '4lfIXzqxaC1ONs0MJO4oHu07-gzGzoHsz',
+      appKey: 'qw99Bw8FD0KVKU9m457CwWsr',
+      placeholder: 'Please leave your footprints',
+      avatar: 'monsterid',
+      meta: 'nick,mail,link'.split(','),
+      pageSize: '10',
+      lang: 'zh-CN',
+      recordIP: true,
+      serverURLs: '',
+      emojiCDN: '',
+      emojiMaps: "",
+      enableQQ: true,
+      path: window.location.pathname,
+      requiredFields: ["nick,mail"],
+      visitor: false
+    }, null))
+  }
+
+  if (typeof Valine === 'function') initValine() 
+  else getScript('https://cdn.jsdelivr.net/npm/valine/dist/Valine.min.js').then(initValine)
+}
+
+if ('Valine' === 'Valine' || !false) {
+  if (false) btf.loadComment(document.getElementById('vcomment'),loadValine)
+  else setTimeout(loadValine, 0)
+} else {
+  function loadOtherComment () {
+    loadValine()
+  }
+}</script></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>

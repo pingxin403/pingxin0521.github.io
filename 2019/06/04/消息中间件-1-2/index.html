@@ -1,0 +1,545 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>消息中间件协议与实现--JMS | 平心de小屋</title><meta name="keywords" content="消息中间件"><meta name="author" content="平心"><meta name="copyright" content="平心"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="JMSJava 消息服务（Java Message Service，JMS）应用程序接口是一个Java 平台中关于面向消息中间件（MOM）的API，用于在两个应用程序之间，或分布式系统中发送消息，进行异步通信。Java 消息服务是一个与具体平台无关的 API，绝大多数 MOM 提供商都对 JMS 提供支持。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="消息中间件协议与实现--JMS">
+<meta property="og:url" content="https://pingxin0521.gitee.io/2019/06/04/%E6%B6%88%E6%81%AF%E4%B8%AD%E9%97%B4%E4%BB%B6-1-2/index.html">
+<meta property="og:site_name" content="平心de小屋">
+<meta property="og:description" content="JMSJava 消息服务（Java Message Service，JMS）应用程序接口是一个Java 平台中关于面向消息中间件（MOM）的API，用于在两个应用程序之间，或分布式系统中发送消息，进行异步通信。Java 消息服务是一个与具体平台无关的 API，绝大多数 MOM 提供商都对 JMS 提供支持。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://i.loli.net/2020/05/08/7dHvepmfYOLWTrX.jpg">
+<meta property="article:published_time" content="2019-06-04T14:18:59.000Z">
+<meta property="article:modified_time" content="2020-01-22T13:03:21.833Z">
+<meta property="article:author" content="平心">
+<meta property="article:tag" content="消息中间件">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.loli.net/2020/05/08/7dHvepmfYOLWTrX.jpg"><link rel="shortcut icon" href="https://s2.ax1x.com/2020/02/11/1ovFOA.png"><link rel="canonical" href="https://pingxin0521.gitee.io/2019/06/04/%E6%B6%88%E6%81%AF%E4%B8%AD%E9%97%B4%E4%BB%B6-1-2/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"search.xml","languages":{"hits_empty":"找不到您查询的内容：${query}"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    jQuery: 'https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js',
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+    },
+    fancybox: {
+      js: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css'
+    }
+  },
+  isPhotoFigcaption: true,
+  islazyload: true,
+  isanchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '消息中间件协议与实现--JMS',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2020-01-22 21:03:21'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    })(window)</script><meta name="generator" content="Hexo 5.4.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="author-avatar"><img class="avatar-img" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://s2.ax1x.com/2020/02/11/1ovw6J.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data"><div class="data-item is-center"><div class="data-item-link"><a href="/archives/"><div class="headline">文章</div><div class="length-num">449</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/tags/"><div class="headline">标签</div><div class="length-num">77</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/categories/"><div class="headline">分类</div><div class="length-num">68</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fa fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fa fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://i.loli.net/2020/05/08/7dHvepmfYOLWTrX.jpg')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">平心de小屋</a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fa fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fa fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">消息中间件协议与实现--JMS</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2019-06-04T14:18:59.000Z" title="发表于 2019-06-04 22:18:59">2019-06-04</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2020-01-22T13:03:21.833Z" title="更新于 2020-01-22 21:03:21">2020-01-22</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E6%B6%88%E6%81%AF%E4%B8%AD%E9%97%B4%E4%BB%B6/">消息中间件</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">7.1k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>24分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="消息中间件协议与实现--JMS"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h3 id="JMS"><a href="#JMS" class="headerlink" title="JMS"></a>JMS</h3><p>Java 消息服务（Java Message Service，JMS）应用程序接口是一个Java 平台中关于面向消息中间件（MOM）的API，用于在两个应用程序之间，或分布式系统中发送消息，进行异步通信。Java 消息服务是一个与具体平台无关的 API，绝大多数 MOM 提供商都对 JMS 提供支持。</p>
+<span id="more"></span>
+
+<p>Java 消息服务（Java Message Service，JMS）是一种与厂商无关的 API，用来访问消息收发系统。它类似于 JDBC (Java Database Connectivity)：这里，JDBC 是可以用来访问许多不同关系数据库的 API，而 JMS 则提供同样与厂商无关的访问方法，以访问消息收发服务。许多厂目前都支持 JMS，包括 IBM 的 MQSeries、BEA的 Weblogic JMS service和 Progress 的 SonicMQ，这只是几个例子。</p>
+<p> JMS 使您能够通过消息收发服务（有时称为消息中介程序或路由器）从一个 JMS 客户机向另一个 JML 客户机发送消息。消息是 JMS 中的一种类型对象，由两部分组成：报头和消息主体。报头由路由信息以及有关该消息的元数据组成。消息主体则携带着应用程序的数据或有效负载。根据有效负载的类型来划分，可以将消息分为几种类型，它们分别携带：简单文本 (TextMessage)、可序列化的对象 (ObjectMessage)、属性集合 (MapMessage)、字节流 (BytesMessage)、原始值流 (StreamMessage)，还有无有效负载的消息 (Message)。</p>
+<p>通信传递的消息交换了计算机之间至关重要的数据——而非用户之间——并且包含了例如事件通知和服务请求之类的信息。通信通常用来协调在不同的系统中或是用不同的编程语言所写的程序。</p>
+<p>使用JMS接口，程序员可以调用IBM的MQSeries，Progress Software的SonicMQ和其他流行通信产品商家的消息服务。另外，JMS支持包含串行Java对象的消息和包含可扩展标记语言（XML）页面的消息。</p>
+<p>Java 消息服务的规范包括两种消息模式，点对点和发布者/订阅者。许多提供商支持这一通用框架因此，程序员可以在他们的分布式软件中实现面向消息的操作，这些操作将具有不同面向消息中间件产品的可移植性。</p>
+<p>Java 消息服务支持同步和异步的消息处理，在某些场景下，异步消息是必要的；在其他场景下，异步消息比同步消息操作更加便利。</p>
+<p>Java 消息服务支持面向事件的方法接收消息，事件驱动的程序设计现在被广泛认为是一种富有成效的程序设计范例，程序员们都相当熟悉。</p>
+<p>在应用系统开发时，Java 消息服务可以推迟选择面对消息中间件产品，也可以在不同的面对消息中间件切换</p>
+<h4 id="体系架构"><a href="#体系架构" class="headerlink" title="体系架构"></a>体系架构</h4><p>JMS由以下元素组成：</p>
+<table>
+<thead>
+<tr>
+<th>JMS提供者</th>
+<th>连接面向消息中间件的，JMS接口的一个实现。提供者可以是Java平台的JMS实现，也可以是非Java平台的面向消息中间件的适配器。</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>JMS客户</td>
+<td>生产或消费基于消息的Java的应用程序或对象。</td>
+</tr>
+<tr>
+<td>JMS生产者</td>
+<td>创建并发送消息的JMS客户。</td>
+</tr>
+<tr>
+<td>JMS消费者</td>
+<td>接收消息的JMS客户。</td>
+</tr>
+<tr>
+<td>JMS消息</td>
+<td>包括可以在JMS客户之间传递的数据的对象。</td>
+</tr>
+<tr>
+<td>JMS队列</td>
+<td>一个容纳那些被发送的等待阅读的消息的区域。与队列名字所暗示的意思不同，消息的接受顺序并不一定要与消息的发送顺序相同。一旦一个消息被阅读，该消息将被从队列中移走。</td>
+</tr>
+<tr>
+<td>JMS主题</td>
+<td>一种支持发送消息给多个订阅者的机制。</td>
+</tr>
+</tbody></table>
+<h4 id="对象模型"><a href="#对象模型" class="headerlink" title="对象模型"></a>对象模型</h4><p>JMS对象模型包含如下几个要素：</p>
+<ol>
+<li><p>连接工厂。连接工厂（ConnectionFactory）是由管理员创建，并绑定到JNDI树中。客户端使用JNDI查找连接工厂，然后利用连接工厂创建一个JMS连接。</p>
+</li>
+<li><p>JMS连接。JMS连接（Connection）表示JMS客户端和服务器端之间的一个活动的连接，是由客户端通过调用连接工厂的方法建立的。</p>
+</li>
+<li><p>JMS会话。JMS会话（Session）表示JMS客户与JMS服务器之间的会话状态。JMS会话建立在JMS连接上，表示客户与服务器之间的一个会话线程。</p>
+</li>
+<li><p>JMS目的。JMS目的（Destination），又称为消息队列，是实际的消息源。</p>
+</li>
+<li><p>JMS生产者和消费者。生产者（Message Producer）和消费者（Message Consumer）对象由Session对象创建，用于发送和接收消息。</p>
+</li>
+<li><p>JMS消息通常有两种类型：</p>
+<ul>
+<li><p>点对点（Point-to-Point）。在点对点的消息系统中，消息分发给一个单独的使用者。点对点消息往往与队列（javax.jms.Queue）相关联。</p>
+</li>
+<li><p> 发布/订阅（Publish/Subscribe）。发布/订阅消息系统支持一个事件驱动模型，消息生产者和消费者都参与消息的传递。生产者发布事件，而使用者订阅感兴趣的事件，并使用事件。该类型消息一般与特定的主题（javax.jms.Topic）关联。</p>
+</li>
+</ul>
+<p>  <img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2019/06/07/5cf9f64300a7912089.jpg" alt="1.jpg"></p>
+</li>
+</ol>
+<h4 id="模型"><a href="#模型" class="headerlink" title="模型"></a>模型</h4><p>在JMS  API出现之前，大部分产品使用“点对点”和“发布/订阅”中的任一方式来进行消息通讯。JMS定义了这两种消息发送模型的规范，它们相互独立。任何JMS的提供者可以实现其中的一种或两种模型，这是它们自己的选择。JMS规范提供了通用接口保证我们基于JMS  API编写的程序适用于任何一种模型。</p>
+<p>让我们更加详细的看下这两种消息传送模型：</p>
+<p><strong>点对点消息传送模型</strong></p>
+<p>在点对点消息传送模型中，应用程序由消息队列，发送者，接收者组成。每一个消息发送给一个特殊的消息队列，该队列保存了所有发送给它的消息(除了被接收者消费掉的和过期的消息)。点对点消息模型有一些特性，如下：</p>
+<ul>
+<li>每个消息只有一个接收者；</li>
+<li>消息发送者和接收者并没有时间依赖性；</li>
+<li>当消息发送者发送消息的时候，无论接收者程序在不在运行，都能获取到消息；</li>
+<li>当接收者收到消息的时候，会发送确认收到通知（acknowledgement）。</li>
+</ul>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2019/06/07/5cfa06455b1db18426.png"></p>
+<p><strong>发布/订阅消息传递模型</strong></p>
+<p>在发布/订阅消息模型中，发布者发布一个消息，该消息通过topic传递给所有的客户端。在这种模型中，发布者和订阅者彼此不知道对方，是匿名的且可以动态发布和订阅topic。topic主要用于保存和传递消息，且会一直保存消息直到消息被传递给客户端。</p>
+<p>发布/订阅消息模型特性如下：</p>
+<ul>
+<li>一个消息可以传递给多个订阅者</li>
+<li>发布者和订阅者有时间依赖性，只有当客户端创建订阅后才能接受消息，且订阅者需一直保持活动状态以接收消息。</li>
+<li>为了缓和这样严格的时间相关性，JMS允许订阅者创建一个可持久化的订阅。这样，即使订阅者没有被激活（运行），它也能接收到发布者的消息。</li>
+</ul>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2019/06/07/5cfa0645904f337710.png"></p>
+<h4 id="接收消息"><a href="#接收消息" class="headerlink" title="接收消息"></a>接收消息</h4><p>在JMS中，消息的接收可以使用以下两种方式：</p>
+<ul>
+<li><p>同步:使用同步方式接收消息的话，消息订阅者调用receive()方法。在receive()中，消息未到达或在到达指定时间之前，方法会阻塞，直到消息可用。</p>
+</li>
+<li><p>异步:使用异步方式接收消息的话，消息订阅者需注册一个消息监听者，类似于事件监听器，只要消息到达，JMS服务提供者会通过调用监听器的onMessage()递送消息。</p>
+</li>
+</ul>
+<h4 id="JMS编程接口"><a href="#JMS编程接口" class="headerlink" title="JMS编程接口"></a>JMS编程接口</h4><p>JMS应用程序由如下基本模块组成：</p>
+<ol>
+<li>管理对象（Administered objects）-连接工厂（Connection Factories）和目的地（Destination）</li>
+<li>连接对象（Connections）</li>
+<li>会话（Sessions）</li>
+<li>消息生产者（Message Producers）</li>
+<li>消息消费者（Message Consumers）</li>
+<li>消息监听者（Message Listeners）</li>
+</ol>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2019/06/07/5cfa091010fef91688.png" alt="2.png"></p>
+<ul>
+<li><p>ConnectionFactory 接口（连接工厂）</p>
+<p>用户用来创建到JMS提供者的连接的被管对象。JMS客户通过可移植的接口访问连接，这样当下层的实现改变时，代码不需要进行修改。管理员在JNDI名字空间中配置连接工厂，这样，JMS客户才能够查找到它们。根据消息类型的不同，用户将使用队列连接工厂，或者主题连接工厂。</p>
+<p>客户端使用一个连接工厂对象连接到JMS服务提供者，它创建了JMS服务提供者和客户端之间的连接。JMS客户端（如发送者或接受者）会在JNDI名字空间中搜索并获取该连接。使用该连接，客户端能够与目的地通讯，往队列或话题发送/接收消息。让我们用一个例子来理解如何发送消息：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">QueueConnectionFactory queueConnFactory = (QueueConnectionFactory) initialCtx.lookup (&quot;primaryQCF&quot;);</span><br><span class="line">Queue purchaseQueue = (Queue) initialCtx.lookup (&quot;Purchase_Queue&quot;);</span><br><span class="line">Queue returnQueue = (Queue) initialCtx.lookup (&quot;Return_Queue&quot;);</span><br></pre></td></tr></table></figure></li>
+<li><p>Connection 接口（连接）</p>
+<p>连接代表了应用程序和消息服务器之间的通信链路。在获得了连接工厂后，就可以创建一个与JMS提供者的连接。根据不同的连接类型，连接允许用户创建会话，以发送和接收队列和主题到目标。</p>
+<p>连接对象封装了与JMS提供者之间的虚拟连接，如果我们有一个ConnectionFactory对象，可以使用它来创建一个连接。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Connection connection = connectionFactory.createConnection();</span><br></pre></td></tr></table></figure>
+
+<p>创建完连接后，需要在程序使用结束后关闭它：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">connection.close();</span><br></pre></td></tr></table></figure></li>
+<li><p>Destination 接口（目标）</p>
+<p>目标是一个包装了消息目标标识符的被管对象，消息目标是指消息发布和接收的地点，或者是队列，或者是主题。JMS管理员创建这些对象，然后用户通过JNDI发现它们。和连接工厂一样，管理员可以创建两种类型的目标，点对点模型的队列，以及发布者/订阅者模型的主题。</p>
+<p><strong>创建一个队列Session</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">QueueSession ses = con.createQueueSession (false, Session.AUTO_ACKNOWLEDGE);  //get the Queue object  </span><br><span class="line">Queue t = (Queue) ctx.lookup (&quot;myQueue&quot;);  //create QueueReceiver  </span><br><span class="line">QueueReceiver receiver = ses.createReceiver(t); </span><br></pre></td></tr></table></figure>
+
+<p><strong>创建一个话题Session</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">TopicSession ses = con.createTopicSession (false, Session.AUTO_ACKNOWLEDGE); // get the Topic object  </span><br><span class="line">Topic t = (Topic) ctx.lookup (&quot;myTopic&quot;);  //create TopicSubscriber  </span><br><span class="line">TopicSubscriber receiver = ses.createSubscriber(t);  </span><br></pre></td></tr></table></figure></li>
+<li><p>Session 接口（会话）</p>
+<p>表示一个单线程的上下文，用于发送和接收消息。由于会话是单线程的，所以消息是连续的，就是说消息是按照发送的顺序一个一个接收的。会话的好处是它支持事务。如果用户选择了事务支持，会话上下文将保存一组消息，直到事务被提交才发送这些消息。在提交事务之前，用户可以使用回滚操作取消这些消息。一个会话允许用户创建消息，生产者来发送消息，消费者来接收消息。</p>
+<p>Session对象实现了Session接口，在创建完连接后，我们可以使用它创建Session。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Session session = connection.createSession(false, Session.AUTO_ACKNOWLEDGE);</span><br></pre></td></tr></table></figure></li>
+<li><p>MessageConsumer 接口（消息消费者）</p>
+<p>由会话创建的对象，用于接收发送到目标的消息。消费者可以同步地（阻塞模式），或（非阻塞）接收队列和主题类型的消息。</p>
+<p>消息消费者由Session创建，用于接受目的地发送的消息。消费者实现MessageConsumer接口，，我们可以为目的地、队列或话题创建消费者；</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">MessageConsumer consumer = session.createConsumer(dest);</span><br><span class="line">MessageConsumer consumer = session.createConsumer(queue);</span><br><span class="line">MessageConsumer consumer = session.createConsumer(topic);</span><br></pre></td></tr></table></figure></li>
+<li><p>MessageProducer 接口（消息生产者）</p>
+<p>由会话创建的对象，用于发送消息到目标。用户可以创建某个目标的发送者，也可以创建一个通用的发送者，在发送消息时指定目标。</p>
+<p>消息生产者由Session创建，用于往目的地发送消息。生产者实现MessageProducer接口，我们可以为目的地、队列或话题创建生产者；</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">MessageProducer producer = session.createProducer(dest);</span><br><span class="line">MessageProducer producer = session.createProducer(queue);</span><br><span class="line">MessageProducer producer = session.createProducer(topic);</span><br></pre></td></tr></table></figure>
+
+<p>创建完消息生产者后，可以使用send方法发送消息：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">producer.send(message);</span><br></pre></td></tr></table></figure></li>
+<li><p>Message 接口（消息）</p>
+<p>是在消费者和生产者之间传送的对象，也就是说从一个应用程序传送到另一个应用程序。一个消息有三个主要部分：</p>
+<ul>
+<li>消息头（必须）：包含用于识别和为消息寻找路由的操作设置。</li>
+<li>一组消息属性（可选）：包含额外的属性，支持其他提供者和用户的兼容。可以创建定制的字段和过滤器（消息选择器）。</li>
+<li>一个消息体（可选）：允许用户创建五种类型的消息（文本消息，映射消息，字节消息，流消息和对象消息）。</li>
+</ul>
+<p>消息接口非常灵活，并提供了许多方式来定制消息的内容。</p>
+</li>
+<li><p>消息监听器</p>
+<p>JMS消息监听器是消息的默认事件处理者，他实现了MessageListener接口，该接口包含一个onMessage方法，在该方法中需要定义消息达到后的具体动作。通过调用setMessageListener方法我们给指定消费者定义了消息监听器</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Listener myListener = new Listener();</span><br><span class="line">consumer.setMessageListener(myListener);</span><br></pre></td></tr></table></figure></li>
+</ul>
+<h4 id="传递方式"><a href="#传递方式" class="headerlink" title="传递方式"></a>传递方式</h4><p>JMS有两种传递消息的方式。标记为NON_PERSISTENT的消息最多投递一次，而标记为PERSISTENT的消息将使用暂存后再转送的机理投递。如果一个JMS服务离线，那么持久性消息不会丢失但是得等到这个服务恢复联机时才会被传递。所以默认的消息传递方式是非持久性的。即使使用非持久性消息可能降低内务和需要的存储器，并且这种传递方式只有当你不需要接收所有的消息时才使用。</p>
+<p>虽然JMS规范并不需要JMS供应商实现消息的优先级路线，但是它需要递送加快的消息优先于普通级别的消息。JMS定义了从0到9的优先级路线级别，0是最低的优先级而9则是最高的。更特殊的是0到4是正常优先级的变化幅度，而5到9是加快的优先级的变化幅度。举例来说：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">topicPublisher.publish (message, DeliveryMode.PERSISTENT, 8, 10000); //Pub-Sub 或 </span><br><span class="line">queueSender.send(message,DeliveryMode.PERSISTENT, 8, 10000);//P2P 　</span><br></pre></td></tr></table></figure>
+
+<p>这个代码片断，有两种消息模型，映射递送方式是持久的，优先级为加快型，生存周期是10000 (以毫秒度量)。如果生存周期设置为零，这则消息将永远不会过期。当消息需要时间限制否则将使其无效时，设置生存周期是有用的。</p>
+<p>JMS定义了五种不同的消息正文格式，以及调用的消息类型，允许你发送并接收以一些不同形式的数据，提供现有消息格式的一些级别的兼容性。</p>
+<ul>
+<li>StreamMessage – Java原始值的数据流</li>
+<li>MapMessage–一套名称-值对</li>
+<li>TextMessage–一个字符串对象</li>
+<li>ObjectMessage–一个序列化的 Java对象</li>
+<li>BytesMessage–一个未解释字节的数据流</li>
+</ul>
+<h4 id="消息结构"><a href="#消息结构" class="headerlink" title="消息结构"></a>消息结构</h4><p>Message主要由三部分组成，分别是Header，Properties，Body， 详细如下： </p>
+<table>
+<thead>
+<tr>
+<th>Header</th>
+<th>消息头，所有类型的这部分格式都是一样的</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Properties</td>
+<td>属性，按类型可以分为应用设置的属性，标准属性和消息中间件定义的属性</td>
+</tr>
+<tr>
+<td>Body</td>
+<td>消息正文，指我们具体需要消息传输的内容。</td>
+</tr>
+</tbody></table>
+<p>下面是Message接口的部分定义，它显示了JMS消息头使用的所有方法： </p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">public interface Message &#123;</span><br><span class="line">    public Destination getJMSDestination() throws JMSException;</span><br><span class="line">    public void setJMSDestination(Destination destination) throws JMSException;</span><br><span class="line">    public int getJMSDeliveryMode() throws JMSException</span><br><span class="line">    public void setJMSDeliveryMode(int deliveryMode) throws JMSException;</span><br><span class="line">    public String getJMSMessageID() throws JMSException;</span><br><span class="line">    public void setJMSMessageID(String id) throws JMSException;</span><br><span class="line">    public long getJMSTimestamp() throws JMSException&#x27;</span><br><span class="line">    public void setJMSTimestamp(long timestamp) throws JMSException;</span><br><span class="line">    public long getJMSExpiration() throws JMSException;</span><br><span class="line">    public void setJMSExpiration(long expiration) throws JMSException;</span><br><span class="line">    public boolean getJMSRedelivered() throws JMSException;</span><br><span class="line">    public void setJMSRedelivered(boolean redelivered) throws JMSException;</span><br><span class="line">    public int getJMSPriority() throws JMSException;</span><br><span class="line">    public void setJMSPriority(int priority) throws JMSException;</span><br><span class="line">    public Destination getJMSReplyTo() throws JMSException;</span><br><span class="line">    public void setJMSReplyTo(Destination replyTo) throws JMSException;</span><br><span class="line">    public String getJMScorrelationID() throws JMSException;</span><br><span class="line">    public void setJMSCorrelationID(String correlationID) throws JMSException;</span><br><span class="line">    public byte[] getJMSCorrelationIDAsBytes() throws JMSException;</span><br><span class="line">    public void setJMSCorrelationIDAsBytes(byte[] correlationID) throws JMSException;</span><br><span class="line">    public String getJMSType() throws JMSException;</span><br><span class="line">    public void setJMSType(String type) throws JMSException;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h5 id="Header"><a href="#Header" class="headerlink" title="Header"></a>Header</h5><p>header中的各个属性，可以分为两大类： </p>
+<ol>
+<li><p><strong>自动分配的消息头</strong>： </p>
+<p>这里这些JMS消息头是自动分配的。 </p>
+<p>在传送消息时，消息头的值由JMS提供者来设置，<strong>因此开发者使用setJMSxxx()方法分配的值就被忽略了</strong>。换句话说，对于大多数自动分配的消息头来说，使用赋值函数方法显然是徒劳的。不过，这并非意味着开发者无法控制这些消息头的值。一些自动分配的消息头可以在创建Session和MessageProducer（也就是TopicPublisher）时，由开发者通过编程方式来设置。  </p>
+<table>
+<thead>
+<tr>
+<th>属性名称</th>
+<th>说明</th>
+<th>设置者</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>JMSDeliveryMode</td>
+<td>消息的发送模式，分为<strong>NON_PERSISTENT</strong>和<strong>PERSISTENT</strong>，即非持久性模式的和持久性模式。默认设置为<strong>PERSISTENT（持久性）。</strong>  一条<strong>持久性消息</strong>应该被传送一次（就一次），这就意味着如果JMS提供者出现故障，该消息并不会丢失； 它会在服务器恢复正常之后再次传送。  一条<strong>非持久性消息</strong>最多只会传送一次，这意味着如果JMS提供者出现故障，该消息可能会永久丢失。  在持久性和非持久性这两种传送模式中，消息服务器都不会将一条消息向同一消息者发送一次以上（成功算一次）。       //在消息生产者上设置JMS传送模式 TopicPublisher topicPublisher <strong>=</strong> topicSession**.<strong>createPublisher</strong>(<strong>topic</strong>);**  topicPubiisher**.<strong>setDeliveryMode</strong>(<strong>DeliveryMode</strong>.<strong>NON_PERSISTENT</strong>);**</td>
+<td>send</td>
+</tr>
+<tr>
+<td>JMSMessageID</td>
+<td>消息ID，需要以ID:开头，用于唯一地标识了一条消息</td>
+<td>send</td>
+</tr>
+<tr>
+<td>JMSTimestamp</td>
+<td>消息发送时的时间。这条消息头用于确定发送消息和它被消费者实际接收的时间间隔。时间戳是一个以毫秒来计算的Long类型时间值（自1970年1月1日算起）。</td>
+<td>send</td>
+</tr>
+<tr>
+<td>JMSExpiration</td>
+<td>消息的过期时间，以毫秒为单位，用来防止把过期的消息传送给消费者。任何直接通过编程方式来调用setJMSExpiration()方法都会被忽略。       TopicPublisher topicPublisher <strong>=</strong> topicSession**.<strong>createPublisher</strong>(<strong>topic</strong>);**  //将生存时间设置为1小时（1000毫秒 ＊60 ＊60） topicPublisher**.<strong>setTimeToLive</strong>(<strong>3600000</strong>);**</td>
+<td>send</td>
+</tr>
+<tr>
+<td>JMSRedelivered</td>
+<td>消息是否重复发送过，如果该消息之前发送过，那么这个属性的值需要被设置为true, 客户端可以根据这个属性的值来确认这个消息是否重复发送过，以避免重复处理。</td>
+<td>Provider</td>
+</tr>
+<tr>
+<td>JMSPriority</td>
+<td>消息的优先级,0-4为普通的优化级，而5-9为高优先级，通常情况下，高优化级的消息需要优先发送。任何直接通过编程方式调用setJMSPriority()方法都将被忽略。       TopicPublisher topicPublisher <strong>=</strong> TopicSession**.<strong>createPublisher</strong>(<strong>someTopic</strong>);**  //设置消息的优先级 topicPublisher**.<strong>setPriority</strong>(<strong>9</strong>);**</td>
+<td>send</td>
+</tr>
+<tr>
+<td>JMSDestination</td>
+<td>消息发送的目的地，是一个Topic或Queue</td>
+<td>send</td>
+</tr>
+</tbody></table>
+</li>
+<li><p><strong>开发者分配的消息头</strong>： </p>
+<table>
+<thead>
+<tr>
+<th>属性名称</th>
+<th>说明</th>
+<th>设置者</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>JMSCorrelationID</td>
+<td>关联的消息ID，这个通常用在需要回传消息的时候</td>
+<td>client</td>
+</tr>
+<tr>
+<td>JMSReplyTo</td>
+<td>消息回复的目的地，其值为一个Topic或Queue, 这个由发送者设置，但是接收者可以决定是否响应</td>
+<td>client</td>
+</tr>
+<tr>
+<td>JMSType</td>
+<td>由消息发送者设置的消息类型，代表消息的结构，有的消息中间件可能会用到这个，但这个并不是是批消息的种类，比如TextMessage之类的</td>
+<td>client</td>
+</tr>
+</tbody></table>
+<p>从上表中我们可以看到，系统提供的标准头信息一共有10个属性，其中有6个是由send方法在调用时设置的，有三个是由客户端（client）设置的，还有一个是由消息中间件（Provider）设置的。 </p>
+</li>
+</ol>
+<p>需要注意的是，这里的客户端（client）不是指消费者，而是指使用JMS的客户端，即开发者所写的应用程序，即在生产消息时，这三个属性是可以由应用程序来设定的，而其它的header要么由消息中间件设置，要么由发送方法来决定，开发者即使设置了，也是无效的。测试如下：  </p>
+<p>生产者： </p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">//创建文本消息</span><br><span class="line">TextMessage textMessage = session.createTextMessage(&quot;消息内容&quot; + (i + 1 ));</span><br><span class="line">//消息发送的目的地</span><br><span class="line">textMessage.setJMSDestination(new Queue()&#123;</span><br><span class="line">    @Override</span><br><span class="line">    public String getQueueName() throws JMSException &#123;</span><br><span class="line">        return name;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br><span class="line">//消息的发送模式</span><br><span class="line">textMessage.setJMSDeliveryMode(DeliveryMode.NON_PERSISTENT);</span><br><span class="line">//消息ID</span><br><span class="line">textMessage.setJMSMessageID(&quot;ID:JMSMessageID&quot;);</span><br><span class="line">//消息发送时的时间</span><br><span class="line">textMessage.setJMSTimestamp(1000);</span><br><span class="line">//关联的消息ID</span><br><span class="line">textMessage.setJMSCorrelationID(&quot;100:JMSCorrelationID&quot;);</span><br><span class="line">//消息回复的目的地</span><br><span class="line">textMessage.setJMSReplyTo(new Queue()&#123;</span><br><span class="line">    @Override</span><br><span class="line">    public String getQueueName() throws JMSException &#123;</span><br><span class="line">        return name;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br><span class="line">//消息是否重复发送过</span><br><span class="line">textMessage.setJMSRedelivered(true);</span><br><span class="line">//消息类型，代表消息的结构</span><br><span class="line">textMessage.setJMSType(&quot;type&quot;);</span><br><span class="line">//消息的过期时间，以毫秒为单位</span><br><span class="line">textMessage.setJMSExpiration(36000);</span><br><span class="line">//消息的优先级,0-4为普通的优化级，而5-9为高优先级</span><br><span class="line">textMessage.setJMSPriority(5);</span><br></pre></td></tr></table></figure>
+
+<p>消费者： </p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">TextMessage msg = (TextMessage) messageConsumer.receive();</span><br><span class="line">//获得消息的发送模式</span><br><span class="line">int jmsDeliveryMode = msg.getJMSDeliveryMode();</span><br><span class="line">//获得消息ID</span><br><span class="line">String jmsMessageID = msg.getJMSMessageID();</span><br><span class="line">//获得消息发送时的时间</span><br><span class="line">Long jmsTimestamp = msg.getJMSTimestamp();</span><br><span class="line">//获得关联的消息ID</span><br><span class="line">String jmsCorrelationID = msg.getJMSCorrelationID();</span><br><span class="line">//获得消息回复的目的地</span><br><span class="line">String jmsReplyTo = ((Queue)msg.getJMSReplyTo()).getQueueName();</span><br><span class="line">//获得消息是否重复发送过</span><br><span class="line">Boolean jmsRedelivered = msg.getJMSRedelivered();</span><br><span class="line">//获得消息类型，代表消息的结构</span><br><span class="line">String jmsType = msg.getJMSType();</span><br><span class="line">//获得消息的过期时间，以毫秒为单位</span><br><span class="line">Long jmsExpiration = msg.getJMSExpiration();</span><br><span class="line">//获得消息的优先级,0-4为普通的优化级，而5-9为高优先级</span><br><span class="line">int jmsPriority = msg.getJMSPriority();</span><br><span class="line">System.out.println(&quot;jmsDeliveryMode:&quot; + jmsDeliveryMode);</span><br><span class="line">System.out.println(&quot;jmsMessageID:&quot; + jmsMessageID);</span><br><span class="line">System.out.println(&quot;jmsTimestamp:&quot; + jmsTimestamp);</span><br><span class="line">System.out.println(&quot;jmsCorrelationID:&quot; + jmsCorrelationID);</span><br><span class="line">System.out.println(&quot;jmsReplyTo:&quot; + jmsReplyTo);</span><br><span class="line">System.out.println(&quot;jmsRedelivered:&quot; + jmsRedelivered);</span><br><span class="line">System.out.println(&quot;jmsType:&quot; + jmsType);</span><br><span class="line">System.out.println(&quot;jmsExpiration:&quot; + jmsExpiration);</span><br><span class="line">System.out.println(&quot;jmsPriority:&quot; + jmsPriority);</span><br><span class="line">System.out.println(&quot;----------------------------&quot;);</span><br></pre></td></tr></table></figure>
+
+<p>只有JmsType，ReplyTo，CorrelationId可以显示设置，其它设置了都无效。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">public interface Message &#123;</span><br><span class="line">    public Destination getJMSDestination() throws JMSException;</span><br><span class="line">    public void setJMSDestination(Destination destination) throws JMSException;</span><br><span class="line">    public int getJMSDeliveryMode() throws JMSException</span><br><span class="line">    public void setJMSDeliveryMode(int deliveryMode) throws JMSException;</span><br><span class="line">    public String getJMSMessageID() throws JMSException;</span><br><span class="line">    public void setJMSMessageID(String id) throws JMSException;</span><br><span class="line">    public long getJMSTimestamp() throws JMSException&#x27;</span><br><span class="line">    public void setJMSTimestamp(long timestamp) throws JMSException;</span><br><span class="line">    public long getJMSExpiration() throws JMSException;</span><br><span class="line">    public void setJMSExpiration(long expiration) throws JMSException;</span><br><span class="line">    public boolean getJMSRedelivered() throws JMSException;</span><br><span class="line">    public void setJMSRedelivered(boolean redelivered) throws JMSException;</span><br><span class="line">    public int getJMSPriority() throws JMSException;</span><br><span class="line">    public void setJMSPriority(int priority) throws JMSException;</span><br><span class="line">    public Destination getJMSReplyTo() throws JMSException;</span><br><span class="line">    public void setJMSReplyTo(Destination replyTo) throws JMSException;</span><br><span class="line">    public String getJMScorrelationID() throws JMSException;</span><br><span class="line">    public void setJMSCorrelationID(String correlationID) throws JMSException;</span><br><span class="line">    public byte[] getJMSCorrelationIDAsBytes() throws JMSException;</span><br><span class="line">    public void setJMSCorrelationIDAsBytes(byte[] correlationID) throws JMSException;</span><br><span class="line">    public String getJMSType() throws JMSException;</span><br><span class="line">    public void setJMSType(String type) throws JMSException;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h5 id="消息属性"><a href="#消息属性" class="headerlink" title="消息属性"></a>消息属性</h5><p>消息的<strong>属性</strong>就像可以分配给一条消息的附加消息头一样。它们允许开发者添加有关消息的不透明附加信息。它们还用于暴露消息选择器在消息过滤时使用的数据。 </p>
+<p>Message接口为读取和写入属性提供了若干个取值函数和赋值函数方法。消息的属性值可以是<strong>String</strong>, <strong>boolean</strong> , <strong>byte</strong>,<strong>short</strong>, <strong>double</strong>, <strong>int</strong> ,<strong>long</strong>或<strong>float</strong>型。Message接口为每种类型的属性值都提供了取值函数和赋值方法。如下： </p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">public interface Message &#123;</span><br><span class="line">    public String getStringProperty(String name) throws JMSException,MessageFormatException;</span><br><span class="line">    public void setStringProperty(String name,String value) throws JMSException,MessageNotWriteableException;</span><br><span class="line">    public int getIntProperty(String name) throws JMSException,MessageFormatException;</span><br><span class="line">    public void setIntProperty(String name,int value) throws JMSException,MessageNotWriteableException;</span><br><span class="line">    public boolean getBooleanProperty(String name) throws JMSException,MessageFormatException;</span><br><span class="line">    public void setBooleanProperty(String name,boolean value) throws JMSException,MessageNotWriteableException;</span><br><span class="line">    public double getDoubleProperty(String name) throws JMSException,MessageFormatException;</span><br><span class="line">    public void setDoubleProperty(String name) throws JMSException,MessageFormatException;</span><br><span class="line">    public float getFloatProperty (String name) throws JMSException,MessageFormatExdeption;</span><br><span class="line">    public void setFloatProperty(String name,float value) throws JMSException,MessageNotWriteableException;</span><br><span class="line">    public byte getByteProperty(String name) throws JMSException,MessageFormatException;</span><br><span class="line">    public void setByteProperty(String name) throws JMSException,MessageNotWriteableException;</span><br><span class="line">    public long getLongProperty(String name) throws JMSException,MessageNotWriteableException;</span><br><span class="line">    public void setLongProperty(String name,long value) throws JMSException,MessageNotWriteableException;</span><br><span class="line">    public short getShortProperty(String name) throws JMSException,MessageFormatException;</span><br><span class="line">    public void setShortProperty(String name,short value) throws JMSException,MessageNotWriteableException;</span><br><span class="line">    public Object getObjectProperty(String name) throws JMSException,MessageNotWriteableException;</span><br><span class="line">    public void setObjectProperty(String name,Object value) throws JMSException,MessageNotWriteableException;</span><br><span class="line">    ......</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>消息属性有3种基本类型： </p>
+<ol>
+<li><p>应用程序特定的属性 </p>
+<p>由应用程序开发者定义的所有属性都可以作为一个应用程序特定的属性。应用程序属性在消息传送之前进行设置。并不存在预先定义的应用程序属性，开发者可以自由定义能够满足它们需要的任何属性。例如，在一个应用中，可以添加一个特定的属性，该属性用于标识正在发送消息的用户：  </p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">TextMessage message = pubSession.createTextMessage();</span><br><span class="line"></span><br><span class="line">message.setStringProperty(&quot;username&quot;,username);//自定义属性</span><br><span class="line"></span><br><span class="line">publisher.publish(message);</span><br></pre></td></tr></table></figure>
+
+<p>作为一个应用程序的特定属性，username一旦离开该应用程序就变得毫无意义，它专门用于应用程序根据发布者身份对消息进行过滤。 </p>
+<p>一旦一条消息发布或发送以后，它就变成了只读属性；消费者或生产者都无法修改它的属性。如果消费者试图设置某个属性，该方法就会抛出一个javax.jms.MessageNotWriteableException。 </p>
+</li>
+<li><p>JMS定义的属性 </p>
+<p>JMS定义的属性具有和应用程序属性相同的特性，除了前者大多数在消息发送时由JMS提供者来设置之外。JMS定义的属性可以作为可选的JMS消息头，下面是JMS定义的9个属性清单： </p>
+<ul>
+<li><p>JMSXUserID </p>
+</li>
+<li><p>JMSXAppID </p>
+</li>
+<li><p>JMSXProducerTXID </p>
+</li>
+<li><p>JMSXConsumerTXID </p>
+</li>
+<li><p>JMSXRcvTimestamp </p>
+</li>
+<li><p>JMSXDeliveryCount </p>
+</li>
+<li><p>JMSXState </p>
+</li>
+<li><p>JMSXGroupID </p>
+</li>
+<li><p>JMSXGroupSeq </p>
+</li>
+</ul>
+<p>在这份清单中，只有JMSXGroupID和JMSXGroupSeq需要所有JMS提供者的支持。这些可选属性用于聚合消息。 </p>
+<p>请注意：在Message接口中，您将无法找到对应的setJMSX&lt;PROPERTY&gt;()和getJMSX&lt;PROPERTY&gt;()方法定义，在使用这些方法时，必须使用和应用程序特定属性相同的方法来设置它们，如下： </p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">message.setStringProperty(&quot;JMSXGroupID&quot;,&quot;GroupID-001&quot;);</span><br><span class="line"></span><br><span class="line">message.setIntProperty(&quot;JMSXGroupSeq&quot;,5);</span><br></pre></td></tr></table></figure></li>
+<li><p>提供者特定的属性 </p>
+<p>每个JMS提供者都可以定义一组私有属性，这些属性可以由客户端或提供者自动设置。提供者特定的属性必须以前缀JMS开头，后面紧接着是属性名称（JMS&lt;vendor-property-name&gt;），例如：JMSUserID。提供者特定的属性，其作用就是支持厂商的私有特性。</p>
+</li>
+</ol>
+<h5 id="消息体"><a href="#消息体" class="headerlink" title="消息体"></a>消息体</h5><p>为了适应不同场景下的消息，提高消息存储的灵活性，JMS定义了几种具体类型的消息，不同的子类型的消息体也不一样，需要注意的是，Message接口并没有提供一个统一的getBody之类的方法。消息子接口定义如下： </p>
+<table>
+<thead>
+<tr>
+<th>TextMessage</th>
+<th>最简单的消息接口，用于发送文本类的消息，设置/获取其body的方法定义如下setText()/getText()。</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>StreamMessage</td>
+<td>流式消息接口，里面定义了一系列的对基本类型的set/get方法，消息发送者可以通过这些方法写入基本类型的数据，消息接收者需要按发送者的写入顺序来读取相应的数据。</td>
+</tr>
+<tr>
+<td>MapMessage</td>
+<td>把消息内容存储在Map里，本接口定义了一系列对基本类型的的set/get方法，与StreamMessage不同的是，每个值都对应了一个相应的key，所以消息接收者不必按顺序去读取数据。</td>
+</tr>
+<tr>
+<td>ObjectMessage</td>
+<td>将对象作为消息的接口，提供了一个set/get 对象的方法，需要注意的是只能设置一个对象，这个对象可以是一个Collection，但必须是序列化的。</td>
+</tr>
+<tr>
+<td>BytesMessage</td>
+<td>以字节的形式来传递消息的接口，除了提供了对基本类型的set/get，还提供了按字节方式进行set/get。</td>
+</tr>
+</tbody></table>
+<h4 id="提供者"><a href="#提供者" class="headerlink" title="提供者"></a>提供者</h4><p>要使用Java消息服务，你必须要有一个JMS提供者，管理会话和队列。既有开源的提供者也有专有的提供者。</p>
+<p>开源的提供者包括：</p>
+<ul>
+<li>Apache ActiveMQ</li>
+<li>JBoss 社区所研发的 HornetQ</li>
+<li>Joram</li>
+<li>Coridan的MantaRay</li>
+<li>The OpenJMS Group的OpenJMS</li>
+</ul>
+<p>专有的提供者包括：</p>
+<ul>
+<li>BEA的BEA WebLogic Server JMS</li>
+<li>TIBCO Software的EMS</li>
+<li>GigaSpaces Technologies的GigaSpaces</li>
+<li>Softwired 2006的iBus</li>
+<li>IONA Technologies的IONA JMS</li>
+<li>SeeBeyond的IQManager（2005年8月被Sun Microsystems并购）</li>
+<li>webMethods的JMS+ -</li>
+<li>my-channels的Nirvana</li>
+<li>Sonic Software的SonicMQ</li>
+<li>SwiftMQ的SwiftMQ</li>
+<li>IBM的WebSphere MQ</li>
+</ul>
+<h4 id="JMS使用示例"><a href="#JMS使用示例" class="headerlink" title="JMS使用示例"></a>JMS使用示例</h4><ol>
+<li><p><a target="_blank" rel="noopener" href="http://www.cnblogs.com/chenpi/p/5565618.html">基于Tomcat + JNDI + ActiveMQ实现JMS的点对点消息传送</a> </p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="http://www.cnblogs.com/chenpi/p/5566983.html">JMS发布/订阅消息传送例子</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://github.com/shenyang312/shenyang.git">JMS项目</a></p>
+</li>
+</ol>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">平心</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://pingxin0521.gitee.io/2019/06/04/%E6%B6%88%E6%81%AF%E4%B8%AD%E9%97%B4%E4%BB%B6-1-2/">https://pingxin0521.gitee.io/2019/06/04/%E6%B6%88%E6%81%AF%E4%B8%AD%E9%97%B4%E4%BB%B6-1-2/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://pingxin0521.gitee.io" target="_blank">平心de小屋</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E6%B6%88%E6%81%AF%E4%B8%AD%E9%97%B4%E4%BB%B6/">消息中间件</a></div><div class="post_share"><div class="social-share" data-image="https://i.loli.net/2020/05/08/7dHvepmfYOLWTrX.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2019/06/05/Java-%E5%9F%BA%E7%A1%80-10-2/"><img class="prev-cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/gGE57HRvpcKPfDY.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">Java 补充知识</div></div></a></div><div class="next-post pull-right"><a href="/2019/06/03/%E6%B6%88%E6%81%AF%E4%B8%AD%E9%97%B4%E4%BB%B6-1-1/"><img class="next-cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/vCnKyoFJZ1g4XYR.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">消息中间件--入门</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span> 相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2019/06/05/消息中间件-1-3/" title="消息中间件协议与实现--AMQP"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/okfOw28KlZFbE7z.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2020-01-22</div><div class="title">消息中间件协议与实现--AMQP</div></div></a></div><div><a href="/2020/05/13/消息中间件-2-2/" title="消息中间件--ActiveMQ 深究"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/HjVAdIuT7bZJypS.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2020-05-29</div><div class="title">消息中间件--ActiveMQ 深究</div></div></a></div><div><a href="/2019/06/03/消息中间件-1-1/" title="消息中间件--入门"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/vCnKyoFJZ1g4XYR.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2020-01-22</div><div class="title">消息中间件--入门</div></div></a></div><div><a href="/2020/05/03/消息中间件-2-1/" title="消息中间件--ActiveMQ 入门"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/okfOw28KlZFbE7z.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2020-05-21</div><div class="title">消息中间件--ActiveMQ 入门</div></div></a></div></div></div><hr/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div class="vcomment" id="vcomment"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="card-info-avatar is-center"><img class="avatar-img" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://s2.ax1x.com/2020/02/11/1ovw6J.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/><div class="author-info__name">平心</div><div class="author-info__description">年轻人的life、learn and think</div></div><div class="card-info-data"><div class="card-info-data-item is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">449</div></a></div><div class="card-info-data-item is-center"><a href="/tags/"><div class="headline">标签</div><div class="length-num">77</div></a></div><div class="card-info-data-item is-center"><a href="/categories/"><div class="headline">分类</div><div class="length-num">68</div></a></div></div><a class="button--animated" id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/hanyunpeng0521"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/hanyunpeng0521" target="_blank" title="Github"><i class="fa fa-github"></i></a><a class="social-icon" href="mailto:m13839441583@163.com" target="_blank" title="Email"><i class="fa fa-envelope"></i></a><a class="social-icon" href="/atom.xml" target="_blank" title=""><i class="fa fa-rss"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn card-announcement-animation"></i><span>公告</span></div><div class="announcement_content">为什么呢？开始提问吧</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#JMS"><span class="toc-number">1.</span> <span class="toc-text">JMS</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BD%93%E7%B3%BB%E6%9E%B6%E6%9E%84"><span class="toc-number">1.1.</span> <span class="toc-text">体系架构</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%AF%B9%E8%B1%A1%E6%A8%A1%E5%9E%8B"><span class="toc-number">1.2.</span> <span class="toc-text">对象模型</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%A8%A1%E5%9E%8B"><span class="toc-number">1.3.</span> <span class="toc-text">模型</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%8E%A5%E6%94%B6%E6%B6%88%E6%81%AF"><span class="toc-number">1.4.</span> <span class="toc-text">接收消息</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#JMS%E7%BC%96%E7%A8%8B%E6%8E%A5%E5%8F%A3"><span class="toc-number">1.5.</span> <span class="toc-text">JMS编程接口</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BC%A0%E9%80%92%E6%96%B9%E5%BC%8F"><span class="toc-number">1.6.</span> <span class="toc-text">传递方式</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%B6%88%E6%81%AF%E7%BB%93%E6%9E%84"><span class="toc-number">1.7.</span> <span class="toc-text">消息结构</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#Header"><span class="toc-number">1.7.1.</span> <span class="toc-text">Header</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%B6%88%E6%81%AF%E5%B1%9E%E6%80%A7"><span class="toc-number">1.7.2.</span> <span class="toc-text">消息属性</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%B6%88%E6%81%AF%E4%BD%93"><span class="toc-number">1.7.3.</span> <span class="toc-text">消息体</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%8F%90%E4%BE%9B%E8%80%85"><span class="toc-number">1.8.</span> <span class="toc-text">提供者</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#JMS%E4%BD%BF%E7%94%A8%E7%A4%BA%E4%BE%8B"><span class="toc-number">1.9.</span> <span class="toc-text">JMS使用示例</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2021/05/15/node-2-4/" title="Egg.js -- 为企业级框架和应用而生"><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/okfOw28KlZFbE7z.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Egg.js -- 为企业级框架和应用而生"/></a><div class="content"><a class="title" href="/2021/05/15/node-2-4/" title="Egg.js -- 为企业级框架和应用而生">Egg.js -- 为企业级框架和应用而生</a><time datetime="2021-05-15T10:18:59.000Z" title="发表于 2021-05-15 18:18:59">2021-05-15</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/04/30/node-2-3/" title="Koa -- 基于Node.js平台的下一代Web开发框架"><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/HjVAdIuT7bZJypS.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Koa -- 基于Node.js平台的下一代Web开发框架"/></a><div class="content"><a class="title" href="/2021/04/30/node-2-3/" title="Koa -- 基于Node.js平台的下一代Web开发框架">Koa -- 基于Node.js平台的下一代Web开发框架</a><time datetime="2021-04-30T10:18:59.000Z" title="发表于 2021-04-30 18:18:59">2021-04-30</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/04/01/node-2-1/" title="Node.JS web开发前置知识"><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/gGE57HRvpcKPfDY.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Node.JS web开发前置知识"/></a><div class="content"><a class="title" href="/2021/04/01/node-2-1/" title="Node.JS web开发前置知识">Node.JS web开发前置知识</a><time datetime="2021-04-01T03:18:59.000Z" title="发表于 2021-04-01 11:18:59">2021-04-01</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2020/12/26/%E5%91%A8%E8%AE%B0-10-1/" title="第十一周--谷歌浏览器插件"><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/gGE57HRvpcKPfDY.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="第十一周--谷歌浏览器插件"/></a><div class="content"><a class="title" href="/2020/12/26/%E5%91%A8%E8%AE%B0-10-1/" title="第十一周--谷歌浏览器插件">第十一周--谷歌浏览器插件</a><time datetime="2020-12-26T10:18:59.000Z" title="发表于 2020-12-26 18:18:59">2020-12-26</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2020/12/26/%E5%91%A8%E8%AE%B0-10-0/" title="第十一周--浏览器技术"><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/vCnKyoFJZ1g4XYR.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="第十一周--浏览器技术"/></a><div class="content"><a class="title" href="/2020/12/26/%E5%91%A8%E8%AE%B0-10-0/" title="第十一周--浏览器技术">第十一周--浏览器技术</a><time datetime="2020-12-26T06:18:59.000Z" title="发表于 2020-12-26 14:18:59">2020-12-26</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2019 - 2021 By 平心</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div id="local-search"><div class="search-dialog"><div class="search-dialog__title" id="local-search-title">本地搜索</div><div id="local-input-panel"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div></div><hr/><div id="local-search-results"></div><span class="search-close-button"><i class="fas fa-times"></i></span></div><div id="search-mask"></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload/dist/lazyload.iife.min.js"></script><script src="/js/search/local-search.js"></script><div class="js-pjax"><script>function loadValine () {
+  function initValine () {
+    const valine = new Valine(Object.assign({
+      el: '#vcomment',
+      appId: '4lfIXzqxaC1ONs0MJO4oHu07-gzGzoHsz',
+      appKey: 'qw99Bw8FD0KVKU9m457CwWsr',
+      placeholder: 'Please leave your footprints',
+      avatar: 'monsterid',
+      meta: 'nick,mail,link'.split(','),
+      pageSize: '10',
+      lang: 'zh-CN',
+      recordIP: true,
+      serverURLs: '',
+      emojiCDN: '',
+      emojiMaps: "",
+      enableQQ: true,
+      path: window.location.pathname,
+      requiredFields: ["nick,mail"],
+      visitor: false
+    }, null))
+  }
+
+  if (typeof Valine === 'function') initValine() 
+  else getScript('https://cdn.jsdelivr.net/npm/valine/dist/Valine.min.js').then(initValine)
+}
+
+if ('Valine' === 'Valine' || !false) {
+  if (false) btf.loadComment(document.getElementById('vcomment'),loadValine)
+  else setTimeout(loadValine, 0)
+} else {
+  function loadOtherComment () {
+    loadValine()
+  }
+}</script></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>

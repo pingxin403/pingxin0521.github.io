@@ -1,0 +1,394 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Maven测试和Web项目 | 平心de小屋</title><meta name="keywords" content="工具,Maven"><meta name="author" content="平心"><meta name="copyright" content="平心"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="Maven 测试在默认情况下，“maven-surefire-plugin”插件将自动执行项目“src&#x2F;test&#x2F;java”路径下的测试类，但测试类需要遵从以下命名模式，Maven才能自动执行它们：　　 123Test*.java ：以Test开头的Java类；*Test.java ：以Test结尾的Java类;*TestCase.java：以TestCase结尾的Java类；">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Maven测试和Web项目">
+<meta property="og:url" content="https://pingxin0521.gitee.io/2019/03/28/%E5%B7%A5%E5%85%B7-Maven-5/index.html">
+<meta property="og:site_name" content="平心de小屋">
+<meta property="og:description" content="Maven 测试在默认情况下，“maven-surefire-plugin”插件将自动执行项目“src&#x2F;test&#x2F;java”路径下的测试类，但测试类需要遵从以下命名模式，Maven才能自动执行它们：　　 123Test*.java ：以Test开头的Java类；*Test.java ：以Test结尾的Java类;*TestCase.java：以TestCase结尾的Java类；">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://i.loli.net/2020/05/08/vCnKyoFJZ1g4XYR.jpg">
+<meta property="article:published_time" content="2019-03-28T12:18:59.000Z">
+<meta property="article:modified_time" content="2019-04-07T03:23:56.000Z">
+<meta property="article:author" content="平心">
+<meta property="article:tag" content="工具">
+<meta property="article:tag" content="Maven">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.loli.net/2020/05/08/vCnKyoFJZ1g4XYR.jpg"><link rel="shortcut icon" href="https://s2.ax1x.com/2020/02/11/1ovFOA.png"><link rel="canonical" href="https://pingxin0521.gitee.io/2019/03/28/%E5%B7%A5%E5%85%B7-Maven-5/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"search.xml","languages":{"hits_empty":"找不到您查询的内容：${query}"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    jQuery: 'https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js',
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+    },
+    fancybox: {
+      js: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css'
+    }
+  },
+  isPhotoFigcaption: true,
+  islazyload: true,
+  isanchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'Maven测试和Web项目',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2019-04-07 11:23:56'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    })(window)</script><meta name="generator" content="Hexo 5.4.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="author-avatar"><img class="avatar-img" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://s2.ax1x.com/2020/02/11/1ovw6J.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data"><div class="data-item is-center"><div class="data-item-link"><a href="/archives/"><div class="headline">文章</div><div class="length-num">449</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/tags/"><div class="headline">标签</div><div class="length-num">77</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/categories/"><div class="headline">分类</div><div class="length-num">68</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fa fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fa fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://i.loli.net/2020/05/08/vCnKyoFJZ1g4XYR.jpg')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">平心de小屋</a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fa fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fa fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">Maven测试和Web项目</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2019-03-28T12:18:59.000Z" title="发表于 2019-03-28 20:18:59">2019-03-28</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2019-04-07T03:23:56.000Z" title="更新于 2019-04-07 11:23:56">2019-04-07</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E5%B7%A5%E5%85%B7/">工具</a><i class="fas fa-angle-right post-meta-separator"></i><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E5%B7%A5%E5%85%B7/Maven/">Maven</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">5.7k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>21分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="Maven测试和Web项目"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h3 id="Maven-测试"><a href="#Maven-测试" class="headerlink" title="Maven 测试"></a>Maven 测试</h3><p>在默认情况下，“maven-surefire-plugin”插件将自动执行项目“src/test/java”路径下的测试类，但测试类需要遵从以下命名模式，Maven才能自动执行它们：　　</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Test*.java ：以Test开头的Java类；</span><br><span class="line">*Test.java ：以Test结尾的Java类;</span><br><span class="line">*TestCase.java：以TestCase结尾的Java类；</span><br></pre></td></tr></table></figure>
+
+<span id="more"></span>
+
+<p> 如果要求Maven跳过测试，在Maven命令行中加入skipTests参数即可：</p>
+<p><code>mvn package -DskipTests</code></p>
+<p>如果不仅要跳过测试类的执行，还要临时性的跳过测试代码编译，可以执行以下命令：</p>
+<p><code>mvn package -Dmaven.test.skip=true</code></p>
+<p>Dmaven.test.skip=true 参数控制了“maven-compiler-plugin” 和“maven-surefire-plugin” 两个插件的行为，在项目构建过程中跳过了测试代码的编译和测试。此外，还可以通过配置“pom.xml”文件，完成与上述执行Maven命令同样的效果</p>
+<p><strong>基本测试报告</strong></p>
+<p>除了命令行输出，maven用户还可以以文件的方式生成更丰富的测试报告<br>默认情况下，maven-surefire-plugin会在target/surefire-reports目录下生成两种格式的错误报告：</p>
+<p>简单文本格式（比如com.zheng.SayHelloTest.txt）<br>与junit兼容的xml格式（比如TEST-com.zheng.SayHelloTest.xml）</p>
+<p><strong>动态指定要运行的测试类：</strong><br>在进行单元测试时，有时候不需要执行项目中所有的测试类，“maven-surefire-plugin”插件支持命令中设置Dtest参数，来执行指定的测试类。例如只执行“ATest” 测试类:</p>
+<p><code>mvn -Dtest=ATest test</code></p>
+<p>”maven-surefire-plugin“插件还支持使用星号匹配测试类名的方式以指定运行特定的测试类，星号表示匹配零个或多个字符。例如只执行”A“开头的测试类：</p>
+<p><code>mvn -Dtest=A* test</code></p>
+<p>除了使用星号匹配，还可以使用逗号指定多个测试类：</p>
+<p><code>mvn test -Dtest=ATest,BTest</code></p>
+<p>同时匹配类名以A开头的测试类和类名为BTest的测试类：</p>
+<p><code>mvn -Dtest=A*,BTest test</code></p>
+<p>当test命令通过参数匹配不到任何测试类时，项目将会构建失败。配置参数DfailIfNoTests=false可以在匹配不到测试类时依旧构建成功：</p>
+<p><code>mvn -Dtest=AATest -DfailIfNoTests=false  test</code></p>
+<p>使用DfailIfNoTests=false参数也是另一种跳过测试的方法。“maven-surefire-plugin”插件并没有提供通过指定测试类的类名来跳过执行某个测试类的命令，但可以通过在“pom.xml”文件中进行排除指定的测试类。</p>
+<p><code>mvn cobertura:cobertura</code><br>生成覆盖率报告，接着打开项目目录target/site/cobertura/下的index.html，就能看到测试率报告。</p>
+<p>引入以下插件依赖：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&lt;plugins&gt;</span><br><span class="line">    &lt;plugin&gt;</span><br><span class="line">        &lt;groupId&gt;org.codehaus.mojo&lt;/groupId&gt;</span><br><span class="line">        &lt;artifactId&gt;cobertura-maven-plugin&lt;/artifactId&gt;</span><br><span class="line">        &lt;version&gt;2.7&lt;/version&gt;</span><br><span class="line">    &lt;/plugin&gt;</span><br><span class="line">&lt;/plugins&gt;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p><strong>包含与排除测试用例：</strong></p>
+<p><include/>元素配置的测试类名将会被执行,其中<code>**/*Tests.java</code>匹配以Tests结尾的Java类，其中两个星号用来表示匹配任意路径，一个星号用来匹配路径风格符除外的零个或多个字符。<br>使用<excludes/>元素中排除执行匹配到的测试类。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">&lt;project&gt;</span><br><span class="line">    [...]</span><br><span class="line">    &lt;build&gt;</span><br><span class="line">        &lt;plugins&gt;</span><br><span class="line">            &lt;plugin&gt;</span><br><span class="line">                &lt;groupId&gt;org.apache.maven.plugins&lt;/groupId&gt;</span><br><span class="line">                &lt;artifactId&gt;maven-surefire-plugin&lt;/artifactId&gt;</span><br><span class="line">                &lt;version&gt;2.20&lt;/version&gt;</span><br><span class="line">                &lt;configuration&gt;</span><br><span class="line">                &lt;includes&gt;</span><br><span class="line">                        &lt;include&gt;**/*Tests.java&lt;/include&gt;</span><br><span class="line">                    &lt;/includes&gt;</span><br><span class="line">                    &lt;excludes&gt;</span><br><span class="line">                        &lt;exclude&gt;**/CTest.java&lt;/exclude&gt;</span><br><span class="line">                        &lt;exclude&gt;**/DTest.java&lt;/exclude&gt;</span><br><span class="line">                    &lt;/excludes&gt;</span><br><span class="line">                &lt;/configuration&gt;</span><br><span class="line">            &lt;/plugin&gt;</span><br><span class="line">        &lt;/plugins&gt;</span><br><span class="line">    &lt;/build&gt;</span><br><span class="line">   [...]</span><br><span class="line">&lt;/project&gt;</span><br></pre></td></tr></table></figure>
+
+<p><strong>测试代码重用</strong></p>
+<p>mvn package 会打包项目主代码和资源文件代码，没有包含测试代码。如果想一起打包测试用例，供依赖方使用， 使用 maven-jar-plugin 插件</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">&lt;plugin&gt;</span><br><span class="line">    &lt;groupId&gt;org.apache.maven.plugins&lt;/groupId&gt;</span><br><span class="line">    &lt;artifactId&gt;maven-jar-plugin&lt;/artifactId&gt;</span><br><span class="line">    &lt;version&gt;2.4&lt;/version&gt;</span><br><span class="line">    &lt;executions&gt;</span><br><span class="line">        &lt;execution&gt;</span><br><span class="line">            &lt;goals&gt;</span><br><span class="line">                &lt;goal&gt;test-jar&lt;/goal&gt;</span><br><span class="line">            &lt;/goals&gt;</span><br><span class="line">        &lt;/execution&gt;</span><br><span class="line">    &lt;/executions&gt;</span><br><span class="line">&lt;/plugin&gt;</span><br></pre></td></tr></table></figure>
+<p>maven-jar-plugin 有两个目标 jar ，test-jar,<br>jar 内置绑定在 default 生命周期的 package 阶段。<br>test-jar没有内置绑定。</p>
+<p>依赖方引入时 dependency,需要设置 type 和 scope。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&lt;dependency&gt;</span><br><span class="line">    &lt;groupId&gt;org.A&lt;/groupId&gt;</span><br><span class="line">    &lt;artifactId&gt;A&lt;/artifactId&gt;</span><br><span class="line">    &lt;version&gt;5.0.0&lt;/version&gt;</span><br><span class="line">    &lt;type&gt;test-jar&lt;/type&gt;</span><br><span class="line">    &lt;scope&gt;test&lt;/scope&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br></pre></td></tr></table></figure>
+<h3 id="Web项目"><a href="#Web项目" class="headerlink" title="Web项目"></a>Web项目</h3><p>基于java的Web应用，其标准的打包方式是WAR，WAR与JAR类似，只不过包含更多内容，包括web的资源文件。</p>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2019/04/06/5ca8b0d620b75.png"></p>
+<p>Maven项目使用打包方式为war时，才可以生成war包，Maven的Web项目也有默认的项目目录结构：</p>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2019/04/06/5ca8b220ba80d.png"></p>
+<p>可以发现WAR包中有一个lib目录，包含依赖的jar包，但是Maven项目中没有这样的目录，因为依赖都配置在POM中，Maven在打包成WAR包时，会根据POM的配置从本地仓库复制相应的JAR文件。</p>
+<p>示例项目：链接：<a target="_blank" rel="noopener" href="https://pan.baidu.com/s/1aFUQpEb3MhfDqOfZiKcPsg">https://pan.baidu.com/s/1aFUQpEb3MhfDqOfZiKcPsg</a> 密码：dogt</p>
+<p>在accout-web中内置了jetty服务器插件：<code>jetty-maven-plugin</code>,并且accout-web的打包方式为war。web页面测试在web中不可缺少，但是能够使用单元测试进行测试的尽量不要留在页面测试时进行。jetty能够帮助我们省去打包和部署的步骤，</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">&lt;plugin&gt;</span><br><span class="line">        &lt;groupId&gt;org.mortbay.jetty&lt;/groupId&gt;</span><br><span class="line">        &lt;artifactId&gt;jetty-maven-plugin&lt;/artifactId&gt;</span><br><span class="line">        &lt;version&gt;7.1.0.RC1&lt;/version&gt;</span><br><span class="line">        &lt;configuration&gt;</span><br><span class="line">              &lt;!--扫描项目时间间隔，默认为0，不扫描--&gt;</span><br><span class="line">                &lt;scanIntervalSeconds&gt;10&lt;/scanIntervalSeconds&gt;</span><br><span class="line">                &lt;webAppConfig&gt;</span><br><span class="line">                      &lt;!--项目部署后的context path--&gt;</span><br><span class="line">                        &lt;contextPath&gt;/account&lt;/contextPath&gt;</span><br><span class="line">                &lt;/webAppConfig&gt;</span><br><span class="line">        &lt;/configuration&gt;</span><br><span class="line">&lt;/plugin&gt;</span><br></pre></td></tr></table></figure>
+<p>在主项目目录下编译完成并安装，在web项目下运行jetty之前，我们需要在setting.xml文件中添加pluginGroup中添加jetty的GroupId，以便能够使用简短命令。</p>
+<p><code>&lt;pluginGroup&gt;org.mortbay.jetty&lt;/pluginGroup&gt;</code></p>
+<p>现在可以使用一下命令启动<code>jetty-maven-plugin</code>。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mvn jetty:run</span><br></pre></td></tr></table></figure>
+<p>然后就会启动jetty，并且默认使用8080端口，并将项目部署到容器中，并且根据配置扫描代码改动。可以使用<code>-Djetty.port=&lt;端口号&gt;</code>使用其他端口。</p>
+<h4 id="Cargo实现自动化部署"><a href="#Cargo实现自动化部署" class="headerlink" title="Cargo实现自动化部署"></a>Cargo实现自动化部署</h4><p><strong>部署到本地Web容器</strong></p>
+<p> 在standalone模式，Cargo会从Web容器的安装目录复制一份配置到用户指定的目录，然后在此基础上部署应用，每次重新构建的时候，这个目录都会被清空，所有配置被重新生成</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">&lt;plugin&gt;</span><br><span class="line"> &lt;groupId&gt;org.codehaus.cargo&lt;/groupId&gt;</span><br><span class="line"> &lt;artifactId&gt;cargo-maven2-plugin&lt;/artifactId&gt;</span><br><span class="line"> &lt;version&gt;1.7.1&lt;/version&gt;</span><br><span class="line"> &lt;configuration&gt;</span><br><span class="line">   &lt;container&gt;</span><br><span class="line">     &lt;containerId&gt;tomcat7x&lt;/containerId&gt;</span><br><span class="line">     &lt;home&gt;/usr/local/devtools/apache-tomcat-7.0.55&lt;/home&gt;</span><br><span class="line">   &lt;/container&gt;</span><br><span class="line">   &lt;configuration&gt;</span><br><span class="line">     &lt;type&gt;standalone&lt;/type&gt;</span><br><span class="line">     &lt;home&gt;$&#123;project.build.directory&#125;/tomcat7x&lt;/home&gt;</span><br><span class="line">     &lt;properties&gt;</span><br><span class="line">       &lt;!-- 更改监听端口 --&gt;</span><br><span class="line">       &lt;cargo.servlet.port&gt;8088&lt;/cargo.servlet.port&gt;</span><br><span class="line">     &lt;/properties&gt;</span><br><span class="line">   &lt;/configuration&gt;</span><br><span class="line"> &lt;/configuration&gt;</span><br><span class="line">&lt;/plugin&gt;</span><br></pre></td></tr></table></figure>
+<p> 然后用mvn cargo:run启动。</p>
+<p> 在existing模式下，用户需要指定现有的web容器配置目录，然后Cargo会直接使用这些配置并将应用部署到其对应的位置</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">&lt;plugin&gt;</span><br><span class="line">	&lt;groupId&gt;org.codehaus.cargo&lt;/groupId&gt;</span><br><span class="line">	&lt;artifactId&gt;cargo-maven2-plugin&lt;/artifactId&gt;</span><br><span class="line">	&lt;version&gt;1.7.1&lt;/version&gt;</span><br><span class="line">	&lt;configuration&gt;</span><br><span class="line">		&lt;container&gt;</span><br><span class="line">			&lt;containerId&gt;tomcat7x&lt;/containerId&gt;</span><br><span class="line">			&lt;home&gt;/usr/local/devtools/apache-tomcat-7.0.55&lt;/home&gt;</span><br><span class="line">		&lt;/container&gt;</span><br><span class="line">		&lt;configuration&gt;</span><br><span class="line">			&lt;type&gt;existing&lt;/type&gt;</span><br><span class="line">			&lt;home&gt;/usr/local/devtools/apache-tomcat-7.0.55&lt;/home&gt;</span><br><span class="line">		&lt;/configuration&gt;</span><br><span class="line">	&lt;/configuration&gt;</span><br><span class="line">&lt;/plugin&gt;</span><br></pre></td></tr></table></figure>
+<p> 然后运行cargo:run之后在对应的tomcat的webapps目录下能够看到被部署的应用</p>
+<p><strong>部署到远程Web容器</strong></p>
+<p>这里注意在远程部署模式下，container元素的type子元素的值必须为remote，如果不指定，Cargo会默认使用installed，并寻找对应的容器安装目录或者安装包，一般我们远程部署的服务器上都有设定好的web容器了，并不需要再区安装。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br></pre></td><td class="code"><pre><span class="line">&lt;!-- tomcat7 --&gt;</span><br><span class="line">&lt;plugin&gt;</span><br><span class="line">	&lt;groupId&gt;org.apache.tomcat.maven&lt;/groupId&gt;</span><br><span class="line">	&lt;artifactId&gt;tomcat7-maven-plugin&lt;/artifactId&gt;</span><br><span class="line">	&lt;version&gt;2.2&lt;/version&gt;</span><br><span class="line">	&lt;configuration&gt;</span><br><span class="line">		&lt;url&gt;http://localhost:8080/manager/text&lt;/url&gt;</span><br><span class="line">		&lt;URIEncoding&gt;UTF-8&lt;/URIEncoding&gt;</span><br><span class="line">		&lt;server&gt;tomcat7x&lt;/server&gt;</span><br><span class="line">		&lt;username&gt;admin&lt;/username&gt;</span><br><span class="line">		&lt;password&gt;password&lt;/password&gt;</span><br><span class="line">		&lt;path&gt;/$&#123;project.artifactId&#125;&lt;/path&gt;</span><br><span class="line">	&lt;/configuration&gt;</span><br><span class="line">&lt;/plugin&gt;</span><br><span class="line"></span><br><span class="line">....</span><br><span class="line"></span><br><span class="line">&lt;plugin&gt;</span><br><span class="line">	&lt;groupId&gt;org.codehaus.cargo&lt;/groupId&gt;</span><br><span class="line">	&lt;artifactId&gt;cargo-maven2-plugin&lt;/artifactId&gt;</span><br><span class="line">	&lt;version&gt;1.7.1&lt;/version&gt;</span><br><span class="line">	&lt;configuration&gt;</span><br><span class="line">		&lt;container&gt;</span><br><span class="line">			&lt;containerId&gt;tomcat7x&lt;/containerId&gt;</span><br><span class="line">			&lt;type&gt;remote&lt;/type&gt;</span><br><span class="line">		&lt;/container&gt;</span><br><span class="line">		&lt;configuration&gt;</span><br><span class="line">			&lt;type&gt;runtime&lt;/type&gt;</span><br><span class="line">			&lt;properties&gt;</span><br><span class="line">				&lt;cargo.tomcat.manager.url&gt;http://localhost:8080/manager/text&lt;/cargo.tomcat.manager.url&gt;</span><br><span class="line">                &lt;cargo.remote.username&gt;admin&lt;/cargo.remote.username&gt;</span><br><span class="line">                &lt;cargo.remote.password&gt;password&lt;/cargo.remote.password&gt;</span><br><span class="line">            &lt;/properties&gt;</span><br><span class="line">		&lt;/configuration&gt;</span><br><span class="line">        &lt;deployables&gt;</span><br><span class="line">            &lt;deployable&gt;          </span><br><span class="line">                &lt;groupId&gt;io.steveguoshao&lt;/groupId&gt;  </span><br><span class="line">                &lt;artifactId&gt;webapp&lt;/artifactId&gt;  </span><br><span class="line">                &lt;type&gt;war&lt;/type&gt;  </span><br><span class="line">                &lt;properties&gt;  </span><br><span class="line">                    &lt;context&gt;/$&#123;project.artifactId&#125;&lt;/context&gt;</span><br><span class="line">                &lt;/properties&gt;  </span><br><span class="line">                &lt;!-- 可选：验证是否部署成功 --&gt;</span><br><span class="line">                &lt;pingURL&gt;http://localhost:8080/webapp&lt;/pingURL&gt;</span><br><span class="line">                &lt;!-- 可选：验证超时时间，默认是120000 毫秒--&gt;</span><br><span class="line">				&lt;pingTimeout&gt;60000&lt;/pingTimeout&gt;</span><br><span class="line">            &lt;/deployable&gt;</span><br><span class="line">        &lt;/deployables&gt;</span><br><span class="line">	&lt;/configuration&gt;</span><br><span class="line">	&lt;executions&gt;</span><br><span class="line">		&lt;execution&gt;</span><br><span class="line">			&lt;id&gt;verify-deployer&lt;/id&gt;</span><br><span class="line">			&lt;phase&gt;install&lt;/phase&gt;</span><br><span class="line">			&lt;goals&gt;</span><br><span class="line">				&lt;goal&gt;deployer-redeploy&lt;/goal&gt;</span><br><span class="line">			&lt;/goals&gt;</span><br><span class="line">		&lt;/execution&gt;</span><br><span class="line">		&lt;execution&gt;</span><br><span class="line">			&lt;id&gt;clean-deployer&lt;/id&gt;</span><br><span class="line">			&lt;phase&gt;clean&lt;/phase&gt;</span><br><span class="line">			&lt;goals&gt;</span><br><span class="line">				&lt;goal&gt;deployer-undeploy&lt;/goal&gt;</span><br><span class="line">			&lt;/goals&gt;</span><br><span class="line">		&lt;/execution&gt;  </span><br><span class="line">	&lt;/executions&gt;  </span><br><span class="line">&lt;/plugin&gt;</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>在tomcat7的conf/tomcat-users.xml中增加角色和用户， 不然会报403，没法访问</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;role rolename=&quot;manager-gui&quot;/&gt;</span><br><span class="line">&lt;role rolename=&quot;manager-script&quot;/&gt;</span><br><span class="line">&lt;role rolename=&quot;manager-jmx&quot;/&gt;  </span><br><span class="line">&lt;role rolename=&quot;manager-status&quot;/&gt;</span><br><span class="line">&lt;role rolename=&quot;admin-gui&quot;/&gt;</span><br><span class="line">&lt;user username=&quot;admin&quot; password=&quot;password&quot; roles=&quot;admin-gui,manager-gui,manager-script,manager-status&quot;/&gt;</span><br></pre></td></tr></table></figure>
+
+<p>另外还有一点要注意的是url,tomcat7是</p>
+<p><code>http://localhost:8080/manager/text</code></p>
+<p>而tomcat6是</p>
+<p><code>http://localhost:8080/manager/html</code></p>
+<p>配置好之后就可以运行mvn cargo:redeploy 来部署应用了（必须保证tomcat是running状态，否则没法部署），如果容器中已经部署的当前应用，Cargo会先卸载掉原来的应用，然后再重新部署。</p>
+<p><strong>Cargo插件中各个命令的之间的异同</strong></p>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2019/04/06/5ca8c58c78e35.png"></p>
+<p>从上面可以看出，cargo:start于cargo:run的不同之处了吧？cargo:start的生命周期依赖于maven实例的生命周期，也就是说，maven构建成功或者失败之后，cargo插件的生命周期也自动停止了；而cargo:run不同，不管maven是否构建成功或者失败，都必须手工去按Ctrl + C来停止。</p>
+<h3 id="版本管理"><a href="#版本管理" class="headerlink" title="版本管理"></a>版本管理</h3><p><strong>如今所说的maven版本号不同于SVN的版本号</strong></p>
+<p>之前我们说过Maven的版本号分为快照和稳定版本号，快照版本号使用在开发的过程中，方便于团队内部交流学习。而所说的稳定版本号，理想状态下是项目到了某个比較稳定的状态。这个稳定包括了源码和构建都要稳定。</p>
+<p>怎样衡量项目的稳定状态呢？</p>
+<ol>
+<li><p>所有的自己主动化測试应当所有通过</p>
+</li>
+<li><p>项目没有配置不论什么快照版本号的依赖</p>
+</li>
+<li><p>项目没有配置不论什么快照版本号的插件</p>
+</li>
+<li><p>项目所包括的代码都已经所有提交到了版本号控制系统中</p>
+</li>
+<li><p>我们应当再一次运行Maven构建，以确保项目的状态是OK的</p>
+</li>
+<li><p>我们将这一次变更提交到版本号控制的主干中，并打上标签</p>
+</li>
+</ol>
+<p>仅仅有满足了上述6个条件, 我们就能够将这一个快照版本号更新至公布版本号</p>
+<p><strong>在开发的过程中，版本要怎样进行变更呢？Maven是否有潜在的约定？</strong></p>
+<p>我们在开发的过程中。下载jar包的时候常常会发现某个jar类似这样：1.2.3-beat-4.jar,多么复杂的一个名称。</p>
+<p>以下来解释一下。这里每一个数字的含义：</p>
+<p>“ 1 ” :  表示该版本号的第一个重大版本号</p>
+<p>“ 2 ” :  表示这是基于重大版本号的第二个次要版本号</p>
+<p>“ 3 ” :  表示该次要版本号的第三个增量</p>
+<p>“ beat-4” : 表示该增量的一个里程碑</p>
+<p>用一个图来描写叙述：</p>
+<p>&lt; 主版本号 &gt;  ——   &lt; 次版本号 &gt; —— &lt; 增量版本号 &gt; —— &lt; 里程碑版本号 &gt;</p>
+<p>主版本号：表示了项目的重大架构变更  struts1 –  struts2</p>
+<p>次版本号：表示较大范围的功能添加和变化  Nexus1.5 —-   Nexus1.4</p>
+<p>增量版本号：一般表示重大Bug修复  </p>
+<p>里程碑版本号：指某一个版本号的里程碑   <em>.</em>-alpha-1  <em>.</em>-beat-1</p>
+<p>看起来有点麻烦啊。 可是在一般来说，我们仅仅会声明主版本号和次版本号，增量版本号和里程碑版本号就不一定了。</p>
+<blockquote>
+<p>注：maven中约定的版本号次序：对于主版本号、次版本号、增量版本号来说他们的比較是基于数字的。因此：1.5&gt;1.4&gt;1.3&gt;1.2.11&gt;1.2.8<br>对于里程碑版本号来说，比較是基于字符串的。因此：1.5&gt;1.4&gt;1.3&gt;1.2.3&gt;1.2.11</p>
+</blockquote>
+<p><strong>主干、分支、标签</strong></p>
+<p>上面的笔记中提到了主干和标签，究竟怎样理解主干、分支、标签呢？</p>
+<p>主干: 项目开发代码的主体，是从项目開始到当前都处于活动的状态，从这里能够获得项目最新的源码和差点儿全部的变更历史</p>
+<p>分支: 从主干的某个点分离出来的代码拷贝。通常能够在不影响主干的前提下。在这里进行重大的bug修复或者实验性质的开发。假设达到了预期的目的，通常将这里的变更合并到主干中去。</p>
+<p>标签: 用来标识主干或者分支的某个点的状态，以代表项目的某个稳定状态，也就是通常说的公布状态</p>
+<p>这三个元素，能够清晰的描写叙述出项目的版本号管理，并且也已经成了一个默认的行业标准。</p>
+<p><strong>自己主动化版本号公布</strong></p>
+<p>用久了手动版本号公布之后。我们会想到是否能进行自己主动化的公布版本号。答案是肯定的，这将引入一个新的插件：Maven Release Plugin</p>
+<p>通过一些必要的配置。就能够完毕版本号公布</p>
+<p>Maven Release Plugin 插件简单介绍：</p>
+<p>该插件主要有三个目标：<strong>release: prepare,  release: rollback,  release: perform</strong> ，在介绍分支自己主动化的时候还会引入branch目标</p>
+<p><strong>release:prepare</strong>   准备版本号公布。依次运行下列操作</p>
+<ol>
+<li><p>检查项目是否有未提交的代码</p>
+</li>
+<li><p>检查项目是否有快照版本号依赖</p>
+</li>
+<li><p>依据用户的输入将快照版本号升级为公布版</p>
+</li>
+<li><p>将POM中的SCM信息更新为标签地址</p>
+</li>
+<li><p>基于改动后的POM运行maven构建</p>
+</li>
+<li><p>提交POM变更</p>
+</li>
+<li><p>基于用户输入为代码打标签</p>
+</li>
+<li><p>将代码从公布版升级为新的快照版</p>
+</li>
+<li><p>提交POM变更</p>
+</li>
+</ol>
+<p><strong>release: rollback</strong></p>
+<p>回退release: prepare所运行的操作。<br>将POM回退至release:prepare之前的状态。并提交。</p>
+<blockquote>
+<p>注：该步骤不会删除release:prepare生成的标签，须要用户手动删除</p>
+</blockquote>
+<p><strong>release: perform</strong></p>
+<p>运行版本号公布,签出release:prepare生成的标签中的源码，并在此基础上运行mvn deploy命令打包并部署构件至仓库</p>
+<blockquote>
+<p>注：要为项目公布版本号，首先须要为其加入正确的版本号控制系统信息(这是由于Maven Release Plugin须要知道版本号控制系统的主干、标签等地址后才干运行相关操作)</p>
+</blockquote>
+<p>分支的自己主动化创建</p>
+<p>先看一下Maven Release Plugin 的branch目标能帮助我们做哪些事情</p>
+<ol>
+<li><p>检查本地有无未提交的代码</p>
+</li>
+<li><p>将分支更改POM的版本号。如：1.1.0-SNAPSHOT改成1.1.1-SNAPSHOT</p>
+</li>
+<li><p>将POM中的SCM信息更新为分支地址</p>
+</li>
+<li><p>提交以上更改</p>
+</li>
+<li><p>将主干代码拷贝到分支中</p>
+</li>
+<li><p>改动本地代码使其回退到分支前的版本号(用户能够指定新的版本号)</p>
+</li>
+<li><p>提交本地更改</p>
+</li>
+</ol>
+<blockquote>
+<p>注：此时也必须正确的配置SCM信息</p>
+</blockquote>
+<h3 id="GPG签名"><a href="#GPG签名" class="headerlink" title="GPG签名"></a>GPG签名</h3><p>GPG主要验证软件文件的合法性，时PGP算法的具体实现。最常用于给电子有效进行加密、解密以及提供签名。</p>
+<p>GnuPG时PGP标准的一个免费实现，可以帮助我们为文件生成签名、管理秘钥以及验证秘钥。</p>
+<p>从官网下载：<code>https://www.gnupg.org/</code>，安装后使用，在使用之前先生成一个秘钥对。之后使用私钥对文件进行签名，并且将公钥分发到公钥服务器供其他用户下载，用户使用公钥对签名进行验证。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ gpg   --genkey</span><br></pre></td></tr></table></figure>
+
+<p>按照真是情况输入信息，之后可以使用<code>gpg --list-keys</code>查看秘钥对信息，使用<code>gpg --list-secret-keys</code>查看私钥。</p>
+<p>使用<code>gpg -ab  &lt;文件名&gt;</code>生成ascii格式签名，生成<code>&lt;文件名&gt;.asc</code>签名,将公钥分发到公钥服务器：<code>gpg --keyserver &lt;服务器&gt; -- send-keys  &lt;公钥ID&gt;</code>。</p>
+<p>用户导入公钥命令：<code>gpg --keyserver &lt;服务器&gt; --recv-keys &lt;公钥ID&gt;</code>，使用<code>gpg --verify &lt;文件名&gt;.asc</code>验证</p>
+<p><strong>Maven GPG Plugin</strong></p>
+<p>Maven自动生成GPG签名</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">&lt;plugin&gt;</span><br><span class="line">	&lt;groupId&gt;org.apache.maven.plugins&lt;/groupId&gt;</span><br><span class="line">	&lt;artifactId&gt;maven-gpg-plugin&lt;/artifactId&gt;</span><br><span class="line">	&lt;version&gt;1.0&lt;/version&gt;</span><br><span class="line">	&lt;executions&gt;</span><br><span class="line">	     &lt;execution&gt;</span><br><span class="line">		&lt;id&gt;sign-artifacts&lt;/id&gt;</span><br><span class="line">		&lt;phase&gt;verify&lt;/phase&gt;</span><br><span class="line">		&lt;goals&gt;</span><br><span class="line">		      &lt;goal&gt;sign&lt;/goal&gt;</span><br><span class="line">		&lt;/goals&gt;</span><br><span class="line">	     &lt;/execution&gt;</span><br><span class="line">	&lt;/executions&gt;</span><br><span class="line">&lt;/plugin&gt;</span><br></pre></td></tr></table></figure>
+<p>一般的mvn命令签名并发布项目构件：<code>mvn clean deploy  -Dgpg.passphrase=&lt;你的密码&gt;</code>，不提供<code>-Dgpg.passphrase</code>参数，运行时要求输入密码。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&lt;distributionManagement&gt;</span><br><span class="line">    &lt;repository&gt;</span><br><span class="line">        &lt;id&gt;proficio-repository&lt;/id&gt;</span><br><span class="line">        &lt;name&gt;Proficio Repository&lt;/name&gt;</span><br><span class="line">        &lt;url&gt;file://$&#123;basedir&#125;/target/deploy&lt;/url&gt;</span><br><span class="line">    &lt;/repository&gt;</span><br><span class="line">&lt;/distributionManagement&gt;</span><br></pre></td></tr></table></figure>
+
+<h3 id="资源过滤"><a href="#资源过滤" class="headerlink" title="资源过滤"></a>资源过滤</h3><p>自定义变量在POM文件中定义时一般使用properties节点，但是对不同环境中的同名变量需要重新修改，所以就有了profile元素，就是使用一个额外的profile将元素包括。</p>
+<p>profile可以让我们定义一系列的配置信息，然后指定其激活条件。这样我们就可以定义多个profile，然后每个profile对应不同的激活条件和配置信息，从而达到不同环境使用不同配置信息的效果。</p>
+<p><strong>profile定义的位置</strong></p>
+<ol>
+<li><p>针对于特定项目的profile配置我们可以定义在该项目的pom.xml中。（下面举例是这种方式）</p>
+</li>
+<li><p> 针对于特定用户的profile配置，我们可以在用户的settings.xml文件中定义profile。该文件在用户家目录下的“.m2”目录下。</p>
+</li>
+<li><p> 全局的profile配置。全局的profile是定义在Maven安装目录下的“conf/settings.xml”文件中的。</p>
+</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">&lt;profiles&gt;</span><br><span class="line"></span><br><span class="line">    &lt;profile&gt;</span><br><span class="line">        &lt;!-- 本地开发环境 --&gt;</span><br><span class="line">        &lt;id&gt;dev&lt;/id&gt;</span><br><span class="line">        &lt;properties&gt;</span><br><span class="line">            &lt;profiles.active&gt;dev&lt;/profiles.active&gt;</span><br><span class="line">        &lt;/properties&gt;</span><br><span class="line">        &lt;activation&gt;</span><br><span class="line">            &lt;!-- 设置默认激活这个配置 --&gt;</span><br><span class="line">            &lt;activeByDefault&gt;true&lt;/activeByDefault&gt;</span><br><span class="line">        &lt;/activation&gt;</span><br><span class="line">    &lt;/profile&gt;</span><br><span class="line"></span><br><span class="line">    &lt;profile&gt;</span><br><span class="line">        &lt;!-- 发布环境 --&gt;</span><br><span class="line">        &lt;id&gt;release&lt;/id&gt;</span><br><span class="line">        &lt;properties&gt;</span><br><span class="line">            &lt;profiles.active&gt;release&lt;/profiles.active&gt;</span><br><span class="line">        &lt;/properties&gt;</span><br><span class="line">    &lt;/profile&gt;</span><br><span class="line"></span><br><span class="line">    &lt;profile&gt;</span><br><span class="line">        &lt;!-- 测试环境 --&gt;</span><br><span class="line">        &lt;id&gt;beta&lt;/id&gt;</span><br><span class="line">        &lt;properties&gt;</span><br><span class="line">            &lt;profiles.active&gt;beta&lt;/profiles.active&gt;</span><br><span class="line">        &lt;/properties&gt;</span><br><span class="line">    &lt;/profile&gt;</span><br><span class="line">&lt;/profiles&gt;</span><br></pre></td></tr></table></figure>
+<p>这里定义了三个环境，分别是dev（开发环境）、beta（测试环境）、release（发布环境），其中开发环境是默认激活的（activeByDefault为true），这样如果在不指定profile时默认是开发环境，也在package的时候显示指定你要选择哪个开发环境。</p>
+<p><strong>&lt;profile&gt;节点</strong></p>
+<p>在仓库的配置一节中，已经对setting.xml中的常用节点做了详细的说明。在这里需要特别介绍一下的是&lt;profile&gt;节点的配置，profile是maven的一个重要特性。</p>
+<p>&lt;profile&gt;节点包含了激活(activation)，仓库(repositories)，插件仓库(pluginRepositories)和属性(properties)共四个子元素元素。profile元素仅包含这四个元素是因为他们涉及到整个的构建系统，而不是个别的项目级别的POM配置。</p>
+<p>profile可以让maven能够自动适应外部的环境变化，比如同一个项目，在linux下编译linux的版本，在win下编译win的版本等。一个项目可以设置多个profile，也可以在同一时间设置多个profile被激活（active）的。自动激活的 profile的条件可以是各种各样的设定条件，组合放置在activation节点中，也可以通过命令行直接指定。如果认为profile设置比较复杂，可以将所有的profiles内容移动到专门的 profiles.xml 文件中，不过记得和pom.xml放在一起。</p>
+<p>activation节点是设置该profile在什么条件下会被激活，常见的条件有如下几个：</p>
+<ol>
+<li><p>  os<br>判断操作系统相关的参数，它包含如下可以自由组合的子节点元素<br>message - 规则失败之后显示的消息<br>arch - 匹配cpu结构，常见为x86<br>family - 匹配操作系统家族，常见的取值为：dos，mac，netware，os/2，unix，windows，win9x，os/400等<br>name - 匹配操作系统的名字<br>version - 匹配的操作系统版本号<br>display - 检测到操作系统之后显示的信息</p>
+</li>
+<li><p>  jdk<br>检查jdk版本，可以用区间表示。</p>
+</li>
+<li><p>  property<br>检查属性值，本节点可以包含name和value两个子节点。</p>
+</li>
+<li><p>  file<br>检查文件相关内容，包含两个子节点：exists和missing，用于分别检查文件存在和不存在两种情况。<br>如果settings中的profile被激活，那么它的值将覆盖POM或者profiles.xml中的任何相等ID的profiles。<br>如果想要某个profile默认处于激活状态，可以在&lt;activeProfiles&gt;中将该profile的id放进去。这样，不论环境设置如何，其对应的 profile都会被激活。</p>
+</li>
+</ol>
+<p><strong>profile存在pom.xml、用户setting.xml和全局setting.xml。</strong></p>
+<blockquote>
+<p>Profile可以促使POM在开发过程拥有更多快捷选择，比如：在不同操作系统使用不同的构件等等。</p>
+</blockquote>
+<p>资源过滤就是使用profile设置不同条件的有效资源。</p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">平心</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://pingxin0521.gitee.io/2019/03/28/%E5%B7%A5%E5%85%B7-Maven-5/">https://pingxin0521.gitee.io/2019/03/28/%E5%B7%A5%E5%85%B7-Maven-5/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://pingxin0521.gitee.io" target="_blank">平心de小屋</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E5%B7%A5%E5%85%B7/">工具</a><a class="post-meta__tags" href="/tags/Maven/">Maven</a></div><div class="post_share"><div class="social-share" data-image="https://i.loli.net/2020/05/08/vCnKyoFJZ1g4XYR.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2019/03/30/%E5%B7%A5%E5%85%B7-Maven-6/"><img class="prev-cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/gGE57HRvpcKPfDY.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">Maven生成站点</div></div></a></div><div class="next-post pull-right"><a href="/2019/03/27/%E5%B7%A5%E5%85%B7-Maven-4/"><img class="next-cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/vCnKyoFJZ1g4XYR.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">Maven 仓库搜索服务和私服搭建</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span> 相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2019/03/31/工具-Maven-7/" title="Maven插件"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/vCnKyoFJZ1g4XYR.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2019-04-07</div><div class="title">Maven插件</div></div></a></div><div><a href="/2019/04/02/工具-Maven-9/" title="Maven 常见问题"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/gGE57HRvpcKPfDY.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2020-06-30</div><div class="title">Maven 常见问题</div></div></a></div><div><a href="/2019/03/26/工具-Maven-2/" title="Maven初步构建"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/PFDRNxj93taz6pw.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2019-04-07</div><div class="title">Maven初步构建</div></div></a></div><div><a href="/2019/03/27/工具-Maven-4/" title="Maven 仓库搜索服务和私服搭建"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/vCnKyoFJZ1g4XYR.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2019-05-13</div><div class="title">Maven 仓库搜索服务和私服搭建</div></div></a></div><div><a href="/2019/03/30/工具-Maven-6/" title="Maven生成站点"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/gGE57HRvpcKPfDY.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2019-04-07</div><div class="title">Maven生成站点</div></div></a></div><div><a href="/2019/04/01/工具-Maven-8/" title="Maven 常用archetype"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/okfOw28KlZFbE7z.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2019-09-16</div><div class="title">Maven 常用archetype</div></div></a></div></div></div><hr/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div class="vcomment" id="vcomment"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="card-info-avatar is-center"><img class="avatar-img" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://s2.ax1x.com/2020/02/11/1ovw6J.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/><div class="author-info__name">平心</div><div class="author-info__description">年轻人的life、learn and think</div></div><div class="card-info-data"><div class="card-info-data-item is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">449</div></a></div><div class="card-info-data-item is-center"><a href="/tags/"><div class="headline">标签</div><div class="length-num">77</div></a></div><div class="card-info-data-item is-center"><a href="/categories/"><div class="headline">分类</div><div class="length-num">68</div></a></div></div><a class="button--animated" id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/hanyunpeng0521"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/hanyunpeng0521" target="_blank" title="Github"><i class="fa fa-github"></i></a><a class="social-icon" href="mailto:m13839441583@163.com" target="_blank" title="Email"><i class="fa fa-envelope"></i></a><a class="social-icon" href="/atom.xml" target="_blank" title=""><i class="fa fa-rss"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn card-announcement-animation"></i><span>公告</span></div><div class="announcement_content">为什么呢？开始提问吧</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#Maven-%E6%B5%8B%E8%AF%95"><span class="toc-number">1.</span> <span class="toc-text">Maven 测试</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Web%E9%A1%B9%E7%9B%AE"><span class="toc-number">2.</span> <span class="toc-text">Web项目</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Cargo%E5%AE%9E%E7%8E%B0%E8%87%AA%E5%8A%A8%E5%8C%96%E9%83%A8%E7%BD%B2"><span class="toc-number">2.1.</span> <span class="toc-text">Cargo实现自动化部署</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%89%88%E6%9C%AC%E7%AE%A1%E7%90%86"><span class="toc-number">3.</span> <span class="toc-text">版本管理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#GPG%E7%AD%BE%E5%90%8D"><span class="toc-number">4.</span> <span class="toc-text">GPG签名</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%B5%84%E6%BA%90%E8%BF%87%E6%BB%A4"><span class="toc-number">5.</span> <span class="toc-text">资源过滤</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2021/05/15/node-2-4/" title="Egg.js -- 为企业级框架和应用而生"><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/okfOw28KlZFbE7z.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Egg.js -- 为企业级框架和应用而生"/></a><div class="content"><a class="title" href="/2021/05/15/node-2-4/" title="Egg.js -- 为企业级框架和应用而生">Egg.js -- 为企业级框架和应用而生</a><time datetime="2021-05-15T10:18:59.000Z" title="发表于 2021-05-15 18:18:59">2021-05-15</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/04/30/node-2-3/" title="Koa -- 基于Node.js平台的下一代Web开发框架"><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/HjVAdIuT7bZJypS.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Koa -- 基于Node.js平台的下一代Web开发框架"/></a><div class="content"><a class="title" href="/2021/04/30/node-2-3/" title="Koa -- 基于Node.js平台的下一代Web开发框架">Koa -- 基于Node.js平台的下一代Web开发框架</a><time datetime="2021-04-30T10:18:59.000Z" title="发表于 2021-04-30 18:18:59">2021-04-30</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/04/01/node-2-1/" title="Node.JS web开发前置知识"><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/gGE57HRvpcKPfDY.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Node.JS web开发前置知识"/></a><div class="content"><a class="title" href="/2021/04/01/node-2-1/" title="Node.JS web开发前置知识">Node.JS web开发前置知识</a><time datetime="2021-04-01T03:18:59.000Z" title="发表于 2021-04-01 11:18:59">2021-04-01</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2020/12/26/%E5%91%A8%E8%AE%B0-10-1/" title="第十一周--谷歌浏览器插件"><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/gGE57HRvpcKPfDY.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="第十一周--谷歌浏览器插件"/></a><div class="content"><a class="title" href="/2020/12/26/%E5%91%A8%E8%AE%B0-10-1/" title="第十一周--谷歌浏览器插件">第十一周--谷歌浏览器插件</a><time datetime="2020-12-26T10:18:59.000Z" title="发表于 2020-12-26 18:18:59">2020-12-26</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2020/12/26/%E5%91%A8%E8%AE%B0-10-0/" title="第十一周--浏览器技术"><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/vCnKyoFJZ1g4XYR.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="第十一周--浏览器技术"/></a><div class="content"><a class="title" href="/2020/12/26/%E5%91%A8%E8%AE%B0-10-0/" title="第十一周--浏览器技术">第十一周--浏览器技术</a><time datetime="2020-12-26T06:18:59.000Z" title="发表于 2020-12-26 14:18:59">2020-12-26</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2019 - 2021 By 平心</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div id="local-search"><div class="search-dialog"><div class="search-dialog__title" id="local-search-title">本地搜索</div><div id="local-input-panel"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div></div><hr/><div id="local-search-results"></div><span class="search-close-button"><i class="fas fa-times"></i></span></div><div id="search-mask"></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload/dist/lazyload.iife.min.js"></script><script src="/js/search/local-search.js"></script><div class="js-pjax"><script>function loadValine () {
+  function initValine () {
+    const valine = new Valine(Object.assign({
+      el: '#vcomment',
+      appId: '4lfIXzqxaC1ONs0MJO4oHu07-gzGzoHsz',
+      appKey: 'qw99Bw8FD0KVKU9m457CwWsr',
+      placeholder: 'Please leave your footprints',
+      avatar: 'monsterid',
+      meta: 'nick,mail,link'.split(','),
+      pageSize: '10',
+      lang: 'zh-CN',
+      recordIP: true,
+      serverURLs: '',
+      emojiCDN: '',
+      emojiMaps: "",
+      enableQQ: true,
+      path: window.location.pathname,
+      requiredFields: ["nick,mail"],
+      visitor: false
+    }, null))
+  }
+
+  if (typeof Valine === 'function') initValine() 
+  else getScript('https://cdn.jsdelivr.net/npm/valine/dist/Valine.min.js').then(initValine)
+}
+
+if ('Valine' === 'Valine' || !false) {
+  if (false) btf.loadComment(document.getElementById('vcomment'),loadValine)
+  else setTimeout(loadValine, 0)
+} else {
+  function loadOtherComment () {
+    loadValine()
+  }
+}</script></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>

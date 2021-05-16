@@ -1,0 +1,296 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Maven 仓库搜索服务和私服搭建 | 平心de小屋</title><meta name="keywords" content="工具,Maven"><meta name="author" content="平心"><meta name="copyright" content="平心"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="Maven 仓库搜索服务使用maven进行日常开发的时候，一个常见问题就是如何寻找需要的依赖，我们可能只知道需要使用类库的项目名称，但是添加maven依赖要求提供确切的maven坐标，这时就可以使用仓库搜索服务来根据关键字得到maven坐标。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Maven 仓库搜索服务和私服搭建">
+<meta property="og:url" content="https://pingxin0521.gitee.io/2019/03/27/%E5%B7%A5%E5%85%B7-Maven-4/index.html">
+<meta property="og:site_name" content="平心de小屋">
+<meta property="og:description" content="Maven 仓库搜索服务使用maven进行日常开发的时候，一个常见问题就是如何寻找需要的依赖，我们可能只知道需要使用类库的项目名称，但是添加maven依赖要求提供确切的maven坐标，这时就可以使用仓库搜索服务来根据关键字得到maven坐标。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://i.loli.net/2020/05/08/vCnKyoFJZ1g4XYR.jpg">
+<meta property="article:published_time" content="2019-03-27T12:18:59.000Z">
+<meta property="article:modified_time" content="2019-05-13T04:59:30.000Z">
+<meta property="article:author" content="平心">
+<meta property="article:tag" content="工具">
+<meta property="article:tag" content="Maven">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.loli.net/2020/05/08/vCnKyoFJZ1g4XYR.jpg"><link rel="shortcut icon" href="https://s2.ax1x.com/2020/02/11/1ovFOA.png"><link rel="canonical" href="https://pingxin0521.gitee.io/2019/03/27/%E5%B7%A5%E5%85%B7-Maven-4/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"search.xml","languages":{"hits_empty":"找不到您查询的内容：${query}"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    jQuery: 'https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js',
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+    },
+    fancybox: {
+      js: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css'
+    }
+  },
+  isPhotoFigcaption: true,
+  islazyload: true,
+  isanchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'Maven 仓库搜索服务和私服搭建',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2019-05-13 12:59:30'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    })(window)</script><meta name="generator" content="Hexo 5.4.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="author-avatar"><img class="avatar-img" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://s2.ax1x.com/2020/02/11/1ovw6J.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data"><div class="data-item is-center"><div class="data-item-link"><a href="/archives/"><div class="headline">文章</div><div class="length-num">449</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/tags/"><div class="headline">标签</div><div class="length-num">77</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/categories/"><div class="headline">分类</div><div class="length-num">68</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fa fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fa fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://i.loli.net/2020/05/08/vCnKyoFJZ1g4XYR.jpg')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">平心de小屋</a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fa fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fa fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">Maven 仓库搜索服务和私服搭建</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2019-03-27T12:18:59.000Z" title="发表于 2019-03-27 20:18:59">2019-03-27</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2019-05-13T04:59:30.000Z" title="更新于 2019-05-13 12:59:30">2019-05-13</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E5%B7%A5%E5%85%B7/">工具</a><i class="fas fa-angle-right post-meta-separator"></i><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E5%B7%A5%E5%85%B7/Maven/">Maven</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">3.9k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>14分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="Maven 仓库搜索服务和私服搭建"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h3 id="Maven-仓库搜索服务"><a href="#Maven-仓库搜索服务" class="headerlink" title="Maven 仓库搜索服务"></a>Maven 仓库搜索服务</h3><p>使用maven进行日常开发的时候，一个常见问题就是如何寻找需要的依赖，我们可能只知道需要使用类库的项目名称，但是添加maven依赖要求提供确切的maven坐标，这时就可以使用仓库搜索服务来根据关键字得到maven坐标。</p>
+<span id="more"></span>
+
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2019/05/13/5cd8f718a1bb757665.png" alt="1.png"><br><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2019/05/13/5cd8f718abc3739094.png" alt="2.png"></p>
+<h4 id="Sonatype-Nexus"><a href="#Sonatype-Nexus" class="headerlink" title="Sonatype Nexus"></a>Sonatype Nexus</h4><p>地址: <a target="_blank" rel="noopener" href="http://repository.sonatype.org/">http://repository.sonatype.org/</a></p>
+<p>Nexus是当前最流行的开源Maven仓库管理软件，Nexus提供了关键字搜索，类名搜索，左边搜索，校验和搜索等功能。搜索后，页面清晰地列出了结果构件的左边及所属仓库。用户可以直接下载相应构件，还可以直接复制已经根据坐标自动生成的XML依赖声明</p>
+<h4 id="Jarvana"><a href="#Jarvana" class="headerlink" title="Jarvana"></a>Jarvana</h4><p>地址：<a target="_blank" rel="noopener" href="http://www.jarvana.com/jarvana/">http://www.jarvana.com/jarvana/</a></p>
+<p>Jarvana提供了基于关键字，类名的搜索，构件下载，依赖声明片段等功能也一应俱全。值得一提的是，Jarvana还支持浏览构建内部的内容。此外，Jarvana还提供了便捷的Java文档浏览的功能。</p>
+<h4 id="MVNbrowser"><a href="#MVNbrowser" class="headerlink" title="MVNbrowser"></a>MVNbrowser</h4><p>地址：<a target="_blank" rel="noopener" href="http://www.mvnbrowser.com/">http://www.mvnbrowser.com</a></p>
+<p>MVNbrowser只提供关键字搜索的功能，除了提供基于坐标的依赖声明代码片段等基本功能之外，MVNbrowser的一大特色就是，能够告诉用户该构件的依赖于其他那些构件（Dependencies）以及该构件给哪些其他构件依赖（Referenced By）</p>
+<h4 id="MVNrepository"><a href="#MVNrepository" class="headerlink" title="MVNrepository"></a>MVNrepository</h4><p>地址：<a target="_blank" rel="noopener" href="https://mvnrepository.com/">https://mvnrepository.com/</a></p>
+<p>MVNrepository 的界面比较清晰，提供基于关键字的搜索、依赖声明代码片段、构件下载、依赖与被依赖关系信息、构件所含包信息等功能。还提供简单的图表，显示某个构件各版本的大小变化。</p>
+<blockquote>
+<p>选择最适合自己的搜索服务</p>
+</blockquote>
+<h3 id="使用Nexus创建私服"><a href="#使用Nexus创建私服" class="headerlink" title="使用Nexus创建私服"></a>使用Nexus创建私服</h3><p>私服仅仅是一种衍生出来的特殊的Maven仓库，通过自己建立私服，可以降低中央仓库负荷、节省外网带宽、加速Maven构建、自己部署构件等，从而高效使用Maven。</p>
+<p>有些公司都不提供外网给项目组人员，因此就不能使用maven访问远程的仓库地址，所以很有必要在局域网里找一台有外网权限的机器，搭建nexus私服，然后开发人员连到这台私服上，这样的话就可以通过这台搭建了nexus私服的电脑访问maven的远程仓库。</p>
+<p>如果某个IP地址恶意的下载中央仓库内容，例如全公司100台机器使用同一个IP反复下载，这个IP（甚至是IP段）会进入黑名单，因此稍有规模的使用Maven时，应该用Nexus架设私服。总归主要是两点：</p>
+<ol>
+<li><p>自己maven私服更容易维护，公司开发从maven私服迁出jar到本地仓库更快</p>
+</li>
+<li><p>有些公司未开放外网给开发人员</p>
+</li>
+</ol>
+<p>有三种专门的Maven仓库管理软件可以帮助建立私服：Apache的Archiva、JFrog的Artifactory和Sonatype的Nexus。其中，Archiva是开源的，另外两个和核心也是开源的，可以自由选择使用。</p>
+<p>Nexus是一个强大的Maven仓库管理器，它极大地简化了自己内部仓库的维护和外部仓库的访问。利用Nexus你可以只在一个地方就能够完全控制访问 和部署在你所维护仓库中的每个Artifact。Nexus是一套“开箱即用”的系统不需要数据库，它使用文件系统加Lucene来组织数据。Nexus 使用ExtJS来开发界面，利用Restlet来提供完整的REST APIs，通过m2eclipse与Eclipse集成使用。Nexus支持WebDAV与LDAP安全身份认证。</p>
+<p>Nexus的<a target="_blank" rel="noopener" href="https://help.sonatype.com/repomanager3/download">下载地址</a>，到官网上将ZIP的压缩包下载下来即可，解压之后发现有两个文件夹，一个是nexus-&lt;版本号&gt;，另一个是sonatype-work；第一个文件夹包含了Nexus运行所需要的文件，是运行Nexus必须的；第二个文件夹目录包含Nexus生成的配置文件、日志文件、仓库文件等，当需要备份Nexus的时候，默认备份的是此目录文件。</p>
+<blockquote>
+<p>环境：Maven 3.6.1 + Nexus 3.x</p>
+</blockquote>
+<ol>
+<li><p>Nexus安装<br>下载完nexus之后，只需要将压缩包解压，将解压后的文件夹放到你想要安装的目录即可——我的为/opt/xauto。</p>
+</li>
+<li><p>配置Nexus环境变量<br>将nexus的bin目录设置到path的环境变量中,修改/etc/profile</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">export PATH=$&#123;PATH&#125;:/opt/xauto/nexus/nexus/bin</span><br></pre></td></tr></table></figure>
+<p>或者使用<code>sudo ln -s /opt/xauto/nexus/nexus/bin/nexus  /usr/bin/ </code>。</p>
+</li>
+</ol>
+<blockquote>
+<p>必须使用的是java8，如果常用其他的jdk版本，则需要下载jdk8，并设置环境变量INSTALL4J_JAVA_HOME</p>
+</blockquote>
+<ol start="3">
+<li><p>配置Nexus<br>在 nexus的根目录etc/nexus-default.properties的文件在找到,可以修改端口。<br>在nexus的根目录bin/contrib/下有可以将nexus加入服务的脚本，如果想加入服务可以执行相应脚本，也有卸载服务的脚本。</p>
+</li>
+<li><p>Nexus的测试<br>现在可以使用了，在命令行输入<code>nexus start</code>就可以运行，可以从浏览器访问<code>http://&lt;ip-addr&gt;:&lt;配置文件中的端口&gt;/nexus</code>。</p>
+</li>
+</ol>
+<p>在网页上的右上角进行登录，默认用户名：admin，密码：admin123。</p>
+<blockquote>
+<p>登陆之后可以对其进行修改和配置。不用时，请使用<code>nexus stop</code>关闭运行，或者使用<code>service nexus stop</code>。</p>
+</blockquote>
+<ol start="5">
+<li>创建宿主目录和代理仓库<br> Hosted：本地仓库，通常我们会部署自己的构件到这一类型的仓库。包括3rd party仓库，Releases仓库，Snapshots仓库。 </li>
+</ol>
+<p>  Proxy：代理仓库，它们被用来代理远程的公共仓库，如maven中央仓库。</p>
+<p>  Group：仓库组，用来合并多个hosted/proxy仓库，通常我们配置maven依赖仓库组。</p>
+<p>  <img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2019/05/13/5cd8f718becad54764.png" alt="3.png"></p>
+<p>  主要介绍一下三个本地仓库：</p>
+<ol>
+<li><p>Releases:用来部署管理内部的发布版本构件的宿主类型仓库，这里存放我们自己项目中发布的构建,通常是Release版本的, 比如我们自己做了一个FTP Server的项目, 生成的构件为ftpserver.war,我们就可以把这个构建发布到Nexus的Releases本地仓库。</p>
+</li>
+<li><p> Snapshots:用来部署管理内部的快照版本构件的宿主类型仓库，它的目的是让我们可以发布那些非release版本, 非稳定版本,比如我们在trunk下开发一个项目,在正式release之前你可能需要临时发布一个版本给你的同伴使用, 因为你的同伴正在依赖你的模块开发,那么这个时候我们就可以发布Snapshot版本到这个仓库, 你的同伴就可以通过简单的命令来获取和使用这个临时版本。</p>
+</li>
+<li><p>3rd Party:无法从公共仓库获得的第三方发布版本的构件仓库，比如有些构件在中央仓库是不存在的.比如你在中央仓库找不到Oracle 的JDBC驱动, 这个时候我们就需要自己添加到3rdparty仓库</p>
+</li>
+<li><p>创建仓库组<br> 点击Public Repositories仓库，在Configurations栏中选取需要合并的仓库,点击箭头加到左边保存即可</p>
+</li>
+<li><p>添加代理仓库</p>
+<p>  以 Sonatype 为例，添加一个代理仓库，用于代理 Sonatype 的公共远程仓库。点击菜单 Add - Proxy Repository ：填写Repository ID - sonatype；Repository Name - Sonatype Repository；Remote Storage Location - <a target="_blank" rel="noopener" href="http://repository.sonatype.org/content/groups/public/">http://repository.sonatype.org/content/groups/public/</a> ，save 保存。</p>
+<p>  将添加的 Sonatype 代理仓库加入 Public Repositories 仓库组。选中 Public Repositories，在 Configuration 选项卡中，将 Sonatype Repository 从右侧 Available Repositories 移到左侧 Ordered Group Repositories，save 保存</p>
+</li>
+<li><p>搜索构件</p>
+<p>为了更好的使用 Nexus 的搜索，我们可以设置所有 proxy 仓库的 Download Remote Indexes 为 true，即允许下载远程仓库索引。索引下载成功之后，在 Browse Index 选项卡下，可以浏览到所有已被索引的构件信息，包括坐标、格式、Maven 依赖的 xml 代码</p>
+<p>或者。</p>
+<p>由于索引文件很大，在线下载会很漫长，所以采用离线下载会很快。</p>
+<p>访问<a target="_blank" rel="noopener" href="http://repo.maven.apache.org/maven2/.index/%E4%B8%8B%E8%BD%BD%E4%B8%AD%E5%BF%83%E4%BB%93%E5%BA%93%E6%9C%80%E6%96%B0%E7%89%88%E6%9C%AC%E7%9A%84%E7%B4%A2%E5%BC%95%E6%96%87%E4%BB%B6%EF%BC%8C%E6%88%91%E4%BB%AC%E9%9C%80%E8%A6%81%E4%B8%8B%E8%BD%BD%E5%A6%82%E4%B8%8B%E4%B8%A4%E4%B8%AA%E6%96%87%E4%BB%B6nexus-maven-repository-index.gz%E5%92%8Cnexus-maven-repository-index.properties%E3%80%82">http://repo.maven.apache.org/maven2/.index/下载中心仓库最新版本的索引文件，我们需要下载如下两个文件nexus-maven-repository-index.gz和nexus-maven-repository-index.properties。</a></p>
+<p>进入nexus安装目录/sonatype-work/nexus3进入indexer目录，因为我们的代理名为central所以找到central-ctx ，将下载好的文件解压进去后。重新启动nexus，若能在central 的browse index中看到和remote一样的索引，即代表成功完成。</p>
+</li>
+<li><p>配置所有构建均从私服下载，在~/.m2/setting.xml中配置如下</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line">&lt;settings&gt;</span><br><span class="line"> &lt;mirrors&gt;</span><br><span class="line">          &lt;mirror&gt;</span><br><span class="line">                   &lt;!--此处配置所有的构建均从私有仓库中下载 *代表所有，也可以写central --&gt;</span><br><span class="line">                   &lt;id&gt;nexus&lt;/id&gt;</span><br><span class="line">                   &lt;mirrorOf&gt;*&lt;/mirrorOf&gt;</span><br><span class="line">                   &lt;url&gt;http://&lt;你的IP&gt;:8081/nexus/content/groups/public&lt;/url&gt;</span><br><span class="line">          &lt;/mirror&gt;</span><br><span class="line"> &lt;/mirrors&gt;</span><br><span class="line"> &lt;profiles&gt;</span><br><span class="line">          &lt;profile&gt;</span><br><span class="line">                   &lt;id&gt;nexus&lt;/id&gt;</span><br><span class="line">                   &lt;!—所有请求均通过镜像 --&gt;</span><br><span class="line">                   &lt;repositories&gt;</span><br><span class="line">                            &lt;repository&gt;</span><br><span class="line">                                     &lt;id&gt;central&lt;/id&gt;</span><br><span class="line">                                     &lt;url&gt;http://central&lt;/url&gt;</span><br><span class="line">                                     &lt;releases&gt;&lt;enabled&gt;true&lt;/enabled&gt;&lt;/releases&gt;</span><br><span class="line">                                    &lt;snapshots&gt;&lt;enabled&gt;true&lt;/enabled&gt;&lt;/snapshots&gt;</span><br><span class="line">                            &lt;/repository&gt;</span><br><span class="line">                   &lt;/repositories&gt;</span><br><span class="line">                   &lt;pluginRepositories&gt;</span><br><span class="line">                            &lt;pluginRepository&gt;</span><br><span class="line">                                     &lt;id&gt;central&lt;/id&gt;</span><br><span class="line">                                     &lt;url&gt;http://central&lt;/url&gt;</span><br><span class="line">                                     &lt;releases&gt;&lt;enabled&gt;true&lt;/enabled&gt;&lt;/releases&gt;</span><br><span class="line">                                     &lt;snapshots&gt;&lt;enabled&gt;true&lt;/enabled&gt;&lt;/snapshots&gt;</span><br><span class="line">                            &lt;/pluginRepository&gt;</span><br><span class="line">                   &lt;/pluginRepositories&gt;</span><br><span class="line">          &lt;/profile&gt;</span><br><span class="line"> &lt;/profiles&gt;</span><br><span class="line">&lt;activeProfiles&gt;</span><br><span class="line"> &lt;!--make the profile active all the time--&gt;</span><br><span class="line"> &lt;activeProfile&gt;nexus&lt;/activeProfile&gt;</span><br><span class="line"> &lt;/activeProfiles&gt;</span><br></pre></td></tr></table></figure></li>
+<li><p>部署构建到Nexus，包含Release和Snapshot， 在项目根目录中pom.xml中配置：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">&lt;distributionManagement&gt;</span><br><span class="line"></span><br><span class="line">         &lt;repository&gt;</span><br><span class="line">            &lt;id&gt;releases&lt;/id&gt;</span><br><span class="line">            &lt;name&gt;Internal Releases&lt;/name&gt;</span><br><span class="line">            &lt;url&gt;http://localhost:8081/nexus/content/repositories/releases/&lt;/url&gt;</span><br><span class="line">         &lt;/repository&gt;</span><br><span class="line">         &lt;snapshotRepository&gt;</span><br><span class="line">             &lt;id&gt;snapshots&lt;/id&gt;</span><br><span class="line">            &lt;name&gt;Internal Snapshots&lt;/name&gt;</span><br><span class="line">            &lt;url&gt;http://localhost:8081/nexus/content/repositories/snapshots/&lt;/url&gt;</span><br><span class="line">         &lt;/snapshotRepository&gt;</span><br><span class="line">  &lt;/distributionManagement&gt;</span><br></pre></td></tr></table></figure></li>
+<li><p>Nexus的访问权限控制，在~/m2/setting.xml中配置如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">&lt;!-- 设置发布时的用户名 --&gt;</span><br><span class="line"> &lt;servers&gt;</span><br><span class="line">    &lt;server&gt;</span><br><span class="line">        &lt;id&gt; releases &lt;/id&gt;</span><br><span class="line">        &lt;username&gt;admin&lt;/username&gt;</span><br><span class="line">        &lt;password&gt;admin123&lt;/password&gt;</span><br><span class="line">        &lt;/server&gt;</span><br><span class="line">        &lt;server&gt;</span><br><span class="line">        &lt;id&gt; snapshots &lt;/id&gt;</span><br><span class="line">        &lt;username&gt;admin&lt;/username&gt;</span><br><span class="line">        &lt;password&gt;admin123&lt;/password&gt;</span><br><span class="line"> 	&lt;/server&gt;</span><br><span class="line"> &lt;/servers&gt;</span><br></pre></td></tr></table></figure></li>
+</ol>
+<p><strong>注意下面几点说明</strong></p>
+<ol>
+<li>component name的一些说明：<br>1）maven-central：maven中央库，默认从<a target="_blank" rel="noopener" href="https://repo1.maven.org/maven2/%E6%8B%89%E5%8F%96jar">https://repo1.maven.org/maven2/拉取jar</a><br>2）maven-releases：私库发行版jar<br>3）maven-snapshots：私库快照（调试版本）jar<br>4）maven-public：仓库分组，把上面三个仓库组合在一起对外提供服务，在本地maven基础配置settings.xml中使用。</li>
+<li>Nexus默认的仓库类型有以下四种：<br>1）group(仓库组类型)：又叫组仓库，用于方便开发人员自己设定的仓库；<br>2）hosted(宿主类型)：内部项目的发布仓库（内部开发人员，发布上去存放的仓库）；<br>3）proxy(代理类型)：从远程中央仓库中寻找数据的仓库（可以点击对应的仓库的Configuration页签下Remote Storage Location属性的值即被代理的远程仓库的路径）；<br>4）virtual(虚拟类型)：虚拟仓库（这个基本用不到，重点关注上面三个仓库的使用）；</li>
+<li>Policy(策略):表示该仓库为发布(Release)版本仓库还是快照(Snapshot)版本仓库；</li>
+<li>Public Repositories下的仓库<br>1）3rd party: 无法从公共仓库获得的第三方发布版本的构件仓库，即第三方依赖的仓库，这个数据通常是由内部人员自行下载之后发布上去；<br>2）Apache Snapshots: 用了代理ApacheMaven仓库快照版本的构件仓库<br>3）Central: 用来代理maven中央仓库中发布版本构件的仓库<br>4）Central M1 shadow: 用于提供中央仓库中M1格式的发布版本的构件镜像仓库<br>5）Codehaus Snapshots: 用来代理CodehausMaven 仓库的快照版本构件的仓库<br>6）Releases: 内部的模块中release模块的发布仓库，用来部署管理内部的发布版本构件的宿主类型仓库；release是发布版本；<br>7）Snapshots:发布内部的SNAPSHOT模块的仓库，用来部署管理内部的快照版本构件的宿主类型仓库；snapshots是快照版本，也就是不稳定版本<br>所以自定义构建的仓库组代理仓库的顺序为：Releases，Snapshots，3rd party，Central。也可以使用oschina放到Central前面，下载包会更快。</li>
+<li>Nexus默认的端口是8081，可以在etc/nexus-default.properties配置中修改。</li>
+<li>Nexus默认的用户名密码是admin/admin123</li>
+<li>当遇到奇怪问题时，重启nexus，重启后web界面要1分钟左右后才能访问。</li>
+<li>Nexus的工作目录是sonatype-work（路径一般在nexus同级目录下）</li>
+</ol>
+<p>Nexus仓库分类的概念：</p>
+<p>1）Maven可直接从宿主仓库下载构件,也可以从代理仓库下载构件,而代理仓库间接的从远程仓库下载并缓存构件<br>2）为了方便,Maven可以从仓库组下载构件,而仓库组并没有时间的内容(下图中用虚线表示,它会转向包含的宿主仓库或者代理仓库获得实际构件的内容).</p>
+<h4 id="上传jar包到远程仓库"><a href="#上传jar包到远程仓库" class="headerlink" title="上传jar包到远程仓库"></a>上传jar包到远程仓库</h4><p><strong>将已有的项目打成jar包上传到私服服务器</strong></p>
+<p>首先需要在pom.xml中配置上传仓库的地址，配置distributionManagement元素，仓库地址指向前面自定义的仓库</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&lt;distributionManagement&gt;</span><br><span class="line">        &lt;repository&gt;</span><br><span class="line">            &lt;id&gt;nexus&lt;/id&gt;</span><br><span class="line">            &lt;name&gt;bbsidrepository&lt;/name&gt;</span><br><span class="line">            &lt;url&gt;http://127.0.0.1:8081/nexus/content/repositories/releases&lt;/url&gt;</span><br><span class="line">        &lt;/repository&gt;</span><br><span class="line">&lt;/distributionManagement&gt;</span><br></pre></td></tr></table></figure>
+
+<p>distributionManagement包含repository和snapshotRepository子元素，前者表示发布版本（稳定版本）jar包的仓库，后者表示快照版本（开发测试版本）的仓库。</p>
+<p>这两个元素都需要配置id、name和url，id为远程仓库的唯一标识,很重要，name只是为了方便人阅读，关键的url表示该仓库的地址。</p>
+<p>往远程仓库部署jar包的时候，需要认证，配置认证的方式为id,一定要与前面settings中server的id保持一致。</p>
+<p>如果项目当前的版本是快照版本，则部署到快照版本的仓库地址，否则就部署到发布版本的仓库地址，因为这里只是测试演示，前面只创建了Release版本的仓库bbsid，所以省略了snapshotRepository。</p>
+<p>配置正确后，定位到要上传的项目目录，运行命令<strong>mvn clean deploy</strong>，Maven就会直接将项目打包生成的jar包部署到配置对应的远程仓库中。</p>
+<p><strong>上传第三方jar包到远程仓库</strong></p>
+<p><strong>方式一  (假设发布仓库为bbsid,发布Jar包为zbb-sms-0.0.1.jar)：</strong></p>
+<ol>
+<li>settings.xml中配置认证信息。</li>
+<li>. 定位到要上传的jar包的目录，执行“ mvn deploy:deploy-file  -DgroupId=com.zxp.test -DartifactId=sms -Dversion=1.0 -Dpackaging=jar  -Dfile=zbb-sms-0.0.1.jar  -Durl=<a target="_blank" rel="noopener" href="http://127.0.0.1:8081/nexus/content/repositories/bbsid">http://127.0.0.1:8081/nexus/content/repositories/bbsid</a>  -DrepositoryId=bbsnexus”命令。</li>
+</ol>
+<p>说明：deploy:deploy-file表示发布独立的文件。</p>
+<p>groupId、artifactId和version可根据需要设定。（我们要传的包为<strong>zbb-sms-0.0.1.jar</strong>，但是命令里指定**-Dversion=1.0<strong>，</strong>-DartifactId=sms<strong>，所以最终上传到仓库后的名称为</strong>sms-1.0.jar**）</p>
+<p>url为Nexus服务器中需要上传的仓库路径。</p>
+<p>repositoryId与server的id必须一致。</p>
+<p><strong>方式二 Nexus控制台直接上传jar包 (假设发布仓库为bbsid,发布Jar包为mysql-connector-java-5.1.43.jar)：</strong></p>
+<p> 在Repositories列表中选择Releases，点Artifact Upload,指定GAV Definition为“GAV Parameters”，然后输入相应的groupId、artifactId和version、Packaging，再点击“Select Artifact(s) to Upload…”选择指定的Jar文件，点击“Add ActifactId”添加到Actifacts框，最后点“Upload Artifact(s)”即可。</p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">平心</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://pingxin0521.gitee.io/2019/03/27/%E5%B7%A5%E5%85%B7-Maven-4/">https://pingxin0521.gitee.io/2019/03/27/%E5%B7%A5%E5%85%B7-Maven-4/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://pingxin0521.gitee.io" target="_blank">平心de小屋</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E5%B7%A5%E5%85%B7/">工具</a><a class="post-meta__tags" href="/tags/Maven/">Maven</a></div><div class="post_share"><div class="social-share" data-image="https://i.loli.net/2020/05/08/vCnKyoFJZ1g4XYR.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2019/03/28/%E5%B7%A5%E5%85%B7-Maven-5/"><img class="prev-cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/vCnKyoFJZ1g4XYR.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">Maven测试和Web项目</div></div></a></div><div class="next-post pull-right"><a href="/2019/03/27/%E5%B7%A5%E5%85%B7-Maven-3/"><img class="next-cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/gGE57HRvpcKPfDY.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">Maven坐标和依赖</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span> 相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2019/03/31/工具-Maven-7/" title="Maven插件"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/vCnKyoFJZ1g4XYR.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2019-04-07</div><div class="title">Maven插件</div></div></a></div><div><a href="/2019/04/02/工具-Maven-9/" title="Maven 常见问题"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/gGE57HRvpcKPfDY.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2020-06-30</div><div class="title">Maven 常见问题</div></div></a></div><div><a href="/2019/03/26/工具-Maven-2/" title="Maven初步构建"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/PFDRNxj93taz6pw.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2019-04-07</div><div class="title">Maven初步构建</div></div></a></div><div><a href="/2019/03/28/工具-Maven-5/" title="Maven测试和Web项目"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/vCnKyoFJZ1g4XYR.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2019-04-07</div><div class="title">Maven测试和Web项目</div></div></a></div><div><a href="/2019/03/30/工具-Maven-6/" title="Maven生成站点"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/gGE57HRvpcKPfDY.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2019-04-07</div><div class="title">Maven生成站点</div></div></a></div><div><a href="/2019/04/01/工具-Maven-8/" title="Maven 常用archetype"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/okfOw28KlZFbE7z.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2019-09-16</div><div class="title">Maven 常用archetype</div></div></a></div></div></div><hr/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div class="vcomment" id="vcomment"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="card-info-avatar is-center"><img class="avatar-img" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://s2.ax1x.com/2020/02/11/1ovw6J.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/><div class="author-info__name">平心</div><div class="author-info__description">年轻人的life、learn and think</div></div><div class="card-info-data"><div class="card-info-data-item is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">449</div></a></div><div class="card-info-data-item is-center"><a href="/tags/"><div class="headline">标签</div><div class="length-num">77</div></a></div><div class="card-info-data-item is-center"><a href="/categories/"><div class="headline">分类</div><div class="length-num">68</div></a></div></div><a class="button--animated" id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/hanyunpeng0521"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/hanyunpeng0521" target="_blank" title="Github"><i class="fa fa-github"></i></a><a class="social-icon" href="mailto:m13839441583@163.com" target="_blank" title="Email"><i class="fa fa-envelope"></i></a><a class="social-icon" href="/atom.xml" target="_blank" title=""><i class="fa fa-rss"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn card-announcement-animation"></i><span>公告</span></div><div class="announcement_content">为什么呢？开始提问吧</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#Maven-%E4%BB%93%E5%BA%93%E6%90%9C%E7%B4%A2%E6%9C%8D%E5%8A%A1"><span class="toc-number">1.</span> <span class="toc-text">Maven 仓库搜索服务</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Sonatype-Nexus"><span class="toc-number">1.1.</span> <span class="toc-text">Sonatype Nexus</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Jarvana"><span class="toc-number">1.2.</span> <span class="toc-text">Jarvana</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#MVNbrowser"><span class="toc-number">1.3.</span> <span class="toc-text">MVNbrowser</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#MVNrepository"><span class="toc-number">1.4.</span> <span class="toc-text">MVNrepository</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8Nexus%E5%88%9B%E5%BB%BA%E7%A7%81%E6%9C%8D"><span class="toc-number">2.</span> <span class="toc-text">使用Nexus创建私服</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%B8%8A%E4%BC%A0jar%E5%8C%85%E5%88%B0%E8%BF%9C%E7%A8%8B%E4%BB%93%E5%BA%93"><span class="toc-number">2.1.</span> <span class="toc-text">上传jar包到远程仓库</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2021/05/15/node-2-4/" title="Egg.js -- 为企业级框架和应用而生"><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/okfOw28KlZFbE7z.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Egg.js -- 为企业级框架和应用而生"/></a><div class="content"><a class="title" href="/2021/05/15/node-2-4/" title="Egg.js -- 为企业级框架和应用而生">Egg.js -- 为企业级框架和应用而生</a><time datetime="2021-05-15T10:18:59.000Z" title="发表于 2021-05-15 18:18:59">2021-05-15</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/04/30/node-2-3/" title="Koa -- 基于Node.js平台的下一代Web开发框架"><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/HjVAdIuT7bZJypS.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Koa -- 基于Node.js平台的下一代Web开发框架"/></a><div class="content"><a class="title" href="/2021/04/30/node-2-3/" title="Koa -- 基于Node.js平台的下一代Web开发框架">Koa -- 基于Node.js平台的下一代Web开发框架</a><time datetime="2021-04-30T10:18:59.000Z" title="发表于 2021-04-30 18:18:59">2021-04-30</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/04/01/node-2-1/" title="Node.JS web开发前置知识"><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/gGE57HRvpcKPfDY.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Node.JS web开发前置知识"/></a><div class="content"><a class="title" href="/2021/04/01/node-2-1/" title="Node.JS web开发前置知识">Node.JS web开发前置知识</a><time datetime="2021-04-01T03:18:59.000Z" title="发表于 2021-04-01 11:18:59">2021-04-01</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2020/12/26/%E5%91%A8%E8%AE%B0-10-1/" title="第十一周--谷歌浏览器插件"><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/gGE57HRvpcKPfDY.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="第十一周--谷歌浏览器插件"/></a><div class="content"><a class="title" href="/2020/12/26/%E5%91%A8%E8%AE%B0-10-1/" title="第十一周--谷歌浏览器插件">第十一周--谷歌浏览器插件</a><time datetime="2020-12-26T10:18:59.000Z" title="发表于 2020-12-26 18:18:59">2020-12-26</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2020/12/26/%E5%91%A8%E8%AE%B0-10-0/" title="第十一周--浏览器技术"><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/vCnKyoFJZ1g4XYR.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="第十一周--浏览器技术"/></a><div class="content"><a class="title" href="/2020/12/26/%E5%91%A8%E8%AE%B0-10-0/" title="第十一周--浏览器技术">第十一周--浏览器技术</a><time datetime="2020-12-26T06:18:59.000Z" title="发表于 2020-12-26 14:18:59">2020-12-26</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2019 - 2021 By 平心</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div id="local-search"><div class="search-dialog"><div class="search-dialog__title" id="local-search-title">本地搜索</div><div id="local-input-panel"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div></div><hr/><div id="local-search-results"></div><span class="search-close-button"><i class="fas fa-times"></i></span></div><div id="search-mask"></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload/dist/lazyload.iife.min.js"></script><script src="/js/search/local-search.js"></script><div class="js-pjax"><script>function loadValine () {
+  function initValine () {
+    const valine = new Valine(Object.assign({
+      el: '#vcomment',
+      appId: '4lfIXzqxaC1ONs0MJO4oHu07-gzGzoHsz',
+      appKey: 'qw99Bw8FD0KVKU9m457CwWsr',
+      placeholder: 'Please leave your footprints',
+      avatar: 'monsterid',
+      meta: 'nick,mail,link'.split(','),
+      pageSize: '10',
+      lang: 'zh-CN',
+      recordIP: true,
+      serverURLs: '',
+      emojiCDN: '',
+      emojiMaps: "",
+      enableQQ: true,
+      path: window.location.pathname,
+      requiredFields: ["nick,mail"],
+      visitor: false
+    }, null))
+  }
+
+  if (typeof Valine === 'function') initValine() 
+  else getScript('https://cdn.jsdelivr.net/npm/valine/dist/Valine.min.js').then(initValine)
+}
+
+if ('Valine' === 'Valine' || !false) {
+  if (false) btf.loadComment(document.getElementById('vcomment'),loadValine)
+  else setTimeout(loadValine, 0)
+} else {
+  function loadOtherComment () {
+    loadValine()
+  }
+}</script></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>

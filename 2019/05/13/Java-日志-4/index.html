@@ -1,0 +1,529 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>日志框架--总结 | 平心de小屋</title><meta name="keywords" content="Java,日志"><meta name="author" content="平心"><meta name="copyright" content="平心"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="学习的过程，离不开归根溯源的过程，所以记住她的历史和根源。  log4j可以当之无愧地说是Java日志框架的元老，1999年发布首个版本，2012年发布最后一个版本，2015年正式宣布终止，至今还有无数的系统在使用log4j，甚至很多新系统的日志框架选型仍在选择log4j。 然而老的不等于好的，在IT技术层面更是如此。尽管log4j有着出色的历史战绩，但早已不是Java日志框架的最优选择。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="日志框架--总结">
+<meta property="og:url" content="https://pingxin0521.gitee.io/2019/05/13/Java-%E6%97%A5%E5%BF%97-4/index.html">
+<meta property="og:site_name" content="平心de小屋">
+<meta property="og:description" content="学习的过程，离不开归根溯源的过程，所以记住她的历史和根源。  log4j可以当之无愧地说是Java日志框架的元老，1999年发布首个版本，2012年发布最后一个版本，2015年正式宣布终止，至今还有无数的系统在使用log4j，甚至很多新系统的日志框架选型仍在选择log4j。 然而老的不等于好的，在IT技术层面更是如此。尽管log4j有着出色的历史战绩，但早已不是Java日志框架的最优选择。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://i.loli.net/2020/05/08/7dHvepmfYOLWTrX.jpg">
+<meta property="article:published_time" content="2019-05-13T14:18:59.000Z">
+<meta property="article:modified_time" content="2019-12-24T09:08:36.981Z">
+<meta property="article:author" content="平心">
+<meta property="article:tag" content="Java">
+<meta property="article:tag" content="日志">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.loli.net/2020/05/08/7dHvepmfYOLWTrX.jpg"><link rel="shortcut icon" href="https://s2.ax1x.com/2020/02/11/1ovFOA.png"><link rel="canonical" href="https://pingxin0521.gitee.io/2019/05/13/Java-%E6%97%A5%E5%BF%97-4/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"search.xml","languages":{"hits_empty":"找不到您查询的内容：${query}"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    jQuery: 'https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js',
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+    },
+    fancybox: {
+      js: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css'
+    }
+  },
+  isPhotoFigcaption: true,
+  islazyload: true,
+  isanchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '日志框架--总结',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2019-12-24 17:08:36'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    })(window)</script><meta name="generator" content="Hexo 5.4.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="author-avatar"><img class="avatar-img" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://s2.ax1x.com/2020/02/11/1ovw6J.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data"><div class="data-item is-center"><div class="data-item-link"><a href="/archives/"><div class="headline">文章</div><div class="length-num">449</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/tags/"><div class="headline">标签</div><div class="length-num">77</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/categories/"><div class="headline">分类</div><div class="length-num">68</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fa fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fa fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://i.loli.net/2020/05/08/7dHvepmfYOLWTrX.jpg')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">平心de小屋</a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fa fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fa fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">日志框架--总结</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2019-05-13T14:18:59.000Z" title="发表于 2019-05-13 22:18:59">2019-05-13</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2019-12-24T09:08:36.981Z" title="更新于 2019-12-24 17:08:36">2019-12-24</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/Java/">Java</a><i class="fas fa-angle-right post-meta-separator"></i><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/Java/%E6%97%A5%E5%BF%97/">日志</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">4.2k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>14分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="日志框架--总结"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><blockquote>
+<p>学习的过程，离不开归根溯源的过程，所以记住她的历史和根源。</p>
+</blockquote>
+<p>log4j可以当之无愧地说是Java日志框架的元老，1999年发布首个版本，2012年发布最后一个版本，2015年正式宣布终止，至今还有无数的系统在使用log4j，甚至很多新系统的日志框架选型仍在选择log4j。</p>
+<p>然而老的不等于好的，在IT技术层面更是如此。尽管log4j有着出色的历史战绩，但早已不是Java日志框架的最优选择。</p>
+<span id="more"></span>
+
+<p>在log4j被Apache Foundation收入门下之后，由于理念不合，log4j的作者Ceki离开并开发了slf4j和logback。</p>
+<p>slf4j因其优秀的性能和理念很快受到了广泛欢迎，2016年的统计显示，github上的热门Java项目中，slf4j是使用率第二名的类库（第一名是junit）。</p>
+<p>logback则吸取了log4j的经验，实现了很多强大的新功能，再加上它和slf4j能够无缝集成，也受到了欢迎。</p>
+<p>在这期间，Apache Logging则一直在关门憋大招，log4j2在beta版鼓捣了几年，终于在2014年发布了GA版，不仅吸收了logback的先进功能，更通过优秀的锁机制、LMAX Disruptor、”无垃圾”机制等先进特性，在性能上全面超越了log4j和logback。</p>
+<h4 id="slf4j"><a href="#slf4j" class="headerlink" title="slf4j"></a>slf4j</h4><p>slf4j是一个“日志门面”（Logging Facade），而不是一个完整的日志框架。它提供了一套记录日志的api，但不提供输出日志的功能，而是通过对接如log4j、java.util.logging等日志框架，来实现日志的输出。</p>
+<p>所以说slf4j的对标选手实际上是Jakarta Commons Logging（简称JCL），二者的最大区别在于与日志服务的绑定机制</p>
+<p>JCL采用的动态绑定机制：</p>
+<ol>
+<li>在进程启动时尝试获取名为”org.apache.commons.logging.Log”的配置属性（可与在commons-logging.properties文件中配置，或使用Java代码进行配置），按配置选取对应的日志输出服务</li>
+<li>如果没有获取到对应配置属性，会尝试在系统参数中寻找名为”org.apache.commons.logging.Log”的参数项</li>
+<li>如果1,2均没有获取到，会在classpath下寻找log4j的相关class，如果找到，则使用log4j作为日志输出服务</li>
+<li>如果没有找到log4j，则尝试使用java.util.logging包作为日志输出服务</li>
+<li>如果上述都失败，则使用SimpleLog作为日志输出服务，即将所有日志输出至控制台标准输出System.err</li>
+</ol>
+<p>JCL的动态绑定机制基于ClassLoader实现，缺点一是效率较低，二是容易引发混乱，在一个复杂甚至混乱的依赖环境下，确定当前正在生效的日志服务是很费力的，特别是在程序开发和设计人员并不理解JCL的机制时，三是最致命的问题：在使用了自定义ClassLoader的程序中，使用JCL会引发各类问题，例如内存泄露、与OSGI冲突等。</p>
+<p>而slf4j则简单得多，采用静态绑定机制：</p>
+<ul>
+<li>slf4j为各类日志输出服务提供了适配库，如slf4j-log4j12，slf4j-simple，slf4j-jdk14等。一个Java工程下只能引入一个slf4j适配库</li>
+<li>slf4j会加载org.slf4j.impl.StaticLoggerBinder作为输出日志的实现类。这个类在每个适配库中都存在，所以slf4j不需要像JCL一样主动去寻找日志输出实现，自然而然地就能与具体的日志输出实现绑定起来</li>
+<li>当需要更换日志输出服务时（比如从logback切换回log4j），只需要替换掉适配库即可</li>
+</ul>
+<p>所以slf4j不仅对比JCL有性能上的优势，使用slf4j的程序员也不需要去翻找配置文件或追踪启动过程就能够清除明白地了解当前使用的是什么日志输出服务</p>
+<p>slf4j的优势还不止此：</p>
+<ol>
+<li><p>强制输出String，避免不规范代码</p>
+<p>传统的日志api都接收Object类型的参数，在程序员不遵守规范时容易引发一些错误，比如：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">SomeObject obj;</span><br><span class="line">//...</span><br><span class="line">logger.info(obj); //如果SomeObject并未覆盖toString()方法，这里就只记下来了hashcode</span><br></pre></td></tr></table></figure>
+
+<p>又如：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">try &#123;</span><br><span class="line">  //...</span><br><span class="line">&#125; catch(Exception e) &#123;</span><br><span class="line">  logger.error(e); //未记录异常stacktrace</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>slf4j的api强制要求传入String类型的参数，能够在一定程度上避免此类不规范的代码出现。</p>
+</li>
+<li><p>日志模板功能</p>
+<p>在使用传统的日志api时，可能会有这样的代码：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">logger.debug(&quot;Entry number: &quot; + i + &quot; is &quot; + String.valueOf(entry[i]));</span><br></pre></td></tr></table></figure>
+
+<p>这引发了两个问题：</p>
+<ol>
+<li>需要编写拼接字符串的代码，使开发效率降低</li>
+<li>即使不需要输出这条日志（比如当前日志级别是ERROR时），也会执行拼接字符串的操作，消耗额外性能，占用额外内存</li>
+</ol>
+<p>而slf4j使用日志模板功能解决了这两个问题：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">logger.debug(&quot;Entry number: &#123;&#125; is &#123;&#125;&quot;, i, String.valueOf(entry[i]));</span><br></pre></td></tr></table></figure>
+
+<p>不仅开发变得简单了，而且slf4j只会在此条日志确实需要输出时才会去拼装字符串。<br> 并且在输出异常信息时也可以使用模板，不会妨碍stacktrace的输出：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">String s = &quot;Hello world&quot;;</span><br><span class="line">try &#123;</span><br><span class="line">  Integer i = Integer.valueOf(s);</span><br><span class="line">&#125; catch (NumberFormatException e) &#123;</span><br><span class="line">  logger.error(&quot;Failed to format &#123;&#125;&quot;, s, e);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li><p>slf4j的桥接功能</p>
+<p>虽然slf4j如此优秀，但一些类库因为历史原因仍然在使用JCL作为日志api（如Spring等），为此slf4j还推出了jcl-over-slf4j桥接库，能够把使用JCL的API输出的日志桥接到slf4j上，方便那些想要使用slf4j作为日志门面但同时又要使用Spring等需要依赖JCL的类库的系统。</p>
+<p>对于自动依赖JCL的类库，如要桥接至slf4j的话，除了引入jcl-over-slf4j适配库之外，还需要把JCL库从classpath中移除。可以在maven配置中将JCL库标记为provided：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&lt;dependency&gt;</span><br><span class="line">&lt;groupId&gt;commons-logging&lt;/groupId&gt;</span><br><span class="line">&lt;artifactId&gt;commons-logging&lt;/artifactId&gt;</span><br><span class="line">&lt;version&gt;1.1.1&lt;/version&gt;</span><br><span class="line">&lt;scope&gt;provided&lt;/scope&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>同时slf4j还提供了log4j-over-slf4j等桥接库，能够在不改动代码的前提下把使用各种日志框架输出的日志都桥接到slf4j，如下图：</p>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2019/05/18/5ce0058ebdff873999.png" alt="3.png"></p>
+</li>
+</ol>
+<h4 id="logback与log4j2"><a href="#logback与log4j2" class="headerlink" title="logback与log4j2"></a>logback与log4j2</h4><p>logback和log4j2都宣称自己是log4j的后代，一个是出于同一个作者，另一个则是在名字上根正苗红。</p>
+<p>撇开血统不谈，比较一下log4j2和logback：</p>
+<ul>
+<li>log4j2比logback更新：log4j2的GA版在2014年底才推出，比logback晚了好几年，这期间log4j2确实吸收了slf4j和logback的一些优点（比如日志模板），同时应用了不少的新技术</li>
+<li>由于采用了更先进的锁机制和LMAX Disruptor库，log4j2的性能优于logback，特别是在多线程环境下和使用异步日志的环境下</li>
+<li>二者都支持Filter（应该说是log4j2借鉴了logback的Filter），能够实现灵活的日志记录规则（例如仅对一部分用户记录debug级别的日志）</li>
+<li>二者都支持对配置文件的动态更新</li>
+<li>二者都能够适配slf4j，logback与slf4j的适配应该会更好一些，毕竟省掉了一层适配库</li>
+<li>logback能够自动压缩/删除旧日志</li>
+<li>logback提供了对日志的HTTP访问功能</li>
+<li>log4j2实现了“无垃圾”和“低垃圾”模式。简单地说，log4j2在记录日志时，能够重用对象（如String等），尽可能避免实例化新的临时对象，减少因日志记录产生的垃圾对象，减少垃圾回收带来的性能下降</li>
+</ul>
+<p>log4j2和logback各有长处，总体来说，如果对性能要求比较高的话，log4j2相对还是较优的选择。</p>
+<h3 id="选型"><a href="#选型" class="headerlink" title="选型"></a>选型</h3><h4 id="Commons-Logging与Slf4j实现机制对比"><a href="#Commons-Logging与Slf4j实现机制对比" class="headerlink" title="Commons Logging与Slf4j实现机制对比"></a>Commons Logging与Slf4j实现机制对比</h4><ul>
+<li><p>Commons logging实现机制</p>
+<p>Commons logging是通过动态查找机制，在程序运行时，使用自己的ClassLoader寻找和载入本地具体的实现。详细策略可以查看commons-logging-*.jar包中的org.apache.commons.logging.impl.LogFactoryImpl.java文件。由于OSGi不同的插件使用独立的ClassLoader，OSGI的这种机制保证了插件互相独立, 其机制限制了commons logging在OSGi中的正常使用。</p>
+</li>
+<li><p>Slf4j实现机制</p>
+<p>Slf4j在编译期间，静态绑定本地的LOG库，因此可以在OSGi中正常使用。它是通过查找类路径下org.slf4j.impl.StaticLoggerBinder，然后绑定工作都在这类里面进。</p>
+</li>
+</ul>
+<h4 id="选择日志框架"><a href="#选择日志框架" class="headerlink" title="选择日志框架"></a>选择日志框架</h4><ol>
+<li><p>slf4j已经成为了Java日志组件的明星选手，可以完美替代JCL，使用JCL桥接库也能完美兼容一切使用JCL作为日志门面的类库，现在的新系统已经没有不使用slf4j作为日志API的理由了</p>
+</li>
+<li><p>日志记录服务方面，log4j在功能上输于logback和log4j2，在性能方面log4j2则全面超越log4j和logback。所以新系统应该在logback和log4j2中做出选择，对于性能有很高要求的系统，应优先考虑log4j2</p>
+</li>
+</ol>
+<p>如果是在一个新的项目中建议使用Slf4j与Logback组合，这样有如下的几个优点：</p>
+<ul>
+<li><p>Slf4j实现机制决定Slf4j限制较少，使用范围更广。由于Slf4j在编译期间，静态绑定本地的LOG库使得通用性要比Commons logging要好。</p>
+</li>
+<li><p>Logback拥有更好的性能。Logback声称：某些关键操作，比如判定是否记录一条日志语句的操作，其性能得到了显著的提高。这个操作在Logback中需要3纳秒，而在Log4J中则需要30纳秒。LogBack创建记录器（logger）的速度也更快：13毫秒，而在Log4J中需要23毫秒。更重要的是，它获取已存在的记录器只需94纳秒，而Log4J需要2234纳秒，时间减少到了1/23。跟JUL相比的性能提高也是显著的。</p>
+</li>
+<li><p>Commons Logging开销更高 在使Commons Logging时为了减少构建日志信息的开销，通常的做法是：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">if(log.isDebugEnabled())&#123;</span><br><span class="line">log.debug(&quot;User name： &quot; +</span><br><span class="line">user.getName() + &quot; buy goods id ：&quot; + good.getId());</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>Slf4j阵营，你只需这么做：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">log.debug(“User name：&#123;&#125; ,buy goods id ：&#123;&#125;”, user.getName(),good.getId());</span><br></pre></td></tr></table></figure>
+
+<p>也就是说，slf4j把构建日志的开销放在了它确认需要显示这条日志之后，减少内存和cup的开销，使用占位符号，代码也更为简洁；</p>
+</li>
+<li><p>Logback文档免费。Logback的所有文档是全面免费提供的，不象Log4J那样只提供部分免费文档而需要用户去购买付费文档</p>
+</li>
+</ul>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>java里常见的日志库有java.util.logging(JDKlog)、Apache log4j、log4j2、logback、slf4j等等。 这么多的日志框架里如何选择。 </p>
+<p>首先需要梳理的是日志接口，以及日志接口对应的实现。然后再考虑如何选择使用哪个日志框架。 </p>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2019/05/18/5ce0016fe3be871241.png" alt="6.png"></p>
+<p>目前的日志框架有jdk自带的：logging，log4j1、log4j2、logback</p>
+<p>目前用于实现日志统一的框架（日志门面\接口）：apache的commons-logging、slf4j</p>
+<p>为了理清它们的关系，与繁杂的各种集成jar包，如下：</p>
+<ul>
+<li>log4j、log4j-api、log4j-core</li>
+<li>log4j-1.2-api、log4j-jcl、log4j-slf4j-impl、log4j-jul</li>
+<li>logback-core、logback-classic、logback-access</li>
+<li>commons-logging</li>
+<li>slf4j-api、slf4j-log4j12、slf4j-simple、jcl-over-slf4j、slf4j-jdk14、log4j-over-slf4j、slf4j-jcl</li>
+</ul>
+<h4 id="各种jar包总结"><a href="#各种jar包总结" class="headerlink" title="各种jar包总结"></a>各种jar包总结</h4><ol>
+<li>log4j1:</li>
+</ol>
+<ul>
+<li>log4j：log4j1的全部内容</li>
+</ul>
+<ol start="2">
+<li><p>log4j2:</p>
+<ul>
+<li><p>log4j-api:log4j2定义的API</p>
+</li>
+<li><p>log4j-core:log4j2上述API的实现</p>
+</li>
+</ul>
+</li>
+<li><p>logback:</p>
+<ul>
+<li><p>logback-core:logback的核心包</p>
+</li>
+<li><p>logback-classic：logback实现了slf4j的API</p>
+</li>
+</ul>
+</li>
+<li><p>commons-logging:</p>
+<ul>
+<li><p>commons-logging:commons-logging的原生全部内容</p>
+</li>
+<li><p>log4j-jcl:commons-logging到log4j2的桥梁</p>
+</li>
+<li><p>jcl-over-slf4j：commons-logging到slf4j的桥梁</p>
+</li>
+</ul>
+</li>
+<li><p>slf4j转向某个实际的日志框架：</p>
+<p>场景介绍：如 使用slf4j的API进行编程，底层想使用log4j1来进行实际的日志输出，这就是slf4j-log4j12干的事。</p>
+<ul>
+<li><p>slf4j-log4j12：使用log4j-1.2作为日志输出服务</p>
+</li>
+<li><p>slf4j-jdk14：使用java.util.logging作为日志输出服务</p>
+</li>
+<li><p>slf4j-jcl：使用JCL作为日志输出服务</p>
+</li>
+<li><p>slf4j-simple：日志输出至System.err</p>
+</li>
+<li><p>slf4j-nop：不输出日志</p>
+</li>
+<li><p>log4j-slf4j-impl：使用log4j2作为日志输出服务</p>
+</li>
+</ul>
+<p>logback天然与slf4j适配，不需要额外引入适配库（毕竟是一个作者写的）</p>
+</li>
+<li><p>某个实际的日志框架转向slf4j：</p>
+<p>场景介绍：如 使用log4j1的API进行编程，但是想最终通过logback来进行输出，所以就需要先将log4j1的日志输出转交给slf4j来输出，slf4j再交给logback来输出。将log4j1的输出转给slf4j，这就是log4j-over-slf4j做的事。这一部分主要用来进行实际的日志框架之间的切换（下文会详细讲解）。</p>
+<ul>
+<li><p>log4j-over-slf4j：将使用log4j api输出的日志桥接至slf4j</p>
+</li>
+<li><p>jcl-over-slf4j：将使用JCL api输出的日志桥接至slf4j</p>
+</li>
+<li><p>jul-to-slf4j：将使用java.util.logging输出的日志桥接至slf4j</p>
+</li>
+<li><p>log4j-to-slf4j：将使用log4j2输出的日志桥接至slf4j</p>
+</li>
+</ul>
+<p> slf4j唯独没有提供log4j2的适配库和桥接库，log4j-slf4j-impl和log4j-to-slf4j都是Apache Logging自己开发的，看样子Ceki和Apache Logging的梁子真的很深啊……倒是Apache没有端架子，可能也是因为slf4j太火了吧</p>
+</li>
+</ol>
+<h4 id="集成总结"><a href="#集成总结" class="headerlink" title="集成总结"></a>集成总结</h4><h5 id="commons-logging与其他日志框架集成"><a href="#commons-logging与其他日志框架集成" class="headerlink" title="commons-logging与其他日志框架集成"></a>commons-logging与其他日志框架集成</h5><ol>
+<li><p>commons-logging与jdk-logging集成，需要的jar包：</p>
+<ul>
+<li>commons-logging</li>
+</ul>
+</li>
+<li><p>commons-logging与log4j1集成，需要的jar包：</p>
+<ul>
+<li><p>commons-logging</p>
+</li>
+<li><p>log4j</p>
+</li>
+</ul>
+</li>
+<li><p>commons-logging与log4j2集成，需要的jar包：</p>
+<ul>
+<li><p>commons-logging</p>
+</li>
+<li><p>log4j-api</p>
+</li>
+<li><p>log4j-core</p>
+</li>
+<li><p>log4j-jcl(集成包)</p>
+</li>
+</ul>
+</li>
+<li><p>commons-logging与logback集成，需要的jar包：</p>
+<ul>
+<li><p>logback-core</p>
+</li>
+<li><p>logback-classic</p>
+</li>
+<li><p>slf4j-api、jcl-over-slf4j(2个集成包,可以不再需要commons-logging)</p>
+</li>
+</ul>
+</li>
+<li><p>commons-logging与slf4j集成，需要的jar包：</p>
+<ul>
+<li><p>jcl-over-slf4j(集成包，不再需要commons-logging)</p>
+</li>
+<li><p>slf4j-api</p>
+</li>
+</ul>
+</li>
+</ol>
+<h5 id="slf4j与其他日志框架集成"><a href="#slf4j与其他日志框架集成" class="headerlink" title="slf4j与其他日志框架集成"></a>slf4j与其他日志框架集成</h5><p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2019/05/18/5cdffd9ac807966995.png" alt="5.png"></p>
+<p>jar包说明如下：</p>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2019/05/18/5ce003124904574742.png"></p>
+<p>与其他框架集成：</p>
+<ol>
+<li><p>slf4j与jdk-logging集成，需要的jar包：</p>
+<ul>
+<li><p>slf4j-api</p>
+</li>
+<li><p>slf4j-jdk14(集成包)</p>
+</li>
+</ul>
+</li>
+<li><p>slf4j与log4j1集成，需要的jar包：</p>
+<ul>
+<li><p>slf4j-api</p>
+</li>
+<li><p>log4j</p>
+</li>
+<li><p>slf4j-log4j12(集成包)</p>
+</li>
+</ul>
+</li>
+<li><p>slf4j与log4j2集成，需要的jar包：</p>
+<ul>
+<li><p>slf4j-api</p>
+</li>
+<li><p>log4j-api</p>
+</li>
+<li><p>log4j-core</p>
+</li>
+<li><p>log4j-slf4j-impl(集成包)</p>
+</li>
+</ul>
+</li>
+<li><p>slf4j与logback集成，需要的jar包：</p>
+<ul>
+<li><p>slf4j-api</p>
+</li>
+<li><p>logback-core</p>
+</li>
+<li><p>logback-classic(集成包)</p>
+</li>
+</ul>
+</li>
+<li><p>slf4j与commons-logging集成，需要的jar包：</p>
+<ul>
+<li><p>slf4j-api</p>
+</li>
+<li><p>commons-logging</p>
+</li>
+<li><p>slf4j-jcl(集成包)</p>
+</li>
+</ul>
+</li>
+</ol>
+<h4 id="日志系统之间的切换"><a href="#日志系统之间的切换" class="headerlink" title="日志系统之间的切换"></a>日志系统之间的切换</h4><p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2019/05/18/5ce0058ebdff873999.png" alt="3.png"></p>
+<h5 id="log4j无缝切换到logback"><a href="#log4j无缝切换到logback" class="headerlink" title="log4j无缝切换到logback"></a>log4j无缝切换到logback</h5><p>我们已经在代码中使用了log4j1的API来进行日志的输出，现在想不更改已有代码的前提下，使之通过logback来进行实际的日志输出。已使用的jar包：</p>
+<ul>
+<li>log4j</li>
+</ul>
+<p>使用案例：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">private static final Logger logger=Logger.getLogger(Log4jTest.class);</span><br><span class="line">public static void main(String[] args)&#123;</span><br><span class="line">    if(logger.isInfoEnabled())&#123;</span><br><span class="line">        logger.info(&quot;log4j info message&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>上述的Logger是log4j1自己的org.apache.log4j.Logger，在上述代码中，我们在使用log4j1的API进行编程。现在如何能让上述的日志输出通过logback来进行输出呢？只需要更换一下jar包就可以：</p>
+<p>第一步：去掉log4j jar包,Maven中使用exclude</p>
+<p>第二步：加入以下jar包</p>
+<ul>
+<li><code>log4j-over-slf4j（实现log4j1切换到slf4j）</code></li>
+<li>slf4j-api</li>
+<li>logback-core</li>
+<li><code>logback-classic</code></li>
+</ul>
+<p>第三步：在类路径下加入logback的配置文件</p>
+<h5 id="jdk-logging无缝切换到logback"><a href="#jdk-logging无缝切换到logback" class="headerlink" title="jdk-logging无缝切换到logback"></a>jdk-logging无缝切换到logback</h5><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">private static final Logger logger=Logger.getLogger(JulSlf4jLog4jTest.class.getName());</span><br><span class="line"></span><br><span class="line">public static void main(String[] args)&#123;</span><br><span class="line">    logger.log(Level.INFO,&quot;jul info a msg&quot;);</span><br><span class="line">    logger.log(Level.WARNING,&quot;jul waring a msg&quot;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>可以看到上述是使用jdk-logging自带的API来进行编程的，现在我们想这些日志交给logback来输出，解决办法如下：</p>
+<p>第一步：加入以下jar包：</p>
+<ul>
+<li><code>jul-to-slf4j （实现jdk-logging切换到slf4j）</code></li>
+<li>slf4j-api</li>
+<li>logback-core</li>
+<li><code>logback-classic</code></li>
+</ul>
+<p>第二步：在类路径下加入logback的配置文件</p>
+<p>第三步：在代码中加入如下代码：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">static &#123;</span><br><span class="line">    SLF4JBridgeHandler.install();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h5 id="commons-logging切换到logback"><a href="#commons-logging切换到logback" class="headerlink" title="commons-logging切换到logback"></a>commons-logging切换到logback</h5><p>使用的jar包</p>
+<ul>
+<li>commons-logging</li>
+</ul>
+<p>案例如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">private static Log logger=LogFactory.getLog(JulJclTest.class);</span><br><span class="line"></span><br><span class="line">public static void main(String[] args)&#123;</span><br><span class="line">    if(logger.isTraceEnabled())&#123;</span><br><span class="line">        logger.trace(&quot;commons-logging-jcl trace message&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;   </span><br></pre></td></tr></table></figure>
+
+<p>可以看到我们使用commons-logging的API来进行日志的编程操作，现在想切换成logback来进行日志的输出（这其实就是commons-logging与logback的集成），解决办法如下：</p>
+<p>第一步：去掉commons-logging jar包（其实去不去都无所谓）</p>
+<p>第二步：加入以下jar包：</p>
+<ul>
+<li><code>jcl-over-slf4j（实现commons-logging切换到slf4j）</code></li>
+<li>slf4j-api</li>
+<li>logback-core</li>
+<li>logback-classic</li>
+</ul>
+<p>第三步：在类路径下加入logback的配置文件</p>
+<h4 id="冲突说明"><a href="#冲突说明" class="headerlink" title="冲突说明"></a>冲突说明</h4><h5 id="jcl-over-slf4j-与-slf4j-jcl-冲突"><a href="#jcl-over-slf4j-与-slf4j-jcl-冲突" class="headerlink" title="jcl-over-slf4j 与 slf4j-jcl 冲突"></a>jcl-over-slf4j 与 slf4j-jcl 冲突</h5><ul>
+<li>jcl-over-slf4j： commons-logging切换到slf4j</li>
+<li>slf4j-jcl : slf4j切换到commons-logging</li>
+</ul>
+<p>如果这两者共存的话，必然造成相互委托，造成内存溢出。</p>
+<h5 id="log4j-over-slf4j-与-slf4j-log4j12-冲突"><a href="#log4j-over-slf4j-与-slf4j-log4j12-冲突" class="headerlink" title="log4j-over-slf4j 与 slf4j-log4j12 冲突"></a>log4j-over-slf4j 与 slf4j-log4j12 冲突</h5><ul>
+<li>log4j-over-slf4j ： log4j1切换到slf4j</li>
+<li>slf4j-log4j12 : slf4j切换到log4j1</li>
+</ul>
+<p>如果这两者共存的话，必然造成相互委托，造成内存溢出。但是<code>log4j-over-slf4内部做了一个判断，可以防止造成内存溢出</code>：即判断slf4j-log4j12 jar包中的org.slf4j.impl.Log4jLoggerFactory是否存在，<code>如果存在则表示冲突了，抛出异常提示用户要去掉对应的jar包</code></p>
+<h5 id="jul-to-slf4j-与-slf4j-jdk14-冲突"><a href="#jul-to-slf4j-与-slf4j-jdk14-冲突" class="headerlink" title="jul-to-slf4j 与 slf4j-jdk14 冲突"></a>jul-to-slf4j 与 slf4j-jdk14 冲突</h5><ul>
+<li>jul-to-slf4j ： jdk-logging切换到slf4j</li>
+<li>slf4j-jdk14 : slf4j切换到jdk-logging</li>
+</ul>
+<p>如果这两者共存的话，必然造成相互委托，造成内存溢出。</p>
+<h3 id="参考："><a href="#参考：" class="headerlink" title="参考："></a>参考：</h3><p><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/85d141365d39">该让log4j退休了 - 论Java日志组件的选择</a></p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">平心</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://pingxin0521.gitee.io/2019/05/13/Java-%E6%97%A5%E5%BF%97-4/">https://pingxin0521.gitee.io/2019/05/13/Java-%E6%97%A5%E5%BF%97-4/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://pingxin0521.gitee.io" target="_blank">平心de小屋</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/Java/">Java</a><a class="post-meta__tags" href="/tags/%E6%97%A5%E5%BF%97/">日志</a></div><div class="post_share"><div class="social-share" data-image="https://i.loli.net/2020/05/08/7dHvepmfYOLWTrX.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2019/05/14/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-1-1/"><img class="prev-cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/7dHvepmfYOLWTrX.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">跳表--二分查找的有序链表</div></div></a></div><div class="next-post pull-right"><a href="/2019/05/13/Java-%E6%97%A5%E5%BF%97-7/"><img class="next-cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/PFDRNxj93taz6pw.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">日志框架--slf4j</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span> 相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2019/05/13/Java-日志-7/" title="日志框架--slf4j"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/PFDRNxj93taz6pw.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2019-05-20</div><div class="title">日志框架--slf4j</div></div></a></div><div><a href="/2019/05/12/Java-日志-1/" title="日志框架--JUL"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/7dHvepmfYOLWTrX.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2019-05-20</div><div class="title">日志框架--JUL</div></div></a></div><div><a href="/2019/05/11/Java-日志-5/" title="日志框架--logback"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/okfOw28KlZFbE7z.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2019-06-01</div><div class="title">日志框架--logback</div></div></a></div><div><a href="/2019/05/12/Java-日志-6/" title="日志框架--JCL"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/gGE57HRvpcKPfDY.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2019-05-20</div><div class="title">日志框架--JCL</div></div></a></div><div><a href="/2019/05/11/Java-日志-3/" title="日志框架--Log4j2"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/gGE57HRvpcKPfDY.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2019-06-01</div><div class="title">日志框架--Log4j2</div></div></a></div><div><a href="/2019/05/11/Java-日志-2/" title="日志框架--Log4j"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/okfOw28KlZFbE7z.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2019-06-01</div><div class="title">日志框架--Log4j</div></div></a></div></div></div><hr/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div class="vcomment" id="vcomment"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="card-info-avatar is-center"><img class="avatar-img" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://s2.ax1x.com/2020/02/11/1ovw6J.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/><div class="author-info__name">平心</div><div class="author-info__description">年轻人的life、learn and think</div></div><div class="card-info-data"><div class="card-info-data-item is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">449</div></a></div><div class="card-info-data-item is-center"><a href="/tags/"><div class="headline">标签</div><div class="length-num">77</div></a></div><div class="card-info-data-item is-center"><a href="/categories/"><div class="headline">分类</div><div class="length-num">68</div></a></div></div><a class="button--animated" id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/hanyunpeng0521"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/hanyunpeng0521" target="_blank" title="Github"><i class="fa fa-github"></i></a><a class="social-icon" href="mailto:m13839441583@163.com" target="_blank" title="Email"><i class="fa fa-envelope"></i></a><a class="social-icon" href="/atom.xml" target="_blank" title=""><i class="fa fa-rss"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn card-announcement-animation"></i><span>公告</span></div><div class="announcement_content">为什么呢？开始提问吧</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#slf4j"><span class="toc-number">1.</span> <span class="toc-text">slf4j</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#logback%E4%B8%8Elog4j2"><span class="toc-number">2.</span> <span class="toc-text">logback与log4j2</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%80%89%E5%9E%8B"><span class="toc-number"></span> <span class="toc-text">选型</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Commons-Logging%E4%B8%8ESlf4j%E5%AE%9E%E7%8E%B0%E6%9C%BA%E5%88%B6%E5%AF%B9%E6%AF%94"><span class="toc-number">1.</span> <span class="toc-text">Commons Logging与Slf4j实现机制对比</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%80%89%E6%8B%A9%E6%97%A5%E5%BF%97%E6%A1%86%E6%9E%B6"><span class="toc-number">2.</span> <span class="toc-text">选择日志框架</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%80%BB%E7%BB%93"><span class="toc-number"></span> <span class="toc-text">总结</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%90%84%E7%A7%8Djar%E5%8C%85%E6%80%BB%E7%BB%93"><span class="toc-number">1.</span> <span class="toc-text">各种jar包总结</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%9B%86%E6%88%90%E6%80%BB%E7%BB%93"><span class="toc-number">2.</span> <span class="toc-text">集成总结</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#commons-logging%E4%B8%8E%E5%85%B6%E4%BB%96%E6%97%A5%E5%BF%97%E6%A1%86%E6%9E%B6%E9%9B%86%E6%88%90"><span class="toc-number">2.1.</span> <span class="toc-text">commons-logging与其他日志框架集成</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#slf4j%E4%B8%8E%E5%85%B6%E4%BB%96%E6%97%A5%E5%BF%97%E6%A1%86%E6%9E%B6%E9%9B%86%E6%88%90"><span class="toc-number">2.2.</span> <span class="toc-text">slf4j与其他日志框架集成</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%97%A5%E5%BF%97%E7%B3%BB%E7%BB%9F%E4%B9%8B%E9%97%B4%E7%9A%84%E5%88%87%E6%8D%A2"><span class="toc-number">3.</span> <span class="toc-text">日志系统之间的切换</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#log4j%E6%97%A0%E7%BC%9D%E5%88%87%E6%8D%A2%E5%88%B0logback"><span class="toc-number">3.1.</span> <span class="toc-text">log4j无缝切换到logback</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#jdk-logging%E6%97%A0%E7%BC%9D%E5%88%87%E6%8D%A2%E5%88%B0logback"><span class="toc-number">3.2.</span> <span class="toc-text">jdk-logging无缝切换到logback</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#commons-logging%E5%88%87%E6%8D%A2%E5%88%B0logback"><span class="toc-number">3.3.</span> <span class="toc-text">commons-logging切换到logback</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%86%B2%E7%AA%81%E8%AF%B4%E6%98%8E"><span class="toc-number">4.</span> <span class="toc-text">冲突说明</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#jcl-over-slf4j-%E4%B8%8E-slf4j-jcl-%E5%86%B2%E7%AA%81"><span class="toc-number">4.1.</span> <span class="toc-text">jcl-over-slf4j 与 slf4j-jcl 冲突</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#log4j-over-slf4j-%E4%B8%8E-slf4j-log4j12-%E5%86%B2%E7%AA%81"><span class="toc-number">4.2.</span> <span class="toc-text">log4j-over-slf4j 与 slf4j-log4j12 冲突</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#jul-to-slf4j-%E4%B8%8E-slf4j-jdk14-%E5%86%B2%E7%AA%81"><span class="toc-number">4.3.</span> <span class="toc-text">jul-to-slf4j 与 slf4j-jdk14 冲突</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8F%82%E8%80%83%EF%BC%9A"><span class="toc-number"></span> <span class="toc-text">参考：</span></a></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2021/05/15/node-2-4/" title="Egg.js -- 为企业级框架和应用而生"><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/okfOw28KlZFbE7z.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Egg.js -- 为企业级框架和应用而生"/></a><div class="content"><a class="title" href="/2021/05/15/node-2-4/" title="Egg.js -- 为企业级框架和应用而生">Egg.js -- 为企业级框架和应用而生</a><time datetime="2021-05-15T10:18:59.000Z" title="发表于 2021-05-15 18:18:59">2021-05-15</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/04/30/node-2-3/" title="Koa -- 基于Node.js平台的下一代Web开发框架"><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/HjVAdIuT7bZJypS.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Koa -- 基于Node.js平台的下一代Web开发框架"/></a><div class="content"><a class="title" href="/2021/04/30/node-2-3/" title="Koa -- 基于Node.js平台的下一代Web开发框架">Koa -- 基于Node.js平台的下一代Web开发框架</a><time datetime="2021-04-30T10:18:59.000Z" title="发表于 2021-04-30 18:18:59">2021-04-30</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/04/01/node-2-1/" title="Node.JS web开发前置知识"><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/gGE57HRvpcKPfDY.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Node.JS web开发前置知识"/></a><div class="content"><a class="title" href="/2021/04/01/node-2-1/" title="Node.JS web开发前置知识">Node.JS web开发前置知识</a><time datetime="2021-04-01T03:18:59.000Z" title="发表于 2021-04-01 11:18:59">2021-04-01</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2020/12/26/%E5%91%A8%E8%AE%B0-10-1/" title="第十一周--谷歌浏览器插件"><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/gGE57HRvpcKPfDY.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="第十一周--谷歌浏览器插件"/></a><div class="content"><a class="title" href="/2020/12/26/%E5%91%A8%E8%AE%B0-10-1/" title="第十一周--谷歌浏览器插件">第十一周--谷歌浏览器插件</a><time datetime="2020-12-26T10:18:59.000Z" title="发表于 2020-12-26 18:18:59">2020-12-26</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2020/12/26/%E5%91%A8%E8%AE%B0-10-0/" title="第十一周--浏览器技术"><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/vCnKyoFJZ1g4XYR.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="第十一周--浏览器技术"/></a><div class="content"><a class="title" href="/2020/12/26/%E5%91%A8%E8%AE%B0-10-0/" title="第十一周--浏览器技术">第十一周--浏览器技术</a><time datetime="2020-12-26T06:18:59.000Z" title="发表于 2020-12-26 14:18:59">2020-12-26</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2019 - 2021 By 平心</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div id="local-search"><div class="search-dialog"><div class="search-dialog__title" id="local-search-title">本地搜索</div><div id="local-input-panel"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div></div><hr/><div id="local-search-results"></div><span class="search-close-button"><i class="fas fa-times"></i></span></div><div id="search-mask"></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload/dist/lazyload.iife.min.js"></script><script src="/js/search/local-search.js"></script><div class="js-pjax"><script>function loadValine () {
+  function initValine () {
+    const valine = new Valine(Object.assign({
+      el: '#vcomment',
+      appId: '4lfIXzqxaC1ONs0MJO4oHu07-gzGzoHsz',
+      appKey: 'qw99Bw8FD0KVKU9m457CwWsr',
+      placeholder: 'Please leave your footprints',
+      avatar: 'monsterid',
+      meta: 'nick,mail,link'.split(','),
+      pageSize: '10',
+      lang: 'zh-CN',
+      recordIP: true,
+      serverURLs: '',
+      emojiCDN: '',
+      emojiMaps: "",
+      enableQQ: true,
+      path: window.location.pathname,
+      requiredFields: ["nick,mail"],
+      visitor: false
+    }, null))
+  }
+
+  if (typeof Valine === 'function') initValine() 
+  else getScript('https://cdn.jsdelivr.net/npm/valine/dist/Valine.min.js').then(initValine)
+}
+
+if ('Valine' === 'Valine' || !false) {
+  if (false) btf.loadComment(document.getElementById('vcomment'),loadValine)
+  else setTimeout(loadValine, 0)
+} else {
+  function loadOtherComment () {
+    loadValine()
+  }
+}</script></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>

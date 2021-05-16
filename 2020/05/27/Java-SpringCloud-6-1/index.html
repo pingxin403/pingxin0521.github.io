@@ -1,0 +1,402 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>微服务追踪 组件之SkyWalking  (八) | 平心de小屋</title><meta name="keywords" content="Java,框架,Spring Cloud"><meta name="author" content="平心"><meta name="copyright" content="平心"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="随着微服务架构的流行，一些微服务架构下的问题也会越来越突出，比如一个请求会涉及多个服务，而服务本身可能也会依赖其他服务，整个请求路径就构成了一个网状的调用链，而在整个调用链中一旦某个节点发生异常，整个调用链的稳定性就会受到影响，所以会深深的感受到 “银弹” 这个词是不存在的，每种架构都有其优缺点 。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="微服务追踪 组件之SkyWalking  (八)">
+<meta property="og:url" content="https://pingxin0521.gitee.io/2020/05/27/Java-SpringCloud-6-1/index.html">
+<meta property="og:site_name" content="平心de小屋">
+<meta property="og:description" content="随着微服务架构的流行，一些微服务架构下的问题也会越来越突出，比如一个请求会涉及多个服务，而服务本身可能也会依赖其他服务，整个请求路径就构成了一个网状的调用链，而在整个调用链中一旦某个节点发生异常，整个调用链的稳定性就会受到影响，所以会深深的感受到 “银弹” 这个词是不存在的，每种架构都有其优缺点 。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://i.loli.net/2020/05/08/okfOw28KlZFbE7z.jpg">
+<meta property="article:published_time" content="2020-05-27T04:18:59.000Z">
+<meta property="article:modified_time" content="2020-12-27T10:27:33.970Z">
+<meta property="article:author" content="平心">
+<meta property="article:tag" content="Java">
+<meta property="article:tag" content="框架">
+<meta property="article:tag" content="Spring Cloud">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.loli.net/2020/05/08/okfOw28KlZFbE7z.jpg"><link rel="shortcut icon" href="https://s2.ax1x.com/2020/02/11/1ovFOA.png"><link rel="canonical" href="https://pingxin0521.gitee.io/2020/05/27/Java-SpringCloud-6-1/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"search.xml","languages":{"hits_empty":"找不到您查询的内容：${query}"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    jQuery: 'https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js',
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+    },
+    fancybox: {
+      js: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css'
+    }
+  },
+  isPhotoFigcaption: true,
+  islazyload: true,
+  isanchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '微服务追踪 组件之SkyWalking  (八)',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2020-12-27 18:27:33'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    })(window)</script><meta name="generator" content="Hexo 5.4.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="author-avatar"><img class="avatar-img" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://s2.ax1x.com/2020/02/11/1ovw6J.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data"><div class="data-item is-center"><div class="data-item-link"><a href="/archives/"><div class="headline">文章</div><div class="length-num">449</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/tags/"><div class="headline">标签</div><div class="length-num">77</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/categories/"><div class="headline">分类</div><div class="length-num">68</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fa fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fa fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://i.loli.net/2020/05/08/okfOw28KlZFbE7z.jpg')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">平心de小屋</a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fa fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fa fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">微服务追踪 组件之SkyWalking  (八)</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2020-05-27T04:18:59.000Z" title="发表于 2020-05-27 12:18:59">2020-05-27</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2020-12-27T10:27:33.970Z" title="更新于 2020-12-27 18:27:33">2020-12-27</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/Java/">Java</a><i class="fas fa-angle-right post-meta-separator"></i><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/Java/Spring-Cloud/">Spring Cloud</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">4.4k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>17分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="微服务追踪 组件之SkyWalking  (八)"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><p>随着微服务架构的流行，一些微服务架构下的问题也会越来越突出，比如一个请求会涉及多个服务，而服务本身可能也会依赖其他服务，整个请求路径就构成了一个网状的调用链，而在整个调用链中一旦某个节点发生异常，整个调用链的稳定性就会受到影响，所以会深深的感受到 “银弹” 这个词是不存在的，每种架构都有其优缺点 。</p>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://s1.ax1x.com/2020/05/28/texIQU.png" alt="texIQU.png"></p>
+<span id="more"></span>
+
+<p>面对以上情况， 我们就需要一些可以帮助理解系统行为、用于分析性能问题的工具，以便发生故障的时候，能够快速定位和解决问题，这时候 APM（应用性能管理）工具就该闪亮登场了。</p>
+<p>目前主要的一些 APM 工具有: Cat、Zipkin、Pinpoint、SkyWalking，这里主要介绍 <a target="_blank" rel="noopener" href="https://github.com/apache/skywalking">SkyWalking</a> ，它是一款优秀的国产 APM 工具，包括了分布式追踪、性能指标分析、应用和服务依赖分析等。</p>
+<h3 id="Skywalking"><a href="#Skywalking" class="headerlink" title="Skywalking"></a><a target="_blank" rel="noopener" href="https://skywalking.apache.org/">Skywalking</a></h3><p>下面是 SkyWalking 6.x 的架构图：</p>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://s1.ax1x.com/2020/05/28/tm9iTJ.png" alt="tm9iTJ.png"></p>
+<blockquote>
+<p><strong>说明：</strong> SkyWalking 的核心是数据分析和度量结果的存储平台，通过 HTTP 或 gRPC 方式向 SkyWalking Collecter 提交分析和度量数据，SkyWalking Collecter 对数据进行分析和聚合，存储到 Elasticsearch、H2、MySQL、TiDB 等其一即可，最后我们可以通过 SkyWalking UI 的可视化界面对最终的结果进行查看。Skywalking 支持从多个来源和多种格式收集数据：多种语言的 Skywalking Agent 、Zipkin v1/v2 、Istio 勘测、Envoy 度量等数据格式。</p>
+<p>整体架构看似模块有点多，但在实际上还是比较清晰的，主要就是通过收集各种格式的数据进行存储，然后展示。所以搭建 Skywalking 服务我们需要关注的是 SkyWalking Collecter、SkyWalking UI 和 存储设备，SkyWalking Collecter、SkyWalking UI 官方下载安装包内已包含，最终我们只需考虑存储设备即可。</p>
+</blockquote>
+<p>整体架构包含如下三个组成部分:</p>
+<ol>
+<li>探针(agent)负责进行数据的收集,包含了Tracing和Metrics的数据,agent会被安装到服务所在的服务器上,以方便数据的获取。</li>
+<li>可观测性分析平台OAP(Observability Analysis Platform),接收探针发送的数据,并在内存中使用分析引擎(Analysis Core)进行数据的整合运算,然后将数据存储到对应的存储介质上,比如Elasticsearch、MySQL数据库、H2数据库等。同时OAP还使用查询引擎(Query Core)提供HTTP查询接口。</li>
+<li>Skywalking提供单独的UI进行数据的查看,此时UI会调用OAP提供的接口,获取对应的数据然后进行展示。</li>
+</ol>
+<h4 id="Skywalking主要概念"><a href="#Skywalking主要概念" class="headerlink" title="Skywalking主要概念"></a>Skywalking主要概念</h4><p>使用如下案例来进行Skywalking主要概念的介绍,Skywalking主要概念包含:</p>
+<ul>
+<li>服务 (Service)</li>
+<li>端点 (Endpoint)</li>
+<li>实例 (Instance)</li>
+</ul>
+<h4 id="环境搭建"><a href="#环境搭建" class="headerlink" title="环境搭建"></a>环境搭建</h4><blockquote>
+<p>具体的安装步骤可以在Skywalking的官方github上找到:<br><a target="_blank" rel="noopener" href="https://github.com/apache/skywalking/blob/master/docs/en/setup/README.md">https://github.com/apache/skywalking/blob/master/docs/en/setup/README.md</a></p>
+</blockquote>
+<p>参考资料：</p>
+<p>链接: <a target="_blank" rel="noopener" href="https://pan.baidu.com/s/11ls6BJFP7AZGu_52LvxRmw">https://pan.baidu.com/s/11ls6BJFP7AZGu_52LvxRmw</a> 提取码: iqsp</p>
+<h5 id="直接安装"><a href="#直接安装" class="headerlink" title="直接安装"></a>直接安装</h5><blockquote>
+<p>apache-skywalking-apm-6.5.0.tar.gz —Skywalking最新的安装包</p>
+</blockquote>
+<p>默认使用H2存储数据</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#切换到skywalking目录</span></span><br><span class="line"><span class="built_in">cd</span> /usr/<span class="built_in">local</span>/skywalking</span><br><span class="line"><span class="comment">#解压压缩包</span></span><br><span class="line">tar -zxvf apache-skywalking-apm-6.4.0.tar.gz</span><br><span class="line">./bin/startup.sh</span><br></pre></td></tr></table></figure>
+
+<p>执行startup.bat之后会启动如下两个服务：</p>
+<ul>
+<li>Skywalking-Collector：追踪信息收集器，通过 gRPC/Http 收集客户端的采集信息 ，Http默认端口 12800，gRPC默认端口 11800。</li>
+<li>Skywalking-Webapp：管理平台页面 默认端口 8080，登录信息 admin/admin</li>
+</ul>
+<h5 id="配置使用ES存储"><a href="#配置使用ES存储" class="headerlink" title="配置使用ES存储"></a>配置使用ES存储</h5><ol>
+<li><p>创建目录</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mkdir /usr/local/skywalking</span><br></pre></td></tr></table></figure></li>
+<li><p>将资源目录中的elasticsearch和skywalking安装包上传到虚拟机/usr/local/skywalking目录下。</p>
+<blockquote>
+<p>elasticsearch-6.4.0.tar.gz —elasticsearch 6.4的安装包,Skywalking对es版本号有一定要求,最<br>好使用6.3.2以上版本,如果是7.x版本需要额外进行配置。<br>apache-skywalking-apm-6.5.0.tar.gz —Skywalking最新的安装包</p>
+</blockquote>
+</li>
+<li><p>首先安装elasticsearch,将压缩包解压。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tar -zxvf ./elasticsearch-6.4.0.tar.gz</span><br></pre></td></tr></table></figure>
+
+<p>修改 Linux系统的限制配置,将文件创建数修改为65536个。</p>
+<ol>
+<li>修改系统中允许应用最多创建多少文件等的限制权限。Linux默认来说,一般限制应用最多<br>创建的文件是65535个。但是ES至少需要65536的文件创建数的权限。</li>
+<li>修改系统中允许用户启动的进程开启多少个线程。默认的Linux限制root用户开启的进程可<br>以开启任意数量的线程,其他用户开启的进程可以开启1024个线程。必须修改限制数为<br>4096+。因为ES至少需要4096的线程池预备。</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">vi /etc/security/limits.conf</span><br><span class="line">#新增如下内容在limits.conf文件中</span><br><span class="line">es soft nofile 65536</span><br><span class="line">es hard nofile 65536</span><br><span class="line">es soft nproc 4096</span><br><span class="line">es hard nproc 4096</span><br></pre></td></tr></table></figure>
+
+<p>修改系统控制权限, ElasticSearch需要开辟一个65536字节以上空间的虚拟内存。Linux默认不允许任何用户和应用程序直接开辟这么大的虚拟内存。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">vi /etc/sysctl.conf</span><br><span class="line">#新增如下内容在sysctl.conf文件中,当前用户拥有的内存权限大小</span><br><span class="line">vm.max_map_count=262144</span><br><span class="line">#让系统控制权限配置生效</span><br><span class="line">sysctl -p</span><br></pre></td></tr></table></figure>
+
+<p>建一个用户, 用于ElasticSearch启动。<br>ES在5.x版本之后,强制要求在linux中不能使用root用户启动ES进程。所以必须使用其他用户启动ES进程才可以。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#创建用户</span></span><br><span class="line">useradd</span><br><span class="line">es</span><br><span class="line"><span class="comment">#修改上述用户的密码</span></span><br><span class="line">passwd es</span><br><span class="line"><span class="comment">#修改elasicsearch目录的拥有者</span></span><br><span class="line">chown -R</span><br><span class="line">es elasticsearch-6.4.0</span><br></pre></td></tr></table></figure>
+
+<p>使用 es用户启动elasticsearch</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#切换用户</span></span><br><span class="line">su es</span><br><span class="line"><span class="comment">#到ElasticSearch的bin目录下</span></span><br><span class="line"><span class="built_in">cd</span> bin/</span><br><span class="line"><span class="comment">#后台启动</span></span><br><span class="line">./elasticsearch -d</span><br></pre></td></tr></table></figure>
+
+<p>默认 ElasticSearch是不支持跨域访问的,所以在不修改配置文件的情况下我们只能从虚拟机内部进行访问测试ElasticSearch是否安装成功,使用curl命令访问9200端口:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl http://localhost:9200</span><br></pre></td></tr></table></figure></li>
+<li><p>安装Skywalking,分为两个步骤:</p>
+<ul>
+<li>安装 Backend后端服务</li>
+<li>安装 UI</li>
+</ul>
+<p>首先切回到root用户,切换到目录下,解压Skywalking压缩包。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#切换到root用户</span></span><br><span class="line">su root</span><br><span class="line"><span class="comment">#切换到skywalking目录</span></span><br><span class="line"><span class="built_in">cd</span> /usr/<span class="built_in">local</span>/skywalking</span><br><span class="line"><span class="comment">#解压压缩包</span></span><br><span class="line">tar -zxvf apache-skywalking-apm-6.4.0.tar.gz</span><br></pre></td></tr></table></figure>
+
+<p>修改 Skywalking存储的数据源配置:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cd apache-skywalking-apm-bin</span><br><span class="line">vi config/application.yml</span><br></pre></td></tr></table></figure>
+
+<p>我们可以看到默认配置中,使用了 H2作为数据源。我们将其全部注释。</p>
+<figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#h2:</span></span><br><span class="line"><span class="comment"># driver: $&#123;SW_STORAGE_H2_DRIVER:org.h2.jdbcx.JdbcDataSource&#125;</span></span><br><span class="line"><span class="comment"># url: $&#123;SW_STORAGE_H2_URL:jdbc:h2:mem:skywalking-oap-db&#125;</span></span><br><span class="line"><span class="comment"># user: $&#123;SW_STORAGE_H2_USER:sa&#125;</span></span><br><span class="line"><span class="comment">#metadataQueryMaxSize: $&#123;SW_STORAGE_H2_QUERY_MAX_SIZE:5000&#125;</span></span><br><span class="line"><span class="comment">#mysql:</span></span><br><span class="line"><span class="comment">#metadataQueryMaxSize: $&#123;SW_STORAGE_H2_QUERY_MAX_SIZE:5000&#125;</span></span><br></pre></td></tr></table></figure>
+
+<p>将 ElasticSearch对应的配置取消注释</p>
+<figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">storage:elasticsearch:</span></span><br><span class="line"><span class="attr">nameSpace:</span> <span class="string">$&#123;SW_NAMESPACE:&quot;&quot;&#125;</span></span><br><span class="line"><span class="attr">clusterNodes:</span> <span class="string">$&#123;SW_STORAGE_ES_CLUSTER_NODES:localhost:9200&#125;</span></span><br><span class="line"><span class="attr">protocol:</span> <span class="string">$&#123;SW_STORAGE_ES_HTTP_PROTOCOL:&quot;http&quot;&#125;</span></span><br><span class="line"><span class="attr">trustStorePath:</span> <span class="string">$&#123;SW_SW_STORAGE_ES_SSL_JKS_PATH:&quot;../es_keystore.jks&quot;&#125;</span></span><br><span class="line"><span class="attr">trustStorePass:</span> <span class="string">$&#123;SW_SW_STORAGE_ES_SSL_JKS_PASS:&quot;&quot;&#125;</span></span><br><span class="line"><span class="attr">user:</span> <span class="string">$&#123;SW_ES_USER:&quot;&quot;&#125;</span></span><br><span class="line"><span class="attr">password:</span> <span class="string">$&#123;SW_ES_PASSWORD:&quot;&quot;&#125;</span></span><br><span class="line"><span class="attr">indexShardsNumber:</span> <span class="string">$&#123;SW_STORAGE_ES_INDEX_SHARDS_NUMBER:2&#125;</span></span><br><span class="line"><span class="attr">indexReplicasNumber:</span> <span class="string">$&#123;SW_STORAGE_ES_INDEX_REPLICAS_NUMBER:0&#125;</span></span><br><span class="line"><span class="comment"># Those data TTL settings will override the same settings in core module.</span></span><br><span class="line"><span class="attr">recordDataTTL:</span> <span class="string">$&#123;SW_STORAGE_ES_RECORD_DATA_TTL:7&#125;</span> <span class="comment"># Unit is day</span></span><br><span class="line"><span class="attr">otherMetricsDataTTL:</span> <span class="string">$&#123;SW_STORAGE_ES_OTHER_METRIC_DATA_TTL:45&#125;</span> <span class="comment"># Unit is day</span></span><br><span class="line"><span class="attr">monthMetricsDataTTL:</span> <span class="string">$&#123;SW_STORAGE_ES_MONTH_METRIC_DATA_TTL:18&#125;</span> <span class="comment"># Unit is</span></span><br><span class="line"><span class="string">month</span></span><br><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="comment"># Batch process setting, refer to</span></span><br><span class="line"><span class="string">https://www.elastic.co/guide/en/elasticsearch/client/java-api/5.5/java-docs-</span></span><br><span class="line"><span class="string">bulk-processor.html</span></span><br><span class="line"><span class="attr">bulkActions:</span> <span class="string">$&#123;SW_STORAGE_ES_BULK_ACTIONS:1000&#125;</span> <span class="comment"># Execute the bulk every</span></span><br><span class="line"><span class="number">1000 </span><span class="string">requests</span></span><br><span class="line"><span class="attr">flushInterval:</span> <span class="string">$&#123;SW_STORAGE_ES_FLUSH_INTERVAL:10&#125;</span> <span class="comment"># flush the bulk every 10</span></span><br><span class="line"><span class="string">seconds</span> <span class="string">whatever</span> <span class="string">the</span> <span class="string">number</span> <span class="string">of</span> <span class="string">requests</span></span><br><span class="line"><span class="attr">concurrentRequests:</span> <span class="string">$&#123;SW_STORAGE_ES_CONCURRENT_REQUESTS:2&#125;</span> <span class="comment"># the number of</span></span><br><span class="line"><span class="string">concurrent</span> <span class="string">requests</span></span><br><span class="line"><span class="attr">metadataQueryMaxSize:</span> <span class="string">$&#123;SW_STORAGE_ES_QUERY_MAX_SIZE:5000&#125;</span></span><br><span class="line"><span class="attr">segmentQueryMaxSize:</span> <span class="string">$&#123;SW_STORAGE_ES_QUERY_SEGMENT_SIZE:200&#125;</span></span><br></pre></td></tr></table></figure>
+
+<p>默认使用了 localhost下的ES,所以我们可以不做任何处理,直接进行使用。启动OAP程序:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">bin/oapService.sh</span><br></pre></td></tr></table></figure>
+
+<p>这样安装 Backend后端服务就已经完毕了,接下来我们安装UI。先来看一下UI的配置文件:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">cat webapp/webapp.yml</span><br><span class="line"></span><br><span class="line"><span class="comment">#默认启动端口</span></span><br><span class="line">server:</span><br><span class="line">port: 8080</span><br><span class="line">collector:</span><br><span class="line">path: /graphql</span><br><span class="line">ribbon:</span><br><span class="line">ReadTimeout: 10000</span><br><span class="line"><span class="comment">#OAP服务,如果有多个用逗号隔开</span></span><br><span class="line">listOfServers: 127.0.0.1:12800</span><br></pre></td></tr></table></figure>
+
+<p>目前的默认配置不用修改就可以使用,启动 UI程序:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./bin/webappService.sh</span><br></pre></td></tr></table></figure>
+
+<p>然后我们就可以通过浏览器访问 Skywalking的可视化页面了,访问地址:<a target="_blank" rel="noopener" href="http://ip地址:8080/">http://IP地址:8080</a>,如果<br>出现下面的图,就代表安装成功了。</p>
+<blockquote>
+<p>./bin/startup.sh可以同时启动backend和ui,后续可以执行该文件进行重启。</p>
+</blockquote>
+</li>
+</ol>
+<h5 id="配置信息"><a href="#配置信息" class="headerlink" title="配置信息"></a>配置信息</h5><ol>
+<li><p>收集器相关配置：支持 http/gRPC收集</p>
+<figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">core:</span></span><br><span class="line">  <span class="attr">default:</span></span><br><span class="line">    <span class="attr">restHost:</span> <span class="string">$&#123;SW_CORE_REST_HOST:0.0.0.0&#125;</span></span><br><span class="line">    <span class="attr">restPort:</span> <span class="string">$&#123;SW_CORE_REST_PORT:12800&#125;</span></span><br><span class="line">    <span class="attr">restContextPath:</span> <span class="string">$&#123;SW_CORE_REST_CONTEXT_PATH:/&#125;</span></span><br><span class="line">    <span class="attr">gRPCHost:</span> <span class="string">$&#123;SW_CORE_GRPC_HOST:0.0.0.0&#125;</span></span><br><span class="line">    <span class="attr">gRPCPort:</span> <span class="string">$&#123;SW_CORE_GRPC_PORT:11800&#125;</span></span><br><span class="line">    <span class="attr">downsampling:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">Hour</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">Day</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">Month</span></span><br><span class="line">    <span class="comment"># Set a timeout on metric data. After the timeout has expired, the metric data will automatically be deleted.</span></span><br><span class="line">    <span class="attr">recordDataTTL:</span> <span class="string">$&#123;SW_CORE_RECORD_DATA_TTL:90&#125;</span> <span class="comment"># Unit is minute</span></span><br><span class="line">    <span class="attr">minuteMetricsDataTTL:</span> <span class="string">$&#123;SW_CORE_MINUTE_METRIC_DATA_TTL:90&#125;</span> <span class="comment"># Unit is minute</span></span><br><span class="line">    <span class="attr">hourMetricsDataTTL:</span> <span class="string">$&#123;SW_CORE_HOUR_METRIC_DATA_TTL:36&#125;</span> <span class="comment"># Unit is hour</span></span><br><span class="line">    <span class="attr">dayMetricsDataTTL:</span> <span class="string">$&#123;SW_CORE_DAY_METRIC_DATA_TTL:45&#125;</span> <span class="comment"># Unit is day</span></span><br><span class="line">    <span class="attr">monthMetricsDataTTL:</span> <span class="string">$&#123;SW_CORE_MONTH_METRIC_DATA_TTL:18&#125;</span> <span class="comment"># Unit is month</span></span><br><span class="line"></span><br></pre></td></tr></table></figure></li>
+<li><p>收集信息存储：支持h2、Mysql和 ES</p>
+<figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">storage:</span></span><br><span class="line">  <span class="attr">h2:</span></span><br><span class="line">    <span class="attr">driver:</span> <span class="string">$&#123;SW_STORAGE_H2_DRIVER:org.h2.jdbcx.JdbcDataSource&#125;</span></span><br><span class="line">    <span class="attr">url:</span> <span class="string">$&#123;SW_STORAGE_H2_URL:jdbc:h2:mem:skywalking-oap-db&#125;</span></span><br><span class="line">    <span class="attr">user:</span> <span class="string">$&#123;SW_STORAGE_H2_USER:sa&#125;</span></span><br><span class="line"><span class="comment">#  elasticsearch:</span></span><br><span class="line"><span class="comment">#    # nameSpace: $&#123;SW_NAMESPACE:&quot;&quot;&#125;</span></span><br><span class="line"><span class="comment">#    clusterNodes: $&#123;SW_STORAGE_ES_CLUSTER_NODES:localhost:9200&#125;</span></span><br><span class="line"><span class="comment">#    indexShardsNumber: $&#123;SW_STORAGE_ES_INDEX_SHARDS_NUMBER:2&#125;</span></span><br><span class="line"><span class="comment">#    indexReplicasNumber: $&#123;SW_STORAGE_ES_INDEX_REPLICAS_NUMBER:0&#125;</span></span><br><span class="line"><span class="comment">#    # Batch process setting, refer to https://www.elastic.co/guide/en/elasticsearch/client/java-api/5.5/java-docs-bulk-processor.html</span></span><br><span class="line"><span class="comment">#    bulkActions: $&#123;SW_STORAGE_ES_BULK_ACTIONS:2000&#125; # Execute the bulk every 2000 requests</span></span><br><span class="line"><span class="comment">#    bulkSize: $&#123;SW_STORAGE_ES_BULK_SIZE:20&#125; # flush the bulk every 20mb</span></span><br><span class="line"><span class="comment">#    flushInterval: $&#123;SW_STORAGE_ES_FLUSH_INTERVAL:10&#125; # flush the bulk every 10 seconds whatever the number of requests</span></span><br><span class="line"><span class="comment">#    concurrentRequests: $&#123;SW_STORAGE_ES_CONCURRENT_REQUESTS:2&#125; # the number of concurrent requests</span></span><br><span class="line"></span><br></pre></td></tr></table></figure></li>
+<li><p>可采集信息：jvm运行相关信息，zipkin追踪日志等。</p>
+<figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">receiver-register:</span></span><br><span class="line">  <span class="attr">default:</span></span><br><span class="line"><span class="attr">receiver-trace:</span></span><br><span class="line">  <span class="attr">default:</span></span><br><span class="line">    <span class="attr">bufferPath:</span> <span class="string">$&#123;SW_RECEIVER_BUFFER_PATH:../trace-buffer/&#125;</span>  <span class="comment"># Path to trace buffer files, suggest to use absolute path</span></span><br><span class="line">    <span class="attr">bufferOffsetMaxFileSize:</span> <span class="string">$&#123;SW_RECEIVER_BUFFER_OFFSET_MAX_FILE_SIZE:100&#125;</span> <span class="comment"># Unit is MB</span></span><br><span class="line">    <span class="attr">bufferDataMaxFileSize:</span> <span class="string">$&#123;SW_RECEIVER_BUFFER_DATA_MAX_FILE_SIZE:500&#125;</span> <span class="comment"># Unit is MB</span></span><br><span class="line">    <span class="attr">bufferFileCleanWhenRestart:</span> <span class="string">$&#123;SW_RECEIVER_BUFFER_FILE_CLEAN_WHEN_RESTART:false&#125;</span></span><br><span class="line">    <span class="attr">sampleRate:</span> <span class="string">$&#123;SW_TRACE_SAMPLE_RATE:10000&#125;</span> <span class="comment"># The sample rate precision is 1/10000. 10000 means 100% sample in default.</span></span><br><span class="line"><span class="attr">receiver-jvm:</span></span><br><span class="line">  <span class="attr">default:</span></span><br><span class="line"><span class="comment">#service-mesh:</span></span><br><span class="line"><span class="comment">#  default:</span></span><br><span class="line"><span class="comment">#    bufferPath: $&#123;SW_SERVICE_MESH_BUFFER_PATH:../mesh-buffer/&#125;  # Path to trace buffer files, suggest to use absolute path</span></span><br><span class="line"><span class="comment">#    bufferOffsetMaxFileSize: $&#123;SW_SERVICE_MESH_OFFSET_MAX_FILE_SIZE:100&#125; # Unit is MB</span></span><br><span class="line"><span class="comment">#    bufferDataMaxFileSize: $&#123;SW_SERVICE_MESH_BUFFER_DATA_MAX_FILE_SIZE:500&#125; # Unit is MB</span></span><br><span class="line"><span class="comment">#    bufferFileCleanWhenRestart: $&#123;SW_SERVICE_MESH_BUFFER_FILE_CLEAN_WHEN_RESTART:false&#125;</span></span><br><span class="line"><span class="comment">#istio-telemetry:</span></span><br><span class="line"><span class="comment">#  default:</span></span><br><span class="line"><span class="comment">#receiver_zipkin:</span></span><br><span class="line"><span class="comment">#  default:</span></span><br><span class="line"><span class="comment">#    host: $&#123;SW_RECEIVER_ZIPKIN_HOST:0.0.0.0&#125;</span></span><br><span class="line"><span class="comment">#    port: $&#123;SW_RECEIVER_ZIPKIN_PORT:9411&#125;</span></span><br><span class="line"><span class="comment">#    contextPath: $&#123;SW_RECEIVER_ZIPKIN_CONTEXT_PATH:/&#125;</span></span><br><span class="line"></span><br></pre></td></tr></table></figure></li>
+</ol>
+<h5 id="RocketBot"><a href="#RocketBot" class="headerlink" title="RocketBot"></a>RocketBot</h5><ol>
+<li><p>仪表盘</p>
+<p>打开RocketBot默认会出现仪表盘页面:</p>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://s1.ax1x.com/2020/05/28/tmEe5F.png" alt="tmEe5F.png"></p>
+<p>仪表盘页面分为两大块:</p>
+<ul>
+<li>服务仪表盘,展示服务的调用情况</li>
+<li>数据库仪表盘,展示数据库的响应时间等数据</li>
+</ul>
+<p>选中服务仪表盘,有四个维度的统计数据可以进行查看:</p>
+<ul>
+<li>全局,查看全局接口的调用,包括全局响应时长的百分比,最慢的端点,服务的吞吐量等</li>
+<li>服务,显示服务的响应时长、 SLA、吞吐量等信息</li>
+<li>端点,显示端点的响应时长、 SLA、吞吐量等信息</li>
+<li>实例,显示实例的响应时长、 SLA、吞吐量等信息,还可以查看实例的JVM的GC信息、CPU信息、<br>内存信息</li>
+</ul>
+</li>
+<li><p>拓扑图</p>
+<p>Skywalking提供拓扑图,直观的查看服务之间的调用关系:</p>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://s1.ax1x.com/2020/05/28/tmEJUO.png" alt="tmEJUO.png"></p>
+<p>User 代表用户应用,目前案例中其实是浏览器<br>图中Skywalking_boot应用被User调用,同时显示它是一个Spring MVC的应用。后续案例中会出现多个应用调用,使用拓扑图就能清楚的分析其调用关系了。</p>
+</li>
+<li><p>追踪</p>
+<p>在Skywalking中,每一次用户发起一条请求,就可以视为一条追踪数据,每条追踪数据携带有一个ID值。追踪数据在追踪页面中可以进行查询:</p>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://s1.ax1x.com/2020/05/28/tmEBrt.png" alt="tmEBrt.png"></p>
+<p>左侧是追踪列表,也可以通过上方的追踪 ID来进行查询。点击追踪列表某一条记录之后,右侧会显示出<br>此条追踪的详细信息。有三种显示效果:</p>
+<ul>
+<li>列表</li>
+<li>树结构</li>
+<li>表格</li>
+</ul>
+<p>可以很好的展现此条追踪的调用链情况而链路上每个节点,可以通过左键点击节点查看详细信息:</p>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://s1.ax1x.com/2020/05/28/tmE2GQ.png" alt="tmE2GQ.png"></p>
+<p>当前的接口是 HTTP的GET请求,相对比较简单,后续的示例中出现异常情况或者数据库访问,可以打印<br>出异常信息、堆栈甚至详细的SQL语句。</p>
+</li>
+<li><p>告警<br>Skywalking中的告警功能相对比较简单,在达到告警阈值之后会生成一条告警记录,在告警页面上进行展示。</p>
+</li>
+</ol>
+<h4 id="基础"><a href="#基础" class="headerlink" title="基础"></a>基础</h4><p>agent探针可以让我们不修改代码的情况下,对java应用上使用到的组件进行动态监控,获取运行数据发送到OAP上进行统计和存储。agent探针在java中是使用java agent技术实现的,不需要更改任何代码,java agent会通过虚拟机(VM)接口来在运行期更改代码。</p>
+<p>Agent探针支持 JDK 1.6 - 12的版本,Agent探针所有的文件在Skywalking的agent文件夹下。文件目录如下;</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">+-- agent</span><br><span class="line">    +-- activations</span><br><span class="line">        apm-toolkit-log4j-1.x-activation.jar</span><br><span class="line">        apm-toolkit-log4j-2.x-activation.jar</span><br><span class="line">        apm-toolkit-logback-1.x-activation.jar</span><br><span class="line">        ...</span><br><span class="line">    //配置文件</span><br><span class="line">    +-- config</span><br><span class="line">   		agent.config</span><br><span class="line">    //组件的所有插件</span><br><span class="line">    +-- plugins</span><br><span class="line">        apm-dubbo-plugin.jar</span><br><span class="line">        apm-feign-default-http-9.x.jar</span><br><span class="line">        apm-httpClient-4.x-plugin.jar</span><br><span class="line">        .....</span><br><span class="line">    //可选插件</span><br><span class="line">    +-- optional-plugins</span><br><span class="line">        apm-gson-2.x-plugin.jar</span><br><span class="line">        .....</span><br><span class="line">    +-- bootstrap-plugins</span><br><span class="line">        jdk-http-plugin.jar</span><br><span class="line">        .....</span><br><span class="line">    +-- logs</span><br><span class="line">    skywalking-agent.jar</span><br></pre></td></tr></table></figure>
+
+<p>部分插件在使用上会影响整体的性能或者由于版权问题放置于可选插件包中,不会直接加载,如果需要使用,将可选插件中的jar包拷贝到plugins包下。</p>
+<p>由于没有修改 agent探针中的应用名,所以默认显示的是Your_ApplicationName。我们修改下应用名称,让他显示的更加正确。编辑agent配置文件:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cd /usr/local/skywalking/apache-skywalking-apm-bin/agent/config</span><br><span class="line">vi agent.config</span><br></pre></td></tr></table></figure>
+
+<p>我们在配置中找到这么一行:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"># The service name in UI</span><br><span class="line"></span><br><span class="line">agent.service_name=$&#123;SW_AGENT_NAME:Your_ApplicationName&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这里的配置含义是可以读取到 SW_AGENT_NAME配置属性,如果该配置没有指定,那么默认名称Your_ApplicationName。</p>
+<ol>
+<li><p>tomcat：更改catalina.sh，在文件顶部添加:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">CATALINA_OPTS=&quot;$CATALINA_OPTS -javaagent:/usr/local/skywalking/apache-skywalking-apm-bin/agent/skywalking-agent.jar&quot;; export CATALINA_OPTS</span><br></pre></td></tr></table></figure></li>
+<li><p>Spring Boot：使用命令启动 spring boot项目:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">java -javaagent:/usr/local/skywalking/apache-skywalking-apm-bin/agent_boot/skywalking-agent.jar -Dserver.port=8082 -jar skywalking_springboot.jar &amp;</span><br></pre></td></tr></table></figure>
+
+<p>访问 <a target="_blank" rel="noopener" href="http://ip:8082/sayBoot">http://IP:8082/sayBoot</a></p>
+</li>
+</ol>
+<h4 id="常用插件"><a href="#常用插件" class="headerlink" title="常用插件"></a>常用插件</h4><h5 id="配置覆盖"><a href="#配置覆盖" class="headerlink" title="配置覆盖"></a>配置覆盖</h5><p>Skywalking支持的几种配置方式:</p>
+<ul>
+<li><p>系统配置(System properties)</p>
+<p>使用 <code>skywalking.+</code> 配置文件中的配置名作为系统配置项来进行覆盖</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">-Dskywalking.agent.service_name=skywalking_mysql</span><br></pre></td></tr></table></figure></li>
+<li><p>探针配置( Agent options)</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">-javaagent:/path/to/skywalking-agent.jar=[option1]=[value1],[option2]=[value2]</span><br><span class="line">#举例</span><br><span class="line">-javaagent:/path/to/skywalking-agent.jar=agent.service_name=skywalking_mysql</span><br><span class="line">-javaagent:/path/to/skywalking-agent.jar=agent.ignore_suffix=&#x27;.jpg,.jpeg&#x27;</span><br></pre></td></tr></table></figure></li>
+<li><p>系统环境变量( System environment variables)</p>
+<p>由于agent.service_name配置项如下所示:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># The service name in UI</span><br><span class="line">agent.service_name=$&#123;SW_AGENT_NAME:Your_ApplicationName&#125;</span><br></pre></td></tr></table></figure>
+
+<p>可以在环境变量中设置 SW_AGENT_NAME的值来指定服务名。</p>
+</li>
+</ul>
+<p>覆盖优先级：探针配置 &gt; 系统配置 &gt;系统环境变量 &gt; 配置文件中的值</p>
+<h5 id="过滤指定的端点"><a href="#过滤指定的端点" class="headerlink" title="过滤指定的端点"></a>过滤指定的端点</h5><p>在开发过程中,有一些端点(接口)并不需要去进行监控,比如Swagger相关的端点。这个时候我们就可以使用Skywalking提供的过滤插件来进行过滤。在skywalking_plugins中编写两个接口进行测试:</p>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://s1.ax1x.com/2020/05/29/tmVFRH.png" alt="tmVFRH.png"></p>
+<p>将agent中的 /agent/optional -plugins/apm-trace-ignore-plugin-6.4.0.jar 插件拷贝到plugins目录中。</p>
+<p>启动skywalking_plugins应用,等待启动成功：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">java -javaagent:/usr/<span class="built_in">local</span>/skywalking/apache-skywalking-apm-bin/agent/skywalking-agent.jar -Dskywalking.agent.service_name=skywalking_plugins -Dskywalking.trace.ignore_path=/exclude jar skywalking_plugins.jar &amp;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>这里添加 <code>-Dskywalking.trace.ignore_path=/exclude</code>参数来标识需要过滤哪些请求,支持 <code>AntPath</code> 表达式:<br><code>/path/*</code> , <code>/path/**</code> , <code>/path/?</code></p>
+<ul>
+<li>? 匹配任何单字符</li>
+</ul>
+<ul>
+<li><code>*</code>匹配0或者任意数量的字符</li>
+<li><code>**</code> 匹配0或者更多的目录</li>
+</ul>
+</blockquote>
+<h4 id="告警功能"><a href="#告警功能" class="headerlink" title="告警功能"></a>告警功能</h4><p>Skywalking每隔一段时间根据收集到的链路追踪的数据和配置的告警规则(如服务响应时间、服务响应时间百分比)等,判断如果达到阈值则发送相应的告警信息。发送告警信息是通过调用webhook接口完成,具体的webhook接口可以使用者自行定义,从而开发者可以在指定的webhook接口中编写各种告警方式,比如邮件、短信等。告警的信息也可以在RocketBot中查看到。</p>
+<p>以下是默认的告警规则配置,位于skywalking安装目录下的config文件夹下 alarm -settings.yml 文件中:</p>
+<figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Sample alarm rules.</span></span><br><span class="line"><span class="attr">rules:</span></span><br><span class="line">  <span class="comment"># Rule unique name, must be ended with `_rule`.</span></span><br><span class="line">  <span class="attr">service_resp_time_rule:</span></span><br><span class="line">    <span class="attr">metrics-name:</span> <span class="string">service_resp_time</span></span><br><span class="line">    <span class="attr">op:</span> <span class="string">&quot;&gt;&quot;</span></span><br><span class="line">    <span class="attr">threshold:</span> <span class="number">1000</span></span><br><span class="line">    <span class="attr">period:</span> <span class="number">10</span></span><br><span class="line">    <span class="attr">count:</span> <span class="number">3</span></span><br><span class="line">    <span class="attr">silence-period:</span> <span class="number">5</span></span><br><span class="line">    <span class="attr">message:</span> <span class="string">Response</span> <span class="string">time</span> <span class="string">of</span> <span class="string">service</span> &#123;<span class="string">name</span>&#125; <span class="string">is</span> <span class="string">more</span> <span class="string">than</span> <span class="string">1000ms</span> <span class="string">in</span> <span class="number">3</span> <span class="string">minutes</span> <span class="string">of</span> <span class="string">last</span> <span class="number">10</span> <span class="string">minutes.</span></span><br><span class="line">  <span class="attr">service_sla_rule:</span></span><br><span class="line">    <span class="comment"># Metrics value need to be long, double or int</span></span><br><span class="line">    <span class="attr">metrics-name:</span> <span class="string">service_sla</span></span><br><span class="line">    <span class="attr">op:</span> <span class="string">&quot;&lt;&quot;</span></span><br><span class="line">    <span class="attr">threshold:</span> <span class="number">8000</span></span><br><span class="line">    <span class="comment"># The length of time to evaluate the metrics</span></span><br><span class="line">    <span class="attr">period:</span> <span class="number">10</span></span><br><span class="line">    <span class="comment"># How many times after the metrics match the condition, will trigger alarm</span></span><br><span class="line">    <span class="attr">count:</span> <span class="number">2</span></span><br><span class="line">    <span class="comment"># How many times of checks, the alarm keeps silence after alarm triggered, default as same as period.</span></span><br><span class="line">    <span class="attr">silence-period:</span> <span class="number">3</span></span><br><span class="line">    <span class="attr">message:</span> <span class="string">Successful</span> <span class="string">rate</span> <span class="string">of</span> <span class="string">service</span> &#123;<span class="string">name</span>&#125; <span class="string">is</span> <span class="string">lower</span> <span class="string">than</span> <span class="number">80</span><span class="string">%</span> <span class="string">in</span> <span class="number">2</span> <span class="string">minutes</span> <span class="string">of</span> <span class="string">last</span> <span class="number">10</span> <span class="string">minutes</span></span><br><span class="line">  <span class="attr">service_p90_sla_rule:</span></span><br><span class="line">    <span class="comment"># Metrics value need to be long, double or int</span></span><br><span class="line">    <span class="attr">metrics-name:</span> <span class="string">service_p90</span></span><br><span class="line">    <span class="attr">op:</span> <span class="string">&quot;&gt;&quot;</span></span><br><span class="line">    <span class="attr">threshold:</span> <span class="number">1000</span></span><br><span class="line">    <span class="attr">period:</span> <span class="number">10</span></span><br><span class="line">    <span class="attr">count:</span> <span class="number">3</span></span><br><span class="line">    <span class="attr">silence-period:</span> <span class="number">5</span></span><br><span class="line">    <span class="attr">message:</span> <span class="number">90</span><span class="string">%</span> <span class="string">response</span> <span class="string">time</span> <span class="string">of</span> <span class="string">service</span> &#123;<span class="string">name</span>&#125; <span class="string">is</span> <span class="string">more</span> <span class="string">than</span> <span class="string">1000ms</span> <span class="string">in</span> <span class="number">3</span> <span class="string">minutes</span> <span class="string">of</span> <span class="string">last</span> <span class="number">10</span> <span class="string">minutes</span></span><br><span class="line">  <span class="attr">service_instance_resp_time_rule:</span></span><br><span class="line">    <span class="attr">metrics-name:</span> <span class="string">service_instance_resp_time</span></span><br><span class="line">    <span class="attr">op:</span> <span class="string">&quot;&gt;&quot;</span></span><br><span class="line">    <span class="attr">threshold:</span> <span class="number">1000</span></span><br><span class="line">    <span class="attr">period:</span> <span class="number">10</span></span><br><span class="line">    <span class="attr">count:</span> <span class="number">2</span></span><br><span class="line">    <span class="attr">silence-period:</span> <span class="number">5</span></span><br><span class="line">    <span class="attr">message:</span> <span class="string">Response</span> <span class="string">time</span> <span class="string">of</span> <span class="string">service</span> <span class="string">instance</span> &#123;<span class="string">name</span>&#125; <span class="string">is</span> <span class="string">more</span> <span class="string">than</span> <span class="string">1000ms</span> <span class="string">in</span> <span class="number">2</span> <span class="string">minutes</span> <span class="string">of</span> <span class="string">last</span> <span class="number">10</span> <span class="string">minutes</span></span><br><span class="line"><span class="comment">#  Active endpoint related metrics alarm will cost more memory than service and service instance metrics alarm.</span></span><br><span class="line"><span class="comment">#  Because the number of endpoint is much more than service and instance.</span></span><br><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="comment">#  endpoint_avg_rule:</span></span><br><span class="line"><span class="comment">#    metrics-name: endpoint_avg</span></span><br><span class="line"><span class="comment">#    op: &quot;&gt;&quot;</span></span><br><span class="line"><span class="comment">#    threshold: 1000</span></span><br><span class="line"><span class="comment">#    period: 10</span></span><br><span class="line"><span class="comment">#    count: 2</span></span><br><span class="line"><span class="comment">#    silence-period: 5</span></span><br><span class="line"><span class="comment">#    message: Response time of endpoint &#123;name&#125; is more than 1000ms in 2 minutes of last 10 minutes</span></span><br><span class="line"></span><br><span class="line"><span class="attr">webhooks:</span></span><br><span class="line"><span class="comment">#  - http://127.0.0.1/notify/</span></span><br><span class="line"><span class="comment">#  - http://127.0.0.1/go-wechat/</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>以上文件定义了默认的 4种规则:</p>
+<ol>
+<li>最近3分钟内服务的平均响应时间超过1秒</li>
+<li>最近2分钟服务成功率低于80%</li>
+<li>最近3分钟90%服务响应时间超过1秒</li>
+<li>最近2分钟内服务实例的平均响应时间超过1秒</li>
+</ol>
+<p>规则中的参数属性如下:</p>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://s1.ax1x.com/2020/05/29/tmVcex.png" alt="tmVcex.png"></p>
+<p>webhooks可以配置告警产生时的调用地址。</p>
+<p>修改告警规则配置文件,将webhook地址修改为:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">webhooks:</span><br><span class="line">  - http://127.0.0.1:8089/webhook</span><br></pre></td></tr></table></figure>
+
+<p>启动skywalking_alarm应用,等待启动成功。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">java -javaagent:/usr/local/skywalking/apache-skywalking-apm-bin/agent/skywalking-agent.jar -Dskywalking.agent.service_name=skywalking_alarm -jar skywalking_alarm.jar</span><br></pre></td></tr></table></figure>
+
+<p>不停调用接口,接口地址为: <a target="_blank" rel="noopener" href="http://ip:8089/timeout">http://IP:8089/timeout</a></p>
+<p>查看告警信息接口: <a target="_blank" rel="noopener" href="http://ip:8089/show">http://IP:8089/show</a></p>
+<h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><ol>
+<li><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/d2b11c079af0">OpenTracing:开放式分布式追踪规范</a></li>
+</ol>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">平心</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://pingxin0521.gitee.io/2020/05/27/Java-SpringCloud-6-1/">https://pingxin0521.gitee.io/2020/05/27/Java-SpringCloud-6-1/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://pingxin0521.gitee.io" target="_blank">平心de小屋</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/Java/">Java</a><a class="post-meta__tags" href="/tags/%E6%A1%86%E6%9E%B6/">框架</a><a class="post-meta__tags" href="/tags/Spring-Cloud/">Spring Cloud</a></div><div class="post_share"><div class="social-share" data-image="https://i.loli.net/2020/05/08/okfOw28KlZFbE7z.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2020/05/29/Java-SpringBoot-1-6-2/"><img class="prev-cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/7dHvepmfYOLWTrX.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">Spring Boot 消息队列 Kafka 入门</div></div></a></div><div class="next-post pull-right"><a href="/2020/05/13/%E6%B6%88%E6%81%AF%E4%B8%AD%E9%97%B4%E4%BB%B6-2-2/"><img class="next-cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/HjVAdIuT7bZJypS.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">消息中间件--ActiveMQ 深究</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span> 相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2019/05/30/Java-SpringCloud-0-0/" title="Spring Cloud 入门 (一)"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/7dHvepmfYOLWTrX.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2020-12-27</div><div class="title">Spring Cloud 入门 (一)</div></div></a></div><div><a href="/2019/11/01/Java-SpringCloud-3-0/" title="Spring Cloud 组件之Hystrix (五)"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/vCnKyoFJZ1g4XYR.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2020-12-27</div><div class="title">Spring Cloud 组件之Hystrix (五)</div></div></a></div><div><a href="/2019/10/27/Java-SpringCloud-6-0/" title="微服务组件--分布式追踪系统"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/PFDRNxj93taz6pw.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2020-12-27</div><div class="title">微服务组件--分布式追踪系统</div></div></a></div><div><a href="/2019/11/03/Java-SpringCloud-6-2/" title="SpringCloud组件之Spring Cloud Sleuth (八)"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/gGE57HRvpcKPfDY.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2020-12-27</div><div class="title">SpringCloud组件之Spring Cloud Sleuth (八)</div></div></a></div><div><a href="/2019/11/10/Java-SpringCloud-1-2/" title="Spring Cloud  组件之Spring Cloud Consul-- 注册中心 (十一)"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/vCnKyoFJZ1g4XYR.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2020-12-27</div><div class="title">Spring Cloud  组件之Spring Cloud Consul-- 注册中心 (十一)</div></div></a></div><div><a href="/2019/11/01/Java-SpringCloud-2-1/" title="Spring Cloud组件之Feign--声明式REST调用 (四)"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/vCnKyoFJZ1g4XYR.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2020-12-27</div><div class="title">Spring Cloud组件之Feign--声明式REST调用 (四)</div></div></a></div></div></div><hr/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div class="vcomment" id="vcomment"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="card-info-avatar is-center"><img class="avatar-img" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://s2.ax1x.com/2020/02/11/1ovw6J.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/><div class="author-info__name">平心</div><div class="author-info__description">年轻人的life、learn and think</div></div><div class="card-info-data"><div class="card-info-data-item is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">449</div></a></div><div class="card-info-data-item is-center"><a href="/tags/"><div class="headline">标签</div><div class="length-num">77</div></a></div><div class="card-info-data-item is-center"><a href="/categories/"><div class="headline">分类</div><div class="length-num">68</div></a></div></div><a class="button--animated" id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/hanyunpeng0521"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/hanyunpeng0521" target="_blank" title="Github"><i class="fa fa-github"></i></a><a class="social-icon" href="mailto:m13839441583@163.com" target="_blank" title="Email"><i class="fa fa-envelope"></i></a><a class="social-icon" href="/atom.xml" target="_blank" title=""><i class="fa fa-rss"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn card-announcement-animation"></i><span>公告</span></div><div class="announcement_content">为什么呢？开始提问吧</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#Skywalking"><span class="toc-number">1.</span> <span class="toc-text">Skywalking</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Skywalking%E4%B8%BB%E8%A6%81%E6%A6%82%E5%BF%B5"><span class="toc-number">1.1.</span> <span class="toc-text">Skywalking主要概念</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA"><span class="toc-number">1.2.</span> <span class="toc-text">环境搭建</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E7%9B%B4%E6%8E%A5%E5%AE%89%E8%A3%85"><span class="toc-number">1.2.1.</span> <span class="toc-text">直接安装</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E9%85%8D%E7%BD%AE%E4%BD%BF%E7%94%A8ES%E5%AD%98%E5%82%A8"><span class="toc-number">1.2.2.</span> <span class="toc-text">配置使用ES存储</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E9%85%8D%E7%BD%AE%E4%BF%A1%E6%81%AF"><span class="toc-number">1.2.3.</span> <span class="toc-text">配置信息</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#RocketBot"><span class="toc-number">1.2.4.</span> <span class="toc-text">RocketBot</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%9F%BA%E7%A1%80"><span class="toc-number">1.3.</span> <span class="toc-text">基础</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%B8%B8%E7%94%A8%E6%8F%92%E4%BB%B6"><span class="toc-number">1.4.</span> <span class="toc-text">常用插件</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E9%85%8D%E7%BD%AE%E8%A6%86%E7%9B%96"><span class="toc-number">1.4.1.</span> <span class="toc-text">配置覆盖</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E8%BF%87%E6%BB%A4%E6%8C%87%E5%AE%9A%E7%9A%84%E7%AB%AF%E7%82%B9"><span class="toc-number">1.4.2.</span> <span class="toc-text">过滤指定的端点</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%91%8A%E8%AD%A6%E5%8A%9F%E8%83%BD"><span class="toc-number">1.5.</span> <span class="toc-text">告警功能</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8F%82%E8%80%83"><span class="toc-number">2.</span> <span class="toc-text">参考</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2021/05/15/node-2-4/" title="Egg.js -- 为企业级框架和应用而生"><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/okfOw28KlZFbE7z.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Egg.js -- 为企业级框架和应用而生"/></a><div class="content"><a class="title" href="/2021/05/15/node-2-4/" title="Egg.js -- 为企业级框架和应用而生">Egg.js -- 为企业级框架和应用而生</a><time datetime="2021-05-15T10:18:59.000Z" title="发表于 2021-05-15 18:18:59">2021-05-15</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/04/30/node-2-3/" title="Koa -- 基于Node.js平台的下一代Web开发框架"><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/HjVAdIuT7bZJypS.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Koa -- 基于Node.js平台的下一代Web开发框架"/></a><div class="content"><a class="title" href="/2021/04/30/node-2-3/" title="Koa -- 基于Node.js平台的下一代Web开发框架">Koa -- 基于Node.js平台的下一代Web开发框架</a><time datetime="2021-04-30T10:18:59.000Z" title="发表于 2021-04-30 18:18:59">2021-04-30</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/04/01/node-2-1/" title="Node.JS web开发前置知识"><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/gGE57HRvpcKPfDY.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Node.JS web开发前置知识"/></a><div class="content"><a class="title" href="/2021/04/01/node-2-1/" title="Node.JS web开发前置知识">Node.JS web开发前置知识</a><time datetime="2021-04-01T03:18:59.000Z" title="发表于 2021-04-01 11:18:59">2021-04-01</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2020/12/26/%E5%91%A8%E8%AE%B0-10-1/" title="第十一周--谷歌浏览器插件"><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/gGE57HRvpcKPfDY.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="第十一周--谷歌浏览器插件"/></a><div class="content"><a class="title" href="/2020/12/26/%E5%91%A8%E8%AE%B0-10-1/" title="第十一周--谷歌浏览器插件">第十一周--谷歌浏览器插件</a><time datetime="2020-12-26T10:18:59.000Z" title="发表于 2020-12-26 18:18:59">2020-12-26</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2020/12/26/%E5%91%A8%E8%AE%B0-10-0/" title="第十一周--浏览器技术"><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/vCnKyoFJZ1g4XYR.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="第十一周--浏览器技术"/></a><div class="content"><a class="title" href="/2020/12/26/%E5%91%A8%E8%AE%B0-10-0/" title="第十一周--浏览器技术">第十一周--浏览器技术</a><time datetime="2020-12-26T06:18:59.000Z" title="发表于 2020-12-26 14:18:59">2020-12-26</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2019 - 2021 By 平心</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div id="local-search"><div class="search-dialog"><div class="search-dialog__title" id="local-search-title">本地搜索</div><div id="local-input-panel"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div></div><hr/><div id="local-search-results"></div><span class="search-close-button"><i class="fas fa-times"></i></span></div><div id="search-mask"></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload/dist/lazyload.iife.min.js"></script><script src="/js/search/local-search.js"></script><div class="js-pjax"><script>function loadValine () {
+  function initValine () {
+    const valine = new Valine(Object.assign({
+      el: '#vcomment',
+      appId: '4lfIXzqxaC1ONs0MJO4oHu07-gzGzoHsz',
+      appKey: 'qw99Bw8FD0KVKU9m457CwWsr',
+      placeholder: 'Please leave your footprints',
+      avatar: 'monsterid',
+      meta: 'nick,mail,link'.split(','),
+      pageSize: '10',
+      lang: 'zh-CN',
+      recordIP: true,
+      serverURLs: '',
+      emojiCDN: '',
+      emojiMaps: "",
+      enableQQ: true,
+      path: window.location.pathname,
+      requiredFields: ["nick,mail"],
+      visitor: false
+    }, null))
+  }
+
+  if (typeof Valine === 'function') initValine() 
+  else getScript('https://cdn.jsdelivr.net/npm/valine/dist/Valine.min.js').then(initValine)
+}
+
+if ('Valine' === 'Valine' || !false) {
+  if (false) btf.loadComment(document.getElementById('vcomment'),loadValine)
+  else setTimeout(loadValine, 0)
+} else {
+  function loadOtherComment () {
+    loadValine()
+  }
+}</script></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>

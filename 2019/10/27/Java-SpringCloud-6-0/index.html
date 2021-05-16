@@ -1,0 +1,305 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>微服务组件--分布式追踪系统 | 平心de小屋</title><meta name="keywords" content="Java,框架,Spring Cloud"><meta name="author" content="平心"><meta name="copyright" content="平心"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="随着微服务架构的流行，一些微服务架构下的问题也会越来越突出，比如一个请求会涉及多个服务，而服务本身可能也会依赖其他服务，整个请求路径就构成了一个网状的调用链，而在整个调用链中一旦某个节点发生异常，整个调用链的稳定性就会受到影响，所以会深深的感受到 “银弹” 这个词是不存在的，每种架构都有其优缺点 。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="微服务组件--分布式追踪系统">
+<meta property="og:url" content="https://pingxin0521.gitee.io/2019/10/27/Java-SpringCloud-6-0/index.html">
+<meta property="og:site_name" content="平心de小屋">
+<meta property="og:description" content="随着微服务架构的流行，一些微服务架构下的问题也会越来越突出，比如一个请求会涉及多个服务，而服务本身可能也会依赖其他服务，整个请求路径就构成了一个网状的调用链，而在整个调用链中一旦某个节点发生异常，整个调用链的稳定性就会受到影响，所以会深深的感受到 “银弹” 这个词是不存在的，每种架构都有其优缺点 。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://i.loli.net/2020/05/08/PFDRNxj93taz6pw.jpg">
+<meta property="article:published_time" content="2019-10-27T04:18:59.000Z">
+<meta property="article:modified_time" content="2020-12-27T10:26:30.247Z">
+<meta property="article:author" content="平心">
+<meta property="article:tag" content="Java">
+<meta property="article:tag" content="框架">
+<meta property="article:tag" content="Spring Cloud">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.loli.net/2020/05/08/PFDRNxj93taz6pw.jpg"><link rel="shortcut icon" href="https://s2.ax1x.com/2020/02/11/1ovFOA.png"><link rel="canonical" href="https://pingxin0521.gitee.io/2019/10/27/Java-SpringCloud-6-0/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"search.xml","languages":{"hits_empty":"找不到您查询的内容：${query}"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    jQuery: 'https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js',
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+    },
+    fancybox: {
+      js: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css'
+    }
+  },
+  isPhotoFigcaption: true,
+  islazyload: true,
+  isanchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '微服务组件--分布式追踪系统',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2020-12-27 18:26:30'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    })(window)</script><meta name="generator" content="Hexo 5.4.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="author-avatar"><img class="avatar-img" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://s2.ax1x.com/2020/02/11/1ovw6J.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data"><div class="data-item is-center"><div class="data-item-link"><a href="/archives/"><div class="headline">文章</div><div class="length-num">449</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/tags/"><div class="headline">标签</div><div class="length-num">77</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/categories/"><div class="headline">分类</div><div class="length-num">68</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fa fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fa fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://i.loli.net/2020/05/08/PFDRNxj93taz6pw.jpg')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">平心de小屋</a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fa fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fa fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">微服务组件--分布式追踪系统</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2019-10-27T04:18:59.000Z" title="发表于 2019-10-27 12:18:59">2019-10-27</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2020-12-27T10:26:30.247Z" title="更新于 2020-12-27 18:26:30">2020-12-27</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/Java/">Java</a><i class="fas fa-angle-right post-meta-separator"></i><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/Java/Spring-Cloud/">Spring Cloud</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">3.6k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>11分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="微服务组件--分布式追踪系统"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><p>随着微服务架构的流行，一些微服务架构下的问题也会越来越突出，比如一个请求会涉及多个服务，而服务本身可能也会依赖其他服务，整个请求路径就构成了一个网状的调用链，而在整个调用链中一旦某个节点发生异常，整个调用链的稳定性就会受到影响，所以会深深的感受到 “银弹” 这个词是不存在的，每种架构都有其优缺点 。</p>
+<span id="more"></span>
+
+<p>一次用户的请求会经过多个系统,不同服务之间的调用关系十分复杂,任何一个系统出错都可能影响整个请求的处理结果。以往的监控系统往往只能知道单个系统的健康状况、一次请求的成功失败,无法快速定位失败的根本原因。</p>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://s1.ax1x.com/2020/05/28/tevCcD.png" alt="tevCcD.png"></p>
+<p>除此之外,复杂的分布式系统也面临这下面这些问题:</p>
+<ul>
+<li>性能分析:一个服务依赖很多服务,被依赖的服务也依赖了其他服务。如果某个接口耗时突然变长了,那未必是直接调用的下游服务慢了,也可能是下游的下游慢了造成的,如何快速定位耗时变长的根本原因呢?</li>
+<li>链路梳理:需求迭代很快,系统之间调用关系变化频繁,靠人工很难梳理清楚系统链路拓扑 (系统之间的调用关系)。</li>
+</ul>
+<p>面对以上情况， 我们就需要一些可以帮助理解系统行为、用于分析性能问题的工具，以便发生故障的时候，能够快速定位和解决问题，这时候 APM（应用性能管理）工具就该闪亮登场了。</p>
+<blockquote>
+<p>APM (Application Performance Management) 即应用性能管理系统,是对企业系统即时监控以实现对应用程序性能管理和故障管理的系统化的解决方案。应用性能管理,主要指对企业的关键业务应用进行监测、优化,提高企业应用的可靠性和质量,保证用户得到良好的服务,降低IT总拥有成本。</p>
+<p>APM系统是可以帮助理解系统行为、用于分析性能问题的工具,以便发生故障的时候,能够快速定位和解决问题。</p>
+</blockquote>
+<p>目前主要的一些 APM 工具有: Cat、Zipkin、Pinpoint、SkyWalking</p>
+<p>首先需要了解OpenTracing</p>
+<h3 id="OpenTracing"><a href="#OpenTracing" class="headerlink" title="OpenTracing"></a>OpenTracing</h3><p>分布式链路跟踪最先由Google在Dapper论文中提出,而<a target="_blank" rel="noopener" href="http://opentracing.io/">OpenTracing</a>通过提供平台无关、厂商无关的API,使得开发人员能够方便的添加(或更换)追踪系统的实现。</p>
+<p>下图是一个分布式调用的例子,客户端发起请求,请求首先到达负载均衡器,接着经过认证服务,订单服务,然后请求资源,最后返回结果。</p>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://s1.ax1x.com/2020/05/28/tevJNq.png" alt="tevJNq.png"></p>
+<p>虽然这种图对于看清各组件的组合关系是很有用的,但是存在下面两个问题:</p>
+<ul>
+<li>它不能很好显示组件的调用时间,是串行调用还是并行调用,如果展现更复杂的调用关系,会更加复杂,甚至无法画出这样的图。</li>
+<li>这种图也无法显示调用间的时间间隔以及是否通过定时调用来启动调用。</li>
+</ul>
+<p>一种更有效的展现一个调用过程的图:</p>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://s1.ax1x.com/2020/05/28/tev0u4.png" alt="tev0u4.png"></p>
+<p>基于 OpenTracing我们就可以很轻松的构建出上面这幅图。</p>
+<h4 id="关于Metrics、Tracing和Logging"><a href="#关于Metrics、Tracing和Logging" class="headerlink" title="关于Metrics、Tracing和Logging"></a>关于Metrics、Tracing和Logging</h4><p>监控、链路追踪及日志作为实时监测系统运行监控状况，在这三个领域都有对应的工具和解决方案，它们除负责各自的职责(prometheus、jaeger、ELK)在某些情况下可能会重叠。我们可以用维恩图的形式，描绘出各个领域之间的可观测性</p>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://s1.ax1x.com/2020/05/28/tmSe41.png" alt="tmSe41.png"></p>
+<ul>
+<li><strong>Metrics</strong> 监控指标的定义特征是它们是可聚合的：它们是在一段时间内组成单个逻辑指标、计数器或直方图的原子。例如：队列的当前深度可以建模为一个规范，其更新聚合为最后一个writer win语义；传入的http请求的数量可以建模为一个计数器，其更新聚合为简单的加法；观察到的请求持续时间可以建模为一种直方图，其更新聚合为时间段并产生统计摘要</li>
+<li><strong>Logging</strong> 日志的定义特征是它处理离散事件。例如：应用程序调试或错误消息通过一个轮转的文件描述符通过syslog发送到elasticsearch(OK log, nudge nudge); 审计跟踪事件通过kafka推送到数据湖bigtable；或者从服务调用中提取特定于请求的元数据并发送到错误追踪服务(如NewRelic)</li>
+<li><strong>Tracing</strong> 它定义特征是它处理请求范围内的信息–任何可以绑定到系统中单个事务对象的生命周期的数据或元数据。例如：远程服务的出站rpc的持续时间；发送到数据库的实际sql查询的文本；或入站http请求的相关ID</li>
+</ul>
+<p>通过上述定义，我们可以标记重叠部分为下图所示</p>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://s1.ax1x.com/2020/05/28/tmSY4I.png" alt="tmSY4I.png"></p>
+<p>在云原生应用程序所特有的许多工具最终都是请求范围(request-scoped)内的，因此，讨论进行追踪上下文是有意义的。我们可以看到，并非所有的工具都绑定到请求生命周期：例如，逻辑组件诊断信息或流程生命周期详细信息将与任何离散请求正交。因此，举例来说，并非所有的监控项或日志都可以被强制放入跟踪系统，或者，我们可能会意识到，直接在应用程序中检测监控值会给我们带来更多好处，比如一种灵活的表达式语言，进行实时评估；相反，将监控值强制放入日志管道可能会迫使我们丢弃其中的一些好处</p>
+<p>在这三个领域中，监控指标往往需要最少的资源来管理，因为从本质上来说，它们“压缩”得相当好。相反，日志记录往往是压倒性的超过它所报告的生产流量。我们可以画出一个volume开销梯度，从<strong>监控</strong>(低)到<strong>日志</strong>(高)-我们观察到<strong>tracing</strong>可能位于中间的某个地方</p>
+<p>我们可以将现有系统分类。例如，prometheus最初只是作为一个监控系统启动的，随着时间的推移，它可能会向跟踪方向发展，从而进入请求范围(request-scope)内的监控，但很可能不会深入到日志空间。ELK提供日志记录和汇总功能，使其成为可聚合的事件空间，但似乎在metrics和tracing领域不断积累更多的功能，意图将它推向中心</p>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://s1.ax1x.com/2020/05/28/tmSagf.png" alt="tmSagf.png"></p>
+<p>以上韦恩图根据Metrics、Tracing和Logging定义的划分，可能不是那么准确，但有助于理解这三个领域之间的关系</p>
+<h4 id="OpenTracing-API"><a href="#OpenTracing-API" class="headerlink" title="OpenTracing API"></a>OpenTracing API</h4><p>分布式追踪，也称为分布式请求追踪，是一种用于分析和监视应用程序的方法，特别是那些使用微服务体系结构构建的应用程序，IT和DevOps团队可以使用分布式追踪来监视应用程序; 分布式追踪有助于查明故障发生的位置以及导致性能低下的原因，开发人员可以使用分布式跟踪来帮助调试和优化他们的代码</p>
+<p>大多数分布式追踪系统的思想模型都来自Google’s Dapper论文，<strong>OpenTracing</strong>也使用相似的<strong>术语</strong></p>
+<ol>
+<li><strong>Trace</strong> 事物在分布式系统中移动时的描述</li>
+<li><strong>Span</strong> 一种命名的、定时的操作，表示工作流的一部分。Spans接受key:value标签以及附加到特定Span实例的细粒度、带时间戳的结构化日志</li>
+<li><strong>Span Contenxt</strong> 携带分布式事务的跟踪信息，包括当它通过网络或消息总线将服务传递给服务时。SPAN上下文包含Trace标识符、SPAN标识符和跟踪系统需要传播到下游服务的任何其他数据</li>
+</ol>
+<p>对现代软件系统中的<strong>组件</strong>可以分为<strong>三类</strong></p>
+<ul>
+<li>应用程序和业务逻辑 您的代码</li>
+<li>广泛的共享库 其他人的代码</li>
+<li>广泛共享的服务 其他人的基础设施</li>
+</ul>
+<p>这三类组件有着不同的需求，<strong>驱动着监控应用程序的分布式追踪系统的设计</strong>。最终的设计产生了四个重要的部分</p>
+<ul>
+<li>追踪监测API 修饰应用程序代码</li>
+<li>有线协议 在RPC请求中与应用程序数据一起发送内容</li>
+<li>数据协议 异步(带外)发送到分析系统的内容</li>
+<li>分析系统 用于处理追踪数据的数据库和交互式用户界面</li>
+</ul>
+<p>OpenTracing API提供了一个标准的、与供应商无关的框架，这意味着如果开发者想要尝试一种不同的分布式追踪系统，开发者只需要简单地修改Tracer配置即可，而不需要替换整个分布式追踪系统</p>
+<p><em>OpenTracing由API规范(描述了语言无关的数据模型和Opentracing API指南)、实现该规范的框架和库以及项目文档组成，OpenTracing不是一个标准，OpenTracing API项目正致力于为分布式跟踪创建更加标准化的API和工具</em></p>
+<p><strong>OpenTracing 数据模型</strong></p>
+<p>OpenTracing 中的 <strong>Trace</strong>（调用链）通过归属于此调用链的 <strong>Span</strong> 来隐性的定义。<br>特别说明，一条 <strong>Trace</strong>（调用链）可以被认为是一个由多个 <strong>Span</strong> 组成的有向无环图（DAG图），<strong>Span</strong> 与 <strong>Span</strong> 的关系被命名为 <strong>References</strong>。</p>
+<p>例如：下面的示例 <strong>Trace</strong> 就是由8个 <strong>Span</strong> 组成：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">单个 Trace 中，span 间的因果关系</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        [Span A]  ←←←(the root span)</span><br><span class="line">            |</span><br><span class="line">     +------+------+</span><br><span class="line">     |             |</span><br><span class="line"> [Span B]      [Span C] ←←←(Span C 是 Span A 的孩子节点, ChildOf)</span><br><span class="line">     |             |</span><br><span class="line"> [Span D]      +---+-------+</span><br><span class="line">               |           |</span><br><span class="line">           [Span E]    [Span F] &gt;&gt;&gt; [Span G] &gt;&gt;&gt; [Span H]</span><br><span class="line">                                       ↑</span><br><span class="line">                                       ↑</span><br><span class="line">                                       ↑</span><br><span class="line">                         (Span G 在 Span F 后被调用, FollowsFrom)</span><br></pre></td></tr></table></figure>
+
+<p>有些时候，使用下面这种，基于时间轴的时序图可以更好的展现 <strong>Trace</strong>（调用链）：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">单个 Trace 中，span 间的时间关系</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">––|–––––––|–––––––|–––––––|–––––––|–––––––|–––––––|–––––––|–&gt; time</span><br><span class="line"></span><br><span class="line"> [Span A···················································]</span><br><span class="line">   [Span B··············································]</span><br><span class="line">      [Span D··········································]</span><br><span class="line">    [Span C········································]</span><br><span class="line">         [Span E·······]        [Span F··] [Span G··] [Span H··]</span><br></pre></td></tr></table></figure>
+
+<p>每个 <strong>Span</strong> 包含以下的状态:（译者注：由于这些状态会反映在 OpenTracing API 中，所以会保留部分英文说明）</p>
+<ul>
+<li>An operation name，操作名称</li>
+<li>A start timestamp，起始时间</li>
+<li>A finish timestamp，结束时间</li>
+<li><strong>Span Tag</strong>，一组键值对构成的 Span 标签集合。键值对中，键必须为 string，值可以是字符串，布尔，或者数字类型。</li>
+<li><strong>Span Log</strong>，一组 span 的日志集合。<br>每次 log 操作包含一个键值对，以及一个时间戳。</li>
+</ul>
+<p>键值对中，键必须为 string，值可以是任意类型。<br>但是需要注意，不是所有的支持 OpenTracing 的 Tracer，都需要支持所有的值类型。</p>
+<ul>
+<li><strong>SpanContext</strong>，Span 上下文对象 (下面会详细说明)</li>
+<li><strong>References</strong>(Span间关系)，相关的零个或者多个 Span（<strong>Span</strong> 间通过 <strong>SpanContext</strong> 建立这种关系）</li>
+</ul>
+<p>每一个 <strong>SpanContext</strong> 包含以下状态：</p>
+<ul>
+<li>任何一个 OpenTracing 的实现，都需要将当前调用链的状态（例如：trace 和 span 的 id），依赖一个独特的 Span 去跨进程边界传输</li>
+<li><strong>Baggage Items</strong>，Trace 的随行数据，是一个键值对集合，它存在于 trace 中，也需要跨进程边界传输</li>
+</ul>
+<p>更多关于 OpenTracing 数据模型的知识，请参考 <a target="_blank" rel="noopener" href="https://yq.aliyun.com/go/articleRenderRedirect?url=https://github.com/opentracing-contrib/opentracing-specification-zh/blob/master/specification.md">OpenTracing语义标准</a>。</p>
+<h4 id="追踪示例"><a href="#追踪示例" class="headerlink" title="追踪示例"></a>追踪示例</h4><p>端到端注入和提取追踪数据流程</p>
+<ol>
+<li>一个客户端进程有一个SpanContext实例，它将在一个HTTP协议之上生成一个RPC</li>
+<li>客户端进程调用Tracer.Inject(…)，传递活动的SpanContext实例、Text Map格式的标识符和Text Map Carrier作为参数</li>
+<li>Inject已经在Carrier中填充了Text Map，客户端应用程序在其自制的http协议（例如，作为头）中对该映射进行编码</li>
+<li>发起HTTP请求，数据跨越进程边界</li>
+<li>现在在服务器进程中，应用程序代码从自制的http协议中解码Text Map并使用它初始化Text Map Carrier</li>
+<li>服务进程调用Tracer.Extract(…)，抽取从上面传入所需的操作名、Text Map的格式标识符和Carrier</li>
+<li>在没有数据损坏或其他错误的情况下，服务器现在有一个SpanContext实例，它与客户机中的实例属于同一个Trace</li>
+</ol>
+<h3 id="主流的开源APM产品"><a href="#主流的开源APM产品" class="headerlink" title="主流的开源APM产品"></a>主流的开源APM产品</h3><p><strong>PinPoint</strong></p>
+<p>Pinpoint是由一个韩国团队实现并开源,针对Java编写的大规模分布式系统设计,通过JavaAgent的机制做字节代码植入,实现加入traceid和获取性能数据的目的,对应用代码零侵入。</p>
+<ul>
+<li>官方网站:<br><a target="_blank" rel="noopener" href="https://github.com/naver/pinpoint">https://github.com/naver/pinpoint</a></li>
+</ul>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://s1.ax1x.com/2020/05/28/tevjKg.png" alt="tevjKg.png"></p>
+<p><strong>SkyWalking</strong></p>
+<p>SkyWalking是apache基金会下面的一个开源APM项目,为微服务架构和云原生架构系统设计。它通过探针自动收集所需的指标,并进行分布式追踪。通过这些调用链路以及指标,Skywalking APM会感知应用间关系和服务间关系,并进行相应的指标统计。Skywalking支持链路追踪和监控应用组件基本涵盖主流框架和容器,如国产RPC Dubbo和motan等,国际化的spring boot,spring cloud。</p>
+<ul>
+<li>官方网站:<br><a target="_blank" rel="noopener" href="http://skywalking.apache.org/">http://skywalking.apache.org/</a></li>
+</ul>
+<p><strong>Zipkin</strong></p>
+<p>Zipkin是由Twitter开源,是分布式链路调用监控系统,聚合各业务系统调用延迟数据,达到链路调用监控跟踪。Zipkin基于Google的Dapper论文实现,主要完成数据的收集、存储、搜索与界面展示。</p>
+<ul>
+<li>官方网站:<br><a target="_blank" rel="noopener" href="https://zipkin.io/">https://zipkin.io/</a></li>
+</ul>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://s1.ax1x.com/2020/05/28/tex95q.png" alt="tex95q.png"></p>
+<p><strong>CAT</strong></p>
+<p>CAT是由大众点评开源的项目,基于Java开发的实时应用监控平台,包括实时应用监控,业务监控,可以提供十几张报表展示。</p>
+<ul>
+<li>官方网站:<br><a target="_blank" rel="noopener" href="https://github.com/dianping/cat">https://github.com/dianping/cat</a></li>
+</ul>
+<h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><ol>
+<li><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/d2b11c079af0">OpenTracing:开放式分布式追踪规范</a></li>
+<li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/83654617">分布式追踪系统 – Opentracing</a></li>
+</ol>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">平心</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://pingxin0521.gitee.io/2019/10/27/Java-SpringCloud-6-0/">https://pingxin0521.gitee.io/2019/10/27/Java-SpringCloud-6-0/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://pingxin0521.gitee.io" target="_blank">平心de小屋</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/Java/">Java</a><a class="post-meta__tags" href="/tags/%E6%A1%86%E6%9E%B6/">框架</a><a class="post-meta__tags" href="/tags/Spring-Cloud/">Spring Cloud</a></div><div class="post_share"><div class="social-share" data-image="https://i.loli.net/2020/05/08/PFDRNxj93taz6pw.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2019/10/28/%E6%95%B0%E6%8D%AE%E5%BA%93-Redis-2-1/"><img class="prev-cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/gGE57HRvpcKPfDY.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">Redis 持久化、日志、慢查询、数据导入导出</div></div></a></div><div class="next-post pull-right"><a href="/2019/10/23/%E5%B7%A5%E5%85%B7-%E5%85%B6%E4%BB%96-2/"><img class="next-cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/vCnKyoFJZ1g4XYR.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">Vagrant--构建和管理虚拟机环境</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span> 相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2019/05/30/Java-SpringCloud-0-0/" title="Spring Cloud 入门 (一)"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/7dHvepmfYOLWTrX.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2020-12-27</div><div class="title">Spring Cloud 入门 (一)</div></div></a></div><div><a href="/2019/11/01/Java-SpringCloud-3-0/" title="Spring Cloud 组件之Hystrix (五)"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/vCnKyoFJZ1g4XYR.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2020-12-27</div><div class="title">Spring Cloud 组件之Hystrix (五)</div></div></a></div><div><a href="/2019/11/03/Java-SpringCloud-6-2/" title="SpringCloud组件之Spring Cloud Sleuth (八)"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/gGE57HRvpcKPfDY.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2020-12-27</div><div class="title">SpringCloud组件之Spring Cloud Sleuth (八)</div></div></a></div><div><a href="/2019/11/10/Java-SpringCloud-1-2/" title="Spring Cloud  组件之Spring Cloud Consul-- 注册中心 (十一)"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/vCnKyoFJZ1g4XYR.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2020-12-27</div><div class="title">Spring Cloud  组件之Spring Cloud Consul-- 注册中心 (十一)</div></div></a></div><div><a href="/2019/11/01/Java-SpringCloud-2-1/" title="Spring Cloud组件之Feign--声明式REST调用 (四)"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/vCnKyoFJZ1g4XYR.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2020-12-27</div><div class="title">Spring Cloud组件之Feign--声明式REST调用 (四)</div></div></a></div><div><a href="/2019/11/05/Java-SpringCloud-3-1/" title="Spring Cloud Alibaba 组件之Sentinel--分布式系统的流量防卫兵 (十)"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/gGE57HRvpcKPfDY.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2020-12-27</div><div class="title">Spring Cloud Alibaba 组件之Sentinel--分布式系统的流量防卫兵 (十)</div></div></a></div></div></div><hr/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div class="vcomment" id="vcomment"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="card-info-avatar is-center"><img class="avatar-img" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://s2.ax1x.com/2020/02/11/1ovw6J.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/><div class="author-info__name">平心</div><div class="author-info__description">年轻人的life、learn and think</div></div><div class="card-info-data"><div class="card-info-data-item is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">449</div></a></div><div class="card-info-data-item is-center"><a href="/tags/"><div class="headline">标签</div><div class="length-num">77</div></a></div><div class="card-info-data-item is-center"><a href="/categories/"><div class="headline">分类</div><div class="length-num">68</div></a></div></div><a class="button--animated" id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/hanyunpeng0521"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/hanyunpeng0521" target="_blank" title="Github"><i class="fa fa-github"></i></a><a class="social-icon" href="mailto:m13839441583@163.com" target="_blank" title="Email"><i class="fa fa-envelope"></i></a><a class="social-icon" href="/atom.xml" target="_blank" title=""><i class="fa fa-rss"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn card-announcement-animation"></i><span>公告</span></div><div class="announcement_content">为什么呢？开始提问吧</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#OpenTracing"><span class="toc-number">1.</span> <span class="toc-text">OpenTracing</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%85%B3%E4%BA%8EMetrics%E3%80%81Tracing%E5%92%8CLogging"><span class="toc-number">1.1.</span> <span class="toc-text">关于Metrics、Tracing和Logging</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#OpenTracing-API"><span class="toc-number">1.2.</span> <span class="toc-text">OpenTracing API</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%BF%BD%E8%B8%AA%E7%A4%BA%E4%BE%8B"><span class="toc-number">1.3.</span> <span class="toc-text">追踪示例</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%BB%E6%B5%81%E7%9A%84%E5%BC%80%E6%BA%90APM%E4%BA%A7%E5%93%81"><span class="toc-number">2.</span> <span class="toc-text">主流的开源APM产品</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8F%82%E8%80%83"><span class="toc-number">3.</span> <span class="toc-text">参考</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2021/05/15/node-2-4/" title="Egg.js -- 为企业级框架和应用而生"><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/okfOw28KlZFbE7z.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Egg.js -- 为企业级框架和应用而生"/></a><div class="content"><a class="title" href="/2021/05/15/node-2-4/" title="Egg.js -- 为企业级框架和应用而生">Egg.js -- 为企业级框架和应用而生</a><time datetime="2021-05-15T10:18:59.000Z" title="发表于 2021-05-15 18:18:59">2021-05-15</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/04/30/node-2-3/" title="Koa -- 基于Node.js平台的下一代Web开发框架"><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/HjVAdIuT7bZJypS.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Koa -- 基于Node.js平台的下一代Web开发框架"/></a><div class="content"><a class="title" href="/2021/04/30/node-2-3/" title="Koa -- 基于Node.js平台的下一代Web开发框架">Koa -- 基于Node.js平台的下一代Web开发框架</a><time datetime="2021-04-30T10:18:59.000Z" title="发表于 2021-04-30 18:18:59">2021-04-30</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/04/01/node-2-1/" title="Node.JS web开发前置知识"><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/gGE57HRvpcKPfDY.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Node.JS web开发前置知识"/></a><div class="content"><a class="title" href="/2021/04/01/node-2-1/" title="Node.JS web开发前置知识">Node.JS web开发前置知识</a><time datetime="2021-04-01T03:18:59.000Z" title="发表于 2021-04-01 11:18:59">2021-04-01</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2020/12/26/%E5%91%A8%E8%AE%B0-10-1/" title="第十一周--谷歌浏览器插件"><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/gGE57HRvpcKPfDY.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="第十一周--谷歌浏览器插件"/></a><div class="content"><a class="title" href="/2020/12/26/%E5%91%A8%E8%AE%B0-10-1/" title="第十一周--谷歌浏览器插件">第十一周--谷歌浏览器插件</a><time datetime="2020-12-26T10:18:59.000Z" title="发表于 2020-12-26 18:18:59">2020-12-26</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2020/12/26/%E5%91%A8%E8%AE%B0-10-0/" title="第十一周--浏览器技术"><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/vCnKyoFJZ1g4XYR.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="第十一周--浏览器技术"/></a><div class="content"><a class="title" href="/2020/12/26/%E5%91%A8%E8%AE%B0-10-0/" title="第十一周--浏览器技术">第十一周--浏览器技术</a><time datetime="2020-12-26T06:18:59.000Z" title="发表于 2020-12-26 14:18:59">2020-12-26</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2019 - 2021 By 平心</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div id="local-search"><div class="search-dialog"><div class="search-dialog__title" id="local-search-title">本地搜索</div><div id="local-input-panel"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div></div><hr/><div id="local-search-results"></div><span class="search-close-button"><i class="fas fa-times"></i></span></div><div id="search-mask"></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload/dist/lazyload.iife.min.js"></script><script src="/js/search/local-search.js"></script><div class="js-pjax"><script>function loadValine () {
+  function initValine () {
+    const valine = new Valine(Object.assign({
+      el: '#vcomment',
+      appId: '4lfIXzqxaC1ONs0MJO4oHu07-gzGzoHsz',
+      appKey: 'qw99Bw8FD0KVKU9m457CwWsr',
+      placeholder: 'Please leave your footprints',
+      avatar: 'monsterid',
+      meta: 'nick,mail,link'.split(','),
+      pageSize: '10',
+      lang: 'zh-CN',
+      recordIP: true,
+      serverURLs: '',
+      emojiCDN: '',
+      emojiMaps: "",
+      enableQQ: true,
+      path: window.location.pathname,
+      requiredFields: ["nick,mail"],
+      visitor: false
+    }, null))
+  }
+
+  if (typeof Valine === 'function') initValine() 
+  else getScript('https://cdn.jsdelivr.net/npm/valine/dist/Valine.min.js').then(initValine)
+}
+
+if ('Valine' === 'Valine' || !false) {
+  if (false) btf.loadComment(document.getElementById('vcomment'),loadValine)
+  else setTimeout(loadValine, 0)
+} else {
+  function loadOtherComment () {
+    loadValine()
+  }
+}</script></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>

@@ -1,0 +1,451 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>MySQL 补充知识 | 平心de小屋</title><meta name="keywords" content="数据库,MySQL"><meta name="author" content="平心"><meta name="copyright" content="平心"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="CURRENT_TIMESTAMPtimestamp有两个属性，分别是CURRENT_TIMESTAMP 和ON UPDATE CURRENT_TIMESTAMP两种，使用情况分别如下：">
+<meta property="og:type" content="article">
+<meta property="og:title" content="MySQL 补充知识">
+<meta property="og:url" content="https://pingxin0521.gitee.io/2019/06/18/%E6%95%B0%E6%8D%AE%E5%BA%93-MySQL-3/index.html">
+<meta property="og:site_name" content="平心de小屋">
+<meta property="og:description" content="CURRENT_TIMESTAMPtimestamp有两个属性，分别是CURRENT_TIMESTAMP 和ON UPDATE CURRENT_TIMESTAMP两种，使用情况分别如下：">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://i.loli.net/2020/05/08/okfOw28KlZFbE7z.jpg">
+<meta property="article:published_time" content="2019-06-18T05:08:59.000Z">
+<meta property="article:modified_time" content="2019-11-18T09:53:32.090Z">
+<meta property="article:author" content="平心">
+<meta property="article:tag" content="数据库">
+<meta property="article:tag" content="MySQL">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.loli.net/2020/05/08/okfOw28KlZFbE7z.jpg"><link rel="shortcut icon" href="https://s2.ax1x.com/2020/02/11/1ovFOA.png"><link rel="canonical" href="https://pingxin0521.gitee.io/2019/06/18/%E6%95%B0%E6%8D%AE%E5%BA%93-MySQL-3/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"search.xml","languages":{"hits_empty":"找不到您查询的内容：${query}"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    jQuery: 'https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js',
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+    },
+    fancybox: {
+      js: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css'
+    }
+  },
+  isPhotoFigcaption: true,
+  islazyload: true,
+  isanchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'MySQL 补充知识',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2019-11-18 17:53:32'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    })(window)</script><meta name="generator" content="Hexo 5.4.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="author-avatar"><img class="avatar-img" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://s2.ax1x.com/2020/02/11/1ovw6J.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data"><div class="data-item is-center"><div class="data-item-link"><a href="/archives/"><div class="headline">文章</div><div class="length-num">449</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/tags/"><div class="headline">标签</div><div class="length-num">77</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/categories/"><div class="headline">分类</div><div class="length-num">68</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fa fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fa fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://i.loli.net/2020/05/08/okfOw28KlZFbE7z.jpg')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">平心de小屋</a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fa fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fa fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">MySQL 补充知识</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2019-06-18T05:08:59.000Z" title="发表于 2019-06-18 13:08:59">2019-06-18</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2019-11-18T09:53:32.090Z" title="更新于 2019-11-18 17:53:32">2019-11-18</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a><i class="fas fa-angle-right post-meta-separator"></i><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/MySQL/">MySQL</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">6.8k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>23分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="MySQL 补充知识"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h4 id="CURRENT-TIMESTAMP"><a href="#CURRENT-TIMESTAMP" class="headerlink" title="CURRENT_TIMESTAMP"></a>CURRENT_TIMESTAMP</h4><p>timestamp有两个属性，分别是CURRENT_TIMESTAMP 和ON UPDATE CURRENT_TIMESTAMP两种，使用情况分别如下：</p>
+<span id="more"></span>
+
+<ol>
+<li>CURRENT_TIMESTAMP</li>
+</ol>
+<p>当要向数据库执行insert操作时，如果有个timestamp字段属性设为CURRENT_TIMESTAMP，则无论这个字段有没有set值都插入当前系统时间  </p>
+<ol start="2">
+<li>ON UPDATE CURRENT_TIMESTAMP</li>
+</ol>
+<p>当执行update操作是，并且字段有ON UPDATE CURRENT_TIMESTAMP属性。则字段无论值有没有变化，它的值也会跟着更新为当前UPDATE操作时的时间。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">`gmt_create` datetime NULL default CURRENT_TIMESTAMP comment &#x27;创建时间&#x27;,</span><br><span class="line">`gmt_modified` datetime NULL default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP comment &#x27;修改时间&#x27;,</span><br></pre></td></tr></table></figure>
+<p>当执行update操作是，并且字段有ON UPDATE CURRENT_TIMESTAMP属性。则字段无论值有没有变化，它的值也会跟着更新为当前UPDATE操作时的时间。</p>
+<p>如果设置时间的长度，后面的CURRENT_TIMESTAMP也需要指定长度：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">`gmt_create` datetime(3) NULL default CURRENT_TIMESTAMP(3) comment &#x27;创建时间&#x27;,</span><br><span class="line">`gmt_modified` datetime(3) NULL default CURRENT_TIMESTAMP(3) on update CURRENT_TIMESTAMP(3) comment &#x27;修改时间&#x27;,</span><br></pre></td></tr></table></figure>
+
+<ol>
+<li>datetime(3)类型的默认值为CURRENT_TIMESTAMP(3)而不是CURRENT_TIMESTAMP().切记!!!</li>
+<li>mysql5.5及之前版本只支持timestamp类型设置默认值为CURRENT_TIMESTAMP,不支持datetime类型默认值设置为CURRENT_TIMESTAMP</li>
+</ol>
+<h4 id="TINYINT"><a href="#TINYINT" class="headerlink" title="TINYINT"></a>TINYINT</h4><p>unsigned   既为非负数，用此类型可以增加数据长度!</p>
+<p>例如如果    tinyint最大是127，那    tinyint    unsigned    最大   就可以到    127 * 2</p>
+<p>unsigned 属性只针对整型，而binary属性只用于char 和varchar。</p>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2019/04/30/5cc7aa7acf89a.png"></p>
+<p>每种数值类型的名称和取值范围</p>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2019/04/30/5cc7aa7abf567.png"></p>
+<p>各种类型值所需的存储量</p>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2019/04/30/5cc7aa7a8db88.png"></p>
+<p>mysql提供了五种整型： tinyint、smallint、mediumint、int和bigint。int为integer的缩写。这些类型在可表示的取值范围上是不同的。 整数列可定义为unsigned从而禁用负值；这使列的取值范围为0以上。各种类型的存储量需求也是不同的。取值范围较大的类型所需的存储量较大。</p>
+<p>mysql 提供三种浮点类型： float、double和decimal。与整型不同，浮点类型不能是unsigned的，其取值范围也与整型不同，这种不同不仅在于这些类型有最大 值，而且还有最小非零值。最小值提供了相应类型精度的一种度量，这对于记录科学数据来说是非常重要的（当然，也有负的最大和最小值）。</p>
+<p><strong>比较</strong></p>
+<p>tinyint 型的字段如果设置为UNSIGNED类型，只能存储从0到255的整数,不能用来储存负数。<br>tinyint 型的字段如果不设置UNSIGNED类型,存储-128到127的整数。<br>1个tinyint型数据只占用一个字节;一个INT型数据占用四个字节。</p>
+<p>这看起来似乎差别不大，但是在比较大的表中，字节数的增长是很快的。</p>
+<p>tinyint(1)与tinyint(2)的区别可以从下面看出来</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">CREATE TABLE `test` (                                  </span><br><span class="line">          `id` int(11) NOT NULL AUTO_INCREMENT,                </span><br><span class="line">          `str` varchar(255) NOT NULL,                                     </span><br><span class="line">          `state` tinyint(1) unsigned zerofill DEFAULT NULL,   </span><br><span class="line">          `state2` tinyint(2) unsigned zerofill DEFAULT NULL,  </span><br><span class="line">          `state3` tinyint(3) unsigned zerofill DEFAULT NULL,  </span><br><span class="line">          `state4` tinyint(4) unsigned zerofill DEFAULT NULL,  </span><br><span class="line">          PRIMARY KEY (`id`)                                   </span><br><span class="line">        ) ENGINE=MyISAM AUTO_INCREMENT=6 DEFAULT CHARSET=utf8  </span><br><span class="line"></span><br><span class="line">insert into test (str,state,state2,state3,state4) values(&#x27;csdn&#x27;,4,4,4,4);</span><br><span class="line">select * from test;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>结果：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">id   str      state   state2   state3   state4</span><br><span class="line">1    csdn  4         04         004        0004</span><br></pre></td></tr></table></figure>
+
+
+<p>mysql 中int(1)和tinyint(1)中的1只是指定显示长度，并不表示存储长度.<br>tinyint可以存储1字节, 即unsigned 0<del>255(signed -127</del>127)。显示大小不受此限制 (所有整数类型相同),即使设为1,也可以存入和取出大于10的数。括号里的数字,即显示大小对整数来说主要有两个目的, 一是做为编码文档;将 tinyint (1) 放到表定义中会告诉人们只有数字 0 - 9 应该输入, 表没有被设计具有其他值。</p>
+<p>另一个目的是, 你可以与属性ZEROFILL联合使用。ZEROFILL将填充小于显示大小的数字,在他们面前补上零。例如 TINYINT (3) 与 ZEROFILL, 插入值4, 你会得到 004。</p>
+<h4 id="mysql数据类型之用-TINYINT-1-还是-ENUM-‘true’-‘false’"><a href="#mysql数据类型之用-TINYINT-1-还是-ENUM-‘true’-‘false’" class="headerlink" title="mysql数据类型之用 TINYINT(1) 还是 ENUM( ‘true’ , ‘false’)"></a>mysql数据类型之用 TINYINT(1) 还是 ENUM( ‘true’ , ‘false’)</h4><p>在以往的经验中，如果遇到需要抉择是否用mysql的enum数据类型时，我基本不用思考的就会放弃 ENUM()并用tinyint取而代之，原因就是我以前接触的哪些场景，均适合用tinyint，也即在第一次选择了tinyint后就再也没认真研究关注过这两个字段类型了，而今天在开发 超凡商标管家 的途中遇到一个商标状态扩展的需求，需要建立一张大量存储0和1的字段的表，因为是大量0和1，所以我犹豫了下，顺便再次查阅下官方文档，其建议如下:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">TINYINT（1）或ENUM（&#x27;真&#x27;，&#x27;假&#x27;）？</span><br><span class="line"></span><br><span class="line">     用ENUM存储枚举当存储只有2个值时只占用一个位的宽度，0或1，但会花更多的时间去寻找了枚举查询的开始。</span><br><span class="line"></span><br><span class="line">     用TINYINT（1）默认就会占用4个位的宽度（0000）</span><br><span class="line"></span><br><span class="line">     因此得出结论：</span><br><span class="line"></span><br><span class="line">     比如要存储一个介于0-9之间的值，为了查询获取这个值，建议用TINYINT（1）会更快，</span><br><span class="line"></span><br><span class="line">     但如果你是为了大量记录枚举（“真”，“假”），那么用ENUM( &#x27;true&#x27; , &#x27;false&#x27;) 搜索会更快。</span><br></pre></td></tr></table></figure>
+<p>说起这个ENUM， 经查阅各大技术社区的网络文摘，ENUM确实是mysql里的一个特色字段，印象里模糊记得在以前看到一些比较知名的商城系统如shopnc里面在用它，但也没细究，可能是因为他可以设置字段的区间范围，会让值可以被数据库所控制，有枚举约束的功能（比如，字段只想有0和1，如果用TINYINT（1），结果就可能出现2，那2就是赃数据了）</p>
+<p>但ENUM也有一些比较棘手的问题，比如数据迁移的时候，他几乎不可能被其他数据库所支持，如果enum里面是字符串，对于其他数据库来说就更郁闷了，还不能设为tinyint等类型的字段（enum虽然可以存储字符串，但对于内部来说，还是以顺序进行索引，比如’a’,’b’,’c’，我们也可以用索引值来获取值select * from tbl_name whre enum = 2，这与select * from tbl_name where enum = ‘b’等义）如果你看明白了这两句SQL为什么等义，那么你也就可以了解为什么不主张用enum字段了。</p>
+<p>也就是说，假如一个设计不合理的ENUM字段，给程序员带来的就完全是梦魇了，比如一个enum字段的范围是(‘0’,’1’,’2’,’3’,’4’,’5’)，而enum的枚举值对应的索引是从1开始的，因此，insert into table (enum)values(1)，插入的并不是1，而是0。</p>
+<p>另外假如你在设计好enum的枚举字段范围并使用了一段时间后，再到字段范围中加一个枚举值，并且不是加在最后，那么也就相当于把原来的范围都改变了索引值，也就是当你在查询的时候直接查询值（并加上单引号），将不会使用enum自身隐藏的索引值来获取结果了。</p>
+<p>如果是纯数值型，还是建议采用tinyint字段吧，毕竟它也只占一个字节，即使出现赃数据，也可以被接受，不象enum，如果纯数字型范围，更改了索引，你就不知道你查询的值是否正确了）</p>
+<p>故建议，如果字段是字符串，并且长度固定，可以尝试用char，如果是数值型，还是用tinyint吧，比较安全稳定，而且即使迁移，也不会出现太多问题。</p>
+<p>所以为了最终方便，避免出现一些不必要的问题，我在本次商标状态扩张表中仍然按以往习惯使用tinyint哈。</p>
+<h4 id="This-function-has-none-of-DETERMINISTIC-NO-SQL-or-READS-SQL-DATA-in-its-de-错误解决办法"><a href="#This-function-has-none-of-DETERMINISTIC-NO-SQL-or-READS-SQL-DATA-in-its-de-错误解决办法" class="headerlink" title="This function has none of DETERMINISTIC, NO SQL, or READS SQL DATA in its de 错误解决办法"></a>This function has none of DETERMINISTIC, NO SQL, or READS SQL DATA in its de 错误解决办法</h4><p>这是我们开启了bin-log, 我们就必须指定我们的函数是否是</p>
+<ol>
+<li>DETERMINISTIC 不确定的</li>
+<li>NO SQL 没有SQl语句，当然也不会修改数据</li>
+<li>READS SQL DATA 只是读取数据，当然也不会修改数据</li>
+<li>MODIFIES SQL DATA 要修改数据</li>
+<li>CONTAINS SQL 包含了SQL语句</li>
+</ol>
+<p>其中在function里面，只有 DETERMINISTIC, NO SQL 和 READS SQL DATA 被支持。如果我们开启了 bin-log, 我们就必须为我们的function指定一个参数。</p>
+<p>在MySQL中创建函数时出现这种错误的解决方法：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">set global log_bin_trust_function_creators=TRUE;</span><br></pre></td></tr></table></figure>
+
+<h4 id="Mysql-中获取刚插入的自增长id的值"><a href="#Mysql-中获取刚插入的自增长id的值" class="headerlink" title="Mysql 中获取刚插入的自增长id的值"></a>Mysql 中获取刚插入的自增长id的值</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">insert into user (username,password) VALUES (&#x27;zyl&#x27;,&#x27;123&#x27;);   </span><br><span class="line">//获取刚插入的自增长id的值</span><br><span class="line">select last_insert_id();   </span><br></pre></td></tr></table></figure>
+<p>在MySQL中，使用auto_increment类型的id字段作为表的主键，并用它作为其他表的外键，形成“主从表结构”，这是数据库设计中常见的用法。但是在具体生成id的时候，我们的操作顺序一般是：先在主表中插入记录，然后获得自动生成的id，以它为基础插入从表的记录。这里面有个困难，就是插入主表记录后，如何获得它对应的id。通常的做法，是通过“select max(id) from tablename”的做法，但是显然这种做法需要考虑并发的情况，需要在事务中对主表加以“X锁“，待获得max(id)的值以后，再解锁。这种做法需要的步骤比较多，有些麻烦，而且并发性也不好。有没有更简单的做法呢?答案之一是通过select LAST_INSERT_ID()这个操作。乍一看，它和select max(id)很象，但实际上它是线程安全的。也就是说它是具体于数据库连接的。下面通过实验说明：</p>
+<ol>
+<li>在连接1中向A表插入一条记录，A表包含一个auto_increment类型的字段。</li>
+<li>在连接2中向A表再插入一条记录。</li>
+<li>结果：在连接1中执行select LAST_INSERT_ID()得到的结果和连接2中执行select LAST_INSERT_ID()的结果是不同的;而在两个连接中执行select max(id)的结果是相同的。</li>
+</ol>
+<p>其实在MSSQL中SCOPE_IDENTITY()和IDENT_CURRENT()的区别和这里是类似的。使用SCOPE_IDENTITY()可以获得插入某个IDENTITY字段的当前会话的值，而使用IDENT_CURRENT()会获得在某个IDENTITY字段上插入的最大值，而不区分不同的会话。</p>
+<p>注：使用select last_insert_id()时要注意，当一次插入多条记录时，只是获得第一次插入的id值，务必注意!可以试试</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">insert into tb(c1,c2) values (c1value,c2value),(c1value1,c2value2)..。</span><br></pre></td></tr></table></figure>
+<p>最后有个问题一直没解决：</p>
+<p><strong>使用select last_insert_id()时要注意，当一次插入多条记录时，只是获得第一次插入的id值，务必注意。</strong></p>
+<p>查询自增id的下一个值</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">-- 查询自增id的下一个值</span><br><span class="line">SELECT</span><br><span class="line">	AUTO_INCREMENT</span><br><span class="line">FROM</span><br><span class="line">	INFORMATION_SCHEMA. TABLES</span><br><span class="line">WHERE</span><br><span class="line">	TABLE_NAME = &#x27;&#123;table name&#125;&#x27;</span><br></pre></td></tr></table></figure>
+
+
+<h4 id="获取某个表中的最大序号数"><a href="#获取某个表中的最大序号数" class="headerlink" title="获取某个表中的最大序号数"></a>获取某个表中的最大序号数</h4><p>我们在写数据库程序的时候,经常会需要获取某个表中的最大序号数,<br>一般情况下获取刚插入的数据的id，使用select max(id) from table 是可以的。<br>但在多线程情况下，就不行了。</p>
+<p>下面介绍三种方法</p>
+<p>(1) getGeneratedKeys()方法:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">Connection conn = ;   </span><br><span class="line">    Serializable ret = null;   </span><br><span class="line">    PreparedStatement state = .;   </span><br><span class="line">    ResultSet rs=null;   </span><br><span class="line">    try &#123;   </span><br><span class="line">        state.executeUpdate();   </span><br><span class="line">        rs = state.getGeneratedKeys();   </span><br><span class="line">        if (rs.next()) &#123;   </span><br><span class="line">            ret = (Serializable) rs.getObject(1);   </span><br><span class="line">        &#125;         </span><br><span class="line">    &#125; catch (SQLException e) &#123;   </span><br><span class="line">    &#125;   </span><br><span class="line">    return ret;</span><br></pre></td></tr></table></figure>
+<p>2)LAST_INSERT_ID:   </p>
+<p>LAST_INSERT_ID 是与table无关的，如果向表a插入数据后，再向表b插入数据，LAST_INSERT_ID会改变。</p>
+<p>在多用户交替插入数据的情况下max(id)显然不能用。</p>
+<p>这就该使用LAST_INSERT_ID了，因为LAST_INSERT_ID是基于Connection的，只要每个线程都使用独立的Connection对象，LAST_INSERT_ID函数将返回该Connection对AUTO_INCREMENT列最新的insert or update*作生成的第一个record的ID。这个值不能被其它客户端（Connection）影响，保证了你能够找回自己的 ID 而不用担心其它客户端的活动，而且不需要加锁。使用单INSERT语句插入多条记录, LAST_INSERT_ID返回一个列表。</p>
+<p>(3)select @@IDENTITY:  </p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">String sql=&quot;select @@IDENTITY&quot;;   </span><br></pre></td></tr></table></figure>
+<p>@@identity是表示的是最近一次向具有identity属性(即自增列)的表插入数据时对应的自增列的值，是系统定义的全局变量。一般系统定义的全局变量都是以@@开头，用户自定义变量以@开头。比如有个表A，它的自增列是id，当向A表插入一行数据后，如果插入数据后自增列的值自动增加至101，则通过select @@identity得到的值就是101。使用@@identity的前提是在进行insert操作后，执行select @@identity的时候连接没有关闭，否则得到的将是NULL值。  </p>
+<h4 id="mysql使用ROW-COUNT-返回插入、更新、删除操作影响行数"><a href="#mysql使用ROW-COUNT-返回插入、更新、删除操作影响行数" class="headerlink" title="mysql使用ROW_COUNT()返回插入、更新、删除操作影响行数"></a>mysql使用ROW_COUNT()返回插入、更新、删除操作影响行数</h4><p>如果你要测试 FOUND_ROWS() 和 ROW_COUNT() 这两个函数，最好就不要用那些MySQL的图形化管理工具软件了（例如，SQLYog）。因为当你使用些工具软件执行某条SQL语句时，可能实际上并不仅仅是执行了这条SQL，这些软件同时会在后台自己执行一些其他SQL语句。所以有时你可能会发现这两个函数返回的结果和你预期的并不一样。所以呢，最好还是用 cmd 窗口来执行SQL进行测试。</p>
+<p><strong>FOUND_ROWS() 函数</strong></p>
+<p>（1） FOUND_ROWS()函数返回的是上一条 SELECT 语句（或 SHOW语句等）查询结果集的记录数。</p>
+<p>注意，是上一条 SELECT 语句（即执行该函数前的最近一条SELECT语句），而不是上一条 SQL 语句；因为上一条SQL语句不一定是 SELECT 语句。</p>
+<p>且，像 SELECT ROW_COUNT() 这种语句也是 SELECT 语句，它们的结果集也会被 FOUND_ROWS() 函数查出来。</p>
+<p>（2）如果上一条 SELECT 语句查询结果为空，则返回 0。</p>
+<p>（3）SHOW XXX（例如，show tables、show databases、show status）语句也会被 FOUND_ROWS() 函数查出来。</p>
+<p><strong>ROW_COUNT() 函数</strong></p>
+<p>（1）FOUND_ROWS()函数返回的是上一条SQL语句，对表数据进行修改操作后影响的记录数。</p>
+<p>如果上一条SQL语句不是修改操作语句（INSERT/UPDATE/DELETE 等），而是查询语句（SELECT/SHOW 等）则返回-1。如果是修改操作语句，则返回修改（增/删/该）影响的记录数。</p>
+<p>注意，这里是上一条SQL语句（即执行该函数前的上一条SQL语句），和上面有所区别。</p>
+<p>（2）如果上一条SQL语句是UPDATE语句，但是UPDATE后所有数据的值并没有改变，则返回 0。</p>
+<p>（3）如果上一条SQL语句是建表语句（创建表或临时表），但创建的是空表，则返回 0。</p>
+<p>如果是删除表（DROP语句），则返回的还是 0。</p>
+<p>（4）如果是创建临时表，但使用的是 AS 关键字直接将查询出来的值赋值给新建的临时表的话（其实就相当于新建了一个空表，紧接着使用了一条INSERT语句而已），则返回插入的记录数。</p>
+<p>在Mysql中ROW_COUNT()返回前一个SQL进行UPDATE，DELETE，INSERT操作所影响的行数。<br>注意在UPDATE中，如果替换前、后值是一样的，ROW_COUNT也会返回0。</p>
+<p>存储过程示例示例：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">begin</span><br><span class="line">insert into test values(&#x27;&#x27;,&#x27;第一条&#x27;);</span><br><span class="line">if ROW_COUNT()&gt;0 then</span><br><span class="line">insert into test values(&#x27;&#x27;,&#x27;第二条&#x27;);</span><br><span class="line">end if;</span><br><span class="line">end;</span><br></pre></td></tr></table></figure>
+
+<p>如果第一条数据插入成功，再插入第二条数据。</p>
+<p>ROW_COUNT()用于判断刚刚的操作是否成功，如果成功则返回&gt;0;否则返回0；</p>
+<h4 id="Mysql判断记录是否存在"><a href="#Mysql判断记录是否存在" class="headerlink" title="Mysql判断记录是否存在"></a>Mysql判断记录是否存在</h4><p>判断记录是否存在的sql，不同的写法，也会有不同的性能。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select count(*) from tablename where col = &#x27;col&#x27;;</span><br></pre></td></tr></table></figure>
+<p>这种方法性能上有些浪费，没必要把全部记录查出来。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select 1 from tablename where col = &#x27;col&#x27; limit 1;</span><br></pre></td></tr></table></figure>
+<p>执行这条sql语句，所影响的行数不是0就是1。</p>
+<p>特别解释下limit 1，mysql在找到一条记录后就不会往下继续找了。性能提升很多。</p>
+<p>结论：推荐第二种方式。</p>
+<h4 id="MySQL分页"><a href="#MySQL分页" class="headerlink" title="MySQL分页"></a>MySQL分页</h4><p>首先获取分页数据集的数量，如orders_history订单历史表：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select count(*) from orders_history;</span><br></pre></td></tr></table></figure>
+
+<p>一般的分页查询使用简单的 limit 子句就可以实现。limit 子句声明如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SELECT * FROM table LIMIT [offset,] rows | rows OFFSET offset</span><br></pre></td></tr></table></figure>
+
+<p>LIMIT 子句可以被用于指定 SELECT 语句返回的记录数。需注意以下几点：</p>
+<ul>
+<li>第一个参数指定第一个返回记录行的偏移量</li>
+<li>第二个参数指定返回记录行的最大数目</li>
+<li>如果只给定一个参数：它表示返回最大的记录行数目</li>
+<li>第二个参数为 -1 表示检索从某一个偏移量到记录集的结束所有的记录行</li>
+<li>初始记录行的偏移量是 0(而不是 1)</li>
+</ul>
+<p>下面是一个应用实例：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select * from orders_history where type=8 limit 1000,10;</span><br></pre></td></tr></table></figure>
+
+<p>该条语句将会从表 orders_history 中查询第1000条数据之后的10条数据，也就是第1001条到第1010条数据。</p>
+<p>从查询时间来看，基本可以确定，在查询记录量低于100时，查询时间基本没有差距，随着查询记录量越来越大，所花费的时间也会越来越多。</p>
+<p>随着查询偏移的增大，尤其查询偏移大于10万以后，查询时间急剧增加。</p>
+<p><strong>这种分页查询方式会从数据库第一条记录开始扫描，所以越往后，查询速度越慢，而且查询的数据越多，也会拖慢总查询速度。</strong></p>
+<h5 id="使用子查询优化"><a href="#使用子查询优化" class="headerlink" title="使用子查询优化"></a>使用子查询优化</h5><p>这种方式先定位偏移位置的 id，然后往后查询，这种方式适用于 id 递增的情况。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">select * from orders_history where type=8 limit 100000,1;</span><br><span class="line"></span><br><span class="line">select id from orders_history where type=8 limit 100000,1;</span><br><span class="line"></span><br><span class="line">select * from orders_history where type=8 and </span><br><span class="line">id&gt;=(select id from orders_history where type=8 limit 100000,1) </span><br><span class="line">limit 100;</span><br><span class="line"></span><br><span class="line">select * from orders_history where type=8 limit 100000,100;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>4条语句的查询时间如下：</p>
+<ul>
+<li>第1条语句：3674ms</li>
+<li>第2条语句：1315ms</li>
+<li>第3条语句：1327ms</li>
+<li>第4条语句：3710ms</li>
+</ul>
+<p>针对上面的查询需要注意：</p>
+<ul>
+<li>比较第1条语句和第2条语句：使用 select id 代替 select * 速度增加了3倍</li>
+<li>比较第2条语句和第3条语句：速度相差几十毫秒</li>
+<li>比较第3条语句和第4条语句：得益于 select id 速度增加，第3条语句查询速度增加了3倍</li>
+</ul>
+<p>这种方式相较于原始一般的查询方法，将会增快数倍。</p>
+<h5 id="使用-id-限定优化"><a href="#使用-id-限定优化" class="headerlink" title="使用 id 限定优化"></a>使用 id 限定优化</h5><p>这种方式假设数据表的id是<strong>连续递增</strong>的，则我们根据查询的页数和查询的记录数可以算出查询的id的范围，可以使用 id between and 来查询：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">select * from orders_history where type=2 </span><br><span class="line">and id between 1000000 and 1000100 limit 100;</span><br></pre></td></tr></table></figure>
+
+<p>查询时间：15ms 12ms 9ms</p>
+<p>这种查询方式能够极大地优化查询速度，基本能够在几十毫秒之内完成。限制是只能使用于明确知道id的情况，不过一般建立表的时候，都会添加基本的id字段，这为分页查询带来很多便利。</p>
+<p>还可以有另外一种写法：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select * from orders_history where id &gt;= 1000001 limit 100;</span><br></pre></td></tr></table></figure>
+
+<p>当然还可以使用 in 的方式来进行查询，这种方式经常用在多表关联的时候进行查询，使用其他表查询的id集合，来进行查询：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">select * from orders_history where id in</span><br><span class="line">(select order_id from trade_2 where goods = &#x27;pen&#x27;)</span><br><span class="line">limit 100;</span><br></pre></td></tr></table></figure>
+
+<p>这种 in 查询的方式要注意：某些 mysql 版本不支持在 in 子句中使用 limit。</p>
+<h5 id="使用临时表优化"><a href="#使用临时表优化" class="headerlink" title="使用临时表优化"></a>使用临时表优化</h5><p>这种方式已经不属于查询优化，这儿附带提一下。</p>
+<p>对于使用 id 限定优化中的问题，需要 id  是连续递增的，但是在一些场景下，比如使用历史表的时候，或者出现过数据缺失问题时，可以考虑使用临时存储的表来记录分页的id，使用分页的id来进行  in 查询。这样能够极大的提高传统的分页查询速度，尤其是数据量上千万的时候。</p>
+<h5 id="关于数据表的id说明"><a href="#关于数据表的id说明" class="headerlink" title="关于数据表的id说明"></a>关于数据表的id说明</h5><p>一般情况下，在数据库中建立表的时候，强制为每一张表添加 id 递增字段，这样方便查询。</p>
+<p>如果像是订单库等数据量非常庞大，一般会进行分库分表。这个时候不建议使用数据库的 id 作为唯一标识，而应该使用分布式的高并发唯一 id 生成器来生成，并在数据表中使用另外的字段来存储这个唯一标识。</p>
+<p>使用先使用范围查询定位 id （或者索引），然后再使用索引进行定位数据，能够提高好几倍查询速度。即先 select id，然后再 select *；</p>
+<h3 id="修改时区"><a href="#修改时区" class="headerlink" title="修改时区"></a>修改时区</h3><p>以下记录修改mysql时区的几种方法。</p>
+<p>具体：<br>方法一：通过mysql命令行模式下动态修改</p>
+<ol>
+<li>查看mysql当前时间，当前时区</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">&gt; select curtime();   #或select now()也可以</span><br><span class="line">+-----------+</span><br><span class="line">| curtime() |</span><br><span class="line">+-----------+</span><br><span class="line">| 15:18:10  |</span><br><span class="line">+-----------+</span><br><span class="line"></span><br><span class="line">&gt; show variables like &quot;%time_zone%&quot;;</span><br><span class="line">+------------------+--------+</span><br><span class="line">| Variable_name    | Value  |</span><br><span class="line">+------------------+--------+</span><br><span class="line">| system_time_zone | CST    |</span><br><span class="line">| time_zone        | SYSTEM |</span><br><span class="line">+------------------+--------+</span><br><span class="line">2 rows in set (0.00 sec)</span><br><span class="line">#time_zone说明mysql使用system的时区，system_time_zone说明system使用CST时区</span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li>修改时区</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&gt; set global time_zone = &#x27;+8:00&#x27;;  ##修改mysql全局时区为北京时间，即我们所在的东8区</span><br><span class="line">&gt; set time_zone = &#x27;+8:00&#x27;;  ##修改当前会话时区</span><br><span class="line">&gt; flush privileges;  #立即生效</span><br></pre></td></tr></table></figure>
+
+
+<p>方法二：通过修改my.cnf配置文件来修改时区</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"># vim /etc/my.cnf  ##在[mysqld]区域中加上</span><br><span class="line">default-time_zone = &#x27;+8:00&#x27;</span><br><span class="line"></span><br><span class="line"># /etc/init.d/mysqld restart  ##重启mysql使新时区生效</span><br></pre></td></tr></table></figure>
+
+<p>方法三：如果不方便重启mysql，又想临时解决时区问题，可以通过php或其他语言在初始化mysql时初始化mysql时区<br>这里，以php为例，在mysql_connect()下使用mysql_query(“SET time_zone = ‘+8:00′”)。<br>这样可以在保证你不重启的情况下改变时区。但是mysql的某些系统函数还是不能用如：now()。这句，还是不能理解。</p>
+<h3 id="数据类型转换"><a href="#数据类型转换" class="headerlink" title="数据类型转换"></a>数据类型转换</h3><p>Mysql中提供了两个内置函数提供我们使用分别为:CAST和CONVERT,Mysql 的CAST()和CONVERT() 函数可用来转换或者获取一个我们需要的类型。两者具体的语法如下：</p>
+<p>(1)  cast(value as type);</p>
+<p>(2) convert(value,type); </p>
+<p><strong>语法</strong></p>
+<p>说明 value 为要转换原数据类型的值,type目的类型.但可以转换的类型是有限制的。类型可以是以下任何一个：</p>
+<ul>
+<li>二进制，同带binary前缀的效果 : BINARY    </li>
+<li>字符型，可带参数 : CHAR()    </li>
+<li>日期 : DATE     </li>
+<li>时间: TIME     </li>
+<li>日期时间型 : DATETIME     </li>
+<li>浮点数 : DECIMAL      </li>
+<li>整数 : SIGNED     </li>
+<li>无符号整数 : UNSIGNED</li>
+</ul>
+<h4 id="mysql将字符串字段转为数字排序或比大小"><a href="#mysql将字符串字段转为数字排序或比大小" class="headerlink" title="mysql将字符串字段转为数字排序或比大小"></a>mysql将字符串字段转为数字排序或比大小</h4><p>mysql里面有个坑就是，有时按照某个字段的大小排序（或是比大小）发现排序有点错乱。后来才发现，是我们想当然地把对字符串字段当成数字并按照其大小排序（或是比大小），结果肯定不会是你想要的结果。</p>
+<p>这时候需要把字符串转成数字再排序。</p>
+<p>最简单的办法就是在字段后面加上+0,如把’123’转成数字123（以下例子全为亲测）：</p>
+<p><strong>排序</strong></p>
+<ul>
+<li><p>方法一：<code>ORDER BY &#39;123&#39;+0;</code>（首推）</p>
+</li>
+<li><p>方法二：<code>ORDER BY CAST(&#39;123&#39; AS SIGNED);</code></p>
+</li>
+<li><p>方法三：<code>ORDER BY CONVERT(&#39;123&#39;,SIGNED);</code></p>
+</li>
+</ul>
+<p><strong>比较</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">SELECT &#x27;123&#x27;+0;  --   结果为123</span><br><span class="line">SELECT &#x27;123&#x27;+0&gt;127;  --   结果为0</span><br><span class="line">SELECT &#x27;123&#x27;+0&gt;12;  --   结果为1</span><br><span class="line"></span><br><span class="line">SELECT CAST(&#x27;123&#x27; AS SIGNED);    --  结果为123</span><br><span class="line">SELECT CONVERT(&#x27;123&#x27;,SIGNED)&gt;127;   --  结果为0</span><br><span class="line">SELECT CONVERT(&#x27;123&#x27;,SIGNED)&gt;12;   --  结果为1</span><br><span class="line"></span><br><span class="line">SELECT CAST(&#x27;123&#x27; AS SIGNED);  -- 结果为123</span><br><span class="line">SELECT CAST(&#x27;123&#x27; AS SIGNED)&gt;127;  -- 结果为0</span><br><span class="line">SELECT CAST(&#x27;123&#x27; AS SIGNED)&gt;12;   -- 结果为1</span><br></pre></td></tr></table></figure>
+
+<p>综合例子：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SELECT &#x27;123&#x27;+0&gt;12 ORDER BY CONVERT(&#x27;123&#x27;,SIGNED);  --  结果为1</span><br></pre></td></tr></table></figure>
+
+<h4 id="SQL-MODE"><a href="#SQL-MODE" class="headerlink" title="SQL_MODE"></a>SQL_MODE</h4><h5 id="SQL-MODE类型"><a href="#SQL-MODE类型" class="headerlink" title="SQL_MODE类型"></a>SQL_MODE类型</h5><p>mysql中的sql_mode就是控制mysql行为模式的一些配置。查看mysql的sql_mode可通过以下语句：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">select @@sql_mode;</span><br><span class="line"></span><br><span class="line">show variables like &quot;sql_mode&quot;;</span><br><span class="line"></span><br><span class="line">***************************[ 1. row ]***************************</span><br><span class="line">@@sql_mode | ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION</span><br></pre></td></tr></table></figure>
+
+<ol>
+<li><p>NO_ENGIN_SUBSTITUTION</p>
+<p>其中，NO_ENGIN_SUBSTITUTION表示当创建表时，指定一个不存在的存储引擎时，mysql是报错还是设置成默认存储引擎innodb；经过实验发现：当sql_mode中含有NO_ENGIN_SUBSITUTION这一项时，在创建表指定一个不存在的存储引擎，mysql会报错(substitution意为替换)。反之，则会设置成默认的innodb。</p>
+<p>修改sql_mode，如果想去除sql_mode中某个选项，可用如下语句：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">set sql_mode = (select replace(@@sql_mode, &#x27;NO_ENGINE_SUBSTITUTION&#x27;, &#x27;&#x27;));</span><br></pre></td></tr></table></figure>
+
+<p>如果需要的存储引擎被禁用或未编译，那么抛出错误。不设置此值时，用默认的存储引擎替代，并抛出一个异常。</p>
+</li>
+<li><p>NO_AUTO_CREATE_USER</p>
+<p>禁止mysql创建密码为空的用户，如果sql_mode中含有该选项，那么创建mysql用户 时如果不设置密码则会报错。</p>
+</li>
+<li><p>NO_ZERO_IN_DATE</p>
+<p>在严格模式，不接受月或日部分为0的日期。如果使用IGNORE选项，我们为类似的日期插入’0000-00-00’。在非严格模式，可以接受该日期，但会生成警告。</p>
+</li>
+<li><p>NO_ZERO_DATE</p>
+<p>在严格模式，不要将 ‘0000-00-00’做为合法日期。你仍然可以用IGNORE选项插入零日期。在非严格模式，可以接受该日期，但会生成警告。</p>
+</li>
+<li><p>STRICT_TRANS_TABLES</p>
+<p>在该模式下，如果一个值不能插入到一个事务表中，则中断当前的操作，对非事务表不做任何限制。对于InnoDB表，sql插入执行失败，会报错，全部回滚。</p>
+</li>
+<li><p>STRICT_ALL_TABLES</p>
+<p>对于InnoDB表，和STRICT_TRANS_TABLES模式相同;对于MyISAM表，sql插入执行失败会保存错误发生之前修改的行，忽略剩下的行，并报错。</p>
+</li>
+<li><p>ERROR_FOR_DIVISION_BY_ZERO</p>
+<p>在严格模式，在INSERT或UPDATE过程中，如果被零除(或MOD(X，0))，则产生错误(否则为警告)。如果未给出该模式，被零除时MySQL返回NULL。如果用到INSERT IGNORE或UPDATE IGNORE中，MySQL生成被零除警告，但操作结果为NULL。</p>
+</li>
+<li><p>ONLY_FULL_GROUP_BY</p>
+<p>对于GROUP BY聚合操作，如果在SELECT中的列，没有在GROUP BY中出现，那么将认为这个SQL是不合法的，因为列不在GROUP BY语句中。</p>
+<p>因为有only_full_group_by，所以我们要在MySQL中正确的使用group by语句的话，只能是select c1 from t group by c1 (<strong>即只能展示group by的字段，其他均都要报1055的错</strong>)</p>
+</li>
+</ol>
+<h5 id="sql-mode模式"><a href="#sql-mode模式" class="headerlink" title="sql_mode模式"></a>sql_mode模式</h5><p>首先创建一个表：<code>create table testmode(name varchar(2),test varchar(2));</code></p>
+<ol>
+<li><p>ANSI模式：宽松模式，对插入数据进行校验，如果不符合定义类型或长度，对数据类型调整或截断保存，报warning警告。</p>
+<p>先设置模式ANSI：<code>set @@sql_mode=ANSI;</code></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&gt; select @@sql_mode \G</span><br><span class="line">***************************[ 1. row ]***************************</span><br><span class="line">@@sql_mode | REAL_AS_FLOAT,PIPES_AS_CONCAT,ANSI_QUOTES,IGNORE_SPACE,ONLY_FULL_GROUP_BY,ANSI</span><br></pre></td></tr></table></figure>
+
+<p>插入数据：<code>insert into testmode values(&#39;11111111&#39;,&#39;2342342424&#39;);</code></p>
+<p>插入成功，报出2条警告。而且只截取了前面2个字符数据。</p>
+</li>
+<li><p>TRADITIONAL模式：严格模式，当向mysql数据库插入数据时，进行数据的严格校验，保证错误数据不能插入，报error错误。用于事物时，会进行事物的回滚。</p>
+<p>先设置模式TRADITIONAL：<code>set @@sql_mode=TRADITIONAL;</code></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&gt; select @@sql_mode \G</span><br><span class="line">***************************[ 1. row ]***************************</span><br><span class="line">@@sql_mode | STRICT_TRANS_TABLES,STRICT_ALL_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,TRADITIONAL,NO_ENGINE_SUBSTITUTION</span><br></pre></td></tr></table></figure></li>
+</ol>
+<h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><ol>
+<li><a target="_blank" rel="noopener" href="https://baijiahao.baidu.com/s?id=1637179252298020747&wfr=spider&for=pc">MySQL的sql_mode解析与设置</a></li>
+</ol>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">平心</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://pingxin0521.gitee.io/2019/06/18/%E6%95%B0%E6%8D%AE%E5%BA%93-MySQL-3/">https://pingxin0521.gitee.io/2019/06/18/%E6%95%B0%E6%8D%AE%E5%BA%93-MySQL-3/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://pingxin0521.gitee.io" target="_blank">平心de小屋</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a><a class="post-meta__tags" href="/tags/MySQL/">MySQL</a></div><div class="post_share"><div class="social-share" data-image="https://i.loli.net/2020/05/08/okfOw28KlZFbE7z.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2019/06/18/%E6%95%B0%E6%8D%AE%E5%BA%93-Redis-1-0/"><img class="prev-cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/gGE57HRvpcKPfDY.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">Redis入门和安装</div></div></a></div><div class="next-post pull-right"><a href="/2019/06/09/Java-JVM-3-1/"><img class="next-cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/vCnKyoFJZ1g4XYR.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">JVM内存结构</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span> 相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2019/10/06/数据库-MySQL-1-2/" title="MySQL 架构和底层知识"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/vCnKyoFJZ1g4XYR.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2020-02-15</div><div class="title">MySQL 架构和底层知识</div></div></a></div><div><a href="/2019/10/15/数据库-MySQL-15-0/" title="MySQL集群结构"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/gGE57HRvpcKPfDY.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2020-02-16</div><div class="title">MySQL集群结构</div></div></a></div><div><a href="/2019/11/16/数据库-MySQL-15-1-2/" title="MySQL数据库 分库分表  MyCat（三）"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/vCnKyoFJZ1g4XYR.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2020-02-15</div><div class="title">MySQL数据库 分库分表  MyCat（三）</div></div></a></div><div><a href="/2019/05/16/数据库-MySQL-10-0/" title="MySQL SQL 权限(八)"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/PFDRNxj93taz6pw.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2019-11-28</div><div class="title">MySQL SQL 权限(八)</div></div></a></div><div><a href="/2019/05/17/数据库-MySQL-11-2/" title="MySQL SQL 备份--xtrabackup (九)"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/gGE57HRvpcKPfDY.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2019-11-06</div><div class="title">MySQL SQL 备份--xtrabackup (九)</div></div></a></div><div><a href="/2019/05/17/数据库-MySQL-11-1/" title="MySQL SQL 备份--MySQL 工具(九)"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/HjVAdIuT7bZJypS.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2019-10-29</div><div class="title">MySQL SQL 备份--MySQL 工具(九)</div></div></a></div></div></div><hr/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div class="vcomment" id="vcomment"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="card-info-avatar is-center"><img class="avatar-img" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://s2.ax1x.com/2020/02/11/1ovw6J.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/><div class="author-info__name">平心</div><div class="author-info__description">年轻人的life、learn and think</div></div><div class="card-info-data"><div class="card-info-data-item is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">449</div></a></div><div class="card-info-data-item is-center"><a href="/tags/"><div class="headline">标签</div><div class="length-num">77</div></a></div><div class="card-info-data-item is-center"><a href="/categories/"><div class="headline">分类</div><div class="length-num">68</div></a></div></div><a class="button--animated" id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/hanyunpeng0521"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/hanyunpeng0521" target="_blank" title="Github"><i class="fa fa-github"></i></a><a class="social-icon" href="mailto:m13839441583@163.com" target="_blank" title="Email"><i class="fa fa-envelope"></i></a><a class="social-icon" href="/atom.xml" target="_blank" title=""><i class="fa fa-rss"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn card-announcement-animation"></i><span>公告</span></div><div class="announcement_content">为什么呢？开始提问吧</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#CURRENT-TIMESTAMP"><span class="toc-number">1.</span> <span class="toc-text">CURRENT_TIMESTAMP</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#TINYINT"><span class="toc-number">2.</span> <span class="toc-text">TINYINT</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#mysql%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B%E4%B9%8B%E7%94%A8-TINYINT-1-%E8%BF%98%E6%98%AF-ENUM-%E2%80%98true%E2%80%99-%E2%80%98false%E2%80%99"><span class="toc-number">3.</span> <span class="toc-text">mysql数据类型之用 TINYINT(1) 还是 ENUM( ‘true’ , ‘false’)</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#This-function-has-none-of-DETERMINISTIC-NO-SQL-or-READS-SQL-DATA-in-its-de-%E9%94%99%E8%AF%AF%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95"><span class="toc-number">4.</span> <span class="toc-text">This function has none of DETERMINISTIC, NO SQL, or READS SQL DATA in its de 错误解决办法</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Mysql-%E4%B8%AD%E8%8E%B7%E5%8F%96%E5%88%9A%E6%8F%92%E5%85%A5%E7%9A%84%E8%87%AA%E5%A2%9E%E9%95%BFid%E7%9A%84%E5%80%BC"><span class="toc-number">5.</span> <span class="toc-text">Mysql 中获取刚插入的自增长id的值</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%8E%B7%E5%8F%96%E6%9F%90%E4%B8%AA%E8%A1%A8%E4%B8%AD%E7%9A%84%E6%9C%80%E5%A4%A7%E5%BA%8F%E5%8F%B7%E6%95%B0"><span class="toc-number">6.</span> <span class="toc-text">获取某个表中的最大序号数</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#mysql%E4%BD%BF%E7%94%A8ROW-COUNT-%E8%BF%94%E5%9B%9E%E6%8F%92%E5%85%A5%E3%80%81%E6%9B%B4%E6%96%B0%E3%80%81%E5%88%A0%E9%99%A4%E6%93%8D%E4%BD%9C%E5%BD%B1%E5%93%8D%E8%A1%8C%E6%95%B0"><span class="toc-number">7.</span> <span class="toc-text">mysql使用ROW_COUNT()返回插入、更新、删除操作影响行数</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Mysql%E5%88%A4%E6%96%AD%E8%AE%B0%E5%BD%95%E6%98%AF%E5%90%A6%E5%AD%98%E5%9C%A8"><span class="toc-number">8.</span> <span class="toc-text">Mysql判断记录是否存在</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#MySQL%E5%88%86%E9%A1%B5"><span class="toc-number">9.</span> <span class="toc-text">MySQL分页</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8%E5%AD%90%E6%9F%A5%E8%AF%A2%E4%BC%98%E5%8C%96"><span class="toc-number">9.1.</span> <span class="toc-text">使用子查询优化</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8-id-%E9%99%90%E5%AE%9A%E4%BC%98%E5%8C%96"><span class="toc-number">9.2.</span> <span class="toc-text">使用 id 限定优化</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8%E4%B8%B4%E6%97%B6%E8%A1%A8%E4%BC%98%E5%8C%96"><span class="toc-number">9.3.</span> <span class="toc-text">使用临时表优化</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%85%B3%E4%BA%8E%E6%95%B0%E6%8D%AE%E8%A1%A8%E7%9A%84id%E8%AF%B4%E6%98%8E"><span class="toc-number">9.4.</span> <span class="toc-text">关于数据表的id说明</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BF%AE%E6%94%B9%E6%97%B6%E5%8C%BA"><span class="toc-number"></span> <span class="toc-text">修改时区</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B%E8%BD%AC%E6%8D%A2"><span class="toc-number"></span> <span class="toc-text">数据类型转换</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#mysql%E5%B0%86%E5%AD%97%E7%AC%A6%E4%B8%B2%E5%AD%97%E6%AE%B5%E8%BD%AC%E4%B8%BA%E6%95%B0%E5%AD%97%E6%8E%92%E5%BA%8F%E6%88%96%E6%AF%94%E5%A4%A7%E5%B0%8F"><span class="toc-number">1.</span> <span class="toc-text">mysql将字符串字段转为数字排序或比大小</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#SQL-MODE"><span class="toc-number">2.</span> <span class="toc-text">SQL_MODE</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#SQL-MODE%E7%B1%BB%E5%9E%8B"><span class="toc-number">2.1.</span> <span class="toc-text">SQL_MODE类型</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#sql-mode%E6%A8%A1%E5%BC%8F"><span class="toc-number">2.2.</span> <span class="toc-text">sql_mode模式</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8F%82%E8%80%83"><span class="toc-number"></span> <span class="toc-text">参考</span></a></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2021/05/15/node-2-4/" title="Egg.js -- 为企业级框架和应用而生"><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/okfOw28KlZFbE7z.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Egg.js -- 为企业级框架和应用而生"/></a><div class="content"><a class="title" href="/2021/05/15/node-2-4/" title="Egg.js -- 为企业级框架和应用而生">Egg.js -- 为企业级框架和应用而生</a><time datetime="2021-05-15T10:18:59.000Z" title="发表于 2021-05-15 18:18:59">2021-05-15</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/04/30/node-2-3/" title="Koa -- 基于Node.js平台的下一代Web开发框架"><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/HjVAdIuT7bZJypS.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Koa -- 基于Node.js平台的下一代Web开发框架"/></a><div class="content"><a class="title" href="/2021/04/30/node-2-3/" title="Koa -- 基于Node.js平台的下一代Web开发框架">Koa -- 基于Node.js平台的下一代Web开发框架</a><time datetime="2021-04-30T10:18:59.000Z" title="发表于 2021-04-30 18:18:59">2021-04-30</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/04/01/node-2-1/" title="Node.JS web开发前置知识"><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/gGE57HRvpcKPfDY.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Node.JS web开发前置知识"/></a><div class="content"><a class="title" href="/2021/04/01/node-2-1/" title="Node.JS web开发前置知识">Node.JS web开发前置知识</a><time datetime="2021-04-01T03:18:59.000Z" title="发表于 2021-04-01 11:18:59">2021-04-01</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2020/12/26/%E5%91%A8%E8%AE%B0-10-1/" title="第十一周--谷歌浏览器插件"><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/gGE57HRvpcKPfDY.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="第十一周--谷歌浏览器插件"/></a><div class="content"><a class="title" href="/2020/12/26/%E5%91%A8%E8%AE%B0-10-1/" title="第十一周--谷歌浏览器插件">第十一周--谷歌浏览器插件</a><time datetime="2020-12-26T10:18:59.000Z" title="发表于 2020-12-26 18:18:59">2020-12-26</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2020/12/26/%E5%91%A8%E8%AE%B0-10-0/" title="第十一周--浏览器技术"><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/vCnKyoFJZ1g4XYR.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="第十一周--浏览器技术"/></a><div class="content"><a class="title" href="/2020/12/26/%E5%91%A8%E8%AE%B0-10-0/" title="第十一周--浏览器技术">第十一周--浏览器技术</a><time datetime="2020-12-26T06:18:59.000Z" title="发表于 2020-12-26 14:18:59">2020-12-26</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2019 - 2021 By 平心</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div id="local-search"><div class="search-dialog"><div class="search-dialog__title" id="local-search-title">本地搜索</div><div id="local-input-panel"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div></div><hr/><div id="local-search-results"></div><span class="search-close-button"><i class="fas fa-times"></i></span></div><div id="search-mask"></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload/dist/lazyload.iife.min.js"></script><script src="/js/search/local-search.js"></script><div class="js-pjax"><script>function loadValine () {
+  function initValine () {
+    const valine = new Valine(Object.assign({
+      el: '#vcomment',
+      appId: '4lfIXzqxaC1ONs0MJO4oHu07-gzGzoHsz',
+      appKey: 'qw99Bw8FD0KVKU9m457CwWsr',
+      placeholder: 'Please leave your footprints',
+      avatar: 'monsterid',
+      meta: 'nick,mail,link'.split(','),
+      pageSize: '10',
+      lang: 'zh-CN',
+      recordIP: true,
+      serverURLs: '',
+      emojiCDN: '',
+      emojiMaps: "",
+      enableQQ: true,
+      path: window.location.pathname,
+      requiredFields: ["nick,mail"],
+      visitor: false
+    }, null))
+  }
+
+  if (typeof Valine === 'function') initValine() 
+  else getScript('https://cdn.jsdelivr.net/npm/valine/dist/Valine.min.js').then(initValine)
+}
+
+if ('Valine' === 'Valine' || !false) {
+  if (false) btf.loadComment(document.getElementById('vcomment'),loadValine)
+  else setTimeout(loadValine, 0)
+} else {
+  function loadOtherComment () {
+    loadValine()
+  }
+}</script></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>

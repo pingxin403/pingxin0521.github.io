@@ -1,0 +1,403 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>分布式事务 | 平心de小屋</title><meta name="keywords" content="分布式"><meta name="author" content="平心"><meta name="copyright" content="平心"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="分布式事务指事务的参与者、支持事务的服务器、资源服务器以及事务管理器分别位于不同的分布式系统的不同节点之上。 简单的说，就是一次大的操作由不同的小操作组成，这些小的操作分布在不同的服务器上，且属于不同的应用，分布式事务需要保证这些小操作要么全部成功，要么全部失败。 本质上来说，分布式事务就是为了保证不同数据库的数据一致性。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="分布式事务">
+<meta property="og:url" content="https://pingxin0521.gitee.io/2020/04/17/%E5%88%86%E5%B8%83%E5%BC%8F-3-2/index.html">
+<meta property="og:site_name" content="平心de小屋">
+<meta property="og:description" content="分布式事务指事务的参与者、支持事务的服务器、资源服务器以及事务管理器分别位于不同的分布式系统的不同节点之上。 简单的说，就是一次大的操作由不同的小操作组成，这些小的操作分布在不同的服务器上，且属于不同的应用，分布式事务需要保证这些小操作要么全部成功，要么全部失败。 本质上来说，分布式事务就是为了保证不同数据库的数据一致性。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://i.loli.net/2020/05/08/HjVAdIuT7bZJypS.jpg">
+<meta property="article:published_time" content="2020-04-17T10:18:59.000Z">
+<meta property="article:modified_time" content="2020-05-11T15:25:21.571Z">
+<meta property="article:author" content="平心">
+<meta property="article:tag" content="分布式">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.loli.net/2020/05/08/HjVAdIuT7bZJypS.jpg"><link rel="shortcut icon" href="https://s2.ax1x.com/2020/02/11/1ovFOA.png"><link rel="canonical" href="https://pingxin0521.gitee.io/2020/04/17/%E5%88%86%E5%B8%83%E5%BC%8F-3-2/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"search.xml","languages":{"hits_empty":"找不到您查询的内容：${query}"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    jQuery: 'https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js',
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+    },
+    fancybox: {
+      js: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css'
+    }
+  },
+  isPhotoFigcaption: true,
+  islazyload: true,
+  isanchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '分布式事务',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2020-05-11 23:25:21'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    })(window)</script><meta name="generator" content="Hexo 5.4.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="author-avatar"><img class="avatar-img" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://s2.ax1x.com/2020/02/11/1ovw6J.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data"><div class="data-item is-center"><div class="data-item-link"><a href="/archives/"><div class="headline">文章</div><div class="length-num">449</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/tags/"><div class="headline">标签</div><div class="length-num">77</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/categories/"><div class="headline">分类</div><div class="length-num">68</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fa fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fa fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://i.loli.net/2020/05/08/HjVAdIuT7bZJypS.jpg')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">平心de小屋</a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fa fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fa fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">分布式事务</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2020-04-17T10:18:59.000Z" title="发表于 2020-04-17 18:18:59">2020-04-17</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2020-05-11T15:25:21.571Z" title="更新于 2020-05-11 23:25:21">2020-05-11</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E5%88%86%E5%B8%83%E5%BC%8F/">分布式</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">5.5k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>16分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="分布式事务"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><p>分布式事务指事务的参与者、支持事务的服务器、资源服务器以及事务管理器分别位于不同的分布式系统的不同节点之上。</p>
+<p>简单的说，就是一次大的操作由不同的小操作组成，这些小的操作分布在不同的服务器上，且属于不同的应用，分布式事务需要保证这些小操作要么全部成功，要么全部失败。</p>
+<p>本质上来说，分布式事务就是为了保证不同数据库的数据一致性。</p>
+<span id="more"></span>
+
+<p>从本地事务来看，我们可以分为两块：</p>
+<ul>
+<li>Service 产生多个节点</li>
+<li>Resource 产生多个节点</li>
+</ul>
+<p><strong>Service 多个节点</strong></p>
+<p>随着互联网快速发展，微服务，SOA 等服务架构模式正在被大规模的使用。</p>
+<p>举个简单的例子，一个公司之内，用户的资产可能分为好多个部分，比如余额，积分，优惠券等等。</p>
+<p>在公司内部有可能积分功能由一个微服务团队维护，优惠券又是另外的团队维护。</p>
+<p>这样的话就无法保证积分扣减了之后，优惠券能否扣减成功。</p>
+<p><strong>Resource多个节点</strong></p>
+<p>同样的，互联网发展得太快了，我们的 MySQL 一般来说装太多的数据就得进行分库分表。</p>
+<p>对于一个支付宝的转账业务来说，你给朋友转钱，有可能你的数据库是在北京，而你的朋友的钱是存在上海，所以我们依然无法保证他们能同时成功。</p>
+<h4 id="分布式事务解决方案"><a href="#分布式事务解决方案" class="headerlink" title="分布式事务解决方案"></a>分布式事务解决方案</h4><p>有了上面的理论基础后，这里开始介绍几种常见的分布式事务的解决方案。</p>
+<h5 id="是否真的要分布式事务"><a href="#是否真的要分布式事务" class="headerlink" title="是否真的要分布式事务"></a>是否真的要分布式事务</h5><p>在说方案之前，首先你一定要明确你是否真的需要分布式事务？</p>
+<p>上面说过出现分布式事务的两个原因，其中有个原因是因为微服务过多。我见过太多团队一个人维护几个微服务，太多团队过度设计，搞得所有人疲劳不堪。</p>
+<p>而微服务过多就会引出分布式事务，这个时候我不会建议你去采用下面任何一种方案，而是请把需要事务的微服务聚合成一个单机服务，使用数据库的本地事务。</p>
+<p>因为不论任何一种方案都会增加你系统的复杂度，这样的成本实在是太高了，千万不要因为追求某些设计，而引入不必要的成本和复杂度。</p>
+<p>如果你确定需要引入分布式事务可以看看下面几种常见的方案。</p>
+<h5 id="2PC"><a href="#2PC" class="headerlink" title="2PC"></a>2PC</h5><p>说到 2PC 就不得不聊数据库分布式事务中的 XA Transactions。</p>
+<p>在 XA 协议中分为两阶段：</p>
+<ul>
+<li>事务管理器要求每个涉及到事务的数据库预提交(precommit)此操作，并反映是否可以提交。</li>
+<li>事务协调器要求每个数据库提交数据，或者回滚数据。</li>
+</ul>
+<p>如图所示 1-2为第一阶段，2-3为第二阶段</p>
+<p>如果任一资源管理器在第一阶段返回准备失败，那么事务管理器会要求所有资源管理器在第二阶段执行回滚操作。通过事务管理器的两阶段协调，最终所有资源管理器要么全部提交，要么全部回滚，最终状态都是一致的</p>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://s2.ax1x.com/2020/02/29/369ynA.png" alt="369ynA.png"></p>
+<p>优点：</p>
+<ul>
+<li>尽量保证了数据的强一致，实现成本较低，在各大主流数据库都有自己实现，对于 MySQL 是从 5.5 开始支持。</li>
+</ul>
+<p>缺点：</p>
+<ul>
+<li>单点问题：事务管理器在整个流程中扮演的角色很关键，如果其宕机，比如在***阶段已经完成，在第二阶段正准备提交的时候事务管理器宕机，资源管理器就会一直阻塞，导致数据库无法使用。</li>
+<li>同步阻塞：在准备就绪之后，资源管理器中的资源一直处于阻塞，直到提交完成，释放资源。</li>
+<li>数据不一致：两阶段提交协议虽然为分布式数据强一致性所设计，但仍然存在数据不一致性的可能。</li>
+</ul>
+<p>比如在第二阶段中，假设协调者发出了事务 Commit 的通知，但是因为网络问题该通知仅被一部分参与者所收到并执行了 Commit 操作，其余的参与者则因为没有收到通知一直处于阻塞状态，这时候就产生了数据的不一致性。</p>
+<p>总的来说，XA 协议比较简单，成本较低，但是其单点问题，以及不能支持高并发(由于同步阻塞)依然是其弱点。</p>
+<h5 id="3PC"><a href="#3PC" class="headerlink" title="3PC"></a>3PC</h5><p>三阶段提交协议是两阶段提交协议的改进版本。它通过超时机制解决了阻塞的问题，并且把两个阶段增加为三个阶段：</p>
+<ul>
+<li><p>询问阶段：协调者询问参与者是否可以完成指令，协调者只需要回答是还是不是，而不需要做真正的操作，这个阶段超时导致中止。</p>
+</li>
+<li><p>准备阶段：如果在询问阶段所有的参与者都返回可以执行操作，协调者向参与者发送预执行请求，然后参与者写redo和undo日志，执行操作，但是不提交操作；如果在询问阶段任何参与者返回不能执行操作的结果，则协调者向参与者发送中止请求，这里的逻辑与两阶段提交协议的的准备阶段是相似的，这个阶段超时导致成功。</p>
+</li>
+<li><p>提交阶段：如果每个参与者在准备阶段返回准备成功，也就是预留资源和执行操作成功，协调者向参与者发起提交指令，参与者提交资源变更的事务，释放锁定的资源；如果任何一个参与者返回准备失败，也就是预留资源或者执行操作失败，协调者向参与者发起中止指令，参与者取消已经变更的事务，执行undo日志，释放锁定的资源，这里的逻辑与两阶段提交协议的提交阶段一致。</p>
+</li>
+</ul>
+<p>然而，这里与两阶段提交协议有两个主要的不同：</p>
+<p>增加了一个询问阶段，询问阶段可以确保尽可能早的发现无法执行操作而需要中止的行为，但是它并不能发现所有的这种行为，只会减少这种情况的发生。</p>
+<p>在准备阶段以后，协调者和参与者执行的任务中都增加了超时，一旦超时，协调者和参与者都继续提交事务，默认为成功，这也是根据概率统计上超时后默认成功的正确性最大。</p>
+<p>三阶段提交协议与两阶段提交协议相比，具有如上的优点，但是一旦发生超时，系统仍然会发生不一致，只不过这种情况很少见罢了，好处就是至少不会阻塞和永远锁定资源。</p>
+<h5 id="TCC"><a href="#TCC" class="headerlink" title="TCC"></a>TCC</h5><p>关于 TCC（Try-Confirm-Cancel）的概念，最早是由 Pat Helland 于 2007 年发表的一篇名为《Life beyond Distributed Transactions：an Apostate’s Opinion》的论文提出。</p>
+<p>TCC 事务机制相比于上面介绍的 XA，解决了如下几个缺点：</p>
+<ul>
+<li>解决了协调者单点，由主业务方发起并完成这个业务活动。业务活动管理器也变成多点，引入集群。</li>
+<li>同步阻塞：引入超时，超时后进行补偿，并且不会锁定整个资源，将资源转换为业务逻辑形式，粒度变小。</li>
+<li>数据一致性，有了补偿机制之后，由业务活动管理器控制一致性。</li>
+</ul>
+<p>对于 TCC 的解释：</p>
+<ul>
+<li>Try 阶段：尝试执行，完成所有业务检查（一致性），预留必需业务资源（准隔离性）。</li>
+<li>Confirm 阶段：确认真正执行业务，不作任何业务检查，只使用 Try 阶段预留的业务资源，Confirm 操作满足幂等性。要求具备幂等设计，Confirm 失败后需要进行重试。</li>
+<li>Cancel 阶段：取消执行，释放 Try 阶段预留的业务资源，Cancel 操作满足幂等性。Cancel 阶段的异常和 Confirm 阶段异常处理方案基本上一致。</li>
+</ul>
+<p>举个简单的例子：如果你用 100 元买了一瓶水， Try 阶段：你需要向你的钱包检查是否够 100 元并锁住这 100 元，水也是一样的。</p>
+<p>如果有一个失败，则进行 Cancel(释放这 100 元和这一瓶水)，如果 Cancel 失败不论什么失败都进行重试 Cancel，所以需要保持幂等。</p>
+<p>如果都成功，则进行 Confirm，确认这 100 元被扣，和这一瓶水被卖，如果 Confirm 失败无论什么失败则重试(会依靠活动日志进行重试)。</p>
+<p>引用网上一张TCC原理的参考图片</p>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://s2.ax1x.com/2020/02/29/369Wh8.png" alt="369Wh8.png"></p>
+<p>对于 TCC 来说适合一些：</p>
+<ul>
+<li>强隔离性，严格一致性要求的活动业务。</li>
+<li>执行时间较短的业务。</li>
+</ul>
+<p>实现参考：<a target="_blank" rel="noopener" href="https://github.com/liuyangming/ByteTCC/%E3%80%82">https://github.com/liuyangming/ByteTCC/。</a></p>
+<p>实现问题：</p>
+<ol>
+<li><p>幂等控制</p>
+<p>使用TCC时要注意Try - Confirm - Cancel 3个操作的幂等控制，网络原因，或者重试操作都有可能导致这几个操作的重复执行</p>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://s2.ax1x.com/2020/02/29/369H7q.png" alt="369H7q.png"></p>
+<p>新建一张去重表</p>
+</li>
+<li><p>空回滚</p>
+<p>如下图所示，事务协调器在调用TCC服务的一阶段Try操作时，可能会出现因为丢包而导致的网络超时，此时事务协调器会触发二阶段回滚，调用TCC服务的Cancel操作；</p>
+<p>TCC服务在未收到Try请求的情况下收到Cancel请求，这种场景被称为空回滚；TCC服务在实现时应当允许空回滚的执行；</p>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://s2.ax1x.com/2020/02/29/36Cnud.png" alt="36Cnud.png"></p>
+<p> 回滚请求处理时，如果对应的具体业务数据为空，则返回成功</p>
+<p>当然这种问题也可以通过中间件层面来实现，如，在第一阶段try()执行完后，向一张事务表中插入一条数据(包含事务id，分支id)，cancle()执行时，判断如果没有事务记录则直接返回，但是现在还不支持</p>
+</li>
+<li><p>防悬挂</p>
+<p>如下图所示，事务协调器在调用TCC服务的一阶段Try操作时，可能会出现因网络拥堵而导致的超时，此时事务协调器会触发二阶段回滚，调用TCC服务的Cancel操作；在此之后，拥堵在网络上的一阶段Try数据包被TCC服务收到，出现了二阶段Cancel请求比一阶段Try请求先执行的情况；</p>
+<p>用户在实现TCC服务时，应当允许空回滚，但是要拒绝执行空回滚之后到来的一阶段Try请求；</p>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://s2.ax1x.com/2020/02/29/36CYvQ.png" alt="36CYvQ.png"></p>
+<p>可以在二阶段执行时插入一条事务控制记录，状态为已回滚，这样当一阶段执行时，先读取该记录，如果记录存在，就认为二阶段回滚操作已经执行，不再执行try方法；</p>
+</li>
+</ol>
+<h5 id="本地消息表"><a href="#本地消息表" class="headerlink" title="本地消息表"></a>本地消息表</h5><p>本地消息表这个方案最初是 eBay 提出的，eBay 的完整方案 <a target="_blank" rel="noopener" href="https://queue.acm.org/detail.cfm?id=1394128%E3%80%82">https://queue.acm.org/detail.cfm?id=1394128。</a></p>
+<p>此方案的核心是将需要分布式处理的任务通过消息日志的方式来异步执行。消息日志可以存储到本地文本、数据库或消息队列，再通过业务规则自动或人工发起重试。</p>
+<p>人工重试更多的是应用于支付场景，通过对账系统对事后问题的处理。</p>
+<p>对于本地消息队列来说核心是把大事务转变为小事务。还是举上面用 100 元去买一瓶水的例子。</p>
+<ol>
+<li><p>当你扣钱的时候，你需要在你扣钱的服务器上新增加一个本地消息表，你需要把你扣钱和减去水的库存写入到本地消息表，放入同一个事务(依靠数据库本地事务保证一致性）。</p>
+</li>
+<li><p>这个时候有个定时任务去轮询这个本地事务表，把没有发送的消息，扔给商品库存服务器，叫它减去水的库存，到达商品服务器之后，这时得先写入这个服务器的事务表，然后进行扣减，扣减成功后，更新事务表中的状态。</p>
+</li>
+<li><p>商品服务器通过定时任务扫描消息表或者直接通知扣钱服务器，扣钱服务器在本地消息表进行状态更新。</p>
+</li>
+<li><p>针对一些异常情况，定时扫描未成功处理的消息，进行重新发送，在商品服务器接到消息之后，首先判断是否是重复的。</p>
+</li>
+</ol>
+<p>如果已经接收，再判断是否执行，如果执行在马上又进行通知事务；如果未执行，需要重新执行由业务保证幂等，也就是不会多扣一瓶水。</p>
+<p>本地消息队列是 BASE 理论，是最终一致模型，适用于对一致性要求不高的情况。实现这个模型时需要注意重试的幂等。</p>
+<h5 id="MQ-事务"><a href="#MQ-事务" class="headerlink" title="MQ 事务"></a>MQ 事务</h5><p>在 RocketMQ 中实现了分布式事务，实际上是对本地消息表的一个封装，将本地消息表移动到了 MQ 内部。</p>
+<p>下面简单介绍一下MQ事务，如果想对其详细了解可以参考：<a target="_blank" rel="noopener" href="https://www.jianshu.com/p/453c6e7ff81c%E3%80%82">https://www.jianshu.com/p/453c6e7ff81c。</a></p>
+<p>基本流程如下：</p>
+<ul>
+<li>第一阶段 Prepared 消息，会拿到消息的地址。</li>
+<li>第二阶段执行本地事务。</li>
+<li>第三阶段通过第一阶段拿到的地址去访问消息，并修改状态。消息接受者就能使用这个消息。</li>
+</ul>
+<p>如果确认消息失败，在 RocketMQ Broker 中提供了定时扫描没有更新状态的消息。</p>
+<p>如果有消息没有得到确认，会向消息发送者发送消息，来判断是否提交，在 RocketMQ 中是以 Listener 的形式给发送者，用来处理。</p>
+<p>如果消费超时，则需要一直重试，消息接收端需要保证幂等。如果消息消费失败，这时就需要人工进行处理，因为这个概率较低，如果为了这种小概率时间而设计这个复杂的流程反而得不偿失。</p>
+<p><strong>优缺点比较</strong></p>
+<table>
+<thead>
+<tr>
+<th>事务方案</th>
+<th>优点</th>
+<th>缺点</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>2PC</td>
+<td>实现简单</td>
+<td>1、需要数据库(一般是XA支持) 2、锁粒度大，性能差</td>
+</tr>
+<tr>
+<td>TCC</td>
+<td>锁粒度小，性能好</td>
+<td>需要侵入业务，实现较为复杂，复杂业务实现幂等有难度</td>
+</tr>
+<tr>
+<td>消息事务</td>
+<td>业务侵入小，无需编写业务回滚补偿逻辑</td>
+<td>事务消息实现难度大，强依赖第三方中间件可靠</td>
+</tr>
+</tbody></table>
+<h5 id="Saga-事务"><a href="#Saga-事务" class="headerlink" title="Saga 事务"></a>Saga 事务</h5><p>Saga 是 30 年前一篇数据库伦理提到的一个概念。其核心思想是将长事务拆分为多个本地短事务，由 Saga 事务协调器协调，如果正常结束那就正常完成，如果某个步骤失败，则根据相反顺序一次调用补偿操作。</p>
+<p>Saga 的组成：每个 Saga 由一系列 sub-transaction Ti 组成，每个 Ti 都有对应的补偿动作 Ci，补偿动作用于撤销 Ti 造成的结果。这里的每个 T，都是一个本地事务。</p>
+<p>可以看到，和 TCC 相比，Saga 没有“预留 try”动作，它的 Ti 就是直接提交到库。</p>
+<p>Saga 的执行顺序有两种：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">T1，T2，T3，...，Tn。</span><br><span class="line">T1，T2，...，Tj，Cj，...，C2，C1，其中 0 &lt; j &lt; n 。</span><br></pre></td></tr></table></figure>
+
+<p>Saga 定义了两种恢复策略：</p>
+<p>向后恢复，即上面提到的第二种执行顺序，其中 j 是发生错误的 sub-transaction，这种做法的效果是撤销掉之前所有成功的 sub-transation，使得整个 Saga 的执行结果撤销。<br>向前恢复，适用于必须要成功的场景，执行顺序是类似于这样的：T1，T2，…，Tj(失败)，Tj(重试)，…，Tn，其中 j 是发生错误的 sub-transaction。该情况下不需要 Ci。<br>这里要注意的是，在 Saga 模式中不能保证隔离性，因为没有锁住资源，其他事务依然可以覆盖或者影响当前事务。</p>
+<p>还是拿 100 元买一瓶水的例子来说，这里定义：</p>
+<p>T1 = 扣 100 元，T2 = 给用户加一瓶水，T3 = 减库存一瓶水。<br>C1 = 加100元，C2 = 给用户减一瓶水，C3 = 给库存加一瓶水。</p>
+<p>我们一次进行 T1，T2，T3 如果发生问题，就执行发生问题的 C 操作的反向。</p>
+<p>上面说到的隔离性的问题会出现在，如果执行到 T3 这个时候需要执行回滚，但是这个用户已经把水喝了(另外一个事务)，回滚的时候就会发现，无法给用户减一瓶水了。</p>
+<p>这就是事务之间没有隔离性的问题。可以看见 Saga 模式没有隔离性的影响还是较大，可以参照华为的解决方案：从业务层面入手加入一 Session 以及锁的机制来保证能够串行化操作资源。</p>
+<p>也可以在业务层面通过预先冻结资金的方式隔离这部分资源， 在业务操作的过程中可以通过及时读取当前状态的方式获取到的更新。（具体实例：可以参考华为的 Service Comb）</p>
+<h4 id="Seata-分布式事务中间件"><a href="#Seata-分布式事务中间件" class="headerlink" title="Seata 分布式事务中间件"></a>Seata 分布式事务中间件</h4><p><a target="_blank" rel="noopener" href="http://seata.io/zh-cn/">Seata</a>(Simple Extensible Autonomous Transaction Architecture) 是 阿里巴巴开源的分布式事务中间件，以高效并且对业务 0 侵入的方式，解决微服务场景下面临的分布式事务问题。</p>
+<p>附上项目github链接</p>
+<blockquote>
+<p><a target="_blank" rel="noopener" href="https://github.com/seata">https://github.com/seata</a></p>
+</blockquote>
+<p>解决分布式事务问题，有两个设计初衷</p>
+<ul>
+<li>对业务无侵入：即减少技术架构上的微服务化所带来的分布式事务问题对业务的侵入</li>
+<li>高性能：减少分布式事务解决方案所带来的性能消耗</li>
+</ul>
+<p>seata中有两种分布式事务实现方案，AT及TCC</p>
+<ul>
+<li>AT模式主要关注多 DB 访问的数据一致性，当然也包括多服务下的多 DB 数据访问一致性问题</li>
+<li>TCC 模式主要关注业务拆分，在按照业务横向扩展资源时，解决微服务间调用的一致性问题</li>
+</ul>
+<h5 id="AT模式-业务侵入小"><a href="#AT模式-业务侵入小" class="headerlink" title="AT模式(业务侵入小)"></a>AT模式(业务侵入小)</h5><p>Seata AT模式是基于XA事务演进而来的一个分布式事务中间件，XA是一个基于数据库实现的分布式事务协议，本质上和两阶段提交一样，需要数据库支持，Mysql5.6以上版本支持XA协议，其他数据库如Oracle，DB2也实现了XA接口</p>
+<p>角色如下：</p>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://s2.ax1x.com/2020/02/29/36CRbR.png" alt="36CRbR.png"></p>
+<ol>
+<li>Transaction Coordinator (TC)： 事务协调器，维护全局事务的运行状态，负责协调并驱动全局事务的提交或回滚</li>
+<li>Transaction Manager ™： 控制全局事务的边界，负责开启一个全局事务，并最终发起全局提交或全局回滚的决议</li>
+<li>Resource Manager (RM)： 控制分支事务，负责分支注册、状态汇报，并接收事务协调器的指令，驱动分支（本地）事务的提交和回滚</li>
+</ol>
+<p>基本处理逻辑如下：</p>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://s2.ax1x.com/2020/02/29/36P6FP.png" alt="36P6FP.png"></p>
+<p>Branch就是指的分布式事务中每个独立的本地局部事务</p>
+<ol>
+<li><p>第一阶段</p>
+<p>Seata 的 JDBC 数据源代理通过对业务 SQL 的解析，把业务数据在更新前后的数据镜像组织成回滚日志，利用 本地事务 的 ACID 特性，将业务数据的更新和回滚日志的写入在同一个 本地事务 中提交。</p>
+<p>这样，可以保证：任何提交的业务数据的更新一定有相应的回滚日志存在</p>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://s2.ax1x.com/2020/02/29/36PpRS.png" alt="36PpRS.png"></p>
+<p>基于这样的机制，分支的本地事务便可以在全局事务的第一阶段提交，并马上释放本地事务锁定的资源</p>
+<p>这也是Seata和XA事务的不同之处，两阶段提交往往对资源的锁定需要持续到第二阶段实际的提交或者回滚操作，而有了回滚日志之后，可以在第一阶段释放对资源的锁定，降低了锁范围，提高效率，即使第二阶段发生异常需要回滚，只需找对undolog中对应数据并反解析成sql来达到回滚目的</p>
+<p>同时Seata通过代理数据源将业务sql的执行解析成undolog来与业务数据的更新同时入库，达到了对业务无侵入的效果</p>
+</li>
+<li><p>第二阶段</p>
+<p>如果决议是全局提交，此时分支事务此时已经完成提交，不需要同步协调处理（只需要异步清理回滚日志），Phase2 可以非常快速地完成</p>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://s2.ax1x.com/2020/02/29/36Pirj.png" alt="36Pirj.png"></p>
+<p>如果决议是全局回滚，RM 收到协调器发来的回滚请求，通过 XID 和 Branch ID 找到相应的回滚日志记录，通过回滚记录生成反向的更新 SQL 并执行，以完成分支的回滚</p>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://s2.ax1x.com/2020/02/29/36PMM4.png" alt="36PMM4.png"></p>
+</li>
+</ol>
+<h5 id="TCC-高性能"><a href="#TCC-高性能" class="headerlink" title="TCC(高性能)"></a>TCC(高性能)</h5><p>seata也针对TCC做了适配兼容，支持TCC事务方案，原理前面已经介绍过，基本思路就是使用侵入业务上的补偿及事务管理器的协调来达到全局事务的一起提交及回滚</p>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://s2.ax1x.com/2020/02/29/36PYi6.png" alt="36PYi6.png"></p>
+<h5 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h5><ol>
+<li><p>安装Seata Server</p>
+<p>我们通过<code>github</code>的<code>releases</code>界面下载<code>seata</code>最新发布的<code>server</code>编译后的启动程序，下载地址：<a target="_blank" rel="noopener" href="https://github.com/seata/seata/releases">https://github.com/seata/seata/releases</a></p>
+</li>
+<li><p>示例：<a target="_blank" rel="noopener" href="http://seata.io/zh-cn/docs/user/quickstart.html">http://seata.io/zh-cn/docs/user/quickstart.html</a></p>
+</li>
+</ol>
+<h4 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h4><ol>
+<li><a target="_blank" rel="noopener" href="https://baijiahao.baidu.com/s?id=1637210865161420320&wfr=spider&for=pc">讲解「分布式事务」的一篇良心之作！</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/0a92b7c97c65">SpringCloud与Seata分布式事务初体验</a></li>
+<li><a target="_blank" rel="noopener" href="https://item.jd.com/11622772.html">《从 Paxos 到 Zookeeper —— 分布式一致性原理实践》倪超</a></li>
+<li><a target="_blank" rel="noopener" href="http://www.infoq.com/cn/articles/cap-twelve-years-later-how-the-rules-have-changed">CAP理论十二年回顾：”规则”变了</a></li>
+<li><a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/CAP%E5%AE%9A%E7%90%86">维基百科CAP定理</a></li>
+</ol>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">平心</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://pingxin0521.gitee.io/2020/04/17/%E5%88%86%E5%B8%83%E5%BC%8F-3-2/">https://pingxin0521.gitee.io/2020/04/17/%E5%88%86%E5%B8%83%E5%BC%8F-3-2/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://pingxin0521.gitee.io" target="_blank">平心de小屋</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E5%88%86%E5%B8%83%E5%BC%8F/">分布式</a></div><div class="post_share"><div class="social-share" data-image="https://i.loli.net/2020/05/08/HjVAdIuT7bZJypS.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2020/04/18/%E5%88%86%E5%B8%83%E5%BC%8F-1-1/"><img class="prev-cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/gGE57HRvpcKPfDY.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">ZooKeeper 实现分布式锁</div></div></a></div><div class="next-post pull-right"><a href="/2020/04/17/%E5%88%86%E5%B8%83%E5%BC%8F-1-0/"><img class="next-cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/vCnKyoFJZ1g4XYR.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">ZooKeeper 入门</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span> 相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2020/04/18/分布式-1-1/" title="ZooKeeper 实现分布式锁"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/gGE57HRvpcKPfDY.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2020-05-11</div><div class="title">ZooKeeper 实现分布式锁</div></div></a></div><div><a href="/2020/04/17/分布式-3-3/" title="一致性Hash--分布式缓存的管中窥豹"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/okfOw28KlZFbE7z.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2020-05-11</div><div class="title">一致性Hash--分布式缓存的管中窥豹</div></div></a></div><div><a href="/2020/07/18/Java-框架-3-2-1/" title="分布式任务调度框架--XXL-JOB"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/gGE57HRvpcKPfDY.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2020-11-07</div><div class="title">分布式任务调度框架--XXL-JOB</div></div></a></div><div><a href="/2020/04/10/分布式-3-0/" title="分布式理论"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/7dHvepmfYOLWTrX.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2020-05-11</div><div class="title">分布式理论</div></div></a></div><div><a href="/2020/04/19/分布式-1-2/" title="ZooKeeper 深入"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/HjVAdIuT7bZJypS.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2020-05-11</div><div class="title">ZooKeeper 深入</div></div></a></div><div><a href="/2020/04/15/分布式-3-1/" title="分布式ID 方案"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/gGE57HRvpcKPfDY.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2020-05-11</div><div class="title">分布式ID 方案</div></div></a></div></div></div><hr/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div class="vcomment" id="vcomment"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="card-info-avatar is-center"><img class="avatar-img" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://s2.ax1x.com/2020/02/11/1ovw6J.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/><div class="author-info__name">平心</div><div class="author-info__description">年轻人的life、learn and think</div></div><div class="card-info-data"><div class="card-info-data-item is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">449</div></a></div><div class="card-info-data-item is-center"><a href="/tags/"><div class="headline">标签</div><div class="length-num">77</div></a></div><div class="card-info-data-item is-center"><a href="/categories/"><div class="headline">分类</div><div class="length-num">68</div></a></div></div><a class="button--animated" id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/hanyunpeng0521"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/hanyunpeng0521" target="_blank" title="Github"><i class="fa fa-github"></i></a><a class="social-icon" href="mailto:m13839441583@163.com" target="_blank" title="Email"><i class="fa fa-envelope"></i></a><a class="social-icon" href="/atom.xml" target="_blank" title=""><i class="fa fa-rss"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn card-announcement-animation"></i><span>公告</span></div><div class="announcement_content">为什么呢？开始提问吧</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%88%86%E5%B8%83%E5%BC%8F%E4%BA%8B%E5%8A%A1%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88"><span class="toc-number">1.</span> <span class="toc-text">分布式事务解决方案</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%98%AF%E5%90%A6%E7%9C%9F%E7%9A%84%E8%A6%81%E5%88%86%E5%B8%83%E5%BC%8F%E4%BA%8B%E5%8A%A1"><span class="toc-number">1.1.</span> <span class="toc-text">是否真的要分布式事务</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#2PC"><span class="toc-number">1.2.</span> <span class="toc-text">2PC</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#3PC"><span class="toc-number">1.3.</span> <span class="toc-text">3PC</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#TCC"><span class="toc-number">1.4.</span> <span class="toc-text">TCC</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%9C%AC%E5%9C%B0%E6%B6%88%E6%81%AF%E8%A1%A8"><span class="toc-number">1.5.</span> <span class="toc-text">本地消息表</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#MQ-%E4%BA%8B%E5%8A%A1"><span class="toc-number">1.6.</span> <span class="toc-text">MQ 事务</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#Saga-%E4%BA%8B%E5%8A%A1"><span class="toc-number">1.7.</span> <span class="toc-text">Saga 事务</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Seata-%E5%88%86%E5%B8%83%E5%BC%8F%E4%BA%8B%E5%8A%A1%E4%B8%AD%E9%97%B4%E4%BB%B6"><span class="toc-number">2.</span> <span class="toc-text">Seata 分布式事务中间件</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#AT%E6%A8%A1%E5%BC%8F-%E4%B8%9A%E5%8A%A1%E4%BE%B5%E5%85%A5%E5%B0%8F"><span class="toc-number">2.1.</span> <span class="toc-text">AT模式(业务侵入小)</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#TCC-%E9%AB%98%E6%80%A7%E8%83%BD"><span class="toc-number">2.2.</span> <span class="toc-text">TCC(高性能)</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8"><span class="toc-number">2.3.</span> <span class="toc-text">使用</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%8F%82%E8%80%83"><span class="toc-number">3.</span> <span class="toc-text">参考</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2021/05/15/node-2-4/" title="Egg.js -- 为企业级框架和应用而生"><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/okfOw28KlZFbE7z.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Egg.js -- 为企业级框架和应用而生"/></a><div class="content"><a class="title" href="/2021/05/15/node-2-4/" title="Egg.js -- 为企业级框架和应用而生">Egg.js -- 为企业级框架和应用而生</a><time datetime="2021-05-15T10:18:59.000Z" title="发表于 2021-05-15 18:18:59">2021-05-15</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/04/30/node-2-3/" title="Koa -- 基于Node.js平台的下一代Web开发框架"><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/HjVAdIuT7bZJypS.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Koa -- 基于Node.js平台的下一代Web开发框架"/></a><div class="content"><a class="title" href="/2021/04/30/node-2-3/" title="Koa -- 基于Node.js平台的下一代Web开发框架">Koa -- 基于Node.js平台的下一代Web开发框架</a><time datetime="2021-04-30T10:18:59.000Z" title="发表于 2021-04-30 18:18:59">2021-04-30</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/04/01/node-2-1/" title="Node.JS web开发前置知识"><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/gGE57HRvpcKPfDY.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Node.JS web开发前置知识"/></a><div class="content"><a class="title" href="/2021/04/01/node-2-1/" title="Node.JS web开发前置知识">Node.JS web开发前置知识</a><time datetime="2021-04-01T03:18:59.000Z" title="发表于 2021-04-01 11:18:59">2021-04-01</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2020/12/26/%E5%91%A8%E8%AE%B0-10-1/" title="第十一周--谷歌浏览器插件"><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/gGE57HRvpcKPfDY.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="第十一周--谷歌浏览器插件"/></a><div class="content"><a class="title" href="/2020/12/26/%E5%91%A8%E8%AE%B0-10-1/" title="第十一周--谷歌浏览器插件">第十一周--谷歌浏览器插件</a><time datetime="2020-12-26T10:18:59.000Z" title="发表于 2020-12-26 18:18:59">2020-12-26</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2020/12/26/%E5%91%A8%E8%AE%B0-10-0/" title="第十一周--浏览器技术"><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/vCnKyoFJZ1g4XYR.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="第十一周--浏览器技术"/></a><div class="content"><a class="title" href="/2020/12/26/%E5%91%A8%E8%AE%B0-10-0/" title="第十一周--浏览器技术">第十一周--浏览器技术</a><time datetime="2020-12-26T06:18:59.000Z" title="发表于 2020-12-26 14:18:59">2020-12-26</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2019 - 2021 By 平心</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div id="local-search"><div class="search-dialog"><div class="search-dialog__title" id="local-search-title">本地搜索</div><div id="local-input-panel"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div></div><hr/><div id="local-search-results"></div><span class="search-close-button"><i class="fas fa-times"></i></span></div><div id="search-mask"></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload/dist/lazyload.iife.min.js"></script><script src="/js/search/local-search.js"></script><div class="js-pjax"><script>function loadValine () {
+  function initValine () {
+    const valine = new Valine(Object.assign({
+      el: '#vcomment',
+      appId: '4lfIXzqxaC1ONs0MJO4oHu07-gzGzoHsz',
+      appKey: 'qw99Bw8FD0KVKU9m457CwWsr',
+      placeholder: 'Please leave your footprints',
+      avatar: 'monsterid',
+      meta: 'nick,mail,link'.split(','),
+      pageSize: '10',
+      lang: 'zh-CN',
+      recordIP: true,
+      serverURLs: '',
+      emojiCDN: '',
+      emojiMaps: "",
+      enableQQ: true,
+      path: window.location.pathname,
+      requiredFields: ["nick,mail"],
+      visitor: false
+    }, null))
+  }
+
+  if (typeof Valine === 'function') initValine() 
+  else getScript('https://cdn.jsdelivr.net/npm/valine/dist/Valine.min.js').then(initValine)
+}
+
+if ('Valine' === 'Valine' || !false) {
+  if (false) btf.loadComment(document.getElementById('vcomment'),loadValine)
+  else setTimeout(loadValine, 0)
+} else {
+  function loadOtherComment () {
+    loadValine()
+  }
+}</script></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>

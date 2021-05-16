@@ -1,0 +1,442 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>移动架构变迁 | 平心de小屋</title><meta name="keywords" content="编程思想"><meta name="author" content="平心"><meta name="copyright" content="平心"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="从Android诞生至今，移动端的架构变更了很多次，从最初的MVC到MVP, 从冷门的Flutter(由RN引入到移动端)到Google的AAC&#x2F;MVVM；好像架构的思想一直在变，但是大抵都是换汤不换药的，为什么这么说呢 ？ 让我们来总结一下。  MVC MVP MVVM Flutter AAC">
+<meta property="og:type" content="article">
+<meta property="og:title" content="移动架构变迁">
+<meta property="og:url" content="https://pingxin0521.gitee.io/2019/08/17/%E7%BC%96%E7%A8%8B%E6%80%9D%E6%83%B3-1-0/index.html">
+<meta property="og:site_name" content="平心de小屋">
+<meta property="og:description" content="从Android诞生至今，移动端的架构变更了很多次，从最初的MVC到MVP, 从冷门的Flutter(由RN引入到移动端)到Google的AAC&#x2F;MVVM；好像架构的思想一直在变，但是大抵都是换汤不换药的，为什么这么说呢 ？ 让我们来总结一下。  MVC MVP MVVM Flutter AAC">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://i.loli.net/2020/05/08/okfOw28KlZFbE7z.jpg">
+<meta property="article:published_time" content="2019-08-17T10:18:59.000Z">
+<meta property="article:modified_time" content="2020-07-25T06:47:31.286Z">
+<meta property="article:author" content="平心">
+<meta property="article:tag" content="编程思想">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.loli.net/2020/05/08/okfOw28KlZFbE7z.jpg"><link rel="shortcut icon" href="https://s2.ax1x.com/2020/02/11/1ovFOA.png"><link rel="canonical" href="https://pingxin0521.gitee.io/2019/08/17/%E7%BC%96%E7%A8%8B%E6%80%9D%E6%83%B3-1-0/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"search.xml","languages":{"hits_empty":"找不到您查询的内容：${query}"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    jQuery: 'https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js',
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+    },
+    fancybox: {
+      js: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css'
+    }
+  },
+  isPhotoFigcaption: true,
+  islazyload: true,
+  isanchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '移动架构变迁',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2020-07-25 14:47:31'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    })(window)</script><meta name="generator" content="Hexo 5.4.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="author-avatar"><img class="avatar-img" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://s2.ax1x.com/2020/02/11/1ovw6J.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data"><div class="data-item is-center"><div class="data-item-link"><a href="/archives/"><div class="headline">文章</div><div class="length-num">449</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/tags/"><div class="headline">标签</div><div class="length-num">77</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/categories/"><div class="headline">分类</div><div class="length-num">68</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fa fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fa fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://i.loli.net/2020/05/08/okfOw28KlZFbE7z.jpg')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">平心de小屋</a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fa fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fa fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">移动架构变迁</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2019-08-17T10:18:59.000Z" title="发表于 2019-08-17 18:18:59">2019-08-17</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2020-07-25T06:47:31.286Z" title="更新于 2020-07-25 14:47:31">2020-07-25</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E7%BC%96%E7%A8%8B%E6%80%9D%E6%83%B3/">编程思想</a><i class="fas fa-angle-right post-meta-separator"></i><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E7%BC%96%E7%A8%8B%E6%80%9D%E6%83%B3/%E7%A7%BB%E5%8A%A8%E6%9E%B6%E6%9E%84/">移动架构</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">9.3k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>31分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="移动架构变迁"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><p>从Android诞生至今，移动端的架构变更了很多次，从最初的MVC到MVP, 从冷门的Flutter(由RN引入到移动端)到Google的AAC/MVVM；好像架构的思想一直在变，但是大抵都是换汤不换药的，为什么这么说呢 ？ 让我们来总结一下。</p>
+<ul>
+<li>MVC</li>
+<li>MVP</li>
+<li>MVVM</li>
+<li>Flutter</li>
+<li>AAC</li>
+</ul>
+<span id="more"></span>
+
+<p>解释一下都是什么</p>
+<h4 id="MVC"><a href="#MVC" class="headerlink" title="MVC"></a>MVC</h4><p>MVC 是一种使用 MVC（Model View Controller 模型-视图-控制器）设计创建 Web 应用程序的模式： </p>
+<ul>
+<li>Model（模型）表示应用程序核心（比如数据库记录列表）。</li>
+<li>View（视图）显示数据（数据库记录）。</li>
+<li>Controller（控制器）处理输入（写入数据库记录）。</li>
+</ul>
+<p>MVC 模式同时提供了对 HTML、CSS 和 JavaScript 的完全控制。</p>
+<ul>
+<li><p>Model（模型）是应用程序中用于处理应用程序数据逻辑的部分。通常模型对象负责在数据库中存取数据。</p>
+</li>
+<li><p>View（视图）是应用程序中处理数据显示的部分。通常视图是依据模型数据创建的。</p>
+</li>
+<li><p>Controller（控制器）是应用程序中处理用户交互的部分。通常控制器负责从视图读取数据，控制用户输入，并向模型发送数据。</p>
+</li>
+</ul>
+<p>MVC 分层有助于管理复杂的应用程序，因为您可以在一个时间内专门关注一个方面。例如，您可以在不依赖业务逻辑的情况下专注于视图设计。同时也让应用程序的测试更加容易。</p>
+<p>MVC 分层同时也简化了分组开发。不同的开发人员可同时开发视图、控制器逻辑和业务逻辑。</p>
+<p>MVC指MVC模式的某种框架，它强制性的使应用程序的输入、处理和输出分开。使用MVC应用程序被分成三个核心部件：模型、视图、控制器。它们各自处理自己的任务。</p>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2019/08/25/EQ6g9sYvpm5PKNn.png" alt="image.png"></p>
+<p>MVC分为MVC设计模式和MVC框架，他俩也是有区别的，那就举个简单的例子，MVC设计模式就像是设计师手中的图纸，而MVC框架就想是工程师以设计师的图纸建造出来的产品。但是现在咱们就认为MVC就是MVC框架。</p>
+<p>MVC一般指MVC框架，全名是Model View Controller,模型，视图，控制器，一种将业务逻辑，数据，界面显示分离的方法组织代码，将业务逻辑聚集到一个部件里面，在改进和个性化定制界面以及用户交互的同时，不需要重写业务逻辑。MVC指的是某种模式的某种框架，他强制性的使应用程序的输入，处理和输出分开。</p>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2019/08/25/TtUkLlAeOixdHI4.png" alt="image.png"></p>
+<p>例如，View层接受用户的输入，然后通过Controller修改对应的Model实例；同时，当Model实例的数据发生变化的时候，需要修改UI界面，可以通过Controller更新界面。（View层也可以直接更新Model实例的数据，而不用每次都通过Controller，这样对于一些简单的数据更新工作会变得方便许多。）</p>
+<p>举个简单的例子，现在要实现一个飘雪的动态壁纸，可以给雪花定义一个实体类Snow，里面存放XY轴坐标数据，View层当然就是SurfaceView（或者其他视图），为了实现雪花飘的效果，可以启动一个后台线程，在线程里不断更新Snow实例里的坐标值，这部分就是Controller的工作了，Controller里还要定时更新SurfaceView上面的雪花。进一步的话，可以在SurfaceView上监听用户的点击，如果用户点击，只通过Controller对触摸点周围的Snow的坐标值进行调整，从而实现雪花在用户点击后出现弹开等效果。</p>
+<p>MVP</p>
+<h4 id="MVVM"><a href="#MVVM" class="headerlink" title="MVVM"></a>MVVM</h4><p>领域驱动设计</p>
+<ul>
+<li>VO（View Object）<br> 视图对象，用于展示层，其作用是把某个指定页面或组件的所有数据封装起来。</li>
+<li>DO（Domain Object）<br> 领域对象，从现实世界中抽象出来有形或无形的业务实体</li>
+<li>PO（Presistent Object）<br> 持久化对象，在关系型数据库中跟持久层的数据结构形成一一对应的映射关系</li>
+<li>Domain<br> 领域驱动层，用户与数据交互的核心中转站，控制用户数据收集、请求转向等。</li>
+</ul>
+<p>ViewModel和View一起组成领域驱动架构体系中的展示层Presention，在MVVM架构中，ViewModel连接视图View和数据业务的Model层，而Domain和Data数据持久化层共同组成整个Model。</p>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2019/08/25/ljvwCifSKyh9RV1.png" alt="image.png"></p>
+<p>MVVM(Model-View-ViewModel)是一种软件架构设计模式，由微软WPF和Silverlight的架构师Ken Cooper和Ted Peters开发，是一种简化用户界面的事件驱动编程方式，由John Gossman于2005年博客发表。</p>
+<p>MVVM是一种架构模式，并非一种框架，是一种思想，一种组织和管理代码的艺术。它利用数据绑定、属性依赖、路由事件、命令等特性实现高效灵活的架构。</p>
+<p>MVVM源于MVC(Model-View-Controller)模式，期间还演化出MVP(Model-View-Presenter)模式。MVVM的出现促进了GUI前端开发和后端开发逻辑的分离，提高了前端开发效率。</p>
+<p>MVVM的核心是数据驱动即ViewModel，ViewModel是View和Model的关系映射。ViewModel类似中转站(Value Converter)，负责转换Model中的数据对象，使得数据变得更加易于管理和使用。MVVM本质就是基于操作数据来操作视图进而操作DOM，借助于MVVM无需直接操作DOM，开发者只需完成包含声明绑定的视图模板，编写ViewModel中有业务，使得View完全实现自动化。</p>
+<p>在MVVM中View和Model是不可以直接进行通信的，它们之间存在这ViewModel这个中介充当着观察者的角色。当用户操作View，ViewModel感知到变化，然后通知Model发生相应改变，反之亦然。ViewModel向上与视图层View进行双向数据绑定，向下与Model通过接口请求进行数据交互，起到承上启下的作用。<br><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2019/08/25/WF79kb4dmCfPQsH.png" alt="image.png"></p>
+<p>ViewModel所封装出来的数据模型包含视图的状态和行为两部分，Model的数据模型只包含状态，这样的封装使得ViewModel可以完整地去描述View层。MVVM最标志的特性是数据绑定，MVVM的核心理念是通过声明式的数据绑定来实现View的分离，完全解耦View。</p>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2019/08/25/Mnw4qHeNbRyzpXu.png" alt="image.png"></p>
+<p>响应式双向数据绑定的实现原理</p>
+<ol>
+<li>脏值检查</li>
+</ol>
+<p>AngularJS实现方式</p>
+<p>通过脏值检查的方式比对数据是否变更，来决定是否更新视图。最简单的方式是通过<code>setInterval()</code>定时轮询检测数据变动。AngularJS只有在指定事件触发时进入脏值检测。</p>
+<p>检查器是一颗树状的结构，当异步事件发生时，脏检查会从根组件开始，自上而下的对子组件进行检查，这种检查的性能存在很大问题。</p>
+<ol>
+<li>观察者-订阅者（数据劫持）</li>
+</ol>
+<p>VUE的实现方式</p>
+<ul>
+<li>数据监听器<br> Observer将普通的JS对象传递给VUE实例的data选项，Vue将遍历此对象所有属性，并使用Object.defineProperty()方法将属性全部转换成setter和getter方法。当data中的属性被调用访问时，则会调用getter方法。当data中的属性被改变时，则会调用setter方法。</li>
+<li>指令解析器<br> Compiler 的作用是对每个元素节点的指令进行解析，替换模板数据，并绑定对应的更新函数，初始化相应的订阅。</li>
+<li>订阅者<br> Watcher作为连接Observer和Compiler的桥梁，能够订阅并接收每个属性变动的通知，执行指令绑定相应回调函数。</li>
+<li>消息订阅器</li>
+</ul>
+<p>Dep内部维护了一个数组，用来执行收集订阅者Watcher，数据变动触发<code>notify()</code>函数，在调用订阅者的<code>update()</code>方法。</p>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2019/08/25/nT4qAbdSCBUFRLH.png" alt="vue"></p>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2019/08/25/ckONfaoZAUqbXHm.png" alt="image.png"></p>
+<h4 id="Flutter"><a href="#Flutter" class="headerlink" title="Flutter"></a>Flutter</h4><p>此Flutter非目前炒得火热的Flutter, 而是由React Native衍生而来的，适用于移动端的框架。是的，这也是一种框架思想。<strong>Flutter的元素分为3种： View(不必多说)， Model(也不必解释吧), Store(这个要说一下，用于处理Action的核心类，类似Presenter的作用)， Dispatcher(Action路由)， Action（事件）</strong>。该框架类似于MVP, 只是通信模块由接口，改为路由系统。</p>
+<p><strong>AAC([Android Architecture components]</strong></p>
+<p>不知道的可以查看一下官网：<a target="_blank" rel="noopener" href="https://link.jianshu.com/?t=https://developer.android.com/topic/libraries/architecture/guide.html">https://developer.android.com/topic/libraries/architecture/guide.html</a></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">UserProfileViewModel</span> <span class="keyword">extends</span> <span class="title">ViewModel</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> String userId;</span><br><span class="line">    <span class="keyword">private</span> User user;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">init</span><span class="params">(String userId)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.userId = userId;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> User <span class="title">getUser</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> user;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">UserProfileFragment</span> <span class="keyword">extends</span> <span class="title">Fragment</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> String UID_KEY = <span class="string">&quot;uid&quot;</span>;</span><br><span class="line">    <span class="keyword">private</span> UserProfileViewModel viewModel;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onActivityCreated</span><span class="params">(<span class="meta">@Nullable</span> Bundle savedInstanceState)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>.onActivityCreated(savedInstanceState);</span><br><span class="line">        String userId = getArguments().getString(UID_KEY);</span><br><span class="line">        viewModel = ViewModelProviders.of(<span class="keyword">this</span>).get(UserProfileViewModel.class);</span><br><span class="line">        viewModel.init(userId);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> View <span class="title">onCreateView</span><span class="params">(LayoutInflater inflater,</span></span></span><br><span class="line"><span class="params"><span class="function">                <span class="meta">@Nullable</span> ViewGroup container, <span class="meta">@Nullable</span> Bundle savedInstanceState)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> inflater.inflate(R.layout.user_profile, container, <span class="keyword">false</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>以上是来自官网的AAC-Demo的源码，看结构其实就清楚了，如果允许自己命名的话，或者我们可以称为MVVM了；ViewModel这个模块，是不是像极了Controller或者Presenter。</p>
+<p>通过以上框架的分析， 我们应该可以得出结论：</p>
+<p>局部的架构，为什么说是局部架构？因为项目级得架构肯定就是大结构的组件化与插件化。</p>
+<ol>
+<li><p>分层</p>
+<p>从代码的实现解耦。对于现在狭义上的架构，M和V是必然单独的两层，因为数据处理和UI嘛，界限很清楚。难以划分层次的就是逻辑实现，也就是我们的业务处理。而Controller, Presenter, VM这些模块的功能都是一致的</p>
+<p>所以分层的维度几乎已经确定，就是 数据处理（Model）， UI显示(View)， 业务处理（X）</p>
+</li>
+<li><p>通信</p>
+<p>不同的模块，好像层次划分都是一致的，虽然骚气的取了不同的名字。但是区别就在于通信方式。<br>MVC/AAC的通信方式是对象， View与Model的交互是完全通过对象来实现的，如下</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Model</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 这是Model模块，负责数据处理。处理的方式不尽相同，但是本质一样。如网络请求， 数据库， 文件等等</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">postLogin</span><span class="params">(String username, String password, Callback callback)</span> </span>&#123;</span><br><span class="line">        <span class="comment">// 执行登陆请求，验证帐号密码是否正确</span></span><br><span class="line">        callback.onResponse(<span class="string">&quot;登录结果&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">Callback</span> </span>&#123;</span><br><span class="line">        <span class="function"><span class="keyword">void</span> <span class="title">onResponse</span><span class="params">(String result)</span></span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">View</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    X controllerOrPresenter;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onClick</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="comment">// 点击登录</span></span><br><span class="line">        controllerOrPresenter.login(<span class="string">&quot;xxx&quot;</span>, <span class="string">&quot;xxx&quot;</span>, <span class="keyword">new</span> Model.Callback() &#123;</span><br><span class="line">            <span class="meta">@Override</span></span><br><span class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onResponse</span><span class="params">(String result)</span> </span>&#123;</span><br><span class="line">                <span class="keyword">if</span> (<span class="string">&quot;success&quot;</span>.equals(result)) &#123;</span><br><span class="line">                    <span class="comment">// 登录成功，则提示登录成功，保存信息</span></span><br><span class="line">                &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                    <span class="comment">// 登录失败，则提示失败</span></span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">X</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    Model model;</span><br><span class="line">    View view;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">login</span><span class="params">(String username, String password, Model.Callback callback)</span> </span>&#123;</span><br><span class="line">        <span class="comment">// 验证帐号， 密码格式是否正确</span></span><br><span class="line">        model.postLogin(username, password, callback);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>以上代码是MVC模式， 是不是这么处理的？通过持有对象来达到模块之间的通信。当时可能会觉得这样耦合度比较高，这样就出现了解决方案。<strong>于是MVC做成了MVP（哦，当然，那时候还不这么叫），通过接口的方式来通信，或许接口化没那么彻底而已。AAC通过绑定页面的周期做到随页面释放并包装</strong></p>
+</li>
+</ol>
+<p><strong>MVP的通信方式是完全接口式通信， V和P之间，甚至M和P之间也可以</strong></p>
+<p>MVP的方式来解释一下，V和P分别实现自己的接口， IV和IP。然后分别传如自己的接口达到调用目的。代码如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">IP</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">login</span><span class="params">(String username, String password)</span></span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">IV</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">loginSuccess</span><span class="params">()</span></span>;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">loginFailed</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">View</span> <span class="keyword">implements</span> <span class="title">IV</span></span>&#123;</span><br><span class="line"></span><br><span class="line">    X iP;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onClick</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="comment">// 点击登录</span></span><br><span class="line">        iP.login(<span class="string">&quot;xxx&quot;</span>, <span class="string">&quot;xxx&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">loginSuccess</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="comment">// 保存信息</span></span><br><span class="line">        <span class="comment">// 提示登录成功了</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">loginFailed</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="comment">// 提示登录失败</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">X</span> <span class="keyword">implements</span> <span class="title">IP</span></span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * X 相当于MVP中的Presenter</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line"></span><br><span class="line">    Model model;</span><br><span class="line">    IV iV;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">login</span><span class="params">(String username, String password)</span> </span>&#123;</span><br><span class="line">        <span class="comment">// 验证帐号， 密码格式是否正确</span></span><br><span class="line">        model.postLogin(username, password, <span class="keyword">new</span> Model.Callback() &#123;</span><br><span class="line">            <span class="meta">@Override</span></span><br><span class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onResponse</span><span class="params">(String result)</span> </span>&#123;</span><br><span class="line">                <span class="keyword">if</span>(<span class="string">&quot;success&quot;</span>.equals(result)) &#123;</span><br><span class="line">                    <span class="comment">// 登录成功</span></span><br><span class="line">                    iV.loginSuccess();</span><br><span class="line">                &#125;<span class="keyword">else</span> &#123;</span><br><span class="line">                    <span class="comment">// 登录失败</span></span><br><span class="line">                    iV.loginFailed();</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>以上是MVP的通信方式，完全的接口相互调用。可能一些架构思维比较前卫的公司，在前期就把MVC改造成了如今的MVP，还是那句话，只是那时候不那么叫罢了。</p>
+<p><strong>Flutter是以路由机制来实现解耦通信</strong></p>
+<p>在现在组件化风行的时代，相信各位对路由没那么陌生了。就算不了解， 那么路由器总知道吧，那么先说路由器。</p>
+<p><strong>路由或路由器，分两个模式： 接收信号， 发出信号。分别是多对一和一对多的关系。</strong></p>
+<p>举个例子， 现实中的路由器，接收只有一个入口，但发出口有很多个，毕竟如果只有一个出口，那么路由器就没用了。在路由机制中，入口也可以有多个。所以就是上面说的，接收是多对一（一当然是路由器）， 发出是一对多（一还是路由器）。</p>
+<p>简单由一个图来说明一下路由机制，图不是很规整，明白就好。</p>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2019/08/25/PrDwyeuE1bNoUHZ.png" alt="image.png"></p>
+<p>在Flutter模式下，我们如何对应呢？</p>
+<p><strong>M/V/P或C不同模块之间不能有耦合，即不持有对象，且不持有接口，完全解耦。那么各模块怎么通信呢？通过向路由器发信号。所以M  V  P/C  都是上图的信号源</strong></p>
+<p><strong>M/V/P或C 不同模块要交互，那么怎么得到信号呢？ 这时候他们的角色就转变了，不仅可以发信号，也可以接口信号，来做对应处理。 所以M V P/C 也同样是上图的手机（信号接口器）</strong></p>
+<p>以上的解释， 不同模块既可以发出信号，也可以接收信号。和Android中的一个组件很相似，就是Handler. Handler既可以发出消息，同时消息又在里面处理。</p>
+<p><strong>既然有发送信号的， 有接收信号的，那么必然有一个路由器负责接收与发送，在Flutter中就是Dispatcher。Dispatcher保存了不同信号与接收器的对应关系， 以此完成消息的分发</strong></p>
+<p><strong>上面都提到了消息，现在正式的介绍一下，消息是角色是Action</strong></p>
+<p>看一下Flutter的元素</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Model</span><br><span class="line">View                                       </span><br><span class="line">Store(Controller或Presenter)   处理业务逻辑</span><br><span class="line">Action 消息对象，带有动作与数据</span><br><span class="line">Dispathcer 路由，管理消息与发送消息，保存有一张对应表</span><br></pre></td></tr></table></figure>
+
+<p>接下来通过代码了解一下</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Model</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">postLogin</span><span class="params">(User user, Callback callback)</span> </span>&#123;</span><br><span class="line">        <span class="comment">// 请求登录</span></span><br><span class="line">        callback.onResponse(<span class="number">1</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">Callback</span> </span>&#123;</span><br><span class="line">        <span class="function"><span class="keyword">void</span> <span class="title">onResponse</span><span class="params">(<span class="keyword">int</span> result)</span></span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">User</span> </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> String username;</span><br><span class="line">    <span class="keyword">public</span> String password;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">User</span><span class="params">(String username, String password)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.username = username;</span><br><span class="line">        <span class="keyword">this</span>.password = password;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">View</span> <span class="keyword">implements</span> <span class="title">Dispatcher</span>.<span class="title">IReceiver</span> </span>&#123;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        Dispatcher.getDispatcher().register(<span class="keyword">this</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onDestroy</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        Dispatcher.getDispatcher().unregister(<span class="keyword">this</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">onClick</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        Dispatcher.getDispatcher()</span><br><span class="line">                .sendEvent(</span><br><span class="line">                        <span class="keyword">new</span> Action(<span class="string">&quot;login&quot;</span>, <span class="keyword">new</span> User(<span class="string">&quot;xxx&quot;</span>, <span class="string">&quot;xxx&quot;</span>)));</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onReceive</span><span class="params">(Action action)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (action.name.equals(<span class="string">&quot;login-success&quot;</span>)) &#123;</span><br><span class="line">            <span class="comment">// 登录成功提示</span></span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="comment">// 登录失败提示</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">X</span> <span class="keyword">implements</span> <span class="title">Dispatcher</span>.<span class="title">IReceiver</span></span>&#123;</span><br><span class="line"></span><br><span class="line">    Model model;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">X</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        model = <span class="keyword">new</span> Model();</span><br><span class="line">        Dispatcher.getDispatcher().register(<span class="keyword">this</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">clearX</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        model = <span class="keyword">null</span>;</span><br><span class="line">        Dispatcher.getDispatcher().unregister(<span class="keyword">this</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onReceive</span><span class="params">(Action action)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(action.name.equals(<span class="string">&quot;login&quot;</span>)) &#123;</span><br><span class="line">            model.postLogin((User) action.data, <span class="keyword">new</span> Model.Callback() &#123;</span><br><span class="line">                <span class="meta">@Override</span></span><br><span class="line">                <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onResponse</span><span class="params">(<span class="keyword">int</span> result)</span> </span>&#123;</span><br><span class="line">                    <span class="keyword">if</span>(result == <span class="number">1</span>) &#123;</span><br><span class="line">                        <span class="comment">// 登录成功</span></span><br><span class="line">                        Dispatcher.getDispatcher().sendEvent(<span class="keyword">new</span> Action(<span class="string">&quot;login-success&quot;</span>, <span class="keyword">null</span>));</span><br><span class="line">                    &#125;<span class="keyword">else</span> &#123;</span><br><span class="line">                        <span class="comment">// 登录失败</span></span><br><span class="line">                        Dispatcher.getDispatcher().sendEvent(<span class="keyword">new</span> Action(<span class="string">&quot;login-failed&quot;</span>, <span class="keyword">null</span>));</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Action</span>&lt;<span class="title">T</span>&gt; </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> String name; <span class="comment">// 执行动作，比如“登录”</span></span><br><span class="line">    <span class="keyword">public</span> T data; <span class="comment">// 数据，比如username, password</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Action</span><span class="params">(String name, T data)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.name = name;</span><br><span class="line">        <span class="keyword">this</span>.data = data;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Dispatcher</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> Dispatcher dispatcher = <span class="keyword">new</span> Dispatcher();</span><br><span class="line">    <span class="keyword">private</span> List&lt;IReceiver&gt; receivers = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="title">Dispatcher</span><span class="params">()</span></span>&#123;&#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Dispatcher <span class="title">getDispatcher</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> dispatcher;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">register</span><span class="params">(IReceiver receiver)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (receivers.contains(receiver)) &#123;</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> IllegalStateException(<span class="string">&quot;receiver has been registerd yet!&quot;</span>);</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            receivers.add(receiver);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">unregister</span><span class="params">(IReceiver receiver)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (receivers.contains(receiver)) &#123;</span><br><span class="line">            receivers.remove(receiver);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">sendEvent</span><span class="params">(Action action)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (action != <span class="keyword">null</span> &amp;&amp; action.name != <span class="keyword">null</span> &amp;&amp; action.name.length() &gt; <span class="number">0</span>) &#123;</span><br><span class="line">            <span class="keyword">for</span> (IReceiver r : receivers) &#123;</span><br><span class="line">                <span class="keyword">if</span> (r != <span class="keyword">null</span>) &#123;</span><br><span class="line">                    r.onReceive(action);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">IReceiver</span> </span>&#123;</span><br><span class="line">        <span class="function"><span class="keyword">void</span> <span class="title">onReceive</span><span class="params">(Action action)</span></span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>解析一下以上代码， 首先我们说过， 所有模块既是消息发出者，也是消息接收者。代码中，View和X都分别发出了消息进行登录以及登录结果成功或失败；同时View和X也都注册了接收器的接口，在onReceiver中可以接收消息。这样做的好处是什么？ View和X完全没有耦合，既不持有对象， 也不持有接口，中间的通信都是通过Dispatcher进行分发的，解耦已经很彻底了。Dispathcer就是路由器，负责接收，并分发消息，应该很好理解，哪个组件想接收消息，那么就注册一个接收器，这样有合适的消息自然就接收到了。</p>
+<p>当然，以上的代码有点简陋，可以从不同组件再行封装，比如Action, 比如Dispatcher, 比如BaseView等等。我们可以通过给路由注册机制添加Group与Tag(Action name)概念来优化效率问题，这里只是说思想。</p>
+<p><strong>我们知道了什么？</strong></p>
+<ul>
+<li><p>我称移动端的架构思维为MVX，即是说按这个规则的分工被开发市场所接受了，我们不用费尽心思考虑狭义架构的分层问题了，就沿用Model-View-X来就可以。当然还可以自己加一些辅助的模块层，如Worker负责异步， Converter负责转换， Verify负责校验等</p>
+</li>
+<li><p>移动端目前的架构，差异化在于通信机制。通过以上说明，通信机制主要分为3种：<br>1） 对象持有<br>2） 接口持有<br>3） 路由</p>
+</li>
+<li><p>通信方式中，对象持有是比较原始的，解耦率最低，建议放弃； 接口持有是个不错的选择，极大程度上实现解耦的诉求，但是解耦不彻底，相互持有交互方的接口。 路由机制也是个不错的选择，可以实现完全解耦，就像组件化一样。但是路由机制的设计是个技术难点，怎么设计效率最高？更健壮？代码可查阅性更好？这些都是值得思考的问题。</p>
+</li>
+<li><p>对于路由机制的优化，阿里的ARouter（用于组件通信）中，采用了分组的模式，我们可以采用；其次可以根据AnnotationProcessor的处理，为每一个注册接收器的组件实现一个SupportActions来确保消息只发送给注册了指定类型的模块，也是个不错的选择。</p>
+</li>
+</ul>
+<p><strong>通过以上分析与总结，可以看到，移动端的框架核心是一定的，只要理解了架构的核心思想，其实出多少新的框架，不过是加了一些解决部分问题的实现罢了。看懂了这篇文章，可能再出什么架构模式，或许看一眼就明白是怎么实现了呢？</strong></p>
+<h3 id="模块化、组件化和插件化"><a href="#模块化、组件化和插件化" class="headerlink" title="模块化、组件化和插件化"></a>模块化、组件化和插件化</h3><p>上述概念已经好久了，或许还是有一些同胞对这些概念不是很清楚，大体知道是什么，但是详细也不知道是什么。现在来解析一下。</p>
+<h4 id="单工程模式"><a href="#单工程模式" class="headerlink" title="单工程模式"></a>单工程模式</h4><p>移动开发诞生，我们开发移动项目，我相信大多用的是单工程单任务的开发模式，二话不说，直接就开始写起，是不是这样呢？ new Project -&gt; 分包 -&gt; 写起。我相信都经历过，也写的比较爽，为什么呢？ 这种模式不涉及乱七八糟的处理方式， 上手快，开发快，足够敏捷。那么原因是什么呢？Mobile Project 刚起步，项目都偏小，一些附加业务还没绑到App上。</p>
+<h4 id="模块化"><a href="#模块化" class="headerlink" title="模块化"></a>模块化</h4><p>Android Studio出来了，多出来了一个新的概念， Project, Module…  模块；当时以包的形式分离的公共包common,现在成了AS中的Module。大家都知道，Module包含两种格式: application， library。也就是说，一个Module就是一个小的项目，也是AS概念中的模块。因此我们开始设计common模块， common_business模块，甚至db模块。模块的好处是什么？ 相比于包来讲，模块更灵活，耦合更低，随意插拔，想引入哪个就引入哪个。根据不同的关注点，将一个项目的可以共享的部分抽取出来，形成独立的Module，就是模块化。模块化不只包含公共部分，当然也可以是业务模块。</p>
+<h4 id="组件化"><a href="#组件化" class="headerlink" title="组件化"></a>组件化</h4><p>平时看看论坛，好多人都在问： <strong>模块化和组件化有什么区别？</strong> 到底有什么区别呢，其实很小；但并不是完全相同的概念。 <strong>通过以上模块化的概念讲述，应该对模块化有了一个了解，那么区别是什么呢？</strong></p>
+<p><strong>组件化是建立在模块化思想上的一次演进，一个变种。组件化本来就是模块化的概念。但是组件化的核心是 什么？ 是模块角色的可转换性。是的，就是可转换性。</strong></p>
+<blockquote>
+<p>组件化的核心是角色的转换。 在打包时， 是library; 在调试时， 是application。</p>
+</blockquote>
+<p>怎么理解组件化的概念 ？<br>Module的模式分两种， application和library。 library就是引用库，如你抽取的common。 application就是一个apk， 是一个完整的项目。<br>在调试时，我只关心我负责的模块，我希望我的模块是一个单独的app,因为这样更小，业务更专一，相对来讲修改与调试就会越省时省心，编译就会越快。试想当你需要改一段代码，既要关注自己的，也要关注别人的，是一种什么体验 ？ 或者， 编译一个项目10M的代码和一个工程全部1G的代码，哪个比较舒服一些？</p>
+<p><strong>区别</strong></p>
+<table>
+<thead>
+<tr>
+<th>类别</th>
+<th>目的</th>
+<th>特点</th>
+<th>接口</th>
+<th>成果</th>
+<th>架构定位</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>组件</td>
+<td>重用、解耦</td>
+<td>高重用、松耦合</td>
+<td>无统一接口</td>
+<td>基础库、基础组件</td>
+<td>纵向分层</td>
+</tr>
+<tr>
+<td>模块</td>
+<td>隔离/封装</td>
+<td>高内聚、松耦合</td>
+<td>统一接口</td>
+<td>业务框架、业务模块</td>
+<td>横向分块</td>
+</tr>
+</tbody></table>
+<p>组件：最初的目的是代码重用，功能相对单一或者独立。在整个系统的代码层次上位于最底层，被其他代码所依赖，所以说组件化是纵向分层。</p>
+<p>模块：最初的目的是将同一类型的代码整合在一起，所以模块的功能相对复杂，但都同属于一个业务。不同模块之间也会存在依赖关系，但大部分都是业务性的互相跳转，从地位上来说它们都是平级的。</p>
+<p>因为从代码组织层面上来区分，组件化开发是纵向分层，模块化开发是横向分块，所以模块化并没有要求一定组件化。也就是说你可以只做模块化开发，而不做组件化开发。那这样的结果是什么样的呢？就是说你的代码完全不考虑代码重用，只是把相同业务的代码做内聚整合，不同模块之间还是存在大量的重复代码。这样的成果也算是做到了模块化，只不过我们一般不会这样而已。</p>
+<p>和组件模块近似的一对概念是库和框架。库的概念偏近于代码的堆集，是分层的概念，所以对应组件化。框架是结构化的代码，所以应用于模块化。框架是骨，模块化是肉。<br>比如，ReactiveCocoa是库，只是提供了响应式编码能力，而基于此的MVVM具体实现成果才叫框架，因为框架本身就有架构思想在里面。</p>
+<p><strong>举例</strong></p>
+<p>下面我们举例来说明：</p>
+<p>组件化就比如公共的alert框，最初在许多页面都有使用，后面提取出一份相同的代码，其实就是基于代码复用的目的。</p>
+<p>模块化就比如一个资讯功能，它本身只在这一个地方使用，没有复用的需求，但系统启动的时候要初始化它的数据，首页显示的时候要展示它的数据，显示红点的时候要拉取它的未读数。这样一来应用中就有很多地方涉及到它的代码。如果我们将它看做一个整体，那么资讯模块和主应用的耦合性就非常高了。所以我们也要把它封装成模块，把相关的代码放到独立的单元文件里，并提供公共方法，这就是高内聚的要求。</p>
+<p><strong>渐进式开发过程</strong></p>
+<p>当然这几个概念在服务端开发和客户端开发领域有些微差别，我下面的例子就从移动端开发的角度上进行辨析。</p>
+<p>首先我们定义一个虚拟的产品——一款知识类应用，包含咨询、问答、学院、直播等功能。</p>
+<p>接下来我们逐步拆分这个产品。</p>
+<p>如果开发时没有考虑任何组件化模块化开发，那么此应用的所有功能都是堆积在一起的，总结起来就是高耦合，低内聚，无重用。</p>
+<ol>
+<li><p>组件</p>
+<p>那么代码重构的第一步是什么呢？<br>将重复的代码合并成为一份，也就是重用。<br>我们来看组件化开发的定义，它的着重点就是重用，那这一步最后的结果就是提炼出一个个组件给不同的功能使用。</p>
+<p>这里我们可以看一下依赖关系，是具体功能依赖提炼出来的组件，组件本身之间可能也有依赖关系，但一般不多。所以我们总结组件化开发的原则就是高重用，低依赖。当然这只是相对而言。<br>基于这样的认识，我们甚至于可以把资讯、问答、学院、直播等功能封装成组件，只不过这些组件比较大，依赖可能多些，不过本质上没有多少区别，而且实际上网上许多文章说所的模块化开发其实就是这种组件化的“模块”。</p>
+</li>
+<li><p>模块</p>
+<p>下面再说模块，按照模块的定义，它是以关注点进行划分的，关注点说到底就是功能，也就是说根据我们上面的例子，资讯、问答、学院、直播可以分成不同的模块。</p>
+<p>我们最开始定义这个虚拟产品的时候说，它有三个特点——高耦合、低内聚、无重用。而第一点组件化开发主要是解决了重用问题，提升了部分内聚，而耦合问题则没有涉及。<br>所以说我们上面可以将这个产品在逻辑上划分为资讯、问答、学院、直播四个模块，但在代码层面上它们却不是四个模块，因为它们的代码都是混杂在一起的。比如产品首页，可能推荐了部分资讯、显示了热门问答、推送了目前的直播，而这些功能的代码则是写在一起的；再比如程序启动的时候，这四个模块都需要初始化一些数据，而初始化数据的代码也是写在一起的；再比如程序需要显示未读消息数，而这几个模块都有自己的未读消息数逻辑。</p>
+</li>
+</ol>
+<p>如果未进行模块化开发的拆分，那么很多时候不同模块的同一类的代码都是直接写在一起的，比如系统启动的时候，我们会在启动方法里直接写多个模块的初始化代码。</p>
+<p>而模块化开发就是为了解决这一问题，即提高内聚，将分属同一模块代码放到一起；降低耦合，将不同模块间的耦合程度弱化。</p>
+<p>高内聚是目标，但是现状是有许多地方会用到多个模块，比如启动的时候会调用四个模块，首页会展示三个模块的界面。如果要高内聚，那么必然需要这些模块为不同的场景提供相同的方法，这就是说所有模块要实现同一套多个接口。这样主应用和模块之间的重耦合就变成了主应用和接口耦合，接口和模块耦合这样的松耦合。<br>但这样的简单模块只是轻模块，统一接口较少。而统一定义的接口越多，模块和统一接口的耦合就越高，也便是重模块。</p>
+<p>而我们一般讲的路由问题其实只是解决模块间耦合的问题，并不是模块化开发的必然需求，更多时候是基于产品上的动态化要求，只不过我们一般都会在这个时间考虑这一事情而已，就像我们不会只做模块化开发同时不做组件化开发一样。</p>
+<h4 id="插件化"><a href="#插件化" class="headerlink" title="插件化"></a>插件化</h4><p>又有人问了： 插件化和组件化又有什么区别呢？<strong>插件化严格意义来讲，其实也算是模块化的观念。将一个完整的工程，按业务划分为不同的插件，都是分治法的一种体现。化整为零，相互配合。，越小的模块越容易维护。</strong> 插件化按理也算是模块化的一种体现，和组件化就不一个概念了。那么，到底有什么区别呢？</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">组件化的单位是组件（module）。</span><br><span class="line">插件化的单位是apk(一个完整的应用)。</span><br><span class="line"></span><br><span class="line">组件化实现的是解耦与加快编译， 隔离不需要关注的部分。</span><br><span class="line">插件化实现的也是解耦与加快编译，同时实现热插拔也就是热更新。</span><br><span class="line"></span><br><span class="line">组件化的灵活性在于按加载时机切换，分离出独立的业务组件，比如微信的朋友圈</span><br><span class="line">插件化的灵活性在于是加载apk, 完全可以动态下载，动态更新，比组件化更灵活。</span><br><span class="line"></span><br><span class="line">组件化能做的只是， 朋友圈已经有了，我想单独调试，维护，和别人不耦合。但是和整个项目还是有关联的。</span><br><span class="line">插件化可以说朋友圈就是一个app, 我需要整合了，把它整合进微信这个大的app里面</span><br><span class="line"></span><br><span class="line">其实从框架名称就可以看出： 组 和 插。</span><br><span class="line"></span><br><span class="line">组本来就是一个系统，你把微信分为朋友圈，聊天， 通讯录按意义上划为独立模块，但并不是真正意义上的独立模块。</span><br><span class="line">插本来就是不同的apk， 你把微信的朋友圈，聊天，通讯录单独做一个完全独立的app, 需要微信的时候插在一起，就是一个大型的app了。</span><br><span class="line"></span><br><span class="line">插件化的加载是动态的，这点很重要，也是灵活的根源。</span><br></pre></td></tr></table></figure>
+
+<p><strong>所谓架构，无非两个方面： 分层和通信方式。 其实广义的架构也可以说是这两个方面：子模块（子系统）划分和通信</strong></p>
+<ul>
+<li><p>子模块划分</p>
+<p>除了大家公认的common部分， 业务模块的划分尤为重要，相比于狭义上的架构，广义上的子系统的划分的关注点，很考验技术经验以及对业务的理解。</p>
+</li>
+<li><p>通信方式</p>
+<p>模块化的通信方式，无非是相互引入；我抽取了common, 其他模块使用自然要引入这个module<br>组件化的通信方式，按理说可以划分为多种，主流的是隐式和路由。隐式的存在使解耦与灵活大大降低，因此路由是主流<br>插件化的通信方式，不同插件本身就是不同的进程了。因此通信方式偏向于Binder机制类似的进程间通信</p>
+</li>
+</ul>
+<h4 id="组件化的技术准备"><a href="#组件化的技术准备" class="headerlink" title="组件化的技术准备"></a>组件化的技术准备</h4><ul>
+<li>反射与apt</li>
+<li>gradle与groovy</li>
+<li>路由机制</li>
+</ul>
+<h4 id="情报篇"><a href="#情报篇" class="headerlink" title="情报篇"></a>情报篇</h4><p>做一件事，首先要明白我们要做什么， 然后划分步骤，哪一步怎么做，最后逐个解决。这也是分治法的一种思维方式，它当然不只是一种算法的解决思想。只有这样，我们才会建立信息，不会一下子被吓傻从而放弃。</p>
+<p><strong>组件化的思想是Module模式的切换。</strong> 上面已经说过,<strong>在打包时，业务module为library; 调试时，业务module成了application。</strong></p>
+<p>1.如何切换module的模式呢 ？</p>
+<p>我相信都能想到，定义一个Boolean变量作为开关。根据开关分别设置module的模式，如下</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">if (isModule) &#123;</span><br><span class="line">    apply plugin: &#x27;com.android.application&#x27;</span><br><span class="line">&#125; else &#123;</span><br><span class="line">    apply plugin: &#x27;com.android.library&#x27;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>2.两种模式的区别是什么？</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">1. applicationId (包的配置)             </span><br><span class="line">   只存在于apply plugin: &#x27;com.android.application&#x27;模式下</span><br><span class="line"></span><br><span class="line">2. Manifest.xml（主页面的配置）</span><br><span class="line">    集成模式下，使用app模块下的Manifest.xml配置； 组件模式下，使用组件自己的Manifest.xml配置</span><br><span class="line"></span><br><span class="line">3. Application</span><br><span class="line">    不同的组件肯定有自己的初始化的资源或框架，因此自定义的Application也是必要的。但是集成模式下，会造成重复的Application</span><br></pre></td></tr></table></figure>
+
+<ol start="3">
+<li>面临的问题</li>
+</ol>
+<ul>
+<li><p>问题1：多业务模块下的统一配置</p>
+</li>
+<li><p>问题2：Application分发</p>
+</li>
+<li><p>问题3：资源的冲突</p>
+</li>
+</ul>
+<p>注意：不同的业务模块禁止彼此依赖</p>
+<p><strong>解决方案1：</strong></p>
+<p>不同的模块（20个业务模块）的配置，必须做到统一配置。在Java代码实现统一配置，SO Easy ~ 但是在gradle中呢 ？ 那就是定义一个配置文件，统一存放需要配置的项。如下</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line">ext &#123;</span><br><span class="line"></span><br><span class="line">    isModule = false // 组件开关： true 组件 false 集成</span><br><span class="line"></span><br><span class="line">    defaultConfig = [</span><br><span class="line">            minSdkVersion            : 14,</span><br><span class="line">            targetSdkVersion         : 26,</span><br><span class="line">            versionCode              : 1,</span><br><span class="line">            versionName              : &quot;1.0&quot;,</span><br><span class="line">            testInstrumentationRunner: &quot;android.support.test.runner.AndroidJUnitRunner&quot;</span><br><span class="line">    ]</span><br><span class="line"></span><br><span class="line">    android = [</span><br><span class="line">            compileSdkVersion: 26</span><br><span class="line">    ]</span><br><span class="line"></span><br><span class="line">    applicationId = [</span><br><span class="line">            app  : &quot;com.archer.componentsarchitecture&quot;,</span><br><span class="line">            card1: &quot;com.archer.card1&quot;,</span><br><span class="line">            card2: &quot;com.archer.card2&quot;</span><br><span class="line">    ]</span><br><span class="line"></span><br><span class="line">    supportLibrary = &quot;26.1.0&quot;</span><br><span class="line">    appcompatv7a = &quot;com.android.support:appcompat-v7:$&#123;supportLibrary&#125;&quot;</span><br><span class="line"></span><br><span class="line">    resourcePrefixs =[</span><br><span class="line">            card1: &quot;card1&quot;,</span><br><span class="line">            card2: &quot;card2&quot;</span><br><span class="line">    ]</span><br><span class="line"></span><br><span class="line">    router = [</span><br><span class="line">            arouter: &quot;com.alibaba:arouter-api:1.2.1.1&quot;,</span><br><span class="line">            processor: &quot;com.alibaba:arouter-compiler:1.1.2.1&quot;</span><br><span class="line">    ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>在Project下创建一个config.gradle(什么？创建不了？那就把Project自带的build.gradle复制一份rename &amp; clear)。 ext是groovy提供的扩展参数，不可修改的。 以下可以随意定义自己的配置，如代码。这里说下两个概念：</p>
+<ol>
+<li><p>占位符 ${supportLibrary} 占据一个位置，然后用｛｝里面的变量补充，达到一致配置的目的</p>
+</li>
+<li><p>```<br>android = [<br> compileSdkVersion: 26<br> ]</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br><span class="line">    以上相当于定义了一个Map, 存放键值对，以Key: Value的形式，以，分隔。这是groovy的写法。android 为Map的名称，你可以用你自己的命名，但是注意不要和系统变量冲突</span><br><span class="line"></span><br><span class="line">以上是统一变量的定义，配置文件config.gradle。 配置文件定义好了，那么如何引入呢？</span><br><span class="line"></span><br><span class="line">1. 在[Project]下的build.gradle引入配置文件</span><br><span class="line"></span><br><span class="line">2. 在Module中引用是通过rootProject.ext.你定义的名称。但是每次这么用比较繁琐，推荐定义变量实现，如下</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>if (isModule) {<br> apply plugin: ‘com.android.application’<br>} else {<br> apply plugin: ‘com.android.library’<br>}</p>
+</li>
+</ol>
+<p>def cfg = rootProject.ext.defaultConfig<br>def drd = rootProject.ext.android<br>def app = rootProject.ext.applicationId</p>
+<p>android {<br>    compileSdkVersion drd.compileSdkVersion<br>    defaultConfig {<br>        if (isModule) {<br>            applicationId app[‘card2’]<br>        }<br>        minSdkVersion cfg.minSdkVersion<br>        targetSdkVersion cfg.targetSdkVersion<br>        versionCode cfg.versionCode<br>        versionName cfg.versionName</p>
+<pre><code>    testInstrumentationRunner cfg.testInstrumentationRunner
+
+    resourcePrefix rootProject.ext.resourcePrefixs[&#39;card2&#39;]
+
+    javaCompileOptions &#123;
+        annotationProcessorOptions &#123;
+            arguments = [ moduleName : project.getName() ]
+        &#125;
+    &#125;
+&#125;
+</code></pre>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">调用Groovy map中的字段的两种方式： rootProject.ext.android.key和 rootProject.ext.android[&#x27;key&#x27;]</span><br><span class="line"></span><br><span class="line">**解决方案2：**</span><br><span class="line"></span><br><span class="line">application的分发，错误的做法是不同的组件下初始化自己的框架，工具等。正确的做法是在BaseApplication或统一实现公共模块如网络， 缓存， 数据库等的初始化，在各Module实现自己需要的初始化，来避免重复的初始化与冲突。</span><br><span class="line"></span><br><span class="line">**解决方案3：**</span><br><span class="line"></span><br><span class="line">资源的冲突解决办法有两个：</span><br><span class="line"> 1） 公共资源建议由公共模块管理</span><br><span class="line"> 2） 模块私有资源，添加前缀限制  （只能解决xml冲突）</span><br><span class="line"> 3）资源谨慎命名</span><br><span class="line"></span><br><span class="line">资源命名只能在开发中加以注意， 通过以上共有资源和前缀极大可能的保证资源不会冲突，且不会重复浪费。至于万一的冲突，只能交给开发规范了。</span><br><span class="line"></span><br><span class="line">**解决方案4：**</span><br><span class="line"></span><br><span class="line">这个是新加的，也就是前面说的，怎么控制application和library的转换，全部配置如下：</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>// 自由控制模式转换<br>if (isModule) {<br>    apply plugin: ‘com.android.application’<br>} else {<br>    apply plugin: ‘com.android.library’<br>}<br>// 包名配置<br> defaultConfig {<br>        if (isModule) {<br>            applicationId app[‘card2’]<br>        }<br>｝<br>// Manifest.xml  application配置<br> sourceSets {<br>        main {<br>            if (isModule) {<br>                // src/main下新建文件夹，存放组件模式下的Manifest.xml与Application<br>                manifest.srcFile ‘src/main/component/AndroidManifest.xml’<br>                java.srcDirs = [‘src/main/java’, ‘src/main/component/java’]<br>            } else {<br>                // library模式下不需要Application<br>                manifest.srcFile ‘src/main/AndroidManifest.xml’<br>                java.srcDirs ‘src/main/java’<br>            }<br>        }<br>    }</p>
+<p>```</p>
+<p>以上配置在相应Module中的build.gradle的android下</p>
+<h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><ol>
+<li><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/f5212cf7df55">模块化，组件化傻傻分不清？附带组件化福利</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.jianshu.com/nb/22953044">移动架构师</a></li>
+</ol>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">平心</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://pingxin0521.gitee.io/2019/08/17/%E7%BC%96%E7%A8%8B%E6%80%9D%E6%83%B3-1-0/">https://pingxin0521.gitee.io/2019/08/17/%E7%BC%96%E7%A8%8B%E6%80%9D%E6%83%B3-1-0/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://pingxin0521.gitee.io" target="_blank">平心de小屋</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E7%BC%96%E7%A8%8B%E6%80%9D%E6%83%B3/">编程思想</a></div><div class="post_share"><div class="social-share" data-image="https://i.loli.net/2020/05/08/okfOw28KlZFbE7z.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2019/08/18/%E6%95%B0%E6%8D%AE%E5%BA%93-Redis-1-1/"><img class="prev-cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/gGE57HRvpcKPfDY.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">Redis 数据结构</div></div></a></div><div class="next-post pull-right"><a href="/2019/08/11/%E5%AE%B9%E5%99%A8-Docker-5-3/"><img class="next-cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/okfOw28KlZFbE7z.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">Docker 监控</div></div></a></div></nav><hr/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div class="vcomment" id="vcomment"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="card-info-avatar is-center"><img class="avatar-img" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://s2.ax1x.com/2020/02/11/1ovw6J.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/><div class="author-info__name">平心</div><div class="author-info__description">年轻人的life、learn and think</div></div><div class="card-info-data"><div class="card-info-data-item is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">449</div></a></div><div class="card-info-data-item is-center"><a href="/tags/"><div class="headline">标签</div><div class="length-num">77</div></a></div><div class="card-info-data-item is-center"><a href="/categories/"><div class="headline">分类</div><div class="length-num">68</div></a></div></div><a class="button--animated" id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/hanyunpeng0521"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/hanyunpeng0521" target="_blank" title="Github"><i class="fa fa-github"></i></a><a class="social-icon" href="mailto:m13839441583@163.com" target="_blank" title="Email"><i class="fa fa-envelope"></i></a><a class="social-icon" href="/atom.xml" target="_blank" title=""><i class="fa fa-rss"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn card-announcement-animation"></i><span>公告</span></div><div class="announcement_content">为什么呢？开始提问吧</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#MVC"><span class="toc-number">1.</span> <span class="toc-text">MVC</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#MVVM"><span class="toc-number">2.</span> <span class="toc-text">MVVM</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Flutter"><span class="toc-number">3.</span> <span class="toc-text">Flutter</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%A8%A1%E5%9D%97%E5%8C%96%E3%80%81%E7%BB%84%E4%BB%B6%E5%8C%96%E5%92%8C%E6%8F%92%E4%BB%B6%E5%8C%96"><span class="toc-number"></span> <span class="toc-text">模块化、组件化和插件化</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%8D%95%E5%B7%A5%E7%A8%8B%E6%A8%A1%E5%BC%8F"><span class="toc-number">1.</span> <span class="toc-text">单工程模式</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%A8%A1%E5%9D%97%E5%8C%96"><span class="toc-number">2.</span> <span class="toc-text">模块化</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%BB%84%E4%BB%B6%E5%8C%96"><span class="toc-number">3.</span> <span class="toc-text">组件化</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%8F%92%E4%BB%B6%E5%8C%96"><span class="toc-number">4.</span> <span class="toc-text">插件化</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%BB%84%E4%BB%B6%E5%8C%96%E7%9A%84%E6%8A%80%E6%9C%AF%E5%87%86%E5%A4%87"><span class="toc-number">5.</span> <span class="toc-text">组件化的技术准备</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%83%85%E6%8A%A5%E7%AF%87"><span class="toc-number">6.</span> <span class="toc-text">情报篇</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8F%82%E8%80%83"><span class="toc-number"></span> <span class="toc-text">参考</span></a></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2021/05/15/node-2-4/" title="Egg.js -- 为企业级框架和应用而生"><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/okfOw28KlZFbE7z.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Egg.js -- 为企业级框架和应用而生"/></a><div class="content"><a class="title" href="/2021/05/15/node-2-4/" title="Egg.js -- 为企业级框架和应用而生">Egg.js -- 为企业级框架和应用而生</a><time datetime="2021-05-15T10:18:59.000Z" title="发表于 2021-05-15 18:18:59">2021-05-15</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/04/30/node-2-3/" title="Koa -- 基于Node.js平台的下一代Web开发框架"><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/HjVAdIuT7bZJypS.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Koa -- 基于Node.js平台的下一代Web开发框架"/></a><div class="content"><a class="title" href="/2021/04/30/node-2-3/" title="Koa -- 基于Node.js平台的下一代Web开发框架">Koa -- 基于Node.js平台的下一代Web开发框架</a><time datetime="2021-04-30T10:18:59.000Z" title="发表于 2021-04-30 18:18:59">2021-04-30</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/04/01/node-2-1/" title="Node.JS web开发前置知识"><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/gGE57HRvpcKPfDY.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Node.JS web开发前置知识"/></a><div class="content"><a class="title" href="/2021/04/01/node-2-1/" title="Node.JS web开发前置知识">Node.JS web开发前置知识</a><time datetime="2021-04-01T03:18:59.000Z" title="发表于 2021-04-01 11:18:59">2021-04-01</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2020/12/26/%E5%91%A8%E8%AE%B0-10-1/" title="第十一周--谷歌浏览器插件"><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/gGE57HRvpcKPfDY.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="第十一周--谷歌浏览器插件"/></a><div class="content"><a class="title" href="/2020/12/26/%E5%91%A8%E8%AE%B0-10-1/" title="第十一周--谷歌浏览器插件">第十一周--谷歌浏览器插件</a><time datetime="2020-12-26T10:18:59.000Z" title="发表于 2020-12-26 18:18:59">2020-12-26</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2020/12/26/%E5%91%A8%E8%AE%B0-10-0/" title="第十一周--浏览器技术"><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/vCnKyoFJZ1g4XYR.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="第十一周--浏览器技术"/></a><div class="content"><a class="title" href="/2020/12/26/%E5%91%A8%E8%AE%B0-10-0/" title="第十一周--浏览器技术">第十一周--浏览器技术</a><time datetime="2020-12-26T06:18:59.000Z" title="发表于 2020-12-26 14:18:59">2020-12-26</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2019 - 2021 By 平心</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div id="local-search"><div class="search-dialog"><div class="search-dialog__title" id="local-search-title">本地搜索</div><div id="local-input-panel"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div></div><hr/><div id="local-search-results"></div><span class="search-close-button"><i class="fas fa-times"></i></span></div><div id="search-mask"></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload/dist/lazyload.iife.min.js"></script><script src="/js/search/local-search.js"></script><div class="js-pjax"><script>function loadValine () {
+  function initValine () {
+    const valine = new Valine(Object.assign({
+      el: '#vcomment',
+      appId: '4lfIXzqxaC1ONs0MJO4oHu07-gzGzoHsz',
+      appKey: 'qw99Bw8FD0KVKU9m457CwWsr',
+      placeholder: 'Please leave your footprints',
+      avatar: 'monsterid',
+      meta: 'nick,mail,link'.split(','),
+      pageSize: '10',
+      lang: 'zh-CN',
+      recordIP: true,
+      serverURLs: '',
+      emojiCDN: '',
+      emojiMaps: "",
+      enableQQ: true,
+      path: window.location.pathname,
+      requiredFields: ["nick,mail"],
+      visitor: false
+    }, null))
+  }
+
+  if (typeof Valine === 'function') initValine() 
+  else getScript('https://cdn.jsdelivr.net/npm/valine/dist/Valine.min.js').then(initValine)
+}
+
+if ('Valine' === 'Valine' || !false) {
+  if (false) btf.loadComment(document.getElementById('vcomment'),loadValine)
+  else setTimeout(loadValine, 0)
+} else {
+  function loadOtherComment () {
+    loadValine()
+  }
+}</script></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>

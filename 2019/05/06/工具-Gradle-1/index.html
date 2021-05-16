@@ -1,0 +1,378 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Gradle 入门 | 平心de小屋</title><meta name="keywords" content="工具,Gradle"><meta name="author" content="平心"><meta name="copyright" content="平心"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="前言简单的说，Gradle是一个构建工具，它是用来帮助我们构建app的，构建包括编译、打包等过程。我们可以为Gradle指定构建规则，然后它就会根据我们的“命令”自动为我们构建app。Android   Studio中默认就使用Gradle来完成应用的构建。有些同学可能会有疑问：”我用AS不记得给Gradle指定过什么构建规则呀，最后不还是能搞出来个apk。“   实际上，app的构建过程是大同小">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Gradle 入门">
+<meta property="og:url" content="https://pingxin0521.gitee.io/2019/05/06/%E5%B7%A5%E5%85%B7-Gradle-1/index.html">
+<meta property="og:site_name" content="平心de小屋">
+<meta property="og:description" content="前言简单的说，Gradle是一个构建工具，它是用来帮助我们构建app的，构建包括编译、打包等过程。我们可以为Gradle指定构建规则，然后它就会根据我们的“命令”自动为我们构建app。Android   Studio中默认就使用Gradle来完成应用的构建。有些同学可能会有疑问：”我用AS不记得给Gradle指定过什么构建规则呀，最后不还是能搞出来个apk。“   实际上，app的构建过程是大同小">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://i.loli.net/2020/05/08/gGE57HRvpcKPfDY.jpg">
+<meta property="article:published_time" content="2019-05-06T03:18:59.000Z">
+<meta property="article:modified_time" content="2019-05-12T10:48:14.000Z">
+<meta property="article:author" content="平心">
+<meta property="article:tag" content="工具">
+<meta property="article:tag" content="Gradle">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.loli.net/2020/05/08/gGE57HRvpcKPfDY.jpg"><link rel="shortcut icon" href="https://s2.ax1x.com/2020/02/11/1ovFOA.png"><link rel="canonical" href="https://pingxin0521.gitee.io/2019/05/06/%E5%B7%A5%E5%85%B7-Gradle-1/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"search.xml","languages":{"hits_empty":"找不到您查询的内容：${query}"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    jQuery: 'https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js',
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+    },
+    fancybox: {
+      js: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css'
+    }
+  },
+  isPhotoFigcaption: true,
+  islazyload: true,
+  isanchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'Gradle 入门',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2019-05-12 18:48:14'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    })(window)</script><meta name="generator" content="Hexo 5.4.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="author-avatar"><img class="avatar-img" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://s2.ax1x.com/2020/02/11/1ovw6J.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data"><div class="data-item is-center"><div class="data-item-link"><a href="/archives/"><div class="headline">文章</div><div class="length-num">449</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/tags/"><div class="headline">标签</div><div class="length-num">77</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/categories/"><div class="headline">分类</div><div class="length-num">68</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fa fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fa fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://i.loli.net/2020/05/08/gGE57HRvpcKPfDY.jpg')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">平心de小屋</a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fa fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fa fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">Gradle 入门</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2019-05-06T03:18:59.000Z" title="发表于 2019-05-06 11:18:59">2019-05-06</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2019-05-12T10:48:14.000Z" title="更新于 2019-05-12 18:48:14">2019-05-12</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E5%B7%A5%E5%85%B7/">工具</a><i class="fas fa-angle-right post-meta-separator"></i><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E5%B7%A5%E5%85%B7/Gradle/">Gradle</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">5.2k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>18分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="Gradle 入门"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>简单的说，Gradle是一个构建工具，它是用来帮助我们构建app的，构建包括编译、打包等过程。我们可以为Gradle指定构建规则，然后它就会根据我们的“命令”自动为我们构建app。Android   Studio中默认就使用Gradle来完成应用的构建。有些同学可能会有疑问：”我用AS不记得给Gradle指定过什么构建规则呀，最后不还是能搞出来个apk。“   实际上，app的构建过程是大同小异的，有一些过程是”通用“的，也就是每个app的构建都要经历一些公共步骤。因此，在我们在创建工程时，Android  Studio自动帮我们生成了一些通用构建规则，很多时候我们甚至完全不用修改这些规则就能完成我们app的构建。</p>
+<span id="more"></span>
+
+<p>有些时候，我们会有一些个性化的构建需求，比如我们引入了第三方库，或者我们想要在通用构建过程中做一些其他的事情，这时我们就要自己在系统默认构建规则上做一些修改。这时候我们就要自己向Gradle”下命令“了，这时候我们就需要用Gradle能听懂的话了，也就是Groovy。Groovy是一种基于JVM的动态语言。</p>
+<p>我们在开头处提到“Gradle是一种构建工具”。实际上，当我们想要更灵活的构建过程时，Gradle就成为了一个编程框架——我们可以通过编程让构建过程按我们的意愿进行。也就是说，当我们把Gradle作为构建工具使用时，我们只需要掌握它的配置脚本的基本写法就OK了；而当我们需要对构建流程进行高度定制时，就务必要掌握Groovy等相关知识了。</p>
+<h3 id="特性"><a href="#特性" class="headerlink" title="特性"></a>特性</h3><p>下面是一些 Gradle 特性的列表。</p>
+<p><strong>基于声明的构建和基于约定的构建</strong></p>
+<p>Gradle 的核心在于基于 Groovy 的丰富而可扩展的域描述语言(DSL)。 Groovy  通过声明性的语言元素将基于声明的构建推向下层，你可以按你想要的方式进行组合。 这些元素同样也为支持 Java， Groovy，OSGi，Web 和  Scala 项目提供了基于约定的构建。 并且，这种声明性的语言是可以扩展的。你可以添加新的或增强现有的语言元素。  因此，它提供了简明、可维护和易理解的构建。 </p>
+<p><strong>为以依赖为基础的编程方式提供语言支持</strong></p>
+<p>声明性语言优点在于通用任务图，你可以将其充分利用在构建中. 它提供了最大限度的灵活性，以让 Gradle 适应你的特殊需求。</p>
+<p><strong>构建结构化</strong></p>
+<p>Gradle 的灵活和丰富性最终能够支持在你的构建中应用通用的设计模式。  例如，它可以很容易地将你的构建拆分为多个可重用的模块，最后再进行组装，但不要强制地进行模块的拆分。  不要把原本在一起的东西强行分开（比如在你的项目结构里），从而避免让你的构建变成一场噩梦。  最后，你可以创建一个结构良好，易于维护，易于理解的构建。</p>
+<p><strong>深度 API</strong></p>
+<p>Gradle 允许你在构建执行的整个生命周期，对它的核心配置及执行行为进行监视并自定义。</p>
+<p><strong>Gradle 的扩展</strong></p>
+<p>Gradle 有非常良好的扩展性。 从简单的单项目构建，到庞大的多项目构建，它都能显著地提升你的效率。 这才是真正的结构化构建。通过最先进的增量构建功能，它可以解决许多大型企业所面临的性能瓶颈问题。</p>
+<p><strong>多项目构建</strong></p>
+<p>Gradle 对多项目构建的支持非常出色。项目依赖是首先需要考虑的问题。 我们允许你在多项目构建当中对项目依赖关系进行建模，因为它们才是你真正的问题域。 Gradle 遵守你的布局。</p>
+<p>Gradle 提供了局部构建的功能。 如果你在构建一个单独的子项目，Gradle 也会帮你构建它所依赖的所有子项目。 你也可以选择重新构建依赖于特定子项目的子项目。 这种增量构建将使得在大型构建任务中省下大量时间。</p>
+<p><strong>多种方式管理依赖</strong></p>
+<p>不同的团队喜欢用不同的方式来管理他们的外部依赖。 从 Maven 和 Ivy 的远程仓库的传递依赖管理，到本地文件系统的 jar 包或目录，Gradle 对所有的管理策略都提供了方便的支持。</p>
+<p><strong>Gradle 是第一个构建集成工具</strong></p>
+<p>Ant tasks 是最重要的。而更有趣的是，Ant projects 也是最重要的。 Gradle 对任意的 Ant  项目提供了深度导入，并在运行时将 Ant 目标(target)转换为原生的 Gradle 任务(task)。 你可以从 Gradle  上依赖它们(Ant targets)，增强它们，甚至在你的 build.xml 上定义对 Gradle tasks 的依赖。Gradle  为属性、路径等等提供了同样的整合。</p>
+<p>Gradle 完全支持用于发布或检索依赖的 Maven 或 Ivy 仓库。 Gradle 同样提供了一个转换器，用于将一个 Maven pom.xml 文件转换为一个 Gradle 脚本。Maven 项目的运行时导入的功能将很快会有。</p>
+<h4 id="易于移植"><a href="#易于移植" class="headerlink" title="易于移植"></a>易于移植</h4><p>Gradle 能适应你已有的任何结构。因此，你总可以在你构建项目的同一个分支当中开发你的 Gradle 构建脚本，并且它们能够并行进行。 我们通常建议编写测试，以保证生成的文件是一样的。 这种移植方式会尽可能的可靠和减少破坏性。这也是重构的最佳做法。</p>
+<p><strong>Groovy</strong></p>
+<p>Gradle 的构建脚本是采用 Groovy 写的，而不是用 XML。  但与其他方法不同，它并不只是展示了由一种动态语言编写的原始脚本的强大。 那样将导致维护构建变得很困难。 Gradle  的整体设计是面向被作为一门语言，而不是一个僵化的框架。 并且 Groovy 是我们允许你通过抽象的 Gradle 描述你个人的 story  的黏合剂。 Gradle 提供了一些标准通用的 story。这是我们相比其他声明性构建系统的主要特点。 我们的 Groovy  支持也不是简单的糖衣层，整个 Gradle 的 API 都是完全 groovy 化的。只有通过 Groovy才能去运用它并对它提高效率。</p>
+<p><strong>The Gradle wrapper</strong></p>
+<p>Gradle Wrapper 允许你在没有安装 Gradle 的机器上执行 Gradle 构建。  这一点是非常有用的。比如，对一些持续集成服务来说。 它对一个开源项目保持低门槛构建也是非常有用的。 Wrapper  对企业来说也很有用，它使得对客户端计算机零配置。 它强制使用指定的版本，以减少兼容支持问题。</p>
+<p><strong>自由和开源</strong></p>
+<p>Gradle 是一个开源项目，并遵循 ASL 许可。</p>
+<h3 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h3><p>环境：Ubuntu 18.04 +JDK 11.0.3</p>
+<p>Gradle 需要 1.5 或更高版本的 JDK。Gradle 自带了 Groovy 库，所以不需要安装 Groovy。Gradle 会忽略已经安装的 Groovy。Gradle 会使用 ptah中的 JDK(可以使用 java -version 检查)。当然，你可以配置 JAVA_HOME 环境变量来指向 JDK 的安装目录。 </p>
+<p>从 Gralde 官方网站下载 <a target="_blank" rel="noopener" href="http://services.gradle.org/distributions/">Gradle 的最新发行包</a>。Gradle 发行包是一个 ZIP 文件。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ mkdir /opt/gradle</span><br><span class="line">$ unzip -d /opt/gradle gradle-5.4.1-bin.zip</span><br><span class="line">$ ls /opt/gradle/gradle-5.4.1</span><br><span class="line">LICENSE  NOTICE  bin  getting-started.html  init.d  lib  media</span><br></pre></td></tr></table></figure>
+
+<p><strong>配置环境变量</strong></p>
+<p>运行 gradle 必须将 GRADLE_HOME/bin 加入到你的 PATH 环境变量中。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ export PATH=$PATH:/opt/gradle/gradle-5.4.1/bin</span><br></pre></td></tr></table></figure>
+
+<p>运行如下命令来检查是否安装成功.该命令会显示当前的 JVM 版本和 Gradle 版本。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">$ gradle -v</span><br><span class="line"></span><br><span class="line">------------------------------------------------------------</span><br><span class="line">Gradle 5.4</span><br><span class="line">------------------------------------------------------------</span><br><span class="line"></span><br><span class="line">Build time:   2019-04-16 02:44:16 UTC</span><br><span class="line">Revision:     a4f3f91a30d4e36d82cc7592c4a0726df52aba0d</span><br><span class="line"></span><br><span class="line">Kotlin:       1.3.21</span><br><span class="line">Groovy:       2.5.4</span><br><span class="line">Ant:          Apache Ant(TM) version 1.9.13 compiled on July 10 2018</span><br><span class="line">JVM:          11.0.3 (Oracle Corporation 11.0.3+12-LTS)</span><br><span class="line">OS:           Linux 4.18.0-17-generic amd64</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>或者从包装Gradle中升级,也可以不指定版本，会在使用时自动下载gradle.properties中指定的版本。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ ./gradlew wrapper --gradle-version=5.4.1 --distribution-type=&lt;bin/all/src&gt;</span><br></pre></td></tr></table></figure>
+
+<p><strong>Gradle使用Maven的仓库</strong></p>
+<p>如果没有安装Maven不要配置，配置<code>GRADLE_USER_HOME=~/.m2/repository/</code></p>
+<p>Gradle 目录结构(和Go类似)</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">├── com.alibaba</span><br><span class="line">│   └── fastjson</span><br><span class="line">│       └── 1.2.47</span><br><span class="line">├── com.fasterxml.jackson.core</span><br><span class="line">│   └── jackson-annotations</span><br><span class="line">│       └── 2.9.5</span><br><span class="line">├── com.github.kuangcp</span><br><span class="line">│   └── JavaToolKit</span><br><span class="line">│       └── 0.0.4-SNAPSHOT</span><br><span class="line">├── com.google.code.gson</span><br><span class="line">│   └── gson</span><br><span class="line">│       └── 2.8.5</span><br><span class="line">└── org.projectlombok</span><br><span class="line">    └── lombok</span><br><span class="line">        └── 1.18.2</span><br></pre></td></tr></table></figure>
+
+<p>Maven目录结构：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">└── org</span><br><span class="line">    └── projectlombok</span><br><span class="line">        └── lombok</span><br><span class="line">            └── 1.18.2</span><br></pre></td></tr></table></figure>
+
+
+
+<p>Gradle 构件的目录结构就和maven不同,只是去那个目录下去找找有没有对应的构件, 有就复制过来(~/.gradle/caches/modules-2/files-2.1/), 并建立一个新的目录结构,并不打算复用</p>
+<p>所以, 如果你是Maven和Gradle 混着用的话, 两个本地仓库是互相独立和冗余的。</p>
+<p>后面讲配置文件时会讲到Gradle使用Maven的仓库时配置文件的配置。</p>
+<p><strong>JVM 参数配置</strong></p>
+<p>Gradle 运行时的 JVM 参数可以通过 GRADLE_OPTS 或 JAVA_OPTS 来设置.这些参数将会同时生效。  JAVA_OPTS 设置的参数将会同其它 JAVA 应用共享，一个典型的例子是可以在 JAVA_OPTS 中设置代理和 GRADLE_OPTS  设置内存参数。同时这些参数也可以在 gradle 或者 gradlew 脚本文件的开头进行设置。</p>
+<h3 id="Groovy语法入门"><a href="#Groovy语法入门" class="headerlink" title="Groovy语法入门"></a>Groovy语法入门</h3><p>为什么我们学习gradle需要学习groovy? groovy是google推出的一款基于java的脚本语言。只要简单几句代码就可以完成java程序。虽然groovy看起来是脚本编程语言，但是究其更本也是运行在jvm上面的java语言，知识groovy对java进行了二层的封装。因为这个语言的灵活性，gradle选择了groovy。</p>
+<h4 id="helloWorld"><a href="#helloWorld" class="headerlink" title="helloWorld"></a>helloWorld</h4><p>让我们使用最简单的helloWorld代码来入门。首先要确保gradle安装正确，安装正确后，我们新建一个文件夹，在这个文件夹内部新建一个build.gradle文件。</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">println(<span class="string">&quot;Hello World!&quot;</span>);</span><br></pre></td></tr></table></figure>
+
+<p>接着我们在命令行执行 gradle 后就可以看到相应的结果了</p>
+<h4 id="基础语法"><a href="#基础语法" class="headerlink" title="基础语法"></a>基础语法</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">def a = 1</span><br><span class="line">def b = &quot;abc&quot;</span><br><span class="line">def int a</span><br></pre></td></tr></table></figure>
+
+<p>上面是gradle如何定义一个变量的写法。注意gradle没有要求每行必须以；结尾，一行就是一句代码</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">def oneMeathod(arg1)&#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">int twoMeathod(arg1,arg2)&#123;</span><br><span class="line">     arg1+arg2</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>上面是定义方法的写法，如果是无返回的方法。需使用def定义。如果指定了相应的返回类型的话，可不使用def关键字。</p>
+<p>注意如果有返回值的话，需在最后一行将需要返回的值返回。</p>
+<h4 id="字符串"><a href="#字符串" class="headerlink" title="字符串"></a>字符串</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">def a =&#x27;huangkai&#x27;</span><br><span class="line">def b = &quot;i am $a&quot;</span><br><span class="line">def lines = &#x27;&#x27;&#x27; abc</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">       abc</span><br><span class="line"></span><br><span class="line">       end &#x27;&#x27;&#x27;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>字符串有三种格式</p>
+<ul>
+<li>‘’ 代表完全按照符号内部的内容</li>
+<li>“” 如果内部有$变量值的话，先取变量值</li>
+<li>‘’’ ‘’’代表文本支持换行</li>
+</ul>
+<h4 id="容器类型"><a href="#容器类型" class="headerlink" title="容器类型"></a>容器类型</h4><p>在Java里提供了多种的容器类型，常见的有List Map Set。他们分别适合不同场景。为不同需求提供解决能力。在grrovy内部也提供了对应的容器类型。</p>
+<p>以下内容不用死记硬背，学会<a target="_blank" rel="noopener" href="http://docs.groovy-lang.org/latest/html/groovy-jdk/">查询即可</a></p>
+<p><strong>List</strong></p>
+<p>与Java数组类型相似，与java不一样的，Java需要类型相同的对象。可以理解为定义了一个ArrayList</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">def a = [&quot;a&quot;,5,6]</span><br></pre></td></tr></table></figure>
+
+<p>上面是定义的方法。</p>
+<p>可以在上面的网站查询到list提供的方法</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">def a = [5,&#x27;string&#x27;,true]</span><br><span class="line"></span><br><span class="line">println(a.getAt(2));</span><br></pre></td></tr></table></figure>
+
+<p><strong>Map</strong></p>
+<p>与java中的map类似，map提供的键值对的能力。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">def map = [&quot;a&quot;:100,&quot;b&quot;:200]</span><br></pre></td></tr></table></figure>
+
+<p>定义map的方法，key:vaule key必须为字符串 value可以为任何值。 多个值之间使用,分开</p>
+<p>简单的使用map</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">def map = [&quot;a&quot;:100,&quot;b&quot;:200]</span><br><span class="line"></span><br><span class="line">println(map.getAt(&quot;b&quot;));</span><br></pre></td></tr></table></figure>
+
+<h4 id="闭包（Closure）"><a href="#闭包（Closure）" class="headerlink" title="闭包（Closure）"></a>闭包（Closure）</h4><p>闭包是groovy里面的特殊语法，我们在很多文件都可以看到闭包的身影。闭包是类似回调的一个代码块。因为groovy是脚本语言，所以有很多约定的写法，下面我们来看看闭包是如何定义与书写的。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">def aClosure =&#123;</span><br><span class="line">          println(&quot;helloWorld&quot;);</span><br><span class="line">     &#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>带参数的闭包</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">def xxx = &#123;a , b -&gt;</span><br><span class="line"></span><br><span class="line">   println(a);</span><br><span class="line">   println(b);</span><br><span class="line"></span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
+
+<p>-&gt; 符号前代表输入的参数，可以不使用类型</p>
+<p>带默认参数的闭包</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">def xxx =&#123;</span><br><span class="line">    println(it);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>每个闭包在定义的时候都带了一个默认的参数，这个参数的名称叫it。我们可以直接获取他不需要定义。以上闭包的几种定义的方式。</p>
+<p>闭包的使用通常有两种：</p>
+<ul>
+<li><p>直接用，我们把闭包当做一个函数使用。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"> def abc = &#123;time,name -&gt;</span><br><span class="line">   println(time);</span><br><span class="line">   println(name);</span><br><span class="line"> &#125;</span><br><span class="line">abc.call(100,&quot;huangkai&quot;);</span><br><span class="line"> def xxx =&#123;</span><br><span class="line">    println(it);</span><br><span class="line"> &#125;</span><br><span class="line">xxx.call(10086)</span><br></pre></td></tr></table></figure></li>
+<li><p>作为一个参数使用，我们把闭包作为一个回调使用。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">List    each(Closure closure)</span><br><span class="line">//list定义了一个方法，这个方法是遍历list的方法，方法接收一个参数，参数的类型就是一个闭包。</span><br><span class="line">def a = [5,&#x27;string&#x27;,true]</span><br><span class="line"></span><br><span class="line">def b =&#123;</span><br><span class="line"> println(it);</span><br><span class="line"> &#125;</span><br><span class="line"></span><br><span class="line">a.each(b);</span><br></pre></td></tr></table></figure></li>
+</ul>
+<h3 id="构建块"><a href="#构建块" class="headerlink" title="构建块"></a>构建块</h3><p>每个Gradle构建都包括三个基本构建块：project、task、property，每个构建包至少一个project，进而又包含一个或多个task，project和task暴露的属性可以用来控制构建</p>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2019/05/11/5cd65627ac139.png"></p>
+<h4 id="project"><a href="#project" class="headerlink" title="project"></a>project</h4><p>一个project代表一个正在构建的组件，或者一个想要完成的目标，Gradle的build.gradle相当于Maven的pom.xml，每个Gradle构建脚本至少定义一个project，当构建进程启动后，Gradle基于build.gradle中的配置实例化org.gradle.qpi.Project类，并且能够通过project变量使其隐式可用。</p>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2019/05/11/5cd656f344922.png" alt="project接口"></p>
+<p>一个project可以创建新的task，添加依赖关系和配置,并应用插件和其他的构建脚本。他的许多属性可以通过getter的setter方法访问。</p>
+<p>当访问属性和方法时，不需要使用project变量，默认指向project示例：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">setDescription(&quot;MyProject&quot;)</span><br><span class="line">println &quot;Description of project $name :&quot; + description</span><br></pre></td></tr></table></figure>
+
+<h4 id="task"><a href="#task" class="headerlink" title="task"></a>task</h4><p>task任务包括一些重要功能：task action 、task dependency。任务动作定义一个当任务执行时最小的工作单元。task的接口如下：</p>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2019/05/11/5cd67b9e24356.png"></p>
+<h4 id="properties"><a href="#properties" class="headerlink" title="properties"></a>properties</h4><p>每个Project和Task示例都提供可以通过getter和setter方法访问属性。</p>
+<p><strong>扩展属性</strong>：Gradle很多领域模型类提供了特别的属性支持，以键值对的形式储存，为了添加属性，需要使用ext命名空间</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">project.ext.myProp=<span class="string">&#x27;myValue&#x27;</span> <span class="comment">//初始声明扩展属性时需要使用ext命名空间</span></span><br><span class="line">ext &#123;</span><br><span class="line">	someOtherProp = <span class="number">123</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">assert</span> myProp == <span class="string">&#x27;myValue&#x27;</span></span><br><span class="line">println project.someOtherProp</span><br><span class="line">ext.someOtherProp = <span class="number">567</span>  <span class="comment">//ext命名空间访问属性可选</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>Gradle属性</strong>：通过在gradle.properties文件中声明直接添加到项目中，</p>
+<p><strong>其他方式</strong>：项目属性通过-P命令行提供、系统属性通过-D命令行提供、环境变量提供</p>
+<h3 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h3><p> <code>&lt;&lt;</code> 在gradle 在5.1 之后废弃了   </p>
+<h4 id="创建一个简单的Gradle项目"><a href="#创建一个简单的Gradle项目" class="headerlink" title="创建一个简单的Gradle项目"></a>创建一个简单的Gradle项目</h4><p>首先创建一个目录，即项目的所在目录</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&gt;mkdir basic-demo</span><br><span class="line">&gt; cd basic-demo</span><br></pre></td></tr></table></figure>
+
+<p>然后，我们可以使用Gradle <code>init</code>命令来生成一个简单的项目。我们将探索所有产生的项目文件，以确切知道发生了什么。</p>
+<blockquote>
+<p><code>gradle init</code>命令可以生成<a target="_blank" rel="noopener" href="https://docs.gradle.org/4.6/userguide/build_init_plugin.html?_ga=2.56416747.1372490660.1523501630-709977496.1497512105#sec:build_init_types">不同类型的项目</a>,甚至可以知道如何将简单<code>pom.xml</code>文件转换为Gradle。</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">&gt; gradle init </span><br><span class="line">Select type of project to generate:</span><br><span class="line">  1: basic</span><br><span class="line">  2: cpp-application</span><br><span class="line">  3: cpp-library</span><br><span class="line">  4: groovy-application</span><br><span class="line">  5: groovy-library</span><br><span class="line">  6: java-application</span><br><span class="line">  7: java-library</span><br><span class="line">  8: kotlin-application</span><br><span class="line">  9: kotlin-library</span><br><span class="line">  10: scala-library</span><br><span class="line">Enter selection (default: basic) [1..10] 1</span><br><span class="line">Select build script DSL:</span><br><span class="line">  1: groovy</span><br><span class="line">  2: kotlin</span><br><span class="line">Enter selection (default: groovy) [1..2] 1</span><br><span class="line">Project name (default: basic-demo): </span><br><span class="line"></span><br><span class="line">BUILD SUCCESSFUL in 7s</span><br><span class="line">2 actionable tasks: 2 executed</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>下面就是Gradle生成的文件目录：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">&gt; tree </span><br><span class="line">.</span><br><span class="line">├── build.gradle #项目配置脚本，用于配置当前项目中的任务</span><br><span class="line">├── gradle</span><br><span class="line">│   └── wrapper </span><br><span class="line">│       ├── gradle-wrapper.jar #Gradle Wrappe可执行JAR</span><br><span class="line">│       └── gradle-wrapper.properties #Gradle Wrapper配置属性</span><br><span class="line">├── gradlew #用于基于Unix系统的Gradle Wrapper脚本</span><br><span class="line">├── gradlew.bat #用于基于Windows的Gradle Wrapper脚本</span><br><span class="line">└── settings.gradle #设置配置脚本，用于配置哪些项目参与构建</span><br><span class="line"></span><br><span class="line">2 directories, 6 files</span><br></pre></td></tr></table></figure>
+
+<p>gradle版本会不断更新，每个人使用的版本可能会不同，而gradlew（wrapper）可以算是gradle的一层包装。</p>
+<p>让我们使用相同版本的gradle进行构建，我们在gradle -&gt; wrapper中可以看到gradle-wrapper.properties文件。</p>
+<p>打开，可以看到配置的gradle版本的信息：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">distributionBase=GRADLE_USER_HOME #GRADLE_USER_HOME表示用户目录</span><br><span class="line">distributionPath=wrapper/dists</span><br><span class="line">distributionUrl=https\://services.gradle.org/distributions/gradle-5.4-bin.zip #指定某个版本gradle下载地址</span><br><span class="line">zipStoreBase=GRADLE_USER_HOME</span><br><span class="line">zipStorePath=wrapper/dists</span><br></pre></td></tr></table></figure>
+
+<p>我们使用gradlew命令的时候，会根据这个文件来使用对应的gradle进行构建，没有则会下载</p>
+<blockquote>
+<p>gradle init可以生成各种不同类型的项目，甚至知道如何将简单的pom.xml文件转换成gradle。</p>
+</blockquote>
+<h4 id="创建任务"><a href="#创建任务" class="headerlink" title="创建任务"></a>创建任务</h4><p>Gradle提供了通过Groovy或Kotlin的DSL来创建和配置任务的的API。每个Project有一系列执行基本操作的Task。</p>
+<p>Gradle附带一个用于配置项目的任务库。例如，有个叫做<code>Copy</code>的核心类，它将文件从一个位置复制到另一个位置。<code>Copy</code>任务非常的有用。但是，在这里，我们再一次只是简单的使用它。</p>
+<p>执行以下步骤：</p>
+<ol>
+<li><p>创建名为<code>src</code>的文件夹</p>
+</li>
+<li><p>在文件夹<code>src</code>中添加<code>myfile.txt</code>。内容是任意的(甚至可以为空)，但为了方便起见，添加一行内容<code>Hello, World!</code>。</p>
+</li>
+<li><p>在主构建文件<code>build.gradle</code>中定一个名为<code>copy</code>的<code>Copy</code>类型任务。它将<code>src</code>目录复制到一个名为<code>dest</code>的新目录中。(你不必创建<code>dest</code>文件夹，任务将替你创建)</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">task copy(type: Copy, group: &quot;Custom&quot;, description: &quot;Copies sources to the dest directory&quot;) &#123;</span><br><span class="line">    from &quot;src&quot;</span><br><span class="line">    into &quot;dest&quot;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+</ol>
+<p>在这里，group和description是可以任意设置的。你甚至可以忽略它们，但是，如果这么做，<code>tasks</code>报告中，也会忽略它们，过会我们会用到它们。</p>
+<p>现在执行新创建的<code>./gradlew copy</code>任务，通过检查在<code>dest</code>文件夹中有名为<code>myfile.txt</code>的文件，并且里面的内容与<code>src</code>中的<code>myfile.txt</code>内容一致来检查该任务是否按照预期执行。</p>
+<h4 id="应用插件"><a href="#应用插件" class="headerlink" title="应用插件"></a>应用插件</h4><p>Gradle包含一系列插件，<a target="_blank" rel="noopener" href="https://plugins.gradle.org/"> the Gradle plugin portal</a>中提供了非常多的插件。这个发行版中包含的一个名为<code>base</code>的插件。与核心类<code>Zip</code>一起使用，可以使用配置的名称和位置创建项目的zip压缩文件。</p>
+<p>使用<code>plugins</code>脚本将<code>base</code>插件添加到<code>build.gradle</code>中。确保在文件顶部添加<code>plugins &#123;&#125;</code>代码块。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">plugins &#123;</span><br><span class="line">    id &quot;base&quot;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">... rest of the build file ...</span><br></pre></td></tr></table></figure>
+
+<p>现在添加一个创建<code>src</code>文件夹的zip压缩文件的任务。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">task zip(type: Zip, group: &quot;Archive&quot;, description: &quot;Archives sources in a zip file&quot;) &#123;</span><br><span class="line">    from &quot;src&quot;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><code>base</code>插件与设置一起完成任务，在<code>build/distributions</code>文件夹下创建名为<code>basic-demo-1.0.zip</code>的压缩文件。</p>
+<p>在这种情况下，执行任务<code>zip</code>并且查看生成的压缩文件是您所期望的。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./gradlew zip</span><br></pre></td></tr></table></figure>
+
+<p>生成的文件位于：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">.</span><br><span class="line">└── build</span><br><span class="line">   └── distributions</span><br><span class="line">       └── basic-demo.zip</span><br></pre></td></tr></table></figure>
+
+<h4 id="探索和调试构建"><a href="#探索和调试构建" class="headerlink" title="探索和调试构建"></a>探索和调试构建</h4><p><strong>查看可用的<code>tasks</code></strong></p>
+<p><code>tasks</code>命令列出你可调用的Gradle任务，包括base插件添加的任务以及刚刚添加的自定义任务。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&gt;./gradlew tasks</span><br></pre></td></tr></table></figure>
+
+<p><strong>分析和调试你的构建</strong></p>
+<p>Gradle还为您的构建提供了一个丰富的，基于Web的视图，称为构建审视。</p>
+<p>通过使用<code>--scan</code>命令选项或通过显示声明将构建审视插件应用到项目中，您可以免费在链接scans.gradle.com上创建构建审视。构建审视发布到scans.gradle.com 并将这些数据上传到Gradle的服务器。要将数据保存在您自己的服务器上，请查看<a target="_blank" rel="noopener" href="https://gradle.com/enterprise?_ga=2.143345461.1063945172.1523501794-431069063.1523242361">Gradle Enterprise</a>.</p>
+<p>在执行任务时，通过添加 <code>--scan</code>命令选项生成构建审视。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&gt;./gradlew zip --scan</span><br></pre></td></tr></table></figure>
+
+<p>在<a target="_blank" rel="noopener" href="https://docs.gradle.com/build-scan-plugin/?_ga=2.243588101.1414919168.1523501302-1348449306.1523242263">Build Scan Plugin用户手册</a>中详细了解如何配置和使用构建审视。</p>
+<h4 id="发现可用属性"><a href="#发现可用属性" class="headerlink" title="发现可用属性"></a>发现可用属性</h4><p>properties命令告诉您项目的属性。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&gt; ./gradlew properties</span><br></pre></td></tr></table></figure>
+
+<p>默认情况下，项目的名称与文件夹的名称匹配。 您还可以指定组和版本属性，但目前它们采用默认值，如描述。</p>
+<p>buildFile属性是构建脚本的完全限定路径名，该脚本位于projectDir中 - 默认情况下。</p>
+<p>您可以更改许多属性。 例如，您可以尝试将以下行添加到构建脚本文件中，然后重新执行gradle属性。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">description = &quot;A trivial Gradle build&quot;</span><br><span class="line">version = &quot;1.0&quot;</span><br></pre></td></tr></table></figure>
+
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">平心</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://pingxin0521.gitee.io/2019/05/06/%E5%B7%A5%E5%85%B7-Gradle-1/">https://pingxin0521.gitee.io/2019/05/06/%E5%B7%A5%E5%85%B7-Gradle-1/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://pingxin0521.gitee.io" target="_blank">平心de小屋</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E5%B7%A5%E5%85%B7/">工具</a><a class="post-meta__tags" href="/tags/Gradle/">Gradle</a></div><div class="post_share"><div class="social-share" data-image="https://i.loli.net/2020/05/08/gGE57HRvpcKPfDY.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2019/05/06/%E5%B7%A5%E5%85%B7-Gradle-4/"><img class="prev-cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/HjVAdIuT7bZJypS.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">Gradle Project</div></div></a></div><div class="next-post pull-right"><a href="/2019/05/06/Java-%E9%AB%98%E7%BA%A7-1-2-3/"><img class="next-cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/okfOw28KlZFbE7z.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">Java  Thread 安全--锁使用（三）</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span> 相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2019/05/06/工具-Gradle-4/" title="Gradle Project"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/HjVAdIuT7bZJypS.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2019-05-12</div><div class="title">Gradle Project</div></div></a></div><div><a href="/2019/05/08/工具-Gradle-3/" title="Gradle 范例"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/HjVAdIuT7bZJypS.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2019-05-11</div><div class="title">Gradle 范例</div></div></a></div><div><a href="/2019/05/06/工具-Gradle-2/" title="Gradle 构建Java库"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/gGE57HRvpcKPfDY.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2019-05-12</div><div class="title">Gradle 构建Java库</div></div></a></div><div><a href="/2019/05/06/工具-Gradle-5/" title="Gradle 依赖管理"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/gGE57HRvpcKPfDY.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2019-05-12</div><div class="title">Gradle 依赖管理</div></div></a></div><div><a href="/2019/03/18/工具-Git-1/" title="Git入门"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/gGE57HRvpcKPfDY.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2019-09-25</div><div class="title">Git入门</div></div></a></div><div><a href="/2019/03/21/工具-Git-5/" title="Git设置SSH key"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/PFDRNxj93taz6pw.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2019-08-02</div><div class="title">Git设置SSH key</div></div></a></div></div></div><hr/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div class="vcomment" id="vcomment"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="card-info-avatar is-center"><img class="avatar-img" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://s2.ax1x.com/2020/02/11/1ovw6J.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/><div class="author-info__name">平心</div><div class="author-info__description">年轻人的life、learn and think</div></div><div class="card-info-data"><div class="card-info-data-item is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">449</div></a></div><div class="card-info-data-item is-center"><a href="/tags/"><div class="headline">标签</div><div class="length-num">77</div></a></div><div class="card-info-data-item is-center"><a href="/categories/"><div class="headline">分类</div><div class="length-num">68</div></a></div></div><a class="button--animated" id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/hanyunpeng0521"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/hanyunpeng0521" target="_blank" title="Github"><i class="fa fa-github"></i></a><a class="social-icon" href="mailto:m13839441583@163.com" target="_blank" title="Email"><i class="fa fa-envelope"></i></a><a class="social-icon" href="/atom.xml" target="_blank" title=""><i class="fa fa-rss"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn card-announcement-animation"></i><span>公告</span></div><div class="announcement_content">为什么呢？开始提问吧</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%89%8D%E8%A8%80"><span class="toc-number">1.</span> <span class="toc-text">前言</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%89%B9%E6%80%A7"><span class="toc-number">2.</span> <span class="toc-text">特性</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%98%93%E4%BA%8E%E7%A7%BB%E6%A4%8D"><span class="toc-number">2.1.</span> <span class="toc-text">易于移植</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%89%E8%A3%85"><span class="toc-number">3.</span> <span class="toc-text">安装</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Groovy%E8%AF%AD%E6%B3%95%E5%85%A5%E9%97%A8"><span class="toc-number">4.</span> <span class="toc-text">Groovy语法入门</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#helloWorld"><span class="toc-number">4.1.</span> <span class="toc-text">helloWorld</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%9F%BA%E7%A1%80%E8%AF%AD%E6%B3%95"><span class="toc-number">4.2.</span> <span class="toc-text">基础语法</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%AD%97%E7%AC%A6%E4%B8%B2"><span class="toc-number">4.3.</span> <span class="toc-text">字符串</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%AE%B9%E5%99%A8%E7%B1%BB%E5%9E%8B"><span class="toc-number">4.4.</span> <span class="toc-text">容器类型</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%97%AD%E5%8C%85%EF%BC%88Closure%EF%BC%89"><span class="toc-number">4.5.</span> <span class="toc-text">闭包（Closure）</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9E%84%E5%BB%BA%E5%9D%97"><span class="toc-number">5.</span> <span class="toc-text">构建块</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#project"><span class="toc-number">5.1.</span> <span class="toc-text">project</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#task"><span class="toc-number">5.2.</span> <span class="toc-text">task</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#properties"><span class="toc-number">5.3.</span> <span class="toc-text">properties</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8"><span class="toc-number">6.</span> <span class="toc-text">使用</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%88%9B%E5%BB%BA%E4%B8%80%E4%B8%AA%E7%AE%80%E5%8D%95%E7%9A%84Gradle%E9%A1%B9%E7%9B%AE"><span class="toc-number">6.1.</span> <span class="toc-text">创建一个简单的Gradle项目</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%88%9B%E5%BB%BA%E4%BB%BB%E5%8A%A1"><span class="toc-number">6.2.</span> <span class="toc-text">创建任务</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%BA%94%E7%94%A8%E6%8F%92%E4%BB%B6"><span class="toc-number">6.3.</span> <span class="toc-text">应用插件</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%8E%A2%E7%B4%A2%E5%92%8C%E8%B0%83%E8%AF%95%E6%9E%84%E5%BB%BA"><span class="toc-number">6.4.</span> <span class="toc-text">探索和调试构建</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%8F%91%E7%8E%B0%E5%8F%AF%E7%94%A8%E5%B1%9E%E6%80%A7"><span class="toc-number">6.5.</span> <span class="toc-text">发现可用属性</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2021/05/15/node-2-4/" title="Egg.js -- 为企业级框架和应用而生"><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/okfOw28KlZFbE7z.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Egg.js -- 为企业级框架和应用而生"/></a><div class="content"><a class="title" href="/2021/05/15/node-2-4/" title="Egg.js -- 为企业级框架和应用而生">Egg.js -- 为企业级框架和应用而生</a><time datetime="2021-05-15T10:18:59.000Z" title="发表于 2021-05-15 18:18:59">2021-05-15</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/04/30/node-2-3/" title="Koa -- 基于Node.js平台的下一代Web开发框架"><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/HjVAdIuT7bZJypS.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Koa -- 基于Node.js平台的下一代Web开发框架"/></a><div class="content"><a class="title" href="/2021/04/30/node-2-3/" title="Koa -- 基于Node.js平台的下一代Web开发框架">Koa -- 基于Node.js平台的下一代Web开发框架</a><time datetime="2021-04-30T10:18:59.000Z" title="发表于 2021-04-30 18:18:59">2021-04-30</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/04/01/node-2-1/" title="Node.JS web开发前置知识"><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/gGE57HRvpcKPfDY.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Node.JS web开发前置知识"/></a><div class="content"><a class="title" href="/2021/04/01/node-2-1/" title="Node.JS web开发前置知识">Node.JS web开发前置知识</a><time datetime="2021-04-01T03:18:59.000Z" title="发表于 2021-04-01 11:18:59">2021-04-01</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2020/12/26/%E5%91%A8%E8%AE%B0-10-1/" title="第十一周--谷歌浏览器插件"><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/gGE57HRvpcKPfDY.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="第十一周--谷歌浏览器插件"/></a><div class="content"><a class="title" href="/2020/12/26/%E5%91%A8%E8%AE%B0-10-1/" title="第十一周--谷歌浏览器插件">第十一周--谷歌浏览器插件</a><time datetime="2020-12-26T10:18:59.000Z" title="发表于 2020-12-26 18:18:59">2020-12-26</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2020/12/26/%E5%91%A8%E8%AE%B0-10-0/" title="第十一周--浏览器技术"><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/vCnKyoFJZ1g4XYR.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="第十一周--浏览器技术"/></a><div class="content"><a class="title" href="/2020/12/26/%E5%91%A8%E8%AE%B0-10-0/" title="第十一周--浏览器技术">第十一周--浏览器技术</a><time datetime="2020-12-26T06:18:59.000Z" title="发表于 2020-12-26 14:18:59">2020-12-26</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2019 - 2021 By 平心</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div id="local-search"><div class="search-dialog"><div class="search-dialog__title" id="local-search-title">本地搜索</div><div id="local-input-panel"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div></div><hr/><div id="local-search-results"></div><span class="search-close-button"><i class="fas fa-times"></i></span></div><div id="search-mask"></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload/dist/lazyload.iife.min.js"></script><script src="/js/search/local-search.js"></script><div class="js-pjax"><script>function loadValine () {
+  function initValine () {
+    const valine = new Valine(Object.assign({
+      el: '#vcomment',
+      appId: '4lfIXzqxaC1ONs0MJO4oHu07-gzGzoHsz',
+      appKey: 'qw99Bw8FD0KVKU9m457CwWsr',
+      placeholder: 'Please leave your footprints',
+      avatar: 'monsterid',
+      meta: 'nick,mail,link'.split(','),
+      pageSize: '10',
+      lang: 'zh-CN',
+      recordIP: true,
+      serverURLs: '',
+      emojiCDN: '',
+      emojiMaps: "",
+      enableQQ: true,
+      path: window.location.pathname,
+      requiredFields: ["nick,mail"],
+      visitor: false
+    }, null))
+  }
+
+  if (typeof Valine === 'function') initValine() 
+  else getScript('https://cdn.jsdelivr.net/npm/valine/dist/Valine.min.js').then(initValine)
+}
+
+if ('Valine' === 'Valine' || !false) {
+  if (false) btf.loadComment(document.getElementById('vcomment'),loadValine)
+  else setTimeout(loadValine, 0)
+} else {
+  function loadOtherComment () {
+    loadValine()
+  }
+}</script></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>

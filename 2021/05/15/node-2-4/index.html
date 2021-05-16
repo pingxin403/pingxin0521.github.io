@@ -1,0 +1,1021 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Egg.js -- 为企业级框架和应用而生 | 平心de小屋</title><meta name="keywords" content="Node.JS,后端"><meta name="author" content="平心"><meta name="copyright" content="平心"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="Egg.jsEgg.js 为企业级框架和应用而生，解决koa的封装问题和提供Node异步编程方案 Egg 选择了 Koa 作为其基础框架，在它的模型基础上，进一步对它进行了一些增强。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Egg.js -- 为企业级框架和应用而生">
+<meta property="og:url" content="https://pingxin0521.gitee.io/2021/05/15/node-2-4/index.html">
+<meta property="og:site_name" content="平心de小屋">
+<meta property="og:description" content="Egg.jsEgg.js 为企业级框架和应用而生，解决koa的封装问题和提供Node异步编程方案 Egg 选择了 Koa 作为其基础框架，在它的模型基础上，进一步对它进行了一些增强。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://i.loli.net/2020/05/08/okfOw28KlZFbE7z.jpg">
+<meta property="article:published_time" content="2021-05-15T10:18:59.000Z">
+<meta property="article:modified_time" content="2021-05-16T07:20:14.271Z">
+<meta property="article:author" content="平心">
+<meta property="article:tag" content="Node.JS">
+<meta property="article:tag" content="后端">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.loli.net/2020/05/08/okfOw28KlZFbE7z.jpg"><link rel="shortcut icon" href="https://s2.ax1x.com/2020/02/11/1ovFOA.png"><link rel="canonical" href="https://pingxin0521.gitee.io/2021/05/15/node-2-4/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"search.xml","languages":{"hits_empty":"找不到您查询的内容：${query}"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    jQuery: 'https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js',
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+    },
+    fancybox: {
+      js: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css'
+    }
+  },
+  isPhotoFigcaption: true,
+  islazyload: true,
+  isanchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'Egg.js -- 为企业级框架和应用而生',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2021-05-16 15:20:14'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    })(window)</script><meta name="generator" content="Hexo 5.4.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="author-avatar"><img class="avatar-img" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://s2.ax1x.com/2020/02/11/1ovw6J.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data"><div class="data-item is-center"><div class="data-item-link"><a href="/archives/"><div class="headline">文章</div><div class="length-num">449</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/tags/"><div class="headline">标签</div><div class="length-num">77</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/categories/"><div class="headline">分类</div><div class="length-num">68</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fa fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fa fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://i.loli.net/2020/05/08/okfOw28KlZFbE7z.jpg')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">平心de小屋</a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fa fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fa fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">Egg.js -- 为企业级框架和应用而生</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2021-05-15T10:18:59.000Z" title="发表于 2021-05-15 18:18:59">2021-05-15</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2021-05-16T07:20:14.271Z" title="更新于 2021-05-16 15:20:14">2021-05-16</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E5%90%8E%E7%AB%AF/">后端</a><i class="fas fa-angle-right post-meta-separator"></i><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E5%90%8E%E7%AB%AF/Node-JS/">Node.JS</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">13.5k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>50分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="Egg.js -- 为企业级框架和应用而生"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h2 id="Egg-js"><a href="#Egg-js" class="headerlink" title="Egg.js"></a>Egg.js</h2><p><strong><a target="_blank" rel="noopener" href="https://eggjs.org/zh-cn/">Egg.js</a> 为企业级框架和应用而生</strong>，解决koa的封装问题和提供Node异步编程方案</p>
+<p>Egg 选择了 Koa 作为其基础框架，在它的模型基础上，进一步对它进行了一些增强。</p>
+<span id="more"></span>
+
+<h4 id="原则"><a href="#原则" class="headerlink" title="原则"></a>原则</h4><ul>
+<li>一个插件只做一件事</li>
+<li>约定优于配置</li>
+</ul>
+<h4 id="特性"><a href="#特性" class="headerlink" title="特性"></a>特性</h4><ul>
+<li>提供基于 Egg <a target="_blank" rel="noopener" href="https://eggjs.org/zh-cn/advanced/framework.html">定制上层框架</a>的能力</li>
+<li>高度可扩展的<a target="_blank" rel="noopener" href="https://eggjs.org/zh-cn/basics/plugin.html">插件机制</a></li>
+<li>内置<a target="_blank" rel="noopener" href="https://eggjs.org/zh-cn/advanced/cluster-client.html">多进程管理</a></li>
+<li>基于 <a target="_blank" rel="noopener" href="http://koajs.com/">Koa</a> 开发，性能优异</li>
+<li>框架稳定，测试覆盖率高</li>
+<li><a target="_blank" rel="noopener" href="https://eggjs.org/zh-cn/tutorials/progressive.html">渐进式开发</a></li>
+</ul>
+<h4 id="扩展"><a href="#扩展" class="headerlink" title="扩展"></a>扩展</h4><p>在基于 Egg 的框架或者应用中，我们可以通过定义 <code>app/extend/&#123;application,context,request,response&#125;.js</code> 来扩展 Koa 中对应的四个对象的原型，通过这个功能，我们可以快速的增加更多的辅助方法，例如我们在 <code>app/extend/context.js</code> 中写入下列代码：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// app/extend/context.js</span></span><br><span class="line"><span class="built_in">module</span>.exports = &#123;</span><br><span class="line">  <span class="keyword">get</span> <span class="title">isIOS</span>() &#123;</span><br><span class="line">    <span class="keyword">const</span> iosReg = <span class="regexp">/iphone|ipad|ipod/i</span>;</span><br><span class="line">    <span class="keyword">return</span> iosReg.test(<span class="built_in">this</span>.get(<span class="string">&#x27;user-agent&#x27;</span>));</span><br><span class="line">  &#125;,</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>在 Controller 中，我们就可以使用到刚才定义的这个便捷属性了：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// app/controller/home.js</span></span><br><span class="line"><span class="built_in">exports</span>.handler = <span class="function"><span class="params">ctx</span> =&gt;</span> &#123;</span><br><span class="line">  ctx.body = ctx.isIOS</span><br><span class="line">    ? <span class="string">&#x27;Your operating system is iOS.&#x27;</span></span><br><span class="line">    : <span class="string">&#x27;Your operating system is not iOS.&#x27;</span>;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>更多关于扩展的内容，请查看<a target="_blank" rel="noopener" href="https://eggjs.org/zh-cn/basics/extend.html">扩展</a>章节。</p>
+<h4 id="插件"><a href="#插件" class="headerlink" title="插件"></a>插件</h4><p>众所周知，在 Express 和 Koa 中，经常会引入许许多多的中间件来提供各种各样的功能，例如引入 <a target="_blank" rel="noopener" href="https://github.com/koajs/session">koa-session</a> 提供 Session 的支持，引入 <a target="_blank" rel="noopener" href="https://github.com/koajs/bodyparser">koa-bodyparser</a> 来解析请求 body。而 Egg 提供了一个更加强大的插件机制，让这些独立领域的功能模块可以更加容易编写。</p>
+<p>一个插件可以包含</p>
+<ul>
+<li>extend：扩展基础对象的上下文，提供各种工具类、属性。</li>
+<li>middleware：增加一个或多个中间件，提供请求的前置、后置处理逻辑。</li>
+<li>config：配置各个环境下插件自身的默认配置项。</li>
+</ul>
+<p>一个独立领域下的插件实现，可以在代码维护性非常高的情况下实现非常完善的功能，而插件也支持配置各个环境下的默认（最佳）配置，让我们使用插件的时候几乎可以不需要修改配置项。</p>
+<p><a target="_blank" rel="noopener" href="https://github.com/eggjs/egg-security">egg-security</a> 插件就是一个典型的例子。</p>
+<h4 id="版本"><a href="#版本" class="headerlink" title="版本"></a>版本</h4><ul>
+<li>egg.js 1.x ==&gt; koa 1.x</li>
+<li>egg.js 2.x ==&gt; koa 2.x</li>
+</ul>
+<h3 id="快速入门"><a href="#快速入门" class="headerlink" title="快速入门"></a>快速入门</h3><blockquote>
+<p>环境： node &gt;=8.x LTS</p>
+</blockquote>
+<h4 id="快速初始化"><a href="#快速初始化" class="headerlink" title="快速初始化"></a>快速初始化</h4><p>使用脚手架</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ mkdir egg-example &amp;&amp; <span class="built_in">cd</span> egg-example</span><br><span class="line">$ npm init egg --<span class="built_in">type</span>=simple</span><br><span class="line">$ npm i</span><br></pre></td></tr></table></figure>
+
+<p>启动项目:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ npm run dev</span><br><span class="line">$ open http://localhost:7001</span><br></pre></td></tr></table></figure>
+
+<p>效果：</p>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2021/05/16/3cq57lYoRxmXhnu.png" alt="image.png"></p>
+<h3 id="基础知识"><a href="#基础知识" class="headerlink" title="基础知识"></a>基础知识</h3><h4 id="目录结构"><a href="#目录结构" class="headerlink" title="目录结构"></a>目录结构</h4><p>简单了解下目录约定规范。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line">egg-project</span><br><span class="line">├── package.json</span><br><span class="line">├── app.js (可选)</span><br><span class="line">├── agent.js (可选)</span><br><span class="line">├── app</span><br><span class="line">|   ├── router.js</span><br><span class="line">│   ├── controller</span><br><span class="line">│   |   └── home.js</span><br><span class="line">│   ├── service (可选)</span><br><span class="line">│   |   └── user.js</span><br><span class="line">│   ├── middleware (可选)</span><br><span class="line">│   |   └── response_time.js</span><br><span class="line">│   ├── schedule (可选)</span><br><span class="line">│   |   └── my_task.js</span><br><span class="line">│   ├── public (可选)</span><br><span class="line">│   |   └── reset.css</span><br><span class="line">│   ├── view (可选)</span><br><span class="line">│   |   └── home.tpl</span><br><span class="line">│   └── extend (可选)</span><br><span class="line">│       ├── helper.js (可选)</span><br><span class="line">│       ├── request.js (可选)</span><br><span class="line">│       ├── response.js (可选)</span><br><span class="line">│       ├── context.js (可选)</span><br><span class="line">│       ├── application.js (可选)</span><br><span class="line">│       └── agent.js (可选)</span><br><span class="line">├── config</span><br><span class="line">|   ├── plugin.js</span><br><span class="line">|   ├── config.default.js</span><br><span class="line">│   ├── config.prod.js</span><br><span class="line">|   ├── config.test.js (可选)</span><br><span class="line">|   ├── config.local.js (可选)</span><br><span class="line">|   └── config.unittest.js (可选)</span><br><span class="line">└── <span class="built_in">test</span></span><br><span class="line">    ├── middleware</span><br><span class="line">    |   └── response_time.test.js</span><br><span class="line">    └── controller</span><br><span class="line">        └── home.test.js</span><br></pre></td></tr></table></figure>
+
+<p>如上，由框架约定的目录：</p>
+<ul>
+<li><code>app/router.js</code> 用于配置 URL 路由规则，具体参见 <a target="_blank" rel="noopener" href="https://eggjs.org/zh-cn/basics/router.html">Router</a>。</li>
+<li><code>app/controller/**</code> 用于解析用户的输入，处理后返回相应的结果，具体参见 <a target="_blank" rel="noopener" href="https://eggjs.org/zh-cn/basics/controller.html">Controller</a>。</li>
+<li><code>app/service/**</code> 用于编写业务逻辑层，可选，建议使用，具体参见 <a target="_blank" rel="noopener" href="https://eggjs.org/zh-cn/basics/service.html">Service</a>。</li>
+<li><code>app/middleware/**</code> 用于编写中间件，可选，具体参见 <a target="_blank" rel="noopener" href="https://eggjs.org/zh-cn/basics/middleware.html">Middleware</a>。</li>
+<li><code>app/public/**</code> 用于放置静态资源，可选，具体参见内置插件 <a target="_blank" rel="noopener" href="https://github.com/eggjs/egg-static">egg-static</a>。</li>
+<li><code>app/extend/**</code> 用于框架的扩展，可选，具体参见<a target="_blank" rel="noopener" href="https://eggjs.org/zh-cn/basics/extend.html">框架扩展</a>。</li>
+<li><code>config/config.&#123;env&#125;.js</code> 用于编写配置文件，具体参见<a target="_blank" rel="noopener" href="https://eggjs.org/zh-cn/basics/config.html">配置</a>。</li>
+<li><code>config/plugin.js</code> 用于配置需要加载的插件，具体参见<a target="_blank" rel="noopener" href="https://eggjs.org/zh-cn/basics/plugin.html">插件</a>。</li>
+<li><code>test/**</code> 用于单元测试，具体参见<a target="_blank" rel="noopener" href="https://eggjs.org/zh-cn/core/unittest.html">单元测试</a>。</li>
+<li><code>app.js</code> 和 <code>agent.js</code> 用于自定义启动时的初始化工作，可选，具体参见<a target="_blank" rel="noopener" href="https://eggjs.org/zh-cn/basics/app-start.html">启动自定义</a>。关于<code>agent.js</code>的作用参见<a target="_blank" rel="noopener" href="https://eggjs.org/zh-cn/core/cluster-and-ipc.html#agent-%E6%9C%BA%E5%88%B6">Agent机制</a>。</li>
+</ul>
+<p>由内置插件约定的目录：</p>
+<ul>
+<li><code>app/public/**</code> 用于放置静态资源，可选，具体参见内置插件 <a target="_blank" rel="noopener" href="https://github.com/eggjs/egg-static">egg-static</a>。</li>
+<li><code>app/schedule/**</code> 用于定时任务，可选，具体参见<a target="_blank" rel="noopener" href="https://eggjs.org/zh-cn/basics/schedule.html">定时任务</a>。</li>
+</ul>
+<p><strong>若需自定义自己的目录规范，参见 <a target="_blank" rel="noopener" href="https://eggjs.org/zh-cn/advanced/loader.html">Loader API</a></strong></p>
+<ul>
+<li><code>app/view/**</code> 用于放置模板文件，可选，由模板插件约定，具体参见<a target="_blank" rel="noopener" href="https://eggjs.org/zh-cn/core/view.html">模板渲染</a>。</li>
+<li><code>app/model/**</code> 用于放置领域模型，可选，由领域类相关插件约定，如 <a target="_blank" rel="noopener" href="https://github.com/eggjs/egg-sequelize">egg-sequelize</a>。</li>
+</ul>
+<h4 id="内置基础对象"><a href="#内置基础对象" class="headerlink" title="内置基础对象"></a>内置基础对象</h4><ol>
+<li><p>Application 是全局应用对象，在一个应用中，只会实例化一个，它继承自 <a target="_blank" rel="noopener" href="http://koajs.com/#application">Koa.Application</a>，在它上面我们可以挂载一些全局的方法和对象，可以轻松的在插件或者应用中<a target="_blank" rel="noopener" href="https://eggjs.org/zh-cn/basics/extend.html#Application">扩展 Application 对象</a>。</p>
+</li>
+<li><p>Context 是一个<strong>请求级别的对象</strong>，继承自 <a target="_blank" rel="noopener" href="http://koajs.com/#context">Koa.Context</a>。在每一次收到用户请求时，框架会实例化一个 Context 对象，这个对象封装了这次用户请求的信息，并提供了许多便捷的方法来获取请求参数或者设置响应信息。框架会将所有的 Service 挂载到 Context 实例上，一些插件也会将一些其他的方法和对象挂载到它上面（<a target="_blank" rel="noopener" href="https://github.com/eggjs/egg-sequelize">egg-sequelize</a> 会将所有的 model 挂载在 Context 上）。</p>
+</li>
+<li><p>Request 是一个<strong>请求级别的对象</strong>，继承自 <a target="_blank" rel="noopener" href="http://koajs.com/#request">Koa.Request</a>。封装了 Node.js 原生的 HTTP Request 对象，提供了一系列辅助方法获取 HTTP 请求常用参数。</p>
+</li>
+<li><p>Response 是一个<strong>请求级别的对象</strong>，继承自 <a target="_blank" rel="noopener" href="http://koajs.com/#response">Koa.Response</a>。封装了 Node.js 原生的 HTTP Response 对象，提供了一系列辅助方法设置 HTTP 响应。</p>
+</li>
+<li><p>Controller: 框架提供了一个 Controller 基类，并推荐所有的 Controller 都继承于该基类实现。这个 Controller 基类有下列属性：</p>
+<ul>
+<li><code>ctx</code> - 当前请求的 Context 实例。</li>
+<li><code>app</code> - 应用的 Application 实例。</li>
+<li><code>config</code> - 应用的<a target="_blank" rel="noopener" href="https://eggjs.org/zh-cn/basics/config.html">配置</a>。</li>
+<li><code>service</code> - 应用所有的 <a target="_blank" rel="noopener" href="https://eggjs.org/zh-cn/basics/service.html">service</a>。</li>
+<li><code>logger</code> - 为当前 controller 封装的 logger 对象。</li>
+</ul>
+</li>
+<li><p>Service: 框架提供了一个 Service 基类，并推荐所有的 Service 都继承于该基类实现。</p>
+<p>Service 基类的属性和 Controller 基类属性一致，访问方式也类似</p>
+</li>
+<li><p>Helper 用来提供一些实用的 utility 函数。它的作用在于我们可以将一些常用的动作抽离在 helper.js 里面成为一个独立的函数，这样可以用 JavaScript 来写复杂的逻辑，避免逻辑分散各处，同时可以更好的编写测试用例。</p>
+<p>Helper 自身是一个类，有和 Controller 基类一样的属性，它也会在每次请求时进行实例化，因此 Helper 上的所有函数也能获取到当前请求相关的上下文信息。</p>
+</li>
+<li><p>Config: 所有框架、插件和应用级别的配置都可以通过 Config 对象获取到，关于框架的配置，可以详细阅读 <a target="_blank" rel="noopener" href="https://eggjs.org/zh-cn/basics/config.html">Config 配置</a>章节。</p>
+</li>
+<li><p>Logger: 框架内置了功能强大的<a target="_blank" rel="noopener" href="https://eggjs.org/zh-cn/core/logger.html">日志功能</a>，可以非常方便的打印各种级别的日志到对应的日志文件中</p>
+</li>
+<li><p>Subscription: 订阅模型是一种比较常见的开发模式，譬如消息中间件的消费者或调度任务</p>
+</li>
+</ol>
+<p>具体对象获取位置参考:<a target="_blank" rel="noopener" href="https://eggjs.org/zh-cn/basics/objects.html">https://eggjs.org/zh-cn/basics/objects.html</a></p>
+<h4 id="运行环境"><a href="#运行环境" class="headerlink" title="运行环境"></a>运行环境</h4><p>一个 Web 应用本身应该是无状态的，并拥有根据运行环境设置自身的能力。</p>
+<p>框架有两种方式指定运行环境：</p>
+<ol>
+<li><p>通过 <code>config/env</code> 文件指定，该文件的内容就是运行环境，如 <code>prod</code>。一般通过构建工具来生成这个文件。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">// config/env</span><br><span class="line">prod</span><br></pre></td></tr></table></figure></li>
+<li><p>通过 <code>EGG_SERVER_ENV</code> 环境变量指定运行环境更加方便，比如在生产环境启动应用：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">EGG_SERVER_ENV=prod npm start</span><br></pre></td></tr></table></figure></li>
+</ol>
+<p>框架提供了变量 <code>app.config.env</code> 来表示应用当前的运行环境。</p>
+<p><strong>NODE_ENV与EGG_SERVER_ENV区别：</strong></p>
+<table>
+<thead>
+<tr>
+<th>NODE_ENV</th>
+<th>EGG_SERVER_ENV</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td></td>
+<td>local</td>
+<td>本地开发环境</td>
+</tr>
+<tr>
+<td>test</td>
+<td>unittest</td>
+<td>单元测试</td>
+</tr>
+<tr>
+<td>production</td>
+<td>prod</td>
+<td>生产环境</td>
+</tr>
+</tbody></table>
+<p>例如，当 <code>NODE_ENV</code> 为 <code>production</code> 而 <code>EGG_SERVER_ENV</code> 未指定时，框架会将 <code>EGG_SERVER_ENV</code> 设置成 <code>prod</code>。</p>
+<p><strong>自定义环境</strong></p>
+<p>常规开发流程可能不仅仅只有以上几种环境，Egg 支持自定义环境来适应自己的开发流程。</p>
+<p>比如，要为开发流程增加集成测试环境 SIT。将 <code>EGG_SERVER_ENV</code> 设置成 <code>sit</code>（并建议设置 <code>NODE_ENV = production</code>），启动时会加载 <code>config/config.sit.js</code>，运行环境变量 <code>app.config.env</code> 会被设置成 <code>sit</code>。</p>
+<p><strong>与 Koa 的区别</strong></p>
+<p>在 Koa 中我们通过 <code>app.env</code> 来进行环境判断，<code>app.env</code> 默认的值是 <code>process.env.NODE_ENV</code>。但是在 Egg（和基于 Egg 的框架）中，配置统一都放置在 <code>app.config</code> 上，所以我们需要通过 <code>app.config.env</code> 来区分环境，<code>app.env</code> 不再使用。</p>
+<h4 id="Config-配置"><a href="#Config-配置" class="headerlink" title="Config 配置"></a>Config 配置</h4><p>框架提供了强大且可扩展的配置功能，可以自动合并应用、插件、框架的配置，按顺序覆盖，且可以根据环境维护不同的配置。合并后的配置可直接从 <code>app.config</code> 获取。</p>
+<p>使用代码管理配置，在代码中添加多个环境的配置，在启动时传入当前环境的参数即可。但无法全局配置，必须修改代码。</p>
+<h5 id="多环境配置"><a href="#多环境配置" class="headerlink" title="多环境配置"></a>多环境配置</h5><p>框架支持根据环境来加载配置，定义多个环境的配置文件：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">config</span><br><span class="line">|- config.default.js</span><br><span class="line">|- config.prod.js</span><br><span class="line">|- config.unittest.js</span><br><span class="line">`- config.local.js</span><br></pre></td></tr></table></figure>
+
+<p><code>config.default.js</code> 为默认的配置文件，所有环境都会加载这个配置文件，一般也会作为开发环境的默认配置文件。</p>
+<p>当指定 env 时会同时加载默认配置和对应的配置(具名配置)文件，具名配置和默认配置将合并(使用<a target="_blank" rel="noopener" href="https://www.npmjs.com/package/extend2">extend2</a>深拷贝)成最终配置，具名配置项会覆盖默认配置文件的同名配置。如 <code>prod</code> 环境会加载 <code>config.prod.js</code> 和 <code>config.default.js</code> 文件，<code>config.prod.js</code> 会覆盖 <code>config.default.js</code> 的同名配置。</p>
+<h5 id="配置写法"><a href="#配置写法" class="headerlink" title="配置写法"></a>配置写法</h5><p>配置文件返回的是一个 object 对象，可以覆盖框架的一些配置，应用也可以将自己业务的配置放到这里方便管理。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 配置 logger 文件的目录，logger 默认配置由框架提供</span></span><br><span class="line"><span class="built_in">module</span>.exports = &#123;</span><br><span class="line">  <span class="attr">logger</span>: &#123;</span><br><span class="line">    <span class="attr">dir</span>: <span class="string">&#x27;/home/admin/logs/demoapp&#x27;</span>,</span><br><span class="line">  &#125;,</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>配置文件也可以简化的写成 <code>exports.key = value</code> 形式</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">exports</span>.keys = <span class="string">&#x27;my-cookie-secret-key&#x27;</span>;</span><br><span class="line"><span class="built_in">exports</span>.logger = &#123;</span><br><span class="line">  <span class="attr">level</span>: <span class="string">&#x27;DEBUG&#x27;</span>,</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>配置文件也可以返回一个 function，可以接受 appInfo 参数</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 将 logger 目录放到代码目录下</span></span><br><span class="line"><span class="keyword">const</span> path = <span class="built_in">require</span>(<span class="string">&#x27;path&#x27;</span>);</span><br><span class="line"><span class="built_in">module</span>.exports = <span class="function"><span class="params">appInfo</span> =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">return</span> &#123;</span><br><span class="line">    <span class="attr">logger</span>: &#123;</span><br><span class="line">      <span class="attr">dir</span>: path.join(appInfo.baseDir, <span class="string">&#x27;logs&#x27;</span>),</span><br><span class="line">    &#125;,</span><br><span class="line">  &#125;;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>内置的 appInfo 有</p>
+<table>
+<thead>
+<tr>
+<th>appInfo</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>pkg</td>
+<td>package.json</td>
+</tr>
+<tr>
+<td>name</td>
+<td>应用名，同 pkg.name</td>
+</tr>
+<tr>
+<td>baseDir</td>
+<td>应用代码的目录</td>
+</tr>
+<tr>
+<td>HOME</td>
+<td>用户目录，如 admin 账户为 /home/admin</td>
+</tr>
+<tr>
+<td>root</td>
+<td>应用根目录，只有在 local 和 unittest 环境下为 baseDir，其他都为 HOME。</td>
+</tr>
+</tbody></table>
+<p><code>appInfo.root</code> 是一个优雅的适配，比如在服务器环境我们会使用 <code>/home/admin/logs</code> 作为日志目录，而本地开发时又不想污染用户目录，这样的适配就很好解决这个问题。</p>
+<p>请根据具体场合选择合适的写法，但请确保没有写出以下代码：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// config/config.default.js</span></span><br><span class="line"><span class="built_in">exports</span>.someKeys = <span class="string">&#x27;abc&#x27;</span>;</span><br><span class="line"><span class="built_in">module</span>.exports = <span class="function"><span class="params">appInfo</span> =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">const</span> config = &#123;&#125;;</span><br><span class="line">  config.keys = <span class="string">&#x27;123456&#x27;</span>;</span><br><span class="line">  <span class="keyword">return</span> config;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<h5 id="配置加载顺序"><a href="#配置加载顺序" class="headerlink" title="配置加载顺序"></a>配置加载顺序</h5><p>应用、插件、框架都可以定义这些配置，而且目录结构都是一致的，但存在优先级（应用 &gt; 框架 &gt; 插件），相对于此运行环境的优先级会更高。</p>
+<p>比如在 prod 环境加载一个配置的加载顺序如下，后加载的会覆盖前面的同名配置。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">-&gt; 插件 config.default.js</span><br><span class="line">-&gt; 框架 config.default.js</span><br><span class="line">-&gt; 应用 config.default.js</span><br><span class="line">-&gt; 插件 config.prod.js</span><br><span class="line">-&gt; 框架 config.prod.js</span><br><span class="line">-&gt; 应用 config.prod.js</span><br></pre></td></tr></table></figure>
+
+<p><strong>注意：插件之间也会有加载顺序，但大致顺序类似，具体逻辑可<a target="_blank" rel="noopener" href="https://eggjs.org/zh-cn/advanced/loader.html">查看加载器</a>。</strong></p>
+<h5 id="配置结果"><a href="#配置结果" class="headerlink" title="配置结果"></a>配置结果</h5><p>框架在启动时会把合并后的最终配置 dump 到 <code>run/application_config.json</code>（worker 进程）和 <code>run/agent_config.json</code>（agent 进程）中，可以用来分析问题。</p>
+<p>配置文件中会隐藏一些字段，主要包括两类:</p>
+<ul>
+<li>如密码、密钥等安全字段，这里可以通过 <code>config.dump.ignore</code> 配置，必须是 <a target="_blank" rel="noopener" href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Set">Set</a> 类型，查看<a target="_blank" rel="noopener" href="https://github.com/eggjs/egg/blob/master/config/config.default.js">默认配置</a>。</li>
+<li>如函数、Buffer 等类型，<code>JSON.stringify</code> 后的内容特别大</li>
+</ul>
+<p>还会生成 <code>run/application_config_meta.json</code>（worker 进程）和 <code>run/agent_config_meta.json</code>（agent 进程）文件，用来排查属性的来源，如</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">&quot;logger&quot;</span>: &#123;</span><br><span class="line">    <span class="attr">&quot;dir&quot;</span>: <span class="string">&quot;/path/to/config/config.default.js&quot;</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="中间件（Middleware）"><a href="#中间件（Middleware）" class="headerlink" title="中间件（Middleware）"></a>中间件（Middleware）</h4><p>Egg 是基于 Koa 实现的，所以 Egg 的中间件形式和 Koa 的中间件形式是一样的，都是基于洋葱圈模型。每次我们编写一个中间件，就相当于在洋葱外面包了一层。</p>
+<h5 id="写法"><a href="#写法" class="headerlink" title="写法"></a>写法</h5><p>我们先来通过编写一个简单的 gzip 中间件，来看看中间件的写法。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// app/middleware/gzip.js</span></span><br><span class="line"><span class="keyword">const</span> isJSON = <span class="built_in">require</span>(<span class="string">&#x27;koa-is-json&#x27;</span>);</span><br><span class="line"><span class="keyword">const</span> zlib = <span class="built_in">require</span>(<span class="string">&#x27;zlib&#x27;</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">async</span> <span class="function"><span class="keyword">function</span> <span class="title">gzip</span>(<span class="params">ctx, next</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">await</span> next();</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 后续中间件执行完成后将响应体转换成 gzip</span></span><br><span class="line">  <span class="keyword">let</span> body = ctx.body;</span><br><span class="line">  <span class="keyword">if</span> (!body) <span class="keyword">return</span>;</span><br><span class="line">  <span class="keyword">if</span> (isJSON(body)) body = <span class="built_in">JSON</span>.stringify(body);</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 设置 gzip body，修正响应头</span></span><br><span class="line">  <span class="keyword">const</span> stream = zlib.createGzip();</span><br><span class="line">  stream.end(body);</span><br><span class="line">  ctx.body = stream;</span><br><span class="line">  ctx.set(<span class="string">&#x27;Content-Encoding&#x27;</span>, <span class="string">&#x27;gzip&#x27;</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>可以看到，框架的中间件和 Koa 的中间件写法是一模一样的，所以任何 Koa 的中间件都可以直接被框架使用。</p>
+<h5 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h5><p>一般来说中间件也会有自己的配置。在框架中，一个完整的中间件是包含了配置处理的。我们约定一个中间件是一个放置在 <code>app/middleware</code> 目录下的单独文件，它需要 exports 一个普通的 function，接受两个参数：</p>
+<ul>
+<li>options: 中间件的配置项，框架会将 <code>app.config[$&#123;middlewareName&#125;]</code> 传递进来。</li>
+<li>app: 当前应用 Application 的实例。</li>
+</ul>
+<p>我们将上面的 gzip 中间件做一个简单的优化，让它支持指定只有当 body 大于配置的 threshold 时才进行 gzip 压缩，我们要在 <code>app/middleware</code> 目录下新建一个文件 <code>gzip.js</code></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// app/middleware/gzip.js</span></span><br><span class="line"><span class="keyword">const</span> isJSON = <span class="built_in">require</span>(<span class="string">&#x27;koa-is-json&#x27;</span>);</span><br><span class="line"><span class="keyword">const</span> zlib = <span class="built_in">require</span>(<span class="string">&#x27;zlib&#x27;</span>);</span><br><span class="line"></span><br><span class="line"><span class="built_in">module</span>.exports = <span class="function"><span class="params">options</span> =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="keyword">async</span> <span class="function"><span class="keyword">function</span> <span class="title">gzip</span>(<span class="params">ctx, next</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">await</span> next();</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 后续中间件执行完成后将响应体转换成 gzip</span></span><br><span class="line">    <span class="keyword">let</span> body = ctx.body;</span><br><span class="line">    <span class="keyword">if</span> (!body) <span class="keyword">return</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 支持 options.threshold</span></span><br><span class="line">    <span class="keyword">if</span> (options.threshold &amp;&amp; ctx.length &lt; options.threshold) <span class="keyword">return</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (isJSON(body)) body = <span class="built_in">JSON</span>.stringify(body);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 设置 gzip body，修正响应头</span></span><br><span class="line">    <span class="keyword">const</span> stream = zlib.createGzip();</span><br><span class="line">    stream.end(body);</span><br><span class="line">    ctx.body = stream;</span><br><span class="line">    ctx.set(<span class="string">&#x27;Content-Encoding&#x27;</span>, <span class="string">&#x27;gzip&#x27;</span>);</span><br><span class="line">  &#125;;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<h5 id="使用中间件"><a href="#使用中间件" class="headerlink" title="使用中间件"></a>使用中间件</h5><p>中间件编写完成后，我们还需要手动挂载，支持以下方式：</p>
+<ol>
+<li><p>在应用中使用中间件。在 <code>config.default.js</code> 中加入下面的配置就完成了中间件的开启和配置：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">module</span>.exports = &#123;</span><br><span class="line">  <span class="comment">// 配置需要的中间件，数组顺序即为中间件的加载顺序</span></span><br><span class="line">  <span class="attr">middleware</span>: [ <span class="string">&#x27;gzip&#x27;</span> ],</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 配置 gzip 中间件的配置</span></span><br><span class="line">  <span class="attr">gzip</span>: &#123;</span><br><span class="line">    <span class="attr">threshold</span>: <span class="number">1024</span>, <span class="comment">// 小于 1k 的响应体不压缩</span></span><br><span class="line">  &#125;,</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>该配置最终将在启动时合并到 <code>app.config.appMiddleware</code>。</p>
+</li>
+<li><p>在框架和插件中使用中间件。框架和插件不支持在 <code>config.default.js</code> 中匹配 <code>middleware</code>，需要通过以下方式：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// app.js</span></span><br><span class="line"><span class="built_in">module</span>.exports = <span class="function"><span class="params">app</span> =&gt;</span> &#123;</span><br><span class="line">  <span class="comment">// 在中间件最前面统计请求时间</span></span><br><span class="line">  app.config.coreMiddleware.unshift(<span class="string">&#x27;report&#x27;</span>);</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">// app/middleware/report.js</span></span><br><span class="line"><span class="built_in">module</span>.exports = <span class="function">() =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="keyword">async</span> <span class="function"><span class="keyword">function</span> (<span class="params">ctx, next</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">const</span> startTime = <span class="built_in">Date</span>.now();</span><br><span class="line">    <span class="keyword">await</span> next();</span><br><span class="line">    <span class="comment">// 上报请求时间</span></span><br><span class="line">    reportTime(<span class="built_in">Date</span>.now() - startTime);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>应用层定义的中间件（<code>app.config.appMiddleware</code>）和框架默认中间件（<code>app.config.coreMiddleware</code>）都会被加载器加载，并挂载到 <code>app.middleware</code> 上。</p>
+</li>
+<li><p>router 中使用中间件。以上两种方式配置的中间件是全局的，会处理每一次请求。 如果你只想针对单个路由生效，可以直接在 <code>app/router.js</code> 中实例化和挂载，如下：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">module</span>.exports = <span class="function"><span class="params">app</span> =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">const</span> gzip = app.middleware.gzip(&#123; <span class="attr">threshold</span>: <span class="number">1024</span> &#125;);</span><br><span class="line">  app.router.get(<span class="string">&#x27;/needgzip&#x27;</span>, gzip, app.controller.handler);</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></li>
+</ol>
+<h5 id="框架默认中间件"><a href="#框架默认中间件" class="headerlink" title="框架默认中间件"></a>框架默认中间件</h5><p>除了应用层加载中间件之外，框架自身和其他的插件也会加载许多中间件。所有的这些自带中间件的配置项都通过在配置中修改中间件同名配置项进行修改，例如<a target="_blank" rel="noopener" href="https://github.com/eggjs/egg/tree/master/app/middleware">框架自带的中间件</a>中有一个 bodyParser 中间件（框架的加载器会将文件名中的各种分隔符都修改成驼峰形式的变量名），我们想要修改 bodyParser 的配置，只需要在 <code>config/config.default.js</code> 中编写</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">module</span>.exports = &#123;</span><br><span class="line">  <span class="attr">bodyParser</span>: &#123;</span><br><span class="line">    <span class="attr">jsonLimit</span>: <span class="string">&#x27;10mb&#x27;</span>,</span><br><span class="line">  &#125;,</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p><strong>注意：框架和插件加载的中间件会在应用层配置的中间件之前，框架默认中间件不能被应用层中间件覆盖，如果应用层有自定义同名中间件，在启动时会报错。</strong></p>
+<h5 id="使用-Koa-的中间件"><a href="#使用-Koa-的中间件" class="headerlink" title="使用 Koa 的中间件"></a>使用 Koa 的中间件</h5><p>在框架里面可以非常容易的引入 Koa 中间件生态。</p>
+<p>以 <a target="_blank" rel="noopener" href="https://github.com/koajs/compress">koa-compress</a> 为例，在 Koa 中使用时：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> koa = <span class="built_in">require</span>(<span class="string">&#x27;koa&#x27;</span>);</span><br><span class="line"><span class="keyword">const</span> compress = <span class="built_in">require</span>(<span class="string">&#x27;koa-compress&#x27;</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> app = koa();</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> options = &#123; <span class="attr">threshold</span>: <span class="number">2048</span> &#125;;</span><br><span class="line">app.use(compress(options));</span><br></pre></td></tr></table></figure>
+
+<p>我们按照框架的规范来在应用中加载这个 Koa 的中间件：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// app/middleware/compress.js</span></span><br><span class="line"><span class="comment">// koa-compress 暴露的接口(`(options) =&gt; middleware`)和框架对中间件要求一致</span></span><br><span class="line"><span class="built_in">module</span>.exports = <span class="built_in">require</span>(<span class="string">&#x27;koa-compress&#x27;</span>);</span><br><span class="line"><span class="comment">// config/config.default.js</span></span><br><span class="line"><span class="built_in">module</span>.exports = &#123;</span><br><span class="line">  <span class="attr">middleware</span>: [ <span class="string">&#x27;compress&#x27;</span> ],</span><br><span class="line">  <span class="attr">compress</span>: &#123;</span><br><span class="line">    <span class="attr">threshold</span>: <span class="number">2048</span>,</span><br><span class="line">  &#125;,</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>如果使用到的 Koa 中间件不符合入参规范，则可以自行处理下：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// config/config.default.js</span></span><br><span class="line"><span class="built_in">module</span>.exports = &#123;</span><br><span class="line">  <span class="attr">webpack</span>: &#123;</span><br><span class="line">    <span class="attr">compiler</span>: &#123;&#125;,</span><br><span class="line">    <span class="attr">others</span>: &#123;&#125;,</span><br><span class="line">  &#125;,</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">// app/middleware/webpack.js</span></span><br><span class="line"><span class="keyword">const</span> webpackMiddleware = <span class="built_in">require</span>(<span class="string">&#x27;some-koa-middleware&#x27;</span>);</span><br><span class="line"></span><br><span class="line"><span class="built_in">module</span>.exports = <span class="function">(<span class="params">options, app</span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">return</span> webpackMiddleware(options.compiler, options.others);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h5 id="通用配置"><a href="#通用配置" class="headerlink" title="通用配置"></a>通用配置</h5><p>无论是应用层加载的中间件还是框架自带中间件，都支持几个通用的配置项：</p>
+<ul>
+<li><p>enable：控制中间件是否开启。</p>
+</li>
+<li><p>match：设置只有符合某些规则的请求才会经过这个中间件。</p>
+</li>
+<li><p>ignore：设置符合某些规则的请求不经过这个中间件。</p>
+<ol>
+<li>字符串：当参数为字符串类型时，配置的是一个 url 的路径前缀，所有以配置的字符串作为前缀的 url 都会匹配上。 当然，你也可以直接使用字符串数组。</li>
+<li>正则：当参数为正则时，直接匹配满足正则验证的 url 的路径。</li>
+<li>函数：当参数为一个函数时，会将请求上下文传递给这个函数，最终取函数返回的结果（true/false）来判断是否匹配。</li>
+</ol>
+<p>有关更多的 match 和 ignore 配置情况，详见 <a target="_blank" rel="noopener" href="https://github.com/eggjs/egg-path-matching">egg-path-matching</a>.</p>
+</li>
+</ul>
+<h4 id="路由（Router）"><a href="#路由（Router）" class="headerlink" title="路由（Router）"></a>路由（Router）</h4><p>Router 主要用来描述请求 URL 和具体承担执行动作的 Controller 的对应关系， 框架约定了 <code>app/router.js</code> 文件用于统一所有路由规则。</p>
+<p>通过统一的配置，我们可以避免路由规则逻辑散落在多个地方，从而出现未知的冲突，集中在一起我们可以更方便的来查看全局的路由规则。</p>
+<h5 id="如何定义-Router"><a href="#如何定义-Router" class="headerlink" title="如何定义 Router"></a>如何定义 Router</h5><ul>
+<li><p><code>app/router.js</code> 里面定义 URL 路由规则</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// app/router.js</span></span><br><span class="line"><span class="built_in">module</span>.exports = <span class="function"><span class="params">app</span> =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">const</span> &#123; router, controller &#125; = app;</span><br><span class="line">  router.get(<span class="string">&#x27;/user/:id&#x27;</span>, controller.user.info);</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></li>
+<li><p><code>app/controller</code> 目录下面实现 Controller</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// app/controller/user.js</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">UserController</span> <span class="keyword">extends</span> <span class="title">Controller</span> </span>&#123;</span><br><span class="line">  <span class="keyword">async</span> <span class="function"><span class="title">info</span>(<span class="params"></span>)</span> &#123;</span><br><span class="line">    <span class="keyword">const</span> &#123; ctx &#125; = <span class="built_in">this</span>;</span><br><span class="line">    ctx.body = &#123;</span><br><span class="line">      <span class="attr">name</span>: <span class="string">`hello <span class="subst">$&#123;ctx.params.id&#125;</span>`</span>,</span><br><span class="line">    &#125;;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+</ul>
+<p>这样就完成了一个最简单的 Router 定义，当用户执行 <code>GET /user/123</code>，<code>user.js</code> 这个里面的 info 方法就会执行。</p>
+<h5 id="Router-详细定义说明"><a href="#Router-详细定义说明" class="headerlink" title="Router 详细定义说明"></a>Router 详细定义说明</h5><p>下面是路由的完整定义，参数可以根据场景的不同，自由选择：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">router.verb(<span class="string">&#x27;path-match&#x27;</span>, app.controller.action);</span><br><span class="line">router.verb(<span class="string">&#x27;router-name&#x27;</span>, <span class="string">&#x27;path-match&#x27;</span>, app.controller.action);</span><br><span class="line">router.verb(<span class="string">&#x27;path-match&#x27;</span>, middleware1, ..., middlewareN, app.controller.action);</span><br><span class="line">router.verb(<span class="string">&#x27;router-name&#x27;</span>, <span class="string">&#x27;path-match&#x27;</span>, middleware1, ..., middlewareN, app.controller.action);</span><br></pre></td></tr></table></figure>
+
+<p>路由完整定义主要包括5个主要部分:</p>
+<ul>
+<li> verb - 用户触发动作，支持 get，post 等所有 HTTP 方法，后面会通过示例详细说明。</li>
+<li>router.head - HEAD</li>
+<li>router.options - OPTIONS</li>
+<li>router.get - GET</li>
+<li>router.put - PUT</li>
+<li>router.post - POST</li>
+<li>router.patch - PATCH</li>
+<li>router.delete - DELETE</li>
+<li>router.del - 由于 delete 是一个保留字，所以提供了一个 delete 方法的别名。</li>
+<li>router.redirect - 可以对 URL 进行重定向处理，比如我们最经常使用的可以把用户访问的根目录路由到某个主页。</li>
+<li>router-name 给路由设定一个别名，可以通过 Helper 提供的辅助函数 pathFor 和 urlFor 来生成 URL。(可选)</li>
+<li>path-match - 路由 URL 路径。</li>
+<li>middleware1 - 在 Router 里面可以配置多个 Middleware。(可选)</li>
+<li>controller - 指定路由映射到的具体的 controller 上，controller 可以有两种写法：<ul>
+<li>app.controller.user.fetch - 直接指定一个具体的 controller</li>
+<li>‘user.fetch’ - 可以简写为字符串形式</li>
+</ul>
+</li>
+</ul>
+<p><strong>注意事项</strong></p>
+<ul>
+<li>在 Router 定义中， 可以支持多个 Middleware 串联执行</li>
+<li>Controller 必须定义在 <code>app/controller</code> 目录中。</li>
+<li>一个文件里面也可以包含多个 Controller 定义，在定义路由的时候，可以通过 <code>$&#123;fileName&#125;.$&#123;functionName&#125;</code> 的方式指定对应的 Controller。</li>
+<li>Controller 支持子目录，在定义路由的时候，可以通过 <code>$&#123;directoryName&#125;.$&#123;fileName&#125;.$&#123;functionName&#125;</code> 的方式指定对应的 Controller。</li>
+</ul>
+<p>下面是一些路由定义的方式：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// app/router.js</span></span><br><span class="line"><span class="built_in">module</span>.exports = <span class="function"><span class="params">app</span> =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">const</span> &#123; router, controller &#125; = app;</span><br><span class="line">  router.get(<span class="string">&#x27;/home&#x27;</span>, controller.home);</span><br><span class="line">  router.get(<span class="string">&#x27;/user/:id&#x27;</span>, controller.user.page);</span><br><span class="line">  router.post(<span class="string">&#x27;/admin&#x27;</span>, isAdmin, controller.admin);</span><br><span class="line">  router.post(<span class="string">&#x27;/user&#x27;</span>, isLoginUser, hasAdminPermission, controller.user.create);</span><br><span class="line">  router.post(<span class="string">&#x27;/api/v1/comments&#x27;</span>, controller.v1.comments.create); <span class="comment">// app/controller/v1/comments.js</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<h5 id="RESTful-风格的-URL-定义"><a href="#RESTful-风格的-URL-定义" class="headerlink" title="RESTful 风格的 URL 定义"></a>RESTful 风格的 URL 定义</h5><p>如果想通过 RESTful 的方式来定义路由， 提供了 <code>app.router.resources(&#39;routerName&#39;, &#39;pathMatch&#39;, controller)</code> 快速在一个路径上生成 <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Create,_read,_update_and_delete">CRUD</a> 路由结构。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// app/router.js</span></span><br><span class="line"><span class="built_in">module</span>.exports = <span class="function"><span class="params">app</span> =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">const</span> &#123; router, controller &#125; = app;</span><br><span class="line">  router.resources(<span class="string">&#x27;posts&#x27;</span>, <span class="string">&#x27;/api/posts&#x27;</span>, controller.posts);</span><br><span class="line">  router.resources(<span class="string">&#x27;users&#x27;</span>, <span class="string">&#x27;/api/v1/users&#x27;</span>, controller.v1.users); <span class="comment">// app/controller/v1/users.js</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>上面代码就在 <code>/posts</code> 路径上部署了一组 CRUD 路径结构，对应的 Controller 为 <code>app/controller/posts.js</code> 接下来， 你只需要在 <code>posts.js</code> 里面实现对应的函数就可以了。</p>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Path</th>
+<th>Route Name</th>
+<th>Controller.Action</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>GET</td>
+<td>/posts</td>
+<td>posts</td>
+<td>app.controllers.posts.index</td>
+</tr>
+<tr>
+<td>GET</td>
+<td>/posts/new</td>
+<td>new_post</td>
+<td>app.controllers.posts.new</td>
+</tr>
+<tr>
+<td>GET</td>
+<td>/posts/:id</td>
+<td>post</td>
+<td>app.controllers.posts.show</td>
+</tr>
+<tr>
+<td>GET</td>
+<td>/posts/:id/edit</td>
+<td>edit_post</td>
+<td>app.controllers.posts.edit</td>
+</tr>
+<tr>
+<td>POST</td>
+<td>/posts</td>
+<td>posts</td>
+<td>app.controllers.posts.create</td>
+</tr>
+<tr>
+<td>PUT</td>
+<td>/posts/:id</td>
+<td>post</td>
+<td>app.controllers.posts.update</td>
+</tr>
+<tr>
+<td>DELETE</td>
+<td>/posts/:id</td>
+<td>post</td>
+<td>app.controllers.posts.destroy</td>
+</tr>
+</tbody></table>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// app/controller/posts.js</span></span><br><span class="line"><span class="built_in">exports</span>.index = <span class="keyword">async</span> () =&gt; &#123;&#125;;</span><br><span class="line"></span><br><span class="line"><span class="built_in">exports</span>.new = <span class="keyword">async</span> () =&gt; &#123;&#125;;</span><br><span class="line"></span><br><span class="line"><span class="built_in">exports</span>.create = <span class="keyword">async</span> () =&gt; &#123;&#125;;</span><br><span class="line"></span><br><span class="line"><span class="built_in">exports</span>.show = <span class="keyword">async</span> () =&gt; &#123;&#125;;</span><br><span class="line"></span><br><span class="line"><span class="built_in">exports</span>.edit = <span class="keyword">async</span> () =&gt; &#123;&#125;;</span><br><span class="line"></span><br><span class="line"><span class="built_in">exports</span>.update = <span class="keyword">async</span> () =&gt; &#123;&#125;;</span><br><span class="line"></span><br><span class="line"><span class="built_in">exports</span>.destroy = <span class="keyword">async</span> () =&gt; &#123;&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>如果我们不需要其中的某几个方法，可以不用在 <code>posts.js</code> 里面实现，这样对应 URL 路径也不会注册到 Router。</p>
+<p>更多示例参考：<a target="_blank" rel="noopener" href="https://eggjs.org/zh-cn/basics/router.html#router-%E5%AE%9E%E6%88%98">https://eggjs.org/zh-cn/basics/router.html#router-%E5%AE%9E%E6%88%98</a></p>
+<h5 id="太多路由映射？"><a href="#太多路由映射？" class="headerlink" title="太多路由映射？"></a>太多路由映射？</h5><p>若确实有需求，可以如下拆分：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">// app/router.js</span><br><span class="line">module.exports = app =&gt; &#123;</span><br><span class="line">  require(&#x27;./router/news&#x27;)(app);</span><br><span class="line">  require(&#x27;./router/admin&#x27;)(app);</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">// app/router/news.js</span><br><span class="line">module.exports = app =&gt; &#123;</span><br><span class="line">  app.router.get(&#x27;/news/list&#x27;, app.controller.news.list);</span><br><span class="line">  app.router.get(&#x27;/news/detail&#x27;, app.controller.news.detail);</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">// app/router/admin.js</span><br><span class="line">module.exports = app =&gt; &#123;</span><br><span class="line">  app.router.get(&#x27;/admin/user&#x27;, app.controller.admin.user);</span><br><span class="line">  app.router.get(&#x27;/admin/log&#x27;, app.controller.admin.log);</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>也可直接使用 <a target="_blank" rel="noopener" href="https://github.com/eggjs/egg-router-plus">egg-router-plus</a>。</p>
+<h4 id="控制器（Controller）"><a href="#控制器（Controller）" class="headerlink" title="控制器（Controller）"></a>控制器（Controller）</h4><p>Controller 负责<strong>解析用户的输入，处理后返回相应的结果</strong>，例如</p>
+<ul>
+<li>在 <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Representational_state_transfer">RESTful</a> 接口中，Controller 接受用户的参数，从数据库中查找内容返回给用户或者将用户的请求更新到数据库中。</li>
+<li>在 HTML 页面请求中，Controller 根据用户访问不同的 URL，渲染不同的模板得到 HTML 返回给用户。</li>
+<li>在代理服务器中，Controller 将用户的请求转发到其他服务器上，并将其他服务器的处理结果返回给用户</li>
+</ul>
+<p>框架推荐 Controller 层主要对用户的请求参数进行处理（校验、转换），然后调用对应的 <a target="_blank" rel="noopener" href="https://eggjs.org/zh-cn/basics/service.html">service</a> 方法处理业务，得到业务结果后封装并返回：</p>
+<ol>
+<li>获取用户通过 HTTP 传递过来的请求参数。</li>
+<li>校验、组装参数。</li>
+<li>调用 Service 进行业务处理，必要时处理转换 Service 的返回结果，让它适应用户的需求。</li>
+<li>通过 HTTP 将结果响应给用户。</li>
+</ol>
+<h5 id="如何编写-Controller"><a href="#如何编写-Controller" class="headerlink" title="如何编写 Controller"></a>如何编写 Controller</h5><p>所有的 Controller 文件都必须放在 <code>app/controller</code> 目录下，可以支持多级目录，访问的时候可以通过目录名级联访问。Controller 支持多种形式进行编写，可以根据不同的项目场景和开发习惯来选择。</p>
+<ol>
+<li><p>Controller 类（推荐）</p>
+<p>通过定义 Controller 类的方式来编写代码：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// app/controller/post.js</span></span><br><span class="line"><span class="keyword">const</span> Controller = <span class="built_in">require</span>(<span class="string">&#x27;egg&#x27;</span>).Controller;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">PostController</span> <span class="keyword">extends</span> <span class="title">Controller</span> </span>&#123;</span><br><span class="line">  <span class="keyword">async</span> <span class="function"><span class="title">create</span>(<span class="params"></span>)</span> &#123;</span><br><span class="line">    <span class="keyword">const</span> &#123; ctx, service &#125; = <span class="built_in">this</span>;</span><br><span class="line">    <span class="keyword">const</span> createRule = &#123;</span><br><span class="line">      <span class="attr">title</span>: &#123; <span class="attr">type</span>: <span class="string">&#x27;string&#x27;</span> &#125;,</span><br><span class="line">      <span class="attr">content</span>: &#123; <span class="attr">type</span>: <span class="string">&#x27;string&#x27;</span> &#125;,</span><br><span class="line">    &#125;;</span><br><span class="line">    <span class="comment">// 校验参数</span></span><br><span class="line">    ctx.validate(createRule);</span><br><span class="line">    <span class="comment">// 组装参数</span></span><br><span class="line">    <span class="keyword">const</span> author = ctx.session.userId;</span><br><span class="line">    <span class="keyword">const</span> req = <span class="built_in">Object</span>.assign(ctx.request.body, &#123; author &#125;);</span><br><span class="line">    <span class="comment">// 调用 Service 进行业务处理</span></span><br><span class="line">    <span class="keyword">const</span> res = <span class="keyword">await</span> service.post.create(req);</span><br><span class="line">    <span class="comment">// 设置响应内容和响应状态码</span></span><br><span class="line">    ctx.body = &#123; <span class="attr">id</span>: res.id &#125;;</span><br><span class="line">    ctx.status = <span class="number">201</span>;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">module</span>.exports = PostController;</span><br></pre></td></tr></table></figure>
+
+<p>我们通过上面的代码定义了一个 <code>PostController</code> 的类，类里面的每一个方法都可以作为一个 Controller 在 Router 中引用到，我们可以从 <code>app.controller</code> 根据文件名和方法名定位到它。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// app/router.js</span></span><br><span class="line"><span class="built_in">module</span>.exports = <span class="function"><span class="params">app</span> =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">const</span> &#123; router, controller &#125; = app;</span><br><span class="line">  router.post(<span class="string">&#x27;createPost&#x27;</span>, <span class="string">&#x27;/api/posts&#x27;</span>, controller.post.create);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>定义的 Controller 类，会在每一个请求访问到 server 时实例化一个全新的对象，而项目中的 Controller 类继承于 <code>egg.Controller</code>，会有下面几个属性挂在 <code>this</code> 上。</p>
+<ul>
+<li><code>this.ctx</code>: 当前请求的上下文 Context 对象的实例，通过它我们可以拿到框架封装好的处理当前请求的各种便捷属性和方法。</li>
+<li><code>this.app</code>: 当前应用 Application 对象的实例，通过它我们可以拿到框架提供的全局对象和方法。</li>
+<li><code>this.service</code>：应用定义的 Service，通过它我们可以访问到抽象出的业务层，等价于 <code>this.ctx.service</code> 。</li>
+<li><code>this.config</code>：应用运行时的配置项。</li>
+<li><code>this.logger</code>：logger 对象，上面有四个方法（<code>debug</code>，<code>info</code>，<code>warn</code>，<code>error</code>），分别代表打印四个不同级别的日志，使用方法和效果与 context logger 中介绍的一样，但是通过这个 logger 对象记录的日志，在日志前面会加上打印该日志的文件路径，以便快速定位日志打印位置。</li>
+</ul>
+</li>
+<li><p>自定义 Controller 基类</p>
+<p>按照类的方式编写 Controller，不仅可以让我们更好的对 Controller 层代码进行抽象（例如将一些统一的处理抽象成一些私有方法），还可以通过自定义 Controller 基类的方式封装应用中常用的方法。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// app/core/base_controller.js</span></span><br><span class="line"><span class="keyword">const</span> &#123; Controller &#125; = <span class="built_in">require</span>(<span class="string">&#x27;egg&#x27;</span>);</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">BaseController</span> <span class="keyword">extends</span> <span class="title">Controller</span> </span>&#123;</span><br><span class="line">  <span class="keyword">get</span> <span class="title">user</span>() &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">this</span>.ctx.session.user;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="title">success</span>(<span class="params">data</span>)</span> &#123;</span><br><span class="line">    <span class="built_in">this</span>.ctx.body = &#123;</span><br><span class="line">      <span class="attr">success</span>: <span class="literal">true</span>,</span><br><span class="line">      data,</span><br><span class="line">    &#125;;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="title">notFound</span>(<span class="params">msg</span>)</span> &#123;</span><br><span class="line">    msg = msg || <span class="string">&#x27;not found&#x27;</span>;</span><br><span class="line">    <span class="built_in">this</span>.ctx.throw(<span class="number">404</span>, msg);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">module</span>.exports = BaseController;</span><br></pre></td></tr></table></figure>
+
+<p>此时在编写应用的 Controller 时，可以继承 BaseController，直接使用基类上的方法</p>
+</li>
+</ol>
+<h5 id="调用-Service"><a href="#调用-Service" class="headerlink" title="调用 Service"></a>调用 Service</h5><p>我们并不想在 Controller 中实现太多业务逻辑，所以提供了一个 Service 层进行业务逻辑的封装，这不仅能提高代码的复用性，同时可以让我们的业务逻辑更好测试。</p>
+<p>在 Controller 中可以调用任何一个 Service 上的任何方法，同时 Service 是懒加载的，只有当访问到它的时候框架才会去实例化它。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">PostController</span> <span class="keyword">extends</span> <span class="title">Controller</span> </span>&#123;</span><br><span class="line">  <span class="keyword">async</span> <span class="function"><span class="title">create</span>(<span class="params"></span>)</span> &#123;</span><br><span class="line">    <span class="keyword">const</span> ctx = <span class="built_in">this</span>.ctx;</span><br><span class="line">    <span class="keyword">const</span> author = ctx.session.userId;</span><br><span class="line">    <span class="keyword">const</span> req = <span class="built_in">Object</span>.assign(ctx.request.body, &#123; author &#125;);</span><br><span class="line">    <span class="comment">// 调用 service 进行业务处理</span></span><br><span class="line">    <span class="keyword">const</span> res = <span class="keyword">await</span> ctx.service.post.create(req);</span><br><span class="line">    ctx.body = &#123; <span class="attr">id</span>: res.id &#125;;</span><br><span class="line">    ctx.status = <span class="number">201</span>;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>更多配置参考:<a target="_blank" rel="noopener" href="https://eggjs.org/zh-cn/basics/controller.html">https://eggjs.org/zh-cn/basics/controller.html</a></p>
+<h4 id="服务（Service）"><a href="#服务（Service）" class="headerlink" title="服务（Service）"></a>服务（Service）</h4><p>简单来说，Service 就是在复杂业务场景下用于做业务逻辑封装的一个抽象层，提供这个抽象有以下几个好处：</p>
+<ul>
+<li>保持 Controller 中的逻辑更加简洁。</li>
+<li>保持业务逻辑的独立性，抽象出来的 Service 可以被多个 Controller 重复调用。</li>
+<li>将逻辑和展现分离，更容易编写测试用例。</li>
+</ul>
+<p><strong>使用场景</strong></p>
+<ul>
+<li>复杂数据的处理，比如要展现的信息需要从数据库获取，还要经过一定的规则计算，才能返回用户显示。或者计算完成后，更新到数据库。</li>
+<li>第三方服务的调用，比如 GitHub 信息获取等。</li>
+</ul>
+<h5 id="定义-Service"><a href="#定义-Service" class="headerlink" title="定义 Service"></a>定义 Service</h5><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// app/service/user.js</span></span><br><span class="line"><span class="keyword">const</span> Service = <span class="built_in">require</span>(<span class="string">&#x27;egg&#x27;</span>).Service;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">UserService</span> <span class="keyword">extends</span> <span class="title">Service</span> </span>&#123;</span><br><span class="line">  <span class="keyword">async</span> <span class="function"><span class="title">find</span>(<span class="params">uid</span>)</span> &#123;</span><br><span class="line">    <span class="keyword">const</span> user = <span class="keyword">await</span> <span class="built_in">this</span>.ctx.db.query(<span class="string">&#x27;select * from user where uid = ?&#x27;</span>, uid);</span><br><span class="line">    <span class="keyword">return</span> user;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="built_in">module</span>.exports = UserService;</span><br></pre></td></tr></table></figure>
+
+<h5 id="属性"><a href="#属性" class="headerlink" title="属性"></a>属性</h5><p>每一次用户请求，框架都会实例化对应的 Service 实例，由于它继承于 <code>egg.Service</code>，故拥有下列属性方便我们进行开发：</p>
+<ul>
+<li><code>this.ctx</code>: 当前请求的上下文 Context 对象的实例，通过它我们可以拿到框架封装好的处理当前请求的各种便捷属性和方法。</li>
+<li><code>this.app</code>: 当前应用 Application 对象的实例，通过它我们可以拿到框架提供的全局对象和方法。</li>
+<li><code>this.service</code>：应用定义的 Service，通过它我们可以访问到其他业务层，等价于 <code>this.ctx.service</code> 。</li>
+<li><code>this.config</code>：应用运行时的配置项。</li>
+<li><code>this.logger</code>：logger 对象，上面有四个方法（<code>debug</code>，<code>info</code>，<code>warn</code>，<code>error</code>），分别代表打印四个不同级别的日志，使用方法和效果与 context logger 中介绍的一样，但是通过这个 logger 对象记录的日志，在日志前面会加上打印该日志的文件路径，以便快速定位日志打印位置。</li>
+</ul>
+<p>为了可以获取用户请求的链路，我们在 Service 初始化中，注入了请求上下文, 用户在方法中可以直接通过 <code>this.ctx</code> 来获取上下文相关信息。有了 ctx 我们可以拿到框架给我们封装的各种便捷属性和方法。比如我们可以用：</p>
+<ul>
+<li><code>this.ctx.curl</code> 发起网络调用。</li>
+<li><code>this.ctx.service.otherService</code> 调用其他 Service。</li>
+<li><code>this.ctx.db</code> 发起数据库调用等， db 可能是其他插件提前挂载到 app 上的模块。</li>
+</ul>
+<h5 id="注意事项"><a href="#注意事项" class="headerlink" title="注意事项"></a>注意事项</h5><ul>
+<li><p>Service 文件必须放在 <code>app/service</code> 目录，可以支持多级目录，访问的时候可以通过目录名级联访问。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">app/service/biz/user.js =&gt; ctx.service.biz.user</span><br><span class="line">app/service/sync_user.js =&gt; ctx.service.syncUser</span><br><span class="line">app/service/HackerNews.js =&gt; ctx.service.hackerNews</span><br></pre></td></tr></table></figure></li>
+<li><p>一个 Service 文件只能包含一个类， 这个类需要通过 <code>module.exports</code> 的方式返回。</p>
+</li>
+<li><p>Service 需要通过 Class 的方式定义，父类必须是 <code>egg.Service</code>。</p>
+</li>
+<li><p>Service 不是单例，是 <strong>请求级别</strong> 的对象，框架在每次请求中首次访问 <code>ctx.service.xx</code> 时延迟实例化，所以 Service 中可以通过 this.ctx 获取到当前请求的上下文。</p>
+</li>
+</ul>
+<h4 id="插件-1"><a href="#插件-1" class="headerlink" title="插件"></a>插件</h4><p>一个插件其实就是一个『迷你的应用』，和应用（app）几乎一样：</p>
+<ul>
+<li>它包含了 Service、中间件、配置、框架扩展等等。</li>
+<li>它没有独立的 Router 和 Controller。</li>
+<li>它没有 <code>plugin.js</code>，只能声明跟其他插件的依赖，而<strong>不能决定</strong>其他插件的开启与否。</li>
+</ul>
+<h5 id="使用插件"><a href="#使用插件" class="headerlink" title="使用插件"></a>使用插件</h5><p>插件一般通过 npm 模块的方式进行复用：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ npm i egg-mysql --save</span><br></pre></td></tr></table></figure>
+
+<p>然后需要在应用或框架的 <code>config/plugin.js</code> 中声明：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// config/plugin.js</span></span><br><span class="line"><span class="comment">// 使用 mysql 插件</span></span><br><span class="line"><span class="built_in">exports</span>.mysql = &#123;</span><br><span class="line">  <span class="attr">enable</span>: <span class="literal">true</span>,</span><br><span class="line">  <span class="attr">package</span>: <span class="string">&#x27;egg-mysql&#x27;</span>,</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>就可以直接使用插件提供的功能：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">app.mysql.query(sql, values);</span><br></pre></td></tr></table></figure>
+
+<h5 id="参数介绍"><a href="#参数介绍" class="headerlink" title="参数介绍"></a>参数介绍</h5><p><code>plugin.js</code> 中的每个配置项支持：</p>
+<ul>
+<li><code>&#123;Boolean&#125; enable</code> - 是否开启此插件，默认为 true</li>
+<li><code>&#123;String&#125; package</code> - <code>npm</code> 模块名称，通过 <code>npm</code> 模块形式引入插件</li>
+<li><code>&#123;String&#125; path</code> - 插件绝对路径，跟 package 配置互斥。如应用内部抽了一个插件，但还没达到开源发布独立 <code>npm</code> 的阶段，或者是应用自己覆盖了框架的一些插件，参见<a target="_blank" rel="noopener" href="https://eggjs.org/zh-cn/tutorials/progressive.html">渐进式开发</a>。</li>
+<li><code>&#123;Array&#125; env</code> - 只有在指定运行环境才能开启，会覆盖插件自身 <code>package.json</code> 中的配置</li>
+</ul>
+<p>在上层框架内部内置的插件，应用在使用时就不用配置 package 或者 path，只需要指定 enable 与否：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 对于内置插件，可以用下面的简洁方式开启或关闭</span></span><br><span class="line"><span class="built_in">exports</span>.onerror = <span class="literal">false</span>;</span><br></pre></td></tr></table></figure>
+
+<h5 id="插件配置"><a href="#插件配置" class="headerlink" title="插件配置"></a>插件配置</h5><p>插件一般会包含自己的默认配置，应用开发者可以在 <code>config.default.js</code> 覆盖对应的配置：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// config/config.default.js</span></span><br><span class="line"><span class="built_in">exports</span>.mysql = &#123;</span><br><span class="line">  <span class="attr">client</span>: &#123;</span><br><span class="line">    <span class="attr">host</span>: <span class="string">&#x27;mysql.com&#x27;</span>,</span><br><span class="line">    <span class="attr">port</span>: <span class="string">&#x27;3306&#x27;</span>,</span><br><span class="line">    <span class="attr">user</span>: <span class="string">&#x27;test_user&#x27;</span>,</span><br><span class="line">    <span class="attr">password</span>: <span class="string">&#x27;test_password&#x27;</span>,</span><br><span class="line">    <span class="attr">database</span>: <span class="string">&#x27;test&#x27;</span>,</span><br><span class="line">  &#125;,</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<h5 id="插件列表"><a href="#插件列表" class="headerlink" title="插件列表"></a>插件列表</h5><ul>
+<li>框架默认内置了企业级应用常用的插件：<ul>
+<li><a target="_blank" rel="noopener" href="https://github.com/eggjs/egg-onerror">onerror</a> 统一异常处理</li>
+<li><a target="_blank" rel="noopener" href="https://github.com/eggjs/egg-session">Session</a> Session 实现</li>
+<li><a target="_blank" rel="noopener" href="https://github.com/eggjs/egg-i18n">i18n</a> 多语言</li>
+<li><a target="_blank" rel="noopener" href="https://github.com/eggjs/egg-watcher">watcher</a> 文件和文件夹监控</li>
+<li><a target="_blank" rel="noopener" href="https://github.com/eggjs/egg-multipart">multipart</a> 文件流式上传</li>
+<li><a target="_blank" rel="noopener" href="https://github.com/eggjs/egg-security">security</a> 安全</li>
+<li><a target="_blank" rel="noopener" href="https://github.com/eggjs/egg-development">development</a> 开发环境配置</li>
+<li><a target="_blank" rel="noopener" href="https://github.com/eggjs/egg-logrotator">logrotator</a> 日志切分</li>
+<li><a target="_blank" rel="noopener" href="https://github.com/eggjs/egg-schedule">schedule</a> 定时任务</li>
+<li><a target="_blank" rel="noopener" href="https://github.com/eggjs/egg-static">static</a> 静态服务器</li>
+<li><a target="_blank" rel="noopener" href="https://github.com/eggjs/egg-jsonp">jsonp</a> jsonp 支持</li>
+<li><a target="_blank" rel="noopener" href="https://github.com/eggjs/egg-view">view</a> 模板引擎</li>
+</ul>
+</li>
+<li>更多社区的插件可以 GitHub 搜索 <a target="_blank" rel="noopener" href="https://github.com/topics/egg-plugin">egg-plugin</a>。</li>
+</ul>
+<h5 id="插件开发"><a href="#插件开发" class="headerlink" title="插件开发"></a>插件开发</h5><p>你可以直接使用 <a target="_blank" rel="noopener" href="https://github.com/eggjs/egg-boilerplate-plugin">egg-boilerplate-plugin</a> 脚手架来快速上手。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ mkdir egg-hello &amp;&amp; <span class="built_in">cd</span> egg-hello</span><br><span class="line">$ npm init egg --<span class="built_in">type</span>=plugin</span><br><span class="line">$ npm i</span><br><span class="line">$ npm <span class="built_in">test</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>目录结构</strong></p>
+<p>一个插件其实就是一个『迷你的应用』，下面展示的是一个插件的目录结构，和应用（app）几乎一样。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">. egg-hello</span><br><span class="line">├── package.json</span><br><span class="line">├── app.js (可选)</span><br><span class="line">├── agent.js (可选)</span><br><span class="line">├── app</span><br><span class="line">│   ├── extend (可选)</span><br><span class="line">│   |   ├── helper.js (可选)</span><br><span class="line">│   |   ├── request.js (可选)</span><br><span class="line">│   |   ├── response.js (可选)</span><br><span class="line">│   |   ├── context.js (可选)</span><br><span class="line">│   |   ├── application.js (可选)</span><br><span class="line">│   |   └── agent.js (可选)</span><br><span class="line">│   ├── service (可选)</span><br><span class="line">│   └── middleware (可选)</span><br><span class="line">│       └── mw.js</span><br><span class="line">├── config</span><br><span class="line">|   ├── config.default.js</span><br><span class="line">│   ├── config.prod.js</span><br><span class="line">|   ├── config.test.js (可选)</span><br><span class="line">|   ├── config.local.js (可选)</span><br><span class="line">|   └── config.unittest.js (可选)</span><br><span class="line">└── test</span><br><span class="line">    └── middleware</span><br><span class="line">        └── mw.test.js</span><br></pre></td></tr></table></figure>
+
+<p>那区别在哪儿呢？</p>
+<ol>
+<li><p>插件没有独立的 router 和 controller。这主要出于几点考虑：</p>
+<ul>
+<li>路由一般和应用强绑定的，不具备通用性。</li>
+<li>一个应用可能依赖很多个插件，如果插件支持路由可能导致路由冲突。</li>
+<li>如果确实有统一路由的需求，可以考虑在插件里通过中间件来实现。</li>
+</ul>
+</li>
+<li><p>插件需要在 <code>package.json</code> 中的 <code>eggPlugin</code> 节点指定插件特有的信息：</p>
+<ul>
+<li><p><code>&#123;String&#125; name</code> - 插件名（必须配置），具有唯一性，配置依赖关系时会指定依赖插件的 name。</p>
+</li>
+<li><p><code>&#123;Array&#125; dependencies</code> - 当前插件强依赖的插件列表（如果依赖的插件没找到，应用启动失败）。</p>
+</li>
+<li><p><code>&#123;Array&#125; optionalDependencies</code> - 当前插件的可选依赖插件列表（如果依赖的插件未开启，只会 warning，不会影响应用启动）。</p>
+</li>
+<li><p><code>&#123;Array&#125; env</code> - 只有在指定运行环境才能开启，具体有哪些环境可以参考<a target="_blank" rel="noopener" href="https://eggjs.org/zh-cn/basics/env.html">运行环境</a>。此配置是可选的，一般情况下都不需要配置。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  &quot;name&quot;: &quot;egg-rpc&quot;,</span><br><span class="line">  &quot;eggPlugin&quot;: &#123;</span><br><span class="line">    &quot;name&quot;: &quot;rpc&quot;,</span><br><span class="line">    &quot;dependencies&quot;: [ &quot;registry&quot; ],</span><br><span class="line">    &quot;optionalDependencies&quot;: [ &quot;vip&quot; ],</span><br><span class="line">    &quot;env&quot;: [ &quot;local&quot;, &quot;test&quot;, &quot;unittest&quot;, &quot;prod&quot; ]</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+</ul>
+</li>
+<li><p>插件没有 <code>plugin.js</code>：</p>
+<ul>
+<li><code>eggPlugin.dependencies</code> 只是用于声明依赖关系，而不是引入插件或开启插件。</li>
+<li>如果期望统一管理多个插件的开启和配置，可以在<a target="_blank" rel="noopener" href="https://eggjs.org/zh-cn/advanced/framework.html">上层框架</a>处理。</li>
+</ul>
+</li>
+</ol>
+<p><strong>插件能做什么？</strong></p>
+<ol>
+<li>扩展内置对象的接口:<a target="_blank" rel="noopener" href="https://eggjs.org/zh-cn/basics/extend.html">https://eggjs.org/zh-cn/basics/extend.html</a></li>
+<li>插入自定义中间件</li>
+<li>在应用启动时做一些初始化工作</li>
+<li>设置定时任务</li>
+</ol>
+<p>将 <a target="_blank" rel="noopener" href="https://github.com/eggjs/egg-mysql">egg-mysql</a> 作为自定义的实例。</p>
+<h5 id="插件的寻址规则"><a href="#插件的寻址规则" class="headerlink" title="插件的寻址规则"></a>插件的寻址规则</h5><p>框架在加载插件的时候，遵循下面的寻址规则：</p>
+<ul>
+<li>如果配置了 path，直接按照 path 加载。</li>
+<li>没有 path 根据 package 名去查找，查找的顺序依次是：<ol>
+<li>应用根目录下的 <code>node_modules</code></li>
+<li>应用依赖框架路径下的 <code>node_modules</code></li>
+<li>当前路径下的 <code>node_modules</code> （主要是兼容单元测试场景）</li>
+</ol>
+</li>
+</ul>
+<h4 id="定时任务"><a href="#定时任务" class="headerlink" title="定时任务"></a>定时任务</h4><p>虽然我们通过框架开发的 HTTP Server 是请求响应模型的，但是仍然还会有许多场景需要执行一些定时任务，例如：</p>
+<ol>
+<li>定时上报应用状态。</li>
+<li>定时从远程接口更新本地缓存。</li>
+<li>定时进行文件切割、临时文件删除。</li>
+</ol>
+<h5 id="编写定时任务"><a href="#编写定时任务" class="headerlink" title="编写定时任务"></a>编写定时任务</h5><p>所有的定时任务都统一存放在 <code>app/schedule</code> 目录下，每一个文件都是一个独立的定时任务，可以配置定时任务的属性和要执行的方法。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//app/schedule/update_cache.js</span></span><br><span class="line"><span class="keyword">const</span> Subscription = <span class="built_in">require</span>(<span class="string">&#x27;egg&#x27;</span>).Subscription;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">UpdateCache</span> <span class="keyword">extends</span> <span class="title">Subscription</span> </span>&#123;</span><br><span class="line">  <span class="comment">// 通过 schedule 属性来设置定时任务的执行间隔等配置</span></span><br><span class="line">  <span class="keyword">static</span> <span class="keyword">get</span> <span class="title">schedule</span>() &#123;</span><br><span class="line">    <span class="keyword">return</span> &#123;</span><br><span class="line">      <span class="attr">interval</span>: <span class="string">&#x27;1m&#x27;</span>, <span class="comment">// 1 分钟间隔</span></span><br><span class="line">      <span class="attr">type</span>: <span class="string">&#x27;all&#x27;</span>, <span class="comment">// 指定所有的 worker 都需要执行</span></span><br><span class="line">    &#125;;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// subscribe 是真正定时任务执行时被运行的函数</span></span><br><span class="line">  <span class="keyword">async</span> <span class="function"><span class="title">subscribe</span>(<span class="params"></span>)</span> &#123;</span><br><span class="line">    <span class="keyword">const</span> res = <span class="keyword">await</span> <span class="built_in">this</span>.ctx.curl(<span class="string">&#x27;http://www.api.com/cache&#x27;</span>, &#123;</span><br><span class="line">      <span class="attr">dataType</span>: <span class="string">&#x27;json&#x27;</span>,</span><br><span class="line">    &#125;);</span><br><span class="line">    <span class="built_in">this</span>.ctx.app.cache = res.data;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="built_in">module</span>.exports = UpdateCache;</span><br></pre></td></tr></table></figure>
+
+<p>还可以简写为</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">module</span>.exports = &#123;</span><br><span class="line">  <span class="attr">schedule</span>: &#123;</span><br><span class="line">    <span class="attr">interval</span>: <span class="string">&#x27;1m&#x27;</span>, <span class="comment">// 1 分钟间隔</span></span><br><span class="line">    <span class="attr">type</span>: <span class="string">&#x27;all&#x27;</span>, <span class="comment">// 指定所有的 worker 都需要执行</span></span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="keyword">async</span> <span class="function"><span class="title">task</span>(<span class="params">ctx</span>)</span> &#123;</span><br><span class="line">    <span class="keyword">const</span> res = <span class="keyword">await</span> ctx.curl(<span class="string">&#x27;http://www.api.com/cache&#x27;</span>, &#123;</span><br><span class="line">      <span class="attr">dataType</span>: <span class="string">&#x27;json&#x27;</span>,</span><br><span class="line">    &#125;);</span><br><span class="line">    ctx.app.cache = res.data;</span><br><span class="line">  &#125;,</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<h5 id="定时方式"><a href="#定时方式" class="headerlink" title="定时方式"></a>定时方式</h5><ol>
+<li>interval: <ul>
+<li>数字类型，单位为毫秒数，例如 <code>5000</code>。</li>
+<li>字符类型，会通过 <a target="_blank" rel="noopener" href="https://github.com/zeit/ms">ms</a> 转换成毫秒数，例如 <code>5s</code>。</li>
+</ul>
+</li>
+<li>cron: cron 表达式通过 <a target="_blank" rel="noopener" href="https://github.com/harrisiirak/cron-parser">cron-parser</a> 进行解析。</li>
+</ol>
+<h5 id="类型"><a href="#类型" class="headerlink" title="类型"></a>类型</h5><p>框架提供的定时任务默认支持两种类型，worker 和 all。worker 和 all 都支持上面的两种定时方式，只是当到执行时机时，会执行定时任务的 worker 不同：</p>
+<ul>
+<li><code>worker</code> 类型：每台机器上只有一个 worker 会执行这个定时任务，每次执行定时任务的 worker 的选择是随机的。</li>
+<li><code>all</code> 类型：每台机器上的每个 worker 都会执行这个定时任务。</li>
+</ul>
+<h5 id="其他参数"><a href="#其他参数" class="headerlink" title="其他参数"></a>其他参数</h5><p>除了刚才介绍到的几个参数之外，定时任务还支持这些参数：</p>
+<ul>
+<li><code>cronOptions</code>: 配置 cron 的时区等，参见 <a target="_blank" rel="noopener" href="https://github.com/harrisiirak/cron-parser#options">cron-parser</a> 文档</li>
+<li><code>immediate</code>：配置了该参数为 true 时，这个定时任务会在应用启动并 ready 后立刻执行一次这个定时任务。</li>
+<li><code>disable</code>：配置该参数为 true 时，这个定时任务不会被启动。</li>
+<li><code>env</code>：数组，仅在指定的环境下才启动该定时任务。</li>
+</ul>
+<h5 id="执行日志"><a href="#执行日志" class="headerlink" title="执行日志"></a>执行日志</h5><p>执行日志会输出到 <code>$&#123;appInfo.root&#125;/logs/&#123;app_name&#125;/egg-schedule.log</code>，默认不会输出到控制台，可以通过 <code>config.customLogger.scheduleLogger</code> 来自定义。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">// config/config.default.js</span><br><span class="line">config.customLogger = &#123;</span><br><span class="line">  scheduleLogger: &#123;</span><br><span class="line">    // consoleLevel: &#x27;NONE&#x27;,</span><br><span class="line">    // file: path.join(appInfo.root, &#x27;logs&#x27;, appInfo.name, &#x27;egg-schedule.log&#x27;),</span><br><span class="line">  &#125;,</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<h5 id="手动执行定时任务"><a href="#手动执行定时任务" class="headerlink" title="手动执行定时任务"></a>手动执行定时任务</h5><p>我们可以通过 <code>app.runSchedule(schedulePath)</code> 来运行一个定时任务。<code>app.runSchedule</code> 接受一个定时任务文件路径（<code>app/schedule</code> 目录下的相对路径或者完整的绝对路径），执行对应的定时任务，返回一个 Promise。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">module</span>.exports = <span class="function"><span class="params">app</span> =&gt;</span> &#123;</span><br><span class="line">  app.beforeStart(<span class="keyword">async</span> () =&gt; &#123;</span><br><span class="line">    <span class="comment">// 保证应用启动监听端口前数据已经准备好了</span></span><br><span class="line">    <span class="comment">// 后续数据的更新由定时任务自动触发</span></span><br><span class="line">    <span class="keyword">await</span> app.runSchedule(<span class="string">&#x27;update_cache&#x27;</span>);</span><br><span class="line">  &#125;);</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<h4 id="启动自定义"><a href="#启动自定义" class="headerlink" title="启动自定义"></a>启动自定义</h4><p>我们常常需要在应用启动期间进行一些初始化工作，等初始化完成后应用才可以启动成功，并开始对外提供服务。</p>
+<p>框架提供了统一的入口文件（<code>app.js</code>）进行启动过程自定义，这个文件返回一个 Boot 类，我们可以通过定义 Boot 类中的生命周期方法来执行启动应用过程中的初始化工作。</p>
+<p>框架提供了这些 生命周期函数供开发人员处理：</p>
+<ul>
+<li>配置文件即将加载，这是最后动态修改配置的时机（<code>configWillLoad</code>）</li>
+<li>配置文件加载完成（<code>configDidLoad</code>）</li>
+<li>文件加载完成（<code>didLoad</code>）</li>
+<li>插件启动完毕（<code>willReady</code>）</li>
+<li>worker 准备就绪（<code>didReady</code>）</li>
+<li>应用启动完成（<code>serverDidReady</code>）</li>
+<li>应用即将关闭（<code>beforeClose</code>）</li>
+</ul>
+<p>我们可以在 <code>app.js</code> 中定义这个 Boot 类</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// app.js</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">AppBootHook</span> </span>&#123;</span><br><span class="line">  <span class="function"><span class="title">constructor</span>(<span class="params">app</span>)</span> &#123;</span><br><span class="line">    <span class="built_in">this</span>.app = app;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="title">configWillLoad</span>(<span class="params"></span>)</span> &#123;</span><br><span class="line">    <span class="comment">// 此时 config 文件已经被读取并合并，但是还并未生效</span></span><br><span class="line">    <span class="comment">// 这是应用层修改配置的最后时机</span></span><br><span class="line">    <span class="comment">// 注意：此函数只支持同步调用</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">// 例如：参数中的密码是加密的，在此处进行解密</span></span><br><span class="line">    <span class="built_in">this</span>.app.config.mysql.password = decrypt(<span class="built_in">this</span>.app.config.mysql.password);</span><br><span class="line">    <span class="comment">// 例如：插入一个中间件到框架的 coreMiddleware 之间</span></span><br><span class="line">    <span class="keyword">const</span> statusIdx = <span class="built_in">this</span>.app.config.coreMiddleware.indexOf(<span class="string">&#x27;status&#x27;</span>);</span><br><span class="line">    <span class="built_in">this</span>.app.config.coreMiddleware.splice(statusIdx + <span class="number">1</span>, <span class="number">0</span>, <span class="string">&#x27;limit&#x27;</span>);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">async</span> <span class="function"><span class="title">didLoad</span>(<span class="params"></span>)</span> &#123;</span><br><span class="line">    <span class="comment">// 所有的配置已经加载完毕</span></span><br><span class="line">    <span class="comment">// 可以用来加载应用自定义的文件，启动自定义的服务</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">// 例如：创建自定义应用的示例</span></span><br><span class="line">    <span class="built_in">this</span>.app.queue = <span class="keyword">new</span> Queue(<span class="built_in">this</span>.app.config.queue);</span><br><span class="line">    <span class="keyword">await</span> <span class="built_in">this</span>.app.queue.init();</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 例如：加载自定义的目录</span></span><br><span class="line">    <span class="built_in">this</span>.app.loader.loadToContext(path.join(__dirname, <span class="string">&#x27;app/tasks&#x27;</span>), <span class="string">&#x27;tasks&#x27;</span>, &#123;</span><br><span class="line">      <span class="attr">fieldClass</span>: <span class="string">&#x27;tasksClasses&#x27;</span>,</span><br><span class="line">    &#125;);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">async</span> <span class="function"><span class="title">willReady</span>(<span class="params"></span>)</span> &#123;</span><br><span class="line">    <span class="comment">// 所有的插件都已启动完毕，但是应用整体还未 ready</span></span><br><span class="line">    <span class="comment">// 可以做一些数据初始化等操作，这些操作成功才会启动应用</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">// 例如：从数据库加载数据到内存缓存</span></span><br><span class="line">    <span class="built_in">this</span>.app.cacheData = <span class="keyword">await</span> <span class="built_in">this</span>.app.model.query(QUERY_CACHE_SQL);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">async</span> <span class="function"><span class="title">didReady</span>(<span class="params"></span>)</span> &#123;</span><br><span class="line">    <span class="comment">// 应用已经启动完毕</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">const</span> ctx = <span class="keyword">await</span> <span class="built_in">this</span>.app.createAnonymousContext();</span><br><span class="line">    <span class="keyword">await</span> ctx.service.Biz.request();</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">async</span> <span class="function"><span class="title">serverDidReady</span>(<span class="params"></span>)</span> &#123;</span><br><span class="line">    <span class="comment">// http / https server 已启动，开始接受外部请求</span></span><br><span class="line">    <span class="comment">// 此时可以从 app.server 拿到 server 的实例</span></span><br><span class="line"></span><br><span class="line">    <span class="built_in">this</span>.app.server.on(<span class="string">&#x27;timeout&#x27;</span>, <span class="function"><span class="params">socket</span> =&gt;</span> &#123;</span><br><span class="line">      <span class="comment">// handle socket timeout</span></span><br><span class="line">    &#125;);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="built_in">module</span>.exports = AppBootHook;</span><br></pre></td></tr></table></figure>
+
+<p><strong>注意：在自定义生命周期函数中不建议做太耗时的操作，框架会有启动的超时检测。</strong></p>
+<h3 id="核心功能"><a href="#核心功能" class="headerlink" title="核心功能"></a>核心功能</h3><h4 id="本地开发"><a href="#本地开发" class="headerlink" title="本地开发"></a>本地开发</h4><p> <a target="_blank" rel="noopener" href="https://github.com/eggjs/egg-bin">egg-bin</a> 模块（只在本地开发和单元测试使用）</p>
+<p>调试参考:<a target="_blank" rel="noopener" href="https://eggjs.org/zh-cn/core/development.html#%E8%B0%83%E8%AF%95">https://eggjs.org/zh-cn/core/development.html#%E8%B0%83%E8%AF%95</a></p>
+<h4 id="单元测试"><a href="#单元测试" class="headerlink" title="单元测试"></a>单元测试</h4><p>测试脚本文件统一按 <code>$&#123;filename&#125;.test.js</code> 命名，必须以 <code>.test.js</code> 作为文件后缀,且放置在<code>test</code> 目录</p>
+<p>统一使用 egg-bin 来运行测试脚本， 自动将内置的 <a target="_blank" rel="noopener" href="https://mochajs.org/">Mocha</a>、<a target="_blank" rel="noopener" href="https://github.com/blakeembrey/co-mocha">co-mocha</a>、<a target="_blank" rel="noopener" href="https://github.com/power-assert-js/power-assert">power-assert</a>，<a target="_blank" rel="noopener" href="https://github.com/istanbuljs/nyc">nyc</a> 等模块组合引入到测试脚本中</p>
+<p>测试流程参考:<a target="_blank" rel="noopener" href="https://eggjs.org/zh-cn/core/unittest.html#%E5%87%86%E5%A4%87%E6%B5%8B%E8%AF%95">https://eggjs.org/zh-cn/core/unittest.html#%E5%87%86%E5%A4%87%E6%B5%8B%E8%AF%95</a></p>
+<h4 id="应用部署"><a href="#应用部署" class="headerlink" title="应用部署"></a>应用部署</h4><p>框架内置了 <a target="_blank" rel="noopener" href="https://github.com/eggjs/egg-cluster">egg-cluster</a> 来启动 <a target="_blank" rel="noopener" href="https://eggjs.org/zh-cn/core/cluster-and-ipc.html#master">Master 进程</a>，Master 有足够的稳定性，不再需要使用 <a target="_blank" rel="noopener" href="https://github.com/Unitech/pm2">pm2</a> 等进程守护模块。</p>
+<p>同时，框架也提供了 <a target="_blank" rel="noopener" href="https://github.com/eggjs/egg-scripts">egg-scripts</a> 来支持线上环境的运行和停止。</p>
+<p>我们还需要对服务进行性能监控，内存泄露分析，故障排除等。</p>
+<p>业界常用的有：</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://www.aliyun.com/product/nodejs">Node.js 性能平台（alinode）</a></li>
+<li><a target="_blank" rel="noopener" href="https://nodesource.com/products/nsolid/">NSolid</a></li>
+</ul>
+<h4 id="日志"><a href="#日志" class="headerlink" title="日志"></a>日志</h4><p>框架内置了强大的企业级日志支持，由 <a target="_blank" rel="noopener" href="https://github.com/eggjs/egg-logger">egg-logger</a> 模块提供。</p>
+<p>主要特性：</p>
+<ul>
+<li>日志分级</li>
+<li>统一错误日志，所有 logger 中使用 <code>.error()</code> 打印的 <code>ERROR</code> 级别日志都会打印到统一的错误日志文件中，便于追踪</li>
+<li>启动日志和运行日志分离</li>
+<li>自定义日志</li>
+<li>多进程日志</li>
+<li>自动切割日志</li>
+<li>高性能</li>
+</ul>
+<h5 id="日志路径"><a href="#日志路径" class="headerlink" title="日志路径"></a>日志路径</h5><ul>
+<li>所有日志文件默认都放在 <code>$&#123;appInfo.root&#125;/logs/$&#123;appInfo.name&#125;</code> 路径下，例如 <code>/home/admin/logs/example-app</code>。</li>
+<li>在本地开发环境 (env: local) 和单元测试环境 (env: unittest)，为了避免冲突以及集中管理，日志会打印在项目目录下的 logs 目录，例如 <code>/path/to/example-app/logs/example-app</code>。</li>
+</ul>
+<p>如果想自定义日志路径：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// config/config.$&#123;env&#125;.js</span></span><br><span class="line"><span class="built_in">exports</span>.logger = &#123;</span><br><span class="line">  <span class="attr">dir</span>: <span class="string">&#x27;/path/to/your/custom/log/dir&#x27;</span>,</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<h5 id="日志分类"><a href="#日志分类" class="headerlink" title="日志分类"></a>日志分类</h5><p>框架内置了几种日志，分别在不同的场景下使用：</p>
+<ul>
+<li>appLogger <code>$&#123;appInfo.name&#125;-web.log</code>，例如 <code>example-app-web.log</code>，应用相关日志，供应用开发者使用的日志。我们在绝大数情况下都在使用它。</li>
+<li>coreLogger <code>egg-web.log</code> 框架内核、插件日志。</li>
+<li>errorLogger <code>common-error.log</code> 实际一般不会直接使用它，任何 logger 的 <code>.error()</code> 调用输出的日志都会重定向到这里，重点通过查看此日志定位异常。</li>
+<li>agentLogger <code>egg-agent.log</code> agent 进程日志，框架和使用到 agent 进程执行任务的插件会打印一些日志到这里。</li>
+</ul>
+<p>如果想自定义以上日志文件名称，可以在 config 文件中覆盖默认值：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// config/config.$&#123;env&#125;.js</span></span><br><span class="line"><span class="built_in">module</span>.exports = <span class="function"><span class="params">appInfo</span> =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">return</span> &#123;</span><br><span class="line">    <span class="attr">logger</span>: &#123;</span><br><span class="line">      <span class="attr">appLogName</span>: <span class="string">`<span class="subst">$&#123;appInfo.name&#125;</span>-web.log`</span>,</span><br><span class="line">      <span class="attr">coreLogName</span>: <span class="string">&#x27;egg-web.log&#x27;</span>,</span><br><span class="line">      <span class="attr">agentLogName</span>: <span class="string">&#x27;egg-agent.log&#x27;</span>,</span><br><span class="line">      <span class="attr">errorLogName</span>: <span class="string">&#x27;common-error.log&#x27;</span>,</span><br><span class="line">    &#125;,</span><br><span class="line">  &#125;;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<h5 id="日志切割"><a href="#日志切割" class="headerlink" title="日志切割"></a>日志切割</h5><p>框架对日志切割的支持由 <a target="_blank" rel="noopener" href="https://github.com/eggjs/egg-logrotator">egg-logrotator</a> 插件提供。默认日志切割方式按天切割</p>
+<h4 id="Cookie-与-Session"><a href="#Cookie-与-Session" class="headerlink" title="Cookie 与 Session"></a>Cookie 与 Session</h4><p>参考<a target="_blank" rel="noopener" href="https://eggjs.org/zh-cn/core/cookie-and-session.html">https://eggjs.org/zh-cn/core/cookie-and-session.html</a></p>
+<h4 id="多进程模型和进程间通讯"><a href="#多进程模型和进程间通讯" class="headerlink" title="多进程模型和进程间通讯"></a><strong>多进程模型和进程间通讯</strong></h4><p>我们知道 JavaScript 代码是运行在单线程上的，换句话说一个 Node.js 进程只能运行在一个 CPU 上。那么如果用 Node.js 来做 Web Server，就无法享受到多核运算的好处。作为企业级的解决方案，我们要解决的一个问题就是:</p>
+<blockquote>
+<p>如何榨干服务器资源，利用上多核 CPU 的并发优势？</p>
+</blockquote>
+<p>而 Node.js 官方提供的解决方案是 <a target="_blank" rel="noopener" href="https://nodejs.org/api/cluster.html">Cluster 模块</a>，其中包含一段简介：</p>
+<blockquote>
+<p>单个 Node.js 实例在单线程环境下运行。为了更好地利用多核环境，用户有时希望启动一批 Node.js 进程用于加载。</p>
+<p>集群化模块使得你很方便地创建子进程，以便于在服务端口之间共享。</p>
+</blockquote>
+<h5 id="Cluster-是什么呢？"><a href="#Cluster-是什么呢？" class="headerlink" title="Cluster 是什么呢？"></a>Cluster 是什么呢？</h5><p>简单的说，</p>
+<ul>
+<li>在服务器上同时启动多个进程。</li>
+<li>每个进程里都跑的是同一份源代码（好比把以前一个进程的工作分给多个进程去做）。</li>
+<li>更神奇的是，这些进程可以同时监听一个端口（具体原理推荐阅读 @DavidCai1993 这篇 <a target="_blank" rel="noopener" href="https://cnodejs.org/topic/56e84480833b7c8a0492e20c">Cluster 实现原理</a>）。</li>
+</ul>
+<p>其中：</p>
+<ul>
+<li>负责启动其他进程的叫做 Master 进程，他好比是个『包工头』，不做具体的工作，只负责启动其他进程。</li>
+<li>其他被启动的叫 Worker 进程，顾名思义就是干活的『工人』。它们接收请求，对外提供服务。</li>
+<li>Worker 进程的数量一般根据服务器的 CPU 核数来定，这样就可以完美利用多核资源。</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> cluster = <span class="built_in">require</span>(<span class="string">&#x27;cluster&#x27;</span>);</span><br><span class="line"><span class="keyword">const</span> http = <span class="built_in">require</span>(<span class="string">&#x27;http&#x27;</span>);</span><br><span class="line"><span class="keyword">const</span> numCPUs = <span class="built_in">require</span>(<span class="string">&#x27;os&#x27;</span>).cpus().length;</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> (cluster.isMaster) &#123;</span><br><span class="line">  <span class="comment">// Fork workers.</span></span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i &lt; numCPUs; i++) &#123;</span><br><span class="line">    cluster.fork();</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  cluster.on(<span class="string">&#x27;exit&#x27;</span>, <span class="function"><span class="keyword">function</span>(<span class="params">worker, code, signal</span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">&#x27;worker &#x27;</span> + worker.process.pid + <span class="string">&#x27; died&#x27;</span>);</span><br><span class="line">  &#125;);</span><br><span class="line">&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">  <span class="comment">// Workers can share any TCP connection</span></span><br><span class="line">  <span class="comment">// In this case it is an HTTP server</span></span><br><span class="line">  http.createServer(<span class="function"><span class="keyword">function</span>(<span class="params">req, res</span>) </span>&#123;</span><br><span class="line">    res.writeHead(<span class="number">200</span>);</span><br><span class="line">    res.end(<span class="string">&quot;hello world\n&quot;</span>);</span><br><span class="line">  &#125;).listen(<span class="number">8000</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>作为企业级的解决方案，要考虑的东西还有很多。</p>
+<ul>
+<li>Worker 进程异常退出以后该如何处理？</li>
+<li>多个 Worker 进程之间如何共享资源？</li>
+<li>多个 Worker 进程之间如何调度？</li>
+</ul>
+<p>Agent 好比是 Master 给其他 Worker 请的一个『秘书』，它不对外提供服务，只给 App Worker 打工，专门处理一些公共事务,进程模型：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">                +--------+          +-------+</span><br><span class="line">                | Master |&lt;--------&gt;| Agent |</span><br><span class="line">                +--------+          +-------+</span><br><span class="line">                ^   ^    ^</span><br><span class="line">               /    |     \</span><br><span class="line">             /      |       \</span><br><span class="line">           /        |         \</span><br><span class="line">         v          v          v</span><br><span class="line">+----------+   +----------+   +----------+</span><br><span class="line">| Worker 1 |   | Worker 2 |   | Worker 3 |</span><br><span class="line">+----------+   +----------+   +----------+</span><br></pre></td></tr></table></figure>
+
+<p>框架的启动时序如下：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">+---------+           +---------+          +---------+</span><br><span class="line">|  Master |           |  Agent  |          |  Worker |</span><br><span class="line">+---------+           +----+----+          +----+----+</span><br><span class="line">     |      fork agent     |                    |</span><br><span class="line">     +--------------------&gt;|                    |</span><br><span class="line">     |      agent ready    |                    |</span><br><span class="line">     |&lt;--------------------+                    |</span><br><span class="line">     |                     |     fork worker    |</span><br><span class="line">     +-----------------------------------------&gt;|</span><br><span class="line">     |     worker ready    |                    |</span><br><span class="line">     |&lt;-----------------------------------------+</span><br><span class="line">     |      Egg ready      |                    |</span><br><span class="line">     +--------------------&gt;|                    |</span><br><span class="line">     |      Egg ready      |                    |</span><br><span class="line">     +-----------------------------------------&gt;|</span><br></pre></td></tr></table></figure>
+
+<ol>
+<li>Master 启动后先 fork Agent 进程</li>
+<li>Agent 初始化成功后，通过 IPC 通道通知 Master</li>
+<li>Master 再 fork 多个 App Worker</li>
+<li>App Worker 初始化成功，通知 Master</li>
+<li>所有的进程初始化成功后，Master 通知 Agent 和 Worker 应用启动成功</li>
+</ol>
+<p>另外，关于 Agent Worker 还有几点需要注意的是：</p>
+<ol>
+<li>由于 App Worker 依赖于 Agent，所以必须等 Agent 初始化完成后才能 fork App Worker</li>
+<li>Agent 虽然是 App Worker 的『小秘』，但是业务相关的工作不应该放到 Agent 上去做，不然把她累垮了就不好了</li>
+<li>由于 Agent 的特殊定位，<strong>我们应该保证它相对稳定</strong>。当它发生未捕获异常，框架不会像 App Worker 一样让他退出重启，而是记录异常日志、报警等待人工处理</li>
+<li>Agent 和普通 App Worker 挂载的 API 不完全一样，如何识别差异可查看<a target="_blank" rel="noopener" href="https://eggjs.org/zh-cn/advanced/framework.html">框架文档</a></li>
+</ol>
+<table>
+<thead>
+<tr>
+<th>类型</th>
+<th>进程数量</th>
+<th>作用</th>
+<th>稳定性</th>
+<th>是否运行业务代码</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Master</td>
+<td>1</td>
+<td>进程管理，进程间消息转发</td>
+<td>非常高</td>
+<td>否</td>
+</tr>
+<tr>
+<td>Agent</td>
+<td>1</td>
+<td>后台运行工作（长连接客户端）</td>
+<td>高</td>
+<td>少量</td>
+</tr>
+<tr>
+<td>Worker</td>
+<td>一般设置为 CPU 核数</td>
+<td>执行业务代码</td>
+<td>一般</td>
+<td>是</td>
+</tr>
+</tbody></table>
+<p>进程间通信:<a target="_blank" rel="noopener" href="https://eggjs.org/zh-cn/core/cluster-and-ipc.html#%E8%BF%9B%E7%A8%8B%E9%97%B4%E9%80%9A%E8%AE%AFipc">https://eggjs.org/zh-cn/core/cluster-and-ipc.html#%E8%BF%9B%E7%A8%8B%E9%97%B4%E9%80%9A%E8%AE%AFipc</a></p>
+<h4 id="View-模板渲染"><a href="#View-模板渲染" class="headerlink" title="View 模板渲染"></a>View 模板渲染</h4><p>框架内置 <a target="_blank" rel="noopener" href="https://github.com/eggjs/egg-view">egg-view</a> 作为模板解决方案，并支持多模板渲染，每个模板引擎都以插件的方式引入，但保持渲染的 API 一致</p>
+<ol>
+<li><p>引入 view 插件</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ npm i egg-view-nunjucks --save</span><br></pre></td></tr></table></figure></li>
+<li><p>启用插件</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// config/plugin.js</span></span><br><span class="line"><span class="built_in">exports</span>.nunjucks = &#123;</span><br><span class="line">  <span class="attr">enable</span>: <span class="literal">true</span>,</span><br><span class="line">  <span class="attr">package</span>: <span class="string">&#x27;egg-view-nunjucks&#x27;</span>,</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></li>
+<li><p>配置插件, <code>config.view</code> 通用配置</p>
+<ul>
+<li>root {String} : 模板文件的根目录，为绝对路径，默认为 <code>$&#123;baseDir&#125;/app/view</code>。支持配置多个目录，以 <code>,</code> 分割，会从多个目录查找文件。</li>
+<li>cache {Boolean}:模板路径缓存，默认开启。框架会根据 root 配置的目录依次查找，如果匹配则会缓存文件路径，下次渲染相同路径时不会重新查找。</li>
+<li>mapping 和 defaultViewEngine: 每个模板在注册时都会指定一个模板名（viewEngineName），在使用时需要根据后缀来匹配模板名，比如指定 <code>.nj</code> 后缀的文件使用 Nunjucks 进行渲染。</li>
+</ul>
+</li>
+</ol>
+<h5 id="渲染页面"><a href="#渲染页面" class="headerlink" title="渲染页面"></a>渲染页面</h5><p>框架在 Context 上提供了 3 个接口，返回值均为 Promise:</p>
+<ul>
+<li><code>render(name, locals)</code> 渲染模板文件, 并赋值给 ctx.body</li>
+<li><code>renderView(name, locals)</code> 渲染模板文件, 仅返回不赋值</li>
+<li><code>renderString(tpl, locals)</code> 渲染模板字符串, 仅返回不赋值</li>
+</ul>
+<h5 id="Locals"><a href="#Locals" class="headerlink" title="Locals"></a>Locals</h5><p>在渲染页面的过程中，我们通常需要一个变量来收集需要传递给模板的变量，在框架里面，我们提供了 <code>app.locals</code> 和 <code>ctx.locals</code>。</p>
+<ul>
+<li><code>app.locals</code> 为全局的，一般在 <code>app.js</code> 里面配置全局变量。</li>
+<li><code>ctx.locals</code> 为单次请求的，会合并 <code>app.locals</code>。</li>
+<li>可以直接赋值对象，框架在对应的 setter 里面会自动 merge。</li>
+</ul>
+<p>但在实际业务开发中，controller 中一般不会直接使用这 2 个对象，直接使用 <code>ctx.render(name, data)</code> 即可：</p>
+<ul>
+<li>框架会自动把 <code>data</code> 合并到 <code>ctx.locals</code>。</li>
+<li>框架会自动注入 <code>ctx</code>, <code>request</code>, <code>helper</code> 方便使用。</li>
+</ul>
+<h4 id="异常处理"><a href="#异常处理" class="headerlink" title="异常处理"></a>异常处理</h4><p><strong>为了保证异常可追踪，必须保证所有抛出的异常都是 Error 类型，因为只有 Error 类型才会带上堆栈信息，定位到问题。</strong></p>
+<p>框架通过 <a target="_blank" rel="noopener" href="https://github.com/eggjs/egg-onerror">onerror</a> 插件提供了统一的错误处理机制。对一个请求的所有处理方法（Middleware、Controller、Service）中抛出的任何异常都会被它捕获，并自动根据请求想要获取的类型返回不同类型的错误（基于 <a target="_blank" rel="noopener" href="https://tools.ietf.org/html/rfc7231#section-5.3.2">Content Negotiation</a>）。</p>
+<table>
+<thead>
+<tr>
+<th>请求需求的格式</th>
+<th>环境</th>
+<th>errorPageUrl 是否配置</th>
+<th>返回内容</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>HTML &amp; TEXT</td>
+<td>local &amp; unittest</td>
+<td>-</td>
+<td>onerror 自带的错误页面，展示详细的错误信息</td>
+</tr>
+<tr>
+<td>HTML &amp; TEXT</td>
+<td>其他</td>
+<td>是</td>
+<td>重定向到 errorPageUrl</td>
+</tr>
+<tr>
+<td>HTML &amp; TEXT</td>
+<td>其他</td>
+<td>否</td>
+<td>onerror 自带的没有错误信息的简单错误页（不推荐）</td>
+</tr>
+<tr>
+<td>JSON &amp; JSONP</td>
+<td>local &amp; unittest</td>
+<td>-</td>
+<td>JSON 对象或对应的 JSONP 格式响应，带详细的错误信息</td>
+</tr>
+<tr>
+<td>JSON &amp; JSONP</td>
+<td>其他</td>
+<td>-</td>
+<td>JSON 对象或对应的 JSONP 格式响应，不带详细的错误信息</td>
+</tr>
+</tbody></table>
+<h5 id="自定义统一异常处理"><a href="#自定义统一异常处理" class="headerlink" title="自定义统一异常处理"></a>自定义统一异常处理</h5><p>框架自带的 onerror 插件支持自定义配置错误处理方法，可以覆盖默认的错误处理方法。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// config/config.default.js</span></span><br><span class="line"><span class="built_in">module</span>.exports = &#123;</span><br><span class="line">  <span class="attr">onerror</span>: &#123;</span><br><span class="line">    <span class="function"><span class="title">all</span>(<span class="params">err, ctx</span>)</span> &#123;</span><br><span class="line">      <span class="comment">// 在此处定义针对所有响应类型的错误处理方法</span></span><br><span class="line">      <span class="comment">// 注意，定义了 config.all 之后，其他错误处理方法不会再生效</span></span><br><span class="line">      ctx.body = <span class="string">&#x27;error&#x27;</span>;</span><br><span class="line">      ctx.status = <span class="number">500</span>;</span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="function"><span class="title">html</span>(<span class="params">err, ctx</span>)</span> &#123;</span><br><span class="line">      <span class="comment">// html hander</span></span><br><span class="line">      ctx.body = <span class="string">&#x27;&lt;h3&gt;error&lt;/h3&gt;&#x27;</span>;</span><br><span class="line">      ctx.status = <span class="number">500</span>;</span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="function"><span class="title">json</span>(<span class="params">err, ctx</span>)</span> &#123;</span><br><span class="line">      <span class="comment">// json hander</span></span><br><span class="line">      ctx.body = &#123; <span class="attr">message</span>: <span class="string">&#x27;error&#x27;</span> &#125;;</span><br><span class="line">      ctx.status = <span class="number">500</span>;</span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="function"><span class="title">jsonp</span>(<span class="params">err, ctx</span>)</span> &#123;</span><br><span class="line">      <span class="comment">// 一般来说，不需要特殊针对 jsonp 进行错误定义，jsonp 的错误处理会自动调用 json 错误处理，并包装成 jsonp 的响应格式</span></span><br><span class="line">    &#125;,</span><br><span class="line">  &#125;,</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<h4 id="安全-很重要"><a href="#安全-很重要" class="headerlink" title="安全(很重要)"></a><strong>安全(很重要)</strong></h4><p>参考:<a target="_blank" rel="noopener" href="https://eggjs.org/zh-cn/core/security.html">https://eggjs.org/zh-cn/core/security.html</a></p>
+<h4 id="国际化（I18n）"><a href="#国际化（I18n）" class="headerlink" title="国际化（I18n）"></a>国际化（I18n）</h4><p>由 <a target="_blank" rel="noopener" href="https://github.com/eggjs/egg-i18n">egg-i18n</a> 插件提供。</p>
+<p>默认语言是 <code>en-US</code>。假设我们想修改默认语言为简体中文：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// config/config.default.js</span></span><br><span class="line"><span class="built_in">exports</span>.i18n = &#123;</span><br><span class="line">  <span class="attr">defaultLocale</span>: <span class="string">&#x27;zh-CN&#x27;</span>,</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<h5 id="切换语言"><a href="#切换语言" class="headerlink" title="切换语言"></a>切换语言</h5><p>我们可以通过下面几种方式修改应用的当前语言（修改后会记录到 <code>locale</code> 这个 Cookie），下次请求直接用设定好的语言。</p>
+<p>优先级从高到低：</p>
+<ol>
+<li>query: <code>/?locale=en-US</code></li>
+<li>cookie: <code>locale=zh-TW</code></li>
+<li>header: <code>Accept-Language: zh-CN,zh;q=0.5</code></li>
+</ol>
+<h5 id="编写-I18n-多语言文件"><a href="#编写-I18n-多语言文件" class="headerlink" title="编写 I18n 多语言文件"></a>编写 I18n 多语言文件</h5><p>多种语言的配置是独立的，统一存放在 <code>config/locale/*.js</code> 下。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">- config/locale/</span><br><span class="line">  - en-US.js</span><br><span class="line">  - zh-CN.js</span><br><span class="line">  - zh-TW.js</span><br></pre></td></tr></table></figure>
+
+<p>不仅对于应用目录生效，在框架，插件的 <code>config/locale</code> 目录下同样生效。</p>
+<h5 id="获取多语言文本"><a href="#获取多语言文本" class="headerlink" title="获取多语言文本"></a>获取多语言文本</h5><p>我们可以使用 <code>__</code> (Alias: <code>gettext</code>) 函数获取 locale 文件夹下面的多语言文本。</p>
+<p><strong>注意: <code>__</code> 是两个下划线</strong></p>
+<p>以上面配置过的多语言为例：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">ctx.__(&#x27;Email&#x27;)</span><br><span class="line">// zh-CN =&gt; 邮箱</span><br><span class="line">// en-US =&gt; Email</span><br></pre></td></tr></table></figure>
+
+<p>如果文本中含有 <code>%s</code>，<code>%j</code> 等 format 函数，可以按照 <a target="_blank" rel="noopener" href="https://nodejs.org/api/util.html#util_util_format_format_args"><code>util.format()</code></a> 类似的方式调用：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// config/locale/zh-CN.js</span></span><br><span class="line"><span class="built_in">module</span>.exports = &#123;</span><br><span class="line">  <span class="string">&#x27;Welcome back, %s!&#x27;</span>: <span class="string">&#x27;欢迎回来，%s!&#x27;</span>,</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">ctx.__(<span class="string">&#x27;Welcome back, %s!&#x27;</span>, <span class="string">&#x27;Shawn&#x27;</span>);</span><br><span class="line"><span class="comment">// zh-CN =&gt; 欢迎回来，Shawn!</span></span><br><span class="line"><span class="comment">// en-US =&gt; Welcome back, Shawn!</span></span><br></pre></td></tr></table></figure>
+
+<p>同时支持数组下标占位符方式，例如：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// config/locale/zh-CN.js</span></span><br><span class="line"><span class="built_in">module</span>.exports = &#123;</span><br><span class="line">  <span class="string">&#x27;Hello &#123;0&#125;! My name is &#123;1&#125;.&#x27;</span>: <span class="string">&#x27;你好 &#123;0&#125;! 我的名字叫 &#123;1&#125;。&#x27;</span>,</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">ctx.__(<span class="string">&#x27;Hello &#123;0&#125;! My name is &#123;1&#125;.&#x27;</span>, [<span class="string">&#x27;foo&#x27;</span>, <span class="string">&#x27;bar&#x27;</span>])</span><br><span class="line"><span class="comment">// zh-CN =&gt; 你好 foo！我的名字叫 bar。</span></span><br><span class="line"><span class="comment">// en-US =&gt; Hello foo! My name is bar.</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="插件教程"><a href="#插件教程" class="headerlink" title="插件教程"></a>插件教程</h3><ol>
+<li><a target="_blank" rel="noopener" href="https://eggjs.org/zh-cn/tutorials/passport.html">passport鉴权</a></li>
+<li><a target="_blank" rel="noopener" href="https://eggjs.org/zh-cn/tutorials/typescript.html">typescript</a></li>
+<li><a target="_blank" rel="noopener" href="https://eggjs.org/zh-cn/tutorials/proxy.html">前置代理模式</a></li>
+</ol>
+<h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><ol>
+<li><a target="_blank" rel="noopener" href="https://eggjs.org/">egg.js 官网</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/eggjs/awesome-egg">awesome-egg</a></li>
+<li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/eggjs">eggjs 专栏</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/eggjs/examples">官方示例</a></li>
+</ol>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">平心</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://pingxin0521.gitee.io/2021/05/15/node-2-4/">https://pingxin0521.gitee.io/2021/05/15/node-2-4/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://pingxin0521.gitee.io" target="_blank">平心de小屋</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/Node-JS/">Node.JS</a><a class="post-meta__tags" href="/tags/%E5%90%8E%E7%AB%AF/">后端</a></div><div class="post_share"><div class="social-share" data-image="https://i.loli.net/2020/05/08/okfOw28KlZFbE7z.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="next-post pull-full"><a href="/2021/04/30/node-2-3/"><img class="next-cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/HjVAdIuT7bZJypS.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">Koa -- 基于Node.js平台的下一代Web开发框架</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span> 相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2019/06/07/node-1-0/" title="Node.JS 入门"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/okfOw28KlZFbE7z.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2021-04-01</div><div class="title">Node.JS 入门</div></div></a></div><div><a href="/2021/04/01/node-2-1/" title="Node.JS web开发前置知识"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/gGE57HRvpcKPfDY.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2021-05-09</div><div class="title">Node.JS web开发前置知识</div></div></a></div><div><a href="/2019/07/01/node-2-2/" title="Node.JS 再深入 -- http"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/7dHvepmfYOLWTrX.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2021-05-09</div><div class="title">Node.JS 再深入 -- http</div></div></a></div><div><a href="/2019/06/07/node-1-1/" title="Node.JS 入门"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/HjVAdIuT7bZJypS.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2021-04-01</div><div class="title">Node.JS 入门</div></div></a></div><div><a href="/2019/06/30/node-1-2/" title="Node.JS 深入"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/7dHvepmfYOLWTrX.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2021-05-09</div><div class="title">Node.JS 深入</div></div></a></div><div><a href="/2021/04/30/node-2-3/" title="Koa -- 基于Node.js平台的下一代Web开发框架"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/HjVAdIuT7bZJypS.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2021-05-10</div><div class="title">Koa -- 基于Node.js平台的下一代Web开发框架</div></div></a></div></div></div><hr/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div class="vcomment" id="vcomment"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="card-info-avatar is-center"><img class="avatar-img" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://s2.ax1x.com/2020/02/11/1ovw6J.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/><div class="author-info__name">平心</div><div class="author-info__description">年轻人的life、learn and think</div></div><div class="card-info-data"><div class="card-info-data-item is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">449</div></a></div><div class="card-info-data-item is-center"><a href="/tags/"><div class="headline">标签</div><div class="length-num">77</div></a></div><div class="card-info-data-item is-center"><a href="/categories/"><div class="headline">分类</div><div class="length-num">68</div></a></div></div><a class="button--animated" id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/hanyunpeng0521"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/hanyunpeng0521" target="_blank" title="Github"><i class="fa fa-github"></i></a><a class="social-icon" href="mailto:m13839441583@163.com" target="_blank" title="Email"><i class="fa fa-envelope"></i></a><a class="social-icon" href="/atom.xml" target="_blank" title=""><i class="fa fa-rss"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn card-announcement-animation"></i><span>公告</span></div><div class="announcement_content">为什么呢？开始提问吧</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Egg-js"><span class="toc-number">1.</span> <span class="toc-text">Egg.js</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%8E%9F%E5%88%99"><span class="toc-number">1.0.1.</span> <span class="toc-text">原则</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%89%B9%E6%80%A7"><span class="toc-number">1.0.2.</span> <span class="toc-text">特性</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%89%A9%E5%B1%95"><span class="toc-number">1.0.3.</span> <span class="toc-text">扩展</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%8F%92%E4%BB%B6"><span class="toc-number">1.0.4.</span> <span class="toc-text">插件</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%89%88%E6%9C%AC"><span class="toc-number">1.0.5.</span> <span class="toc-text">版本</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BF%AB%E9%80%9F%E5%85%A5%E9%97%A8"><span class="toc-number">1.1.</span> <span class="toc-text">快速入门</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%BF%AB%E9%80%9F%E5%88%9D%E5%A7%8B%E5%8C%96"><span class="toc-number">1.1.1.</span> <span class="toc-text">快速初始化</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86"><span class="toc-number">1.2.</span> <span class="toc-text">基础知识</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%9B%AE%E5%BD%95%E7%BB%93%E6%9E%84"><span class="toc-number">1.2.1.</span> <span class="toc-text">目录结构</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%86%85%E7%BD%AE%E5%9F%BA%E7%A1%80%E5%AF%B9%E8%B1%A1"><span class="toc-number">1.2.2.</span> <span class="toc-text">内置基础对象</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%BF%90%E8%A1%8C%E7%8E%AF%E5%A2%83"><span class="toc-number">1.2.3.</span> <span class="toc-text">运行环境</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Config-%E9%85%8D%E7%BD%AE"><span class="toc-number">1.2.4.</span> <span class="toc-text">Config 配置</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%A4%9A%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE"><span class="toc-number">1.2.4.1.</span> <span class="toc-text">多环境配置</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E9%85%8D%E7%BD%AE%E5%86%99%E6%B3%95"><span class="toc-number">1.2.4.2.</span> <span class="toc-text">配置写法</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E9%85%8D%E7%BD%AE%E5%8A%A0%E8%BD%BD%E9%A1%BA%E5%BA%8F"><span class="toc-number">1.2.4.3.</span> <span class="toc-text">配置加载顺序</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E9%85%8D%E7%BD%AE%E7%BB%93%E6%9E%9C"><span class="toc-number">1.2.4.4.</span> <span class="toc-text">配置结果</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%B8%AD%E9%97%B4%E4%BB%B6%EF%BC%88Middleware%EF%BC%89"><span class="toc-number">1.2.5.</span> <span class="toc-text">中间件（Middleware）</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%86%99%E6%B3%95"><span class="toc-number">1.2.5.1.</span> <span class="toc-text">写法</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E9%85%8D%E7%BD%AE"><span class="toc-number">1.2.5.2.</span> <span class="toc-text">配置</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8%E4%B8%AD%E9%97%B4%E4%BB%B6"><span class="toc-number">1.2.5.3.</span> <span class="toc-text">使用中间件</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%A1%86%E6%9E%B6%E9%BB%98%E8%AE%A4%E4%B8%AD%E9%97%B4%E4%BB%B6"><span class="toc-number">1.2.5.4.</span> <span class="toc-text">框架默认中间件</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8-Koa-%E7%9A%84%E4%B8%AD%E9%97%B4%E4%BB%B6"><span class="toc-number">1.2.5.5.</span> <span class="toc-text">使用 Koa 的中间件</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E9%80%9A%E7%94%A8%E9%85%8D%E7%BD%AE"><span class="toc-number">1.2.5.6.</span> <span class="toc-text">通用配置</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%B7%AF%E7%94%B1%EF%BC%88Router%EF%BC%89"><span class="toc-number">1.2.6.</span> <span class="toc-text">路由（Router）</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%A6%82%E4%BD%95%E5%AE%9A%E4%B9%89-Router"><span class="toc-number">1.2.6.1.</span> <span class="toc-text">如何定义 Router</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#Router-%E8%AF%A6%E7%BB%86%E5%AE%9A%E4%B9%89%E8%AF%B4%E6%98%8E"><span class="toc-number">1.2.6.2.</span> <span class="toc-text">Router 详细定义说明</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#RESTful-%E9%A3%8E%E6%A0%BC%E7%9A%84-URL-%E5%AE%9A%E4%B9%89"><span class="toc-number">1.2.6.3.</span> <span class="toc-text">RESTful 风格的 URL 定义</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%A4%AA%E5%A4%9A%E8%B7%AF%E7%94%B1%E6%98%A0%E5%B0%84%EF%BC%9F"><span class="toc-number">1.2.6.4.</span> <span class="toc-text">太多路由映射？</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%8E%A7%E5%88%B6%E5%99%A8%EF%BC%88Controller%EF%BC%89"><span class="toc-number">1.2.7.</span> <span class="toc-text">控制器（Controller）</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%A6%82%E4%BD%95%E7%BC%96%E5%86%99-Controller"><span class="toc-number">1.2.7.1.</span> <span class="toc-text">如何编写 Controller</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E8%B0%83%E7%94%A8-Service"><span class="toc-number">1.2.7.2.</span> <span class="toc-text">调用 Service</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%9C%8D%E5%8A%A1%EF%BC%88Service%EF%BC%89"><span class="toc-number">1.2.8.</span> <span class="toc-text">服务（Service）</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%AE%9A%E4%B9%89-Service"><span class="toc-number">1.2.8.1.</span> <span class="toc-text">定义 Service</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%B1%9E%E6%80%A7"><span class="toc-number">1.2.8.2.</span> <span class="toc-text">属性</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9"><span class="toc-number">1.2.8.3.</span> <span class="toc-text">注意事项</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%8F%92%E4%BB%B6-1"><span class="toc-number">1.2.9.</span> <span class="toc-text">插件</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8%E6%8F%92%E4%BB%B6"><span class="toc-number">1.2.9.1.</span> <span class="toc-text">使用插件</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%8F%82%E6%95%B0%E4%BB%8B%E7%BB%8D"><span class="toc-number">1.2.9.2.</span> <span class="toc-text">参数介绍</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%8F%92%E4%BB%B6%E9%85%8D%E7%BD%AE"><span class="toc-number">1.2.9.3.</span> <span class="toc-text">插件配置</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%8F%92%E4%BB%B6%E5%88%97%E8%A1%A8"><span class="toc-number">1.2.9.4.</span> <span class="toc-text">插件列表</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%8F%92%E4%BB%B6%E5%BC%80%E5%8F%91"><span class="toc-number">1.2.9.5.</span> <span class="toc-text">插件开发</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%8F%92%E4%BB%B6%E7%9A%84%E5%AF%BB%E5%9D%80%E8%A7%84%E5%88%99"><span class="toc-number">1.2.9.6.</span> <span class="toc-text">插件的寻址规则</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%AE%9A%E6%97%B6%E4%BB%BB%E5%8A%A1"><span class="toc-number">1.2.10.</span> <span class="toc-text">定时任务</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E7%BC%96%E5%86%99%E5%AE%9A%E6%97%B6%E4%BB%BB%E5%8A%A1"><span class="toc-number">1.2.10.1.</span> <span class="toc-text">编写定时任务</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%AE%9A%E6%97%B6%E6%96%B9%E5%BC%8F"><span class="toc-number">1.2.10.2.</span> <span class="toc-text">定时方式</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E7%B1%BB%E5%9E%8B"><span class="toc-number">1.2.10.3.</span> <span class="toc-text">类型</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%85%B6%E4%BB%96%E5%8F%82%E6%95%B0"><span class="toc-number">1.2.10.4.</span> <span class="toc-text">其他参数</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%89%A7%E8%A1%8C%E6%97%A5%E5%BF%97"><span class="toc-number">1.2.10.5.</span> <span class="toc-text">执行日志</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%89%8B%E5%8A%A8%E6%89%A7%E8%A1%8C%E5%AE%9A%E6%97%B6%E4%BB%BB%E5%8A%A1"><span class="toc-number">1.2.10.6.</span> <span class="toc-text">手动执行定时任务</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%90%AF%E5%8A%A8%E8%87%AA%E5%AE%9A%E4%B9%89"><span class="toc-number">1.2.11.</span> <span class="toc-text">启动自定义</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%A0%B8%E5%BF%83%E5%8A%9F%E8%83%BD"><span class="toc-number">1.3.</span> <span class="toc-text">核心功能</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%9C%AC%E5%9C%B0%E5%BC%80%E5%8F%91"><span class="toc-number">1.3.1.</span> <span class="toc-text">本地开发</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95"><span class="toc-number">1.3.2.</span> <span class="toc-text">单元测试</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%BA%94%E7%94%A8%E9%83%A8%E7%BD%B2"><span class="toc-number">1.3.3.</span> <span class="toc-text">应用部署</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%97%A5%E5%BF%97"><span class="toc-number">1.3.4.</span> <span class="toc-text">日志</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%97%A5%E5%BF%97%E8%B7%AF%E5%BE%84"><span class="toc-number">1.3.4.1.</span> <span class="toc-text">日志路径</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%97%A5%E5%BF%97%E5%88%86%E7%B1%BB"><span class="toc-number">1.3.4.2.</span> <span class="toc-text">日志分类</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%97%A5%E5%BF%97%E5%88%87%E5%89%B2"><span class="toc-number">1.3.4.3.</span> <span class="toc-text">日志切割</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Cookie-%E4%B8%8E-Session"><span class="toc-number">1.3.5.</span> <span class="toc-text">Cookie 与 Session</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%A4%9A%E8%BF%9B%E7%A8%8B%E6%A8%A1%E5%9E%8B%E5%92%8C%E8%BF%9B%E7%A8%8B%E9%97%B4%E9%80%9A%E8%AE%AF"><span class="toc-number">1.3.6.</span> <span class="toc-text">多进程模型和进程间通讯</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#Cluster-%E6%98%AF%E4%BB%80%E4%B9%88%E5%91%A2%EF%BC%9F"><span class="toc-number">1.3.6.1.</span> <span class="toc-text">Cluster 是什么呢？</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#View-%E6%A8%A1%E6%9D%BF%E6%B8%B2%E6%9F%93"><span class="toc-number">1.3.7.</span> <span class="toc-text">View 模板渲染</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%B8%B2%E6%9F%93%E9%A1%B5%E9%9D%A2"><span class="toc-number">1.3.7.1.</span> <span class="toc-text">渲染页面</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#Locals"><span class="toc-number">1.3.7.2.</span> <span class="toc-text">Locals</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%BC%82%E5%B8%B8%E5%A4%84%E7%90%86"><span class="toc-number">1.3.8.</span> <span class="toc-text">异常处理</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E8%87%AA%E5%AE%9A%E4%B9%89%E7%BB%9F%E4%B8%80%E5%BC%82%E5%B8%B8%E5%A4%84%E7%90%86"><span class="toc-number">1.3.8.1.</span> <span class="toc-text">自定义统一异常处理</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%AE%89%E5%85%A8-%E5%BE%88%E9%87%8D%E8%A6%81"><span class="toc-number">1.3.9.</span> <span class="toc-text">安全(很重要)</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%9B%BD%E9%99%85%E5%8C%96%EF%BC%88I18n%EF%BC%89"><span class="toc-number">1.3.10.</span> <span class="toc-text">国际化（I18n）</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%88%87%E6%8D%A2%E8%AF%AD%E8%A8%80"><span class="toc-number">1.3.10.1.</span> <span class="toc-text">切换语言</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E7%BC%96%E5%86%99-I18n-%E5%A4%9A%E8%AF%AD%E8%A8%80%E6%96%87%E4%BB%B6"><span class="toc-number">1.3.10.2.</span> <span class="toc-text">编写 I18n 多语言文件</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E8%8E%B7%E5%8F%96%E5%A4%9A%E8%AF%AD%E8%A8%80%E6%96%87%E6%9C%AC"><span class="toc-number">1.3.10.3.</span> <span class="toc-text">获取多语言文本</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8F%92%E4%BB%B6%E6%95%99%E7%A8%8B"><span class="toc-number">1.4.</span> <span class="toc-text">插件教程</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8F%82%E8%80%83"><span class="toc-number">1.5.</span> <span class="toc-text">参考</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2021/05/15/node-2-4/" title="Egg.js -- 为企业级框架和应用而生"><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/okfOw28KlZFbE7z.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Egg.js -- 为企业级框架和应用而生"/></a><div class="content"><a class="title" href="/2021/05/15/node-2-4/" title="Egg.js -- 为企业级框架和应用而生">Egg.js -- 为企业级框架和应用而生</a><time datetime="2021-05-15T10:18:59.000Z" title="发表于 2021-05-15 18:18:59">2021-05-15</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/04/30/node-2-3/" title="Koa -- 基于Node.js平台的下一代Web开发框架"><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/HjVAdIuT7bZJypS.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Koa -- 基于Node.js平台的下一代Web开发框架"/></a><div class="content"><a class="title" href="/2021/04/30/node-2-3/" title="Koa -- 基于Node.js平台的下一代Web开发框架">Koa -- 基于Node.js平台的下一代Web开发框架</a><time datetime="2021-04-30T10:18:59.000Z" title="发表于 2021-04-30 18:18:59">2021-04-30</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/04/01/node-2-1/" title="Node.JS web开发前置知识"><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/gGE57HRvpcKPfDY.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Node.JS web开发前置知识"/></a><div class="content"><a class="title" href="/2021/04/01/node-2-1/" title="Node.JS web开发前置知识">Node.JS web开发前置知识</a><time datetime="2021-04-01T03:18:59.000Z" title="发表于 2021-04-01 11:18:59">2021-04-01</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2020/12/26/%E5%91%A8%E8%AE%B0-10-1/" title="第十一周--谷歌浏览器插件"><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/gGE57HRvpcKPfDY.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="第十一周--谷歌浏览器插件"/></a><div class="content"><a class="title" href="/2020/12/26/%E5%91%A8%E8%AE%B0-10-1/" title="第十一周--谷歌浏览器插件">第十一周--谷歌浏览器插件</a><time datetime="2020-12-26T10:18:59.000Z" title="发表于 2020-12-26 18:18:59">2020-12-26</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2020/12/26/%E5%91%A8%E8%AE%B0-10-0/" title="第十一周--浏览器技术"><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/vCnKyoFJZ1g4XYR.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="第十一周--浏览器技术"/></a><div class="content"><a class="title" href="/2020/12/26/%E5%91%A8%E8%AE%B0-10-0/" title="第十一周--浏览器技术">第十一周--浏览器技术</a><time datetime="2020-12-26T06:18:59.000Z" title="发表于 2020-12-26 14:18:59">2020-12-26</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2019 - 2021 By 平心</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div id="local-search"><div class="search-dialog"><div class="search-dialog__title" id="local-search-title">本地搜索</div><div id="local-input-panel"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div></div><hr/><div id="local-search-results"></div><span class="search-close-button"><i class="fas fa-times"></i></span></div><div id="search-mask"></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload/dist/lazyload.iife.min.js"></script><script src="/js/search/local-search.js"></script><div class="js-pjax"><script>function loadValine () {
+  function initValine () {
+    const valine = new Valine(Object.assign({
+      el: '#vcomment',
+      appId: '4lfIXzqxaC1ONs0MJO4oHu07-gzGzoHsz',
+      appKey: 'qw99Bw8FD0KVKU9m457CwWsr',
+      placeholder: 'Please leave your footprints',
+      avatar: 'monsterid',
+      meta: 'nick,mail,link'.split(','),
+      pageSize: '10',
+      lang: 'zh-CN',
+      recordIP: true,
+      serverURLs: '',
+      emojiCDN: '',
+      emojiMaps: "",
+      enableQQ: true,
+      path: window.location.pathname,
+      requiredFields: ["nick,mail"],
+      visitor: false
+    }, null))
+  }
+
+  if (typeof Valine === 'function') initValine() 
+  else getScript('https://cdn.jsdelivr.net/npm/valine/dist/Valine.min.js').then(initValine)
+}
+
+if ('Valine' === 'Valine' || !false) {
+  if (false) btf.loadComment(document.getElementById('vcomment'),loadValine)
+  else setTimeout(loadValine, 0)
+} else {
+  function loadOtherComment () {
+    loadValine()
+  }
+}</script></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>

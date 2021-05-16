@@ -1,0 +1,334 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Java 常见异常和处理方法(一) | 平心de小屋</title><meta name="keywords" content="Java,基础"><meta name="author" content="平心"><meta name="copyright" content="平心"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="java.lang.UnsupportedOperationException: A TupleBackedMap cannot be modified. 报错类似的代码：">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Java 常见异常和处理方法(一)">
+<meta property="og:url" content="https://pingxin0521.gitee.io/2019/08/07/Java-%E5%9F%BA%E7%A1%80-11-1/index.html">
+<meta property="og:site_name" content="平心de小屋">
+<meta property="og:description" content="java.lang.UnsupportedOperationException: A TupleBackedMap cannot be modified. 报错类似的代码：">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://i.loli.net/2020/05/08/vCnKyoFJZ1g4XYR.jpg">
+<meta property="article:published_time" content="2019-08-07T00:58:59.000Z">
+<meta property="article:modified_time" content="2021-04-01T03:17:33.578Z">
+<meta property="article:author" content="平心">
+<meta property="article:tag" content="Java">
+<meta property="article:tag" content="基础">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.loli.net/2020/05/08/vCnKyoFJZ1g4XYR.jpg"><link rel="shortcut icon" href="https://s2.ax1x.com/2020/02/11/1ovFOA.png"><link rel="canonical" href="https://pingxin0521.gitee.io/2019/08/07/Java-%E5%9F%BA%E7%A1%80-11-1/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"search.xml","languages":{"hits_empty":"找不到您查询的内容：${query}"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    jQuery: 'https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js',
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+    },
+    fancybox: {
+      js: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css'
+    }
+  },
+  isPhotoFigcaption: true,
+  islazyload: true,
+  isanchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'Java 常见异常和处理方法(一)',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2021-04-01 11:17:33'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    })(window)</script><meta name="generator" content="Hexo 5.4.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="author-avatar"><img class="avatar-img" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://s2.ax1x.com/2020/02/11/1ovw6J.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data"><div class="data-item is-center"><div class="data-item-link"><a href="/archives/"><div class="headline">文章</div><div class="length-num">449</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/tags/"><div class="headline">标签</div><div class="length-num">77</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/categories/"><div class="headline">分类</div><div class="length-num">68</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fa fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fa fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://i.loli.net/2020/05/08/vCnKyoFJZ1g4XYR.jpg')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">平心de小屋</a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fa fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fa fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">Java 常见异常和处理方法(一)</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2019-08-07T00:58:59.000Z" title="发表于 2019-08-07 08:58:59">2019-08-07</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2021-04-01T03:17:33.578Z" title="更新于 2021-04-01 11:17:33">2021-04-01</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/Java/">Java</a><i class="fas fa-angle-right post-meta-separator"></i><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/Java/%E5%9F%BA%E7%A1%80/">基础</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">6.1k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>21分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="Java 常见异常和处理方法(一)"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><ol>
+<li>java.lang.UnsupportedOperationException: A TupleBackedMap cannot be modified.<br> 报错类似的代码： <span id="more"></span></li>
+</ol>
+  <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">List&lt;HashMap&lt;String, Object&gt;&gt; newMapList = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; mapList.size(); i++) &#123;</span><br><span class="line">          Map&lt;String, Object&gt; one = mapList.get(i);</span><br><span class="line">         one.put(<span class="string">&quot;something&quot;</span>,<span class="number">1</span>);</span><br><span class="line">        <span class="comment">//我发现当我往这个one里面添加数据的时候就会报上面的错</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>  解决方案：</p>
+  <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">List&lt;HashMap&lt;String, Object&gt;&gt; newMapList = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; mapList.size(); i++) &#123;</span><br><span class="line">      Map&lt;String, Object&gt; one = mapList.get(i);</span><br><span class="line">      HashMap&lt;String, Object&gt; newOne = <span class="keyword">new</span> HashMap&lt;&gt;();</span><br><span class="line">      newOne.putAll(one);</span><br><span class="line">      newOne.put(<span class="string">&quot;something&quot;</span>,<span class="number">1</span>);</span><br><span class="line">        <span class="comment">//重新定义一个新的map,把one放入到newOne里面就好了</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li><p>java.lang.NullPointerException: null</p>
+<p>下面这样如果是其它情况会返回一个null是不允许的</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line">  <span class="function"><span class="keyword">public</span> List&lt;String&gt; <span class="title">moduleIdListByUserId</span><span class="params">(String userId)</span> </span>&#123;</span><br><span class="line">      List&lt;String&gt; projectIdList = getProjectIdList(userId);</span><br><span class="line">      <span class="keyword">if</span> (projectIdList.size()&gt;<span class="number">0</span>) &#123;</span><br><span class="line">         <span class="keyword">return</span>  getModuleIdList(projectIdList);</span><br><span class="line">      &#125;</span><br><span class="line">      <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+
+<p>应该改为下面这样，首先new一个，即使没有值，也返回</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line">  <span class="function"><span class="keyword">public</span> List&lt;String&gt; <span class="title">moduleIdListByUserId</span><span class="params">(String userId)</span> </span>&#123;</span><br><span class="line">      List&lt;String&gt; moduleIdList =<span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">      List&lt;String&gt; projectIdList = getProjectIdList(userId);</span><br><span class="line">      <span class="keyword">if</span> (projectIdList.size()&gt;<span class="number">0</span>) &#123;</span><br><span class="line">          moduleIdList= getModuleIdList(projectIdList);</span><br><span class="line">      &#125;</span><br><span class="line">      <span class="keyword">return</span> moduleIdList;</span><br><span class="line">  &#125;</span><br><span class="line">   </span><br></pre></td></tr></table></figure></li>
+<li><p>mysql 把一个时间字段置NULL报错，但是结果不影响</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[Err] 1055 - Expression #1 of ORDER BY clause is not in GROUP BY clause and contains nonaggregated column ‘information_schema.PROFILING.SEQ’ which is not functionally dependent on columns in GROUP BY clause; this is incompatible with sql_mode=only_full_group_by</span><br></pre></td></tr></table></figure></li>
+<li><p>JPA does not define an IdClass</p>
+<p>由于之前是单一主键，但是换了联合主键之后，就抛出了异常<br>解决方案：</p>
+<p>在类的注解里添加@IdClass(xxx.class)</p>
+</li>
+</ol>
+<h4 id="六种异常处理的陋习"><a href="#六种异常处理的陋习" class="headerlink" title="六种异常处理的陋习"></a><a target="_blank" rel="noopener" href="http://www.blogjava.net/freeman1984/archive/2007/09/27/148850.html">六种异常处理的陋习</a></h4><p>你觉得自己是一个Java专家吗？是否肯定自己已经全面掌握了Java的异常处理机制？在下面这段代码中，你能够迅速找出异常处理的六个问题吗？</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">OutputStreamWriter out = ...</span><br><span class="line">java.sql.Connection conn = ...</span><br><span class="line"><span class="keyword">try</span> &#123; <span class="comment">// ⑸</span></span><br><span class="line"> Statement stat = conn.createStatement();</span><br><span class="line"> ResultSet rs = stat.executeQuery(</span><br><span class="line"> <span class="string">&quot;select uid, name from user&quot;</span>);</span><br><span class="line"><span class="keyword">while</span> (rs.next())</span><br><span class="line">&#123;</span><br><span class="line"> out.println(<span class="string">&quot;ID：&quot;</span> + rs.getString(<span class="string">&quot;uid&quot;</span>) <span class="comment">// ⑹</span></span><br><span class="line"> <span class="string">&quot;，姓名：&quot;</span> + rs.getString(<span class="string">&quot;name&quot;</span>));</span><br><span class="line">&#125;</span><br><span class="line">  conn.close(); <span class="comment">// ⑶</span></span><br><span class="line">  out.close();</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">catch</span>(Exception ex) <span class="comment">// ⑵</span></span><br><span class="line">&#123;</span><br><span class="line">  ex.printStackTrace(); <span class="comment">//⑴，⑷</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>作为一个Java程序员，你至少应该能够找出两个问题。但是，如果你不能找出全部六个问题，请继续阅读本文。</p>
+<p><strong>反例之一：丢弃异常</strong></p>
+<p>代码：15行-18行。</p>
+<p>这段代码捕获了异常却不作任何处理，可以算得上Java编程中的杀手。从问题出现的频繁程度和祸害程度来看，它也许可以和C/C++程序的一个恶名远播的问题相提并论??不检查缓冲区是否已满。如果你看到了这种丢弃（而不是抛出）异常的情况，可以百分之九十九地肯定代码存在问题（在极少数情况下，这段代码有存在的理由，但最好加上完整的注释，以免引起别人误解）。</p>
+<p>这段代码的错误在于，异常（几乎）总是意味着某些事情不对劲了，或者说至少发生了某些不寻常的事情，我们不应该对程序发出的求救信号保持沉默和无动于衷。调用一下printStackTrace算不上“处理异常”。不错，调用printStackTrace对调试程序有帮助，但程序调试阶段结束之后，printStackTrace就不应再在异常处理模块中担负主要责任了。</p>
+<p>丢弃异常的情形非常普遍。打开JDK的ThreadDeath类的文档，可以看到下面这段说明：“特别地，虽然出现ThreadDeath是一种‘正常的情形’，但ThreadDeath类是Error而不是Exception的子类，因为许多应用会捕获所有的Exception然后丢弃它不再理睬。”这段话的意思是，虽然ThreadDeath代表的是一种普通的问题，但鉴于许多应用会试图捕获所有异常然后不予以适当的处理，所以JDK把ThreadDeath定义成了Error的子类，因为Error类代表的是一般的应用不应该去捕获的严重问题。可见，丢弃异常这一坏习惯是如此常见，它甚至已经影响到了Java本身的设计。</p>
+<p>那么，应该怎样改正呢？主要有四个选择：</p>
+<p>1、处理异常。针对该异常采取一些行动，例如修正问题、提醒某个人或进行其他一些处理，要根据具体的情形确定应该采取的动作。再次说明，调用printStackTrace算不上已经“处理好了异常”。</p>
+<p>2、重新抛出异常。处理异常的代码在分析异常之后，认为自己不能处理它，重新抛出异常也不失为一种选择。</p>
+<p>3、把该异常转换成另一种异常。大多数情况下，这是指把一个低级的异常转换成应用级的异常（其含义更容易被用户了解的异常）。</p>
+<p>4、不要捕获异常。</p>
+<p>结论一：既然捕获了异常，就要对它进行适当的处理。不要捕获异常之后又把它丢弃，不予理睬。</p>
+<p><strong>反例之二：不指定具体的异常</strong></p>
+<p>代码：15行。</p>
+<p>许多时候人们会被这样一种“美妙的”想法吸引：用一个catch语句捕获所有的异常。最常见的情形就是使用catch(Exception ex)语句。但实际上，在绝大多数情况下，这种做法不值得提倡。为什么呢？</p>
+<p>要理解其原因，我们必须回顾一下catch语句的用途。catch语句表示我们预期会出现某种异常，而且希望能够处理该异常。异常类的作用就是告诉Java编译器我们想要处理的是哪一种异常。由于绝大多数异常都直接或间接从java.lang.Exception派生，catch(Exception ex)就相当于说我们想要处理几乎所有的异常。</p>
+<p>再来看看前面的代码例子。我们真正想要捕获的异常是什么呢？最明显的一个是SQLException，这是JDBC操作中常见的异常。另一个可能的异常是IOException，因为它要操作OutputStreamWriter。显然，在同一个catch块中处理这两种截然不同的异常是不合适的。如果用两个catch块分别捕获SQLException和IOException就要好多了。这就是说，catch语句应当尽量指定具体的异常类型，而不应该指定涵盖范围太广的Exception类。</p>
+<p>另一方面，除了这两个特定的异常，还有其他许多异常也可能出现。例如，如果由于某种原因，executeQuery返回了null，该怎么办？答案是让它们继续抛出，即不必捕获也不必处理。实际上，我们不能也不应该去捕获可能出现的所有异常，程序的其他地方还有捕获异常的机会??直至最后由JVM处理。</p>
+<p>结论二：在catch语句中尽可能指定具体的异常类型，必要时使用多个catch。不要试图处理所有可能出现的异常。</p>
+<p><strong>反例之三：占用资源不释放</strong></p>
+<p>代码：3行-14行。</p>
+<p>异常改变了程序正常的执行流程。这个道理虽然简单，却常常被人们忽视。如果程序用到了文件、Socket、JDBC连接之类的资源，即使遇到了异常，也要正确释放占用的资源。为此，Java提供了一个简化这类操作的关键词finally。</p>
+<p>finally是样好东西：不管是否出现了异常，Finally保证在try/catch/finally块结束之前，执行清理任务的代码总是有机会执行。遗憾的是有些人却不习惯使用finally。</p>
+<p>当然，编写finally块应当多加小心，特别是要注意在finally块之内抛出的异常??这是执行清理任务的最后机会，尽量不要再有难以处理的错误。</p>
+<p>结论三：保证所有资源都被正确释放。充分运用finally关键词。</p>
+<p><strong>反例之四：不说明异常的详细信息</strong>　　</p>
+<p>代码：3行-18行。</p>
+<p>仔细观察这段代码：如果循环内部出现了异常，会发生什么事情？我们可以得到足够的信息判断循环内部出错的原因吗？不能。我们只能知道当前正在处理的类发生了某种错误，但却不能获得任何信息判断导致当前错误的原因。</p>
+<p>printStackTrace的堆栈跟踪功能显示出程序运行到当前类的执行流程，但只提供了一些最基本的信息，未能说明实际导致错误的原因，同时也不易解读。</p>
+<p>因此，在出现异常时，最好能够提供一些文字信息，例如当前正在执行的类、方法和其他状态信息，包括以一种更适合阅读的方式整理和组织printStackTrace提供的信息。</p>
+<p>结论四：在异常处理模块中提供适量的错误原因信息，组织错误信息使其易于理解和阅读。</p>
+<p><strong>反例之五：过于庞大的try块</strong></p>
+<p>代码：3行-14行。</p>
+<p>经常可以看到有人把大量的代码放入单个try块，实际上这不是好习惯。这种现象之所以常见，原因就在于有些人图省事，不愿花时间分析一大块代码中哪几行代码会抛出异常、异常的具体类型是什么。把大量的语句装入单个巨大的try块就象是出门旅游时把所有日常用品塞入一个大箱子，虽然东西是带上了，但要找出来可不容易。</p>
+<p>一些新手常常把大量的代码放入单个try块，然后再在catch语句中声明Exception，而不是分离各个可能出现异常的段落并分别捕获其异常。这种做法为分析程序抛出异常的原因带来了困难，因为一大段代码中有太多的地方可能抛出Exception。</p>
+<p>结论五：尽量减小try块的体积。</p>
+<p><strong>反例之六：输出数据不完整</strong></p>
+<p>代码：7行-11行。</p>
+<p>不完整的数据是Java程序的隐形杀手。仔细观察这段代码，考虑一下如果循环的中间抛出了异常，会发生什么事情。循环的执行当然是要被打断的，其次，catch块会执行??就这些，再也没有其他动作了。已经输出的数据怎么办？使用这些数据的人或设备将收到一份不完整的（因而也是错误的）数据，却得不到任何有关这份数据是否完整的提示。对于有些系统来说，数据不完整可能比系统停止运行带来更大的损失。</p>
+<p>较为理想的处置办法是向输出设备写一些信息，声明数据的不完整性；另一种可能有效的办法是，先缓冲要输出的数据，准备好全部数据之后再一次性输出。</p>
+<p>结论六：全面考虑可能出现的异常以及这些异常对执行流程的影响。</p>
+<p><strong>改写后的代码</strong></p>
+<p>根据上面的讨论，下面给出改写后的代码。也许有人会说它稍微有点?嗦，但是它有了比较完备的异常处理机制。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line">OutputStreamWriter out = ...</span><br><span class="line">java.sql.Connection conn = ...</span><br><span class="line">try &#123;</span><br><span class="line">　Statement stat = conn.createStatement();</span><br><span class="line">　ResultSet rs = stat.executeQuery(</span><br><span class="line">　　&quot;select uid, name from user&quot;);</span><br><span class="line">　while (rs.next())</span><br><span class="line">　&#123;</span><br><span class="line">　　out.println(&quot;ID：&quot; + rs.getString(&quot;uid&quot;) + &quot;，姓名: &quot; + rs.getString(&quot;name&quot;));</span><br><span class="line">　&#125;</span><br><span class="line">&#125;</span><br><span class="line">catch(SQLException sqlex)</span><br><span class="line">&#123;</span><br><span class="line">　out.println(&quot;警告：数据不完整&quot;);</span><br><span class="line">　throw new ApplicationException(&quot;读取数据时出现SQL错误&quot;, sqlex);</span><br><span class="line">&#125;</span><br><span class="line">catch(IOException ioex)</span><br><span class="line">&#123;</span><br><span class="line">　throw new ApplicationException(&quot;写入数据时出现IO错误&quot;, ioex);</span><br><span class="line">&#125;</span><br><span class="line">finally</span><br><span class="line">&#123;</span><br><span class="line">　if (conn != null) &#123;</span><br><span class="line">　　try &#123;</span><br><span class="line">　　　conn.close();</span><br><span class="line">　　&#125;</span><br><span class="line">　　catch(SQLException sqlex2)</span><br><span class="line">　　&#123;</span><br><span class="line">　　　System.err(this.getClass().getName() + &quot;.mymethod - 不能关闭数据库连接: &quot; + sqlex2.toString());</span><br><span class="line">　　&#125;</span><br><span class="line">　&#125;</span><br><span class="line"></span><br><span class="line">　if (out != null) &#123;</span><br><span class="line">　　try &#123;</span><br><span class="line">　　　out.close();</span><br><span class="line">　　&#125;</span><br><span class="line">　　catch(IOException ioex2)</span><br><span class="line">　　&#123;</span><br><span class="line">　　　System.err(this.getClass().getName() + &quot;.mymethod - 不能关闭输出文件&quot; + ioex2.toString());</span><br><span class="line">　　&#125;</span><br><span class="line">　&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>本文的结论不是放之四海皆准的教条，有时常识和经验才是最好的老师。如果你对自己的做法没有百分之百的信心，务必加上详细、全面的注释。</p>
+<p>另一方面，不要笑话这些错误，不妨问问你自己是否真地彻底摆脱了这些坏习惯。即使最有经验的程序员偶尔也会误入歧途，原因很简单，因为它们确确实实带来了“方便”。所有这些反例都可以看作Java编程世界的恶魔，它们美丽动人，无孔不入，时刻诱惑着你。也许有人会认为这些都属于鸡皮蒜毛的小事，不足挂齿，但请记住：勿以恶小而为之，勿以善小而不为。</p>
+<h4 id="解决springboot配置-ControllerAdvice不能捕获NoHandlerFoundException问题"><a href="#解决springboot配置-ControllerAdvice不能捕获NoHandlerFoundException问题" class="headerlink" title="解决springboot配置@ControllerAdvice不能捕获NoHandlerFoundException问题"></a>解决springboot配置@ControllerAdvice不能捕获NoHandlerFoundException问题</h4><p>使用springboot开发一个RESTful API服务，配置了@ControllerAdvice，其它类型异常都能正常捕获，就是不能捕获NoHandlerFoundException，安装以往使用springmvc的经验，需要设置DispatcherServlet.throwExceptionIfNoHandlerFound，NoHandlerFoundException就会被DispatcherSevlet抛出，并被@ControllerAdvice捕获处理。想来springboot中自然也是可以的。</p>
+<p>网上一搜发现，只需设置spring.mvc.throw-exception-if-no-handler-found=true即可。设置后依然无效！<br>再次搜索，还需要设置spring.resources.add-mappings=false，问题解决！</p>
+<p>很奇怪，为什么禁用了资源映射后，问题就解决了呢？</p>
+<p>研究DispatcherServlet源码发现，NoHandlerFoundException异常能否被抛出，关键在如下代码：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">mappedHandler = getHandler(processedRequest);</span><br><span class="line">if (mappedHandler == null || mappedHandler.getHandler() == null) &#123;</span><br><span class="line">	noHandlerFound(processedRequest, response);</span><br><span class="line">	return;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>只有第一句代码找不到对应该请求的处理器时，才会进入下面的noHandler方法去抛出NoHandlerFoundException异常。<br>通过测试发现，springboot的WebMvcAutoConfiguration会默认配置如下资源映射：</p>
+<blockquote>
+<p>/<strong>映射到/static（或/public、/resources、/META-INF/resources） /webjars/</strong> 映射到classpath:/META-INF/resources/webjars/ /**/favicon.ico映射favicon.ico文件.</p>
+</blockquote>
+<p>这下就明白了，即使你的地址错误，仍然会匹配到/**这个静态资源映射地址，就不会进入noHandlerFound方法，自然不会抛出NoHandlerFoundException了。<br>所以，我们需要的就是改掉默认的静态资源映射访问路径就可以了。<br>配置如下属性，NoHandlerFoundException异常就能被@ControllerAdvice捕获了</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">spring.mvc.throw-exception-if-no-handler-found=true</span><br><span class="line">spring.mvc.static-path-pattern=/statics/**</span><br></pre></td></tr></table></figure>
+
+<p>附上@ControllerAdvice代码：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line"> * ResponseEntityExceptionHandler预提供了一个处理Spring常见异常的Exceptionhandler</span><br><span class="line"> * @author wangyongjun</span><br><span class="line"> * @date 2018/4/19.</span><br><span class="line"> */</span><br><span class="line">@RestControllerAdvice</span><br><span class="line">public class GlobalControllerExceptionHandler extends ResponseEntityExceptionHandler &#123;</span><br><span class="line"></span><br><span class="line">  /**</span><br><span class="line">   * 覆盖handleExceptionInternal这个汇总处理方法，将响应数据替换为我们的&#123;@link ApiErrorResponse&#125;即可</span><br><span class="line">   * @param ex</span><br><span class="line">   * @param body</span><br><span class="line">   * @param headers</span><br><span class="line">   * @param status</span><br><span class="line">   * @param request</span><br><span class="line">   * @return</span><br><span class="line">   */</span><br><span class="line">  @Override</span><br><span class="line">  protected ResponseEntity&lt;Object&gt; handleExceptionInternal(Exception ex, Object body, HttpHeaders headers, HttpStatus status, WebRequest request) &#123;</span><br><span class="line"></span><br><span class="line">    return new ResponseEntity&lt;&gt;(new ApiErrorResponse().setCode(String.valueOf(status.value())).setMsg(ex.getMessage()), status);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  /**</span><br><span class="line">   * 400错误，bad request</span><br><span class="line">   * @param ex</span><br><span class="line">   * @return</span><br><span class="line">   */</span><br><span class="line">  @ExceptionHandler(value = &#123; IllegalArgumentException.class,Exception400.class&#125;)</span><br><span class="line">  @ResponseStatus(HttpStatus.BAD_REQUEST)</span><br><span class="line">  public ApiErrorResponse badRequestException(Exception ex) &#123;</span><br><span class="line">    return ApiErrorResponse.error400().setMsg(ex.getMessage());</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  /**</span><br><span class="line">   * 401错误，未授权</span><br><span class="line">   * @param ex</span><br><span class="line">   * @return</span><br><span class="line">   */</span><br><span class="line">  @ExceptionHandler(value = &#123; Exception401.class&#125;)</span><br><span class="line">  @ResponseStatus(HttpStatus.BAD_REQUEST)</span><br><span class="line">  public ApiErrorResponse unauthorizedException(Exception ex) &#123;</span><br><span class="line">    return ApiErrorResponse.error401().setMsg(ex.getMessage());</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  /**</span><br><span class="line">   * 403错误，权限不足</span><br><span class="line">   * @param ex</span><br><span class="line">   * @return</span><br><span class="line">   */</span><br><span class="line">  @ExceptionHandler(value = &#123; Exception403.class&#125;)</span><br><span class="line">  @ResponseStatus(HttpStatus.BAD_REQUEST)</span><br><span class="line">  public ApiErrorResponse forbiddenException(Exception ex) &#123;</span><br><span class="line">    return ApiErrorResponse.error403().setMsg(ex.getMessage());</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  /**</span><br><span class="line">   * 404错误，处理器不存在异常，资源不存在异常</span><br><span class="line">   * @param ex</span><br><span class="line">   * @return</span><br><span class="line">   */</span><br><span class="line">  @ExceptionHandler(value = &#123; Exception404.class &#125;)</span><br><span class="line">  @ResponseStatus(HttpStatus.NOT_FOUND)</span><br><span class="line">  public ApiErrorResponse noHandlerFoundException(Exception ex) &#123;</span><br><span class="line">    return ApiErrorResponse.error404().setMsg(ex.getMessage());</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  /**</span><br><span class="line">   * 500异常</span><br><span class="line">   * @param ex</span><br><span class="line">   * @return</span><br><span class="line">   */</span><br><span class="line">  @ExceptionHandler(value = &#123;Exception500.class,Exception.class &#125;)</span><br><span class="line">  @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)</span><br><span class="line">  public ApiErrorResponse exception(Exception ex) &#123;</span><br><span class="line"></span><br><span class="line">    return ApiErrorResponse.error500().setMsg(ex.getMessage());</span><br><span class="line">  &#125;</span><br><span class="line">  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>我使用的是@RestControllerAdvice，异常处理的返回都会被解析为json，不做RESTful API的使用@ControllerAdvice即可。<br>spring预提供了一个ResponseEntityExceptionHandler，能处理大部分spring自己定义的异常，我们只需要覆盖handleExceptionInternal这个汇总处理方法，将返回的ResponseEntity的body部分替换为我们自己定义的ApiErrorResponse即可。<br>当然，你也可以自由地配置对其它异常的处理。</p>
+<h4 id="SpringBoot使用Swagger2出现Unable-to-infer-base-url"><a href="#SpringBoot使用Swagger2出现Unable-to-infer-base-url" class="headerlink" title="SpringBoot使用Swagger2出现Unable to infer base url"></a>SpringBoot使用Swagger2出现Unable to infer base url</h4><p>在使用SpringBoot中配置Swagger2的时候，出现</p>
+<blockquote>
+<p>Unable to infer base url. This is common when using dynamic servlet registration or when the API is behind an API Gateway. The base url is the root of where all the swagger resources are served. For e.g. if the api is available at <a target="_blank" rel="noopener" href="http://example.org/api/v2/api-docs">http://example.org/api/v2/api-docs</a> then the base url is <a target="_blank" rel="noopener" href="http://example.org/api/">http://example.org/api/</a>. Please enter the location manually:</p>
+</blockquote>
+<p>原因:</p>
+<ol>
+<li><p>需要在SpringBoot的启动Application前面加上 @EnableSwagger2注解；</p>
+</li>
+<li><p>可能是由于使用了Spring Security 影响：尝试使用以下Spring Security配置解决：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">import org.springframework.context.annotation.Configuration;</span><br><span class="line">import org.springframework.security.config.annotation.web.builders.HttpSecurity;</span><br><span class="line">import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;</span><br><span class="line"> </span><br><span class="line">@Configuration</span><br><span class="line">class SecurityConfig extends WebSecurityConfigurerAdapter &#123;</span><br><span class="line"> </span><br><span class="line">    private static final String[] AUTH_WHITELIST = &#123;</span><br><span class="line"> </span><br><span class="line">            // -- swagger ui</span><br><span class="line">            &quot;/swagger-resources/**&quot;,</span><br><span class="line">            &quot;/swagger-ui.html&quot;,</span><br><span class="line">            &quot;/v2/api-docs&quot;,</span><br><span class="line">            &quot;/webjars/**&quot;</span><br><span class="line">    &#125;;</span><br><span class="line">    </span><br><span class="line">    @Override</span><br><span class="line">    protected void configure(HttpSecurity http) throws Exception &#123;</span><br><span class="line">        http.authorizeRequests()</span><br><span class="line">                .antMatchers(AUTH_WHITELIST).permitAll()</span><br><span class="line">                .antMatchers(&quot;/**/*&quot;).denyAll();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li><p>配置在修改后再次刷新需要清空浏览器缓存，否则配置可能无法生效。如果使用chrome内核的浏览器，可以长按刷新键清空缓存访问</p>
+</li>
+<li><p>但是在我的项目中，发现是我使用Spring的ResponseBodyAdvice全局返回再处理的一个类，本意是为所有返回JSON数据统一添加“状态=succuess”等信息，没想到该实现影响了Swagger的使用，会导致swagger返回的JSON数据格式和期望的不一致，故swagger报错。解决方法在该接口实现类上面的@ControllerAdvice 注解限制接口的扫描包即可避免。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">@ControllerAdvice(basePackages = &quot;com.xxx.controller&quot;)</span><br></pre></td></tr></table></figure></li>
+<li><p>在排查该问题时，假设你的swagger-ui访问路径是<a target="_blank" rel="noopener" href="http://localhost:8080/swagger-ui.html%EF%BC%8C%E5%8F%AF%E4%BB%A5%E5%85%88%E7%9B%B4%E6%8E%A5%E8%AE%BF%E9%97%AE">http://localhost:8080/swagger-ui.html，可以先直接访问</a> <a target="_blank" rel="noopener" href="http://localhost:8080/v2/api-docs%EF%BC%8C%E6%9F%A5%E7%9C%8Bswagger%E6%98%AF%E5%90%A6%E6%AD%A3%E7%A1%AE%E8%8E%B7%E5%8F%96%E5%88%B0%E4%BA%86JSON%E6%A0%BC%E5%BC%8F%E7%9A%84%E6%95%B0%E6%8D%AE%EF%BC%8C%E4%B8%94JSON%E6%A0%BC%E5%BC%8F%E6%95%B0%E6%8D%AE%E6%98%AF%E5%90%A6%E4%B8%BA%E7%B1%BB%E4%BC%BC%E4%BB%A5%E4%B8%8B%E6%A0%BC%E5%BC%8F%EF%BC%8C%E5%A6%82%E6%9E%9C%E4%B8%8D%E5%AF%B9%E5%88%99%E5%8F%AF%E8%83%BD%E6%98%AF%E5%9B%A0%E4%B8%BA%E5%88%AB%E7%9A%84%E8%BF%94%E5%9B%9E%E9%A2%84%E5%A4%84%E7%90%86%E6%8E%A5%E5%8F%A3%E5%AF%B9%E6%95%B0%E6%8D%AE%E8%BF%9B%E8%A1%8C%E4%BA%86%E5%A4%84%E7%90%86%EF%BC%8C%E5%AF%BC%E8%87%B4swagger%E6%97%A0%E6%B3%95%E8%8E%B7%E5%8F%96%E5%88%B0%E6%AD%A3%E7%A1%AE%E7%9A%84%E6%95%B0%E6%8D%AE%E3%80%82">http://localhost:8080/v2/api-docs，查看swagger是否正确获取到了JSON格式的数据，且JSON格式数据是否为类似以下格式，如果不对则可能是因为别的返回预处理接口对数据进行了处理，导致swagger无法获取到正确的数据。</a></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">	&quot;swagger&quot;: &quot;2.0&quot;,</span><br><span class="line">	&quot;info&quot;: &#123;</span><br><span class="line">		&quot;description&quot;: &quot;My project for swagger practice&quot;,</span><br><span class="line">		&quot;version&quot;: &quot;v1.1&quot;,</span><br><span class="line">		&quot;title&quot;: &quot;swagger-demo&quot;,</span><br><span class="line">		&quot;license&quot;: &#123;</span><br><span class="line">			&quot;url&quot;: &quot;http://www.apache.org/licenses/LICENSE-2.0&quot;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;,</span><br><span class="line">	&quot;host&quot;: &quot;http://localhost:8080&quot;,</span><br><span class="line">	&quot;basePath&quot;: &quot;/&quot;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+</ol>
+<h4 id="java-io-IOException-Broken-pipe"><a href="#java-io-IOException-Broken-pipe" class="headerlink" title="java.io.IOException: Broken pipe"></a>java.io.IOException: Broken pipe</h4><p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2021/04/01/EtWrbYF7i29pAko.png" alt="image.png"></p>
+<p>注：读懂下面这句话，首先要熟悉TCP 四次挥手</p>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2021/04/01/zdjBYfeFpIMR3GD.png" alt="image.png"></p>
+<p>总结 Broken Pipe：</p>
+<p> <strong>这个异常是客户端读取超时关闭了连接,这时候服务器端再向客户端已经断开的连接写数据时就发生了broken pipe异常！</strong></p>
+<h3 id="java-tcp-ip异常"><a href="#java-tcp-ip异常" class="headerlink" title="java tcp/ip异常"></a>java tcp/ip异常</h3><ol>
+<li> java.net.SocketTimeoutException</li>
+</ol>
+<p>   这 个异 常比较常见，socket 超时。一般有 2 个地方会抛出这个，一个是 connect 的 时 候 ， 这 个 超 时 参 数 由connect(SocketAddress endpoint,int timeout) 中的后者来决定，还有就是 setSoTimeout(int timeout)，这个是设定读取的超时时间。它们设置成 0 均表示无限大。</p>
+<ol start="2">
+<li><p>java.net.BindException:Address already in use: JVM_Bind</p>
+<p>该 异 常 发 生 在 服 务 器 端 进 行 new ServerSocket(port) 或者 socket.bind(SocketAddress bindpoint)操作时。</p>
+<p>原因:与 port 一样的一个端口已经被启动，并进行监听。此时用 netstat –an 命令，可以看到一个 Listending 状态的端口。只需要找一个没有被占用的端口就能解决这个问题。</p>
+</li>
+<li><p>java.net.ConnectException: Connection refused: connect</p>
+<p>该异常发生在客户端进行 new Socket(ip, port)或者 socket.connect(address,timeout)操作时，原 因:指定 ip 地址的机器不能找到（也就是说从当前机器不存在到指定 ip 路由），或者是该 ip 存在，但找不到指定的端口进行监听。应该首先检查客户端的 ip 和 port是否写错了，假如正确则从客户端 ping 一下服务器看是否能 ping 通，假如能 ping 通（服务服务器端把 ping 禁掉则需要另外的办法），则 看在服务器端的监听指定端口的程序是否启动。</p>
+</li>
+<li><p>java.net.SocketException: Socket is closed </p>
+<p>该异常在客户端和服务器均可能发生。异常的原因是己方主动关闭了连接后（调用了 Socket 的 close 方法）再对网络连接进行读写操作。</p>
+</li>
+<li><p>java.net.SocketException: Connection reset 或者Connect reset by peer:Socket write error</p>
+<p>该异常在客户端和服务器端均有可能发生，引起该异常的原因有两个，第一个就是假如一端的 Socket 被关闭（或主动关闭或者因为异常退出而引起的关闭）， 另一端仍发送数据，发送的第一个数据包引发该异常(Connect reset by peer)。另一个是一端退出，但退出时并未关闭该连接，另 一 端 假 如 在 从 连 接 中 读 数 据 则 抛 出 该 异 常（Connection reset）。简单的说就是在连接断开后的读和写操作引起的。</p>
+<p>还有一种情况，如果一端发送RST数据包中断了TCP连接，另外一端也会出现这个异常，如果是tomcat，异常如下：</p>
+<p>org.apache.catalina.connector.ClientAbortException: java.io.IOException: Connection reset by peer</p>
+<p> 阿里的tcp方式的健康检查为了提高性能，省去挥手交互，直接发送一个RST来终断连接，就会导致服务器端出现这个异常；</p>
+<p>对于服务器，一般的原因可以认为：</p>
+<p>a) 服务器的并发连接数超过了其承载量，服务器会将其中一些连接主动 Down 掉.</p>
+<p>b) 在数据传输的过程中，浏览器或者接收客户端关闭了，而服务端还在向客户端发送数据。</p>
+</li>
+<li><p>java.net.SocketException: Too many open files</p>
+<p>原因: 操作系统的中打开文件的最大句柄数受限所致，常常发生在很多个并发用户访问服务器的时候。因为为了执行每个用户的应用服务器都要加载很多文件(new 一个socket 就需要一个文件句柄)，这就会导致打开文件的句柄的缺乏。</p>
+<p>解决方式：</p>
+<p>a) 尽量把类打成 jar 包，因为一个 jar 包只消耗一个文件句柄，如果不打包，一个类就消耗一个文件句柄。</p>
+<p>b) java 的 GC 不能关闭网络连接打开的文件句柄，如果没有执行 close()则文件句柄将一直存在，而不能被关闭。</p>
+<p>也可以考虑设置 socket 的最大打开 数来控制这个问题。对操作系统做相关的设置，增加最大文件句柄数量。</p>
+<p>ulimit -a 可以查看系统目前资源限制，ulimit -n 10240 则可以修改，这个修改只对当前窗口有效。</p>
+</li>
+<li><p>java.net.SocketException: Broken pipe</p>
+<p>该异常在客户端和服务器均有可能发生。在抛出SocketExcepton:Connect reset by peer:Socket write error 后，假如再继续写数据则抛出该异常。前两个异常的解决方法是首先确保程序退出前关闭所有的网络连接，其次是要检测对方的关闭连接操作，发现对方 关闭连接后自己也要关闭该连接。</p>
+<p>对于 4 和 5 这两种情况的异常，需要特别注意连接的维护。在短连接情况下还好，如果是长连接情况，对于连接状态的维护不当，则非常容易出现异常。基本上对长连接需要做的就是：</p>
+<p>a) 检测对方的主动断连（对方调用了 Socket 的 close 方法）。因为对方主动断连，另一方如果在进行读操作，则此时的返回值是-1。所以一旦检测到对方断连，则主动关闭己方的连接（调用 Socket 的 close 方法）。</p>
+<p>b) 检测对方的宕机、异常退出及网络不通,一般做法都是心跳检测。双方周期性的发送数据给对方，同时也从对方接收“心跳数据”，如果连续几个周期都没有收到 对方心跳，则可以判断对方或者宕机或者异常退出或者网络不通，此时也需要主动关闭己方连接；如果是客户端可在延迟一定时间后重新发起连接。虽然 Socket 有一个keep alive 选项来维护连接，如果用该选项，一般需要两个小时才能发现对方的宕机、异常退出及网络不通。</p>
+</li>
+<li><p>Cannot assign requested address    </p>
+<p>a) 端口号被占用,导致地址无法绑定：</p>
+<p>java.net.BindException: Cannot assign requested address: bind：是由于IP地址变化导致的；</p>
+<p>b) 服务器网络配置异常：</p>
+<p>/etc/hosts  中配置的地址错误;</p>
+<p>c) 还有一种情况是执行ipconfig 发现没有环路地址，这是因为环路地址配置文件丢失了</p>
+</li>
+</ol>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">平心</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://pingxin0521.gitee.io/2019/08/07/Java-%E5%9F%BA%E7%A1%80-11-1/">https://pingxin0521.gitee.io/2019/08/07/Java-%E5%9F%BA%E7%A1%80-11-1/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://pingxin0521.gitee.io" target="_blank">平心de小屋</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/Java/">Java</a><a class="post-meta__tags" href="/tags/%E5%9F%BA%E7%A1%80/">基础</a></div><div class="post_share"><div class="social-share" data-image="https://i.loli.net/2020/05/08/vCnKyoFJZ1g4XYR.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2019/08/11/%E5%AE%B9%E5%99%A8-Docker-5-2/"><img class="prev-cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/7dHvepmfYOLWTrX.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">Docker 卷数据备份和恢复</div></div></a></div><div class="next-post pull-right"><a href="/2019/08/06/%E5%B7%A5%E5%85%B7-GitLab-1/"><img class="next-cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/HjVAdIuT7bZJypS.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">GitLab 搭建git服务</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span> 相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2019/06/05/Java-基础-10-2/" title="Java 补充知识"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/gGE57HRvpcKPfDY.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2019-10-24</div><div class="title">Java 补充知识</div></div></a></div><div><a href="/2020/06/07/Java-基础-11-0/" title="使用IDE开发工具远程调试Java代码"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/HjVAdIuT7bZJypS.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2020-07-05</div><div class="title">使用IDE开发工具远程调试Java代码</div></div></a></div><div><a href="/2020/07/05/Java-基础-11-2/" title="Java 常见异常和处理方法（二）"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/HjVAdIuT7bZJypS.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2020-07-05</div><div class="title">Java 常见异常和处理方法（二）</div></div></a></div><div><a href="/2019/04/20/Java-基础-1-13/" title="Java8新的日期API LocalDate, LocalTime"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/PFDRNxj93taz6pw.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2020-04-04</div><div class="title">Java8新的日期API LocalDate, LocalTime</div></div></a></div><div><a href="/2019/04/07/Java-基础-7-4/" title="Java 网络编程（四）"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/gGE57HRvpcKPfDY.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2019-07-09</div><div class="title">Java 网络编程（四）</div></div></a></div><div><a href="/2019/04/07/Java-基础-7-2/" title="Java 网络编程（二）"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/HjVAdIuT7bZJypS.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2019-06-27</div><div class="title">Java 网络编程（二）</div></div></a></div></div></div><hr/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div class="vcomment" id="vcomment"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="card-info-avatar is-center"><img class="avatar-img" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://s2.ax1x.com/2020/02/11/1ovw6J.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/><div class="author-info__name">平心</div><div class="author-info__description">年轻人的life、learn and think</div></div><div class="card-info-data"><div class="card-info-data-item is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">449</div></a></div><div class="card-info-data-item is-center"><a href="/tags/"><div class="headline">标签</div><div class="length-num">77</div></a></div><div class="card-info-data-item is-center"><a href="/categories/"><div class="headline">分类</div><div class="length-num">68</div></a></div></div><a class="button--animated" id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/hanyunpeng0521"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/hanyunpeng0521" target="_blank" title="Github"><i class="fa fa-github"></i></a><a class="social-icon" href="mailto:m13839441583@163.com" target="_blank" title="Email"><i class="fa fa-envelope"></i></a><a class="social-icon" href="/atom.xml" target="_blank" title=""><i class="fa fa-rss"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn card-announcement-animation"></i><span>公告</span></div><div class="announcement_content">为什么呢？开始提问吧</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%85%AD%E7%A7%8D%E5%BC%82%E5%B8%B8%E5%A4%84%E7%90%86%E7%9A%84%E9%99%8B%E4%B9%A0"><span class="toc-number">1.</span> <span class="toc-text">六种异常处理的陋习</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%A7%A3%E5%86%B3springboot%E9%85%8D%E7%BD%AE-ControllerAdvice%E4%B8%8D%E8%83%BD%E6%8D%95%E8%8E%B7NoHandlerFoundException%E9%97%AE%E9%A2%98"><span class="toc-number">2.</span> <span class="toc-text">解决springboot配置@ControllerAdvice不能捕获NoHandlerFoundException问题</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#SpringBoot%E4%BD%BF%E7%94%A8Swagger2%E5%87%BA%E7%8E%B0Unable-to-infer-base-url"><span class="toc-number">3.</span> <span class="toc-text">SpringBoot使用Swagger2出现Unable to infer base url</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#java-io-IOException-Broken-pipe"><span class="toc-number">4.</span> <span class="toc-text">java.io.IOException: Broken pipe</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#java-tcp-ip%E5%BC%82%E5%B8%B8"><span class="toc-number"></span> <span class="toc-text">java tcp&#x2F;ip异常</span></a></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2021/05/15/node-2-4/" title="Egg.js -- 为企业级框架和应用而生"><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/okfOw28KlZFbE7z.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Egg.js -- 为企业级框架和应用而生"/></a><div class="content"><a class="title" href="/2021/05/15/node-2-4/" title="Egg.js -- 为企业级框架和应用而生">Egg.js -- 为企业级框架和应用而生</a><time datetime="2021-05-15T10:18:59.000Z" title="发表于 2021-05-15 18:18:59">2021-05-15</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/04/30/node-2-3/" title="Koa -- 基于Node.js平台的下一代Web开发框架"><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/HjVAdIuT7bZJypS.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Koa -- 基于Node.js平台的下一代Web开发框架"/></a><div class="content"><a class="title" href="/2021/04/30/node-2-3/" title="Koa -- 基于Node.js平台的下一代Web开发框架">Koa -- 基于Node.js平台的下一代Web开发框架</a><time datetime="2021-04-30T10:18:59.000Z" title="发表于 2021-04-30 18:18:59">2021-04-30</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/04/01/node-2-1/" title="Node.JS web开发前置知识"><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/gGE57HRvpcKPfDY.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Node.JS web开发前置知识"/></a><div class="content"><a class="title" href="/2021/04/01/node-2-1/" title="Node.JS web开发前置知识">Node.JS web开发前置知识</a><time datetime="2021-04-01T03:18:59.000Z" title="发表于 2021-04-01 11:18:59">2021-04-01</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2020/12/26/%E5%91%A8%E8%AE%B0-10-1/" title="第十一周--谷歌浏览器插件"><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/gGE57HRvpcKPfDY.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="第十一周--谷歌浏览器插件"/></a><div class="content"><a class="title" href="/2020/12/26/%E5%91%A8%E8%AE%B0-10-1/" title="第十一周--谷歌浏览器插件">第十一周--谷歌浏览器插件</a><time datetime="2020-12-26T10:18:59.000Z" title="发表于 2020-12-26 18:18:59">2020-12-26</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2020/12/26/%E5%91%A8%E8%AE%B0-10-0/" title="第十一周--浏览器技术"><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/vCnKyoFJZ1g4XYR.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="第十一周--浏览器技术"/></a><div class="content"><a class="title" href="/2020/12/26/%E5%91%A8%E8%AE%B0-10-0/" title="第十一周--浏览器技术">第十一周--浏览器技术</a><time datetime="2020-12-26T06:18:59.000Z" title="发表于 2020-12-26 14:18:59">2020-12-26</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2019 - 2021 By 平心</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div id="local-search"><div class="search-dialog"><div class="search-dialog__title" id="local-search-title">本地搜索</div><div id="local-input-panel"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div></div><hr/><div id="local-search-results"></div><span class="search-close-button"><i class="fas fa-times"></i></span></div><div id="search-mask"></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload/dist/lazyload.iife.min.js"></script><script src="/js/search/local-search.js"></script><div class="js-pjax"><script>function loadValine () {
+  function initValine () {
+    const valine = new Valine(Object.assign({
+      el: '#vcomment',
+      appId: '4lfIXzqxaC1ONs0MJO4oHu07-gzGzoHsz',
+      appKey: 'qw99Bw8FD0KVKU9m457CwWsr',
+      placeholder: 'Please leave your footprints',
+      avatar: 'monsterid',
+      meta: 'nick,mail,link'.split(','),
+      pageSize: '10',
+      lang: 'zh-CN',
+      recordIP: true,
+      serverURLs: '',
+      emojiCDN: '',
+      emojiMaps: "",
+      enableQQ: true,
+      path: window.location.pathname,
+      requiredFields: ["nick,mail"],
+      visitor: false
+    }, null))
+  }
+
+  if (typeof Valine === 'function') initValine() 
+  else getScript('https://cdn.jsdelivr.net/npm/valine/dist/Valine.min.js').then(initValine)
+}
+
+if ('Valine' === 'Valine' || !false) {
+  if (false) btf.loadComment(document.getElementById('vcomment'),loadValine)
+  else setTimeout(loadValine, 0)
+} else {
+  function loadOtherComment () {
+    loadValine()
+  }
+}</script></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>

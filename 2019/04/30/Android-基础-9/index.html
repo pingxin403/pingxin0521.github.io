@@ -1,0 +1,390 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Android 事件处理 | 平心de小屋</title><meta name="keywords" content="Android"><meta name="author" content="平心"><meta name="copyright" content="平心"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="事件处理Android提供了两种方式的事件处理：基于回调的事件处理和基于监听的事件处理。  基于监听的事件处理：主要做法就是为Android界面组件绑定特定的事件监听器，前面小节已经见到大量这种事件处理的示例。  基于回调的事件处理：主要做法就是重写Android组件特定的回调方法， 或者重写Activity的回调方法。Android为绝大部分界面组件都提供了事件响应的回调方法，开发者只要重写它们">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Android 事件处理">
+<meta property="og:url" content="https://pingxin0521.gitee.io/2019/04/30/Android-%E5%9F%BA%E7%A1%80-9/index.html">
+<meta property="og:site_name" content="平心de小屋">
+<meta property="og:description" content="事件处理Android提供了两种方式的事件处理：基于回调的事件处理和基于监听的事件处理。  基于监听的事件处理：主要做法就是为Android界面组件绑定特定的事件监听器，前面小节已经见到大量这种事件处理的示例。  基于回调的事件处理：主要做法就是重写Android组件特定的回调方法， 或者重写Activity的回调方法。Android为绝大部分界面组件都提供了事件响应的回调方法，开发者只要重写它们">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://i.loli.net/2020/05/08/HjVAdIuT7bZJypS.jpg">
+<meta property="article:published_time" content="2019-04-30T05:18:59.000Z">
+<meta property="article:modified_time" content="2019-05-08T09:37:06.000Z">
+<meta property="article:author" content="平心">
+<meta property="article:tag" content="Android">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.loli.net/2020/05/08/HjVAdIuT7bZJypS.jpg"><link rel="shortcut icon" href="https://s2.ax1x.com/2020/02/11/1ovFOA.png"><link rel="canonical" href="https://pingxin0521.gitee.io/2019/04/30/Android-%E5%9F%BA%E7%A1%80-9/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"search.xml","languages":{"hits_empty":"找不到您查询的内容：${query}"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    jQuery: 'https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js',
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+    },
+    fancybox: {
+      js: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css'
+    }
+  },
+  isPhotoFigcaption: true,
+  islazyload: true,
+  isanchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'Android 事件处理',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2019-05-08 17:37:06'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    })(window)</script><meta name="generator" content="Hexo 5.4.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="author-avatar"><img class="avatar-img" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://s2.ax1x.com/2020/02/11/1ovw6J.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data"><div class="data-item is-center"><div class="data-item-link"><a href="/archives/"><div class="headline">文章</div><div class="length-num">449</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/tags/"><div class="headline">标签</div><div class="length-num">77</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/categories/"><div class="headline">分类</div><div class="length-num">68</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fa fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fa fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://i.loli.net/2020/05/08/HjVAdIuT7bZJypS.jpg')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">平心de小屋</a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fa fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fa fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">Android 事件处理</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2019-04-30T05:18:59.000Z" title="发表于 2019-04-30 13:18:59">2019-04-30</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2019-05-08T09:37:06.000Z" title="更新于 2019-05-08 17:37:06">2019-05-08</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/Android/">Android</a><i class="fas fa-angle-right post-meta-separator"></i><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/Android/%E5%9F%BA%E7%A1%80/">基础</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">4.9k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>17分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="Android 事件处理"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h3 id="事件处理"><a href="#事件处理" class="headerlink" title="事件处理"></a>事件处理</h3><p>Android提供了两种方式的事件处理：基于回调的事件处理和基于监听的事件处理。</p>
+<ul>
+<li><p>基于监听的事件处理：主要做法就是为Android界面组件绑定特定的事件监听器，前面小节已经见到大量这种事件处理的示例。</p>
+</li>
+<li><p>基于回调的事件处理：主要做法就是重写Android组件特定的回调方法， 或者重写Activity的回调方法。Android为绝大部分界面组件都提供了事件响应的回调方法，开发者只要重写它们即可。</p>
+</li>
+</ul>
+<span id="more"></span>
+
+<p>一般来说，基于回调的事件处理可用于处理一些具有通用性的事件，基于回调的事件处理代码会显得比较简洁。但对于某些特定的事件，无法使用基于回调的事件处理，只能采用基于监听的事件处理。</p>
+<p> 基于监听的事件处理是一种更“面向对象”的事件处理，在事件监听的处理模型中主要涉及如下三类对象。</p>
+<ul>
+<li><p>Event Source （事件源）：事件发生的场所，通常就是各个组件，例如按钮、窗口、菜单等。</p>
+</li>
+<li><p>Event （事件）：事件封装了界面组件上发生的特定事情（通常就是一次用户操作）。如果程序需要获得界面组件上所发生事件的相关信息，一般通过Event对象来取得。</p>
+</li>
+<li><p>Event Listener （事件监听器）：负责监听事件源所发生的事件，并对各种事件做出相应的响应。</p>
+</li>
+</ul>
+<p>当用户按下一个按钮或者单击某个菜单项时，这些动作就会激发一个相应的事件，该事件就会触发事件源上注册的事件监听器（特殊的Java对象），事件监听器调用对应的事件处理器 （事件监听器里的实例方法）来做出相应的响应。</p>
+<p>每个组件均可以针对特定的事件指定一个事件监听器，每个事件监听器也可监听一个或多个事件源。因为同一个事件源上可能发生多种事件，委派式事件处理方式可以把事件源上所有可能发生的事件分别授权给不同的事件监听器来处理；同时也可以让一类事件都使用同一个事件监听器来处理。</p>
+<p> Android事件处理流程如下图所示：</p>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2019/05/08/5cd290221e01e.jpeg" alt="1.jpeg"></p>
+<p>  从上图可以知道，基于监听的事件处理模型的流程如下：</p>
+<p>为某个事件源（界面组件）设置一个监听器，用于监听用户操作。</p>
+<ul>
+<li><p>当用户操作时，会触发事件源的监听器。</p>
+</li>
+<li><p>生成了对应的事件对象。</p>
+</li>
+<li><p>将这个事件源对象作为参数传给事件监听器。</p>
+</li>
+<li><p>事件监听器对事件对象进行判断，执行对应的事件处理器（对应事件的处理方法）。</p>
+</li>
+</ul>
+<p>Android中基于监听的事件处理模型的开发步骤如下。</p>
+<ul>
+<li><p>获取普通界面组件（事件源），也就是被监听的对象。</p>
+</li>
+<li><p>实现事件监听器类，该监听器类是一个特殊的Java类，必须实现一个XxxListener接口。</p>
+</li>
+<li><p>调用事件源的setXxxListener方法将事件监听器对象注册给普通组件（事件源）。</p>
+</li>
+</ul>
+<p>对于这三件事情，事件源可以是任何界面组件，不太需要开发者参与；注册监听器也只要一行代码即可，因此事件编程的关键就是实现事件监听器类。</p>
+<p> 在基于监听的事件处理模型中，事件监听器必须实现事件监听器接口，Android为不同的界面组件提供了不同的监听器接口，这些接口通常以内部类的形式存在。以View类为例，它包含了如下几个内部接口。</p>
+<ul>
+<li><p>View.OnClickListener：单击事件的事件监听器必须实现的接口。</p>
+</li>
+<li><p>View.OnCreateContextMenu Listener ：创建上下文菜单事件的事件监听器必须实现的接口。</p>
+</li>
+<li><p>View.OnFocusChangeListener：焦点改变事件的事件监听器必须实现的接口。</p>
+</li>
+<li><p>View.OnKeyListener：按键事件的事件监听器必须实现的接口。</p>
+</li>
+<li><p>View.OnLongClickListener：长按事件的事件监听器必须实现的接口。</p>
+</li>
+<li><p>View.OnTouchListener：触摸事件的事件监听器必须实现的接口。</p>
+</li>
+</ul>
+<p>通过前面的学习，知道事件监听器就是实现了特定接口的Java类的实例。在程序中实现事件监听器，通常有如下几种形式。</p>
+<ul>
+<li><p>匿名内部类形式：使用匿名内部类创建事件监听器对象。</p>
+</li>
+<li><p>内部类形式：将事件监听器类定义成当前类的内部类。</p>
+</li>
+<li><p>外部类形式：将事件监听器类定义成一个外部类。</p>
+</li>
+<li><p>Activity本身作为事件监听器类：让Activity本身实现监听器接口，并实现事件处理方法。</p>
+</li>
+<li><p>直接绑定到标签形式：直接在xml布局文件对应的Activity中定义一个事件处理方法，然后在布局文件中引用要触发的事件。</p>
+</li>
+</ul>
+<h3 id="监听"><a href="#监听" class="headerlink" title="监听"></a>监听</h3><ol>
+<li><p>通过匿名内部类作为事件监听器类</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">public class MainActivity extends Activity &#123;</span><br><span class="line">    private EditText edittext;</span><br><span class="line">    private Button button;</span><br><span class="line">    @Override</span><br><span class="line">    protected void onCreate(Bundle savedInstanceState) &#123;</span><br><span class="line">        super.onCreate(savedInstanceState);</span><br><span class="line">        setContentView(R.layout.activity_main);</span><br><span class="line">        edittext=(EditText) findViewById(R.id.edit_text);</span><br><span class="line">        button = (Button) findViewById(R.id.button);</span><br><span class="line">        //为button按钮注册监听器，并通过匿名内部类实现</span><br><span class="line">        button.setOnClickListener(new OnClickListener() &#123;</span><br><span class="line">            @Override</span><br><span class="line">            public void onClick(View v) &#123;</span><br><span class="line">            //点击Button会改变edittext的文字为&quot;点击了Button&quot;</span><br><span class="line">            edittext.setText(&quot;点击了Button&quot;);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>大部分时候，事件处理器都没有什么利用价值（可利用代码通常都被抽象成了业务逻辑方法），因此大部分事件监听器只是临时使用一次，所以使用匿名内部类形式的事件监听器更合适，实际上，这种形式是目前是最广泛的事件监听器形式。上面的程序代码就是匿名内部类来创建事件监听器的！！！</p>
+<p>对于使用匿名内部类作为监听器的形式来说，唯一的缺点就是匿名内部类的语法有点不易掌握，如果读者java基础扎实，匿名内部类的语法掌握较好，通常建议使用匿名内部类作为监听器。</p>
+</li>
+<li><p>内部类作为监听器</p>
+<p>将事件监听器类定义成当前类的内部类。</p>
+<p>(1)使用内部类可以在当前类中复用监听器类，因为监听器类是外部类的内部类</p>
+<p>(2)所以可以自由访问外部类的所有界面组件。</p>
+</li>
+<li><p>使用实现接口的方式来进行注册，让Activity类实现了OnClickListener事件监听接口，从而可以在该Activity类中直接定义事件处理器方法：onClick(view v)，当为某个组件添加该事件监听器对象时，直接使用this作为事件监听器对象即可：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">public class MainActivity extends Activity implements OnClickListener &#123;</span><br><span class="line">    private EditText edittext;</span><br><span class="line">    private Button button;</span><br><span class="line">    private Button button2;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    protected void onCreate(Bundle savedInstanceState) &#123;</span><br><span class="line">        super.onCreate(savedInstanceState);</span><br><span class="line">        setContentView(R.layout.activity_main);</span><br><span class="line">        edittext=(EditText) findViewById(R.id.edit_text);</span><br><span class="line">        button = (Button) findViewById(R.id.button);</span><br><span class="line">        button2 = (Button) findViewById(R.id.button2);</span><br><span class="line">        button.setOnClickListener(this);</span><br><span class="line">        button2.setOnClickListener(this);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    //用switch区分是哪个id</span><br><span class="line">    public void onClick(View v) &#123;</span><br><span class="line">        switch (v.getId())&#123;</span><br><span class="line">        case R.id.button:</span><br><span class="line">            edittext.setText(&quot;点击了Button&quot;);</span><br><span class="line">            break;</span><br><span class="line">        case R.id.button2:</span><br><span class="line">            edittext.setText(&quot;点击了Button2&quot;);</span><br><span class="line">            break;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这种形式使用activity本身作为监听器类，可以直接在activity类中定义事件处理器方法，这种形式非常简洁。但这种做法有两个缺点：</p>
+<p>（1）这种形式可能造成程序结构混乱。Activity的主要职责应该是完成界面初始化；但此时还需包含事件处理器方法，从而引起混乱。</p>
+<p>（2）如果activity界面类需要实现监听器接口，让人感觉比较怪异。<br>上面的程序让Activity类实现了OnClickListener事件监听接口，从而可以在该Activity类中直接定义事件处理器方法：onClick(view v)，当为某个组件添加该事件监听器对象时，直接使用this作为事件监听器对象即可。</p>
+</li>
+<li><p>外部类作为监听器</p>
+<p>使用顶级类定义事件监听器类的形式比较少见，主要因为如下两个原因：<br>1、事件监听器通常属于特定的gui界面，定义成外部类不篮球提高程序的内聚性。<br>2、外部类形式的事件监听器不能自由访问创建gui界面的类中的组件，编程不够简洁。<br>但如果某个事件监听器确实需要被多个gui界面所共享，而且主要是完成某种业务逻辑的实现，则可以考虑使用外部类的形式来定义事件监听器类。</p>
+</li>
+<li><p>直接绑定到标签</p>
+<p>Android还有一种更简单的绑定事件监听器的的方式，直接在界面布局文件中为指定标签绑定事件处理方法。<br>对于很多Android标签而言，它们都支持如onClick、onLongClick等属性，这种属性的属性值就是一个形xxx(View source)的方法的方法名。</p>
+<p>为Button按钮绑定一个事件处理方法：clickHanlder，这意味着开发者需要在该界面布局对应的Activity中定义一个void clickHanler(View source)方法，该方法将会负责处理该按钮上的单击事件。</p>
+</li>
+</ol>
+<h3 id="回调"><a href="#回调" class="headerlink" title="回调"></a>回调</h3><p>基于监听的事件处理机制，简单说就是为事件源（组件）添加一个监听器，然后当用户触发了事件后交给监听器去处理，根据不同的事件执行不同的操作。那么基于回调的事件处理机制又是什么样的原理呢？</p>
+<p>对于基于回调的事件处理模型来说，事件源与事件监听器是统一的，或者说事件监听器完全消失了。当用户在GUI组件上激发某个事件时，组件自己特定的方法将会负责处理该事件。</p>
+<p>为了实现回调机制的事件处理，Android为所有GUI组件都提供了一些事件处理的回调方法，以View为例，该类包含如下方法。</p>
+<ul>
+<li><p>boolean onKeyDown(int keyCode, KeyEvent event)：当用户在该组件上按下某个按键时触发该方法。</p>
+</li>
+<li><p>boolean onKeyLongPress(int keyCode, KeyEvent event)：当用户在该组件上长按某个按键时触发该方法。</p>
+</li>
+<li><p>boolean onKeyShortcut(int keyCode, KeyEvent event)：当一个键盘快捷键事件发生时触发该方法。</p>
+</li>
+<li><p>boolean onKeyUp(int keyCode, KeyEvent event)：当用户在该组件上松开某个按键时触发该方法。</p>
+</li>
+<li><p>boolean onTouchEvent(MotionEvent event)：当用户在该组件上触发触摸屏事件时触发该方法。</p>
+</li>
+<li><p>boolean onTrackballEvent(MotionEvent event)：当用户在该组件上触发轨迹球事件时触发该方法。</p>
+</li>
+<li><p>void onFocusChanged(boolean gainFocus, int direction, Rect previously FocusedRect)：当组件的焦点发生改变时触发该方法。和前面的6个方法不同，该方法只能够在View中重写。</p>
+</li>
+</ul>
+<p>对于基于监听的事件处理模型来说，事件源和事件监听器是分离的，当事件源上发生特定事件时，该事件交给事件监听器负责处理；对于基于回调的事件处理模型来说，事件源和事件监听器是统一的，当事件源发生特定事件时，该事件还是由事件源本身负责处理。</p>
+<p>几乎所有基于回调的事件处理方法都有一个boolean类型的返回值，该返回值用于标识该处理方法是否能完全处理该事件。</p>
+<ul>
+<li><p>如果处理事件的回调方法返回true，表明该处理方法己完全处理该事件，该事件不会传播出去。</p>
+</li>
+<li><p>如果处理事件的回调方法返回false，表明该处理方法并未完全处理该事件，该事件会传播出去。</p>
+</li>
+</ul>
+<p>对于基于回调的事件传播而言，某组件上所发生的事件不仅会激发该组件上的回调方法， 也会触发该组件所在Activity的回调方法——只要事件能传播到该Activity。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br></pre></td><td class="code"><pre><span class="line">//MyButton.java</span><br><span class="line">import android.content.Context;</span><br><span class="line">import android.util.AttributeSet;</span><br><span class="line">import android.view.MotionEvent;</span><br><span class="line">import android.widget.Button;</span><br><span class="line">import android.widget.Toast;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">public class MyButton extends Button &#123;</span><br><span class="line">    // 构造方法</span><br><span class="line">    public MyButton(Context context, AttributeSet attrs) &#123;</span><br><span class="line">        super(context, attrs);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    // 重写 onTouchEvent触碰事件的回调方法</span><br><span class="line">    @Override</span><br><span class="line">    public boolean onTouchEvent(MotionEvent event) &#123;</span><br><span class="line">        super.onTouchEvent(event);</span><br><span class="line">        // 消息提示</span><br><span class="line">        Toast.makeText(getContext(), &quot;MyButton回调onTouchEvent方法&quot;, Toast.LENGTH_SHORT).show();</span><br><span class="line"></span><br><span class="line">        // 返回false，表明该事件会向外扩散</span><br><span class="line">        return false;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">//EventCallbackActivity</span><br><span class="line">import android.os.Bundle;</span><br><span class="line">import android.support.v7.app.AppCompatActivity;</span><br><span class="line">import android.view.MotionEvent;</span><br><span class="line">import android.view.View;</span><br><span class="line">import android.widget.Button;</span><br><span class="line">import android.widget.Toast;</span><br><span class="line"></span><br><span class="line">public class EventCallbackActivity extends AppCompatActivity &#123;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    protected void onCreate(Bundle savedInstanceState) &#123;</span><br><span class="line">        super.onCreate(savedInstanceState);</span><br><span class="line">        setContentView(R.layout.mybutton_layout);</span><br><span class="line"></span><br><span class="line">        // 获取自定义按钮的实例对象</span><br><span class="line">        Button myButton = (Button) findViewById(R.id.mybutton);</span><br><span class="line"></span><br><span class="line">        // 为自定义按钮绑定事件监听器</span><br><span class="line">        myButton.setOnTouchListener(new View.OnTouchListener() &#123;</span><br><span class="line">            @Override</span><br><span class="line">            public boolean onTouch(View view, MotionEvent motionEvent) &#123;</span><br><span class="line">                // 消息提示</span><br><span class="line">                Toast.makeText(EventCallbackActivity.this,</span><br><span class="line">                        &quot;Activity收到onTouch事件监听&quot;, Toast.LENGTH_SHORT).show();</span><br><span class="line">                // 返回false，表明该事件会继续向外扩散</span><br><span class="line">                return false;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    // 重写onTouchEvent触碰事件的回调方法</span><br><span class="line">    @Override</span><br><span class="line">    public boolean onTouchEvent(MotionEvent event) &#123;</span><br><span class="line">        super.onTouchEvent(event);</span><br><span class="line">        // 消息提示</span><br><span class="line">        Toast.makeText(EventCallbackActivity.this,</span><br><span class="line">                &quot;Activity回调onTouchEvent方法&quot;, Toast.LENGTH_SHORT).show();</span><br><span class="line">        // 返回false，表明未完成处理该事件，该事件会继续向外扩散</span><br><span class="line">        return false;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>当点击按钮时，Android系统最先触发的应该是该按钮上绑定的事件监听器，然后才触发该按钮提供的事件回调方法，最后还会传播到该按钮所在的Activity。</p>
+<p>如果我们让任何一个事件处理方法返回了 true，那么该事件将不会继续向外传播。如将上述代码中按钮绑定的事件监听器中返回true，运行程序发现只能收到onTouch事件监听。</p>
+<p>对比Android提供的两种事件处理模型，可发现基于监听的事件处理模型具有更大的优势。</p>
+<ul>
+<li><p>基于监听的事件处理模型分工更明确，事件源、事件监听器由两个类分幵实现，具有更好的可维护性。</p>
+</li>
+<li><p>Android的事件处理机制保证基于监听的事件监听器会被优先触发。</p>
+</li>
+</ul>
+<h3 id="系统事件"><a href="#系统事件" class="headerlink" title="系统事件"></a>系统事件</h3><h4 id="Configuration类"><a href="#Configuration类" class="headerlink" title="Configuration类"></a>Configuration类</h4><p>Configuration类专门用于描述手机设备上的配置信息，这些配置信息既包括用户特定的配置项，也包括系统的动态设备配置。程序可调用Activity的如下方法来获取系统的Configuration对象：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Configurationcfg=getResources().getConfiguration();</span><br></pre></td></tr></table></figure>
+
+<p>一旦获得了系统的Configuration对象，就可以使用该对象提供的如下常用属性来获取系统的配置信息。</p>
+<ul>
+<li><p>densityDpi：屏幕密度。</p>
+</li>
+<li><p>fontScale：当前用户设置的字体的缩放因子。</p>
+</li>
+<li><p>hardKeyboardHidden：判断硬键盘是否可见，有两个可选值：</p>
+</li>
+<li><p>HARDKEYBOARDHIDDEN_NO，值为十六进制的0。</p>
+</li>
+<li><p>HARDKEYBOARDHIDDEN_YES，值为十六进制的1。</p>
+</li>
+<li><p>keyboard：获取当前关联额键盘类型：该属性的返回值：</p>
+</li>
+<li><p>KEYBOARD_12KEY：只有12个键的小键盘。</p>
+</li>
+<li><p>KEYBOARD_NOKEYS：无键盘。</p>
+</li>
+<li><p>KEYBOARD_QWERTY：普通键盘。</p>
+</li>
+<li><p>keyboardHidden：该属性返回一个boolean值用于标识当前键盘是否可用。该属性不仅会判断系统的硬件键盘，也会判断系统的软键盘（位于屏幕）。</p>
+</li>
+<li><p>locale：获取用户当前的语言环境。</p>
+</li>
+<li><p>mcc：获取移动信号的国家码。</p>
+</li>
+<li><p>mnc：获取移动信号的网络码。</p>
+</li>
+<li><p>ps:国家代码和网络代码共同确定当前手机网络运营商。</p>
+</li>
+<li><p>navigation：判断系统上方向导航设备的类型。该属性的返回值：</p>
+</li>
+<li><p>NAVIGATION_NONAV：无导航。</p>
+</li>
+<li><p>NAVIGATION_DPAD：DPAD导航。</p>
+</li>
+<li><p>NAVIGATION_TRACKBALL：轨迹球导航。</p>
+</li>
+<li><p>NAVIGATION_WHEEL：滚轮导航。</p>
+</li>
+<li><p>orientation：获取系统屏幕的方向。该属性的返回值：</p>
+</li>
+<li><p>ORIENTATION_LANDSCAPE：横向屏幕。</p>
+</li>
+<li><p>ORIENTATION_PORTRAIT：竖向屏幕。</p>
+</li>
+<li><p>screenHeightDp，screenWidthDp：屏幕可用高和宽，用dp表示。</p>
+</li>
+<li><p>touchscreen：获取系统触摸屏的触摸方式。该属性的返回值：</p>
+</li>
+<li><p>TOUCHSCREEN_NOTOUCH：无触摸屏。</p>
+</li>
+<li><p>TOUCHSCREEN_STYLUS：触摸笔式触摸屏。</p>
+</li>
+<li><p>TOUCHSCREEN_FINGER：接收手指的触摸屏。</p>
+</li>
+</ul>
+<p>如果程序需要监听系统设置的更改，则可以考虑重写Activity的onConfigurationChanged (Configuration newConfig)方法，该方法是一个基于回调的事件处理方法：当系统设置发生更改时，该方法会被自动触发。</p>
+<p>当然，为了让Activity能监听系统配置更改的事件，需要在配置Activity时指定 androidiconfigChanges 属性，该属性可以支持 mcc、mnc、locale、touchscreen、keyboard、keyboardHidden、navigation、orientation、screenLayout、uiMode、screenSize、smallestScreenSize、fontScale等属性值。</p>
+<p>xml文件</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;</span><br><span class="line">&lt;LinearLayout xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;</span><br><span class="line">              android:layout_width=&quot;match_parent&quot;</span><br><span class="line">              android:layout_height=&quot;match_parent&quot;</span><br><span class="line">              android:orientation=&quot;vertical&quot;&gt;</span><br><span class="line"></span><br><span class="line">    &lt;TextView</span><br><span class="line">        android:id=&quot;@+id/configuration_tv&quot;</span><br><span class="line">        android:layout_width=&quot;wrap_content&quot;</span><br><span class="line">        android:layout_height=&quot;wrap_content&quot; /&gt;</span><br><span class="line">&lt;/LinearLayout&gt;</span><br></pre></td></tr></table></figure>
+
+<p>java文件</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br></pre></td><td class="code"><pre><span class="line">import android.content.res.Configuration;</span><br><span class="line">import android.os.Bundle;</span><br><span class="line">import android.support.v7.app.AppCompatActivity;</span><br><span class="line">import android.widget.TextView;</span><br><span class="line">import android.widget.Toast;</span><br><span class="line"></span><br><span class="line">public class SystemEventActivity extends AppCompatActivity &#123;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    protected void onCreate(Bundle savedInstanceState) &#123;</span><br><span class="line">        super.onCreate(savedInstanceState);</span><br><span class="line">        setContentView(R.layout.system_event_layout);</span><br><span class="line">        // 获取界面组件</span><br><span class="line">        TextView configurationTv = (TextView) findViewById(R.id.configuration_tv);</span><br><span class="line"></span><br><span class="line">        // 获取系统的Configuration对象</span><br><span class="line">        Configuration cfg = getResources().getConfiguration();</span><br><span class="line"></span><br><span class="line">        // 获取系统的配置信息</span><br><span class="line">        StringBuffer status = new StringBuffer();</span><br><span class="line">        status.append(&quot;屏幕密度：&quot; + cfg.densityDpi + &quot;\n&quot;);</span><br><span class="line">        status.append(&quot;字体缩放因子：&quot; + cfg.fontScale + &quot;\n&quot;);</span><br><span class="line">        status.append(&quot;硬键盘是否可见：&quot; + cfg.hardKeyboardHidden + &quot;\n&quot;);</span><br><span class="line">        status.append(&quot;键盘类型：&quot; + cfg.keyboard + &quot;\n&quot;);</span><br><span class="line">        status.append(&quot;当前键盘是否可用：&quot; + cfg.keyboardHidden + &quot;\n&quot;);</span><br><span class="line">        status.append(&quot;语言环境：&quot; + cfg.locale + &quot;\n&quot;);</span><br><span class="line">        status.append(&quot;移动信号的国家码：&quot; + cfg.mcc + &quot;\n&quot;);</span><br><span class="line">        status.append(&quot;移动信号的网络码：&quot; + cfg.mnc + &quot;\n&quot;);</span><br><span class="line">        status.append(&quot;方向导航设备的类型：&quot; + cfg.navigation + &quot;\n&quot;);</span><br><span class="line">        status.append(&quot;方向导航设备是否可用：&quot; + cfg.navigationHidden + &quot;\n&quot;);</span><br><span class="line">        status.append(&quot;系统屏幕的方向：&quot; + cfg.orientation + &quot;\n&quot;);</span><br><span class="line">        status.append(&quot;屏幕可用高：&quot; + cfg.screenHeightDp + &quot;\n&quot;);</span><br><span class="line">        status.append(&quot;屏幕可用宽：&quot; + cfg.screenWidthDp + &quot;\n&quot;);</span><br><span class="line">        status.append(&quot;系统触摸屏的触摸方式：&quot; + cfg.touchscreen + &quot;\n&quot;);</span><br><span class="line">        status.append(&quot;screenLayout：&quot; + cfg.screenLayout + &quot;\n&quot;);</span><br><span class="line">        status.append(&quot;smallestScreenWidthDp：&quot; + cfg.smallestScreenWidthDp + &quot;\n&quot;);</span><br><span class="line">        status.append(&quot;uiMode：&quot; + cfg.uiMode + &quot;\n&quot;);</span><br><span class="line"></span><br><span class="line">        // 配置信息输出</span><br><span class="line">        configurationTv.setText(status.toString());</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    // 重写onConfigurationChanged方法，用于监听系统设置的更改</span><br><span class="line">    @Override</span><br><span class="line">    public void onConfigurationChanged(Configuration newConfig) &#123;</span><br><span class="line">        super.onConfigurationChanged(newConfig);</span><br><span class="line"></span><br><span class="line">        // 获取更改后的屏幕方向</span><br><span class="line">        int screen = newConfig.orientation;</span><br><span class="line">        String ori = (Configuration.ORIENTATION_LANDSCAPE == screen) ? &quot;横屏&quot; : &quot;竖屏&quot;;</span><br><span class="line"></span><br><span class="line">        // 消息提示</span><br><span class="line">        Toast.makeText(this, &quot;系统的屏幕方向改变为：&quot; + ori, Toast.LENGTH_SHORT).show();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>为了让Activity能监听到屏幕方向的更改事件，需要在配置该Activity时指定 androidiconfigChanges 属性，应用的AndroidManifest.xml文件改为如下形式。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;</span><br><span class="line">&lt;manifest xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;</span><br><span class="line">          package=&quot;com.jinyu.cqkxzsxy.android.widgetsample&quot;&gt;</span><br><span class="line"></span><br><span class="line">    &lt;application</span><br><span class="line">        android:allowBackup=&quot;true&quot;</span><br><span class="line">        android:icon=&quot;@mipmap/ic_launcher&quot;</span><br><span class="line">        android:label=&quot;@string/app_name&quot;</span><br><span class="line">        android:roundIcon=&quot;@mipmap/ic_launcher_round&quot;</span><br><span class="line">        android:supportsRtl=&quot;true&quot;</span><br><span class="line">        android:theme=&quot;@style/AppTheme&quot;&gt;</span><br><span class="line">        &lt;activity android:name=&quot;.SystemEventActivity&quot;</span><br><span class="line">            android:configChanges=&quot;orientation|screenSize&quot;&gt;</span><br><span class="line">            &lt;intent-filter&gt;</span><br><span class="line">                &lt;action android:name=&quot;android.intent.action.MAIN&quot;/&gt;</span><br><span class="line"></span><br><span class="line">                &lt;category android:name=&quot;android.intent.category.LAUNCHER&quot;/&gt;</span><br><span class="line">            &lt;/intent-filter&gt;</span><br><span class="line">        &lt;/activity&gt;</span><br><span class="line">    &lt;/application&gt;</span><br><span class="line">&lt;/manifest&gt;</span><br></pre></td></tr></table></figure>
+
+<p>上面的配置代码指定了该Activity可以监听屏幕方向改变的事件，这样当程序改变手机屏幕方向时，Activity的onConfigurationChanged()方法就会被回调。</p>
+<h3 id="参考："><a href="#参考：" class="headerlink" title="参考："></a>参考：</h3><ol>
+<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/cqkxzsxy/article/category/7017381">Android从入门到精通</a></li>
+</ol>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">平心</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://pingxin0521.gitee.io/2019/04/30/Android-%E5%9F%BA%E7%A1%80-9/">https://pingxin0521.gitee.io/2019/04/30/Android-%E5%9F%BA%E7%A1%80-9/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://pingxin0521.gitee.io" target="_blank">平心de小屋</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/Android/">Android</a></div><div class="post_share"><div class="social-share" data-image="https://i.loli.net/2020/05/08/HjVAdIuT7bZJypS.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2019/04/30/Android-%E5%9F%BA%E7%A1%80-10/"><img class="prev-cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/PFDRNxj93taz6pw.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">Android 基本控件（三）</div></div></a></div><div class="next-post pull-right"><a href="/2019/04/30/JavaScript-%E5%9F%BA%E7%A1%80-1/"><img class="next-cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/PFDRNxj93taz6pw.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">JavaScript 入门和变量</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span> 相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2019/06/03/Android-基础-22/" title="Android  常见错误"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/vCnKyoFJZ1g4XYR.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2020-05-16</div><div class="title">Android  常见错误</div></div></a></div><div><a href="/2019/04/27/Android-基础-4/" title="Android 用户界面状态保存"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/gGE57HRvpcKPfDY.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2019-07-02</div><div class="title">Android 用户界面状态保存</div></div></a></div><div><a href="/2019/04/30/Android-基础-13/" title="Android  菜单"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/gGE57HRvpcKPfDY.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2019-07-02</div><div class="title">Android  菜单</div></div></a></div><div><a href="/2019/04/30/Android-基础-11/" title="Android  高级控件（一）"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/7dHvepmfYOLWTrX.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2019-07-02</div><div class="title">Android  高级控件（一）</div></div></a></div><div><a href="/2019/04/27/Android-基础-3/" title="Android  Intent和Application"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/gGE57HRvpcKPfDY.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2019-07-02</div><div class="title">Android  Intent和Application</div></div></a></div><div><a href="/2019/04/28/Android-基础-5/" title="Android 常用基本控件"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/vCnKyoFJZ1g4XYR.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2019-05-08</div><div class="title">Android 常用基本控件</div></div></a></div></div></div><hr/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div class="vcomment" id="vcomment"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="card-info-avatar is-center"><img class="avatar-img" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://s2.ax1x.com/2020/02/11/1ovw6J.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/><div class="author-info__name">平心</div><div class="author-info__description">年轻人的life、learn and think</div></div><div class="card-info-data"><div class="card-info-data-item is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">449</div></a></div><div class="card-info-data-item is-center"><a href="/tags/"><div class="headline">标签</div><div class="length-num">77</div></a></div><div class="card-info-data-item is-center"><a href="/categories/"><div class="headline">分类</div><div class="length-num">68</div></a></div></div><a class="button--animated" id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/hanyunpeng0521"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/hanyunpeng0521" target="_blank" title="Github"><i class="fa fa-github"></i></a><a class="social-icon" href="mailto:m13839441583@163.com" target="_blank" title="Email"><i class="fa fa-envelope"></i></a><a class="social-icon" href="/atom.xml" target="_blank" title=""><i class="fa fa-rss"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn card-announcement-animation"></i><span>公告</span></div><div class="announcement_content">为什么呢？开始提问吧</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BA%8B%E4%BB%B6%E5%A4%84%E7%90%86"><span class="toc-number">1.</span> <span class="toc-text">事件处理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%9B%91%E5%90%AC"><span class="toc-number">2.</span> <span class="toc-text">监听</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9B%9E%E8%B0%83"><span class="toc-number">3.</span> <span class="toc-text">回调</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%B3%BB%E7%BB%9F%E4%BA%8B%E4%BB%B6"><span class="toc-number">4.</span> <span class="toc-text">系统事件</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Configuration%E7%B1%BB"><span class="toc-number">4.1.</span> <span class="toc-text">Configuration类</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8F%82%E8%80%83%EF%BC%9A"><span class="toc-number">5.</span> <span class="toc-text">参考：</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2021/05/15/node-2-4/" title="Egg.js -- 为企业级框架和应用而生"><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/okfOw28KlZFbE7z.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Egg.js -- 为企业级框架和应用而生"/></a><div class="content"><a class="title" href="/2021/05/15/node-2-4/" title="Egg.js -- 为企业级框架和应用而生">Egg.js -- 为企业级框架和应用而生</a><time datetime="2021-05-15T10:18:59.000Z" title="发表于 2021-05-15 18:18:59">2021-05-15</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/04/30/node-2-3/" title="Koa -- 基于Node.js平台的下一代Web开发框架"><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/HjVAdIuT7bZJypS.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Koa -- 基于Node.js平台的下一代Web开发框架"/></a><div class="content"><a class="title" href="/2021/04/30/node-2-3/" title="Koa -- 基于Node.js平台的下一代Web开发框架">Koa -- 基于Node.js平台的下一代Web开发框架</a><time datetime="2021-04-30T10:18:59.000Z" title="发表于 2021-04-30 18:18:59">2021-04-30</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/04/01/node-2-1/" title="Node.JS web开发前置知识"><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/gGE57HRvpcKPfDY.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Node.JS web开发前置知识"/></a><div class="content"><a class="title" href="/2021/04/01/node-2-1/" title="Node.JS web开发前置知识">Node.JS web开发前置知识</a><time datetime="2021-04-01T03:18:59.000Z" title="发表于 2021-04-01 11:18:59">2021-04-01</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2020/12/26/%E5%91%A8%E8%AE%B0-10-1/" title="第十一周--谷歌浏览器插件"><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/gGE57HRvpcKPfDY.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="第十一周--谷歌浏览器插件"/></a><div class="content"><a class="title" href="/2020/12/26/%E5%91%A8%E8%AE%B0-10-1/" title="第十一周--谷歌浏览器插件">第十一周--谷歌浏览器插件</a><time datetime="2020-12-26T10:18:59.000Z" title="发表于 2020-12-26 18:18:59">2020-12-26</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2020/12/26/%E5%91%A8%E8%AE%B0-10-0/" title="第十一周--浏览器技术"><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/vCnKyoFJZ1g4XYR.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="第十一周--浏览器技术"/></a><div class="content"><a class="title" href="/2020/12/26/%E5%91%A8%E8%AE%B0-10-0/" title="第十一周--浏览器技术">第十一周--浏览器技术</a><time datetime="2020-12-26T06:18:59.000Z" title="发表于 2020-12-26 14:18:59">2020-12-26</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2019 - 2021 By 平心</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div id="local-search"><div class="search-dialog"><div class="search-dialog__title" id="local-search-title">本地搜索</div><div id="local-input-panel"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div></div><hr/><div id="local-search-results"></div><span class="search-close-button"><i class="fas fa-times"></i></span></div><div id="search-mask"></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload/dist/lazyload.iife.min.js"></script><script src="/js/search/local-search.js"></script><div class="js-pjax"><script>function loadValine () {
+  function initValine () {
+    const valine = new Valine(Object.assign({
+      el: '#vcomment',
+      appId: '4lfIXzqxaC1ONs0MJO4oHu07-gzGzoHsz',
+      appKey: 'qw99Bw8FD0KVKU9m457CwWsr',
+      placeholder: 'Please leave your footprints',
+      avatar: 'monsterid',
+      meta: 'nick,mail,link'.split(','),
+      pageSize: '10',
+      lang: 'zh-CN',
+      recordIP: true,
+      serverURLs: '',
+      emojiCDN: '',
+      emojiMaps: "",
+      enableQQ: true,
+      path: window.location.pathname,
+      requiredFields: ["nick,mail"],
+      visitor: false
+    }, null))
+  }
+
+  if (typeof Valine === 'function') initValine() 
+  else getScript('https://cdn.jsdelivr.net/npm/valine/dist/Valine.min.js').then(initValine)
+}
+
+if ('Valine' === 'Valine' || !false) {
+  if (false) btf.loadComment(document.getElementById('vcomment'),loadValine)
+  else setTimeout(loadValine, 0)
+} else {
+  function loadOtherComment () {
+    loadValine()
+  }
+}</script></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>

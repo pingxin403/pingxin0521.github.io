@@ -1,0 +1,384 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>第三周--C10K、C1000K、C10M | 平心de小屋</title><meta name="keywords" content="周记"><meta name="author" content="平心"><meta name="copyright" content="平心"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="本周速记方法论  C10K 小世界网络  C10K">
+<meta property="og:type" content="article">
+<meta property="og:title" content="第三周--C10K、C1000K、C10M">
+<meta property="og:url" content="https://pingxin0521.gitee.io/2019/11/24/%E5%91%A8%E8%AE%B0-2-1/index.html">
+<meta property="og:site_name" content="平心de小屋">
+<meta property="og:description" content="本周速记方法论  C10K 小世界网络  C10K">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://i.loli.net/2020/05/08/PFDRNxj93taz6pw.jpg">
+<meta property="article:published_time" content="2019-11-24T10:18:59.000Z">
+<meta property="article:modified_time" content="2020-02-14T14:14:58.424Z">
+<meta property="article:author" content="平心">
+<meta property="article:tag" content="周记">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.loli.net/2020/05/08/PFDRNxj93taz6pw.jpg"><link rel="shortcut icon" href="https://s2.ax1x.com/2020/02/11/1ovFOA.png"><link rel="canonical" href="https://pingxin0521.gitee.io/2019/11/24/%E5%91%A8%E8%AE%B0-2-1/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"search.xml","languages":{"hits_empty":"找不到您查询的内容：${query}"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    jQuery: 'https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js',
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+    },
+    fancybox: {
+      js: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css'
+    }
+  },
+  isPhotoFigcaption: true,
+  islazyload: true,
+  isanchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '第三周--C10K、C1000K、C10M',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2020-02-14 22:14:58'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    })(window)</script><meta name="generator" content="Hexo 5.4.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="author-avatar"><img class="avatar-img" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://s2.ax1x.com/2020/02/11/1ovw6J.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data"><div class="data-item is-center"><div class="data-item-link"><a href="/archives/"><div class="headline">文章</div><div class="length-num">449</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/tags/"><div class="headline">标签</div><div class="length-num">77</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/categories/"><div class="headline">分类</div><div class="length-num">68</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fa fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fa fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://i.loli.net/2020/05/08/PFDRNxj93taz6pw.jpg')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">平心de小屋</a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fa fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fa fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">第三周--C10K、C1000K、C10M</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2019-11-24T10:18:59.000Z" title="发表于 2019-11-24 18:18:59">2019-11-24</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2020-02-14T14:14:58.424Z" title="更新于 2020-02-14 22:14:58">2020-02-14</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E5%91%A8%E8%AE%B0/">周记</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">9.9k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>32分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="第三周--C10K、C1000K、C10M"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h4 id="本周速记"><a href="#本周速记" class="headerlink" title="本周速记"></a>本周速记</h4><p><strong>方法论</strong></p>
+<ol>
+<li>C10K</li>
+<li>小世界网络</li>
+</ol>
+<h3 id="C10K"><a href="#C10K" class="headerlink" title="C10K"></a>C10K</h3><span id="more"></span>
+
+<h4 id="单台服务器并发TCP连接数到底可以有多少"><a href="#单台服务器并发TCP连接数到底可以有多少" class="headerlink" title="单台服务器并发TCP连接数到底可以有多少"></a>单台服务器并发TCP连接数到底可以有多少</h4><ol>
+<li><p>文件句柄限制</p>
+<p>在linux下编写网络服务器程序的朋友肯定都知道每一个tcp连接都要占一个文件描述符，一旦这个文件描述符使用完了，新的连接到来返回给我们的错误是“Socket/File:Can’t open so many files”。</p>
+<p>这时你需要明白操作系统对可以打开的最大文件数的限制。</p>
+<ul>
+<li><p>进程限制</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ ulimit -n      </span><br><span class="line">1024</span><br></pre></td></tr></table></figure>
+
+<p>说明对于一个进程而言最多只能打开1024个文件，所以你要采用此默认配置最多也就可以并发上千个TCP连接。临时修改：<code>ulimit -n 1000000</code>，但是这种临时修改只对当前登录用户目前的使用环境有效，系统重启或用户退出后就会失效。</p>
+<p>永久修改：编辑/etc/rc.local，在其后添加如下内容：</p>
+<ul>
+<li><code>ulimit -SHn 1000000</code></li>
+</ul>
+</li>
+<li><p>全局限制</p>
+<p>执行 <code>cat /proc/sys/fs/file-nr</code> </p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> cat /proc/sys/fs/file-nr</span> </span><br><span class="line">16208	0	791415</span><br><span class="line"><span class="meta">#</span><span class="bash"> 已经分配的文件句柄数  已经分配但没有使用的文件句柄数  最大文件句柄数</span></span><br></pre></td></tr></table></figure>
+
+<p>但在kernel 2.6版本中第二项的值总为0，这并不是一个错误，它实际上意味着已经分配的文件描述符无一浪费的都已经被使用了 。</p>
+<p>我们可以把这个数值改大些，用 root 权限修改 /etc/sysctl.conf 文件:</p>
+<ul>
+<li>fs.file-max = 1000000</li>
+<li>net.nf_conntrack_max = 1000000</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>端口号范围限制</p>
+<p>操作系统上端口号1024以下是系统保留的，从1024-65535是用户使用的。由于每个TCP连接都要占一个端口号，所以我们最多可以有60000多个并发连接。我想有这种错误思路朋友不在少数吧？（其中我过去就一直这么认为）</p>
+<p>我们来分析一下吧。</p>
+<p><strong>如何标识一个TCP连接：</strong><br>系统用一个4四元组来唯一标识一个TCP连接：{local ip, local port,remote ip,remote port}。好吧，我们拿出《UNIX网络编程：卷一》第四章中对accept的讲解来看看概念性的东西，第二个参数cliaddr代表了客户端的ip地址和端口号。而我们作为服务端实际只使用了bind时这一个端口，说明端口号65535并不是并发量的限制。</p>
+<p><strong>server最大tcp连接数：</strong><br>server通常固定在某个本地端口上监听，等待client的连接请求。不考虑地址重用（unix的SO_REUSEADDR选项）的情况下，即使server端有多个ip，本地监听端口也是独占的，因此server端tcp连接4元组中只有remote ip（也就是client ip）和remote port（客户端port）是可变的，因此最大tcp连接为客户端ip数×客户端port数，对IPV4，不考虑ip地址分类等因素，最大tcp连接数约为2的32次方（ip数）×2的16次方（port数），也就是server端单机最大tcp连接数约为<strong>2的48次方</strong>。</p>
+</li>
+</ol>
+<p>更多内核参数参考liunx相关博文：<a target="_blank" rel="noopener" href="https://pingxin0521.coding.me/categories/Linux/%E5%9F%BA%E7%A1%80/">https://pingxin0521.coding.me/categories/Linux/基础/</a></p>
+<h4 id="C10K-1"><a href="#C10K-1" class="headerlink" title="C10K"></a>C10K</h4><p><strong>由来</strong></p>
+<p>大家都知道互联网的基础就是网络通信，早期的互联网可以说是一个小群体的集合。互联网还不够普及，用户也不多，一台服务器同时在线100个用户估计在当时已经算是大型应用了，所以并不存在什么 C10K 的难题。互联网的爆发期应该是在www网站，浏览器，雅虎出现后。最早的互联网称之为Web1.0，互联网大部分的使用场景是下载一个HTML页面，用户在浏览器中查看网页上的信息，这个时期也不存在C10K问题。</p>
+<p>Web2.0时代到来后就不同了，一方面是普及率大大提高了，用户群体几何倍增长。另一方面是互联网不再是单纯的浏览万维网网页，逐渐开始进行交互，而且应用程序的逻辑也变的更复杂，从简单的表单提交，到即时通信和在线实时互动，C10K的问题才体现出来了。因为每一个用户都必须与服务器保持TCP连接才能进行实时的数据交互，诸如Facebook这样的网站同一时间的并发TCP连接很可能已经过亿。</p>
+<blockquote>
+<p>早期的腾讯QQ也同样面临C10K问题，只不过他们是用了UDP这种原始的包交换协议来实现的，绕开了这个难题，当然过程肯定是痛苦的。如果当时有epoll技术，他们肯定会用TCP。众所周之，后来的手机QQ、微信都采用TCP协议。</p>
+<p>实际上当时也有异步模式，如：select/poll模型，这些技术都有一定的缺点：如selelct最大不能超过1024、poll没有限制，但每次收到数据需要遍历每一个连接查看哪个连接有数据请求。</p>
+</blockquote>
+<p>这时候问题就来了，最初的服务器都是基于进程/线程模型的，新到来一个TCP连接，就需要分配1个进程（或者线程）。而进程又是操作系统最昂贵的资源，一台机器无法创建很多进程。如果是C10K就要创建1万个进程，那么单机而言操作系统是无法承受的（往往出现效率低下甚至完全瘫痪）。如果是采用分布式系统，维持1亿用户在线需要10万台服务器，成本巨大，也只有Facebook、Google、雅虎等巨头才有财力购买如此多的服务器。</p>
+<p>基于上述考虑，如何突破单机性能局限，是高性能网络编程所必须要直面的问题。这些局限和问题最早被Dan Kegel 进行了归纳和总结，并首次成系统地分析和提出解决方案，后来这种普遍的网络现象和技术局限都被大家称为 C10K 问题。</p>
+<p><strong>问题</strong></p>
+<p>C10K 问题的最大特点是：设计不够良好的程序，其性能和连接数及机器性能的关系往往是非线性的。</p>
+<p>举个例子：如果没有考虑过 C10K 问题，一个经典的基于 select 的程序能在旧服务器上很好处理 1000 并发的吞吐量，它在 2 倍性能新服务器上往往处理不了并发 2000 的吞吐量。这是因为在策略不当时，大量操作的消耗和当前连接数 n 成线性相关。会导致单个任务的资源消耗和当前连接数的关系会是 O(n)。而服务程序需要同时对数以万计的socket 进行 I/O 处理，积累下来的资源消耗会相当可观，这显然会导致系统吞吐量不能和机器性能匹配。</p>
+<p>以上这就是典型的C10K问题在技术层面的表现。这也是为何同样的功能，大多数开发人员都能很容易地从功能上实现，但一旦放到大并发场景下，初级与高级开发者对同一个功能的技术实现所体现出的实际应用效果，则是截然不同的。</p>
+<p>所以说，一些没有太多大并发实践经验的技术同行，所实现的诸如即时通讯应用在内的网络应用，所谓的理论负载动不动就宣称能支持单机上万、上十万甚至上百万的情况，是经不起检验和考验的。</p>
+<p><strong>本质</strong></p>
+<p>C10K问题本质上是操作系统的问题。对于Web1.0/2.0时代的操作系统而言， 传统的同步阻塞I/O模型都是一样的，处理的方式都是requests per second，并发10K和100的区别关键在于CPU。</p>
+<p>创建的进程线程多了，数据拷贝频繁（缓存I/O、内核将数据拷贝到用户进程空间、阻塞）， 进程/线程上下文切换消耗大， 导致操作系统崩溃，这就是C10K问题的本质！</p>
+<p>可见，解决C10K问题的关键就是尽可能减少这些CPU等核心计算资源消耗，从而榨干单台服务器的性能，突破C10K问题所描述的瓶颈。</p>
+<h5 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h5><p>从网络编程技术的角度来说，主要思路：</p>
+<ol>
+<li><p>每个连接分配一个独立的线程/进程</p>
+<p>这一思路最为直接。但是由于申请进程/线程会占用相当可观的系统资源，同时对于多进程/线程的管理会对系统造成压力，因此这种方案不具备良好的可扩展性。</p>
+<p>因此，这一思路在服务器资源还没有富裕到足够程度的时候，是不可行的。即便资源足够富裕，效率也不够高。总之，此思路技术实现会使得资源占用过多，可扩展性差。</p>
+</li>
+<li><p>同一个线程/进程同时处理多个连接(I/O多路复用)</p>
+<ul>
+<li><p>传统思路最简单的方法是循环挨个处理各个连接，每个连接对应一个 socket，当所有 socket 都有数据的时候，这种方法是可行的。但是当应用读取某个 socket 的文件数据不 ready 的时候，整个应用会阻塞在这里等待该文件句柄，即使别的文件句柄 ready，也无法往下处理。</p>
+<p>实现小结：直接循环处理多个连接。<br>问题归纳：任一文件句柄的不成功会阻塞住整个应用。</p>
+</li>
+<li><p>select方式：使用fd_set结构体告诉内核同时监控那些文件句柄，使用逐个排查方式去检查是否有文件句柄就绪或者超时。该方式有以下缺点：文件句柄数量是有上线的，逐个检查吞吐量低，每次调用都要重复初始化fd_set。</p>
+<p>实现小结：有连接请求抵达了再检查处理。<br>问题归纳：句柄上限+重复初始化+逐个排查所有文件句柄状态效率不高。</p>
+</li>
+<li><p>poll方式：该方式主要解决了select方式的2个缺点，文件句柄上限问题(链表方式存储)以及重复初始化问题(不同字段标注关注事件和发生事件)，但是逐个去检查文件句柄是否就绪的问题仍然没有解决。</p>
+<p>实现小结：设计新的数据结构提供使用效率。<br>问题归纳：逐个排查所有文件句柄状态效率不高。</p>
+</li>
+<li><p>epoll方式：该方式可以说是C10K问题的killer，他不去轮询监听所有文件句柄是否已经就绪。epoll只对发生变化的文件句柄感兴趣。其工作机制是，使用”事件”的就绪通知方式，通过epoll_ctl注册文件描述符fd，一旦该fd就绪，内核就会采用类似callback的回调机制来激活该fd, epoll_wait便可以收到通知, 并通知应用程序。而且epoll使用一个文件描述符管理多个描述符,将用户进程的文件描述符的事件存放到内核的一个事件表中, 这样数据只需要从内核缓存空间拷贝一次到用户进程地址空间。而且epoll是通过内核与用户空间共享内存方式来实现事件就绪消息传递的，其效率非常高。但是epoll是依赖系统的(Linux)。</p>
+<p>实现小结：只返回状态变化的文件句柄。<br>问题归纳：依赖特定平台（Linux）。</p>
+<p>因为Linux是互联网企业中使用率最高的操作系统，Epoll就成为C10K killer、高并发、高性能、异步非阻塞这些技术的代名词了。FreeBSD推出了kqueue，Linux推出了epoll，Windows推出了IOCP，Solaris推出了/dev/poll。这些操作系统提供的功能就是为了解决C10K问题。epoll技术的编程模型就是异步非阻塞回调，也可以叫做Reactor，事件驱动，事件轮循（EventLoop）。Nginx，libevent，node.js这些就是Epoll时代的产物。</p>
+</li>
+<li><p>由于epoll, kqueue, IOCP每个接口都有自己的特点，程序移植非常困难，于是需要对这些接口进行封装，以让它们易于使用和移植，其中libevent库就是其中之一。跨平台，封装底层平台的调用，提供统一的 API，但底层在不同平台上自动选择合适的调用。按照libevent的官方网站，libevent库提供了以下功能：当一个文件描述符的特定事件（如可读，可写或出错）发生了，或一个定时事件发生了，libevent就会自动执行用户指定的回调函数，来处理事件。目前，libevent已支持以下接口/dev/poll, kqueue, event ports, select, poll 和 epoll。Libevent的内部事件机制完全是基于所使用的接口的。因此libevent非常容易移植，也使它的扩展性非常容易。目前，libevent已在以下操作系统中编译通过：Linux，BSD，Mac OS X，Solaris和Windows。使用libevent库进行开发非常简单，也很容易在各种unix平台上移植。一个简单的使用libevent库的程序如下：</p>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://s2.ax1x.com/2019/11/29/QAkc9S.png" alt="QAkc9S.png"></p>
+</li>
+</ul>
+</li>
+</ol>
+<h5 id="启示"><a href="#启示" class="headerlink" title="启示"></a>启示</h5><p>在当时的年代，国内互联网的普及程度相对较低，C10K并没有给当时中国的互联网环境带来太大冲击，但是在全球互联网环境下大家开始意识到这个问题。为了解决该问题，首先的研究方向就是IO模型的优化，逐渐解决了C10K的问题。</p>
+<p>epoll、kqueue、iocp就是IO模型优化的一些最佳实践，这几种技术实现分别对应于不同的系统平台。以epoll为例，在它的基础上抽象了一些开发框架和库，为广大软件开发者在软件开发带来了便利，比如libevent、libev等。随着当年在IO模型上的革命，衍生出了很多至今为止我们都在大量使用的优秀开源软件，比如nginx、haproxy、squid等，通过大量的创新、实践和优化，使我们在今天能够很轻易地解决一个大并发压力场景下的技术问题。</p>
+<p>这里简单列了几点，较为常用的优化技术手段。</p>
+<ol>
+<li><p>CPU亲和性 &amp; 内存局域性</p>
+<p>目前我们使用的服务器主要是多路、多核心的x86平台。用于运行我们的软件代码，在很多场景的业务需求下，都会涉及一定并发任务，无论是多进程模型还是多线程模型，都要把所有的调度任务交给操作系统，让操作系统帮我们分配硬件资源。我们常用的服务器操作系统都属于分时操作系统，调度模型都尽可能的追求公平，并没有为某一类任务做特别的优化，如果当前系统仅仅运行某一特定任务的时候，默认的调度策略可能会导致一定程度上的性能损失。我运行一个A任务，第一个调度周期在0号核心上运行，第二个调度周期可能就跑到1号核心上去了，这样频繁的调度可能会造成大量的上下文切换，从而影响到一定的性能。</p>
+<p>数据局域性是同样类似的问题。当前x86服务器以NUMA架构为主，这种平台架构下，每个CPU有属于自己的内存，如果当前CPU需要的数据需要到另外一颗CPU管理的内存获取，必然增加一些延时。所以我们尽可能的尝试让我们的任务和数据在始终在相同的CPU核心和相同的内存节点上，Linux提供了sched_set_affinity函数，我们可以在代码中，将我们的任务绑定在指定的CPU核心上。一些Linux发行版也在用户态中提供了numactl和taskset工具，通过它们也很容易让我们的程序运行在指定的节点上。</p>
+</li>
+<li><p>RSS、RPS、RFS、XPS</p>
+<p>这些技术都是近些年来为了优化Linux网络方面的性能而添加的特性，RPS、RFS、XPS都是Google贡献给社区，RSS需要硬件的支持，目前主流的网卡都已支持，即俗称的多队列网卡，充分利用多个CPU核心，让数据处理的压力分布到多个CPU核心上去。</p>
+<p>RPS和RFS在linux2.6.35的版本被加入，一般是成对使用的，在不支持RSS特性的网卡上，用软件来模拟类似的功能，并且将相同的数据流绑定到指定的核心上，尽可能提升网络方面处理的性能。XPS特性在linux2.6.38的版本中被加入，主要针对多队列网卡在发送数据时的优化，当你发送数据包时，可以根据CPU MAP来选择对应的网卡队列，低于指定的kernel版本可能无法使用相关的特性，但是发行版已经backport这些特性。</p>
+</li>
+<li><p>IRQ 优化</p>
+<p>关于IRQ的优化，这里主要有两点，第一点是关于中断合并。在比较早期的时候，网卡每收到一个数据包就会触发一个中断，如果小包的数据量特别大的时候，中断被触发的数量也变的十分可怕。大部分的计算资源都被用于处理中断，导致性能下降。后来引入了NAPI和Newernewer NAPI特性，在系统较为繁忙的时候，一次中断触发后，接下来用轮循的方式读取后续的数据包，以降低中断产生的数量，进而也提升了处理的效率。第二点是IRQ亲和性，和我们前面提到了CPU亲和性较为类似，是将不同的网卡队列中断处理绑定到指定的CPU核心上去，适用于拥有RSS特性的网卡。</p>
+<p>这里再说说关于网络卸载的优化，目前主要有TSO、GSO、LRO、GRO这几个特性，先说说TSO，以太网MTU一般为1500，减掉TCP/IP的包头，TCP的MaxSegment Size为1460，通常情况下协议栈会对超过1460的TCP Payload进行分段，保证最后生成的IP包不超过MTU的大小，对于支持TSO/GSO的网卡来说，协议栈就不再需要这样了，可以将更大的TCPPayload发送给网卡驱动，然后由网卡进行封包操作。通过这个手段，将需要在CPU上的计算offload到网卡上，进一步提升整体的性能。GSO为TSO的升级版，不在局限于TCP协议。LRO和TSO的工作路径正好相反，在频繁收到小包时，每次一个小包都要向协议栈传递，对多个TCPPayload包进行合并，然后再传递给协议栈，以此来提升协议栈处理的效率。GRO为LRO的升级版本，解决了LRO存在的一些问题。这些特性都是在一定的场景下才可以发挥其性能效率，在不明确自己的需求的时候，开启这些特性反而可能造成性能下降。</p>
+</li>
+<li><p>Kernel 优化</p>
+<p>关于Kernel的网络相关优化我们就不过多的介绍了，主要的内核网络参数的调整在以下两处：<code>net.ipv4.*</code>参数和<code>net.core.*</code>参数。</p>
+<p>主要用于调节一些超时控制及缓存等，通过搜索引擎我们能很容易找到关于这些参数调优的文章，但是修改这些参数是否能带来性能的提升，或者会有什么弊端，建议详细的阅读kernel文档，并且多做一些测试来验证。</p>
+</li>
+</ol>
+<h4 id="C1000K"><a href="#C1000K" class="headerlink" title="C1000K"></a>C1000K</h4><p>著名的 C10K 问题提出的时候, 正是 2001 年, 到如今 12 年后的 2013 年, C10K 已经不是问题了, 任何一个普通的程序员, 都能利用手边的语言和库, 轻松地写出 C10K 的服务器. 这既得益于软件的进步, 也得益于硬件性能的提高.</p>
+<p>现在, 该是考虑 C1000K, 也就是百万连接的问题的时候了. 像 Twitter, weibo, Facebook 这些网站, 它们的同时在线用户有上千万, 同时又希望消息能接近实时地推送给用户, 这就需要服务器能维持和上千万用户的 TCP 网络连接, 虽然可以使用成百上千台服务器来支撑这么多用户, 但如果每台服务器能支持一百万连接(C1000K), 那么只需要十台服务器.</p>
+<p>有很多技术声称能解决 C1000K 问题, 例如 Erlang, Java NIO 等等, 不过, 我们应该首先弄明白, 什么因素限制了 C1000K 问题的解决. 主要是这几点:</p>
+<ol>
+<li>操作系统能否支持百万连接?</li>
+<li>操作系统维持百万连接需要多少内存?</li>
+<li>应用程序维持百万连接需要多少内存?</li>
+<li>百万连接的吞吐量是否超过了网络限制?</li>
+</ol>
+<p>下面来分别对这几个问题进行分析.</p>
+<p><strong>操作系统能否支持百万连接</strong>?</p>
+<p>配置方法参考第一章</p>
+<p><strong>操作系统维持百万连接需要多少内存</strong>?</p>
+<p>解决了操作系统的参数限制, 接下来就要看看内存的占用情况. 首先, 是操作系统本身维护这些连接的内存占用. 对于 Linux 操作系统, socket(fd) 是一个整数, 所以, 猜想操作系统管理一百万个连接所占用的内存应该是 4M/8M, 再包括一些管理信息, 应该会是 100M 左右. 不过, 还有 socket 发送和接收缓冲区所占用的内存没有分析. 为此, 使用 C 网络程序来验证:</p>
+<p>服务器：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdlib.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;string.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;unistd.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;errno.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;arpa/inet.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;netinet/tcp.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;sys/select.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> MAX_PORTS 10</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">char</span> **argv)</span></span>&#123;</span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">sockaddr_in</span> <span class="title">addr</span>;</span></span><br><span class="line">    <span class="keyword">const</span> <span class="keyword">char</span> *ip = <span class="string">&quot;0.0.0.0&quot;</span>;</span><br><span class="line">    <span class="keyword">int</span> opt = <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">int</span> bufsize;</span><br><span class="line">    <span class="keyword">socklen_t</span> optlen;</span><br><span class="line">    <span class="keyword">int</span> connections = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">int</span> base_port = <span class="number">7000</span>;</span><br><span class="line">    <span class="keyword">if</span>(argc &gt; <span class="number">2</span>)&#123;</span><br><span class="line">        base_port = atoi(argv[<span class="number">1</span>]);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">int</span> server_socks[MAX_PORTS];</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>; i&lt;MAX_PORTS; i++)&#123;</span><br><span class="line">        <span class="keyword">int</span> port = base_port + i;</span><br><span class="line">        bzero(&amp;addr, <span class="keyword">sizeof</span>(addr));</span><br><span class="line">        addr.sin_family = AF_INET;</span><br><span class="line">        addr.sin_port = htons((<span class="keyword">short</span>)port);</span><br><span class="line">        inet_pton(AF_INET, ip, &amp;addr.sin_addr);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">int</span> serv_sock;</span><br><span class="line">        <span class="keyword">if</span>((serv_sock = socket(AF_INET, SOCK_STREAM, <span class="number">0</span>)) == <span class="number">-1</span>)&#123;</span><br><span class="line">            <span class="keyword">goto</span> sock_err;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span>(setsockopt(serv_sock, SOL_SOCKET, SO_REUSEADDR, &amp;opt, <span class="keyword">sizeof</span>(opt)) == <span class="number">-1</span>)&#123;</span><br><span class="line">            <span class="keyword">goto</span> sock_err;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span>(bind(serv_sock, (struct sockaddr *)&amp;addr, <span class="keyword">sizeof</span>(addr)) == <span class="number">-1</span>)&#123;</span><br><span class="line">            <span class="keyword">goto</span> sock_err;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span>(listen(serv_sock, <span class="number">1024</span>) == <span class="number">-1</span>)&#123;</span><br><span class="line">            <span class="keyword">goto</span> sock_err;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        server_socks[i] = serv_sock;</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">&quot;server listen on port: %d\n&quot;</span>, port);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//optlen = sizeof(bufsize);</span></span><br><span class="line">    <span class="comment">//getsockopt(serv_sock, SOL_SOCKET, SO_RCVBUF, &amp;bufsize, &amp;optlen);</span></span><br><span class="line">    <span class="comment">//printf(&quot;default send/recv buf size: %d\n&quot;, bufsize);</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">while</span>(<span class="number">1</span>)&#123;</span><br><span class="line">        fd_set readset;</span><br><span class="line">        FD_ZERO(&amp;readset);</span><br><span class="line">        <span class="keyword">int</span> maxfd = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>; i&lt;MAX_PORTS; i++)&#123;</span><br><span class="line">            FD_SET(server_socks[i], &amp;readset);</span><br><span class="line">            <span class="keyword">if</span>(server_socks[i] &gt; maxfd)&#123;</span><br><span class="line">                maxfd = server_socks[i];</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">int</span> ret = select(maxfd + <span class="number">1</span>, &amp;readset, <span class="literal">NULL</span>, <span class="literal">NULL</span>, <span class="literal">NULL</span>);</span><br><span class="line">        <span class="keyword">if</span>(ret &lt; <span class="number">0</span>)&#123;</span><br><span class="line">            <span class="keyword">if</span>(errno == EINTR)&#123;</span><br><span class="line">                <span class="keyword">continue</span>;</span><br><span class="line">            &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">                <span class="built_in">printf</span>(<span class="string">&quot;select error! %s\n&quot;</span>, strerror(errno));</span><br><span class="line">                <span class="built_in">exit</span>(<span class="number">0</span>);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span>(ret &gt; <span class="number">0</span>)&#123;</span><br><span class="line">            <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>; i&lt;MAX_PORTS; i++)&#123;</span><br><span class="line">                <span class="keyword">if</span>(!FD_ISSET(server_socks[i], &amp;readset))&#123;</span><br><span class="line">                    <span class="keyword">continue</span>;</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">socklen_t</span> addrlen = <span class="keyword">sizeof</span>(addr);</span><br><span class="line">                <span class="keyword">int</span> sock = accept(server_socks[i], (struct sockaddr *)&amp;addr, &amp;addrlen);</span><br><span class="line">                <span class="keyword">if</span>(sock == <span class="number">-1</span>)&#123;</span><br><span class="line">                    <span class="keyword">goto</span> sock_err;</span><br><span class="line">                &#125;</span><br><span class="line">                connections ++;</span><br><span class="line">                <span class="built_in">printf</span>(<span class="string">&quot;connections: %d, fd: %d\n&quot;</span>, connections, sock);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">sock_err:</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;error: %s\n&quot;</span>, strerror(errno));</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>注意, 服务器监听了 10 个端口, 这是为了测试方便. 因为只有一台客户端测试机, 最多只能跟同一个 IP 端口创建 30000 多个连接, 所以服务器监听了 10 个端口, 这样一台测试机就可以和服务器之间创建 30 万个连接了.</p>
+<p>客户端:</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdlib.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;string.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;unistd.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;errno.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;arpa/inet.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;netinet/tcp.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">char</span> **argv)</span></span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(argc &lt;=  <span class="number">2</span>)&#123;</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">&quot;Usage: %s ip port\n&quot;</span>, argv[<span class="number">0</span>]);</span><br><span class="line">        <span class="built_in">exit</span>(<span class="number">0</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">sockaddr_in</span> <span class="title">addr</span>;</span></span><br><span class="line">    <span class="keyword">const</span> <span class="keyword">char</span> *ip = argv[<span class="number">1</span>];</span><br><span class="line">    <span class="keyword">int</span> base_port = atoi(argv[<span class="number">2</span>]);</span><br><span class="line">    <span class="keyword">int</span> opt = <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">int</span> bufsize;</span><br><span class="line">    <span class="keyword">socklen_t</span> optlen;</span><br><span class="line">    <span class="keyword">int</span> connections = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">    bzero(&amp;addr, <span class="keyword">sizeof</span>(addr));</span><br><span class="line">    addr.sin_family = AF_INET;</span><br><span class="line">    inet_pton(AF_INET, ip, &amp;addr.sin_addr);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">char</span> tmp_data[<span class="number">10</span>];</span><br><span class="line">    <span class="keyword">int</span> index = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">while</span>(<span class="number">1</span>)&#123;</span><br><span class="line">        <span class="keyword">if</span>(++index &gt;= <span class="number">10</span>)&#123;</span><br><span class="line">            index = <span class="number">0</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">int</span> port = base_port + index;</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">&quot;connect to %s:%d\n&quot;</span>, ip, port);</span><br><span class="line"></span><br><span class="line">        addr.sin_port = htons((<span class="keyword">short</span>)port);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">int</span> sock;</span><br><span class="line">        <span class="keyword">if</span>((sock = socket(AF_INET, SOCK_STREAM, <span class="number">0</span>)) == <span class="number">-1</span>)&#123;</span><br><span class="line">            <span class="keyword">goto</span> sock_err;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span>(connect(sock, (struct sockaddr *)&amp;addr, <span class="keyword">sizeof</span>(addr)) == <span class="number">-1</span>)&#123;</span><br><span class="line">            <span class="keyword">goto</span> sock_err;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        connections ++;</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">&quot;connections: %d, fd: %d\n&quot;</span>, connections, sock);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span>(connections % <span class="number">10000</span> == <span class="number">9999</span>)&#123;</span><br><span class="line">            <span class="built_in">printf</span>(<span class="string">&quot;press Enter to continue: &quot;</span>);</span><br><span class="line">            getchar();</span><br><span class="line">        &#125;</span><br><span class="line">        usleep(<span class="number">1</span> * <span class="number">1000</span>);</span><br><span class="line">        <span class="comment">/*</span></span><br><span class="line"><span class="comment">           bufsize = 5000;</span></span><br><span class="line"><span class="comment">           setsockopt(serv_sock, SOL_SOCKET, SO_SNDBUF, &amp;bufsize, sizeof(bufsize));</span></span><br><span class="line"><span class="comment">           setsockopt(serv_sock, SOL_SOCKET, SO_RCVBUF, &amp;bufsize, sizeof(bufsize));</span></span><br><span class="line"><span class="comment">         */</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">sock_err:</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;error: %s\n&quot;</span>, strerror(errno));</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>我测试 10 万个连接, 这些连接是空闲的, 什么数据也不发送也不接收. 这时, 进程只占用了不到 1MB 的内存. 但是, 通过程序退出前后的 free 命令对比, 发现操作系统用了 200M(大致)内存来维护这 10 万个连接! 如果是百万连接的话, 操作系统本身就要占用 2GB 的内存! 也即 2KB 每连接.</p>
+<p>可以修改</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">/proc/sys/net/ipv4/tcp_wmem</span><br><span class="line">/proc/sys/net/ipv4/tcp_rmem</span><br></pre></td></tr></table></figure>
+
+<p>来控制 TCP 连接的发送和接收缓冲的大小</p>
+<p><strong>应用程序维持百万连接需要多少内存</strong></p>
+<p>通过上面的测试代码, 可以发现, 应用程序维持百万个空闲的连接, 只会占用操作系统的内存, 通过 ps 命令查看可知, 应用程序本身几乎不占用内存.</p>
+<p><strong>百万连接的吞吐量是否超过了网络限制</strong></p>
+<p>假设百万连接中有 20% 是活跃的, 每个连接每秒传输 1KB 的数据, 那么需要的网络带宽是 0.2M x 1KB/s x 8 = 1.6Gbps, 要求服务器至少是万兆网卡(10Gbps).</p>
+<p><strong>总结</strong></p>
+<p>Linux 系统需要修改内核参数和系统配置, 才能支持 C1000K. C1000K 的应用要求服务器至少需要 2GB 内存, 如果应用本身还需要内存, 这个要求应该是至少 10GB 内存. 同时, 网卡应该至少是万兆网卡.</p>
+<p>当然, 这仅仅是理论分析, 实际的应用需要更多的内存和 CPU 资源来处理业务数据.</p>
+<p><strong>测试工具</strong></p>
+<p>测试操作系统最大连接数的工具: <a target="_blank" rel="noopener" href="https://github.com/hanyunpeng0521/c1000k">https://github.com/hanyunpeng0521/c1000k</a></p>
+<p><a target="_blank" rel="noopener" href="http://www.ideawu.net/blog/archives/742.html">实现百万连接的comet服务器</a></p>
+<h4 id="C10M"><a href="#C10M" class="headerlink" title="C10M"></a>C10M</h4><p>单机服务器实现C10M（即单机千万并发连接）的可能性及其思路</p>
+<p>截至目前，40gpbs、32-cores、256G RAM的X86服务器在Newegg网站上的报价是几千美元。实际上以这样的硬件配置来看，它完全可以处理1000万个以上的并发连接，如果它们不能，那是因为你选择了错误的软件，而不是底层硬件的问题。</p>
+<p>可以预见在接下来的10年里，因为IPv6协议下每个服务器的潜在连接数都是数以百万级的，单机服务器处理数百万的并发连接（甚至千万）并非不可能，但我们需要重新审视目前主流OS针对网络编程这一块的具体技术实现。</p>
+<p>Robert Graham的结论：OS的内核不是解决C10M问题的办法，恰恰相反OS的内核正是导致C10M问题的关键所在。</p>
+<p><strong>这也就意味着：</strong></p>
+<p>不要让OS内核执行所有繁重的任务：将数据包处理、内存管理、处理器调度等任务从内核转移到应用程序高效地完成，让诸如Linux这样的OS只处理控制层，数据层完全交给应用程序来处理。</p>
+<p>最终就是要设计这样一个系统，该系统可以处理千万级别的并发连接，它在200个时钟周期内处理数据包，在14万个时钟周期内处理应用程序逻辑。由于一次主存储器访问就要花费300个时钟周期，所以这是最大限度的减少代码和缓存丢失的关键。</p>
+<p>面向数据层的系统可以每秒处理1千万个数据包，面向控制层的系统，每秒只能处理1百万个数据包。这似乎很极端，请记住一句老话：可扩展性是专业化的，为了做好一些事情，你不能把性能问题外包给操作系统来解决，你必须自己做。</p>
+<p><strong>实现10M（即1千万）的并发连接挑战意味着什么：</strong></p>
+<ul>
+<li><strong>1千万的并发连接数</strong>；</li>
+<li><strong>100万个连接/秒：</strong>每个连接以这个速率持续约10秒；</li>
+<li><strong>10GB/秒的连接：</strong>快速连接到互联网；</li>
+<li><strong>1千万个数据包/秒：</strong>据估计目前的服务器每秒处理50K数据包，以后会更多；</li>
+<li><strong>10微秒的延迟：</strong>可扩展服务器也许可以处理这个规模（但延迟可能会飙升）；</li>
+<li><strong>10微秒的抖动：</strong>限制最大延迟；</li>
+<li><strong>并发10核技术：</strong>软件应支持更多核的服务器（通常情况下，软件能轻松扩展到四核，服务器可以扩展到更多核，因此需要重写软件，以支持更多核的服务器）。</li>
+</ul>
+<h5 id="为什么说实现C10M的挑战不在硬件而在软件？"><a href="#为什么说实现C10M的挑战不在硬件而在软件？" class="headerlink" title="为什么说实现C10M的挑战不在硬件而在软件？"></a>为什么说实现C10M的挑战不在硬件而在软件？</h5><p>硬件不是10M问题的性能瓶颈所在处，真正的问题出在软件上，尤其是*nux操作系统。理由如下面这几点：</p>
+<p><strong>首先：</strong>最初的设计是让Unix成为一个电话网络的控制系统，而不是成为一个服务器操作系统。对于控制系统而言，针对的主要目标是用户和任务，而并没有针对作为协助功能的数据处理做特别设计，也就是既没有所谓的快速路径、慢速路径，也没有各种数据服务处理的优先级差别。</p>
+<p><strong>其次：</strong>传统的CPU，因为只有一个核，操作系统代码以多线程或多任务的形式来提升整体性能。而现在，4核、8核、32核、64核和100核，都已经是真实存在的CPU芯片，如何提高多核的性能可扩展性，是一个必须面对的问题。比如让同一任务分割在多个核心上执行，以避免CPU的空闲浪费，当然，这里面要解决的技术点有任务分割、任务同步和异步等。</p>
+<p><strong>再次：</strong>核心缓存大小与内存速度是一个关键问题。现在，内存已经变得非常的便宜，随便一台普通的笔记本电脑，内存至少也就是4G以上，高端服务器的内存上24G那是相当的平常。但是，内存的访问速度仍然很慢，CPU访问一次内存需要约60~100纳秒，相比很久以前的内存访问速度，这基本没有增长多少。对于在一个带有1GHZ主频CPU的电脑硬件里，如果要实现10M性能，那么平均每一个包只有100纳秒，如果存在两次CPU访问内存，那么10M性能就达不到了。核心缓存，也就是CPU L1/L2/LL Cache，虽然访问速度会快些，但大小仍然不够，之前接触到的高端至强，LLC容量大小貌似也就是12M。</p>
+<h5 id="解决思路"><a href="#解决思路" class="headerlink" title="解决思路"></a>解决思路</h5><p>解决这些问题的关键在于如何将功能逻辑做好恰当的划分，比如专门负责控制逻辑的控制面和专门负责数据逻辑的数据面。数据面专门负责数据的处理，属于资源消耗的主要因素，压力巨大，而相比如此，控制面只负责一些偶尔才有非业务逻辑，比如与外部用户的交互、信息的统计等等。之前接触过几种网络数据处理框架，比如<a target="_blank" rel="noopener" href="http://dpdk.org/">Intel的DPDK</a>、<a target="_blank" rel="noopener" href="http://www.6wind.com/">6wind</a>、<a target="_blank" rel="noopener" href="http://www.windriver.com/">windriver</a>，它们都针对Linux系统做了特别的补充设计，增加了数据面、快速路径等等特性，其性能的提升自然是相当巨大。</p>
+<p><strong>看一下这些高性能框架的共同特点：</strong></p>
+<ul>
+<li><strong>数据包直接传递到业务逻辑：</strong><br>而不是经过Linux内核协议栈。这是很明显的事情，因为我们知道，Linux协议栈是复杂和繁琐的，数据包经过它无非会导致性能的巨大下降，并且会占用大量的内存资源，之前有同事测试过，Linux内核要吃掉2.5KB内存/socket。我研究过很长一段时间的DPDK源码，其提供的82576和82599网卡驱动就直接运行在应用层，将接管网卡收到的数据包直接传递到应用层的业务逻辑里进行处理，而无需经过Linux内核协议栈。当然，发往本服务器的非业务逻辑数据包还是要经过Linux内核协议栈的，比如用户的SSH远程登录操作连接等。</li>
+<li><strong>多线程的核间绑定：</strong><br>一个具有8核心的设备，一般会有1个控制面线程和7个或8个数据面线程，每一个线程绑定到一个处理核心（其中可能会存在一个控制面线程和一个数据面线程都绑定到同一个处理核心的情况）。这样做的好处是最大化核心CACHE利用、实现无锁设计、避免进程切换消耗等等。</li>
+<li><strong>内存是另外一个核心要素：</strong><br>常见的内存池设计必须在这里得以切实应用。有几个考虑点，首先，可以在Linux系统启动时把业务所需内存直接预留出来，脱离Linux内核的管理。其次，Linux一般采用4K每页，而我们可以采用更大内存分页，比如2M，这样能在一定程度上减少地址转换等的性能消耗。</li>
+</ul>
+<p>关于Intel的DPDK框架介绍：</p>
+<p>随着网络技术的不断创新和市场的发展，越来越多的网络设备基础架构开始向基于通用处理器平台的架构方向融合，期望用更低的成本和更短的产品开发周期来提供多样的网络单元和丰富的功能，如应用处理、控制处理、包处理、信号处理等。为了适应这一新的产业趋势， Intel推出了基于Intel x86架构DPDK (Data Plane Development Kit，数据平面开发套件) 实现了高效灵活的包处理解决方案。经过近6年的发展，DPDK已经发展成支持多种高性能网卡和多通用处理器平台的开源软件工具包。</p>
+<p>有兴趣的技术同行，也许可以参考下<a target="_blank" rel="noopener" href="http://dpdk.org/download">DPDK的源代码</a>，目前DPDK已经完全开源并且可以网络下载了。</p>
+<h5 id="思路总结"><a href="#思路总结" class="headerlink" title="思路总结"></a>思路总结</h5><p><strong>综上所述，解决C10M问题的关键主要是从下面几个方面入手：</strong></p>
+<p><strong>网卡问题：</strong>通过内核工作效率不高<br><strong>解决方案：</strong>使用自己的驱动程序并管理它们，使适配器远离操作系统。</p>
+<p><strong>CPU问题：</strong>使用传统的内核方法来协调你的应用程序是行不通的。<br><strong>解决方案：</strong>Linux管理前两个CPU，你的应用程序管理其余的CPU，中断只发生在你允许的CPU上。</p>
+<p><strong>内存问题：</strong>内存需要特别关注，以求高效。<br><strong>解决方案：</strong>在系统启动时就分配大部分内存给你管理的大内存页。</p>
+<p>以Linux为例，解决的思咯就是将控制层交给Linux，应用程序管理数据。应用程序与内核之间没有交互、没有线程调度、没有系统调用、没有中断，什么都没有。 然而，你有的是在Linux上运行的代码，你可以正常调试，这不是某种怪异的硬件系统，需要特定的工程师。你需要定制的硬件在数据层提升性能，但是必须是在你熟悉的编程和开发环境上进行。</p>
+<h5 id="启示-1"><a href="#启示-1" class="headerlink" title="启示"></a>启示</h5><p>更进一步提升我们单机网络吞吐以及网络处理性能的技术和手段。</p>
+<p>计算机硬件做为当前IT发展的重要组成部分。作为软件开发者，我们更应该掌握这部分的内容，学习了解我们的软件如何在操作系统中运行，操作系统又怎样分配我们的硬件资源。</p>
+<ol>
+<li><p>CPU</p>
+<p>CPU是计算机系统中最核心、最关键的部件。在当前的x86服务器领域我们接触到主要还是Intel的芯片。索性我们就以IntelXeon 2600系列举例。</p>
+<p>Intel Xeon 2600系列的CPU已经发布了3代，第4代产品2016年Q1也即将面市，图例中均选取了4代产品最高端的型号。图一为该系列CPU的核心数量统计，从第一代的8核心发展到即将上市的22核心，若干年前，这是很可怕的事情。装配该型号CPU的双路服务器，再开启超线程，轻而易举达到80多个核心。就多核处理器的发展历程来讲，核心数量逐年提升，主频基本稳定在一定的范围内，不是说单核主频不再重要，而是说在当前的需求场景下，多核心才是更符合我们需求的处理器。</p>
+<p>不仅仅是核心数量，像LLC缓存的容量、内存带宽都有很大的提升，分别达到了55MB和76.8GB/s。</p>
+</li>
+<li><p>内存</p>
+<p>关于内存，可能它的发展历程并没有像CPU或者其他硬件这样耀眼夺目。可能大家更关心的就是价格吧。目前在服务器领域，DDR3内存仍是主流，DDR4内存因为成本等问题并没有大面积普及。这里列举了IDF15的一些数据，从Intel的销售市场调研报告来看，在明年Q2左右会看到更多的服务器CPU支持DDR4，但是PC机的普及可能还需要一段过渡时间。</p>
+</li>
+<li><p>网络</p>
+<p>当年我们可能仅仅使用一台服务器就能满足我们的业务需求，但是随着业务规模的扩大，单台服务器的能力已经远不能支撑现在的业务，所谓的分布式扩展，便被大家推了上现，所以现在的业务对网络的依赖越来越高。关于网络硬件，我们也以Inter系列的网卡来举例，总结一下目前比较成熟的特性，像RSS特性，前面也提到了，这个特性是需要硬件支持的，目前大部分中小企业可能还是千兆网络为主，像82559这类的网卡，都已经支持了比较多的队列。今年新出的X710芯片也是正对应着云计算或者虚拟化的需求，提供更多相关的特性，如virtualfunction，SR-IOV，tunnel protocol offload等等。随着云计算的发展，未来包含这些特性的网卡将会成为主流。</p>
+</li>
+</ol>
+<h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><ol>
+<li><p><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/ba7fa25d3590">C10K问题</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="http://www.ideawu.net/blog/archives/740.html">构建C1000K的服务器(1)</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="http://www.52im.net/thread-566-1-1.html">高性能网络编程(二)：上一个10年，著名的C10K并发连接问题</a></p>
+</li>
+<li><p>《The C10K problem》英文原版地址：<a target="_blank" rel="noopener" href="http://www.kegel.com/c10k.html">http://www.kegel.com/c10k.html</a></p>
+</li>
+<li><p>《The C10K problem》中文译文地址：<a target="_blank" rel="noopener" href="http://blog.csdn.net/goldou/article/details/2579781">地址1</a>、<a target="_blank" rel="noopener" href="https://www.oschina.net/translate/c10k">地址2</a></p>
+</li>
+</ol>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">平心</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://pingxin0521.gitee.io/2019/11/24/%E5%91%A8%E8%AE%B0-2-1/">https://pingxin0521.gitee.io/2019/11/24/%E5%91%A8%E8%AE%B0-2-1/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://pingxin0521.gitee.io" target="_blank">平心de小屋</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E5%91%A8%E8%AE%B0/">周记</a></div><div class="post_share"><div class="social-share" data-image="https://i.loli.net/2020/05/08/PFDRNxj93taz6pw.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2019/11/27/%E5%91%A8%E8%AE%B0-2-2/"><img class="prev-cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/gGE57HRvpcKPfDY.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">第三周--小世界网络</div></div></a></div><div class="next-post pull-right"><a href="/2019/11/22/Java-%E6%A1%86%E6%9E%B6-7-2-3-2/"><img class="next-cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/gGE57HRvpcKPfDY.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">Mybatis 插件原理</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span> 相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2019/11/14/周记-0-0/" title="何为道？"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/gGE57HRvpcKPfDY.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2019-12-15</div><div class="title">何为道？</div></div></a></div><div><a href="/2019/11/14/周记-0-1/" title="第一周--云原生"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/vCnKyoFJZ1g4XYR.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2020-01-04</div><div class="title">第一周--云原生</div></div></a></div><div><a href="/2019/11/15/周记-0-2/" title="第一周--混合云"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/PFDRNxj93taz6pw.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2019-11-15</div><div class="title">第一周--混合云</div></div></a></div><div><a href="/2019/11/14/周记-0-3/" title="第一周--DevOps"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/HjVAdIuT7bZJypS.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2019-11-21</div><div class="title">第一周--DevOps</div></div></a></div><div><a href="/2020/12/26/周记-10-1/" title="第十一周--谷歌浏览器插件"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/gGE57HRvpcKPfDY.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2020-12-26</div><div class="title">第十一周--谷歌浏览器插件</div></div></a></div><div><a href="/2019/11/18/周记-1-1/" title="第二周--BT和BT种子"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/PFDRNxj93taz6pw.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2019-11-28</div><div class="title">第二周--BT和BT种子</div></div></a></div></div></div><hr/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div class="vcomment" id="vcomment"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="card-info-avatar is-center"><img class="avatar-img" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://s2.ax1x.com/2020/02/11/1ovw6J.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/><div class="author-info__name">平心</div><div class="author-info__description">年轻人的life、learn and think</div></div><div class="card-info-data"><div class="card-info-data-item is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">449</div></a></div><div class="card-info-data-item is-center"><a href="/tags/"><div class="headline">标签</div><div class="length-num">77</div></a></div><div class="card-info-data-item is-center"><a href="/categories/"><div class="headline">分类</div><div class="length-num">68</div></a></div></div><a class="button--animated" id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/hanyunpeng0521"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/hanyunpeng0521" target="_blank" title="Github"><i class="fa fa-github"></i></a><a class="social-icon" href="mailto:m13839441583@163.com" target="_blank" title="Email"><i class="fa fa-envelope"></i></a><a class="social-icon" href="/atom.xml" target="_blank" title=""><i class="fa fa-rss"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn card-announcement-animation"></i><span>公告</span></div><div class="announcement_content">为什么呢？开始提问吧</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%9C%AC%E5%91%A8%E9%80%9F%E8%AE%B0"><span class="toc-number">1.</span> <span class="toc-text">本周速记</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#C10K"><span class="toc-number"></span> <span class="toc-text">C10K</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%8D%95%E5%8F%B0%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%B9%B6%E5%8F%91TCP%E8%BF%9E%E6%8E%A5%E6%95%B0%E5%88%B0%E5%BA%95%E5%8F%AF%E4%BB%A5%E6%9C%89%E5%A4%9A%E5%B0%91"><span class="toc-number">1.</span> <span class="toc-text">单台服务器并发TCP连接数到底可以有多少</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#C10K-1"><span class="toc-number">2.</span> <span class="toc-text">C10K</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88"><span class="toc-number">2.1.</span> <span class="toc-text">解决方案</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%90%AF%E7%A4%BA"><span class="toc-number">2.2.</span> <span class="toc-text">启示</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#C1000K"><span class="toc-number">3.</span> <span class="toc-text">C1000K</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#C10M"><span class="toc-number">4.</span> <span class="toc-text">C10M</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E8%AF%B4%E5%AE%9E%E7%8E%B0C10M%E7%9A%84%E6%8C%91%E6%88%98%E4%B8%8D%E5%9C%A8%E7%A1%AC%E4%BB%B6%E8%80%8C%E5%9C%A8%E8%BD%AF%E4%BB%B6%EF%BC%9F"><span class="toc-number">4.1.</span> <span class="toc-text">为什么说实现C10M的挑战不在硬件而在软件？</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E8%A7%A3%E5%86%B3%E6%80%9D%E8%B7%AF"><span class="toc-number">4.2.</span> <span class="toc-text">解决思路</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%80%9D%E8%B7%AF%E6%80%BB%E7%BB%93"><span class="toc-number">4.3.</span> <span class="toc-text">思路总结</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%90%AF%E7%A4%BA-1"><span class="toc-number">4.4.</span> <span class="toc-text">启示</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8F%82%E8%80%83"><span class="toc-number"></span> <span class="toc-text">参考</span></a></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2021/05/15/node-2-4/" title="Egg.js -- 为企业级框架和应用而生"><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/okfOw28KlZFbE7z.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Egg.js -- 为企业级框架和应用而生"/></a><div class="content"><a class="title" href="/2021/05/15/node-2-4/" title="Egg.js -- 为企业级框架和应用而生">Egg.js -- 为企业级框架和应用而生</a><time datetime="2021-05-15T10:18:59.000Z" title="发表于 2021-05-15 18:18:59">2021-05-15</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/04/30/node-2-3/" title="Koa -- 基于Node.js平台的下一代Web开发框架"><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/HjVAdIuT7bZJypS.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Koa -- 基于Node.js平台的下一代Web开发框架"/></a><div class="content"><a class="title" href="/2021/04/30/node-2-3/" title="Koa -- 基于Node.js平台的下一代Web开发框架">Koa -- 基于Node.js平台的下一代Web开发框架</a><time datetime="2021-04-30T10:18:59.000Z" title="发表于 2021-04-30 18:18:59">2021-04-30</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/04/01/node-2-1/" title="Node.JS web开发前置知识"><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/gGE57HRvpcKPfDY.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Node.JS web开发前置知识"/></a><div class="content"><a class="title" href="/2021/04/01/node-2-1/" title="Node.JS web开发前置知识">Node.JS web开发前置知识</a><time datetime="2021-04-01T03:18:59.000Z" title="发表于 2021-04-01 11:18:59">2021-04-01</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2020/12/26/%E5%91%A8%E8%AE%B0-10-1/" title="第十一周--谷歌浏览器插件"><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/gGE57HRvpcKPfDY.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="第十一周--谷歌浏览器插件"/></a><div class="content"><a class="title" href="/2020/12/26/%E5%91%A8%E8%AE%B0-10-1/" title="第十一周--谷歌浏览器插件">第十一周--谷歌浏览器插件</a><time datetime="2020-12-26T10:18:59.000Z" title="发表于 2020-12-26 18:18:59">2020-12-26</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2020/12/26/%E5%91%A8%E8%AE%B0-10-0/" title="第十一周--浏览器技术"><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/vCnKyoFJZ1g4XYR.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="第十一周--浏览器技术"/></a><div class="content"><a class="title" href="/2020/12/26/%E5%91%A8%E8%AE%B0-10-0/" title="第十一周--浏览器技术">第十一周--浏览器技术</a><time datetime="2020-12-26T06:18:59.000Z" title="发表于 2020-12-26 14:18:59">2020-12-26</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2019 - 2021 By 平心</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div id="local-search"><div class="search-dialog"><div class="search-dialog__title" id="local-search-title">本地搜索</div><div id="local-input-panel"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div></div><hr/><div id="local-search-results"></div><span class="search-close-button"><i class="fas fa-times"></i></span></div><div id="search-mask"></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload/dist/lazyload.iife.min.js"></script><script src="/js/search/local-search.js"></script><div class="js-pjax"><script>function loadValine () {
+  function initValine () {
+    const valine = new Valine(Object.assign({
+      el: '#vcomment',
+      appId: '4lfIXzqxaC1ONs0MJO4oHu07-gzGzoHsz',
+      appKey: 'qw99Bw8FD0KVKU9m457CwWsr',
+      placeholder: 'Please leave your footprints',
+      avatar: 'monsterid',
+      meta: 'nick,mail,link'.split(','),
+      pageSize: '10',
+      lang: 'zh-CN',
+      recordIP: true,
+      serverURLs: '',
+      emojiCDN: '',
+      emojiMaps: "",
+      enableQQ: true,
+      path: window.location.pathname,
+      requiredFields: ["nick,mail"],
+      visitor: false
+    }, null))
+  }
+
+  if (typeof Valine === 'function') initValine() 
+  else getScript('https://cdn.jsdelivr.net/npm/valine/dist/Valine.min.js').then(initValine)
+}
+
+if ('Valine' === 'Valine' || !false) {
+  if (false) btf.loadComment(document.getElementById('vcomment'),loadValine)
+  else setTimeout(loadValine, 0)
+} else {
+  function loadOtherComment () {
+    loadValine()
+  }
+}</script></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>

@@ -1,0 +1,963 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Linux-bash特性和文本编辑 | 平心de小屋</title><meta name="keywords" content="Linux,脚本"><meta name="author" content="平心"><meta name="copyright" content="平心"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="前言bash的命令语法是Bourne shell命令语法的超集。数量庞大的Bourne shell脚本大多不经修改即可以在bash中执行，只有使用了Bourne的特殊变量或内置命令的脚本才需要修改。 bash的命令语法很多来自Korn shell (ksh) 和 C shell (csh)， 例如命令行编辑，命令历史，目录栈，$RANDOM 和 $PPID 变量，以及POSIX的命令置换语法： $">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Linux-bash特性和文本编辑">
+<meta property="og:url" content="https://pingxin0521.gitee.io/2019/03/13/Linux-%E5%9F%BA%E7%A1%80-3/index.html">
+<meta property="og:site_name" content="平心de小屋">
+<meta property="og:description" content="前言bash的命令语法是Bourne shell命令语法的超集。数量庞大的Bourne shell脚本大多不经修改即可以在bash中执行，只有使用了Bourne的特殊变量或内置命令的脚本才需要修改。 bash的命令语法很多来自Korn shell (ksh) 和 C shell (csh)， 例如命令行编辑，命令历史，目录栈，$RANDOM 和 $PPID 变量，以及POSIX的命令置换语法： $">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://i.loli.net/2020/05/08/vCnKyoFJZ1g4XYR.jpg">
+<meta property="article:published_time" content="2019-03-13T08:55:28.000Z">
+<meta property="article:modified_time" content="2019-10-24T06:34:03.032Z">
+<meta property="article:author" content="平心">
+<meta property="article:tag" content="Linux">
+<meta property="article:tag" content="脚本">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.loli.net/2020/05/08/vCnKyoFJZ1g4XYR.jpg"><link rel="shortcut icon" href="https://s2.ax1x.com/2020/02/11/1ovFOA.png"><link rel="canonical" href="https://pingxin0521.gitee.io/2019/03/13/Linux-%E5%9F%BA%E7%A1%80-3/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"search.xml","languages":{"hits_empty":"找不到您查询的内容：${query}"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    jQuery: 'https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js',
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+    },
+    fancybox: {
+      js: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css'
+    }
+  },
+  isPhotoFigcaption: true,
+  islazyload: true,
+  isanchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'Linux-bash特性和文本编辑',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2019-10-24 14:34:03'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    })(window)</script><meta name="generator" content="Hexo 5.4.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="author-avatar"><img class="avatar-img" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://s2.ax1x.com/2020/02/11/1ovw6J.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data"><div class="data-item is-center"><div class="data-item-link"><a href="/archives/"><div class="headline">文章</div><div class="length-num">449</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/tags/"><div class="headline">标签</div><div class="length-num">77</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/categories/"><div class="headline">分类</div><div class="length-num">68</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fa fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fa fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://i.loli.net/2020/05/08/vCnKyoFJZ1g4XYR.jpg')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">平心de小屋</a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fa fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fa fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">Linux-bash特性和文本编辑</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2019-03-13T08:55:28.000Z" title="发表于 2019-03-13 16:55:28">2019-03-13</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2019-10-24T06:34:03.032Z" title="更新于 2019-10-24 14:34:03">2019-10-24</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/Linux/">Linux</a><i class="fas fa-angle-right post-meta-separator"></i><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/Linux/%E5%9F%BA%E7%A1%80/">基础</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">10.1k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>37分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="Linux-bash特性和文本编辑"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h4 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h4><p>bash的命令语法是Bourne shell命令语法的超集。数量庞大的Bourne shell脚本大多不经修改即可以在bash中执行，只有使用了Bourne的特殊变量或内置命令的脚本才需要修改。 bash的命令语法很多来自Korn shell (ksh) 和 C shell (csh)， 例如命令行编辑，命令历史，目录栈，$RANDOM 和 $PPID 变量，以及POSIX的命令置换语法： $(…)。作为一个交互式的shell，按下TAB键即可自动补全已部分输入的程序名、文件名、变量名等等。</p>
+<span id="more"></span>
+
+<h4 id="Tab补全"><a href="#Tab补全" class="headerlink" title="Tab补全"></a>Tab补全</h4><p>tab补全可以用于文件补全，也可以用于路径补全，还可以补全命令。</p>
+<p>如果我们输入的头几个字母是唯一标识，则按一下Tab自动补全，否则要多按一下，出来的是含有我们输入的字母的一些文件或者是路径。</p>
+<p><strong>路径补全</strong><br>在给定的起始路径下，以对应路径下的打头字串来逐一匹配起始路径下的每个文件：<br>tab：<br>如果能惟一标识，则直接补全；<br>否则，再一次tab，给出列表；</p>
+<p>比如说：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost /]# cd /bo     #按一下tab就可以补全，因为/下只有一个以e开头的目录</span><br><span class="line">[root@localhost /]# cd /boot/    #      这是结果</span><br></pre></td></tr></table></figure>
+
+
+<p>但是如果有多个</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost /]# cd /b            #就要按两下tab，出来提示的路径或者文件</span><br><span class="line">bin/ boot/</span><br><span class="line">[root@localhost /]# cd /b</span><br></pre></td></tr></table></figure>
+
+<p><strong>命令补全</strong><br>shell程序在接收到用户执行命令的请求，分析完成之后，最左侧的字符串会被当作命令；<br>命令查找机制：<br>    查找内部命令；<br>    根据PATH环境变量中设定的目录，自左而右逐个搜索目录下的文件名；</p>
+<p>给定的打头字符串如果能惟一标识某命令程序文件，则直接补全；<br>不能惟一标识某命令程序文件，再击tab键一次，会给出列表；</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[hyp@localhost ~]$ ll</span><br><span class="line">ll        lldpad    lldptool</span><br><span class="line">[hyp@localhost ~]$ ll</span><br></pre></td></tr></table></figure>
+
+<p>直接双击Tab，会匹配所有命令。在<code>/</code>双击Tab，显示<code>/</code>下的目录。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[hyp@localhost ~]$ /</span><br><span class="line">bin/   dev/   home/  lib64/ mnt/   proc/  run/   srv/   tmp/   var/</span><br><span class="line">boot/  etc/   lib/   media/ opt/   root/  sbin/  sys/   usr/   web/</span><br></pre></td></tr></table></figure>
+
+<p>输入<code>$</code>后双击Tab，显示系统所有变量</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash">_                          <span class="variable">$LOGNAME</span></span></span><br><span class="line"><span class="meta">$</span><span class="bash">BASH                       <span class="variable">$LS_COLORS</span></span></span><br><span class="line"><span class="meta">$</span><span class="bash">BASH_ALIASES               <span class="variable">$MACHTYPE</span></span></span><br><span class="line"><span class="meta">$</span><span class="bash">BASH_ARGC                  <span class="variable">$MAIL</span></span></span><br><span class="line"><span class="meta">$</span><span class="bash">BASH_ARGV                  <span class="variable">$MAILCHECK</span></span></span><br><span class="line"><span class="meta">$</span><span class="bash">BASH_CMDS                  <span class="variable">$OPTERR</span></span></span><br><span class="line"><span class="meta">$</span><span class="bash">BASH_COMMAND               <span class="variable">$OPTIND</span></span></span><br><span class="line"><span class="meta">$</span><span class="bash">BASH_LINENO                <span class="variable">$OSTYPE</span></span></span><br><span class="line"><span class="meta">$</span><span class="bash">BASHOPTS                   <span class="variable">$PATH</span></span></span><br><span class="line"><span class="meta">$</span><span class="bash">BASHPID                    <span class="variable">$PIPESTATUS</span></span></span><br><span class="line"><span class="meta">$</span><span class="bash">BASH_SOURCE                <span class="variable">$PPID</span></span></span><br><span class="line"><span class="meta">$</span><span class="bash">BASH_SUBSHELL              <span class="variable">$PROMPT_COMMAND</span></span></span><br><span class="line"><span class="meta">$</span><span class="bash">BASH_VERSINFO              <span class="variable">$PS1</span></span></span><br><span class="line"><span class="meta">$</span><span class="bash">BASH_VERSION               <span class="variable">$PS2</span></span></span><br><span class="line"><span class="meta">$</span><span class="bash">colors                     <span class="variable">$PS4</span></span></span><br><span class="line"><span class="meta">$</span><span class="bash">COLUMNS                    <span class="variable">$PWD</span></span></span><br><span class="line"><span class="meta">$</span><span class="bash">COMP_WORDBREAKS            <span class="variable">$RANDOM</span></span></span><br><span class="line"><span class="meta">$</span><span class="bash">DIRSTACK                   <span class="variable">$SECONDS</span></span></span><br><span class="line"><span class="meta">$</span><span class="bash">EUID                       <span class="variable">$SELINUX_LEVEL_REQUESTED</span></span></span><br><span class="line"><span class="meta">$</span><span class="bash">GROUPS                     <span class="variable">$SELINUX_ROLE_REQUESTED</span></span></span><br><span class="line"><span class="meta">$</span><span class="bash">HISTCMD                    <span class="variable">$SELINUX_USE_CURRENT_RANGE</span></span></span><br><span class="line"><span class="meta">$</span><span class="bash">HISTCONTROL                <span class="variable">$SHELL</span></span></span><br><span class="line"><span class="meta">$</span><span class="bash">HISTFILE                   <span class="variable">$SHELLOPTS</span></span></span><br><span class="line">--More--</span><br></pre></td></tr></table></figure>
+
+<h4 id="命令的执行状态"><a href="#命令的执行状态" class="headerlink" title="命令的执行状态"></a>命令的执行状态</h4><p>bash通过状态返回值来输出次结果</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">成功:0</span><br><span class="line">失败:1-255</span><br><span class="line">命令执行完成后，其状态返回值保存于bash的特殊变量$?</span><br></pre></td></tr></table></figure>
+
+<p>执行中中断是130</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">[hyp@localhost ~]$ ls  /etc/yum.repos.d/</span><br><span class="line">CentOS-Base.repo      CentOS-Debuginfo.repo  CentOS-Sources.repo</span><br><span class="line">CentOS-Base.repo.bak  CentOS-fasttrack.repo  CentOS-Vault.repo</span><br><span class="line">CentOS-CR.repo        CentOS-Media.repo</span><br><span class="line">[hyp@localhost ~]$ echo $?</span><br><span class="line">0</span><br><span class="line">[hyp@localhost ~]$ ls  /etc/yum.repos.d/^C</span><br><span class="line">[hyp@localhost ~]$ echo $?</span><br><span class="line">130</span><br></pre></td></tr></table></figure>
+
+<p>命令正常执行时，有的还回有命令返回值：<br>根据命令及其功能不同，结果各不相同；</p>
+<p>引用命令的执行结果：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash">(COMMAND)</span></span><br><span class="line">或`COMMAND`</span><br></pre></td></tr></table></figure>
+
+<h4 id="命令行历史"><a href="#命令行历史" class="headerlink" title="命令行历史"></a>命令行历史</h4><p>命令历史一般记录在.bash_history文件中，默认记录1000条。</p>
+<p>当前shell中的历史记录会被记录在内存中，只有退出之后才会保存在USERHOME/.bash_history中。</p>
+<p>定制history功能可以通过环境变量实现：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">HISTSIZE：shell进程可保留的命令历史的条数；</span><br><span class="line">HISTFILE：持久保存命令历史的文件；默认~/.bash_history</span><br><span class="line">HISTFILESIZE：命令历史文件的大小；</span><br></pre></td></tr></table></figure>
+<p>history命令：</p>
+<p>​    history [-c] [-d 偏移量] [n]<br>​    或 history -anrw [文件名]<br>​    或 history -ps 参数 [参数…]</p>
+<p>​    -c: 清空命令历史；<br>​    -d offset：删除指定命令历史<br>​    -r: 从文件读取命令历史至历史列表中；<br>​    -w：把历史列表中的命令追加至历史文件中；<br>​    history #：显示最近的#条命令；</p>
+<p>调用命令历史列表中的命令：</p>
+<ul>
+<li>!#：再一次执行历史列表中的第#条命令；</li>
+<li>!!：再一次执行上一条命令；</li>
+<li>!STRING：再一次执行命令历史列表中最近一个以STRING开头的命令；</li>
+<li>!number</li>
+<li>!$:前一个命令的参数</li>
+</ul>
+<p>注意：命令的重复执行有时候需要依赖于幂等性；</p>
+<p>调用上一条命令的最后一个参数：<br>    快捷键：ESC, .<br>    字符串：!$</p>
+<p>控制命令历史记录的方式:<br>     环境变量 HISTCONTROL<br>     ignoredups:忽略重复的命令<br>     ignorespace:忽略以空白字符开头的命令<br>     ignoreboth：以上两者同时生效</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost ~]# HISTCONTROL=ignoredups</span><br><span class="line">[root@localhost ~]# echo $HISTCONTROL</span><br><span class="line"> ignoredups</span><br></pre></td></tr></table></figure>
+
+<h4 id="命令行展开"><a href="#命令行展开" class="headerlink" title="命令行展开"></a>命令行展开</h4><p>~：自动展开为用户的家目录，或指定的用户的家目录<br>~USERNAME:  给定用户的家目录，比如cd ~，cd ~ nick<br>{}：可承载一个以逗号分隔的路径列表，并能够将其展开为多个路径<br><code>/tmp/&#123;x/&#123;a,b&#125;,y,z&#125;  = /tmp/x/a/,/tmp/x,b  ,  /tmp/y/,/tmp/z/</code></p>
+<p>实例：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">创建如下目录结构：</span><br><span class="line">			/tmp/mysysroot/</span><br><span class="line">				|-- bin</span><br><span class="line">				|-- etc</span><br><span class="line">				|   `-- sysconfig</span><br><span class="line">				|       `-- network-scripts</span><br><span class="line">				|-- sbin</span><br><span class="line">				|-- usr</span><br><span class="line">				|   |-- bin</span><br><span class="line">				|   |-- lib</span><br><span class="line">				|   |-- lib64</span><br><span class="line">				|   |-- local</span><br><span class="line">				|   |   |-- bin</span><br><span class="line">				|   |   |-- etc</span><br><span class="line">				|   |   |-- lib</span><br><span class="line">				|   |   `-- sbin</span><br><span class="line">				|   `-- sbin</span><br><span class="line">				`-- var</span><br><span class="line">				    |-- cache</span><br><span class="line">				    |-- log</span><br><span class="line">				    `-- run</span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">~]#</span><span class="bash"> mkdir -pv /tmp/mysysroot/&#123;bin,sbin,etc/sysconfig/network-scripts,usr/&#123;bin,sbin,<span class="built_in">local</span>/&#123;bin,sbin,etc,lib&#125;,lib,lib64&#125;,var/&#123;cache,<span class="built_in">log</span>,run&#125;&#125;</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="快捷键"><a href="#快捷键" class="headerlink" title="快捷键"></a>快捷键</h4><p><strong>查找命令</strong><br>history 或 h   显示命令历史列表<br>Ctrl + r          逆向搜索历史命令    -&gt; 多次按ctrl+r可往前查找类似命令；Ubuntu系统可再 /etc/inputrc 末尾添加”\C-f”:forward-search-history 设置正向搜索Ctrl + f ，当Ctrl+r搜索过头，便可按Ctrl+f正向搜索<br>Ctrl + g         从逆向搜索模式退出<br>Ctrl + p         历史中的上一条命令<br>Ctrl + n         历史中的下一条命令</p>
+<p><strong>Bang(!)命令</strong><br>!num            执行命令历史列表的第num条命令<br>!!                  执行上一条命令<br>!str               执行以stri开头的命令<br>!str:p            打印输出以str开头的命令<br>!?str?            执行含有stri字符串的最新命令</p>
+<p><strong>控制命令</strong><br>Ctrl + 1       清屏<br>Ctrl + s       阻止屏幕输出<br>Ctrl + q      允许屏幕输出<br>Ctrl + c       终止命令<br>Ctrl + z       挂起命令</p>
+<p><strong>编辑命令</strong><br>Ctrl + a      移到命令行首<br>Ctrl + e      移到命令行尾<br>Ctrl + u      从光标处删除至命令行首<br>Ctrl + k      从光标处删除至命令行尾<br>Ctrl + w     从光标处删除至字首<br>Alt  + d     从光标处删除至字尾</p>
+<h4 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">强引用：&#x27;&#x27;</span><br><span class="line">弱引用：&quot;&quot;</span><br><span class="line">命令引用：``</span><br></pre></td></tr></table></figure>
+
+<h4 id="别名"><a href="#别名" class="headerlink" title="别名"></a>别名</h4><p>使用<code>alias [别名]</code>查看别名</p>
+<p>使用<code>alias [别名]=&#39;COMMAND&#39;</code>设置别名</p>
+<p>撤销别名：<code>unalias [别名]</code></p>
+<h4 id="命令hash"><a href="#命令hash" class="headerlink" title="命令hash"></a>命令hash</h4><p>缓存此前命令的查找结果：key-value<br>            key：搜索键<br>            value：值</p>
+<p>使用<code>hash</code>命令：</p>
+<p>hash：列出<br>hash -d COMMAND：删除<br>hash -r：清空</p>
+<h4 id="IO重定向"><a href="#IO重定向" class="headerlink" title="IO重定向"></a>IO重定向</h4><p>Shell提供了数种语法，可以修改默认的IO的来源端和目的端，就是标准输入和输出的地方。</p>
+<p>可用于输入的设备：键盘设备、文件系统上的常规文件、网卡等；<br>可用于输出的设备：显示器、文件系统上的常规文件、网卡等；</p>
+<p>程序的数据流有三种：<br>    输入的数据流；&lt;– 标准输入(stdin)，键盘；<br>    输出的数据流：–&gt; 标准输出(stdout)，显示器；<br>    错误输出流：  –&gt; 错误输出(stderr)，显示器；</p>
+<p><strong>文件描述符（file descriptor）</strong></p>
+<table>
+<thead>
+<tr>
+<th>文件</th>
+<th>文件描述符</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>输入文件——标准输入</td>
+<td>0（默认为终端（网上有说默认为键盘的））</td>
+</tr>
+<tr>
+<td>输出文件——标准输出</td>
+<td>1（默认为终端）</td>
+</tr>
+<tr>
+<td>错误输出文件——标准错误</td>
+<td>2（默认为终端）</td>
+</tr>
+</tbody></table>
+<p><strong>IO重定向</strong></p>
+<table>
+<thead>
+<tr>
+<th>&lt;</th>
+<th>修改标准输入</th>
+<th>sort &lt; ucid.txt</th>
+<th>默认下，标准输入为终端，此时可以更改为你想要的地方</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>&lt;&lt;</td>
+<td></td>
+<td>Command &lt;&lt; delimiter</td>
+<td>从标准输入中读入，直到遇到delimiter分割符</td>
+</tr>
+<tr>
+<td>&gt;</td>
+<td>修改标准输出</td>
+<td>ls -l &gt; listinfo.txt</td>
+<td>默认下，标准输出为终端，此时可以修改默认输出的地方。譬如可以将标准输出的内容写在文件中。 如果文件已存在，会被覆盖掉。</td>
+</tr>
+<tr>
+<td>&gt;&gt;</td>
+<td>输出附件到文件</td>
+<td>ls -l &gt;&gt; listinfo.txt</td>
+<td>与[&gt;]不一样的是，[&gt;]会清空原来的内容，而[&gt;&gt;]只是将标准输出追加到文件结尾处。</td>
+</tr>
+<tr>
+<td>|</td>
+<td>建立管道</td>
+<td>program1 | program2</td>
+<td>1. program1的标准输出为program2的标准输入； 2. 管道的执行效率比使用临时文件的程序起码高一个数量级；</td>
+</tr>
+</tbody></table>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> <span class="built_in">set</span> -C</span></span><br><span class="line">	禁止覆盖输出重定向至已存在的文件；</span><br><span class="line">	此时可使用强制覆盖输出：&gt;|</span><br><span class="line"><span class="meta">#</span><span class="bash"> <span class="built_in">set</span> +C</span></span><br><span class="line">	关闭上述特性</span><br></pre></td></tr></table></figure>
+<p>错误输出流重定向：2&gt;, 2&gt;&gt;</p>
+<p><strong>特殊文件：/dev/null 与/dev/tty</strong></p>
+<p>/dev/null  传送到此文件的数据都会被系统丢掉,，就是输出到一个空设备的意思。</p>
+<p>/dev/tty   程序打开此文件时，Linux会自动将它重定向到一个终端。</p>
+<p><strong>绑定重定向</strong></p>
+<table>
+<thead>
+<tr>
+<th>Commond &gt;&amp;m</th>
+<th>标准输出重定向到文件描述符m中</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Command &lt;&amp;-</td>
+<td>关闭标准输入</td>
+</tr>
+<tr>
+<td>Command 0&gt;&amp;-</td>
+<td>关闭标准输出</td>
+</tr>
+</tbody></table>
+<p>此时我们再去理解[2&gt;&amp;1]，就容易多了。[2]是标准错误的文件描述符，而[&gt;&amp;1]的意思重定向到标准输出。那么定时任务的解释就是，将[clear_logs.sh]执行的标准输出和标准错误重定向到[/dev/null]（就是丢掉输出的内容）。</p>
+<p>我是这样理解（不一定正确）上面的定时任务的（分2部分）：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">clear_logs.sh &gt; /dev/null     #将clear_logs.sh执行的标准输出输出到/dev/null</span><br><span class="line">clear_logs.sh 2&gt; /dev/null    #将clear_logs.sh执行的标准错误输出到/dev/null，只是clear_logs.sh不是执行了2次，只是1次。这里的&amp;1代表的就是/dev/null</span><br></pre></td></tr></table></figure>
+
+<p><strong>管道</strong></p>
+<p>管道：连接程序，实现将前一个命令的输出直接定向后一个程序当作输入数据流<br>                COMMAND1 | COMMAND2 | COMMAND3 | …</p>
+<p>tee命令：COMMAND | tee /PATH/TO/SOMEFILE</p>
+<p><strong>tr命令</strong><br>tr [OPTION]… SET1 [SET2]<br>把输入的数据当中的字符，凡是在SET1定义范围内出现的，通通对位转换为SET2出现的字符</p>
+<p>​            用法1：<br>​                tr SET1 SET2 &lt; /PATH/FROM/SOMEFILE<br>​            用法2：<br>​                tr -d SET1 &lt; /PATH/FROM/SOMEFILE</p>
+<p>注意：不修改原文件</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">练习1：把/etc/passwd文件的前6行的信息转换为大写字符后输出；</span><br><span class="line">				head -n 6 /etc/passwd | tr &#x27;a-z&#x27; &#x27;A-Z&#x27;</span><br></pre></td></tr></table></figure>
+
+<p>参考：[<a target="_blank" rel="noopener" href="https://www.cnblogs.com/rond/p/3530843.html">Linux]基本I/O重定向</a></p>
+<h4 id="多命令执行"><a href="#多命令执行" class="headerlink" title="多命令执行"></a>多命令执行</h4><p>使用分号<code>；</code>隔开不同命令，命令依次执行。</p>
+<p>如：<code>COMMAND1 ；COMMAND2 ； COMMAND3；...</code></p>
+<p>通过逻辑运算符：与（&amp;&amp;）、或(||)、非(!)</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">与：</span><br><span class="line">	1 &amp;&amp; 1 = 1</span><br><span class="line">	1 &amp;&amp; 0 = 0</span><br><span class="line">	0 &amp;&amp; 1 = 0</span><br><span class="line">	0 &amp;&amp; 0 = 0</span><br><span class="line">或：</span><br><span class="line">	1 || 1 = 1</span><br><span class="line">	1 || 0 = 1</span><br><span class="line">	0 || 1 = 1</span><br><span class="line">	0 || 0 = 0</span><br><span class="line">非：</span><br><span class="line">	! 1 = 0</span><br><span class="line">	! 0 = 1</span><br></pre></td></tr></table></figure>
+
+<p>短路法则：</p>
+<p>~]# COMMAND1 &amp;&amp; COMMAND2<br>    COMMAND1为“假”，则COMMAND2不会再执行；<br>    否则，COMMAND1为“真”，则COMMAND2必须执行；</p>
+<p>~]# COMMAND1 || COMMAND2<br>    COMMAND1为“真”，则COMMAND2不会再执行；<br>    否则，COMMAND1为“假”，则COMMAND2必须执行；</p>
+<h4 id="变量"><a href="#变量" class="headerlink" title="变量"></a>变量</h4><p>程序是由指令和数据组成，指令由程序文件提供，数据则由IO设备、文件、管道、变量等提供。</p>
+<p>变量是由变量名和指向的内存空间组成，赋值name=values。</p>
+<p>变量类型规定了存储格式、表示数据范围、参与的运算等等。</p>
+<p>bash使用弱类型变量，把所有变量统统视作字符型，bash中的变量无需事先声明；相当于，把声明和赋值过程同时实现；声明：类型，变量名。</p>
+<p>变量替换：把变量名出现的位置替换为其所指向的内存空间中数据；<br>变量引用：${var_name}, $var_name<br>变量名：变量名只能包含数字、字母和下划线，而且不能以数字开头，不能够使用程序的保留字，例如if, else, then, while等等；</p>
+<p><strong>bash变量类型：</strong></p>
+<p>本地变量：作用域仅为当前shell进程；<br>环境变量：作用域为当前shell进程及其子进程；<br>局部变量：作用域仅为某代码片断(函数上下文)；</p>
+<p>位置参数变量：当执行脚本的shell进程传递的参数；<br>特殊变量：shell内置的有特殊功用的变量；例如：$?：0：成功；1-255：失败</p>
+<p>本地变量：<br>    变量赋值：name=value<br>    变量引用：${name}, $name<br>        “”：变量名会替换为其值；<br>        ‘’：变量名不会替换为其值；<br>    命令引用：${COMMAND},name=<code>COMMAND</code><br>    查看变量：set<br>    撤销变量：unset name<br>        注意：此处非变量引用；</p>
+<p>环境变量：<br>    变量赋值：<br>        (1) export name=value<br>        (2) name=value<br>            export name<br>        (3) declare -x name=value<br>        (4) name=value<br>            declare -x name<br>    变量引用：${name}, $name</p>
+<blockquote>
+<p>注意：bash内嵌了许多环境变量(通常为全大写字符)，用于定义bash的工作环境<br>    PATH, HISTFILE, HISTSIZE, HISTFILESIZE, HISTCONTROL, SHELL, HOME, UID, PWD, OLDPWD</p>
+</blockquote>
+<p>查看环境变量：export, declare -x, printenv, env<br>撤销环境变量：unset name</p>
+<p>只读变量：<br>    (1) declare -r name<br>    (2) readonly name</p>
+<blockquote>
+<p>只读变量无法重新赋值，并且不支持撤销；存活时间为当前shell进程的生命周期，随shell进程终止而终止；</p>
+</blockquote>
+<p>在 Linux 系统登录时主要生效的环境变量配置文件有以下 5 个：</p>
+<ul>
+<li>/etc/profile。</li>
+<li>/etc/profile.d/*.sh。</li>
+<li>~/.bash_profile。</li>
+<li>-/.bashrc。</li>
+<li>/etc/bashrc。</li>
+</ul>
+<p>读取顺序：</p>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://ws1.sinaimg.cn/large/006KyevZgy1g19iis2b4xj30go06ddgi.jpg"></p>
+<p><strong>source</strong></p>
+<p>source 命令会强制执行脚本中的全部命令，而忽略脚本文件的权限。该命令主要用于让重新配置的环境变量配置文件强制生效。</p>
+<p>source 命令格式如下：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost ~]# source 配置文件</span><br><span class="line">或</span><br><span class="line">[root@localhost ~]#.配置文件</span><br></pre></td></tr></table></figure>
+
+<p>举个例子：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost ~]# source -/.bashrc</span><br><span class="line">或</span><br><span class="line">[raot@localhost ~]#. ~/.bashrc</span><br></pre></td></tr></table></figure>
+
+<p>“.”就是 source 命令，使用哪种方法都是可以的。原来修改了环境变量配置文件，如果要想让其生效，则必须注销或重启系统。现在只要使用 source 命令就可以省略注销或重启的过程，更加方便。</p>
+<h4 id="通配"><a href="#通配" class="headerlink" title="通配"></a>通配</h4><p>globbing：文件名通配(整体文件名匹配，而非部分)</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">*：匹配任意长度的任意字符</span><br><span class="line">	pa*, *pa*, *pa, *p*a*</span><br><span class="line">		pa, paa, passwd</span><br><span class="line">?：匹配任意单个字符</span><br><span class="line">	pa?, ??pa, p?a, p?a?</span><br><span class="line">		pa, paa, passwd</span><br><span class="line">[]：匹配指定范围内的任意单个字符</span><br><span class="line">	有几种特殊格式：</span><br><span class="line">		[a-z], [A-Z], [0-9], [a-z0-9]</span><br><span class="line">		[[:upper:]]：所有大写字母</span><br><span class="line">		[[:lower:]]：所有小写字母</span><br><span class="line">		[[:alpha:]]：所有字母</span><br><span class="line">		[[:digit:]]：所有数字</span><br><span class="line">		[[:alnum:]]：所有的字母和数字</span><br><span class="line">		[[:space:]]：所有空白字符</span><br><span class="line">		[[:punct:]]：所有标点符号</span><br><span class="line"></span><br><span class="line">		pa[0-9][0-9], 2[0-9][0-9]</span><br><span class="line">[^]：匹配指定范围外的任意单个字符</span><br><span class="line">	[^[:upper:]]</span><br><span class="line">	[^0-9]</span><br><span class="line">	[^[:alnum:]]</span><br></pre></td></tr></table></figure>
+
+<p>练习题：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">练习1：显示/var目录下所有以l开头，以一个小写字母结尾，且中间出现一位任意字符的文件或目录；</span><br><span class="line">	ls -d /var/l?[[:lower:]]</span><br><span class="line">	ls -d /var/l?[a-z]</span><br><span class="line">练习2：显示/etc目录下，以任意一位数字开头，且以非数字结尾的文件或目录；</span><br><span class="line">	ls -d /etc/[0-9]*[^0-9]</span><br><span class="line">	ls -d /etc/[[:digit:]]*[^[:digit:]]</span><br><span class="line">练习3：显示/etc目录下，以非字母开头，后面跟一个字母及其它任意长度任意字符的文件或目录；</span><br><span class="line">	ls -d /etc/[^a-z][a-z]*</span><br><span class="line">	ls  [^[:alpha:]][[:alpha:]]*</span><br><span class="line">练习4：复制/etc目录下，所有以m开头，以非数字结尾的文件或目录至/tmp/magedu.com目录；</span><br><span class="line">	cp -r /etc/m*[^0-9] /tmp/magedu.com/</span><br><span class="line">	</span><br><span class="line">练习5：复制/usr/share/man目录下，所有以man开头，后跟一个数字结尾的文件或目录至/tmp/man/目录下；</span><br><span class="line">	cp -r /usr/share/man/man[0-9] /tmp/man/</span><br><span class="line"></span><br><span class="line">练习6：复制/etc目录下，所有以.conf结尾，且以m,n,r,p开头的文件或目录至/tmp/conf.d/目录下；</span><br><span class="line">	cp -r /etc/[mnrp]*.conf /tmp/conf.d/</span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="补充"><a href="#补充" class="headerlink" title="补充"></a>补充</h4><p><strong>登录信息</strong></p>
+<p>我们在登录 tty1~tty6 这 6 个本地终端时，会有几行的欢迎界面。这些欢迎信息是保存在哪里的？可以修改吗？当然可以修改，这些欢迎信息保存在 /etc/issue 文件中，我们查看一下这个文件：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[hyp@localhost ~]$ cat /etc/issue</span><br><span class="line">\S</span><br><span class="line">Kernel \r on an \m</span><br></pre></td></tr></table></figure>
+
+<p>系统在每次登录时，会依赖这个文件的配置显示欢迎界面。在 /etc/issue 文件中允许使用转义符调用相应信息，其支持的转义符可以通过 man agetty 命令查询。</p>
+<table>
+<thead>
+<tr>
+<th>转义符</th>
+<th>作 用</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>\d</td>
+<td>显示当前系统日期</td>
+</tr>
+<tr>
+<td>\s</td>
+<td>显示操作系统名称</td>
+</tr>
+<tr>
+<td>\1</td>
+<td>显示登录的终端号，这个转义符比较常用</td>
+</tr>
+<tr>
+<td>\m</td>
+<td>显示硬件体系结构，如i386、i686等</td>
+</tr>
+<tr>
+<td>\n</td>
+<td>显示主机名</td>
+</tr>
+<tr>
+<td>\o</td>
+<td>显示域名</td>
+</tr>
+<tr>
+<td>\r</td>
+<td>显示内核版本</td>
+</tr>
+<tr>
+<td>\t</td>
+<td>显示当前系统时间</td>
+</tr>
+<tr>
+<td>\u</td>
+<td>显示当前登录用户的序列号</td>
+</tr>
+</tbody></table>
+<p>配置 /etc/issue 文件会在本地终端登录时显示欢迎信息，如果远程登录（如 ssh 远程登录，或 Telnet 远程登录）需要显示欢迎信息，则需要配置 /etc/issue.net 文件。使用这个文件时有两点需要注意：</p>
+<ul>
+<li>在 /etc/issue 文件中支持的转义符在 /etc/issue.net 文件中不能使用。</li>
+<li>ssh 远程登录是否显示 /etc/issue.net 文件中的欢迎信息，是由 ssh 的配置文件决定的。</li>
+</ul>
+<p>如果我们需要 ssh 远程登录可以査看 /etc/issue.net 文件中的欢迎信息，那么首先需要修改 ssh 的配置文件 /etc/ssh/sshd_config，加入如下内容：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost ~]# cat /etc/ssh/sshd_config ...省略部分输出...</span><br><span class="line">\# no default banner path</span><br><span class="line">\#Banner none</span><br><span class="line">Banner /etc/issue.net</span><br><span class="line">…省略部分输出…</span><br></pre></td></tr></table></figure>
+
+<p>这样，在 ssh 远程登录时，也可以显示欢迎信息，只是不能再识别”\d”和”\l”等信息了。</p>
+<p>/etc/motd 文件中也是有欢迎信息的，这个文件和 /etc/issue 及 /etc/issue.net 文件的区别是：/etc/issue 及 /etc/issue.net 文件是在用户登录之前显示欢迎信息的；而 /etc/motd 文件是在用户输入用户名和密码，正确登录之后显示欢迎信息的。/etc/motd 文件中的欢迎信息，不论是本地登录，还是远程登录，都可以显示。</p>
+<h4 id="echo-显示内容颜色"><a href="#echo-显示内容颜色" class="headerlink" title="echo 显示内容颜色"></a>echo 显示内容颜色</h4><p>echo 显示内容颜色，需要使用 -e 参数</p>
+<p>-e :打开反斜杠转义 (默认不打开) ,可以转义 “\n, \t” 等</p>
+<p>-n:在最后不自动换行</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">str=&quot;pingxin&quot;</span><br><span class="line">echo -e &quot;\033[字背景颜色;文字颜色m $&#123;str&#125; \033[0m&quot;</span><br></pre></td></tr></table></figure>
+
+<p>注：文字颜色后面有个m </p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">#字体颜色：30m-37m 黑、红、绿、黄、蓝、紫、青、白</span><br><span class="line">str=&quot;pingxin&quot;</span><br><span class="line">echo -e &quot;\033[30m $&#123;str&#125;\033[0m&quot;      ## 黑色字体</span><br><span class="line">echo -e &quot;\033[31m $&#123;str&#125;\033[0m&quot;      ## 红色</span><br><span class="line">echo -e &quot;\033[32m $&#123;str&#125;\033[0m&quot;      ## 绿色</span><br><span class="line">echo -e &quot;\033[33m $&#123;str&#125;\033[0m&quot;      ## 黄色</span><br><span class="line">echo -e &quot;\033[34m $&#123;str&#125;\033[0m&quot;      ## 蓝色</span><br><span class="line">echo -e &quot;\033[35m $&#123;str&#125;\033[0m&quot;      ## 紫色</span><br><span class="line">echo -e &quot;\033[36m $&#123;str&#125;\033[0m&quot;      ## 青色</span><br><span class="line">echo -e &quot;\033[37m $&#123;str&#125;\033[0m&quot;      ## 白色</span><br><span class="line"></span><br><span class="line">#背景颜色：40-47 黑、红、绿、黄、蓝、紫、青、白</span><br><span class="line">str=&quot;kimbo zhang&quot;</span><br><span class="line">echo -e &quot;\033[41;37m $&#123;str&#125; \033[0m&quot;     ## 红色背景色，白色字体</span><br><span class="line">echo -e &quot;\033[41;33m $&#123;str&#125; \033[0m&quot;     ## 红底黄字</span><br><span class="line">echo -e &quot;\033[1;41;33m $&#123;str&#125; \033[0m&quot;   ## 红底黄字 高亮加粗显示</span><br><span class="line">echo -e &quot;\033[5;41;33m $&#123;str&#125; \033[0m&quot;   ## 红底黄字 字体闪烁显示</span><br><span class="line">echo -e &quot;\033[47;30m $&#123;str&#125; \033[0m&quot;     ## 白底黑字</span><br><span class="line">echo -e &quot;\033[40;37m $&#123;str&#125; \033[0m&quot;     ## 黑底白字</span><br><span class="line">#其他参数说明</span><br><span class="line">#　\033[1;m 设置高亮加粗</span><br><span class="line">#　　\033[4;m 下划线</span><br><span class="line">#　　\033[5;m 闪烁</span><br></pre></td></tr></table></figure>
+
+<p>示例：定义函数，用于日志写入等</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line">#!/bin/bash</span><br><span class="line">## 写日志</span><br><span class="line">## 参数1：字符串</span><br><span class="line">## 参数2：颜色 (红色：失败报错，绿色：成功，黄色：警告)</span><br><span class="line"></span><br><span class="line">function func_write_log()</span><br><span class="line">&#123;</span><br><span class="line">    var_str=$1</span><br><span class="line">    var_color=$2</span><br><span class="line">    var_curr_timestamp=`date &quot;+%Y-%m-%d %H:%M:%S&quot;`</span><br><span class="line"></span><br><span class="line">    ## 判断参数1 是否是空字符串</span><br><span class="line">    if [ &quot;x$&#123;var_str&#125;&quot; == &quot;x&quot; ];then</span><br><span class="line">        var_str=&quot;&quot;</span><br><span class="line">    else</span><br><span class="line">        var_str=&quot;$&#123;var_curr_timestamp&#125; $&#123;var_str&#125;&quot;</span><br><span class="line">    fi</span><br><span class="line"></span><br><span class="line">    ## 判断颜色</span><br><span class="line">    if [ &quot;$&#123;var_color&#125;&quot; == &quot;green&quot; ];then</span><br><span class="line">        var_str=&quot;\n\033[32m$&#123;var_str&#125;\033[0m&quot;</span><br><span class="line">    elif [ &quot;$&#123;var_color&#125;&quot; == &quot;yellow&quot; ];then</span><br><span class="line">        var_str=&quot;\033[33m$&#123;var_str&#125;\033[0m&quot;</span><br><span class="line">    elif [ &quot;$&#123;var_color&#125;&quot; == &quot;red&quot; ];then</span><br><span class="line">        var_str=&quot;\033[1;41;33m$&#123;var_str&#125;\033[0m&quot;</span><br><span class="line">    else</span><br><span class="line">        var_str=&quot;\033[37m$&#123;var_str&#125;\033[0m&quot;</span><br><span class="line">    fi</span><br><span class="line"></span><br><span class="line">    ## 打印输出</span><br><span class="line">    echo -e &quot;$&#123;var_str&#125;&quot;</span><br><span class="line">    #echo -e &quot;$&#123;var_str&#125;&quot; &gt;&gt; $&#123;var_path&#125;/test_$&#123;var_curr_timestamp&#125;.log 2&gt;&amp;1  #写入日志文件</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">## 函数调用</span><br><span class="line">func_write_log &quot;pingxin&quot; &quot;red&quot;</span><br></pre></td></tr></table></figure>
+
+<h4 id="printf格式化输出"><a href="#printf格式化输出" class="headerlink" title="printf格式化输出"></a>printf格式化输出</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">printf [format] [文本1] [文本2] ..</span><br></pre></td></tr></table></figure>
+
+<p><strong>常用格式替换符</strong></p>
+<table>
+<thead>
+<tr>
+<th>%s</th>
+<th>字符串</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>%f</td>
+<td>浮点格式</td>
+</tr>
+<tr>
+<td>%c</td>
+<td>ASCII字符，即显示对应参数的第一个字符</td>
+</tr>
+<tr>
+<td>%d,%i</td>
+<td>十进制整数</td>
+</tr>
+<tr>
+<td>%o</td>
+<td>八进制值</td>
+</tr>
+<tr>
+<td>%u</td>
+<td>不带正负号的十进制值</td>
+</tr>
+<tr>
+<td>%x</td>
+<td>十六进制值（a-f）</td>
+</tr>
+<tr>
+<td>%X</td>
+<td>十六进制值（A-F）</td>
+</tr>
+<tr>
+<td>%%</td>
+<td>表示%本身</td>
+</tr>
+</tbody></table>
+<p><strong>常用转义字符</strong></p>
+<table>
+<thead>
+<tr>
+<th>\a</th>
+<th>警告字符，通常为ASCII的BEL字符</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>\b</td>
+<td>后退</td>
+</tr>
+<tr>
+<td>\f</td>
+<td>换页</td>
+</tr>
+<tr>
+<td>\n</td>
+<td>换行</td>
+</tr>
+<tr>
+<td>\r</td>
+<td>回车</td>
+</tr>
+<tr>
+<td>\t</td>
+<td>水平制表符</td>
+</tr>
+<tr>
+<td>\v</td>
+<td>垂直制表符</td>
+</tr>
+<tr>
+<td>\</td>
+<td>表示\本身</td>
+</tr>
+</tbody></table>
+<p><strong>使用案例</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line">[root@C ~]# printf &quot;%s\n&quot; 1 2 3 4</span><br><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line"> </span><br><span class="line">[root@C ~]# printf &quot;%f\n&quot; 1 2 3 4</span><br><span class="line">1.000000</span><br><span class="line">2.000000</span><br><span class="line">3.000000</span><br><span class="line">4.000000</span><br><span class="line"> </span><br><span class="line">[root@C ~]# printf &quot;%.2f\n&quot; 1 2 3 4</span><br><span class="line">1.00</span><br><span class="line">2.00</span><br><span class="line">3.00</span><br><span class="line">4.00</span><br><span class="line"> </span><br><span class="line">[root@C ~]# printf &quot; (%s) &quot; 1 2 3 4 ; echo &quot;&quot;</span><br><span class="line"> (1)  (2)  (3)  (4)</span><br><span class="line"> </span><br><span class="line">[root@C ~]# printf &quot;%s %s\n&quot; 1 2 3 4</span><br><span class="line">1 2</span><br><span class="line">3 4</span><br><span class="line"> </span><br><span class="line">[root@C ~]# printf &quot;%s %s %s\n&quot; 1 2 3 4</span><br><span class="line">1 2 3</span><br><span class="line">4</span><br><span class="line"> </span><br><span class="line">#“-” 表示左对齐，“10 10 4” 表示占的字符位数，不够空格补全</span><br><span class="line">[root@C ~]# printf &quot;%-10s %-10s %-4s \n&quot; 姓名 性别 年龄 皮特 男 18 南瓜 男 18  </span><br><span class="line">姓名     性别     年龄</span><br><span class="line">皮特     男        18  </span><br><span class="line">南瓜     男        18  </span><br></pre></td></tr></table></figure>
+
+<h3 id="文本编辑器"><a href="#文本编辑器" class="headerlink" title="文本编辑器"></a>文本编辑器</h3><p>文本编辑器是对文本进行创建修改的程序，常用的编辑器有：vi、sed、nano、awk等。其中grep、sed和awk被称作文本三剑客，Grep（grep,egrep,fgrep): 文本过滤工具，  Sed： 文本编辑工具， Awk: 文本报告生成器。</p>
+<p>vi现在是用vim来代替，如果安装了vim，可以看到/bin/vi其实是/bin/vim的软链接；</p>
+<p>sed是一种流编编器，它是文本处理中非常中的工具，能够完美的配合正则表达式便用，功能能不同凡响。</p>
+<p>nano是一个字符终端的文本编辑器，有点像DOS下的editor程序。它比vi/vim要简单得多，比较适合Linux初学者使用，某些Linux发行版的默认编辑器就是nano；</p>
+<p>awk是一种编程语言，用于对文本和数据进行处理， 具有强大的<strong>文本格式化</strong>能力。</p>
+<h4 id="nano"><a href="#nano" class="headerlink" title="nano"></a>nano</h4><p>nano命令可以打开指定文件进行编辑，默认情况下它会自动断行，即在一行中输入过长的内容时自动拆分成几行，但用这种方式来处理某些文件可能会带来问题，比如Linux系统的配置文件，自动断行就会使本来只能写在一行上的内容折断成多行了，有可能造成系统不灵了。因此，如果你想避免这种情况出现，就加上-w选项吧。</p>
+<p>安装</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">CentOS体系</span></span><br><span class="line">yum -y install nano</span><br><span class="line"><span class="meta">#</span><span class="bash">Debian/Ubuntu体系</span></span><br><span class="line">apt-get install -y nano</span><br></pre></td></tr></table></figure>
+
+<p>语法：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nano [option] [[+行,列]/PATH/TO/FILE]...</span><br></pre></td></tr></table></figure>
+
+<p>命令：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">Alt+6  #复制一整行</span><br><span class="line">Ctrl+K  #剪贴一整行</span><br><span class="line">Ctrl+k #删除一整行</span><br><span class="line">Ctrl+U  #粘贴</span><br><span class="line">Ctrl+Y  #上一页</span><br><span class="line">Ctrl+V  #下一页</span><br><span class="line">Ctrl+W，然后输入你要搜索的关键字，回车确定。这将会定位到第一个匹配的文本，接着可以用</span><br><span class="line">Alt+W，来定位到下一个匹配的文本。</span><br><span class="line">Ctrl+O  #保留</span><br><span class="line">Ctrl+X  #退出，如其你修正了文献，会要你输入保留文献名，径直确认便可。</span><br><span class="line">注意:在nano帮助文档里，Ctrl-键被表示为一个脱字符（^），因此Ctrl+W被写成了^W，等等。Alt-键被表示为一个M（从&quot;Meta&quot;而来），因此Alt+W被写成了M-W。</span><br></pre></td></tr></table></figure>
+
+<h4 id="Vim"><a href="#Vim" class="headerlink" title="Vim"></a>Vim</h4><p>vim相对nano来说，比较复杂，功能也比较强大，是vi编辑器的加强。代码补完、编译及错误跳转等方便编程的功能特别丰富，在程序员中被广泛使用。简单的来说， vi 是老式的字处理器，不过功能已经很齐全了，但是还是有可以进步的地方。 vim 则可以说是程序开发者的一项很好用的工具。</p>
+<p>vim总共有三种模式：命令模式（Command mode），输入模式（Insert mode）和底线命令模式（Last line mode）。</p>
+<h5 id="命令模式："><a href="#命令模式：" class="headerlink" title="命令模式："></a>命令模式：</h5><p>用户刚刚启动 vi/vim，便进入了命令模式。</p>
+<p>此状态下敲击键盘动作会被Vim识别为命令，而非输入字符。比如我们此时按下i，并不会输入一个字符，i被当作了一个命令。</p>
+<p>以下是常用的几个命令：</p>
+<ul>
+<li><strong>i</strong> 切换到输入模式，以输入字符。</li>
+<li><strong>x</strong> 删除当前光标所在处的字符。</li>
+<li><strong>:</strong> 切换到底线命令模式，以在最底一行输入命令。</li>
+</ul>
+<p>若想要编辑文本：启动Vim，进入了命令模式，按下i，切换到输入模式。</p>
+<p>命令模式只有一些最基本的命令，因此仍要依靠底线命令模式输入更多命令。</p>
+<h5 id="输入模式"><a href="#输入模式" class="headerlink" title="输入模式"></a>输入模式</h5><p>在命令模式下按下i就进入了输入模式。</p>
+<p>在输入模式中，可以使用以下按键：</p>
+<ul>
+<li><strong>字符按键以及Shift组合</strong>，输入字符</li>
+<li><strong>ENTER</strong>，回车键，换行</li>
+<li><strong>BACK SPACE</strong>，退格键，删除光标前一个字符</li>
+<li><strong>DEL</strong>，删除键，删除光标后一个字符</li>
+<li><strong>方向键</strong>，在文本中移动光标</li>
+<li><strong>HOME</strong>/<strong>END</strong>，移动光标到行首/行尾</li>
+<li><strong>Page Up</strong>/<strong>Page Down</strong>，上/下翻页</li>
+<li><strong>Insert</strong>，切换光标为输入/替换模式，光标将变成竖线/下划线</li>
+<li><strong>ESC</strong>，退出输入模式，切换到命令模式</li>
+</ul>
+<h5 id="底线命令模式"><a href="#底线命令模式" class="headerlink" title="底线命令模式"></a>底线命令模式</h5><p>在命令模式下按下:（英文冒号）就进入了底线命令模式。</p>
+<p>底线命令模式可以输入单个或多个字符的命令，可用的命令非常多。</p>
+<p>在底线命令模式中，基本的命令有（已经省略了冒号）：</p>
+<ul>
+<li>q 退出程序</li>
+<li>w 保存文件</li>
+</ul>
+<p>按ESC键可随时退出底线命令模式。</p>
+<p>简单的说，我们可以将这三个模式想成底下的图标来表示：</p>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://ws3.sinaimg.cn/large/005BYqpgly1g1arwew04gj30lv0er3yt.jpg"></p>
+<p>直接输入 <strong>vi 文件名</strong> 就能够进入 vi 的一般模式了。请注意，记得 vi 后面一定要加文件名，不管该文件存在与否！</p>
+<h5 id="按键功能"><a href="#按键功能" class="headerlink" title="按键功能"></a>按键功能</h5><p>vim的键盘图如下：</p>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://ws3.sinaimg.cn/large/005BYqpggy1g1aql2k6hxj30sc0j9tat.jpg"></p>
+<p>第一部份：一般模式可用的光标移动、复制粘贴、搜索替换等</p>
+<table>
+<thead>
+<tr>
+<th>移动光标的方法</th>
+<th></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>h 或 向左箭头键(←)</td>
+<td>光标向左移动一个字符</td>
+</tr>
+<tr>
+<td>j 或 向下箭头键(↓)</td>
+<td>光标向下移动一个字符</td>
+</tr>
+<tr>
+<td>k 或 向上箭头键(↑)</td>
+<td>光标向上移动一个字符</td>
+</tr>
+<tr>
+<td>l 或 向右箭头键(→)</td>
+<td>光标向右移动一个字符</td>
+</tr>
+<tr>
+<td>如果你将右手放在键盘上的话，你会发现 hjkl 是排列在一起的，因此可以使用这四个按钮来移动光标。 如果想要进行多次移动的话，例如向下移动 30 行，可以使用 “30j” 或 “30↓” 的组合按键， 亦即加上想要进行的次数(数字)后，按下动作即可！</td>
+<td></td>
+</tr>
+<tr>
+<td>[Ctrl] + [f]</td>
+<td>屏幕『向下』移动一页，相当于 [Page Down]按键 (常用)</td>
+</tr>
+<tr>
+<td>[Ctrl] + [b]</td>
+<td>屏幕『向上』移动一页，相当于 [Page Up] 按键 (常用)</td>
+</tr>
+<tr>
+<td>[Ctrl] + [d]</td>
+<td>屏幕『向下』移动半页</td>
+</tr>
+<tr>
+<td>[Ctrl] + [u]</td>
+<td>屏幕『向上』移动半页</td>
+</tr>
+<tr>
+<td>+</td>
+<td>光标移动到非空格符的下一行</td>
+</tr>
+<tr>
+<td>-</td>
+<td>光标移动到非空格符的上一行</td>
+</tr>
+<tr>
+<td>n&lt;space&gt;</td>
+<td>那个 n 表示『数字』，例如 20 。按下数字后再按空格键，光标会向右移动这一行的 n 个字符。例如 20<space> 则光标会向后面移动 20 个字符距离。</td>
+</tr>
+<tr>
+<td>0 或功能键[Home]</td>
+<td>这是数字『 0 』：移动到这一行的最前面字符处 (常用)</td>
+</tr>
+<tr>
+<td>$ 或功能键[End]</td>
+<td>移动到这一行的最后面字符处(常用)</td>
+</tr>
+<tr>
+<td>H</td>
+<td>光标移动到这个屏幕的最上方那一行的第一个字符</td>
+</tr>
+<tr>
+<td>M</td>
+<td>光标移动到这个屏幕的中央那一行的第一个字符</td>
+</tr>
+<tr>
+<td>L</td>
+<td>光标移动到这个屏幕的最下方那一行的第一个字符</td>
+</tr>
+<tr>
+<td>G</td>
+<td>移动到这个档案的最后一行(常用)</td>
+</tr>
+<tr>
+<td>nG</td>
+<td>n 为数字。移动到这个档案的第 n 行。例如 20G 则会移动到这个档案的第 20 行(可配合 :set nu)</td>
+</tr>
+<tr>
+<td>gg</td>
+<td>移动到这个档案的第一行，相当于 1G 啊！ (常用)</td>
+</tr>
+<tr>
+<td>n&lt;Enter&gt;</td>
+<td>n 为数字。光标向下移动 n 行(常用)</td>
+</tr>
+<tr>
+<td>搜索替换</td>
+<td></td>
+</tr>
+<tr>
+<td>/word</td>
+<td>向光标之下寻找一个名称为 word 的字符串。例如要在档案内搜寻 vbird 这个字符串，就输入 /vbird 即可！ (常用)</td>
+</tr>
+<tr>
+<td>?word</td>
+<td>向光标之上寻找一个字符串名称为 word 的字符串。</td>
+</tr>
+<tr>
+<td>n</td>
+<td>这个 n 是英文按键。代表重复前一个搜寻的动作。举例来说， 如果刚刚我们执行 /vbird 去向下搜寻 vbird 这个字符串，则按下 n 后，会向下继续搜寻下一个名称为 vbird 的字符串。如果是执行 ?vbird 的话，那么按下 n 则会向上继续搜寻名称为 vbird 的字符串！</td>
+</tr>
+<tr>
+<td>N</td>
+<td>这个 N 是英文按键。与 n 刚好相反，为『反向』进行前一个搜寻动作。 例如 /vbird 后，按下 N 则表示『向上』搜寻 vbird 。</td>
+</tr>
+<tr>
+<td>使用 /word 配合 n 及 N 是非常有帮助的！可以让你重复的找到一些你搜寻的关键词！</td>
+<td></td>
+</tr>
+<tr>
+<td>:n1,n2s/word1/word2/g</td>
+<td>n1 与 n2 为数字。在第 n1 与 n2 行之间寻找 word1 这个字符串，并将该字符串取代为 word2 ！举例来说，在 100 到 200 行之间搜寻 vbird 并取代为 VBIRD 则： 『:100,200s/vbird/VBIRD/g』。(常用)</td>
+</tr>
+<tr>
+<td>:1,$s/word1/word2/g或 :%s/word1/word2/g</td>
+<td>从第一行到最后一行寻找 word1 字符串，并将该字符串取代为 word2 ！(常用)</td>
+</tr>
+<tr>
+<td>:1,$s/word1/word2/gc或 :%s/word1/word2/gc</td>
+<td>从第一行到最后一行寻找 word1 字符串，并将该字符串取代为 word2 ！且在取代前显示提示字符给用户确认 (confirm) 是否需要取代！(常用)</td>
+</tr>
+<tr>
+<td>删除、复制与贴上</td>
+<td></td>
+</tr>
+<tr>
+<td>x, X</td>
+<td>在一行字当中，x 为向后删除一个字符 (相当于 [del] 按键)， X 为向前删除一个字符(相当于 [backspace] 亦即是退格键) (常用)</td>
+</tr>
+<tr>
+<td>nx</td>
+<td>n 为数字，连续向后删除 n 个字符。举例来说，我要连续删除 10 个字符， 『10x』。</td>
+</tr>
+<tr>
+<td>dd</td>
+<td>删除游标所在的那一整行(常用)</td>
+</tr>
+<tr>
+<td>ndd</td>
+<td>n 为数字。删除光标所在的向下 n 行，例如 20dd 则是删除 20 行 (常用)</td>
+</tr>
+<tr>
+<td>d1G</td>
+<td>删除光标所在到第一行的所有数据</td>
+</tr>
+<tr>
+<td>dG</td>
+<td>删除光标所在到最后一行的所有数据</td>
+</tr>
+<tr>
+<td>d$</td>
+<td>删除游标所在处，到该行的最后一个字符</td>
+</tr>
+<tr>
+<td>d0</td>
+<td>那个是数字的 0 ，删除游标所在处，到该行的最前面一个字符</td>
+</tr>
+<tr>
+<td>yy</td>
+<td>复制游标所在的那一行(常用)</td>
+</tr>
+<tr>
+<td>nyy</td>
+<td>n 为数字。复制光标所在的向下 n 行，例如 20yy 则是复制 20 行(常用)</td>
+</tr>
+<tr>
+<td>y1G</td>
+<td>复制游标所在行到第一行的所有数据</td>
+</tr>
+<tr>
+<td>yG</td>
+<td>复制游标所在行到最后一行的所有数据</td>
+</tr>
+<tr>
+<td>y0</td>
+<td>复制光标所在的那个字符到该行行首的所有数据</td>
+</tr>
+<tr>
+<td>y$</td>
+<td>复制光标所在的那个字符到该行行尾的所有数据</td>
+</tr>
+<tr>
+<td>p, P</td>
+<td>p 为将已复制的数据在光标下一行贴上，P 则为贴在游标上一行！ 举例来说，我目前光标在第 20 行，且已经复制了 10 行数据。则按下 p 后， 那 10 行数据会贴在原本的 20 行之后，亦即由 21 行开始贴。但如果是按下 P 呢？ 那么原本的第 20 行会被推到变成 30 行。 (常用)</td>
+</tr>
+<tr>
+<td>J</td>
+<td>将光标所在行与下一行的数据结合成同一行</td>
+</tr>
+<tr>
+<td>c</td>
+<td>重复删除多个数据，例如向下删除 10 行，[ 10cj ]</td>
+</tr>
+<tr>
+<td>u</td>
+<td>复原前一个动作。(常用)</td>
+</tr>
+<tr>
+<td>[Ctrl]+r</td>
+<td>重做上一个动作。(常用)</td>
+</tr>
+<tr>
+<td>这个 u 与 [Ctrl]+r 是很常用的指令！一个是复原，另一个则是重做一次～ 利用这两个功能按键，你的编辑，嘿嘿！很快乐的啦！</td>
+<td></td>
+</tr>
+<tr>
+<td>.</td>
+<td>不要怀疑！这就是小数点！意思是重复前一个动作的意思。 如果你想要重复删除、重复贴上等等动作，按下小数点『.』就好了！ (常用)</td>
+</tr>
+</tbody></table>
+<h5 id="第二部份：一般模式切换到编辑模式的可用的按钮说明"><a href="#第二部份：一般模式切换到编辑模式的可用的按钮说明" class="headerlink" title="第二部份：一般模式切换到编辑模式的可用的按钮说明"></a>第二部份：一般模式切换到编辑模式的可用的按钮说明</h5><table>
+<thead>
+<tr>
+<th>进入输入或取代的编辑模式</th>
+<th></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>i, I</td>
+<td>进入输入模式(Insert mode)： i 为『从目前光标所在处输入』， I 为『在目前所在行的第一个非空格符处开始输入』。 (常用)</td>
+</tr>
+<tr>
+<td>a, A</td>
+<td>进入输入模式(Insert mode)： a 为『从目前光标所在的下一个字符处开始输入』， A 为『从光标所在行的最后一个字符处开始输入』。(常用)</td>
+</tr>
+<tr>
+<td>o, O</td>
+<td>进入输入模式(Insert mode)： 这是英文字母 o 的大小写。o 为『在目前光标所在的下一行处输入新的一行』； O 为在目前光标所在处的上一行输入新的一行！(常用)</td>
+</tr>
+<tr>
+<td>r, R</td>
+<td>进入取代模式(Replace mode)： r 只会取代光标所在的那一个字符一次；R会一直取代光标所在的文字，直到按下 ESC 为止；(常用)</td>
+</tr>
+<tr>
+<td>上面这些按键中，在 vi 画面的左下角处会出现『–INSERT–』或『–REPLACE–』的字样。 由名称就知道该动作了吧！！特别注意的是，我们上面也提过了，你想要在档案里面输入字符时， 一定要在左下角处看到 INSERT 或 REPLACE 才能输入喔！</td>
+<td></td>
+</tr>
+<tr>
+<td>[Esc]</td>
+<td>退出编辑模式，回到一般模式中(常用)</td>
+</tr>
+</tbody></table>
+<h5 id="第三部份：一般模式切换到指令行模式的可用的按钮说明"><a href="#第三部份：一般模式切换到指令行模式的可用的按钮说明" class="headerlink" title="第三部份：一般模式切换到指令行模式的可用的按钮说明"></a>第三部份：一般模式切换到指令行模式的可用的按钮说明</h5><table>
+<thead>
+<tr>
+<th>指令行的储存、离开等指令</th>
+<th></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>:w</td>
+<td>将编辑的数据写入硬盘档案中(常用)</td>
+</tr>
+<tr>
+<td>:w!</td>
+<td>若文件属性为『只读』时，强制写入该档案。不过，到底能不能写入， 还是跟你对该档案的档案权限有关啊！</td>
+</tr>
+<tr>
+<td>:q</td>
+<td>离开 vi (常用)</td>
+</tr>
+<tr>
+<td>:q!</td>
+<td>若曾修改过档案，又不想储存，使用 ! 为强制离开不储存档案。</td>
+</tr>
+<tr>
+<td>注意一下啊，那个惊叹号 (!) 在 vi 当中，常常具有『强制』的意思～</td>
+<td></td>
+</tr>
+<tr>
+<td>:wq</td>
+<td>储存后离开，若为 :wq! 则为强制储存后离开 (常用)</td>
+</tr>
+<tr>
+<td>ZZ</td>
+<td>这是大写的 Z 喔！若档案没有更动，则不储存离开，若档案已经被更动过，则储存后离开！</td>
+</tr>
+<tr>
+<td>:w [filename]</td>
+<td>将编辑的数据储存成另一个档案（类似另存新档）</td>
+</tr>
+<tr>
+<td>:r [filename]</td>
+<td>在编辑的数据中，读入另一个档案的数据。亦即将 『filename』 这个档案内容加到游标所在行后面</td>
+</tr>
+<tr>
+<td>:n1,n2 w [filename]</td>
+<td>将 n1 到 n2 的内容储存成 filename 这个档案。</td>
+</tr>
+<tr>
+<td>:! command</td>
+<td>暂时离开 vi 到指令行模式下执行 command 的显示结果！例如 『:! ls /home』即可在 vi 当中察看 /home 底下以 ls 输出的档案信息！</td>
+</tr>
+<tr>
+<td>vim 环境的变更</td>
+<td></td>
+</tr>
+<tr>
+<td>:set nu</td>
+<td>显示行号，设定之后，会在每一行的前缀显示该行的行号</td>
+</tr>
+<tr>
+<td>:set nonu</td>
+<td>与 set nu 相反，为取消行号！</td>
+</tr>
+</tbody></table>
+<p>特别注意，在 vi/vim 中，数字是很有意义的！数字通常代表重复做几次的意思！ 也有可能是代表去到第几个什么什么的意思。</p>
+<p>举例来说，要删除 50 行，则是用 『50dd』 对吧！ 数字加在动作之前，如我要向下移动 20 行呢？那就是『20j』或者是『20↓』即可。</p>
+<h5 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h5><p>在目录/etc、下面，有个名为vimrc的文件，这就是系统中公共的vim配置文件，对所有用户都开放。而在每个用户的主目录下，都可以自己建立私有的配置文件，命名为：”.vimrc”。</p>
+<p>可以根据自己需求选择配置文件位置，每个配置一行。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br></pre></td><td class="code"><pre><span class="line">设置语法高亮：syntax on/off</span><br><span class="line">  &quot;显示行号</span><br><span class="line">    set nu</span><br><span class="line">    set number</span><br><span class="line">  &quot;更改缩进大小</span><br><span class="line">    set tabstop=2</span><br><span class="line">  &quot;颜色主题</span><br><span class="line">    color koehler</span><br><span class="line">  &quot;显示标尺</span><br><span class="line">    set ruler</span><br><span class="line">  &quot;去空行  </span><br><span class="line">    nnoremap &lt;F2&gt; :g/^\s*$/d&lt;CR&gt; </span><br><span class="line">  &quot;激活鼠标</span><br><span class="line">    set mouse=a</span><br><span class="line">  &quot;新建标签  </span><br><span class="line">    map &lt;M-F2&gt; :tabnew&lt;CR&gt;  </span><br><span class="line">  &quot;列出当前目录文件  </span><br><span class="line">    map &lt;F3&gt; :tabnew .&lt;CR&gt;  </span><br><span class="line">  &quot;打开树状文件目录  </span><br><span class="line">    map &lt;C-F3&gt; \be  </span><br><span class="line">  &quot;C，C++ 按F5编译运行（需要安装gcc、gcc-c++）</span><br><span class="line">    map &lt;F5&gt; :call CompileRunGcc()&lt;CR&gt;</span><br><span class="line">    func! CompileRunGcc()</span><br><span class="line">        exec &quot;w&quot;</span><br><span class="line">        if &amp;filetype == &#x27;c&#x27;</span><br><span class="line">            exec &quot;!g++ % -o %&lt;&quot;</span><br><span class="line">            exec &quot;! ./%&lt;&quot;</span><br><span class="line">        elseif &amp;filetype == &#x27;cpp&#x27;</span><br><span class="line">            exec &quot;!g++ % -o %&lt;&quot;</span><br><span class="line">            exec &quot;! ./%&lt;&quot;</span><br><span class="line">        elseif &amp;filetype == &#x27;java&#x27; </span><br><span class="line">            exec &quot;!javac %&quot; </span><br><span class="line">            exec &quot;!java %&lt;&quot;</span><br><span class="line">        elseif &amp;filetype == &#x27;sh&#x27;</span><br><span class="line">            :!./%</span><br><span class="line">        endif</span><br><span class="line">    endfunc</span><br><span class="line">  &quot;C,C++的调试</span><br><span class="line">    map &lt;F8&gt; :call Rungdb()&lt;CR&gt;</span><br><span class="line">    func! Rungdb()</span><br><span class="line">        exec &quot;w&quot;</span><br><span class="line">        exec &quot;!g++ % -g -o %&lt;&quot;</span><br><span class="line">        exec &quot;!gdb ./%&lt;&quot;</span><br><span class="line">    endfunc</span><br><span class="line">  &quot;自动缩进</span><br><span class="line">    set autoindent</span><br><span class="line">    set cindent</span><br><span class="line">  &quot;统一缩进为4</span><br><span class="line">    set softtabstop=2</span><br><span class="line">    set shiftwidth=2</span><br></pre></td></tr></table></figure>
+
+<p>如果自己不想一个一个配置可以使用一键配置，直接在命令行执行下面命令，可以配置一个开发环境： </p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">!/bin/bash</span> </span><br><span class="line">git clone --recursive https://github.com/Leptune/vim-for-coding.git ~/vim-for-coding</span><br><span class="line">cd ~ </span><br><span class="line">mv .vim .vimbak &amp;&gt; /dev/null </span><br><span class="line">mv .vimrc .vimrcbak &amp;&gt; /dev/null </span><br><span class="line">mv vim-for-coding .vim </span><br><span class="line">ln -s .vim/vimrc .vimrc</span><br></pre></td></tr></table></figure>
+
+<h4 id="Linux命令发送Http-GET-POST请求"><a href="#Linux命令发送Http-GET-POST请求" class="headerlink" title="Linux命令发送Http GET/POST请求"></a>Linux命令发送Http GET/POST请求</h4><p><strong>curl命令模拟Get请求：</strong></p>
+<p>1、使用curl命令：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">`curl ``&quot;http://www.baidu.com&quot;` `如果这里的URL指向的是一个文件或者一幅图都可以直接下载到本地``curl -i ``&quot;http://www.baidu.com&quot;` `显示全部信息``curl -I ``&quot;http://www.baidu.com&quot;` `只显示头部信息``curl -v ``&quot;http://www.baidu.com&quot;`  `显示get请求全过程解析`</span><br></pre></td></tr></table></figure>
+
+<p>2、使用wget命令：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">`wget ``&quot;http://www.baidu.com&quot;`</span><br></pre></td></tr></table></figure>
+
+<p><strong>curl命令模拟Get请求携带参数：</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">`curl -v http:``//127.0.0.1:80/xcloud/test?version=1&amp;client_version=1.1.0&amp;seq=1001&amp;host=aaa.com`</span><br></pre></td></tr></table></figure>
+
+<p>上述命令在linux系统，get请求携带的参数只到version=1，”&amp;”符号在linux系统中为后台运行的操作符，此处需要使用反斜杠”\”转义，即：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">`curl -v http:``//127.0.0.1:80/xcloud/test?version=1\&amp;client_version=1.1.0\&amp;seq=1001\&amp;host=aaa.com`</span><br></pre></td></tr></table></figure>
+
+<p>或者</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">`curl -v ``&quot;http://127.0.0.1:80/xcloud/test?version=1&amp;client_version=1.1.0&amp;seq=1001&amp;host=aaa.com&quot;`</span><br></pre></td></tr></table></figure>
+
+<p><strong>Post请求</strong></p>
+<p>1、使用curl命令，通过-d参数，把访问参数放在里面，如果没有参数，则不需要-d，</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">`curl -d ``&quot;username=user1&amp;password=123&quot;` `&quot;www.test.com/login&quot;`</span><br></pre></td></tr></table></figure>
+
+<p>2、使用wget命令</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">`wget –post-data ``&#x27;username=user1&amp;password=123&#x27;` `http:``//www.baidu.com`</span><br></pre></td></tr></table></figure>
+
+<p>3、发送格式化json请求</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">`curl -i -k -H ``&quot;Content-type: application/json&quot;` `-X POST -d ``&#x27;&#123;&quot;version&quot;:&quot;6.6.0&quot;, &quot;from&quot;:&quot;mu&quot;, &quot;product_version&quot;:&quot;1.1.1.0&quot;&#125;&#x27;` `https:``//10.10.10.10:80/test`</span><br></pre></td></tr></table></figure>
+
+<p><strong>curl和wget区别</strong></p>
+<p>curl模拟的访问请求一般直接在控制台显示，而wget则把结果保存为一个文件。如果结果内容比较少，需要直接看到结果可以考虑使用curl进行模拟请求，如果返回结果比较多，则可考虑wget进行模拟请求。</p>
+<h4 id="给文件追加多行内容"><a href="#给文件追加多行内容" class="headerlink" title="给文件追加多行内容"></a>给文件追加多行内容</h4><p><strong>追加到文件结尾</strong></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">1.</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> cat &gt;&gt; lb.txt&lt;&lt;<span class="string">EOF</span></span></span><br><span class="line"><span class="meta">&gt;</span><span class="bash"><span class="string"> hellow</span></span></span><br><span class="line"><span class="meta">&gt;</span><span class="bash"><span class="string"> world</span></span></span><br><span class="line"><span class="meta">&gt;</span><span class="bash"><span class="string">EOF</span></span></span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="bash">2.</span> </span><br><span class="line"><span class="meta">$</span><span class="bash"> <span class="built_in">echo</span> <span class="string">&quot;hellow</span></span></span><br><span class="line">world&quot; &gt;&gt; lb.txt</span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="string">3.</span></span> </span><br><span class="line"><span class="meta">$</span><span class="bash"><span class="string"> echo -e &quot;</span>hellow\nworld<span class="string">&quot; &gt;&gt; lb.txt</span></span></span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="string">&quot;</span>-e<span class="string">&quot;表示激活转义字符，&quot;</span>\n<span class="string">&quot;表示换行，&quot;</span>\t<span class="string">&quot;表示Tab键</span></span></span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="string">4.</span></span> </span><br><span class="line"><span class="meta">$</span><span class="bash"><span class="string"> cat &gt;&gt; lb.txt</span></span></span><br><span class="line">hellow</span><br><span class="line">world</span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="string">使用Ctrl+c或Ctrl+d结束输入</span></span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p><strong>指定的行前/后插入指定内容</strong></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 原文件内容</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> cat lb.txt</span></span><br><span class="line">hellow</span><br><span class="line">world</span><br><span class="line">sina</span><br><span class="line">baidu</span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="bash">在<span class="string">&quot;world&quot;</span>行的下面插入一行内容</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> sed <span class="string">&#x27;/world/a\taobao&#x27;</span> lb.txt</span></span><br><span class="line">hellow</span><br><span class="line">world</span><br><span class="line">taobao</span><br><span class="line">sina</span><br><span class="line">baidu</span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="bash">在<span class="string">&quot;world&quot;</span>行的下面插入多行内容</span></span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">$</span><span class="bash"> sed <span class="string">&#x27;/world/a\taobao\njingdong\naliyun&#x27;</span> lb.txt</span></span><br><span class="line">hellow</span><br><span class="line">world</span><br><span class="line">taobao</span><br><span class="line">jingdong</span><br><span class="line">aliyun</span><br><span class="line">sina</span><br><span class="line">baidu</span><br><span class="line"><span class="meta">#</span><span class="bash">注释：<span class="string">&quot;\n&quot;</span>表示换行</span></span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="bash">在<span class="string">&quot;world&quot;</span>行的上面插入一行内容</span></span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">$</span><span class="bash"> sed <span class="string">&#x27;/world/i\taobao&#x27;</span> lb.txt</span></span><br><span class="line">hellow</span><br><span class="line">taobao</span><br><span class="line">world</span><br><span class="line">sina</span><br><span class="line">baidu</span><br><span class="line"><span class="meta">#</span><span class="bash">注释：把参数<span class="string">&quot;a&quot;</span>换成参数<span class="string">&quot;i&quot;</span></span></span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="bash">在<span class="string">&quot;world&quot;</span>行的下面插入多行内容</span></span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">$</span><span class="bash"> sed <span class="string">&#x27;/world/i\taobao\njingdong\naliyun&#x27;</span> lb.txt</span></span><br><span class="line">hellow</span><br><span class="line">taobao</span><br><span class="line">jingdong</span><br><span class="line">aliyun</span><br><span class="line">world</span><br><span class="line">sina</span><br><span class="line">baidu</span><br></pre></td></tr></table></figure>
+
+<p><strong>如果文件中有多行匹配，结果会在匹配的行都加上内容</strong></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">原文件内容</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> cat lb.txt</span></span><br><span class="line">hellow</span><br><span class="line">world</span><br><span class="line">    worldd</span><br><span class="line">sina</span><br><span class="line">baidu</span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">$</span><span class="bash"> sed <span class="string">&#x27;/world/a\taobao&#x27;</span> lb.txt</span></span><br><span class="line">hellow</span><br><span class="line">world</span><br><span class="line">taobao</span><br><span class="line">        worldd</span><br><span class="line">taobao</span><br><span class="line">sina</span><br><span class="line">baidu</span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">$</span><span class="bash"> sed <span class="string">&#x27;/^world/a\taobao&#x27;</span> lb.txt</span></span><br><span class="line">hellow</span><br><span class="line">world</span><br><span class="line">taobao</span><br><span class="line">        worldd</span><br><span class="line">sina</span><br><span class="line">baidu</span><br><span class="line"><span class="meta">#</span><span class="bash">注释：使用正则表达式匹配，匹配以world开头的行</span></span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">$</span><span class="bash"> sed <span class="string">&#x27;/\bworld\b/a\taobao&#x27;</span> lb.txt</span></span><br><span class="line">hellow</span><br><span class="line">world</span><br><span class="line">taobao</span><br><span class="line">        worldd</span><br><span class="line">sina</span><br><span class="line">baidu</span><br><span class="line"><span class="meta">#</span><span class="bash">注释：使用正则表达式匹配，匹配单词边界</span></span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">$</span><span class="bash">sed <span class="string">&#x27;2a\taobao&#x27;</span> lb.txt</span></span><br><span class="line">hellow</span><br><span class="line">world</span><br><span class="line">taobao</span><br><span class="line">        worldd</span><br><span class="line">sina</span><br><span class="line">baidu</span><br><span class="line"><span class="meta">#</span><span class="bash">注释：根据文件内容行号</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h4 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h4><ol>
+<li><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/fc0eb6c60816">curl使用指南</a></li>
+</ol>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">平心</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://pingxin0521.gitee.io/2019/03/13/Linux-%E5%9F%BA%E7%A1%80-3/">https://pingxin0521.gitee.io/2019/03/13/Linux-%E5%9F%BA%E7%A1%80-3/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://pingxin0521.gitee.io" target="_blank">平心de小屋</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/Linux/">Linux</a><a class="post-meta__tags" href="/tags/%E8%84%9A%E6%9C%AC/">脚本</a></div><div class="post_share"><div class="social-share" data-image="https://i.loli.net/2020/05/08/vCnKyoFJZ1g4XYR.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2019/03/16/%E6%95%B0%E6%8D%AE%E5%BA%93-H2-1/"><img class="prev-cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/okfOw28KlZFbE7z.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">H2 数据库初步使用</div></div></a></div><div class="next-post pull-right"><a href="/2019/03/13/Hexo%E5%8D%9A%E5%AE%A2-1-5/"><img class="next-cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/vCnKyoFJZ1g4XYR.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">Hexo博客-优化篇</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span> 相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2019/05/26/Linux-脚本-3/" title="Linux-expect"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/okfOw28KlZFbE7z.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2019-10-09</div><div class="title">Linux-expect</div></div></a></div><div><a href="/2019/03/25/Linux-脚本-1/" title="Linux-bash基础（一）"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/okfOw28KlZFbE7z.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2019-10-08</div><div class="title">Linux-bash基础（一）</div></div></a></div><div><a href="/2019/04/26/Linux-脚本-2/" title="Linux-bash流程（二）"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/7dHvepmfYOLWTrX.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2019-10-09</div><div class="title">Linux-bash流程（二）</div></div></a></div><div><a href="/2019/05/22/Linux-Ubuntu-4/" title="Ubuntu 点滴笔记"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/PFDRNxj93taz6pw.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2019-10-18</div><div class="title">Ubuntu 点滴笔记</div></div></a></div><div><a href="/2019/03/23/Linux-基础-12/" title="Linux-服务管理"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/PFDRNxj93taz6pw.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2019-04-03</div><div class="title">Linux-服务管理</div></div></a></div><div><a href="/2019/03/20/Linux-基础-5/" title="Linux-文本处理三剑客--grep"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/HjVAdIuT7bZJypS.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2019-10-10</div><div class="title">Linux-文本处理三剑客--grep</div></div></a></div></div></div><hr/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div class="vcomment" id="vcomment"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="card-info-avatar is-center"><img class="avatar-img" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://s2.ax1x.com/2020/02/11/1ovw6J.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/><div class="author-info__name">平心</div><div class="author-info__description">年轻人的life、learn and think</div></div><div class="card-info-data"><div class="card-info-data-item is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">449</div></a></div><div class="card-info-data-item is-center"><a href="/tags/"><div class="headline">标签</div><div class="length-num">77</div></a></div><div class="card-info-data-item is-center"><a href="/categories/"><div class="headline">分类</div><div class="length-num">68</div></a></div></div><a class="button--animated" id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/hanyunpeng0521"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/hanyunpeng0521" target="_blank" title="Github"><i class="fa fa-github"></i></a><a class="social-icon" href="mailto:m13839441583@163.com" target="_blank" title="Email"><i class="fa fa-envelope"></i></a><a class="social-icon" href="/atom.xml" target="_blank" title=""><i class="fa fa-rss"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn card-announcement-animation"></i><span>公告</span></div><div class="announcement_content">为什么呢？开始提问吧</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%89%8D%E8%A8%80"><span class="toc-number">1.</span> <span class="toc-text">前言</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Tab%E8%A1%A5%E5%85%A8"><span class="toc-number">2.</span> <span class="toc-text">Tab补全</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%91%BD%E4%BB%A4%E7%9A%84%E6%89%A7%E8%A1%8C%E7%8A%B6%E6%80%81"><span class="toc-number">3.</span> <span class="toc-text">命令的执行状态</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%91%BD%E4%BB%A4%E8%A1%8C%E5%8E%86%E5%8F%B2"><span class="toc-number">4.</span> <span class="toc-text">命令行历史</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%91%BD%E4%BB%A4%E8%A1%8C%E5%B1%95%E5%BC%80"><span class="toc-number">5.</span> <span class="toc-text">命令行展开</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%BF%AB%E6%8D%B7%E9%94%AE"><span class="toc-number">6.</span> <span class="toc-text">快捷键</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%BC%95%E7%94%A8"><span class="toc-number">7.</span> <span class="toc-text">引用</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%88%AB%E5%90%8D"><span class="toc-number">8.</span> <span class="toc-text">别名</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%91%BD%E4%BB%A4hash"><span class="toc-number">9.</span> <span class="toc-text">命令hash</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#IO%E9%87%8D%E5%AE%9A%E5%90%91"><span class="toc-number">10.</span> <span class="toc-text">IO重定向</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%A4%9A%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C"><span class="toc-number">11.</span> <span class="toc-text">多命令执行</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%8F%98%E9%87%8F"><span class="toc-number">12.</span> <span class="toc-text">变量</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%80%9A%E9%85%8D"><span class="toc-number">13.</span> <span class="toc-text">通配</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%A1%A5%E5%85%85"><span class="toc-number">14.</span> <span class="toc-text">补充</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#echo-%E6%98%BE%E7%A4%BA%E5%86%85%E5%AE%B9%E9%A2%9C%E8%89%B2"><span class="toc-number">15.</span> <span class="toc-text">echo 显示内容颜色</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#printf%E6%A0%BC%E5%BC%8F%E5%8C%96%E8%BE%93%E5%87%BA"><span class="toc-number">16.</span> <span class="toc-text">printf格式化输出</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%96%87%E6%9C%AC%E7%BC%96%E8%BE%91%E5%99%A8"><span class="toc-number"></span> <span class="toc-text">文本编辑器</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#nano"><span class="toc-number">1.</span> <span class="toc-text">nano</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Vim"><span class="toc-number">2.</span> <span class="toc-text">Vim</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%91%BD%E4%BB%A4%E6%A8%A1%E5%BC%8F%EF%BC%9A"><span class="toc-number">2.1.</span> <span class="toc-text">命令模式：</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E8%BE%93%E5%85%A5%E6%A8%A1%E5%BC%8F"><span class="toc-number">2.2.</span> <span class="toc-text">输入模式</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%BA%95%E7%BA%BF%E5%91%BD%E4%BB%A4%E6%A8%A1%E5%BC%8F"><span class="toc-number">2.3.</span> <span class="toc-text">底线命令模式</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%8C%89%E9%94%AE%E5%8A%9F%E8%83%BD"><span class="toc-number">2.4.</span> <span class="toc-text">按键功能</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E7%AC%AC%E4%BA%8C%E9%83%A8%E4%BB%BD%EF%BC%9A%E4%B8%80%E8%88%AC%E6%A8%A1%E5%BC%8F%E5%88%87%E6%8D%A2%E5%88%B0%E7%BC%96%E8%BE%91%E6%A8%A1%E5%BC%8F%E7%9A%84%E5%8F%AF%E7%94%A8%E7%9A%84%E6%8C%89%E9%92%AE%E8%AF%B4%E6%98%8E"><span class="toc-number">2.5.</span> <span class="toc-text">第二部份：一般模式切换到编辑模式的可用的按钮说明</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E7%AC%AC%E4%B8%89%E9%83%A8%E4%BB%BD%EF%BC%9A%E4%B8%80%E8%88%AC%E6%A8%A1%E5%BC%8F%E5%88%87%E6%8D%A2%E5%88%B0%E6%8C%87%E4%BB%A4%E8%A1%8C%E6%A8%A1%E5%BC%8F%E7%9A%84%E5%8F%AF%E7%94%A8%E7%9A%84%E6%8C%89%E9%92%AE%E8%AF%B4%E6%98%8E"><span class="toc-number">2.6.</span> <span class="toc-text">第三部份：一般模式切换到指令行模式的可用的按钮说明</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E9%85%8D%E7%BD%AE"><span class="toc-number">2.7.</span> <span class="toc-text">配置</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Linux%E5%91%BD%E4%BB%A4%E5%8F%91%E9%80%81Http-GET-POST%E8%AF%B7%E6%B1%82"><span class="toc-number">3.</span> <span class="toc-text">Linux命令发送Http GET&#x2F;POST请求</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%BB%99%E6%96%87%E4%BB%B6%E8%BF%BD%E5%8A%A0%E5%A4%9A%E8%A1%8C%E5%86%85%E5%AE%B9"><span class="toc-number">4.</span> <span class="toc-text">给文件追加多行内容</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%8F%82%E8%80%83"><span class="toc-number">5.</span> <span class="toc-text">参考</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2021/05/15/node-2-4/" title="Egg.js -- 为企业级框架和应用而生"><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/okfOw28KlZFbE7z.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Egg.js -- 为企业级框架和应用而生"/></a><div class="content"><a class="title" href="/2021/05/15/node-2-4/" title="Egg.js -- 为企业级框架和应用而生">Egg.js -- 为企业级框架和应用而生</a><time datetime="2021-05-15T10:18:59.000Z" title="发表于 2021-05-15 18:18:59">2021-05-15</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/04/30/node-2-3/" title="Koa -- 基于Node.js平台的下一代Web开发框架"><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/HjVAdIuT7bZJypS.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Koa -- 基于Node.js平台的下一代Web开发框架"/></a><div class="content"><a class="title" href="/2021/04/30/node-2-3/" title="Koa -- 基于Node.js平台的下一代Web开发框架">Koa -- 基于Node.js平台的下一代Web开发框架</a><time datetime="2021-04-30T10:18:59.000Z" title="发表于 2021-04-30 18:18:59">2021-04-30</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/04/01/node-2-1/" title="Node.JS web开发前置知识"><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/gGE57HRvpcKPfDY.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Node.JS web开发前置知识"/></a><div class="content"><a class="title" href="/2021/04/01/node-2-1/" title="Node.JS web开发前置知识">Node.JS web开发前置知识</a><time datetime="2021-04-01T03:18:59.000Z" title="发表于 2021-04-01 11:18:59">2021-04-01</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2020/12/26/%E5%91%A8%E8%AE%B0-10-1/" title="第十一周--谷歌浏览器插件"><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/gGE57HRvpcKPfDY.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="第十一周--谷歌浏览器插件"/></a><div class="content"><a class="title" href="/2020/12/26/%E5%91%A8%E8%AE%B0-10-1/" title="第十一周--谷歌浏览器插件">第十一周--谷歌浏览器插件</a><time datetime="2020-12-26T10:18:59.000Z" title="发表于 2020-12-26 18:18:59">2020-12-26</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2020/12/26/%E5%91%A8%E8%AE%B0-10-0/" title="第十一周--浏览器技术"><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/vCnKyoFJZ1g4XYR.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="第十一周--浏览器技术"/></a><div class="content"><a class="title" href="/2020/12/26/%E5%91%A8%E8%AE%B0-10-0/" title="第十一周--浏览器技术">第十一周--浏览器技术</a><time datetime="2020-12-26T06:18:59.000Z" title="发表于 2020-12-26 14:18:59">2020-12-26</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2019 - 2021 By 平心</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div id="local-search"><div class="search-dialog"><div class="search-dialog__title" id="local-search-title">本地搜索</div><div id="local-input-panel"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div></div><hr/><div id="local-search-results"></div><span class="search-close-button"><i class="fas fa-times"></i></span></div><div id="search-mask"></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload/dist/lazyload.iife.min.js"></script><script src="/js/search/local-search.js"></script><div class="js-pjax"><script>function loadValine () {
+  function initValine () {
+    const valine = new Valine(Object.assign({
+      el: '#vcomment',
+      appId: '4lfIXzqxaC1ONs0MJO4oHu07-gzGzoHsz',
+      appKey: 'qw99Bw8FD0KVKU9m457CwWsr',
+      placeholder: 'Please leave your footprints',
+      avatar: 'monsterid',
+      meta: 'nick,mail,link'.split(','),
+      pageSize: '10',
+      lang: 'zh-CN',
+      recordIP: true,
+      serverURLs: '',
+      emojiCDN: '',
+      emojiMaps: "",
+      enableQQ: true,
+      path: window.location.pathname,
+      requiredFields: ["nick,mail"],
+      visitor: false
+    }, null))
+  }
+
+  if (typeof Valine === 'function') initValine() 
+  else getScript('https://cdn.jsdelivr.net/npm/valine/dist/Valine.min.js').then(initValine)
+}
+
+if ('Valine' === 'Valine' || !false) {
+  if (false) btf.loadComment(document.getElementById('vcomment'),loadValine)
+  else setTimeout(loadValine, 0)
+} else {
+  function loadOtherComment () {
+    loadValine()
+  }
+}</script></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>

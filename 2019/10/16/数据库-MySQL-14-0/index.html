@@ -1,0 +1,451 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>MySQL 日志 (一) | 平心de小屋</title><meta name="keywords" content="数据库,MySQL"><meta name="author" content="平心"><meta name="copyright" content="平心"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="不管是哪个数据库产品，一定会有日志文件。在MariaDB&#x2F;MySQL中，主要有5种日志文件：  错误日志(error log)：记录mysql服务的启停时正确和错误的信息，还记录启动、停止、运行过程中的错误信息。 查询日志(general log)：记录建立的客户端连接和执行的语句。 二进制日志(bin log)：记录所有更改数据的语句，可用于数据复制。 慢查询日志(slow log)：记录所有执">
+<meta property="og:type" content="article">
+<meta property="og:title" content="MySQL 日志 (一)">
+<meta property="og:url" content="https://pingxin0521.gitee.io/2019/10/16/%E6%95%B0%E6%8D%AE%E5%BA%93-MySQL-14-0/index.html">
+<meta property="og:site_name" content="平心de小屋">
+<meta property="og:description" content="不管是哪个数据库产品，一定会有日志文件。在MariaDB&#x2F;MySQL中，主要有5种日志文件：  错误日志(error log)：记录mysql服务的启停时正确和错误的信息，还记录启动、停止、运行过程中的错误信息。 查询日志(general log)：记录建立的客户端连接和执行的语句。 二进制日志(bin log)：记录所有更改数据的语句，可用于数据复制。 慢查询日志(slow log)：记录所有执">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://i.loli.net/2020/05/08/HjVAdIuT7bZJypS.jpg">
+<meta property="article:published_time" content="2019-10-16T05:18:59.000Z">
+<meta property="article:modified_time" content="2020-02-15T09:29:43.818Z">
+<meta property="article:author" content="平心">
+<meta property="article:tag" content="数据库">
+<meta property="article:tag" content="MySQL">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.loli.net/2020/05/08/HjVAdIuT7bZJypS.jpg"><link rel="shortcut icon" href="https://s2.ax1x.com/2020/02/11/1ovFOA.png"><link rel="canonical" href="https://pingxin0521.gitee.io/2019/10/16/%E6%95%B0%E6%8D%AE%E5%BA%93-MySQL-14-0/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"search.xml","languages":{"hits_empty":"找不到您查询的内容：${query}"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    jQuery: 'https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js',
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+    },
+    fancybox: {
+      js: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css'
+    }
+  },
+  isPhotoFigcaption: true,
+  islazyload: true,
+  isanchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'MySQL 日志 (一)',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2020-02-15 17:29:43'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    })(window)</script><meta name="generator" content="Hexo 5.4.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="author-avatar"><img class="avatar-img" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://s2.ax1x.com/2020/02/11/1ovw6J.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data"><div class="data-item is-center"><div class="data-item-link"><a href="/archives/"><div class="headline">文章</div><div class="length-num">449</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/tags/"><div class="headline">标签</div><div class="length-num">77</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/categories/"><div class="headline">分类</div><div class="length-num">68</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fa fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fa fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://i.loli.net/2020/05/08/HjVAdIuT7bZJypS.jpg')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">平心de小屋</a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fa fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fa fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">MySQL 日志 (一)</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2019-10-16T05:18:59.000Z" title="发表于 2019-10-16 13:18:59">2019-10-16</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2020-02-15T09:29:43.818Z" title="更新于 2020-02-15 17:29:43">2020-02-15</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a><i class="fas fa-angle-right post-meta-separator"></i><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/MySQL/">MySQL</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">7.6k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>29分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="MySQL 日志 (一)"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><p>不管是哪个数据库产品，一定会有日志文件。在MariaDB/MySQL中，主要有5种日志文件：</p>
+<ol>
+<li>错误日志(error log)：记录mysql服务的启停时正确和错误的信息，还记录启动、停止、运行过程中的错误信息。</li>
+<li>查询日志(general log)：记录建立的客户端连接和执行的语句。</li>
+<li>二进制日志(bin log)：记录所有更改数据的语句，可用于数据复制。</li>
+<li>慢查询日志(slow log)：记录所有执行时间超过long_query_time的所有查询或不使用索引的查询。</li>
+<li>中继日志(relay log)：主从复制时使用的日志。</li>
+</ol>
+<p>除了这5种日志，在需要的时候还会创建DDL日志。</p>
+<span id="more"></span>
+
+<table>
+<thead>
+<tr>
+<th>类型</th>
+<th>介绍</th>
+<th>作用</th>
+<th>参数</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>错误日志</td>
+<td>记录对数据库的启动、运行、关闭过程进行记录信息</td>
+<td>记录告警或正确信息</td>
+<td>log_error</td>
+</tr>
+<tr>
+<td>二进制日志</td>
+<td>记录对数据库执行更改的所有操作，不包含select和show类型操作信息</td>
+<td>用于恢复，复制，审计</td>
+<td>log_bin</td>
+</tr>
+<tr>
+<td>慢查询日志</td>
+<td>记录对数据库执行长的SQL操作信息</td>
+<td>定位存在问题的SQL，从SQL语句层面上进行优化</td>
+<td>slow_query_log</td>
+</tr>
+<tr>
+<td>通用查询日志</td>
+<td>记录对数据库请求的所有操作信息</td>
+<td>用于恢复，审计</td>
+<td>general_log</td>
+</tr>
+<tr>
+<td>更新日志</td>
+<td>记录从主服务器接收的从服务器的更新是否应该记录到从设备自己的二进制日志</td>
+<td>用于复制</td>
+<td>log_slave_updates</td>
+</tr>
+</tbody></table>
+<p><strong>日志刷新操作</strong></p>
+<p>以下操作会刷新日志文件，刷新日志文件时会关闭旧的日志文件并重新打开日志文件。对于有些日志类型，如二进制日志，刷新日志会滚动日志文件，而不仅仅是关闭并重新打开。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">mysql&gt;</span><span class="bash"> FLUSH LOGS;</span></span><br><span class="line"><span class="meta">shell&gt;</span><span class="bash"> mysqladmin flush-logs</span></span><br><span class="line"><span class="meta">shell&gt;</span><span class="bash"> mysqladmin refresh</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="错误日志"><a href="#错误日志" class="headerlink" title="错误日志"></a>错误日志</h4><p>错误日志是最重要的日志之一，它记录了MariaDB/MySQL服务启动和停止正确和错误的信息，还记录了mysqld实例运行过程中发生的错误事件信息。</p>
+<p>错误日志会记录如下信息：</p>
+<ul>
+<li>mysql执行过程中的错误信息</li>
+<li>mysql执行过程中的警告信息</li>
+<li>event scheduler运行时所产生的信息</li>
+<li>mysql启动和停止过程中的输出信息，未必是错误信息</li>
+<li>主从复制结构中，从服务器IO复制线程的启动信息</li>
+</ul>
+<p>mysql中，错误日志可以通过使用log_error以及log_warnings等参数进行定义。</p>
+<p>可以使用<code>&quot; --log-error=[file_name] &quot;</code>来指定mysqld记录的错误日志文件，如果没有指定file_name，则默认的错误日志文件为datadir目录下的 <code>hostname</code>.err ，hostname表示当前的主机名。</p>
+<p>也可以在MariaDB/MySQL配置文件中的mysqld配置部分，使用log-error指定错误日志的路径。</p>
+<p>如果不知道错误日志的位置，可以查看变量log_error来查看。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; show variables like &#x27;%log_error%&#x27;;</span><br><span class="line">+-----------------+---------------------+</span><br><span class="line">| Variable_name   | Value               |</span><br><span class="line">|-----------------+---------------------|</span><br><span class="line">| log_error       | /var/log/mysqld.log |</span><br><span class="line">+-----------------+---------------------+</span><br></pre></td></tr></table></figure>
+
+<p>在MySQL 5.5.7之前，刷新日志操作(如flush logs)会备份旧的错误日志(以_old结尾)，并创建一个新的错误日志文件并打开，在MySQL 5.5.7之后，执行刷新日志的操作时，错误日志会关闭并重新打开，如果错误日志不存在，则会先创建。</p>
+<p>在MariaDB/MySQL正在运行状态下删除错误日志后，不会自动创建错误日志，只有在刷新日志的时候才会创建一个新的错误日志文件。</p>
+<p>之前说过, log warnings.变量的值也与错误日志有关,那么 log warnings代表什么意思</p>
+<p>log warnings用于标识警告信息是否一并记录到错误日志中。</p>
+<ul>
+<li>log Warnings的值为0,表示不记录警告信息</li>
+<li>log warnings的值为1,表示警告信息一并记录到错误日志中。</li>
+<li>log_ Warnings的值大于1,表示”失败的连接”的信息和创建新连接时”拒绝访问”类的错误信息也会被记录到错误日志中</li>
+</ul>
+<p>mysql 5.5中 log warnings参数的默认值为1,表示警告信息一并记录到错误日志中</p>
+<h4 id="一般查询日志"><a href="#一般查询日志" class="headerlink" title="一般查询日志"></a>一般查询日志</h4><p>查询日志分为一般查询日志和慢查询日志，它们是通过查询是否超出变量 long_query_time 指定时间的值来判定的。在超时时间内完成的查询是一般查询，可以将其记录到一般查询日志中，<strong>但是建议关闭这种日志（默认是关闭的）</strong>，超出时间的查询是慢查询，可以将其记录到慢查询日志中。</p>
+<p>使用” –general_log={0|1} “来决定是否启用一般查询日志，使用” –general_log_file=file_name “来指定查询日志的路径。不给定路径时默认的文件名以 <code>hostname</code>.log 命名。</p>
+<p>和查询日志有关的变量有：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">long_query_time = 10 # 指定慢查询超时时长，超出此时长的属于慢查询，会记录到慢查询日志中</span><br><span class="line">log_output=&#123;TABLE|FILE|NONE&#125;  # 定义一般查询日志和慢查询日志的输出格式，不指定时默认为file</span><br></pre></td></tr></table></figure>
+
+<p>TABLE表示记录到名为mysql.general_log的表中，这表的默认引擎是CSV，FILE表示记录日志到文件中，NONE表示不记录日志。只要这里指定为NONE，即使开启了一般查询日志和慢查询日志，也都不会有任何记录。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">mysql &gt; show variables like &#x27;log_output&#x27;;</span><br><span class="line">+-----------------+---------+</span><br><span class="line">| Variable_name   | Value   |</span><br><span class="line">|-----------------+---------|</span><br><span class="line">| log_output      | FILE    |</span><br><span class="line">+-----------------+---------+</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>和一般查询日志相关的变量有：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">general_log=off # 是否启用一般查询日志，为全局变量，必须在global上修改。</span><br><span class="line">sql_log_off=off # 在session级别控制是否启用一般查询日志，默认为off，即启用</span><br><span class="line">general_log_file=/mydata/data/hostname.log  # 默认是库文件路径下主机名加上.log</span><br></pre></td></tr></table></figure>
+
+<p>MySQL中的参数general_log用来控制开启、关闭MySQL查询日志,参数general_log_file用来控制查询日志的位置。所以如果你要判断MySQL数据库是否开启了查询日志，可以使用下面命令。general_log为ON表示开启查询日志，OFF表示关闭查询日志。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; show variables like &#x27;%general_log%&#x27;;</span><br><span class="line">+------------------+--------------------------------------------+</span><br><span class="line">| Variable_name    | Value                                      |</span><br><span class="line">|------------------+--------------------------------------------|</span><br><span class="line">| general_log      | OFF                                        |</span><br><span class="line">| general_log_file | /var/lib/mysql/iZbp125p95hhdb1kcx81ogZ.log |</span><br><span class="line">+------------------+--------------------------------------------+</span><br></pre></td></tr></table></figure>
+
+<p>在MySQL 5.6以前的版本还有一个”log”变量也是决定是否开启一般查询日志的。在5.6版本开始已经废弃了该选项。</p>
+<p>默认没有开启一般查询日志，也不建议开启一般查询日志。此处打开该类型的日志，看看是如何记录一般查询日志的。</p>
+<p>首先开启一般查询日志。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; set global general_log = on;</span><br><span class="line">mysql&gt; show variables like &#x27;%general_log%&#x27;;</span><br><span class="line">+------------------+--------------------------------------------+</span><br><span class="line">| Variable_name    | Value                                      |</span><br><span class="line">|------------------+--------------------------------------------|</span><br><span class="line">| general_log      | ON                                         |</span><br><span class="line">| general_log_file | /var/lib/mysql/iZbp125p95hhdb1kcx81ogZ.log |</span><br><span class="line">+------------------+--------------------------------------------+</span><br></pre></td></tr></table></figure>
+
+<p>执行几个语句</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; select host,user from mysql.user;</span><br><span class="line">mysql&gt; show variables like &quot;%error%&quot;;</span><br><span class="line">mysql&gt; insert into ttt values(233); </span><br><span class="line">mysql&gt; create table tt(id int);  </span><br><span class="line">mysql&gt; set @a:=3;</span><br></pre></td></tr></table></figure>
+
+<p>可以看到日志文件中新增内容</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">2019-11-28T05:49:35.395658Z	   10 Query	select host,user from mysql.user</span><br><span class="line">2019-11-28T05:49:40.024901Z	   10 Query	show variables like &quot;%error%&quot;</span><br><span class="line">2019-11-28T05:49:41.024901Z	   10 insert into ttt values(233)</span><br><span class="line">2019-11-28T05:49:43.947400Z	   13 Query	create table tt(id int)</span><br><span class="line">2019-11-28T05:49:55.326133Z	   10 Query	set @a:=3</span><br></pre></td></tr></table></figure>
+
+<p>由此可知，一般查询日志查询的不止是select语句，几乎所有的语句都会记录。</p>
+<p><strong>查询日志归档</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; system mv /var/lib/mysql/DB-Server.log  /var/lib/mysql/DB-Server.log.20170706</span><br><span class="line"></span><br><span class="line">mysql&gt; system mysqladmin flush-logs -p</span><br><span class="line"></span><br><span class="line">Enter password:</span><br></pre></td></tr></table></figure>
+
+<p>或者你在shell中执行下面命令</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[root@DB-Server mysql]# mv /var/lib/mysql/DB-Server.log  /var/lib/mysql/DB-Server.log.20170706</span><br><span class="line">[root@DB-Server mysql]# mysqladmin flush-logs -p</span><br><span class="line">Enter password:</span><br></pre></td></tr></table></figure>
+
+<p><strong>修改查询日志名称或位置</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; show variables like &#x27;general_log%&#x27;;</span><br><span class="line">+------------------+------------------------------+</span><br><span class="line">| Variable_name    | Value                        |</span><br><span class="line">+------------------+------------------------------+</span><br><span class="line">| general_log      | ON                           |</span><br><span class="line">| general_log_file | /var/lib/mysql/DB-Server.log |</span><br><span class="line">+------------------+------------------------------+</span><br><span class="line">2 rows in set (0.00 sec)</span><br><span class="line"> </span><br><span class="line">mysql&gt; set global general_log=&#x27;OFF&#x27;;</span><br><span class="line">Query OK, 0 rows affected (0.00 sec)</span><br><span class="line"> </span><br><span class="line">mysql&gt; set global general_log_file=&#x27;/u02/mysql_log.log&#x27;;</span><br><span class="line">Query OK, 0 rows affected (0.00 sec)</span><br><span class="line">mysql&gt; set global general_log=&#x27;ON&#x27;;</span><br><span class="line">Query OK, 0 rows affected (0.02 sec)</span><br></pre></td></tr></table></figure>
+
+<p>如果你遇到下面类似问题，这个是因为权限问题导致。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">mysql&gt;</span><span class="bash"> <span class="built_in">set</span> global general_log_file=<span class="string">&#x27;/u02/mysql_log.log&#x27;</span>;</span></span><br><span class="line"></span><br><span class="line">ERROR 1231 (42000): Variable &#x27;general_log_file&#x27; can&#x27;t be set to the value of &#x27;/u02/mysql_log.log&#x27;</span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="bash">将对应目录的owner修改为mysql即可解决问题。如下所示：</span></span><br><span class="line"></span><br><span class="line">[root@DB-Server u02]# chown -R mysql:mysql  /u02</span><br></pre></td></tr></table></figure>
+
+<p>另外，MySQL的查询日志记录了所有MySQL数据库请求的信息。无论这些请求是否得到了正确的执行。这个就是即使我查询一个不存在的表的SQL，查询日志依然会记录。如下测试所示：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; select * from MyDB.test1;</span><br><span class="line">ERROR 1146 (42S02): Table &#x27;MyDB.test1&#x27; doesn&#x27;t exist</span><br><span class="line">mysql&gt; select * from MyDB.test2;</span><br><span class="line">+-------+------+</span><br><span class="line">| id    | sex  |</span><br><span class="line">+-------+------+</span><br><span class="line">| 10001 |      |</span><br><span class="line">| 10002 |      |</span><br><span class="line">| 10003 |     |</span><br><span class="line">+-------+------+</span><br><span class="line">3 rows in set (0.07 sec)</span><br><span class="line"> </span><br><span class="line">mysql&gt; select * from MyDB.kkk;</span><br><span class="line">ERROR 1146 (42S02): Table &#x27;MyDB.kkk&#x27; doesn&#x27;t exist</span><br><span class="line">mysql&gt; </span><br></pre></td></tr></table></figure>
+
+<h4 id="慢查询"><a href="#慢查询" class="headerlink" title="慢查询"></a>慢查询</h4><p><strong>慢查询是什么，如何操作？</strong></p>
+<p>MySQL记录下查询超过指定时间的语句，超过指定时间的SQL语句查询称为“慢查询”</p>
+<p>mysql记录慢查询日志是在查询执行完毕且已经完全释放锁之后才记录的，因此慢查询日志记录的顺序和执行的SQL查询语句顺序可能会不一致(例如语句1先执行，查询速度慢，语句2后执行，但查询速度快，则语句2先记录)。</p>
+<p>注意，MySQL 5.1之后就支持微秒级的慢查询超时时长，对于DBA来说，一个查询运行0.5秒和运行0.05秒是非常不同的，前者可能索引使用错误或者走了表扫描，后者可能索引使用正确。</p>
+<p>另外，指定的慢查询超时时长表示的是超出这个时间的才算是慢查询，等于这个时间的不会记录。</p>
+<p>和慢查询有关的变量：</p>
+<figure class="highlight m"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">long_query_time<span class="built_in">=</span><span class="number">10</span> # 指定慢查询超时时长(默认<span class="number">10</span>秒)，超出此时长的属于慢查询</span><br><span class="line">log_output<span class="built_in">=</span>&#123;TABLE|FILE|NONE&#125; # 定义一般查询日志和慢查询日志的输出格式，默认为file</span><br><span class="line">log_slow_queries<span class="built_in">=</span>&#123;yes|no&#125;    # 是否启用慢查询日志，默认不启用</span><br><span class="line">slow_query_log<span class="built_in">=</span>&#123;<span class="number">1</span>|ON|<span class="number">0</span>|OFF&#125;  # 也是是否启用慢查询日志，此变量和log_slow_queries修改一个另一个同时变化</span><br><span class="line">slow_query_log_file<span class="built_in">=</span>/mydata/data/hostname-slow.log  #默认路径为库文件目录下主机名加上-slow.log</span><br><span class="line">log_queries_not_using_indexes<span class="built_in">=</span>OFF # 查询没有使用索引的时候是否也记入慢查询日志</span><br></pre></td></tr></table></figure>
+
+<p><strong>开启慢查询</strong></p>
+<ol>
+<li><p><code>方法一</code>：用命令开启慢查询</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br></pre></td><td class="code"><pre><span class="line">查看默认慢查询的时间（10秒）</span><br><span class="line">    mysql&gt; show variables like &quot;%long%&quot;;  </span><br><span class="line">    +-----------------+-----------+  </span><br><span class="line">    | Variable_name   | Value     |  </span><br><span class="line">    +-----------------+-----------+  </span><br><span class="line">    | long_query_time | 10.000000 |  </span><br><span class="line">    +-----------------+-----------+  </span><br><span class="line">    1 row in set (0.00 sec)  </span><br><span class="line"></span><br><span class="line">设置成2秒，加上global,下次进mysql已然生效 </span><br><span class="line">    mysql&gt; set global long_query_time=2;           </span><br><span class="line">    Query OK, 0 rows affected (0.00 sec)  </span><br><span class="line"></span><br><span class="line">查看一下慢查询是不是已经开启 </span><br><span class="line">    mysql&gt; show variables like &quot;%slow%&quot;;           </span><br><span class="line">    +---------------------+---------------------------------+  </span><br><span class="line">    | Variable_name       | Value                           |  </span><br><span class="line">    +---------------------+---------------------------------+  </span><br><span class="line">    | log_slow_queries    | OFF                             |  </span><br><span class="line">    | slow_launch_time    | 2                               |  </span><br><span class="line">    | slow_query_log      | OFF                             |  </span><br><span class="line">    | slow_query_log_file | /usr/local/mysql/mysql-slow.log |  </span><br><span class="line">    +---------------------+---------------------------------+  </span><br><span class="line">    4 rows in set (0.00 sec)  </span><br><span class="line"></span><br><span class="line">设置开启慢查询</span><br><span class="line">    mysql&gt; set slow_query_log=&#x27;ON&#x27;;                          </span><br><span class="line">    ERROR 1229 (HY000): Variable &#x27;slow_query_log&#x27; is a GLOBAL variable and should be set with SET GLOBAL  </span><br><span class="line">    </span><br><span class="line">设置开启慢查询，加上global，不然会报错的</span><br><span class="line">    mysql&gt; set global slow_query_log=&#x27;ON&#x27;;         	</span><br><span class="line">    Query OK, 0 rows affected (0.28 sec)  </span><br><span class="line"></span><br><span class="line">查看是否已经开启 </span><br><span class="line">    mysql&gt; show variables like &quot;%slow%&quot;;               </span><br><span class="line">+---------------------------+-------------------------------------------------+</span><br><span class="line">| Variable_name             | Value                                           |</span><br><span class="line">|---------------------------+-------------------------------------------------|</span><br><span class="line">| log_slow_admin_statements | OFF                                             |</span><br><span class="line">| log_slow_extra            | OFF                                             |</span><br><span class="line">| log_slow_slave_statements | OFF                                             |</span><br><span class="line">| slow_launch_time          | 2                                               |</span><br><span class="line">| slow_query_log            | OFF                                             |</span><br><span class="line">| slow_query_log_file       | /var/lib/mysql/iZbp125p95hhdb1kcx81ogZ-slow.log |</span><br><span class="line">+---------------------------+-------------------------------------------------+</span><br><span class="line"></span><br><span class="line">    4 rows in set (0.00 sec)  </span><br><span class="line">   </span><br><span class="line">开启执行sql日志</span><br><span class="line">	set  global general_log=&#x27;ON&#x27;;  </span><br><span class="line"></span><br></pre></td></tr></table></figure></li>
+<li><p><code>方法二</code>：修改mysql的配置文件my.cnfgeneral_log</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">在[mysqld]里面加上以下内容</span><br><span class="line">    long_query_time = 2  </span><br><span class="line">    log-slow-queries = /usr/local/mysql/mysql-slow.log  </span><br><span class="line"></span><br><span class="line">重起一下</span><br><span class="line">	/usr/local/mysql/libexec/mysqld restart</span><br></pre></td></tr></table></figure></li>
+</ol>
+<h5 id="优化方式"><a href="#优化方式" class="headerlink" title="优化方式"></a>优化方式</h5><p>直接分析mysql慢查询日志 ,利用explain关键字可以模拟优化器执行SQL查询语句，来分析sql慢查询语句</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt;SELECT sleep(10); #模拟</span><br><span class="line"></span><br><span class="line">#log文件</span><br><span class="line"># Time: 2019-11-28T06:07:29.556122Z</span><br><span class="line"># User@Host: hyp[hyp] @  [117.84.72.27]  Id:    13</span><br><span class="line"># Query_time: 10.000298  Lock_time: 0.000000 Rows_sent: 1  Rows_examined: 1</span><br><span class="line">use test;</span><br><span class="line">SET timestamp=1574921239;</span><br><span class="line">SELECT sleep(10);</span><br></pre></td></tr></table></figure>
+
+<p>随着时间的推移，慢查询日志文件中的记录可能会变得非常多，这对于分析查询来说是非常困难的。好在提供了一个专门归类慢查询日志的工具mysqldumpslow。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"># mysqldumpslow --help</span><br><span class="line">  -d           debug </span><br><span class="line">  -v           verbose：显示详细信息</span><br><span class="line">  -t NUM       just show the top n queries：仅显示前n条查询</span><br><span class="line">  -a           don&#x27;t abstract all numbers to N and strings to &#x27;S&#x27;：归类时不要使用N替换数字，S替换字符串</span><br><span class="line">  -g PATTERN   grep: only consider stmts that include this string：通过grep来筛选select语句。</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>该工具归类的时候，默认会将<strong>同文本但变量值不同的查询语句视为同一类，并使用N代替其中的数值变量，使用S代替其中的字符串变量</strong>。可以使用-a来禁用这种替换</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> mysqldumpslow  /var/lib/mysql/iZbp125p95hhdb1kcx81ogZ-slow.log</span></span><br><span class="line"></span><br><span class="line">Reading mysql slow query log from /var/lib/mysql/iZbp125p95hhdb1kcx81ogZ-slow.log</span><br><span class="line">Count: 1  Time=10.00s (10s)  Lock=0.00s (0s)  Rows=1.0 (1), hyp[hyp]@[117.84.72.27]</span><br><span class="line">  SELECT sleep(N)</span><br><span class="line"><span class="meta">  </span></span><br><span class="line"><span class="meta">#</span><span class="bash"> mysqldumpslow -a  /var/lib/mysql/iZbp125p95hhdb1kcx81ogZ-slow.log</span></span><br><span class="line"></span><br><span class="line">Reading mysql slow query log from /var/lib/mysql/iZbp125p95hhdb1kcx81ogZ-slow.log</span><br><span class="line">Count: 1  Time=10.00s (10s)  Lock=0.00s (0s)  Rows=1.0 (1), hyp[hyp]@[117.84.72.27]</span><br><span class="line">  SELECT sleep(10)</span><br></pre></td></tr></table></figure>
+
+<p>如果想要显示及其精确的秒数，则使用-d选项启用调试功能。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> mysqldumpslow -d  /var/lib/mysql/iZbp125p95hhdb1kcx81ogZ-slow.log</span></span><br><span class="line"></span><br><span class="line">Reading mysql slow query log from /var/lib/mysql/iZbp125p95hhdb1kcx81ogZ-slow.log</span><br><span class="line">[[/usr/sbin/mysqld, Version: 8.0.18 (MySQL Community Server - GPL). started with:</span><br><span class="line">Tcp port: 3306  Unix socket: /var/lib/mysql/mysql.sock</span><br><span class="line">Time                 Id Command    Argument</span><br><span class="line"><span class="meta">#</span><span class="bash"> Time: 2019-11-28T06:07:29.556122Z</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> User@Host: hyp[hyp] @  [117.84.72.27]  Id:    13</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> Query_time: 10.000298  Lock_time: 0.000000 Rows_sent: 1  Rows_examined: 1</span></span><br><span class="line">use test;</span><br><span class="line">SET timestamp=1574921239;</span><br><span class="line">SELECT sleep(10);</span><br><span class="line">]]</span><br><span class="line">&lt;&lt;&gt;&gt;</span><br><span class="line">&lt;&lt;# Time: 2019-11-28T06:07:29.556122Z</span><br><span class="line"><span class="meta">#</span><span class="bash"> User@Host: hyp[hyp] @  [117.84.72.27]  Id:    13</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> Query_time: 10.000298  Lock_time: 0.000000 Rows_sent: 1  Rows_examined: 1</span></span><br><span class="line">use test;</span><br><span class="line">SET timestamp=1574921239;</span><br><span class="line">SELECT sleep(10);</span><br><span class="line"><span class="meta">&gt;</span><span class="bash">&gt; at /usr/bin/mysqldumpslow line 98, &lt;&gt; chunk 1.</span></span><br><span class="line"><span class="meta">[[#</span><span class="bash"> Time: 2019-11-28T06:07:29.556122Z</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> User@Host: hyp[hyp] @  [117.84.72.27]  Id:    13</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> Query_time: 10.000298  Lock_time: 0.000000 Rows_sent: 1  Rows_examined: 1</span></span><br><span class="line">use test;</span><br><span class="line">SET timestamp=1574921239;</span><br><span class="line">SELECT sleep(10);</span><br><span class="line">]]</span><br><span class="line">&#123;&#123;  SELECT sleep(N)&#125;&#125;</span><br><span class="line"></span><br><span class="line">Count: 1  Time=10.00s (10s)  Lock=0.00s (0s)  Rows=1.0 (1), hyp[hyp]@[117.84.72.27]</span><br><span class="line">  SELECT sleep(N)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>慢查询在SQL语句调优的时候非常有用，应该将它启用起来，且应该让慢查询阈值尽量小，例如1秒甚至低于1秒。就像一天执行上千次的1秒语句，和一天执行几次的20秒语句，显然更值得去优化这个1秒的语句。</p>
+<h4 id="二进制日志"><a href="#二进制日志" class="headerlink" title="二进制日志"></a>二进制日志</h4><h5 id="二进制日志文件"><a href="#二进制日志文件" class="headerlink" title="二进制日志文件"></a>二进制日志文件</h5><p>二进制日志包含了<strong>引起或可能引起数据库改变</strong>(如delete语句但没有匹配行)的事件信息，但绝不会包括select和show这样的查询语句。语句以”事件”的形式保存，所以包含了时间、事件开始和结束位置等信息。</p>
+<p>二进制日志是**以事件形式记录的，不是事务日志(但可能是基于事务来记录二进制日志)**，不代表它只记录innodb日志，myisam表也一样有二进制日志。</p>
+<p>对于事务表的操作，二进制日志<strong>只在事务提交的时候一次性写入(基于事务的innodb二进制日志)，提交前的每个二进制日志记录都先cache，提交时写入</strong>。对于非事务表的操作，每次执行完语句就直接写入。</p>
+<p>MariaDB/MySQL默认没有启动二进制日志，要启用二进制日志使用 –log-bin=[on|off|file_name] 选项指定，如果没有给定file_name，则默认为datadir下的主机名加”-bin”，并在后面跟上一串数字表示日志序列号，如果给定的日志文件中包含了后缀(logname.suffix)将忽略后缀部分。</p>
+<p>或者在配置文件中的[mysqld]部分设置log-bin也可以。注意：对于mysql 5.7，直接启动binlog可能会导致mysql服务启动失败，这时需要在配置文件中的mysqld为mysql实例分配server_id。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[mysqld]</span><br><span class="line"># server_id=1234</span><br><span class="line">log-bin=[on|filename]</span><br></pre></td></tr></table></figure>
+
+<p>mysqld还<strong>创建一个二进制日志索引文件</strong>，当二进制日志文件滚动的时候会向该文件中写入对应的信息。所以该文件包含所有使用的二进制日志文件的文件名。默认情况下该文件与二进制日志文件的文件名相同，扩展名为’.index’。要指定该文件的文件名使用 –log-bin-index[=file_name] 选项。当mysqld在运行时不应手动编辑该文件，免得mysqld变得混乱。</p>
+<p>当重启mysql服务或刷新日志或者达到日志最大值时，将滚动二进制日志文件，滚动日志时只修改日志文件名的数字序列部分。</p>
+<p>二进制日志文件的最大值通过变量 max_binlog_size 设置(默认值为1G)。但由于二进制日志可能是基于事务来记录的(如innodb表类型)，而事务是绝对不可能也不应该跨文件记录的，如果正好二进制日志文件达到了最大值但事务还没有提交则不会滚动日志，而是继续增大日志，所以 max_binlog_size 指定的值和实际的二进制日志大小不一定相等。</p>
+<p>因为二进制日志文件增长迅速，但官方说明因此而损耗的性能小于1%，且二进制目的是为了恢复定点数据库和主从复制，所以出于安全和功能考虑，<strong>极不建议将二进制日志和datadir放在同一磁盘上</strong>。</p>
+<h5 id="查看相关信息"><a href="#查看相关信息" class="headerlink" title="查看相关信息"></a>查看相关信息</h5><p>查看binlog相关信息：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; SHOW VARIABLES LIKE &#x27;%log_bin%&#x27;</span><br><span class="line">+---------------------------------+-----------------------------+</span><br><span class="line">| Variable_name                   | Value                       |</span><br><span class="line">|---------------------------------+-----------------------------|</span><br><span class="line">| log_bin                         | ON                          |</span><br><span class="line">| log_bin_basename                | /var/lib/mysql/binlog       |</span><br><span class="line">| log_bin_index                   | /var/lib/mysql/binlog.index |</span><br><span class="line">| log_bin_trust_function_creators | OFF                         |</span><br><span class="line">| log_bin_use_v1_row_events       | OFF                         |</span><br><span class="line">| sql_log_bin                     | ON                          |</span><br><span class="line">+---------------------------------+-----------------------------+</span><br><span class="line"></span><br><span class="line">#SHOW &#123;BINARY | MASTER&#125; LOGS      # 查看使用了哪些日志文件</span><br><span class="line">#SHOW BINLOG EVENTS [IN &#x27;log_name&#x27;] [FROM pos]   # 查看日志中进行了哪些操作</span><br><span class="line">#SHOW MASTER STATUS         # 显式主服务器中的二进制日志信息</span><br><span class="line"></span><br><span class="line">mysql&gt; SHOW BINARY LOGS;</span><br><span class="line">+---------------+-------------+-------------+</span><br><span class="line">| Log_name      |   File_size | Encrypted   |</span><br><span class="line">|---------------+-------------+-------------|</span><br><span class="line">| binlog.000001 |         996 | No          |</span><br><span class="line">| binlog.000002 |         528 | No          |</span><br><span class="line">+---------------+-------------+-------------+</span><br><span class="line">mysql&gt; SHOW MASTER LOGS;</span><br><span class="line">+---------------+-------------+-------------+</span><br><span class="line">| Log_name      |   File_size | Encrypted   |</span><br><span class="line">|---------------+-------------+-------------|</span><br><span class="line">| binlog.000001 |         996 | No          |</span><br><span class="line">| binlog.000002 |         528 | No          |</span><br><span class="line">+---------------+-------------+-------------+</span><br><span class="line">mysql&gt;SHOW MASTER STATUS;</span><br><span class="line">+---------------+------------+----------------+--------------------+---------------------+</span><br><span class="line">| File          |   Position | Binlog_Do_DB   | Binlog_Ignore_DB   | Executed_Gtid_Set   |</span><br><span class="line">|---------------+------------+----------------+--------------------+---------------------|</span><br><span class="line">| binlog.000002 |        528 |                |                    |                     |</span><br><span class="line">+---------------+------------+----------------+--------------------+---------------------+</span><br><span class="line"></span><br><span class="line">mysql&gt; flush logs; #刷新日志</span><br><span class="line">mysql&gt;reset master; #删除所有的二进制日志文件</span><br><span class="line">mysql&gt;purge master logs to &#x27;mysql-bin.000003&#x27;;#编号小于 000003 的日志会被删除。</span><br><span class="line">mysql&gt;purge master logs before &#x27;datatime&#x27;; # 删除 datatime 之前的日志，日期格式是 YYYY-MM-DD hh:mm:ss</span><br><span class="line">#如果日志文件正在用于主从备份，它不会被删除。</span><br></pre></td></tr></table></figure>
+
+<p><strong>mysqlbinlog</strong></p>
+<p>二进制日志可以使用mysqlbinlog命令查看。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysqlbinlog [option] log-file1 log-file2...</span><br></pre></td></tr></table></figure>
+
+<p>以下是常用的几个选项：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">-d,--database=name：只查看指定数据库的日志操作</span><br><span class="line">-o,--offset=#：忽略掉日志中的前n个操作命令</span><br><span class="line">-r,--result-file=name：将输出的日志信息输出到指定的文件中，使用重定向也一样可以。</span><br><span class="line">-s,--short-form：显示简单格式的日志，只记录一些普通的语句，会省略掉一些额外的信息如位置信息和时间信息以及基于行的日志。可以用来调试，生产环境千万不可使用</span><br><span class="line">--set-charset=char_name：在输出日志信息到文件中时，在文件第一行加上set names char_name</span><br><span class="line">--start-datetime,--stop-datetime：指定输出开始时间和结束时间内的所有日志信息</span><br><span class="line">--start-position=#,--stop-position=#：指定输出开始位置和结束位置内的所有日志信息</span><br><span class="line">-v,-vv：显示更详细信息，基于row的日志默认不会显示出来，此时使用-v或-vv可以查看</span><br></pre></td></tr></table></figure>
+
+<p>查看二进制文件信息：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">mysql &gt;reset master;</span><br><span class="line">mysql &gt;exit</span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">$</span><span class="bash"> mysqlbinlog  /var/lib/mysql/binlog.000001</span></span><br><span class="line">/*!50530 SET @@SESSION.PSEUDO_SLAVE_MODE=1*/;</span><br><span class="line">/*!50003 SET @OLD_COMPLETION_TYPE=@@COMPLETION_TYPE,COMPLETION_TYPE=0*/;</span><br><span class="line">DELIMITER /*!*/;</span><br><span class="line"><span class="meta">#</span><span class="bash"> at 4</span></span><br><span class="line"><span class="meta">#</span><span class="bash">191128 16:44:12 server id 1  end_log_pos 124 CRC32 0x96763101 	Start: binlog v 4, server v 8.0.18 created 191128 16:44:12 at startup</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> Warning: this binlog is either <span class="keyword">in</span> use or was not closed properly.</span></span><br><span class="line">ROLLBACK/*!*/;</span><br><span class="line">BINLOG &#x27;</span><br><span class="line">3IjfXQ8BAAAAeAAAAHwAAAABAAQAOC4wLjE4AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</span><br><span class="line">AAAAAAAAAAAAAAAAAADciN9dEwANAAgAAAAABAAEAAAAYAAEGggAAAAICAgCAAAACgoKKioAEjQA</span><br><span class="line">CgEBMXaW</span><br><span class="line">&#x27;/*!*/;</span><br><span class="line"><span class="meta">#</span><span class="bash"> at 124</span></span><br><span class="line"><span class="meta">#</span><span class="bash">191128 16:44:12 server id 1  end_log_pos 155 CRC32 0xe46eb2ee 	Previous-GTIDs</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> [empty]</span></span><br><span class="line">SET @@SESSION.GTID_NEXT= &#x27;AUTOMATIC&#x27; /* added by mysqlbinlog */ /*!*/;</span><br><span class="line">DELIMITER ;</span><br><span class="line"><span class="meta">#</span><span class="bash"> End of <span class="built_in">log</span> file</span></span><br><span class="line">/*!50003 SET COMPLETION_TYPE=@OLD_COMPLETION_TYPE*/;</span><br><span class="line">/*!50530 SET @@SESSION.PSEUDO_SLAVE_MODE=0*/;</span><br></pre></td></tr></table></figure>
+
+<p>现在在数据库中执行下面的操作：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">use test;</span><br><span class="line">create table student(studentid int not null primary key,name varchar(30) not null,gender enum(&#x27;female&#x27;,&#x27;mail&#x27;));</span><br><span class="line">alter table student change gender gender enum(&#x27;female&#x27;,&#x27;male&#x27;);</span><br><span class="line">insert into student values(1,&#x27;malongshuai&#x27;,&#x27;male&#x27;),(2,&#x27;gaoxiaofang&#x27;,&#x27;female&#x27;);</span><br></pre></td></tr></table></figure>
+
+<p>再查看二进制日志信息。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> mysqlbinlog /var/lib/mysql/binlog.000001</span></span><br><span class="line">/*!50530 SET @@SESSION.PSEUDO_SLAVE_MODE=1*/;</span><br><span class="line">/*!50003 SET @OLD_COMPLETION_TYPE=@@COMPLETION_TYPE,COMPLETION_TYPE=0*/;</span><br><span class="line">DELIMITER /*!*/;</span><br><span class="line"><span class="meta">#</span><span class="bash"> at 4</span></span><br><span class="line"><span class="meta">#</span><span class="bash">191128 16:44:12 server id 1  end_log_pos 124 CRC32 0x96763101 	Start: binlog v 4, server v 8.0.18 created 191128 16:44:12 at startup</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> Warning: this binlog is either <span class="keyword">in</span> use or was not closed properly.</span></span><br><span class="line">ROLLBACK/*!*/;</span><br><span class="line">BINLOG &#x27;</span><br><span class="line">3IjfXQ8BAAAAeAAAAHwAAAABAAQAOC4wLjE4AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</span><br><span class="line">AAAAAAAAAAAAAAAAAADciN9dEwANAAgAAAAABAAEAAAAYAAEGggAAAAICAgCAAAACgoKKioAEjQA</span><br><span class="line">CgEBMXaW</span><br><span class="line">&#x27;/*!*/;</span><br><span class="line"><span class="meta">#</span><span class="bash"> at 124</span></span><br><span class="line"><span class="meta">#</span><span class="bash">191128 16:44:12 server id 1  end_log_pos 155 CRC32 0xe46eb2ee 	Previous-GTIDs</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> [empty]</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> at 155</span></span><br><span class="line"><span class="meta">#</span><span class="bash">191128 16:44:52 server id 1  end_log_pos 234 CRC32 0x659171a7 	Anonymous_GTID	last_committed=0	sequence_number=1	rbr_only=no	original_committed_timestamp=1574930692892828	immediate_commit_timestamp=1574930692892828	transaction_length=278</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> original_commit_timestamp=1574930692892828 (2019-11-28 16:44:52.892828 CST)</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> immediate_commit_timestamp=1574930692892828 (2019-11-28 16:44:52.892828 CST)</span></span><br><span class="line">/*!80001 SET @@session.original_commit_timestamp=1574930692892828*//*!*/;</span><br><span class="line">/*!80014 SET @@session.original_server_version=80018*//*!*/;</span><br><span class="line">/*!80014 SET @@session.immediate_server_version=80018*//*!*/;</span><br><span class="line">SET @@SESSION.GTID_NEXT= &#x27;ANONYMOUS&#x27;/*!*/;</span><br><span class="line"><span class="meta">#</span><span class="bash"> at 234</span></span><br><span class="line"><span class="meta">#</span><span class="bash">191128 16:44:52 server id 1  end_log_pos 433 CRC32 0xc42bdd20 	Query	thread_id=34	exec_time=0	error_code=0	Xid = 152</span></span><br><span class="line">use `test`/*!*/;</span><br><span class="line">SET TIMESTAMP=1574930692/*!*/;</span><br><span class="line">SET @@session.pseudo_thread_id=34/*!*/;</span><br><span class="line">SET @@session.foreign_key_checks=1, @@session.sql_auto_is_null=0, @@session.unique_checks=1, @@session.autocommit=1/*!*/;</span><br><span class="line">SET @@session.sql_mode=1168113696/*!*/;</span><br><span class="line">SET @@session.auto_increment_increment=1, @@session.auto_increment_offset=1/*!*/;</span><br><span class="line">/*!\C utf8 *//*!*/;</span><br><span class="line">SET @@session.character_set_client=33,@@session.collation_connection=33,@@session.collation_server=255/*!*/;</span><br><span class="line">SET @@session.lc_time_names=0/*!*/;</span><br><span class="line">SET @@session.collation_database=DEFAULT/*!*/;</span><br><span class="line">/*!80011 SET @@session.default_collation_for_utf8mb4=255*//*!*/;</span><br><span class="line">/*!80013 SET @@session.sql_require_primary_key=0*//*!*/;</span><br><span class="line">create table student(studentid int not null primary key,name varchar(30) not null,gender enum(&#x27;female&#x27;,&#x27;mail&#x27;))</span><br><span class="line">/*!*/;</span><br><span class="line"><span class="meta">#</span><span class="bash"> at 433</span></span><br><span class="line"><span class="meta">#</span><span class="bash">191128 16:44:52 server id 1  end_log_pos 510 CRC32 0x522e7bd9 	Anonymous_GTID	last_committed=1	sequence_number=2	rbr_only=no	original_committed_timestamp=1574930692957930	immediate_commit_timestamp=1574930692957930	transaction_length=227</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> original_commit_timestamp=1574930692957930 (2019-11-28 16:44:52.957930 CST)</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> immediate_commit_timestamp=1574930692957930 (2019-11-28 16:44:52.957930 CST)</span></span><br><span class="line">/*!80001 SET @@session.original_commit_timestamp=1574930692957930*//*!*/;</span><br><span class="line">/*!80014 SET @@session.original_server_version=80018*//*!*/;</span><br><span class="line">/*!80014 SET @@session.immediate_server_version=80018*//*!*/;</span><br><span class="line">SET @@SESSION.GTID_NEXT= &#x27;ANONYMOUS&#x27;/*!*/;</span><br><span class="line"><span class="meta">#</span><span class="bash"> at 510</span></span><br><span class="line"><span class="meta">#</span><span class="bash">191128 16:44:52 server id 1  end_log_pos 660 CRC32 0xc120d309 	Query	thread_id=34	exec_time=0	error_code=0	Xid = 153</span></span><br><span class="line">SET TIMESTAMP=1574930692/*!*/;</span><br><span class="line">/*!80013 SET @@session.sql_require_primary_key=0*//*!*/;</span><br><span class="line">alter table student change gender gender enum(&#x27;female&#x27;,&#x27;male&#x27;)</span><br><span class="line">/*!*/;</span><br><span class="line"><span class="meta">#</span><span class="bash"> at 660</span></span><br><span class="line"><span class="meta">#</span><span class="bash">191128 16:44:52 server id 1  end_log_pos 739 CRC32 0xcc290557 	Anonymous_GTID	last_committed=2	sequence_number=3	rbr_only=yes	original_committed_timestamp=1574930692982602	immediate_commit_timestamp=1574930692982602	transaction_length=320</span></span><br><span class="line">/*!50718 SET TRANSACTION ISOLATION LEVEL READ COMMITTED*//*!*/;</span><br><span class="line"><span class="meta">#</span><span class="bash"> original_commit_timestamp=1574930692982602 (2019-11-28 16:44:52.982602 CST)</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> immediate_commit_timestamp=1574930692982602 (2019-11-28 16:44:52.982602 CST)</span></span><br><span class="line">/*!80001 SET @@session.original_commit_timestamp=1574930692982602*//*!*/;</span><br><span class="line">/*!80014 SET @@session.original_server_version=80018*//*!*/;</span><br><span class="line">/*!80014 SET @@session.immediate_server_version=80018*//*!*/;</span><br><span class="line">SET @@SESSION.GTID_NEXT= &#x27;ANONYMOUS&#x27;/*!*/;</span><br><span class="line"><span class="meta">#</span><span class="bash"> at 739</span></span><br><span class="line"><span class="meta">#</span><span class="bash">191128 16:44:52 server id 1  end_log_pos 814 CRC32 0xacb3825b 	Query	thread_id=34	exec_time=0	error_code=0</span></span><br><span class="line">SET TIMESTAMP=1574930692/*!*/;</span><br><span class="line">BEGIN</span><br><span class="line">/*!*/;</span><br><span class="line"><span class="meta">#</span><span class="bash"> at 814</span></span><br><span class="line"><span class="meta">#</span><span class="bash">191128 16:44:52 server id 1  end_log_pos 878 CRC32 0x85a68c50 	Table_map: `<span class="built_in">test</span>`.`student` mapped to number 161</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> at 878</span></span><br><span class="line"><span class="meta">#</span><span class="bash">191128 16:44:52 server id 1  end_log_pos 949 CRC32 0xfe8505c0 	Write_rows: table id 161 flags: STMT_END_F</span></span><br><span class="line"></span><br><span class="line">BINLOG &#x27;</span><br><span class="line">BInfXRMBAAAAQAAAAG4DAAAAAKEAAAAAAAEABHRlc3QAB3N0dWRlbnQAAwMP/gR4APcBBAEBAAID</span><br><span class="line">/P8AUIymhQ==</span><br><span class="line">BInfXR4BAAAARwAAALUDAAAAAKEAAAAAAAEAAgAD/wABAAAAC21hbG9uZ3NodWFpAgACAAAAC2dh</span><br><span class="line">b3hpYW9mYW5nAcAFhf4=</span><br><span class="line">&#x27;/*!*/;</span><br><span class="line"><span class="meta">#</span><span class="bash"> at 949</span></span><br><span class="line"><span class="meta">#</span><span class="bash">191128 16:44:52 server id 1  end_log_pos 980 CRC32 0x24c0afc0 	Xid = 154</span></span><br><span class="line">COMMIT/*!*/;</span><br><span class="line">SET @@SESSION.GTID_NEXT= &#x27;AUTOMATIC&#x27; /* added by mysqlbinlog */ /*!*/;</span><br><span class="line">DELIMITER ;</span><br><span class="line"><span class="meta">#</span><span class="bash"> End of <span class="built_in">log</span> file</span></span><br><span class="line">/*!50003 SET COMPLETION_TYPE=@OLD_COMPLETION_TYPE*/;</span><br><span class="line">/*!50530 SET @@SESSION.PSEUDO_SLAVE_MODE=0*/;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>位置4-124记录的是二进制日志的一些固定信息。</li>
+<li>位置124-433记录的是use和create table语句，语句的记录时间为16:44:12。但注意，这里的use不是执行的use语句，而是MySQL发现要操作的数据库为test，而自动进行的操作并记录下来。人为的use语句是不会记录的。</li>
+<li>位置433-660记录的是alter table语句，语句的记录时间为5:20:21。</li>
+<li>位置660-980记录的是insert操作，因为该操作是DML语句，因此记录了事务的开始BEGIN和提交COMMIT。<ul>
+<li>begin的起止位置为660-814；</li>
+<li>insert into语句的起止位置为814-949，记录的时间和自动开启事务的begin时间是一样的；</li>
+<li>commit的起止位置为949-980。</li>
+</ul>
+</li>
+</ul>
+<p>二进制日志文件Binlog的格式主要有三种：</p>
+<ul>
+<li>Statement：基于SQL语句级别的Binlog，每条修改数据的SQL都会保存到Binlog里面。</li>
+<li>ROW：基于行级别，每一行数据的变化都会记录到Binlog里面，但是并不记住原始SQL语句，因此它会记录的非常详细，日志量也比statement格式记录的多得多。在主从复制中，这样的Binlog格式不会因存储过程或触发器原因造成主从数据不一致的问题。</li>
+<li>Mixed：混合Statement和Row模式。</li>
+</ul>
+<p>在mysql5.7中，默认是ROW模式记录，</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; show variables like &#x27;binlog_format%&#x27;;</span><br><span class="line">+-----------------+---------+</span><br><span class="line">| Variable_name   | Value   |</span><br><span class="line">|-----------------+---------|</span><br><span class="line">| binlog_format   | ROW     |</span><br><span class="line">+-----------------+---------+</span><br></pre></td></tr></table></figure>
+
+<p>上面的三种复制模式也对应了MySQL的三种复制技术：</p>
+<ul>
+<li><p>binlog_format=Statement：基于SQL语句的复制，在MySQL5.1.4之前的版本都是基于SQL语句的复制</p>
+</li>
+<li><p>binlog_format=ROW：基于行的复制</p>
+</li>
+<li><p>binlog_Mixed：混合复制模式，基于行的复制和基于SQL语句的复制。这种模式下默认会采用statement的方式记录，只有以下几种情况会采用row的形式来记录日志。</p>
+<ul>
+<li>表的存储引擎为NDB，这时对表的DML操作都会以row的格式记录。</li>
+<li>使用了uuid()、user()、current_user()、found_rows()、row_count()等不确定函数。但测试发现对now()函数仍会以statement格式记录，而sysdate()函数会以row格式记录。</li>
+<li>使用了insert delay语句。</li>
+<li>使用了临时表。</li>
+</ul>
+</li>
+</ul>
+<p>在MySQL的主从复制中，主库的Binlog_format设置为ROW格式比Statement格式更能保证从库数据的一致性，只是ROW格式下的Binlog日志可能会增大非常多，在设置时需要考虑磁盘空间问题。</p>
+<h5 id="删除二进制日志"><a href="#删除二进制日志" class="headerlink" title="删除二进制日志"></a>删除二进制日志</h5><p>删除二进制日志有几种方法。不管哪种方法，都会将删除后的信息同步到二进制index文件中。</p>
+<ol>
+<li><p>reset master将会删除所有日志，并让日志文件重新从000001开始。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; reset master;</span><br></pre></td></tr></table></figure></li>
+<li><p><code>PURGE &#123; BINARY | MASTER &#125; LOGS &#123; TO &#39;log_name&#39; | BEFORE datetime_expr &#125;</code></p>
+<p> purge master logs to “binlog_name.00000X” 将会清空00000X之前的所有日志文件。例如删除000006之前的日志文件。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; purge master logs to &quot;mysql-bin.000006&quot;;</span><br><span class="line">mysql&gt; purge binary logs to &quot;mysql-bin.000006&quot;;</span><br></pre></td></tr></table></figure>
+
+<p>master和binary是同义词</p>
+<p> purge master logs before ‘yyyy-mm-dd hh:mi:ss’ 将会删除指定日期之前的所有日志。但是若指定的时间处在正在使用中的日志文件中，将无法进行purge。</p>
+</li>
+<li><p>使用–expire_logs_days=N选项指定过了多少天日志自动过期清空。</p>
+</li>
+</ol>
+<h5 id="二进制日志相关的变量"><a href="#二进制日志相关的变量" class="headerlink" title="二进制日志相关的变量"></a>二进制日志相关的变量</h5><p>注意：在配置binlog相关变量的时候，相关变量名总是搞混，因为有的是binlog，有的是log_bin，当他们分开的时候，log在前，当它们一起的时候，bin在前。在配置文件中也同样如此。</p>
+<ul>
+<li><code>log_bin = &#123;on | off | base_name&#125;</code> #指定是否启用记录二进制日志或者指定一个日志路径(路径不能加.否则.后的被忽略)</li>
+<li><code>sql_log_bin =&#123; on | off &#125;</code> #指定是否启用记录二进制日志，只有在log_bin开启的时候才有效</li>
+<li><code>expire_logs_days =</code> #指定自动删除二进制日志的时间，即日志过期时间</li>
+<li><code>binlog_do_db =</code> #明确指定要记录日志的数据库</li>
+<li><code>binlog_ignore_db =</code> #指定不记录二进制日志的数据库</li>
+<li><code>log_bin_index =</code> #指定mysql-bin.index文件的路径</li>
+<li><code>binlog_format = &#123; mixed | row | statement &#125;</code> #指定二进制日志基于什么模式记录</li>
+<li><code>binlog_rows_query_log_events = &#123; 1|0 &#125;</code> # MySQL5.6.2添加了该变量，当binlog format为row时，默认不会记录row对应的SQL语句，设置为1或其他true布尔值时会记录，但需要使用mysqlbinlog -v查看，这些语句是被注释的，恢复时不会被执行。</li>
+<li><code>max_binlog_size =</code> #指定二进制日志文件最大值，超出指定值将自动滚动。但由于事务不会跨文件，所以并不一定总是精确。</li>
+<li><code>binlog_cache_size = 32768</code> #<strong>基于事务类型的日志会先记录在缓冲区</strong>，当达到该缓冲大小时这些日志会写入磁盘</li>
+<li><code>max_binlog_cache_size =</code> #指定二进制日志缓存最大大小，硬限制。默认4G，够大了，建议不要改</li>
+<li><code>binlog_cache_use</code>：使用缓存写二进制日志的次数(这是一个实时变化的统计值)</li>
+<li><code>binlog_cache_disk_use</code>:使用临时文件写二进制日志的次数，当日志超过了binlog_cache_size的时候会使用临时文件写日志，如果该变量值不为0，则考虑增大binlog_cache_size的值</li>
+<li><code>binlog_stmt_cache_size = 32768</code> #一般等同于且决定binlog_cache_size大小，所以修改缓存大小时只需修改这个而不用修改binlog_cache_size</li>
+<li><code>binlog_stmt_cache_use</code>：使用缓存写二进制日志的次数</li>
+<li><code>binlog_stmt_cache_disk_use</code>: 使用临时文件写二进制日志的次数，当日志超过了binlog_cache_size的时候会使用临时文件写日志，如果该变量值不为0，则考虑增大binlog_cache_size的值</li>
+<li><code>sync_binlog = &#123; 0 | n &#125;</code> #这个参数直接影响mysql的性能和完整性<ul>
+<li><code>sync_binlog=0</code>:不同步，日志何时刷到磁盘由FileSystem决定，这个性能最好。</li>
+<li><code>sync_binlog=n</code>:每写n次二进制日志事件(不是事务)，MySQL将执行一次磁盘同步指令fdatasync()将缓存日志刷新到磁盘日志文件中。Mysql中默认的设置是sync_binlog=0，即不同步，这时性能最好，但风险最大。一旦系统奔溃，缓存中的日志都会丢失。</li>
+</ul>
+</li>
+</ul>
+<p><strong>在innodb的主从复制结构中，如果启用了二进制日志(几乎都会启用)，要保证事务的一致性和持久性的时候，必须将sync_binlog的值设置为1，因为每次事务提交都会写入二进制日志，设置为1就保证了每次事务提交时二进制日志都会写入到磁盘中，从而立即被从服务器复制过去。</strong></p>
+<h5 id="二进制日志定点还原数据库"><a href="#二进制日志定点还原数据库" class="headerlink" title="二进制日志定点还原数据库"></a>二进制日志定点还原数据库</h5><p>在使用 mysql 的全量备份恢复数据库之后，可以再使用二进制日志恢复到指定时间点。比如当前时间是11点多，我不小心把一个重要的库删除了。幸好每天凌晨两点做了数据库全量备份，这时我就可以先恢复数据库到两点，然后再使用二进制日志恢复到删除之前的数据库。</p>
+<p>直接使用日志文件恢复数据库：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">shell&gt;</span><span class="bash"> mysqlbinlog binlog_files | mysql -u root -p</span></span><br></pre></td></tr></table></figure>
+
+<p>可以把日志文件导出文本，然后编辑文本，删除一些不需要执行的语句，然后再恢复数据库：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">shell&gt;</span><span class="bash"> mysqlbinlog binlog_files &gt; tmpfile</span></span><br><span class="line"><span class="meta">shell&gt;</span><span class="bash"> ... edit tmpfile ...</span></span><br><span class="line"><span class="meta">shell&gt;</span><span class="bash"> mysql -u root -p &lt; tmpfile</span></span><br></pre></td></tr></table></figure>
+
+<p>如果有多个日志文件，在一个连接中使用它们：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">shell&gt;</span><span class="bash"> mysqlbinlog binlog.000001 binlog.000002 | mysql -u root -p</span></span><br></pre></td></tr></table></figure>
+
+<p>恢复到指定时间点：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">shell&gt;</span><span class="bash"> mysqlbinlog --stop-datetime=<span class="string">&quot;2018-10-25 11:00:00&quot;</span> \</span></span><br><span class="line"><span class="bash">         /var/<span class="built_in">log</span>/mysql/bin.123456 | mysql -u root -p</span></span><br></pre></td></tr></table></figure>
+
+<p>从指定时间点恢复：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">shell&gt;</span><span class="bash"> mysqlbinlog --start-datetime=<span class="string">&quot;2018-10-25 10:01:00&quot;</span> \</span></span><br><span class="line"><span class="bash">         /var/<span class="built_in">log</span>/mysql/bin.123456 | mysql -u root -p</span></span><br></pre></td></tr></table></figure>
+
+<p>根据位置恢复：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">shell&gt;</span><span class="bash"> mysqlbinlog --stop-position=368312 /var/<span class="built_in">log</span>/mysql/bin.123456 \</span></span><br><span class="line"><span class="bash">         | mysql -u root -p</span></span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">shell&gt;</span><span class="bash"> mysqlbinlog --start-position=368315 /var/<span class="built_in">log</span>/mysql/bin.123456 \</span></span><br><span class="line"><span class="bash">         | mysql -u root -p</span></span><br></pre></td></tr></table></figure>
+
+<p>位置信息可以从日志文件的 <code>log_pos</code> 获取。</p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">平心</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://pingxin0521.gitee.io/2019/10/16/%E6%95%B0%E6%8D%AE%E5%BA%93-MySQL-14-0/">https://pingxin0521.gitee.io/2019/10/16/%E6%95%B0%E6%8D%AE%E5%BA%93-MySQL-14-0/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://pingxin0521.gitee.io" target="_blank">平心de小屋</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a><a class="post-meta__tags" href="/tags/MySQL/">MySQL</a></div><div class="post_share"><div class="social-share" data-image="https://i.loli.net/2020/05/08/HjVAdIuT7bZJypS.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2019/10/16/%E6%95%B0%E6%8D%AE%E5%BA%93-MySQL-12-1/"><img class="prev-cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/HjVAdIuT7bZJypS.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">MySQL 复制--传统方式（一）</div></div></a></div><div class="next-post pull-right"><a href="/2019/10/16/%E6%95%B0%E6%8D%AE%E5%BA%93-MySQL-14-1/"><img class="next-cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/vCnKyoFJZ1g4XYR.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">MySQL 日志 （二）</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span> 相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2019/10/06/数据库-MySQL-1-2/" title="MySQL 架构和底层知识"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/vCnKyoFJZ1g4XYR.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2020-02-15</div><div class="title">MySQL 架构和底层知识</div></div></a></div><div><a href="/2019/10/15/数据库-MySQL-15-0/" title="MySQL集群结构"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/gGE57HRvpcKPfDY.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2020-02-16</div><div class="title">MySQL集群结构</div></div></a></div><div><a href="/2019/11/16/数据库-MySQL-15-1-2/" title="MySQL数据库 分库分表  MyCat（三）"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/vCnKyoFJZ1g4XYR.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2020-02-15</div><div class="title">MySQL数据库 分库分表  MyCat（三）</div></div></a></div><div><a href="/2019/05/16/数据库-MySQL-10-0/" title="MySQL SQL 权限(八)"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/PFDRNxj93taz6pw.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2019-11-28</div><div class="title">MySQL SQL 权限(八)</div></div></a></div><div><a href="/2019/05/17/数据库-MySQL-11-2/" title="MySQL SQL 备份--xtrabackup (九)"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/gGE57HRvpcKPfDY.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2019-11-06</div><div class="title">MySQL SQL 备份--xtrabackup (九)</div></div></a></div><div><a href="/2019/05/17/数据库-MySQL-11-1/" title="MySQL SQL 备份--MySQL 工具(九)"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/HjVAdIuT7bZJypS.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2019-10-29</div><div class="title">MySQL SQL 备份--MySQL 工具(九)</div></div></a></div></div></div><hr/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div class="vcomment" id="vcomment"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="card-info-avatar is-center"><img class="avatar-img" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://s2.ax1x.com/2020/02/11/1ovw6J.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/><div class="author-info__name">平心</div><div class="author-info__description">年轻人的life、learn and think</div></div><div class="card-info-data"><div class="card-info-data-item is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">449</div></a></div><div class="card-info-data-item is-center"><a href="/tags/"><div class="headline">标签</div><div class="length-num">77</div></a></div><div class="card-info-data-item is-center"><a href="/categories/"><div class="headline">分类</div><div class="length-num">68</div></a></div></div><a class="button--animated" id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/hanyunpeng0521"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/hanyunpeng0521" target="_blank" title="Github"><i class="fa fa-github"></i></a><a class="social-icon" href="mailto:m13839441583@163.com" target="_blank" title="Email"><i class="fa fa-envelope"></i></a><a class="social-icon" href="/atom.xml" target="_blank" title=""><i class="fa fa-rss"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn card-announcement-animation"></i><span>公告</span></div><div class="announcement_content">为什么呢？开始提问吧</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%94%99%E8%AF%AF%E6%97%A5%E5%BF%97"><span class="toc-number">1.</span> <span class="toc-text">错误日志</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%B8%80%E8%88%AC%E6%9F%A5%E8%AF%A2%E6%97%A5%E5%BF%97"><span class="toc-number">2.</span> <span class="toc-text">一般查询日志</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%85%A2%E6%9F%A5%E8%AF%A2"><span class="toc-number">3.</span> <span class="toc-text">慢查询</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E4%BC%98%E5%8C%96%E6%96%B9%E5%BC%8F"><span class="toc-number">3.1.</span> <span class="toc-text">优化方式</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BA%8C%E8%BF%9B%E5%88%B6%E6%97%A5%E5%BF%97"><span class="toc-number">4.</span> <span class="toc-text">二进制日志</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E4%BA%8C%E8%BF%9B%E5%88%B6%E6%97%A5%E5%BF%97%E6%96%87%E4%BB%B6"><span class="toc-number">4.1.</span> <span class="toc-text">二进制日志文件</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%9F%A5%E7%9C%8B%E7%9B%B8%E5%85%B3%E4%BF%A1%E6%81%AF"><span class="toc-number">4.2.</span> <span class="toc-text">查看相关信息</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%88%A0%E9%99%A4%E4%BA%8C%E8%BF%9B%E5%88%B6%E6%97%A5%E5%BF%97"><span class="toc-number">4.3.</span> <span class="toc-text">删除二进制日志</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E4%BA%8C%E8%BF%9B%E5%88%B6%E6%97%A5%E5%BF%97%E7%9B%B8%E5%85%B3%E7%9A%84%E5%8F%98%E9%87%8F"><span class="toc-number">4.4.</span> <span class="toc-text">二进制日志相关的变量</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E4%BA%8C%E8%BF%9B%E5%88%B6%E6%97%A5%E5%BF%97%E5%AE%9A%E7%82%B9%E8%BF%98%E5%8E%9F%E6%95%B0%E6%8D%AE%E5%BA%93"><span class="toc-number">4.5.</span> <span class="toc-text">二进制日志定点还原数据库</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2021/05/15/node-2-4/" title="Egg.js -- 为企业级框架和应用而生"><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/okfOw28KlZFbE7z.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Egg.js -- 为企业级框架和应用而生"/></a><div class="content"><a class="title" href="/2021/05/15/node-2-4/" title="Egg.js -- 为企业级框架和应用而生">Egg.js -- 为企业级框架和应用而生</a><time datetime="2021-05-15T10:18:59.000Z" title="发表于 2021-05-15 18:18:59">2021-05-15</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/04/30/node-2-3/" title="Koa -- 基于Node.js平台的下一代Web开发框架"><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/HjVAdIuT7bZJypS.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Koa -- 基于Node.js平台的下一代Web开发框架"/></a><div class="content"><a class="title" href="/2021/04/30/node-2-3/" title="Koa -- 基于Node.js平台的下一代Web开发框架">Koa -- 基于Node.js平台的下一代Web开发框架</a><time datetime="2021-04-30T10:18:59.000Z" title="发表于 2021-04-30 18:18:59">2021-04-30</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/04/01/node-2-1/" title="Node.JS web开发前置知识"><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/gGE57HRvpcKPfDY.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Node.JS web开发前置知识"/></a><div class="content"><a class="title" href="/2021/04/01/node-2-1/" title="Node.JS web开发前置知识">Node.JS web开发前置知识</a><time datetime="2021-04-01T03:18:59.000Z" title="发表于 2021-04-01 11:18:59">2021-04-01</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2020/12/26/%E5%91%A8%E8%AE%B0-10-1/" title="第十一周--谷歌浏览器插件"><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/gGE57HRvpcKPfDY.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="第十一周--谷歌浏览器插件"/></a><div class="content"><a class="title" href="/2020/12/26/%E5%91%A8%E8%AE%B0-10-1/" title="第十一周--谷歌浏览器插件">第十一周--谷歌浏览器插件</a><time datetime="2020-12-26T10:18:59.000Z" title="发表于 2020-12-26 18:18:59">2020-12-26</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2020/12/26/%E5%91%A8%E8%AE%B0-10-0/" title="第十一周--浏览器技术"><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/vCnKyoFJZ1g4XYR.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="第十一周--浏览器技术"/></a><div class="content"><a class="title" href="/2020/12/26/%E5%91%A8%E8%AE%B0-10-0/" title="第十一周--浏览器技术">第十一周--浏览器技术</a><time datetime="2020-12-26T06:18:59.000Z" title="发表于 2020-12-26 14:18:59">2020-12-26</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2019 - 2021 By 平心</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div id="local-search"><div class="search-dialog"><div class="search-dialog__title" id="local-search-title">本地搜索</div><div id="local-input-panel"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div></div><hr/><div id="local-search-results"></div><span class="search-close-button"><i class="fas fa-times"></i></span></div><div id="search-mask"></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload/dist/lazyload.iife.min.js"></script><script src="/js/search/local-search.js"></script><div class="js-pjax"><script>function loadValine () {
+  function initValine () {
+    const valine = new Valine(Object.assign({
+      el: '#vcomment',
+      appId: '4lfIXzqxaC1ONs0MJO4oHu07-gzGzoHsz',
+      appKey: 'qw99Bw8FD0KVKU9m457CwWsr',
+      placeholder: 'Please leave your footprints',
+      avatar: 'monsterid',
+      meta: 'nick,mail,link'.split(','),
+      pageSize: '10',
+      lang: 'zh-CN',
+      recordIP: true,
+      serverURLs: '',
+      emojiCDN: '',
+      emojiMaps: "",
+      enableQQ: true,
+      path: window.location.pathname,
+      requiredFields: ["nick,mail"],
+      visitor: false
+    }, null))
+  }
+
+  if (typeof Valine === 'function') initValine() 
+  else getScript('https://cdn.jsdelivr.net/npm/valine/dist/Valine.min.js').then(initValine)
+}
+
+if ('Valine' === 'Valine' || !false) {
+  if (false) btf.loadComment(document.getElementById('vcomment'),loadValine)
+  else setTimeout(loadValine, 0)
+} else {
+  function loadOtherComment () {
+    loadValine()
+  }
+}</script></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>

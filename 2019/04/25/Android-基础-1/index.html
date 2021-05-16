@@ -1,0 +1,616 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Android 应用程序构成 | 平心de小屋</title><meta name="keywords" content="Android"><meta name="author" content="平心"><meta name="copyright" content="平心"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="项目目录一个Android应用程序以一个项目目录的形式组织。Android程序由 java代码和xml 属性声明共同设计完成。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Android 应用程序构成">
+<meta property="og:url" content="https://pingxin0521.gitee.io/2019/04/25/Android-%E5%9F%BA%E7%A1%80-1/index.html">
+<meta property="og:site_name" content="平心de小屋">
+<meta property="og:description" content="项目目录一个Android应用程序以一个项目目录的形式组织。Android程序由 java代码和xml 属性声明共同设计完成。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://i.loli.net/2020/05/08/7dHvepmfYOLWTrX.jpg">
+<meta property="article:published_time" content="2019-04-25T10:18:59.000Z">
+<meta property="article:modified_time" content="2019-07-02T02:00:50.000Z">
+<meta property="article:author" content="平心">
+<meta property="article:tag" content="Android">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.loli.net/2020/05/08/7dHvepmfYOLWTrX.jpg"><link rel="shortcut icon" href="https://s2.ax1x.com/2020/02/11/1ovFOA.png"><link rel="canonical" href="https://pingxin0521.gitee.io/2019/04/25/Android-%E5%9F%BA%E7%A1%80-1/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"search.xml","languages":{"hits_empty":"找不到您查询的内容：${query}"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    jQuery: 'https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js',
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+    },
+    fancybox: {
+      js: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css'
+    }
+  },
+  isPhotoFigcaption: true,
+  islazyload: true,
+  isanchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'Android 应用程序构成',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2019-07-02 10:00:50'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    })(window)</script><meta name="generator" content="Hexo 5.4.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="author-avatar"><img class="avatar-img" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://s2.ax1x.com/2020/02/11/1ovw6J.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data"><div class="data-item is-center"><div class="data-item-link"><a href="/archives/"><div class="headline">文章</div><div class="length-num">449</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/tags/"><div class="headline">标签</div><div class="length-num">77</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/categories/"><div class="headline">分类</div><div class="length-num">68</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fa fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fa fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://i.loli.net/2020/05/08/7dHvepmfYOLWTrX.jpg')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">平心de小屋</a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fa fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fa fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">Android 应用程序构成</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2019-04-25T10:18:59.000Z" title="发表于 2019-04-25 18:18:59">2019-04-25</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2019-07-02T02:00:50.000Z" title="更新于 2019-07-02 10:00:50">2019-07-02</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/Android/">Android</a><i class="fas fa-angle-right post-meta-separator"></i><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/Android/%E5%9F%BA%E7%A1%80/">基础</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">7.6k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>27分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="Android 应用程序构成"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h3 id="项目目录"><a href="#项目目录" class="headerlink" title="项目目录"></a>项目目录</h3><p>一个Android应用程序以一个项目目录的形式组织。Android程序由 java代码和xml 属性声明共同设计完成。</p>
+<span id="more"></span>
+
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2019/05/06/5cd041bc3a6a6.png"></p>
+<h4 id="Project-视图"><a href="#Project-视图" class="headerlink" title="Project 视图"></a>Project 视图</h4><p>我们选择Project视图，就会有以下的项目文档结构：</p>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2019/04/29/5cc663d2863c2.png" alt="1.png"></p>
+<p><strong>外层结构</strong></p>
+<ol>
+<li><p>.gradle和.idea:目录下是Android Studio 自动创建的一些文件</p>
+</li>
+<li><p>app:项目内代码、资源均存放在这个目录下。</p>
+</li>
+<li><p>gradle:包含gradle wrapper 配置文件，使用gradle wrapper的方式不需要提前下载gradle,而是会根据本地的缓存情况来判断是否需要进行下载。</p>
+</li>
+<li><p>.gitignore:用来记录特定的目录或文件来排除在版本控制之外，具体参考Git</p>
+</li>
+<li><p>bulid.gradle:全局的gradle构建脚本，通常不需要进行修改。</p>
+</li>
+<li><p>gradle.properties:全局gradle配置文件，其中的属性会影响项目中所有gradle编译脚本。</p>
+</li>
+<li><p>gradlew和gradlew.bat:用来在命令行中执行gradle命令，前者在Linux或Mac中使用，后者在windows中使用。</p>
+</li>
+<li><p>local.properties:用于指定本机中的Android SDK路径</p>
+</li>
+<li><p>MyApplication.iml:用于标识Intellij IDEA 项目</p>
+</li>
+<li><p>setting.gradle:用于指定项目中所有引入的模块。</p>
+</li>
+</ol>
+<p><strong>app目录内结构</strong></p>
+<ol>
+<li><p>build:编译时生成的文件</p>
+</li>
+<li><p>libs:使用第三方jar包时直接添加入该目录下，jar包会自动地被添加进构建路径里。</p>
+</li>
+<li><p>src:项目的主要代码和资源所在。</p>
+</li>
+<li><p>androidTest:用来编写Android Test测试用例，可以对项目进行一些自动化测试。</p>
+</li>
+<li><p>main:存放所有Java代码，可以构建子目录来规范管理代码</p>
+</li>
+<li><p>res:几乎是所有的资源都存放在这里，每个文件夹都有自己的功用。比如drawable内存放图片文件，layout为所有的布局xml文件，</p>
+</li>
+<li><p>AndroidManifest.xml:当前Android项目的配置文件，程序中定义的四大组件都在其中进行注册，以及程序的权限声明。</p>
+</li>
+<li><p>test:用来编写Unit Test测试用例</p>
+</li>
+<li><p>.gitignore:用于版本控制</p>
+</li>
+<li><p>app.iml:用于标识Intellij IDEA 项目</p>
+</li>
+<li><p>build.gradle:内层build.gradle为app模块内的gradle构建脚本，会指定项目构建相关配置。</p>
+</li>
+<li><p>proguard-rules.pro:用于指定项目代码的混淆规则，防止项目完成后生成的安装包文件被人破解。</p>
+</li>
+</ol>
+<h4 id="Android视图"><a href="#Android视图" class="headerlink" title="Android视图"></a>Android视图</h4><p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2019/04/29/5cc6627bca057.png" alt="1.png"></p>
+<ol>
+<li>manifests</li>
+</ol>
+<ul>
+<li>AndroidManifest.xml：项目清单文件，包含对App的一系列配置，如：应用名、所需权限、包名、所有的Activity信息等</li>
+</ul>
+<ol start="2">
+<li>java</li>
+</ol>
+<p>  存放项目的 Java 源代码<br>  R.java文件:由IDE自动生成，不能直接修改；用资源id的形式标注drawable、layout、values文件夹中的资源信息。</p>
+<ol start="3">
+<li>res</li>
+</ol>
+<ul>
+<li><p>drawable</p>
+<p>存放不同分辨率的图片资源</p>
+</li>
+<li><p>layout</p>
+<p>存放项目的布局文件,在XML文件中声明Android应用程序界面布局和组件。<br>优点：短小易维护。符合MVC原则：UI与程序逻辑相分离。</p>
+</li>
+<li><p>menu</p>
+<p>也用于存放项目的布局文件，不过一般只存放menu的布局文件</p>
+</li>
+<li><p>mipmap</p>
+<p>也用于存放不同分辨率的图片资源，不过在图片缩放的优化和性能上，mipmap比drawble更好</p>
+</li>
+<li><p>raw</p>
+<p>可选，一般用于存放数据库相关的资源</p>
+</li>
+<li><p>transition</p>
+<p>可选，一般用于存放slide文件</p>
+</li>
+<li><p>values</p>
+<ul>
+<li> colors.xml</li>
+</ul>
+<p>  用于存放项目会用到的颜色数据,颜色值由RGB（三位16进制数）或RRGGBB （六位16进制数）表示，以“# ”符号开头。例如：#00f（蓝色）， #00ff00（绿色）。定义透明色，表示透明度的alpha通道值紧随“#”之后。例如： #600f（透明蓝色）， #7700ff00（透明绿色） 。</p>
+<ul>
+<li> dimens.xml</li>
+</ul>
+<p>  用于存放项目会用到的长度和大小等数据,维度通常用于创建布局常量，在样式和布局资源中定义边界、高度和尺寸大小时经常用到维度。<br>  用标识符表示维度单位：</p>
+  <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">px（像素）：屏幕上的像素。</span><br><span class="line">in （英寸）：长度单位。</span><br><span class="line">mm（毫米）：长度单位。</span><br><span class="line">pt （磅）：1/72英寸。</span><br><span class="line">dp（与密度无关的像素）：一种基于屏幕密度的抽象单位。</span><br><span class="line">sp （与刻度无关的像素）：与pd类似。</span><br></pre></td></tr></table></figure>
+<p>  建议：使用sp作为文字的单位，使用dp作为其他元素的单位。</p>
+<ul>
+<li><p>strings<br>用于存放项目中会使用到的字符串数据，可根据系统语言不同（本地化），适配不同的strings.xml</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;</span><br><span class="line">&lt;resources&gt;</span><br><span class="line">    &lt;string name=&quot;hello&quot;&gt;Hello World, Hello!&lt;/string&gt;</span><br><span class="line">    &lt;string name=&quot;app_name&quot;&gt;Hello, Android&lt;/string&gt;</span><br><span class="line">&lt;/resources&gt;</span><br></pre></td></tr></table></figure></li>
+<li><p>styles<br>用于存放项目中会使用到的样式数据，可根据Android不同版本，适配不同的style.xml</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version=”1.0” encoding=”utf-8”?&gt;</span><br><span class="line">  &lt;resources&gt;</span><br><span class="line">    &lt;style name=”BaseText”&gt;</span><br><span class="line">       &lt;item name=”android:textSize”&gt;14sp&lt;/item&gt;</span><br><span class="line">       &lt;item name=”android:textColor”&gt;#111&lt;/item&gt;</span><br><span class="line">   &lt;/style&gt;</span><br><span class="line">  &lt;style name=”SmallText” parent=”BaseText”&gt;</span><br><span class="line">      &lt;item name=”android:textSize”&gt;8sp&lt;/item&gt;</span><br><span class="line">  &lt;/style&gt;</span><br><span class="line">&lt;/resources&gt;</span><br></pre></td></tr></table></figure></li>
+</ul>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2019/04/29/5cc6c109cf162.png"></p>
+</li>
+</ul>
+<ol start="4">
+<li>Gradle Scripts</li>
+</ol>
+<ul>
+<li><p>build.gradle (Project: [project name])<br>包含当前项目正在使用的gradle版本号信息</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">// Top-level build file where you can add configuration options common to all sub-projects/modules.</span><br><span class="line"></span><br><span class="line">// 用于设置驱动构建过程的代码</span><br><span class="line">buildscript &#123;</span><br><span class="line">    // 远程仓库</span><br><span class="line">    repositories</span><br><span class="line">        // 这里依赖的远程仓库是jcenter</span><br><span class="line">        google()</span><br><span class="line">       jcenter()</span><br><span class="line">    &#125;</span><br><span class="line">    // 声明了使用Android Studio gradle插件版本。</span><br><span class="line">    dependencies &#123;</span><br><span class="line">        classpath &#x27;com.android.tools.build:gradle:3.2.0&#x27;</span><br><span class="line"></span><br><span class="line">        // NOTE: Do not place your application dependencies here; they belong</span><br><span class="line">        // in the individual module build.gradle files</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">allprojects &#123;</span><br><span class="line">    repositories &#123;</span><br><span class="line">        google()</span><br><span class="line">        jcenter()</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">task clean(type: Delete) &#123;</span><br><span class="line">    delete rootProject.buildDir</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li><p>build.gradle (Module: app)<br>包含当前项目的applicationId、最小适配的Android版本、目标适配的Android版本、编译序号、应用版本号、所有依赖的包等信息</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line">// 表示使用com.android.application插件。</span><br><span class="line">apply plugin: &#x27;com.android.application&#x27;</span><br><span class="line"></span><br><span class="line">// 配置所有android构建过程需要的参数</span><br><span class="line">android &#123;</span><br><span class="line">    // 用于编译的SDK版本</span><br><span class="line">    compileSdkVersion 28</span><br><span class="line">    // 用于Gradle编译项目的工具版本</span><br><span class="line">    buildToolsVersion &quot;28.0.2&quot;</span><br><span class="line"></span><br><span class="line">    // 项目默认配置</span><br><span class="line">    defaultConfig &#123;</span><br><span class="line">        // 应用程序包名</span><br><span class="line">        applicationId &quot;com.hyp.learn&quot;</span><br><span class="line">        // 最低支持Android版本</span><br><span class="line">        minSdkVersion 19</span><br><span class="line">        // 目标版本</span><br><span class="line">        targetSdkVersion 28</span><br><span class="line">        // 版本号</span><br><span class="line">        versionCode 1</span><br><span class="line">        // 版本名称</span><br><span class="line">        versionName &quot;1.0&quot;</span><br><span class="line">        testInstrumentationRunner &quot;android.support.test.runner.AndroidJUnitRunner&quot;</span><br><span class="line">    &#125;</span><br><span class="line">    // 编译类型。默认两个：release和debug</span><br><span class="line">    buildTypes &#123;</span><br><span class="line">        release &#123;</span><br><span class="line">            // 设置是否使用混淆</span><br><span class="line">            minifyEnabled false</span><br><span class="line">            // 混淆文件</span><br><span class="line">            proguardFiles getDefaultProguardFile(&#x27;proguard-android.txt&#x27;), &#x27;proguard-rules.pro&#x27;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// 用于配置引用的依赖</span><br><span class="line">dependencies &#123;</span><br><span class="line">    implementation fileTree(dir: &#x27;libs&#x27;, include: [&#x27;*.jar&#x27;])</span><br><span class="line">    implementation &#x27;com.android.support:appcompat-v7:28.0.0-alpha1&#x27;</span><br><span class="line">    testImplementation &#x27;junit:junit:4.12&#x27;</span><br><span class="line">    androidTestImplementation &#x27;com.android.support.test:runner:1.0.2&#x27;</span><br><span class="line">    androidTestImplementation &#x27;com.android.support.test.espresso:espresso-core:3.0.2&#x27;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li><p>gradle-wrapper.properties</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">distributionBase=GRADLE_USER_HOME</span><br><span class="line">distributionPath=wrapper/dists</span><br><span class="line">distributionUrl=https\://services.gradle.org/distributions/gradle-4.6-all.zip</span><br><span class="line">zipStoreBase=GRADLE_USER_HOME</span><br><span class="line">zipStorePath=wrapper/dists</span><br></pre></td></tr></table></figure></li>
+<li><p> proguard-rules.pro</p>
+</li>
+<li><p> setting.gradle</p>
+</li>
+<li><p>local.properties<br>包含当前Android Studio编译器所使用的外部SDK路径信息</p>
+</li>
+</ul>
+<h3 id="基本组件"><a href="#基本组件" class="headerlink" title="基本组件"></a>基本组件</h3><p>应用程序组件是一个Android应用程序的基本构建块。这些组件由应用清单文件松耦合的组织。AndroidManifest.xml描述了应用程序的每个组件，以及他们如何交互。</p>
+<p>以下是可以在Android应用程序中使用的四个主要组件。</p>
+<h4 id="Activity"><a href="#Activity" class="headerlink" title="Activity"></a>Activity</h4><p>一个活动标识一个具有用户界面的单一屏幕。举个例子，一个邮件应用程序可以包含一个活动用于显示新邮件列表，另一个活动用来编写邮件，再一个活动来阅读邮件。当应用程序拥有多于一个活动，其中的一个会被标记为当应用程序启动的时候显示。</p>
+<p>应用程序可以定义一个或多个Activity。</p>
+<p>一个活动是Activity类的一个子类，如下所示：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">public class MainActivity extends Activity &#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>Activity的显示内容由View对象提供。每个视图（视图组）对象都有它们自己的多种xml属性。每个视图（视图组）对象都有一个ID属性。</p>
+<p>例：在HelloAndroid的main.xml中的TextView对象：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;TextView  </span><br><span class="line">android:id=”@+id/tvStr”</span><br><span class="line">android:layout_width=&quot;fill_parent&quot;</span><br><span class="line">android:layout_height=&quot;wrap_content&quot;</span><br><span class="line">android:text=&quot;@string/hello&quot;</span><br><span class="line">/&gt;</span><br></pre></td></tr></table></figure>
+<p>ID属性有时被定义为字符串，编译后为整型值。<br>ID的定义：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">android:id=“@+id/my_button1”</span><br></pre></td></tr></table></figure>
+<p><code>@</code>告诉xml解析器，解析并展开id后的其余部分作为ID资源。<br><code>@</code>后使用“+”表示定义一个新资源。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Android:id=“@android:id/my_button1”</span><br></pre></td></tr></table></figure>
+<p><code>@</code>后不使用“+”表示引用Android的一个资源。<br>此时要加上Android包名字空间，通过它可以从android.R资源类中引用ID。</p>
+<p><strong>启动Activity方式：</strong></p>
+<ol>
+<li>在onCreate()方法内调用setContentView()方法，用来指定将要启动的res/layout目录下的布局文件，例如setContentView(R.layout.main)。</li>
+<li>第二种方法是调用startActivity()，用于启动一个新的Activity。</li>
+<li>第三种方法是调用startActivityforResult()，用于启动一个Activity，并在该Activity结束时会返回信息。</li>
+</ol>
+<p><strong>关闭Activity方式：</strong></p>
+<ol>
+<li>通常调用finish()方法来关闭一个Activity。</li>
+<li>调用setResult()方法，则可以返回数据给上一级的Activity。</li>
+<li>使用startActivityforResult()启动的Activity时，则需要调用finishActivity()方法，来关闭其父Activity。</li>
+<li>System.exit()退出应用。</li>
+</ol>
+<h4 id="Services"><a href="#Services" class="headerlink" title="Services"></a>Services</h4><p>服务是运行在后台，执行长时间操作的组件。举个例子，服务可以是用户在使用不同的程序时在后台播放音乐，或者在活动中通过网络获取数据但不阻塞用户交互。</p>
+<p>没有用户界面显示。具有较长的生命周期。常用于播放背景音乐的应用设计。一般由Activity启动，但不依赖于Activity 。</p>
+<p>一个服务是Service类的子类，如下所示：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">public class MyService extends Service &#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>启动（结束）方式：</strong></p>
+<ul>
+<li>startService方法：启动，会依次调用onCreate和onStart方法；</li>
+<li>stopService方法：结束，会调用onDestroy方法。</li>
+<li>bindService方法：启动，会依次调用onCreate和onBind方法；</li>
+<li>unbindService方法：结束，会依次调用onUnbind和onDestroy方法。</li>
+</ul>
+<h4 id="Broadcast-Receivers"><a href="#Broadcast-Receivers" class="headerlink" title="Broadcast Receivers"></a>Broadcast Receivers</h4><p>广播接收器简单地响应从其他应用程序或者系统发来的广播消息。举个例子，应用程序可以发起广播来让其他应用程序知道一些数据已经被下载到设备，并且可以供他们使用。因此广播接收器会拦截这些通信并采取适当的行动。</p>
+<p>广播接收器是BroadcastReceiver类的一个子类，每个消息以Intent对象的形式来广播。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">public class MyReceiver  extends  BroadcastReceiver &#123;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>使用过程：</strong></p>
+<ul>
+<li>将需要广播的消息封装到Intent中。</li>
+<li>然后通三种发送方法中的一种将Intent广播出去 。</li>
+<li>通过IntentFilter对象来过滤所发送的实体Intent。</li>
+<li>实现一个重写了onReceive方法的BroadcastReceiver。</li>
+</ul>
+<p><strong>注册方式：</strong></p>
+<ul>
+<li>在AndroidManifest.xml中，放在<receiver> </receiver>中，通过<intent-filter>设置过滤条件。</li>
+<li>在java代码中，先创建IntentFilter对象，在IntentFilter对象内设置Intent过滤条件。</li>
+</ul>
+<h4 id="Content-Providers"><a href="#Content-Providers" class="headerlink" title="Content Providers"></a>Content Providers</h4><p>内容提供者组件通过请求从一个应用程序到另一个应用程序提供数据。这些请求由ContentResolver类的方法来处理。这些数据可以是存储在文件系统、数据库或者其他其他地方。</p>
+<p>ContentProvider为所有需要共享的数据创建一个数据表;ContentProvider会对外提供一个公开的URI(通用资源标识符:Uniform Resource Identifier)来标识数据集。</p>
+<p>URI主要分三个部分：scheme, authority 和 path。其中authority又分为host和port。<br>格式：<code>scheme://host:port/path</code></p>
+<p>内容提供者是ContentProvider类的子类，并实现一套标准的API，以便其他应用程序来执行事务。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">public class MyContentProvider extends  ContentProvider &#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="附件组件"><a href="#附件组件" class="headerlink" title="附件组件"></a>附件组件</h4><p>有一些附件的组件用于以上提到的实体、他们之间逻辑、及他们之间连线的构造。这些组件如下：</p>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2019/04/29/5cc65d9889555.png"></p>
+<p>说明：</p>
+<ol>
+<li>Intent</li>
+</ol>
+<p>  是一种运行时的绑定机制，运行时连接两个不同的组件。  Activity、Service、BroadcastReceiver之间的通信由Intent协助完成。不同类型的组件有不同的 Intent传送方法。<br>  Intent组成：组件名称， Action， Data，Category等。</p>
+<ol start="2">
+<li>Intent过滤器（IntentFilter ）</li>
+</ol>
+<p>  当Intent没有指定组件名（隐性）时，使用IntentFilter 来找与Intent最合适的组件。<br>  工作机制：通过Intent向Android发出请求，然后查询各组件声明的IntentFilter，找到需要的组件并运行它。<br>  用&lt;Intent-filter&gt;标签声明指定组件支持的 Intent值。<br>  IntentFilter可以设置多个过滤值（即元素值）。</p>
+<ol start="3">
+<li>Notification</li>
+</ol>
+<p>  Notification用来在不需要焦点或不中断它们当前Activity的情况下提示用户。它们是Service或Broadcast Receiver获得用户注意的首选方式。<br>  例如：当设备收到文本信息或外部来电时，它通过闪光，发声，显示图标或显示对话框信息来提醒你。</p>
+<h3 id="AndroidManifest-应用清单"><a href="#AndroidManifest-应用清单" class="headerlink" title="AndroidManifest 应用清单"></a>AndroidManifest 应用清单</h3><blockquote>
+<p>先了解，后面会用到，慢慢理解</p>
+</blockquote>
+<p>由gradle构建的Android应用，只需要最关键的3个文件(build.gradle AndroidManifest.xm Activity.java)</p>
+<ul>
+<li><p>build.gradle 用来构建项目脚本文件，编译打包</p>
+</li>
+<li><p>AndroidManifest 清单文件向 Android 系统提供应用的必要信息，系统必须具有这些信息方可运行应用的任何代码</p>
+</li>
+<li><p>Activity.java 源代码文件</p>
+</li>
+</ul>
+<p>每个应用的根目录中都必须包含一个 AndroidManifest.xml 文件，主要作用：</p>
+<ul>
+<li>确定应用的Java软件包名。软件包名称充当应用的唯一标识符</li>
+<li>声明应用的组件，包括 Activity、服务、广播接收器和内容提供程序。</li>
+<li>声明应用必须具备哪些权限才能访问 API 中受保护的部分并与其他应用交互。</li>
+<li>应用程序兼容的最低版本。</li>
+<li>声明应用程序需要的链接库。</li>
+<li>其他应用程序访问该应用程序时应该具有的权限。</li>
+</ul>
+<p>该文件的结构大致如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&lt;manifest&gt;</span><br><span class="line">&lt;uses-permission/&gt;</span><br><span class="line">&lt;application&gt;</span><br><span class="line">&lt;activity/&gt;</span><br><span class="line">&lt;service/&gt;</span><br><span class="line">&lt;reciever/&gt;</span><br><span class="line">&lt;provider/&gt;</span><br><span class="line">&lt;/application&gt;</span><br><span class="line">&lt;/manifest&gt;</span><br></pre></td></tr></table></figure>
+
+<p>在安装一个应用程序的APK到设备中时，包管理服务（PackageManagerService）会调用自己的解析器(PackageParser)去解析应用程序的”AndroidManifest.xml”文件，从而形成包信息。当启动一个应用的时候，会哦那个到这些包信息，孵化(zygote)出应用程序的进程</p>
+<ol>
+<li>manifest 根节点:<br>根节点manifest必须指定xmlns:android和package属性</li>
+</ol>
+<ol start="2">
+<li>application 应用程序的根节点:</li>
+</ol>
+<p>  application 节点是AndroidManifest文件必须要定义的节点，声明了应用所用到的组件，即我们常说的Android四大组件。</p>
+<ul>
+<li><p>activity 页面声明周期管理</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;activity android:name=”.Hello” android:label=”@string/app_name”&gt;</span><br><span class="line">    &lt;intent-filter&gt;</span><br><span class="line">       &lt;action android:name=”android.intent.action.MAIN” /&gt;</span><br><span class="line">       &lt;category android:name=”android.intent.category.LAUNCHER” /&gt;</span><br><span class="line">   &lt;/intent-filter&gt;</span><br><span class="line"> &lt;/activity&gt;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>&lt;intent-filter&gt;标签：声明组件所支持的一组Intent值。<ul>
+<li>&lt;action&gt;：声明该组件支持的Intent action 。</li>
+<li>&lt;category&gt;：声明该组件支持的Intent目录。</li>
+<li>&lt;data&gt;：声明该组件支持的Intent 数据的URI及类型。</li>
+</ul>
+</li>
+<li>&lt;meta-data&gt;标签：向活动添加新的元数据。一个活动可以有1个或多个meta-data。其他客户端可以取得这些meta-data以获得关于这个活动的信息。</li>
+</ul>
+</li>
+<li><p>service 后台服务</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;service</span><br><span class="line">          android:enabled=”true” android:name=”.MyService”&gt;</span><br><span class="line">  	&lt;/service&gt;</span><br></pre></td></tr></table></figure>
+<p>定义一个Service组件。是后台操作，可运行任意长时间的组件 。除了没有屏幕显示，与activity组件一样，可以包含1个或多个该服务支持的元素和值。该节点下可以包含&lt;intent-filter&gt;和&lt;meta-data&gt;声明。通过Intent可实现与其他组件的通信。</p>
+</li>
+<li><p>reciever 广播接收器，亦可在代码中注册</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;receiver android:enabled=”true”</span><br><span class="line">  android:label=”My Broadcast Receiver”</span><br><span class="line">  android:name=”.MyBroadcastReceiver”&gt;</span><br><span class="line">&lt;/receiver&gt;</span><br></pre></td></tr></table></figure>
+<p>定义一个BroadcastReceiver组件。是使应用来监听全局事件，并对外部事件作出响应的组件 。可以包含1个或多个该Receiver支持的元素和值，该节点下可以包含&lt;intent-filter&gt;和&lt;meta-data&gt;声明。通过Intent可实现与其他组件的通信。</p>
+</li>
+<li><p>provide 内容提供者，用于进程间数据交互和共享，即跨进程通信，底层采用Binder机制</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;provider android:permission=”com.paad.MY_PERMISSION”</span><br><span class="line">    android:name=”.MyContentProvider”</span><br><span class="line">    android:enabled=”true”</span><br><span class="line">    android:authorities=”com.paad.myapp.MyContentProvider”&gt;</span><br><span class="line">&lt;/provider&gt;</span><br></pre></td></tr></table></figure>
+<p>定义一个ContentProvider组件，是一组标准的方法接口，用来管理和发布持久数据的组件 。可以按照活动中的描述附加1个或多个<meta-data>值。</p>
+</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>属性名</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>android:label</td>
+<td>它是Android标签属性，是应用程序全局的一个用户可读的标签，也是该应用程序所有组件的默认标签。</td>
+</tr>
+<tr>
+<td>android:icon</td>
+<td>它是应用程序全局的一个图标，也是该应用程序所有组件的默认图标。</td>
+</tr>
+<tr>
+<td>android:allowBackup</td>
+<td>允许应用程序参与备份，默认true。</td>
+</tr>
+<tr>
+<td>android:logo</td>
+<td>logo属性用于配置应用程序的商标。自Android3.0以后，应用程序窗口多了一个标题栏，而应用程序的logo将会出现在那里。</td>
+</tr>
+<tr>
+<td>android:debuggable</td>
+<td>指示应用程序在用户模式的设备上是否可以调试。true，可以调试，false，不能调试，默认值false。需要注意的是，它只在用户模式的机器上生效，用户模式既是买着用的android手机，而虚拟机一般都是工程模式。</td>
+</tr>
+<tr>
+<td>android:enabled</td>
+<td>默认情况下，Android系统会自行实例化每一个应用程序的组件，包括Android四大组件，但如果我们需要自己完成这些事情的话，就需要使用android:enabled属性来限制Android系统的行为。如果这个属性定义在<application>节点中，那么它会默认将每个组件的enabled属性设置为相同的值。如果每一个组件单独定义了这个属性，那么<application>节点上定义的属性对此组件不再生效，就由自己的enabled属性决定。</td>
+</tr>
+<tr>
+<td>android:hardwareAccelerated</td>
+<td>硬件加速渲染功能是否对应用程序中的所有Activity和View启用，如果启用，则为true，否则为false，其默认值是false。从Android 3.0开始，硬件加速的OpenGL渲染器对所有应用程序都有效，这样做的目的是改善大多数2D图形操作的性能。当硬件加速渲染器被启用时，大多数操作（包括Canvas,Paint,Xfermode,ColorFilter,Shader和Camera）都会被加速，这样产生的结果是更顺滑的动画效果，更顺滑的滚动效果以及整体响应的改进。当没有设置这个标志的时候，它的默认值取决于是否配置了android:targetSdkVersion。如果没有配置，则Android默认将android:targetSdkVersion作为当前设备系统的SDK版本。当android:targetSdkVersion属性的值大于或者等于当前系统版本时，则启用硬件加速，反之则禁用硬件加速。</td>
+</tr>
+<tr>
+<td>android:persistent</td>
+<td>用来表明应用程序是否应该在任何时候都保持运行状态, 若为true，则表示应该，false则表示不应该，其默认值为false。通常，应用程序不应该设置本属性，而持续模式仅仅对于某些系统应用程序才有意义。例如电话模块，它在系统启动的时候就处于运行状态。</td>
+</tr>
+<tr>
+<td>android:process</td>
+<td>应用程序所有组件运行的进程名。默认值是当前的应用程序包名。当应用程序的第一个组件运行的时候，Android就会生成一个进程，所有组件全部运行在该进程中。该属性设置为一个与其他应用程序共享的进程名，就可以将两个应用程序的组件说运行在相同的进程里。能这样做的前提是仅在两个应用程序共享一个用户ID并且被赋予相同证书时。如果该属性里设置的名字以冒号开头: 那么在需要的时候它将生成该应用程序的一个私有新进程。如果进程名以小写字母开头，则生成以该进程名命名的一个全局进程。全局进程可以用来与其他应用程序分享，以便降低资源消耗。</td>
+</tr>
+<tr>
+<td>android:taskAffinity</td>
+<td>任务栈</td>
+</tr>
+<tr>
+<td>android:largeHeap</td>
+<td>此属性指示应用程序是否使用一个比较大的堆创建，它是一个布尔值，在没有配置的情况下，它的默认值是false</td>
+</tr>
+</tbody></table>
+<ol start="3">
+<li>&lt;uses-permission&gt; <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;uses-permission  </span><br><span class="line">    android:name=”android.permission.ACCESS_LOCATION”&gt;</span><br><span class="line">&lt;/uses-permission&gt;</span><br></pre></td></tr></table></figure>
+ 声明应用程序正常工作所需要的权限。<br>程序包必须被授予该权限才能进行正确的操作。</li>
+<li>&lt;permission&gt; <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;permission  </span><br><span class="line">     android:name=”android.permission.ACCESS_LOCATION”&gt;</span><br><span class="line">&lt;/permission&gt;</span><br></pre></td></tr></table></figure>
+ 声明一个安全授权。<br> 用来限制哪些应用可以访问指定的程序包内的组件和特有功能。</li>
+</ol>
+<h4 id="在清单文件中声明Activity"><a href="#在清单文件中声明Activity" class="headerlink" title="在清单文件中声明Activity"></a>在清单文件中声明Activity</h4><p>每次新建的Activity都需要在AndroidManifest文件中添加如下内容，并将元素添加为元素的子项</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&lt;manifest ... &gt;</span><br><span class="line">  &lt;application ... &gt;</span><br><span class="line">      &lt;activity android:name=&quot;.MainActivity&quot; /&gt;</span><br><span class="line">      ...</span><br><span class="line">  &lt;/application ... &gt;</span><br><span class="line">  ...</span><br><span class="line">&lt;/manifest &gt;</span><br></pre></td></tr></table></figure>
+
+<p><strong>&lt;activity&gt;元素主要属性</strong></p>
+<table>
+<thead>
+<tr>
+<th>属性名</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>android:name</td>
+<td>组建名，Activity源文件所在的相对路径</td>
+</tr>
+<tr>
+<td>android:screenOrientation</td>
+<td>Activity在屏幕当中显示的方向</td>
+</tr>
+<tr>
+<td>android:configChanges</td>
+<td>Activity捕捉设备状态变化。当所指定属性(Configuration Changes)发生改变时，回调 onConfigurationChanged()函数。1. 设备旋转(orientation),2. 键盘隐藏(keyboardHidden), 3. 屏幕尺寸(screenSize)</td>
+</tr>
+<tr>
+<td>android:exported</td>
+<td>表示该组件是否能够被其它应用程序组件调用或者交互。该属性默认值依赖于它所包含得过滤器(intent-filter)。如果没有intent-filter，则表明该组件只能通过显示Intent调用，所以默认值为false。如果含有intent-filter,则表明该组件能通过隐式Intent调用，所以默认值为true。</td>
+</tr>
+<tr>
+<td>android:launchMode</td>
+<td>activity启动模式。四种：Standard,SingleTop,SingleTask,SingleInstance</td>
+</tr>
+<tr>
+<td>android:taskAffinity</td>
+<td>Activity所吸附的任务栈，该属性一般在lauchMode为singleTask模式才生效。默认taskAffinity于根Activity相同，即应用的包名。</td>
+</tr>
+<tr>
+<td>android:windowSoftInputMode</td>
+<td>键盘弹出后，界面调整模式 1. 当获取焦点时是否弹出键盘 2. 是否减少Activity主窗口大小以腾出空间给软键盘</td>
+</tr>
+<tr>
+<td>android:allowTaskReparenting</td>
+<td>当某个拥有相同affinity任务栈即将返回前台时，当前Activity是否能从启动它得任务栈中转移到与它相同Affinity相同任务栈中去。默认值，false，只能停留在启动它得任务栈。 利用该值的特性，可以强行让一个不再显示的Activity转移到另外的任务栈中。典型的应用，就是让一个程序的Activity转移到另外的应用程序中。</td>
+</tr>
+<tr>
+<td>android:alwaysRetainTaskState</td>
+<td>系统是否一直维持任务栈的状态。该属性只对任务栈根Activity有效，默认值false。通常，用户从launch界面重新打开应用的时候，系统会清空任务栈中根Activity以上所有Activity，比如说，用户停留在主界面很长时间没有操作了。当将该值设置为true的时候，总是返回任务的最后状态，比如说，浏览器应用打开了多个页面，用户不期望下次打开浏览器的时候，之前的页面全部清空了。</td>
+</tr>
+<tr>
+<td>android:clearTaskOnLaunch</td>
+<td>每次从launch启动应用时，是否清楚根Activity以上所有的Activity，默认值false</td>
+</tr>
+<tr>
+<td>android:enabled</td>
+<td>该组件是否能够被实例化。默认true</td>
+</tr>
+<tr>
+<td>android:excludeFromRecents</td>
+<td>该Activity是否排除在用户最近任务列表。默认值false。</td>
+</tr>
+<tr>
+<td>android:finishOnTaskLaunch</td>
+<td>当从launch再次启动任务时，是否finish该实例，默认值false。</td>
+</tr>
+<tr>
+<td>android:multiprocess</td>
+<td>是否可以把Activity新实例放入到启动它的组件所在的进程中。</td>
+</tr>
+</tbody></table>
+<h4 id="启动方式"><a href="#启动方式" class="headerlink" title="启动方式"></a>启动方式</h4><p>Activity的启动分为显式和隐式启动，原则上二者不该同时存在，同时存在以显式为主。显式需要指定被启动对象的组件信息（包名、类名），隐式不需要指定目标组件信息，只要Intent可以匹配上目标Activity的IntentFilter设置的过滤信息。</p>
+<p>Intent是一个消息传递对象。Intent作用</p>
+<ul>
+<li>指定当前组件的动作</li>
+<li>组件之间传递数据</li>
+</ul>
+<p>Intent 有两种,一种是显示Intent，一种是隐式Intent。</p>
+<ul>
+<li><p>显示Intent 。按名称指定要启动的组件。在自己应用内使用代码显示Intent来启动组件。<br>新建一个secondActivity，在FirstActivity的onCreate()方法中添加如下代码：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">Button button1 = (Button)findViewById(R.id.firstButton);</span><br><span class="line"> button1.setOnClickListener(new View.OnClickListener() &#123;</span><br><span class="line">     @Override</span><br><span class="line">     public void onClick(View v) &#123;</span><br><span class="line">         Intent intent = new Intent(FirstActivity.this,SecondActivity.class);</span><br><span class="line">         startActivity(intent);</span><br><span class="line">     &#125;</span><br><span class="line"> &#125;);</span><br></pre></td></tr></table></figure>
+<p>在AndroidManifest中声明Activity：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;activity android:name=&quot;.SecondActivity&quot;&gt;&lt;/activity&gt;</span><br></pre></td></tr></table></figure></li>
+<li><p>隐式Intent。不指定特定的组件，而是在AndroidManife.xml文件中声明要执行的常规操作，从而容许其它应用中的组件来处理它。<br>IntentFilter的过滤信息有action、category、data三种。一个Activity里可以有多组IntentFilter，每组IntentFilter里可以包含多个action、category、data，每组IntentFilter的任意三个及以上action、category、data形成一个匹配约束，只要Java代码里能够匹配一个匹配约束，即可启动目标Activity</p>
+</li>
+</ul>
+<p><strong>intent-filter</strong></p>
+<p>在使用隐式Intent启动组件的时候，Android系统会通过Intent中的三个信息action data category 与在AndroidManifest.xml文件中注册的组件中的intent-filter进行比较，当匹配一致的时候，启动对应的组件。</p>
+<p>在清单文件中intent-filter有三个元素action data category，Intent的过滤器(intent-filter),按照以下优先关系查找：action-&gt;data-&gt;category</p>
+<p><strong>action</strong></p>
+<p>intent-filter必须包含一个，或者多个action元素，否则该组件匹配不到任何的Intent。Intent中的action与其中的任一个action在字符串形式上完全相同，action方面就匹配成功。系统定义了一些标准的action属性，比如ACTION_MAIN 代表Application入口，ACTION_VIEW,ACTION_WEB_SEARCH等</p>
+<p>action是一个字符串，系统预定义了一些action，我们也可以在应用定义自己的action。Java代码里的Intent必须要有action，且这个字符串必须和xml中的action一致，区分大小写。</p>
+<p><strong>data</strong></p>
+<p>data由两部分组成mimeType和URI,data可以仅设置其中一项，或者都设置。</p>
+<p>mimeType 是指媒体类型，例如imgage/jpeg，auto/mpeg4和viedo/*等<br>URI 则是由scheme、host、port、path | pathPattern | pathPrefix这4部分组成</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;scheme&gt;://&lt;host&gt;:&lt;port&gt;/[&lt;path&gt;|&lt;pathPrefix&gt;|&lt;pathPattern &gt;]</span><br></pre></td></tr></table></figure>
+
+<p>Scheme：URI的模式，如http、file、content等，如果URI没有指定scheme，那么那么其他参数无效，即整个URI无效。<br>Host：URI的主机名，如<a target="_blank" rel="noopener" href="http://www.baidu.com,如果uri没有指定host,那么那么其他参数无效,即整个uri无效./">www.baidu.com，如果URI没有指定Host，那么那么其他参数无效，即整个URI无效。</a><br>Port：URI中的端口号，比如80。<br>Path：URI中的完整路径信息。<br>PathPattern：URI中的完整路径信息，但是可以包含通配符“*”，要表示字符，*要写成\*，\要写成\\。<br>PathPrefix：URI中表示路径的前缀信息。</p>
+<p><strong>category</strong></p>
+<p>Intent中如果出现了category，不管几个category，对于每个category来说，他必须是过滤器中定义的category，才能匹配成功。系统默认设置了Intent的category为android.intent.category.DEFAULT</p>
+<h5 id="隐式Intent实例"><a href="#隐式Intent实例" class="headerlink" title="隐式Intent实例"></a>隐式Intent实例</h5><ol>
+<li>通过浏览器打开网页</li>
+</ol>
+  <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">Intent intent = new Intent();</span><br><span class="line">intent.setAction(Intent.ACTION_VIEW);</span><br><span class="line">intent.setData(Uri.parse(&quot;http://www.google.com&quot;));</span><br><span class="line">intent.addCategory(Intent.CATEGORY_BROWSABLE);</span><br><span class="line">intent.addCategory(Intent.CATEGORY_DEFAULT);</span><br><span class="line">startActivity(intent);</span><br></pre></td></tr></table></figure>
+<ol start="2">
+<li>通过网页打开本地应用</li>
+</ol>
+  <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&lt;/html&gt;</span><br><span class="line">    &lt;body&gt;</span><br><span class="line">        &lt;div id=&quot;header&quot;&gt;</span><br><span class="line">         &lt;a href=&quot;my.special.scheme://192.168.2.126/param1/param2&quot;&gt;link open app</span><br><span class="line">         &lt;/a&gt;</span><br><span class="line">        &lt;/div&gt;</span><br><span class="line">    &lt;/body&gt;</span><br><span class="line">&lt;/html&gt;</span><br></pre></td></tr></table></figure>
+<p>  当点击网页上超链接”link open app”时，会隐式启动我们在清单文件中注册的Activity，清单文件AndroidManifest.xml内容如下：<br>  <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&lt;activity android:name=&quot;.intentfilter.IntentFilterTestActivity&quot; &gt;</span><br><span class="line">    &lt;intent-filter&gt;</span><br><span class="line">        &lt;action android:name=&quot;android.intent.action.VIEW&quot; /&gt;</span><br><span class="line">        &lt;category android:name=&quot;android.intent.category.DEFAULT&quot; /&gt;</span><br><span class="line">        &lt;category android:name=&quot;android.intent.category.BROWSABLE&quot; /&gt;</span><br><span class="line">        &lt;data  android:scheme=&quot;my.special.scheme&quot;/&gt;</span><br><span class="line">    &lt;/intent-filter&gt;</span><br><span class="line">&lt;/activity&gt;</span><br></pre></td></tr></table></figure><br>3. 图片</p>
+  <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;intent-filter&gt;</span><br><span class="line">    &lt;action android:name=&quot;android.intent.action.SEND&quot;/&gt;</span><br><span class="line">    &lt;category android:name=&quot;android.intent.category.DEFAULT&quot;/&gt;</span><br><span class="line">    &lt;data android:mimeType=&quot;image/*&quot;/&gt;</span><br><span class="line">&lt;/intent-filter&gt;</span><br></pre></td></tr></table></figure>
+<p>  这种规则指定了媒体类型为所有类型的图片，Intent中mimeType必须为“image/*”才能匹配，xml中的过滤规则虽然没有指定URI但是scheme有默认值为content或file，所以intent中URI的scheme必须为content或file<br>  <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">intent1.setDataAndType(Uri.parse(&quot;file://asd&quot;),&quot;image/*&quot;);</span><br></pre></td></tr></table></figure><br>  更详细的：<br>  <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;intent-filter&gt;</span><br><span class="line">    &lt;action android:name=&quot;android.intent.action.SEND&quot;/&gt;</span><br><span class="line">    &lt;category android:name=&quot;android.intent.category.DEFAULT&quot;/&gt;</span><br><span class="line">    &lt;data android:mimeType=&quot;image/*&quot; android:scheme=&quot;file&quot; android:host=&quot;asd&quot;/&gt;</span><br><span class="line">&lt;/intent-filter&gt;</span><br></pre></td></tr></table></figure><br>  像这种指定了完整的data的xml，Java代码不可以先用setData方法，再用setType方法指定URI和mimeType，因为这两个方法会将对方的值互相清空，应该用setDataAndType方法。</p>
+<p>  此外，以下两种data过滤规则写法等价<br>  <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;data android:scheme=&quot;file&quot; android:host=&quot;asd&quot;/&gt;</span><br><span class="line">或</span><br><span class="line">&lt;data android:scheme=&quot;file&quot;/&gt;</span><br><span class="line">&lt;data android:host=&quot;asd&quot;/&gt;</span><br></pre></td></tr></table></figure></p>
+<p>  判断是否有目标Activity可以响应我们的Intent，从而 避免crash的两种方法。</p>
+<ul>
+<li>Intent的resolveActivity方法。</li>
+<li>PackageManager的resolveActivity方法或queryIntentActivities方法，后者不是返回最佳的匹配Activity信息，而是返回所有的匹配Activity信息。MATCH_DEFAULT_ONLY参数是为了将不含DEFAULT的category的Activity排除，因为没有这个的category的Activity无法接收隐式Intent启动的。<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">Button button = (Button)findViewById(R.id.openButton);</span><br><span class="line">button.setOnClickListener(new View.OnClickListener() &#123;</span><br><span class="line">    @Override</span><br><span class="line">    public void onClick(View v) &#123;</span><br><span class="line">        Intent intent1 = new Intent(Intent.ACTION_SEND);</span><br><span class="line">        intent1.setDataAndType(Uri.parse(&quot;file://asd&quot;),&quot;image/jpg&quot;);</span><br><span class="line">        PackageManager packageManager = getApplicationContext().getPackageManager();</span><br><span class="line">        ResolveInfo info = packageManager.resolveActivity(intent1,PackageManager.MATCH_DEFAULT_ONLY);</span><br><span class="line">        if(info != null)&#123;</span><br><span class="line">            startActivity(intent1);</span><br><span class="line">        &#125;else&#123;</span><br><span class="line">            Toast.makeText(getApplicationContext(),info.toString()+&quot; == info&quot;,Toast.LENGTH_LONG);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br><span class="line">....</span><br><span class="line">&lt;activity android:name=&quot;.Activity2&quot;&gt;</span><br><span class="line">    &lt;intent-filter&gt;</span><br><span class="line">        &lt;action android:name=&quot;android.intent.action.VIEW&quot;/&gt;</span><br><span class="line">        &lt;category android:name=&quot;android.intent.category.DEFAULT&quot;/&gt;</span><br><span class="line">        &lt;category android:name=&quot;com.weihy&quot;/&gt;</span><br><span class="line">        &lt;category android:name=&quot;android.intent.category.BROWSABLE&quot;/&gt;</span><br><span class="line">        &lt;data android:scheme=&quot;http&quot;/&gt;</span><br><span class="line">    &lt;/intent-filter&gt;</span><br><span class="line">    &lt;intent-filter&gt;</span><br><span class="line">        &lt;action android:name=&quot;android.intent.action.SEND&quot;/&gt;</span><br><span class="line">        &lt;category android:name=&quot;android.intent.category.DEFAULT&quot;/&gt;</span><br><span class="line">        &lt;data android:mimeType=&quot;image/jpg&quot; android:scheme=&quot;file&quot; android:host=&quot;asd&quot;/&gt;</span><br><span class="line">    &lt;/intent-filter&gt;</span><br><span class="line">&lt;/activity&gt;</span><br></pre></td></tr></table></figure>
+值得注意的是，Android7.0以下我们这么写可以让Activity2匹配到Intent里的信息，但是Android7.0的权限问题，这么写会报错<code>android.os.FileUriExposedException: file://asd exposed beyond app through Intent.getData()</code>。</li>
+</ul>
+<p>  这样的action和category是用来标识这个Activity是应用的入口Activity，并且应用可以出现在应用列表中，二者缺一不可</p>
+  <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;intent-filter&gt;</span><br><span class="line">    &lt;action android:name=&quot;android.intent.action.MAIN&quot; /&gt;</span><br><span class="line">    &lt;category android:name=&quot;android.intent.category.LAUNCHER&quot; /&gt;</span><br><span class="line">&lt;/intent-filter&gt;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><ol>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/smyhvae/p/4390905.html">第一次使用Android Studio时你应该知道的一切配置</a></li>
+<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/lote921203/article/details/80257949">Android Studio 项目结构完全解析</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/49b891091810">Android Studio 项目目录结构简析</a></li>
+</ol>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">平心</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://pingxin0521.gitee.io/2019/04/25/Android-%E5%9F%BA%E7%A1%80-1/">https://pingxin0521.gitee.io/2019/04/25/Android-%E5%9F%BA%E7%A1%80-1/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://pingxin0521.gitee.io" target="_blank">平心de小屋</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/Android/">Android</a></div><div class="post_share"><div class="social-share" data-image="https://i.loli.net/2020/05/08/7dHvepmfYOLWTrX.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2019/04/25/HTML-%E5%9F%BA%E7%A1%80-2/"><img class="prev-cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/vCnKyoFJZ1g4XYR.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">Html 再进一步</div></div></a></div><div class="next-post pull-right"><a href="/2019/04/25/Java-%E5%9F%BA%E7%A1%80-10-3/"><img class="next-cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/okfOw28KlZFbE7z.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">java 字符集</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span> 相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2019/06/03/Android-基础-22/" title="Android  常见错误"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/vCnKyoFJZ1g4XYR.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2020-05-16</div><div class="title">Android  常见错误</div></div></a></div><div><a href="/2019/04/27/Android-基础-4/" title="Android 用户界面状态保存"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/gGE57HRvpcKPfDY.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2019-07-02</div><div class="title">Android 用户界面状态保存</div></div></a></div><div><a href="/2019/04/30/Android-基础-13/" title="Android  菜单"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/gGE57HRvpcKPfDY.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2019-07-02</div><div class="title">Android  菜单</div></div></a></div><div><a href="/2019/04/30/Android-基础-11/" title="Android  高级控件（一）"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/7dHvepmfYOLWTrX.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2019-07-02</div><div class="title">Android  高级控件（一）</div></div></a></div><div><a href="/2019/04/27/Android-基础-3/" title="Android  Intent和Application"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/gGE57HRvpcKPfDY.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2019-07-02</div><div class="title">Android  Intent和Application</div></div></a></div><div><a href="/2019/04/28/Android-基础-5/" title="Android 常用基本控件"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/vCnKyoFJZ1g4XYR.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2019-05-08</div><div class="title">Android 常用基本控件</div></div></a></div></div></div><hr/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div class="vcomment" id="vcomment"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="card-info-avatar is-center"><img class="avatar-img" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://s2.ax1x.com/2020/02/11/1ovw6J.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/><div class="author-info__name">平心</div><div class="author-info__description">年轻人的life、learn and think</div></div><div class="card-info-data"><div class="card-info-data-item is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">449</div></a></div><div class="card-info-data-item is-center"><a href="/tags/"><div class="headline">标签</div><div class="length-num">77</div></a></div><div class="card-info-data-item is-center"><a href="/categories/"><div class="headline">分类</div><div class="length-num">68</div></a></div></div><a class="button--animated" id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/hanyunpeng0521"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/hanyunpeng0521" target="_blank" title="Github"><i class="fa fa-github"></i></a><a class="social-icon" href="mailto:m13839441583@163.com" target="_blank" title="Email"><i class="fa fa-envelope"></i></a><a class="social-icon" href="/atom.xml" target="_blank" title=""><i class="fa fa-rss"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn card-announcement-animation"></i><span>公告</span></div><div class="announcement_content">为什么呢？开始提问吧</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%A1%B9%E7%9B%AE%E7%9B%AE%E5%BD%95"><span class="toc-number">1.</span> <span class="toc-text">项目目录</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Project-%E8%A7%86%E5%9B%BE"><span class="toc-number">1.1.</span> <span class="toc-text">Project 视图</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Android%E8%A7%86%E5%9B%BE"><span class="toc-number">1.2.</span> <span class="toc-text">Android视图</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9F%BA%E6%9C%AC%E7%BB%84%E4%BB%B6"><span class="toc-number">2.</span> <span class="toc-text">基本组件</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Activity"><span class="toc-number">2.1.</span> <span class="toc-text">Activity</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Services"><span class="toc-number">2.2.</span> <span class="toc-text">Services</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Broadcast-Receivers"><span class="toc-number">2.3.</span> <span class="toc-text">Broadcast Receivers</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Content-Providers"><span class="toc-number">2.4.</span> <span class="toc-text">Content Providers</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%99%84%E4%BB%B6%E7%BB%84%E4%BB%B6"><span class="toc-number">2.5.</span> <span class="toc-text">附件组件</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#AndroidManifest-%E5%BA%94%E7%94%A8%E6%B8%85%E5%8D%95"><span class="toc-number">3.</span> <span class="toc-text">AndroidManifest 应用清单</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%9C%A8%E6%B8%85%E5%8D%95%E6%96%87%E4%BB%B6%E4%B8%AD%E5%A3%B0%E6%98%8EActivity"><span class="toc-number">3.1.</span> <span class="toc-text">在清单文件中声明Activity</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%90%AF%E5%8A%A8%E6%96%B9%E5%BC%8F"><span class="toc-number">3.2.</span> <span class="toc-text">启动方式</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E9%9A%90%E5%BC%8FIntent%E5%AE%9E%E4%BE%8B"><span class="toc-number">3.2.1.</span> <span class="toc-text">隐式Intent实例</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8F%82%E8%80%83"><span class="toc-number">4.</span> <span class="toc-text">参考</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2021/05/15/node-2-4/" title="Egg.js -- 为企业级框架和应用而生"><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/okfOw28KlZFbE7z.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Egg.js -- 为企业级框架和应用而生"/></a><div class="content"><a class="title" href="/2021/05/15/node-2-4/" title="Egg.js -- 为企业级框架和应用而生">Egg.js -- 为企业级框架和应用而生</a><time datetime="2021-05-15T10:18:59.000Z" title="发表于 2021-05-15 18:18:59">2021-05-15</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/04/30/node-2-3/" title="Koa -- 基于Node.js平台的下一代Web开发框架"><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/HjVAdIuT7bZJypS.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Koa -- 基于Node.js平台的下一代Web开发框架"/></a><div class="content"><a class="title" href="/2021/04/30/node-2-3/" title="Koa -- 基于Node.js平台的下一代Web开发框架">Koa -- 基于Node.js平台的下一代Web开发框架</a><time datetime="2021-04-30T10:18:59.000Z" title="发表于 2021-04-30 18:18:59">2021-04-30</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/04/01/node-2-1/" title="Node.JS web开发前置知识"><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/gGE57HRvpcKPfDY.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Node.JS web开发前置知识"/></a><div class="content"><a class="title" href="/2021/04/01/node-2-1/" title="Node.JS web开发前置知识">Node.JS web开发前置知识</a><time datetime="2021-04-01T03:18:59.000Z" title="发表于 2021-04-01 11:18:59">2021-04-01</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2020/12/26/%E5%91%A8%E8%AE%B0-10-1/" title="第十一周--谷歌浏览器插件"><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/gGE57HRvpcKPfDY.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="第十一周--谷歌浏览器插件"/></a><div class="content"><a class="title" href="/2020/12/26/%E5%91%A8%E8%AE%B0-10-1/" title="第十一周--谷歌浏览器插件">第十一周--谷歌浏览器插件</a><time datetime="2020-12-26T10:18:59.000Z" title="发表于 2020-12-26 18:18:59">2020-12-26</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2020/12/26/%E5%91%A8%E8%AE%B0-10-0/" title="第十一周--浏览器技术"><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/vCnKyoFJZ1g4XYR.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="第十一周--浏览器技术"/></a><div class="content"><a class="title" href="/2020/12/26/%E5%91%A8%E8%AE%B0-10-0/" title="第十一周--浏览器技术">第十一周--浏览器技术</a><time datetime="2020-12-26T06:18:59.000Z" title="发表于 2020-12-26 14:18:59">2020-12-26</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2019 - 2021 By 平心</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div id="local-search"><div class="search-dialog"><div class="search-dialog__title" id="local-search-title">本地搜索</div><div id="local-input-panel"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div></div><hr/><div id="local-search-results"></div><span class="search-close-button"><i class="fas fa-times"></i></span></div><div id="search-mask"></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload/dist/lazyload.iife.min.js"></script><script src="/js/search/local-search.js"></script><div class="js-pjax"><script>function loadValine () {
+  function initValine () {
+    const valine = new Valine(Object.assign({
+      el: '#vcomment',
+      appId: '4lfIXzqxaC1ONs0MJO4oHu07-gzGzoHsz',
+      appKey: 'qw99Bw8FD0KVKU9m457CwWsr',
+      placeholder: 'Please leave your footprints',
+      avatar: 'monsterid',
+      meta: 'nick,mail,link'.split(','),
+      pageSize: '10',
+      lang: 'zh-CN',
+      recordIP: true,
+      serverURLs: '',
+      emojiCDN: '',
+      emojiMaps: "",
+      enableQQ: true,
+      path: window.location.pathname,
+      requiredFields: ["nick,mail"],
+      visitor: false
+    }, null))
+  }
+
+  if (typeof Valine === 'function') initValine() 
+  else getScript('https://cdn.jsdelivr.net/npm/valine/dist/Valine.min.js').then(initValine)
+}
+
+if ('Valine' === 'Valine' || !false) {
+  if (false) btf.loadComment(document.getElementById('vcomment'),loadValine)
+  else setTimeout(loadValine, 0)
+} else {
+  function loadOtherComment () {
+    loadValine()
+  }
+}</script></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>

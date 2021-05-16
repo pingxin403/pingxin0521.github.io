@@ -1,0 +1,272 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>跳表--二分查找的有序链表 | 平心de小屋</title><meta name="keywords" content="数据结构"><meta name="author" content="平心"><meta name="copyright" content="平心"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="跳表跳表是一个随机化的数据结构，实质就是一种可以进行二分查找的有序链表。 跳表在原有的有序链表上面增加了多级索引，通过索引来实现快速查找。 跳表不仅能提高搜索性能，同时也可以提高插入和删除操作的性能。 实现简单，插入、删除、查找的复杂度均为O(logN)（大多数情况下），因为其性能匹敌红黑树且实现较为简单，因此在很多著名项目都用跳表来代替红黑树，例如LevelDB、Reddis的底层存储结构就">
+<meta property="og:type" content="article">
+<meta property="og:title" content="跳表--二分查找的有序链表">
+<meta property="og:url" content="https://pingxin0521.gitee.io/2019/05/14/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-1-1/index.html">
+<meta property="og:site_name" content="平心de小屋">
+<meta property="og:description" content="跳表跳表是一个随机化的数据结构，实质就是一种可以进行二分查找的有序链表。 跳表在原有的有序链表上面增加了多级索引，通过索引来实现快速查找。 跳表不仅能提高搜索性能，同时也可以提高插入和删除操作的性能。 实现简单，插入、删除、查找的复杂度均为O(logN)（大多数情况下），因为其性能匹敌红黑树且实现较为简单，因此在很多著名项目都用跳表来代替红黑树，例如LevelDB、Reddis的底层存储结构就">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://i.loli.net/2020/05/08/7dHvepmfYOLWTrX.jpg">
+<meta property="article:published_time" content="2019-05-14T01:18:59.000Z">
+<meta property="article:modified_time" content="2020-06-29T05:02:09.738Z">
+<meta property="article:author" content="平心">
+<meta property="article:tag" content="数据结构">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.loli.net/2020/05/08/7dHvepmfYOLWTrX.jpg"><link rel="shortcut icon" href="https://s2.ax1x.com/2020/02/11/1ovFOA.png"><link rel="canonical" href="https://pingxin0521.gitee.io/2019/05/14/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-1-1/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"search.xml","languages":{"hits_empty":"找不到您查询的内容：${query}"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    jQuery: 'https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js',
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+    },
+    fancybox: {
+      js: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css'
+    }
+  },
+  isPhotoFigcaption: true,
+  islazyload: true,
+  isanchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '跳表--二分查找的有序链表',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2020-06-29 13:02:09'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    })(window)</script><meta name="generator" content="Hexo 5.4.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="author-avatar"><img class="avatar-img" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://s2.ax1x.com/2020/02/11/1ovw6J.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data"><div class="data-item is-center"><div class="data-item-link"><a href="/archives/"><div class="headline">文章</div><div class="length-num">449</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/tags/"><div class="headline">标签</div><div class="length-num">77</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/categories/"><div class="headline">分类</div><div class="length-num">68</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fa fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fa fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://i.loli.net/2020/05/08/7dHvepmfYOLWTrX.jpg')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">平心de小屋</a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fa fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fa fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">跳表--二分查找的有序链表</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2019-05-14T01:18:59.000Z" title="发表于 2019-05-14 09:18:59">2019-05-14</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2020-06-29T05:02:09.738Z" title="更新于 2020-06-29 13:02:09">2020-06-29</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/">数据结构</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">2.6k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>9分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="跳表--二分查找的有序链表"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><span id="more"></span>
+
+<h3 id="跳表"><a href="#跳表" class="headerlink" title="跳表"></a>跳表</h3><p>跳表是一个随机化的数据结构，实质就是一种可以进行<strong>二分</strong>查找的<strong>有序链表</strong>。</p>
+<p>跳表在原有的有序链表上面增加了多级索引，通过索引来实现快速查找。</p>
+<p>跳表不仅能提高搜索性能，同时也可以提高插入和删除操作的性能。</p>
+<p>实现简单，插入、删除、查找的复杂度均为O(logN)（大多数情况下），因为其性能匹敌红黑树且实现较为简单，因此在很多著名项目都用跳表来代替红黑树，例如LevelDB、Reddis的底层存储结构就是用的SkipList。</p>
+<p>目前常用的key-value数据结构有三种：Hash表、红黑树、SkipList，它们各自有着不同的优缺点：</p>
+<ul>
+<li>Hash表：插入、查找最快，为O(1)；如使用链表实现则可实现无锁；数据有序化需要显式的排序操作。</li>
+<li>红黑树：插入、查找为O(logn)，但常数项较小；无锁实现的复杂性很高，一般需要加锁；数据天然有序。</li>
+<li>SkipList：插入、查找为O(logn)，但常数项比红黑树要大；底层结构为链表，可无锁实现；数据天然有序。</li>
+</ul>
+<h4 id="SkipList基本数据结构"><a href="#SkipList基本数据结构" class="headerlink" title="SkipList基本数据结构"></a>SkipList基本数据结构</h4><p>一个跳表，应该具有以下特征：</p>
+<ol>
+<li><p>一个跳表应该有几个层（level）组成；<br>通常是10-20层，leveldb中默认为12层。</p>
+</li>
+<li><p>跳表的第0层包含所有的元素；<br>且节点值是有序的。</p>
+</li>
+<li><p>每一层都是一个有序的链表；<br>层数越高应越稀疏，这样在高层次中能’跳过’许多的不符合条件的数据。</p>
+</li>
+<li><p>如果元素x出现在第i层，则所有比i小的层都包含x；</p>
+</li>
+<li><p>每个节点包含key及其对应的value和一个指向该节点第n层的下个节点的指针数组<br>x-&gt;next[level]表示第level层的x的下一个节点</p>
+</li>
+</ol>
+<p><strong>有序链表</strong></p>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://s2.ax1x.com/2020/01/20/1FCNY8.png" alt="1FCNY8.png"></p>
+<p>考虑一个有序链表，我们要查找3、7、17这几个元素，我们只能从头开始遍历链表，直到查找到元素为止。</p>
+<p>上述这个链表是有序的，但是不能使用二分查找，是不是很捉急？（P.S.数组可以实现二分查找）</p>
+<p>那么，有没有什么方法可以实现有序链表的二分查找呢？</p>
+<p>答案是肯定的，那就是我们将要介绍的这种数据结构——跳表。</p>
+<p><strong>跳表的演进</strong></p>
+<p>我们把一些节点从有序表中提取出来，缓存一级索引，就组成了下面这样的结构：</p>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://s2.ax1x.com/2020/01/20/1FCBOs.png" alt="1FCBOs.png"></p>
+<p>现在，我们要查找17这个元素是不是要快很多呢？</p>
+<p>我们只要从一级索引往后遍历即可，只需要经过1、6、15、17这几个元素就可以找到17了。</p>
+<p>那么，我们要查找11这个元素呢？</p>
+<p>我们从一级索引的1开始，向右到6，再向右发现是15，它比11大，此路不通，从6往下走，再从下面的6往右走，到7，再到11。</p>
+<p>同样地，一级索引也可以往上再提取一层，组成二级索引，如下：</p>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://s2.ax1x.com/2020/01/20/1FCswq.png" alt="1FCswq.png"></p>
+<p>这时候我们再查找17这个元素呢？</p>
+<p>只需要经过6、15、17这几个元素就可以找到17了。</p>
+<p>这基本上就是跳表的核心思想了，其实这也是一个“空间换时间”的算法，通过向上提取索引增加了查找的效率。</p>
+<h4 id="跳表的插入"><a href="#跳表的插入" class="headerlink" title="跳表的插入"></a>跳表的插入</h4><p>上面讲的都是跳表的查询，那么，该如何向跳表中插入元素呢？</p>
+<p>比如，我们要向上面这个跳表添加一个元素8。</p>
+<p>首先，我们先根据投硬币的方式，决定8这个元素要占据的层数，没错就是扔硬币，是不是很好玩儿^^</p>
+<p>比如，层数level=2。</p>
+<p>然后，找到8这个元素在下面两层的前置节点。</p>
+<p>接着，就是链表的插入元素操作了，比较简单。</p>
+<p>最后，就像下面这样：</p>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://s2.ax1x.com/2020/01/20/1FCgYT.png" alt="1FCgYT.png"></p>
+<h4 id="跳表的删除"><a href="#跳表的删除" class="headerlink" title="跳表的删除"></a>跳表的删除</h4><p>查询、插入元素都讲了，下面我们就来说说怎么删除元素。</p>
+<p>首先，找到各层中包含元素x的节点。</p>
+<p>然后，使用标准的链表删除元素的方法删除即可。</p>
+<p>比如，要删除17这个元素。</p>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://s2.ax1x.com/2020/01/20/1FCImR.png" alt="1FCImR.png"></p>
+<h4 id="标准化的跳表"><a href="#标准化的跳表" class="headerlink" title="标准化的跳表"></a>标准化的跳表</h4><p>上面举的例子是完全随机的跳表，那么，如果我们每两个元素提取一个元素作为上一级的索引会怎么样呢？</p>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://s2.ax1x.com/2020/01/20/1FCTTx.png" alt="1FCTTx.png"></p>
+<p>这是不是很像平衡二叉树，现在这颗树元素比较少，可能不太明显，我们来看个元素个数多的情况。</p>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://s2.ax1x.com/2020/01/20/1FCbtK.png" alt="1FCbtK.png"></p>
+<p>可以看到，上一级元素的个数是下一级的一半，这样每次减少一半，就很接近平衡二叉树了。</p>
+<p><strong>时间复杂度</strong></p>
+<p>我们知道单链表查询的时间复杂度为O(n)，而插入、删除操作需要先找到对应的位置，所以插入、删除的时间复杂度也是O(n)。</p>
+<p>那么，跳表的时间复杂度是多少呢？</p>
+<p>如果按照标准的跳表来看的话，每一级索引减少k/2个元素（k为其下面一级索引的个数），那么整个跳表的高度就是(log n)。</p>
+<p>学习过平衡二叉树的同学都知道，它的时间复杂度与树的高度成正比，即O(log n)。</p>
+<p>所以，这里跳表的时间复杂度也是O(log n)。（查询时每次减少一半的元素的时间复杂度都是O(log n)，比如二叉树的查找、二分法查找、归并排序、快速排序）</p>
+<p><strong>空间复杂度</strong></p>
+<p>我们还是以标准的跳表来分析，每两个元素向上提取一个元素，那么，最后额外需要的空间就是：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">n/2 + n/(2^2) + n/(2^3) + ... + 8 + 4 + 2 = n - 2</span><br></pre></td></tr></table></figure>
+
+<p>所以，跳表的空间复杂度是O(n)。</p>
+<h4 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h4><ol>
+<li>跳表是可以实现二分查找的有序链表；</li>
+<li>每个元素插入时随机生成它的level；</li>
+<li>最低层包含所有的元素；</li>
+<li>如果一个元素出现在level(x)，那么它肯定出现在x以下的level中；</li>
+<li>每个索引节点包含两个指针，一个向下，一个向右；</li>
+<li>跳表查询、插入、删除的时间复杂度为O(log n)，与平衡二叉树接近；</li>
+</ol>
+<p><strong>为什么Redis选择使用跳表而不是红黑树来实现有序集合？</strong></p>
+<p>首先，我们来分析下Redis的有序集合支持的操作：</p>
+<ol>
+<li>插入元素</li>
+<li>删除元素</li>
+<li>查找元素</li>
+<li>有序输出所有元素</li>
+<li>查找区间内所有元素</li>
+</ol>
+<p>其中，前4项红黑树都可以完成，且时间复杂度与跳表一致。</p>
+<p>但是，最后一项，红黑树的效率就没有跳表高了。</p>
+<p>在跳表中，要查找区间的元素，我们只要定位到两个区间端点在最低层级的位置，然后按顺序遍历元素就可以了，非常高效。</p>
+<p>而红黑树只能定位到端点后，再从首位置开始每次都要查找后继节点，相对来说是比较耗时的。</p>
+<p>此外，跳表实现起来很容易且易读，红黑树实现起来相对困难，所以Redis选择使用跳表来实现有序集合。</p>
+<h4 id="Java代码实现"><a href="#Java代码实现" class="headerlink" title="Java代码实现"></a>Java代码实现</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SkipList</span>&lt;<span class="title">E</span> <span class="keyword">extends</span> <span class="title">Comparable</span>&lt;? <span class="title">super</span> <span class="title">E</span>&gt;&gt; </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/*</span></span><br><span class="line"><span class="comment">     * 跳表层数32层： 定义成32层理论上对于2^32-1个元素的查询最优。</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> <span class="keyword">int</span> MAX_LEVEL = <span class="number">32</span>;</span><br><span class="line">    <span class="comment">/*</span></span><br><span class="line"><span class="comment">     * 当前跳表的有效层</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> level = <span class="number">0</span>;</span><br><span class="line">    <span class="comment">/*</span></span><br><span class="line"><span class="comment">     * 跳表的头部节点</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> SkipNode&lt;E&gt; Header = <span class="keyword">new</span> SkipNode&lt;E&gt;(MAX_LEVEL, <span class="keyword">null</span>);</span><br><span class="line">    <span class="comment">/*</span></span><br><span class="line"><span class="comment">     * 随机数发生器</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> Random random = <span class="keyword">new</span> Random();</span><br><span class="line">    <span class="comment">/*</span></span><br><span class="line"><span class="comment">     * 自然数e</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> <span class="keyword">double</span> E = Math.E;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 检查跳表中是否包含val节点</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> val</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">contains</span><span class="params">(E val)</span> </span>&#123;</span><br><span class="line">        <span class="comment">/*</span></span><br><span class="line"><span class="comment">         * cur指向跳表头结点</span></span><br><span class="line"><span class="comment">         */</span></span><br><span class="line">        SkipNode&lt;E&gt; cur = Header;</span><br><span class="line">        <span class="comment">/*</span></span><br><span class="line"><span class="comment">         * 从顶层开始查找当前层的链表中是否包含节点node，如果包含node节点，直接返回true；否则在下一层中查找是否包含node节点。</span></span><br><span class="line"><span class="comment">         * 如果最底层的链表也不包含node节点，则放回false。</span></span><br><span class="line"><span class="comment">         */</span></span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = level; i &gt;= <span class="number">0</span>; i--) &#123;</span><br><span class="line">            <span class="keyword">while</span> (cur.next != <span class="keyword">null</span> &amp;&amp; cur.next[i].val.compareTo(val) &lt; <span class="number">0</span>) &#123;</span><br><span class="line">                cur = cur.next[i];</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span> (cur.next[i].val.equals(val)) &#123;</span><br><span class="line">                <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@SuppressWarnings(&#123;&quot;unchecked&quot;, &quot;rawtypes&quot;&#125;)</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">insert</span><span class="params">(E val)</span> </span>&#123;</span><br><span class="line">        SkipNode&lt;E&gt; cur = Header;</span><br><span class="line">        SkipNode&lt;E&gt;[] predecessors = <span class="keyword">new</span> SkipNode[MAX_LEVEL];</span><br><span class="line">        <span class="comment">/*</span></span><br><span class="line"><span class="comment">         * 找出每层中待插入节点的前继节点</span></span><br><span class="line"><span class="comment">         */</span></span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = level; i &gt;= <span class="number">0</span>; i--) &#123;</span><br><span class="line">            cur = Header;</span><br><span class="line">            <span class="keyword">while</span> (cur.next[i] != <span class="keyword">null</span> &amp;&amp; cur.next[i].val.compareTo(val) &lt; <span class="number">0</span>) &#123;</span><br><span class="line">                cur = cur.next[i];</span><br><span class="line">            &#125;</span><br><span class="line">            predecessors[i] = cur;</span><br><span class="line">        &#125;</span><br><span class="line">        cur = cur.next[<span class="number">0</span>];</span><br><span class="line">        <span class="keyword">int</span> nextLevel = randomLevel();</span><br><span class="line">        <span class="comment">/*</span></span><br><span class="line"><span class="comment">         * 如果带插入节点位置是空的或者与node节点值不同 将新节点插入到跳表中</span></span><br><span class="line"><span class="comment">         */</span></span><br><span class="line">        <span class="keyword">if</span> (cur == <span class="keyword">null</span> || !cur.val.equals(val)) &#123;</span><br><span class="line">            <span class="comment">/*</span></span><br><span class="line"><span class="comment">             * 若新增一层链表</span></span><br><span class="line"><span class="comment">             */</span></span><br><span class="line">            <span class="keyword">if</span> (nextLevel &gt; level) &#123;</span><br><span class="line">                predecessors[nextLevel] = Header;</span><br><span class="line">                level = nextLevel;</span><br><span class="line">            &#125;</span><br><span class="line">            SkipNode&lt;E&gt; node = <span class="keyword">new</span> SkipNode(MAX_LEVEL, val);</span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> i = level; i &gt;= <span class="number">0</span>; i--) &#123;</span><br><span class="line">                node.next[i] = predecessors[i].next[i];</span><br><span class="line">                predecessors[i].next[i] = node;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@SuppressWarnings(&#123;&quot;unchecked&quot;&#125;)</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">delete</span><span class="params">(E val)</span> </span>&#123;</span><br><span class="line">        SkipNode&lt;E&gt; cur = Header;</span><br><span class="line">        SkipNode&lt;E&gt;[] predecessors = <span class="keyword">new</span> SkipNode[MAX_LEVEL];</span><br><span class="line">        <span class="comment">/*</span></span><br><span class="line"><span class="comment">         * 寻找待删除元素在不同层上的前继节点</span></span><br><span class="line"><span class="comment">         */</span></span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = level; i &gt;= <span class="number">0</span>; i--) &#123;</span><br><span class="line">            <span class="keyword">while</span> (cur.next != <span class="keyword">null</span> &amp;&amp; cur.next[i].val.compareTo(val) &lt; <span class="number">0</span>) &#123;</span><br><span class="line">                cur = cur.next[i];</span><br><span class="line">            &#125;</span><br><span class="line">            predecessors[i] = cur;</span><br><span class="line">        &#125;</span><br><span class="line">        cur = cur.next[<span class="number">0</span>];</span><br><span class="line">        <span class="comment">/*</span></span><br><span class="line"><span class="comment">         * 跳表中不含此节点</span></span><br><span class="line"><span class="comment">         */</span></span><br><span class="line">        <span class="keyword">if</span> (!cur.val.equals(val)) &#123;</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = level; i &gt;= <span class="number">0</span>; i--) &#123;</span><br><span class="line">            <span class="keyword">if</span> (!predecessors[i].next[i].val.equals(val)) &#123;</span><br><span class="line">                <span class="keyword">continue</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            predecessors[i].next[i] = cur.next[i];</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">/*</span></span><br><span class="line"><span class="comment">         * 如果删除元素val后level层元素数目为0，层数减少一层</span></span><br><span class="line"><span class="comment">         */</span></span><br><span class="line">        <span class="keyword">while</span> (level &gt; <span class="number">0</span> &amp;&amp; Header.next[level] == <span class="keyword">null</span>) &#123;</span><br><span class="line">            level--;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 输出跳表中的元素</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">toString</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        StringBuilder sb = <span class="keyword">new</span> StringBuilder();</span><br><span class="line">        SkipNode&lt;E&gt; cur = Header.next[<span class="number">0</span>];</span><br><span class="line">        sb.append(<span class="string">&quot;&#123;&quot;</span>);</span><br><span class="line">        <span class="keyword">while</span> (cur.next[<span class="number">0</span>] != <span class="keyword">null</span>) &#123;</span><br><span class="line">            sb.append(cur.val);</span><br><span class="line">            sb.append(<span class="string">&quot;,&quot;</span>);</span><br><span class="line">            cur = cur.next[<span class="number">0</span>];</span><br><span class="line">        &#125;</span><br><span class="line">        sb.append(cur.val);</span><br><span class="line">        sb.append(<span class="string">&quot;&#125;&quot;</span>);</span><br><span class="line">        <span class="keyword">return</span> sb.toString();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 利用随机数发生器来决定是否新增一层</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">int</span> <span class="title">randomLevel</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">double</span> ins = random.nextDouble();</span><br><span class="line">        <span class="keyword">int</span> nextLevel = level;</span><br><span class="line">        <span class="keyword">if</span> (ins &gt; E &amp;&amp; level &lt; MAX_LEVEL) &#123;</span><br><span class="line">            nextLevel++;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> nextLevel;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">SkipNode</span>&lt;<span class="title">E</span> <span class="keyword">extends</span> <span class="title">Comparable</span>&lt;? <span class="title">super</span> <span class="title">E</span>&gt;&gt; </span>&#123;</span><br><span class="line">    <span class="comment">/*</span></span><br><span class="line"><span class="comment">     * 节点存储的值Val</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">public</span> E val;</span><br><span class="line">    <span class="comment">/*</span></span><br><span class="line"><span class="comment">     * 节点指向第i层的节点next[i]</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">public</span> SkipNode&lt;E&gt;[] next;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@SuppressWarnings(&quot;unchecked&quot;)</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">SkipNode</span><span class="params">(<span class="keyword">int</span> MAX_LEVEL, E val)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.next = <span class="keyword">new</span> SkipNode[MAX_LEVEL];</span><br><span class="line">        <span class="keyword">this</span>.val = val;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id=""><a href="#" class="headerlink" title=""></a></h3></article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">平心</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://pingxin0521.gitee.io/2019/05/14/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-1-1/">https://pingxin0521.gitee.io/2019/05/14/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-1-1/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://pingxin0521.gitee.io" target="_blank">平心de小屋</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/">数据结构</a></div><div class="post_share"><div class="social-share" data-image="https://i.loli.net/2020/05/08/7dHvepmfYOLWTrX.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2019/05/14/%E6%95%B0%E6%8D%AE%E5%BA%93-MySQL-6/"><img class="prev-cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/PFDRNxj93taz6pw.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">MySQL SQL 触发器和索引(七)</div></div></a></div><div class="next-post pull-right"><a href="/2019/05/13/Java-%E6%97%A5%E5%BF%97-4/"><img class="next-cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/7dHvepmfYOLWTrX.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">日志框架--总结</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span> 相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2019/05/04/数据结构-0/" title="数据结构入门"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/gGE57HRvpcKPfDY.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2019-11-05</div><div class="title">数据结构入门</div></div></a></div><div><a href="/2019/06/27/数据结构-1-2/" title="bitMap--大数据的利器"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/gGE57HRvpcKPfDY.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2020-02-28</div><div class="title">bitMap--大数据的利器</div></div></a></div><div><a href="/2020/02/27/数据结构-1-3/" title="字符串"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/okfOw28KlZFbE7z.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2020-03-12</div><div class="title">字符串</div></div></a></div><div><a href="/2019/05/04/数据结构-2-2/" title="数据结构--查找树"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/vCnKyoFJZ1g4XYR.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2020-06-29</div><div class="title">数据结构--查找树</div></div></a></div><div><a href="/2019/12/31/数据结构-2-3/" title="数据结构--红黑树"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/PFDRNxj93taz6pw.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2020-02-28</div><div class="title">数据结构--红黑树</div></div></a></div><div><a href="/2019/05/04/数据结构-1-0/" title="数据结构--线性结构"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/7dHvepmfYOLWTrX.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2019-06-14</div><div class="title">数据结构--线性结构</div></div></a></div></div></div><hr/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div class="vcomment" id="vcomment"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="card-info-avatar is-center"><img class="avatar-img" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://s2.ax1x.com/2020/02/11/1ovw6J.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/><div class="author-info__name">平心</div><div class="author-info__description">年轻人的life、learn and think</div></div><div class="card-info-data"><div class="card-info-data-item is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">449</div></a></div><div class="card-info-data-item is-center"><a href="/tags/"><div class="headline">标签</div><div class="length-num">77</div></a></div><div class="card-info-data-item is-center"><a href="/categories/"><div class="headline">分类</div><div class="length-num">68</div></a></div></div><a class="button--animated" id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/hanyunpeng0521"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/hanyunpeng0521" target="_blank" title="Github"><i class="fa fa-github"></i></a><a class="social-icon" href="mailto:m13839441583@163.com" target="_blank" title="Email"><i class="fa fa-envelope"></i></a><a class="social-icon" href="/atom.xml" target="_blank" title=""><i class="fa fa-rss"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn card-announcement-animation"></i><span>公告</span></div><div class="announcement_content">为什么呢？开始提问吧</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%B7%B3%E8%A1%A8"><span class="toc-number">1.</span> <span class="toc-text">跳表</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#SkipList%E5%9F%BA%E6%9C%AC%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84"><span class="toc-number">1.1.</span> <span class="toc-text">SkipList基本数据结构</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%B7%B3%E8%A1%A8%E7%9A%84%E6%8F%92%E5%85%A5"><span class="toc-number">1.2.</span> <span class="toc-text">跳表的插入</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%B7%B3%E8%A1%A8%E7%9A%84%E5%88%A0%E9%99%A4"><span class="toc-number">1.3.</span> <span class="toc-text">跳表的删除</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%A0%87%E5%87%86%E5%8C%96%E7%9A%84%E8%B7%B3%E8%A1%A8"><span class="toc-number">1.4.</span> <span class="toc-text">标准化的跳表</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%80%BB%E7%BB%93"><span class="toc-number">1.5.</span> <span class="toc-text">总结</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Java%E4%BB%A3%E7%A0%81%E5%AE%9E%E7%8E%B0"><span class="toc-number">1.6.</span> <span class="toc-text">Java代码实现</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-number">2.</span> <span class="toc-text"></span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2021/05/15/node-2-4/" title="Egg.js -- 为企业级框架和应用而生"><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/okfOw28KlZFbE7z.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Egg.js -- 为企业级框架和应用而生"/></a><div class="content"><a class="title" href="/2021/05/15/node-2-4/" title="Egg.js -- 为企业级框架和应用而生">Egg.js -- 为企业级框架和应用而生</a><time datetime="2021-05-15T10:18:59.000Z" title="发表于 2021-05-15 18:18:59">2021-05-15</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/04/30/node-2-3/" title="Koa -- 基于Node.js平台的下一代Web开发框架"><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/HjVAdIuT7bZJypS.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Koa -- 基于Node.js平台的下一代Web开发框架"/></a><div class="content"><a class="title" href="/2021/04/30/node-2-3/" title="Koa -- 基于Node.js平台的下一代Web开发框架">Koa -- 基于Node.js平台的下一代Web开发框架</a><time datetime="2021-04-30T10:18:59.000Z" title="发表于 2021-04-30 18:18:59">2021-04-30</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/04/01/node-2-1/" title="Node.JS web开发前置知识"><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/gGE57HRvpcKPfDY.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Node.JS web开发前置知识"/></a><div class="content"><a class="title" href="/2021/04/01/node-2-1/" title="Node.JS web开发前置知识">Node.JS web开发前置知识</a><time datetime="2021-04-01T03:18:59.000Z" title="发表于 2021-04-01 11:18:59">2021-04-01</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2020/12/26/%E5%91%A8%E8%AE%B0-10-1/" title="第十一周--谷歌浏览器插件"><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/gGE57HRvpcKPfDY.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="第十一周--谷歌浏览器插件"/></a><div class="content"><a class="title" href="/2020/12/26/%E5%91%A8%E8%AE%B0-10-1/" title="第十一周--谷歌浏览器插件">第十一周--谷歌浏览器插件</a><time datetime="2020-12-26T10:18:59.000Z" title="发表于 2020-12-26 18:18:59">2020-12-26</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2020/12/26/%E5%91%A8%E8%AE%B0-10-0/" title="第十一周--浏览器技术"><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/vCnKyoFJZ1g4XYR.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="第十一周--浏览器技术"/></a><div class="content"><a class="title" href="/2020/12/26/%E5%91%A8%E8%AE%B0-10-0/" title="第十一周--浏览器技术">第十一周--浏览器技术</a><time datetime="2020-12-26T06:18:59.000Z" title="发表于 2020-12-26 14:18:59">2020-12-26</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2019 - 2021 By 平心</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div id="local-search"><div class="search-dialog"><div class="search-dialog__title" id="local-search-title">本地搜索</div><div id="local-input-panel"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div></div><hr/><div id="local-search-results"></div><span class="search-close-button"><i class="fas fa-times"></i></span></div><div id="search-mask"></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload/dist/lazyload.iife.min.js"></script><script src="/js/search/local-search.js"></script><div class="js-pjax"><script>function loadValine () {
+  function initValine () {
+    const valine = new Valine(Object.assign({
+      el: '#vcomment',
+      appId: '4lfIXzqxaC1ONs0MJO4oHu07-gzGzoHsz',
+      appKey: 'qw99Bw8FD0KVKU9m457CwWsr',
+      placeholder: 'Please leave your footprints',
+      avatar: 'monsterid',
+      meta: 'nick,mail,link'.split(','),
+      pageSize: '10',
+      lang: 'zh-CN',
+      recordIP: true,
+      serverURLs: '',
+      emojiCDN: '',
+      emojiMaps: "",
+      enableQQ: true,
+      path: window.location.pathname,
+      requiredFields: ["nick,mail"],
+      visitor: false
+    }, null))
+  }
+
+  if (typeof Valine === 'function') initValine() 
+  else getScript('https://cdn.jsdelivr.net/npm/valine/dist/Valine.min.js').then(initValine)
+}
+
+if ('Valine' === 'Valine' || !false) {
+  if (false) btf.loadComment(document.getElementById('vcomment'),loadValine)
+  else setTimeout(loadValine, 0)
+} else {
+  function loadOtherComment () {
+    loadValine()
+  }
+}</script></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>

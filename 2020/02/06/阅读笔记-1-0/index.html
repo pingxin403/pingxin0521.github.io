@@ -1,0 +1,638 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>MySQL技术内幕--InnoDB存储引擎 阅读笔记 | 平心de小屋</title><meta name="keywords" content="数据库,阅读笔记"><meta name="author" content="平心"><meta name="copyright" content="平心"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="MySQL体系结构">
+<meta property="og:type" content="article">
+<meta property="og:title" content="MySQL技术内幕--InnoDB存储引擎 阅读笔记">
+<meta property="og:url" content="https://pingxin0521.gitee.io/2020/02/06/%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0-1-0/index.html">
+<meta property="og:site_name" content="平心de小屋">
+<meta property="og:description" content="MySQL体系结构">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://i.loli.net/2020/05/08/PFDRNxj93taz6pw.jpg">
+<meta property="article:published_time" content="2020-02-06T05:18:59.000Z">
+<meta property="article:modified_time" content="2020-03-23T03:24:11.607Z">
+<meta property="article:author" content="平心">
+<meta property="article:tag" content="数据库">
+<meta property="article:tag" content="阅读笔记">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.loli.net/2020/05/08/PFDRNxj93taz6pw.jpg"><link rel="shortcut icon" href="https://s2.ax1x.com/2020/02/11/1ovFOA.png"><link rel="canonical" href="https://pingxin0521.gitee.io/2020/02/06/%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0-1-0/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"search.xml","languages":{"hits_empty":"找不到您查询的内容：${query}"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    jQuery: 'https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js',
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+    },
+    fancybox: {
+      js: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css'
+    }
+  },
+  isPhotoFigcaption: true,
+  islazyload: true,
+  isanchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'MySQL技术内幕--InnoDB存储引擎 阅读笔记',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2020-03-23 11:24:11'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    })(window)</script><meta name="generator" content="Hexo 5.4.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="author-avatar"><img class="avatar-img" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://s2.ax1x.com/2020/02/11/1ovw6J.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data"><div class="data-item is-center"><div class="data-item-link"><a href="/archives/"><div class="headline">文章</div><div class="length-num">449</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/tags/"><div class="headline">标签</div><div class="length-num">77</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/categories/"><div class="headline">分类</div><div class="length-num">68</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fa fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fa fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://i.loli.net/2020/05/08/PFDRNxj93taz6pw.jpg')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">平心de小屋</a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fa fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fa fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">MySQL技术内幕--InnoDB存储引擎 阅读笔记</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2020-02-06T05:18:59.000Z" title="发表于 2020-02-06 13:18:59">2020-02-06</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2020-03-23T03:24:11.607Z" title="更新于 2020-03-23 11:24:11">2020-03-23</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/">阅读笔记</a><i class="fas fa-angle-right post-meta-separator"></i><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">7.5k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>25分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="MySQL技术内幕--InnoDB存储引擎 阅读笔记"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h4 id="MySQL体系结构"><a href="#MySQL体系结构" class="headerlink" title="MySQL体系结构"></a>MySQL体系结构</h4><span id="more"></span>
+
+<p>MySQL配置文件读取顺序：/etc/my.cnf-&gt;/etc/mysql/my.cnf-&gt;/usr/local/mysql/etc/my.cnf-&gt;~/.my.cnf</p>
+<p>以最后读取到的配置文件为准。</p>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/02/29/kjRHZdUvNyMECJ7.png" alt="image.png"></p>
+<ol>
+<li>连接池组件</li>
+<li>管理服务和工具组件</li>
+<li>SQL接口组件</li>
+<li>查询分析其组件</li>
+<li>优化器组件</li>
+<li>缓冲组件</li>
+<li>插件式存储引擎：基于表，而不是数据库</li>
+<li>物理文件</li>
+</ol>
+<p>InnoDB存储引擎（从5.5.8开始）：</p>
+<ol>
+<li>支持事务,面向在线事务处理OLTP</li>
+<li>行锁设计</li>
+<li>支持外键</li>
+<li>非锁定读（默认读操作不会产生锁）</li>
+<li>数据存储在逻辑的表空间中，支持用裸设备用来建立其表空间</li>
+<li>使用多版本并发控制MVCC，默认隔离级别REPEATEBLE，使用next-key locing避免幻读</li>
+<li>插入缓冲（insert buffer）、二次写（double write）、自适应哈希索引（adaptive hash index）、预读（read ahead）等高性能和高可用得功能</li>
+<li>对于表中数据，采用聚簇索引存储格式，表的存储按照主键的顺序进行存放，如果没显式地在表定义时有指定主键，默认每一行生成一个6字节的ROWID，并以此做主键</li>
+</ol>
+<p>MyISAM存储引擎（5.5.8以前）：</p>
+<ol>
+<li>不支持事务,面向在线事务处理OLTP</li>
+<li>表锁设计</li>
+<li>支持全文索引</li>
+<li>缓冲池只缓存索引文件，不缓冲数据文件（交给操作系统缓存）</li>
+<li>存储引擎表由MYD（数据）和MYI（索引）组成</li>
+</ol>
+<p>NDB存储引擎：</p>
+<ol>
+<li>集群存储引擎，share nothing</li>
+<li>数据全部存放在内存，（5.1开始，可以将非索引数据放在磁盘上），主键查找速度极快，可以通过添加NDB数据存储节点（Data Node）线性地提高性能。</li>
+<li>JOIN操作需要在MySQL数据库层完成，复杂连接操作需要巨大的网络开销</li>
+</ol>
+<p>Memory（HEAP）存储引擎：</p>
+<ol>
+<li>数据在内存，适合存储临时数据的临时表，以及数据仓库中的纬度表</li>
+<li>默认使用哈希索引</li>
+<li>支持表锁</li>
+<li>不支持TEXT和BLOB类型</li>
+</ol>
+<p>对比：</p>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/02/29/PQCufqGgML8Em4t.png" alt="image.png"></p>
+<p>查看支持的引擎命令：<code>show engines \G</code></p>
+<h4 id="InnoDB存储引擎"><a href="#InnoDB存储引擎" class="headerlink" title="InnoDB存储引擎"></a>InnoDB存储引擎</h4><p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/02/29/vcpGNnYStAOB2P1.png" alt="image.png"></p>
+<p>InnoDB存储引擎有多个内存块，这些内存块组成一个大的内存池</p>
+<ul>
+<li>维护所有进程/进程需要访问的多个内部数据结构</li>
+<li>缓存磁盘上的数据，方便读取，同时在对磁盘文件的数据修改之前在这里缓存</li>
+<li>重做日志(redo log)缓冲</li>
+</ul>
+<p>后台进程的主要作用是负责刷新内存池中的数据，保证缓存最近的数据；将已修改的数据文件刷新到磁盘文件，保证数据库发生异常的情况下InnoDB能回复到正常运行状态</p>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/02/29/gmVGuwZa7hFKoCL.png" alt="image.png"></p>
+<p><strong>后台线程</strong></p>
+<ol>
+<li><p>Master Thread</p>
+<p>将缓冲池中的数据异步刷新到磁盘，保证数据的一致性，包括脏页的刷新、合并插入缓冲、UNDO页的回收</p>
+</li>
+<li><p>IO Thread</p>
+<p>在InnoDB存储引擎中大量使用AIO来处理IO请求，IO Thread主要负责这些IO请求的回调（call back）处理。</p>
+<p>类型：insert buffer thread、log thread、read thread、write thread</p>
+<p>相关命令:</p>
+<p><code>show variables like &#39;Innodb_%io_threads&#39; \G</code>：查看配置项</p>
+<p><code>Show Engine Innodb Status \G</code>：查看线程状态</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">--------</span><br><span class="line">FILE I/O</span><br><span class="line">--------</span><br><span class="line">I/O thread 0 state: waiting for completed aio requests (insert buffer thread)</span><br><span class="line">I/O thread 1 state: waiting for completed aio requests (log thread)</span><br><span class="line">I/O thread 2 state: waiting for completed aio requests (read thread)</span><br><span class="line">I/O thread 3 state: waiting for completed aio requests (read thread)</span><br><span class="line">I/O thread 4 state: waiting for completed aio requests (read thread)</span><br><span class="line">I/O thread 5 state: waiting for completed aio requests (read thread)</span><br><span class="line">I/O thread 6 state: waiting for completed aio requests (write thread)</span><br><span class="line">I/O thread 7 state: waiting for completed aio requests (write thread)</span><br><span class="line">I/O thread 8 state: waiting for completed aio requests (write thread)</span><br><span class="line">I/O thread 9 state: waiting for completed aio requests (write thread)</span><br><span class="line">Pending normal aio reads: [0, 0, 0, 0] , aio writes: [0, 0, 0, 0] ,</span><br><span class="line"> ibuf aio reads:, log i/o&#x27;s:, sync i/o&#x27;s:</span><br><span class="line">Pending flushes (fsync) log: 0; buffer pool: 0</span><br><span class="line">1109 OS file reads, 214 OS file writes, 41 OS fsyncs</span><br><span class="line">0.00 reads/s, 0 avg bytes/read, 0.00 writes/s, 0.00 fsyncs/s</span><br></pre></td></tr></table></figure></li>
+<li><p>Purge Thread</p>
+<p>事务被提交后，其所使用的undo log需要Purge Thread回收已经使用并分配的undo页</p>
+<p>配置项：<code>innodb_purge_threads</code></p>
+</li>
+<li><p>Page Cleaner Thread</p>
+<p>将之前版本中脏页的刷新操作都放入到单独的线程完成，减轻原Master Thread的工作及对于用户查询线程的阻塞</p>
+</li>
+</ol>
+<p><strong>内存</strong></p>
+<p>缓冲池的设计目的为了协调CPU速度与磁盘速度的鸿沟，因此页操作首先都是在缓冲池中完成，如果一条DML语句，改变了页中的记录，那么此时也是脏的，即缓冲池中页的版本要比磁盘中的新，数据库需要将新版本的页从缓冲池刷新到磁盘</p>
+<ol>
+<li><p>缓冲池</p>
+<p>Checkpoint机制</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line">mysql hyp@localhost:(none)&gt; show variables like &#x27;innodb_buffer_pool_%&#x27; \G</span><br><span class="line">***************************[ 1. row ]***************************</span><br><span class="line">Variable_name | innodb_buffer_pool_chunk_size</span><br><span class="line">Value         | 134217728</span><br><span class="line">***************************[ 2. row ]***************************</span><br><span class="line">Variable_name | innodb_buffer_pool_dump_at_shutdown</span><br><span class="line">Value         | ON</span><br><span class="line">***************************[ 3. row ]***************************</span><br><span class="line">Variable_name | innodb_buffer_pool_dump_now</span><br><span class="line">Value         | OFF</span><br><span class="line">***************************[ 4. row ]***************************</span><br><span class="line">Variable_name | innodb_buffer_pool_dump_pct</span><br><span class="line">Value         | 25</span><br><span class="line">***************************[ 5. row ]***************************</span><br><span class="line">Variable_name | innodb_buffer_pool_filename</span><br><span class="line">Value         | ib_buffer_pool</span><br><span class="line">***************************[ 6. row ]***************************</span><br><span class="line">Variable_name | innodb_buffer_pool_in_core_file</span><br><span class="line">Value         | ON</span><br><span class="line">***************************[ 7. row ]***************************</span><br><span class="line">Variable_name | innodb_buffer_pool_instances</span><br><span class="line">Value         | 1</span><br><span class="line">***************************[ 8. row ]***************************</span><br><span class="line">Variable_name | innodb_buffer_pool_load_abort</span><br><span class="line">Value         | OFF</span><br><span class="line">***************************[ 9. row ]***************************</span><br><span class="line">Variable_name | innodb_buffer_pool_load_at_startup</span><br><span class="line">Value         | ON</span><br><span class="line">***************************[ 10. row ]***************************</span><br><span class="line">Variable_name | innodb_buffer_pool_load_now</span><br><span class="line">Value         | OFF</span><br><span class="line">***************************[ 11. row ]***************************</span><br><span class="line">Variable_name | innodb_buffer_pool_size</span><br><span class="line">Value         | 134217728</span><br></pre></td></tr></table></figure>
+
+<p>数据页类型：索引页、数据页、undo页、插入缓冲（insert buffer）、自适应哈希索引（adaptive hash index）、Innodb存储的索引页和数据页</p>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/03/01/rD257BWeJf1RQsM.png" alt="image.png"></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">mysql hyp@localhost:(none)&gt; Show Engine Innodb Status \G</span><br><span class="line">...</span><br><span class="line">----------------------</span><br><span class="line">BUFFER POOL AND MEMORY</span><br><span class="line">----------------------</span><br><span class="line">Total large memory allocated 137363456</span><br><span class="line">Dictionary memory allocated 419124</span><br><span class="line">Buffer pool size   8192</span><br><span class="line">Free buffers       6961</span><br><span class="line">Database pages     1227</span><br><span class="line">Old database pages 472</span><br><span class="line">Modified db pages  0+</span><br><span class="line">Pending reads      0</span><br><span class="line">Pending writes: LRU 0, flush list 0, single page 0</span><br><span class="line">Pages made young 0, not young 0</span><br><span class="line">0.00 youngs/s, 0.00 non-youngs/s</span><br><span class="line">Pages read 1086, created 141, written 153</span><br><span class="line">0.00 reads/s, 0.00 creates/s, 0.00 writes/s</span><br><span class="line">No buffer pool page gets since the last printout</span><br><span class="line">Pages read ahead 0.00/s, evicted without access 0.00/s, Random read ahead 0.00/s</span><br><span class="line">LRU len: 1227, unzip_LRU len: 0</span><br><span class="line">I/O sum[0]:cur[0], unzip sum[0]:cur[0]</span><br><span class="line">...</span><br><span class="line"></span><br><span class="line">mysql hyp@localhost:(none)&gt; SELECT POOL_ID,POOL_SIZE,FREE_BUFFERS,DATABASE_PAGES from info</span><br><span class="line">                         -&gt; rmation_schema.innodb_buffer_pool_stats \G</span><br><span class="line">***************************[ 1. row ]***************************</span><br><span class="line">POOL_ID        | 0</span><br><span class="line">POOL_SIZE      | 8192</span><br><span class="line">FREE_BUFFERS   | 6961</span><br><span class="line">DATABASE_PAGES | 1227</span><br><span class="line"></span><br></pre></td></tr></table></figure></li>
+<li><p>LRU list、Free List、Flush List</p>
+<p>缓冲池使用LRU算法，新读取的页放在midpoint，默认放在列表尾端的37%位置，该点之前为new列表，之后为old列表，</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">mysql hyp@localhost:(none)&gt; show variables like &#x27;innodb_old_blocks_%&#x27; \G</span><br><span class="line">***************************[ 1. row ]***************************</span><br><span class="line">Variable_name | innodb_old_blocks_pct</span><br><span class="line">Value         | 37</span><br><span class="line">***************************[ 2. row ]***************************</span><br><span class="line">Variable_name | innodb_old_blocks_time</span><br><span class="line">Value         | 1000</span><br></pre></td></tr></table></figure></li>
+<li><p>undo日志缓冲</p>
+<p>重做日志信息放在这里，按照一定的频率（默认为一秒）将其刷新到重做日志文件</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">mysql hyp@localhost:(none)&gt; show variables like &#x27;innodb_log_buffer_%&#x27; \G</span><br><span class="line">***************************[ 1. row ]***************************</span><br><span class="line">Variable_name | innodb_log_buffer_size</span><br><span class="line">Value         | 16777216</span><br></pre></td></tr></table></figure>
+
+<p>刷新情况：</p>
+<ul>
+<li>Master Thread每一秒将重做日志缓冲刷新道重做日志文件</li>
+<li>每个事务提交时会将重做日志缓冲刷新到重做日志文件</li>
+<li>当重做日志缓冲剩余空间小于1/2时，重做日志缓冲刷新到重做日志文件</li>
+</ul>
+</li>
+<li><p>额外的内存池</p>
+</li>
+</ol>
+<p><strong>Checkpoint技术</strong></p>
+<ul>
+<li>缩短数据库恢复时间。当数据库发生宕机时，数据库不需要重做所有的日志，因为Checkpoint之前的页都已经刷新回磁盘，故数据只需要对Checkpoint之后的重做日志进行恢复。</li>
+<li>缓冲池不够用时，将脏页刷新到磁盘</li>
+<li>undo log 不可用时，刷新脏页</li>
+</ul>
+<p>通过LSN（log Sequence Number）来标记版本，8字节数字，页、undo log、Checkpoint都有LSN</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">mysql hyp@localhost:(none)&gt; Show Engine Innodb Status \G</span><br><span class="line"></span><br><span class="line">---</span><br><span class="line">LOG</span><br><span class="line">---</span><br><span class="line">Log sequence number          73576332</span><br><span class="line">Log buffer assigned up to    73576332</span><br><span class="line">Log buffer completed up to   73576332</span><br><span class="line">Log written up to            73576332</span><br><span class="line">Log flushed up to            73576332</span><br><span class="line">Added dirty pages up to      73576332</span><br><span class="line">Pages flushed up to          73576332</span><br><span class="line">Last checkpoint at           73576332</span><br><span class="line">26 log i/o&#x27;s done, 0.00 log i/o&#x27;s/second</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>两种Checkpoint：</p>
+<ul>
+<li>Sharp Checkpoint：数据库关闭时将所有脏页刷新回磁盘</li>
+<li>Fuzzy Checkpoint：运行时刷新一部分脏页，以下情况：<ul>
+<li>Master Thread Checkpoint：每秒、每十秒从缓冲池的脏页列表异步刷新一定比例页回磁盘</li>
+<li>FLUSH_LRU_LIST Checkpoint：确保LRU list需要有<code>innodb_lru_scan_depth</code>（默认1024）个空闲页可供操作</li>
+<li>Async/Sync Flush Checkpoint：undo log不可用情况</li>
+<li>Dirty Page too much Checkpoint：使用innodb_max_dirty_pages_pct（90）控制脏页比例</li>
+</ul>
+</li>
+</ul>
+<p><strong>Master Thread工作方式</strong></p>
+<p>最高优先级的线程，根据数据库运行状态在下面循环中切换：</p>
+<ul>
+<li><p>主循环（loop）：两大部分操作：每秒钟操作和每10秒操作</p>
+<p>每秒一次的操作：</p>
+<ul>
+<li>日志缓冲刷新到磁盘，即使事务还没有提交（总是）</li>
+<li>合并插入缓冲（可能）：当前一秒IO次数小于5次</li>
+<li>至多刷新100个Innodb的缓冲池中的脏页到磁盘（可能）：缓冲池中脏页比例大于innodb_max_dirty_pages_pct</li>
+<li>如果当前没有用户活动，则切换到background loop（可能）：</li>
+</ul>
+<p>每10秒的操作：</p>
+<ul>
+<li>刷新100个脏页到磁盘（可能的情况下）：过去10秒IO操作小于200次</li>
+<li>合并至多5个插入缓冲（总是）</li>
+<li>将日志缓冲刷新到磁盘（总是）</li>
+<li>删除无用的undo页（总是）：full purge</li>
+<li>刷新100个或者10个脏页到磁盘（总是）</li>
+</ul>
+</li>
+<li><p>后台循环（background loop）：当前没有用户活动或者数据库关闭，就会切换到这个循环</p>
+<ul>
+<li>删除无用的undo页（总是）</li>
+<li>合并20个插入缓冲（总是）</li>
+<li>跳回到主循环（总是）</li>
+<li>不断刷新100个页直到符合条件（可能，跳转到flush loop中完成）</li>
+</ul>
+</li>
+<li><p>刷新循环（flush loop）</p>
+</li>
+<li><p>暂停循环（suspend loop）</p>
+</li>
+</ul>
+<p>伪代码：</p>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/03/01/odmkBJGrCQzn7Tg.png" alt="image.png"></p>
+<h5 id="Innodb特性"><a href="#Innodb特性" class="headerlink" title="Innodb特性"></a>Innodb特性</h5><ol>
+<li><p>插入缓冲（Insert Buffer）：如果非聚集索引页在缓冲池，则直接插入，否则先放入到Insert Buffer对象中，性能的提升</p>
+<ul>
+<li>索引是辅助索引</li>
+<li>索引不是唯一</li>
+</ul>
+<p>Change Buffer则是Insert Buffer的升级</p>
+<p>Insert Buffer是全局有一棵B+树对所有的表的辅助索引进行Insert Buffer，存放在共享表空间，默认在ibdata1</p>
+<p>非叶节点存放是查询的search key（键值，9个字节）</p>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/03/01/ROED8QzhqS7bnC5.png" alt="image.png"></p>
+<ul>
+<li>space:4字节，唯一id</li>
+<li>marker：一字节，兼容老版本</li>
+<li>offset：4字节，页所在偏移量</li>
+</ul>
+<p>叶子节点：</p>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/03/01/9EJWvMeOjy2ZsrI.png" alt="image.png"></p>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/03/01/tpEgrlZQqzbXC5R.png" alt="image.png"></p>
+<p>merge Insert Buffer：辅助索引页根据（space，offset）已经排序好，根据此顺序进行页的选择，如果需要进行merge的表已经被删除，直接丢弃数据记录</p>
+</li>
+<li><p>两次写（Double Write）：数据页的可靠性，解决宕机造成部分写失效。</p>
+<p>InnoDB的Page Size一般是16KB，其数据校验也是针对这16KB来计算的，将数据写入到磁盘是以Page为单位进行操作的。我们知道磁盘在写入时，都是以512字节为单位，不能保证MySQL数据页面16KB的一次性原子写。试想，在某个Dirty Page flush的过程中，发生了系统断电（或者OS崩溃），16K的数据只有8K被写到磁盘上，只有一部分写是成功的，这种现象被称：部分写失效（partial page write）。一旦partial page writes发生，那么在InnoDB恢复时就很尴尬：在InnoDB的Redo Log file（重做日志文件）中虽然知道这个数据页被修改了，但是却无法知道这个页被修改到什么程度，和这个页面相关的redo也就无法应用了，也就是说如果出现了偏移量问题，再对进行重做就没有意义了。</p>
+<p>在讲如何InnoDB存储引擎是如何解决这个问题之前先介绍以下double write的两个组成部分：</p>
+<ol>
+<li>一部分是InnoDB内存中的double write buffer，大小为2M；</li>
+<li>另一部分是物理磁盘上ibdata系统表空间中大小为2MB，共128个连续的Page，既2个分区。其中120个用于批量写脏，另外8个用于Single Page Flush。做区分的原因是批量刷脏是后台线程做的，不影响前台线程。而Single page flush是用户线程发起的，需要尽快的刷脏并替换出一个空闲页出来。</li>
+</ol>
+<p>当一系列机制（main函数触发、checkpoint等）触发数据缓冲池中的脏页进行刷新到data file的时候，并不直接写磁盘，而是会通过memcpy函数将脏页先复制到内存中的double write buffer，之后通过double write buffer再分两次、每次1MB顺序写入共享表空间的物理磁盘上。然后马上调用fsync函数，同步脏页进磁盘上。由于在这个过程中，double write页的存储时连续的，因此写入磁盘为顺序写，性能很高；完成double write后，再将脏页写入实际的各个表空间文件，这时写入就是离散的了。各模块协作情况如下图（第一步应为脏页产生的redo记录log buffer，然后log buffer写入redo log file，为简化次要步骤直接连线表示）：</p>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://s2.ax1x.com/2020/03/01/3296II.png" alt="3296II.png"></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">mysql hyp@localhost:(none)&gt; show global status like &#x27;innodb_dblwr%&#x27; \G</span><br><span class="line">***************************[ 1. row ]***************************</span><br><span class="line">Variable_name | Innodb_dblwr_pages_written</span><br><span class="line">Value         | 12</span><br><span class="line">***************************[ 2. row ]***************************</span><br><span class="line">Variable_name | Innodb_dblwr_writes</span><br><span class="line">Value         | 2</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>参数skip_innodb_doublewrite可以禁止使用</p>
+</li>
+<li><p>自适应哈希索引（Adaptive Hash Index）</p>
+<p>hash查找时间复杂度O(1)</p>
+</li>
+<li><p>异步IO（Async IO）</p>
+</li>
+<li><p>刷新邻接页（Flush Neighbor Page）</p>
+</li>
+</ol>
+<h5 id="启动、关闭与修复"><a href="#启动、关闭与修复" class="headerlink" title="启动、关闭与修复"></a>启动、关闭与修复</h5><p>Innodb_fast_shutdown:</p>
+<ul>
+<li>0:数据库关闭时完成所有的full purge和merge insert buffer</li>
+<li>1：默认值，不进行0操作，但缓冲池中的一些数据脏页会刷新到磁盘</li>
+<li>2：不进行0操作，将日志都写入日志文件，下次启动时会进行恢复操作</li>
+</ul>
+<h4 id="文件"><a href="#文件" class="headerlink" title="文件"></a>文件</h4><ol>
+<li>参数文件：有默认值，配置文件</li>
+<li>日志文件：错误日志、二进制日志、慢查询日志、查询日志</li>
+<li>socket文件</li>
+<li>pid文件</li>
+<li>MySQL表结构文件</li>
+<li>存储引擎文件：undo log、redo log、表数据文件、索引文件</li>
+</ol>
+<h4 id="表"><a href="#表" class="headerlink" title="表"></a>表</h4><h5 id="索引组织表"><a href="#索引组织表" class="headerlink" title="索引组织表"></a>索引组织表</h5><p>在InnoDB存储引擎中，表都是根据主键顺序组织存放的，这种存储方式的表称为索引组织表(index organized table IOT)。</p>
+<p>在InnoDB存储引擎中，每张表都有个主键(Primary key)，如果在创建表时没有地定义主键，则InnoDB存储引擎会选择表中符合条件的列去创建主键。</p>
+<p>条件：</p>
+<ol>
+<li><p> 首先判断表中是否有非空的唯一索引（Unique NOT NULL），如果有，则该列即为主键。</p>
+</li>
+<li><p>如果不符合上述条件，InnoDB存储引擎自动创建一个6字节大小的指针。</p>
+</li>
+</ol>
+<p>当表中存在多个非空的唯一索引的时候，InnoDB存储引擎会根据建表时所创建的第一个非空唯一索引作为主键。</p>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://s2.ax1x.com/2020/03/01/32pMBd.png" alt="32pMBd.png"></p>
+<p>案例：</p>
+<ol>
+<li><p>创建test表</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">CREATE TABLE test(</span><br><span class="line">    a INT NOT NULL ,</span><br><span class="line">    b INT NULL ,</span><br><span class="line">    c INT NOT NULL ,</span><br><span class="line">    d INT NOT NULL ,</span><br><span class="line">    UNIQUE KEY(b) ,</span><br><span class="line">    UNIQUE KEY(d) ,</span><br><span class="line">    UNIQUE KEY(c)</span><br><span class="line">)</span><br></pre></td></tr></table></figure></li>
+<li><p>初始化数据</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">INSERT INTO test SELECT 1,2,3,4;</span><br><span class="line">INSERT INTO test SELECT 5,6,7,8;</span><br></pre></td></tr></table></figure></li>
+<li><p>通过以下语句可以判断表带主键值（_rowid为主键）</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&gt; select *,_rowid from test;</span><br><span class="line">+-----+-----+-----+-----+----------+</span><br><span class="line">|   a |   b |   c |   d |   _rowid |</span><br><span class="line">|-----+-----+-----+-----+----------|</span><br><span class="line">|   1 |   2 |   3 |   4 |        4 |</span><br><span class="line">|   5 |   6 |   7 |   8 |        8 |</span><br><span class="line">+-----+-----+-----+-----+----------+</span><br></pre></td></tr></table></figure>
+
+<p>虽然b字段索引的顺序在d之前，但由于b字段允许空值，所以依次往下排即选取d字段为主键。</p>
+</li>
+</ol>
+<p>为什么需要唯一主键呢？</p>
+<p>主键（primary key） 一列（或一组列），其值能够唯一区分表中的每个行。 唯一标识表中每行的这个列（或这组列）称为主键。没有主键，更新或删除表中特定行很困难，因为没有安全的方法保证只设计相关的行。简单的说主键的目的在于索引。</p>
+<p>InnoDB引擎使用聚集索引，数据记录本身被存于主索引（一颗B+Tree）的叶子节点上。这就要求同一个叶子节点内（大小为一个内存页或磁盘页）的各条数据记录按主键顺序存放，因此每当有一条新的记录插入时，MySQL会根据其主键将其插入适当的节点和位置，如果页面达到装载因子（InnoDB默认为15/16），则开辟一个新的页（节点）。</p>
+<ol>
+<li><p>如果表使用自增主键，那么每次插入新的记录，记录就会顺序添加到当前索引节点的后续位置，当一页写满，就会自动开辟一个新的页。如下图所示：</p>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://s2.ax1x.com/2020/03/01/329MxU.png" alt="329MxU.png"></p>
+<p>这样就会形成一个紧凑的索引结构，近似顺序填满。<strong>由于每次插入时也不需要移动已有数据，因此效率很高，也不会增加很多开销在维护索引上。</strong></p>
+</li>
+<li><p>如果使用非自增主键（如果身份证号或学号等），由于每次插入主键的值近似于随机，因此每次新纪录都要被插到现有索引页得中间。此时MySQL不得不为了将新记录插到合适位置而移动数据，甚至目标页面可能已经被回写到磁盘上而从缓存中清掉，此时又要从磁盘上读回来，这增加了很多开销，同时频繁的移动、分页操作造成了大量的碎片，得到了不够紧凑的索引结构，后续不得不通过OPTIMIZE TABLE来重建表并优化填充页面。</p>
+</li>
+</ol>
+<h5 id="逻辑存储结构"><a href="#逻辑存储结构" class="headerlink" title="逻辑存储结构"></a>逻辑存储结构</h5><p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/03/01/KAHuFJkIdEYzGoP.png" alt="image.png"></p>
+<ul>
+<li><p>表空间</p>
+<p>表空间分为了两种，这里简单的概括一下：</p>
+<ol>
+<li><p>独立表空间：每一个表都将会生成以独立的文件方式来进行存储，每一个表都有一个.frm表描述文件，还有一个.ibd文件。 其中这个文件包括了单独一个表的数据内容以及索引内容，默认情况下它的存储位置也是在表的位置之中。</p>
+</li>
+<li><p>共享表空间： Innodb的所有数据保存在一个单独的表空间里面，而这个表空间可以由很多个文件组成，一个表可以跨多个文件存在，所以其大小限制不再是文件大小的限制，而是其自身的限制。从Innodb的官方文档中可以看到，其表空间的最大限制为64TB，也就是说，Innodb的单表限制基本上也在64TB左右了，当然这个大小是包括这个表的所有索引等其他相关数据。</p>
+</li>
+</ol>
+<p>InnoDB把数据保存在表空间内，表空间可以看作是InnoDB存储引擎逻辑结构的最高层。本质上是一个由一个或多个磁盘文件组成的虚拟文件系统。InnoDB用表空间并不只是存储表和索引，还保存了回滚段、双写缓冲区等。</p>
+</li>
+<li><p>段</p>
+<p>表空间是由各个段组成的，常见的段有数据段、索引段、回滚段等。数据即索引，索引即数据。那么数据段即为B+树段叶子节点（Leaf node segment），索引段即为B+树段非索引节点。</p>
+</li>
+<li><p>区</p>
+<p>区是由连续的页（Page）组成的空间，在任何情况下每个区大小都为1MB，为了保证页的连续性，InnoDB存储引擎每次从磁盘一次申请4-5个区。默认情况下，InnoDB存储引擎的页大小为16KB，即一个区中有64个连续的页。 （1MB／16KB=64）</p>
+<p>InnoDB1.0.x版本开始引入压缩页，每个页的大小可以通过参数KEY_BLOCK_SIZE设置为2K、4K、8K，因此每个区对应的页尾512、256、128.</p>
+<p>InnpDB1.2.x版本新增了参数innodb_page_size，通过该参数可以将默认页的大小设置为4K、8K，但是页中的数据不是压缩的。</p>
+<p>但是有时候为了节约磁盘容量的开销，创建表默认大小是96KB，区中是64个连续的页。（对于一些小表）</p>
+</li>
+<li><p>页</p>
+<p>页是InnoDB存储引擎磁盘管理的最小单位，每个页默认16KB；InnoDB存储引擎从1.2.x版本碍事，可以通过参数innodb_page_size将页的大小设置为4K、8K、16K。若设置完成，则所有表中页的大小都为innodb_page_size，不可以再次对其进行修改，除非通过mysqldump导入和导出操作来产生新的库。</p>
+<p>innoDB存储引擎中，常见的页类型有：</p>
+<ol>
+<li><p>数据页（B-tree Node)</p>
+</li>
+<li><p>undo页（undo Log Page）</p>
+</li>
+<li><p>系统页 （System Page）</p>
+</li>
+<li><p>事物数据页 （Transaction System Page）</p>
+</li>
+<li><p>插入缓冲位图页（Insert Buffer Bitmap）</p>
+</li>
+<li><p>插入缓冲空闲列表页（Insert Buffer Free List）</p>
+</li>
+<li><p>未压缩的二进制大对象页（Uncompressed BLOB Page）</p>
+</li>
+<li><p>压缩的二进制大对象页 （compressed BLOB Page）</p>
+</li>
+</ol>
+</li>
+<li><p>行</p>
+<p>InnoDB存储引擎是面向列的（row-oriented)，也就是说数据是按行进行存放的，每个页存放的行记录也是有硬性定义的，最多允许存放16KB/2-200，即7992行记录。</p>
+</li>
+</ul>
+<h5 id="行记录格式"><a href="#行记录格式" class="headerlink" title="行记录格式"></a>行记录格式</h5><p>记录以行的形式存储</p>
+<p>在早期的InnoDB版本中，由于文件格式只有一种，因此不需要为此文件格式命名。随着InnoDB引擎的发展，开发出了不兼容早期版本的新文件格式，用于支持新的功能。为了在升级和降级情况下帮助管理系统的兼容性，以及运行不同的MySQL版本，InnoDB开始使用命名的文件格式</p>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/03/01/XFUqH82lpfsxLtO.png" alt="image.png"></p>
+<ol>
+<li><p>Antelope: 先前未命名的，原始的InnoDB文件格式。它支持两种行格式：COMPACT 和 REDUNDANT。MySQL5.6的默认文件格式。可以与早期的版本保持最大的兼容性。不支持 Barracuda 文件格式。</p>
+</li>
+<li><p>Barracuda: 新的文件格式。它支持InnoDB的所有行格式，包括新的行格式：COMPRESSED 和 DYNAMIC。与这两个新的行格式相关的功能包括：InnoDB表的压缩，长列数据的页外存储和索引建前缀最大长度为3072字节。</p>
+</li>
+</ol>
+<p>在 msyql 5.7.9 及以后版本，默认行格式由innodb_default_row_format变量决定，它的默认值是DYNAMIC，也可以在 create table 的时候指定ROW_FORMAT=DYNAMIC。用户可以通过命令 SHOW TABLE STATUS LIKE’table_name’ 来查看当前表使用的行格式，其中 row_format 列表示当前所使用的行记录结构类型。</p>
+<p>PS：如果要修改现有表的行模式为compressed或dynamic，必须先将文件格式设置成Barracuda：set global innodb_file_format=Barracuda;，再用ALTER TABLE tablename ROW_FORMAT=COMPRESSED;去修改才能生效。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">mysql hyp@localhost:test&gt; show variables like &quot;innodb_default_row_format&quot;;</span><br><span class="line">+---------------------------+---------+</span><br><span class="line">| Variable_name             | Value   |</span><br><span class="line">|---------------------------+---------|</span><br><span class="line">| innodb_default_row_format | dynamic |</span><br><span class="line">+---------------------------+---------+</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>InnoDB表的数据存储在页（page）中，每个页可以存放多条记录。这些页以树形结构组织，这颗树称为B树索引。表中数据和辅助索引都是使用B树结构。维护表中所有数据的这颗B树索引称为聚簇索引，通过主键来组织的。聚簇索引的叶子节点包含行中所有字段的值，辅助索引的叶子节点包含索引列和主键列。</p>
+<p>变长字段是个例外，例如对于BLOB和VARCHAR类型的列，当页不能完全容纳此列的数据时，会将此列的数据存放在称为溢出页(overflow page)的单独磁盘页上，称这些列为页外列(off-page column)。这些列的值存储在以单链表形式存在的溢出页列表中，每个列都有自己溢出页列表。某些情况下，为了避免浪费存储空间和消除读取分隔页，列的所有或前缀数据会存储在B+树索引中。</p>
+<ol>
+<li><p>Compact</p>
+<p>Compact行记录是在MySQL5.0中引入的，为了高效的存储数据，简单的说，就是为了让一个页（Page）存放的行数据越多，这样性能就越高。行记录格式如下：</p>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/03/01/PxQZfMnEybloACF.png" alt="image.png"></p>
+<ol>
+<li><p>变长字段长度列表：变长字段长度最大不超过2字节（MySQL数据库varcahr类型的最大长度限制为65535）</p>
+</li>
+<li><p>NULL标识位：该位指示了该行数据中是否有NULL值，有则用1。</p>
+</li>
+<li><p>记录头信息：固定占用5字节（40位）</p>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/03/01/XW4ZtiDJuLT7Oge.png" alt="image.png"></p>
+</li>
+<li><p>列N数据：实际存储每列的数据，NULL不占该部分任何空间，即NULL占有NULL标志位，实际存储不占任何空间。</p>
+</li>
+</ol>
+<p>PS：每一行数据除了用户定义的例外，还有两个隐藏列，事物ID列和回滚指针列，分别位6字节和7字节的大小，若InnoDB表没有定义主键，每行还未增加一个6字节的rowid列。</p>
+</li>
+<li><p>Redundant</p>
+<p>MySQL5.0之前的行记录格式：</p>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://s2.ax1x.com/2020/03/01/3gzjQe.png" alt="3gzjQe.png"></p>
+<ol>
+<li>字段偏移列表：同样是按照列的顺序逆序放置的，若列的长度小于255字节，用1字节表示，若大于255字节，用2字节表示。</li>
+<li>记录头信息：占用6字节（48位）</li>
+</ol>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://s2.ax1x.com/2020/03/01/32SQYV.png" alt="32SQYV.png"></p>
+</li>
+</ol>
+<p><strong>行溢出数据</strong></p>
+<ol>
+<li><p>当行记录的长度没有超过行记录最大长度时，所有数据都会存储在当前页。</p>
+</li>
+<li><p>当行记录的长度超过行记录最大长度时，变长列（variable-length column）会选择外部溢出页（overflow page，一般是Uncompressed BLOB Page）进行存储。</p>
+</li>
+</ol>
+<p>Compact + Redundant：保留前768Byte在当前页（B+Tree叶子节点），其余数据存放在溢出页。768Byte后面跟着20Byte的数据，用来存储指向溢出页的指针。</p>
+<p>对于 Compact 和 Redundant 行格式，InnoDB将变长字段(VARCHAR, VARBINARY, BLOB 和 TEXT)的前786字节存储在B+树节点中，其余的数据存放在溢出页(off-page)，如下图：</p>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://s2.ax1x.com/2020/03/01/32SUT1.png" alt="32SUT1.png"></p>
+<p>上面所讲的讲的blob或变长大字段类型包括blob,text,varchar，其中varchar列值长度大于某数N时也会存溢出页，在latin1字符集下N值可以这样计算：innodb的块大小默认为16kb，由于innodb存储引擎表为索引组织表，树底层的叶子节点为一双向链表，因此每个页中至少应该有两行记录，这就决定了innodb在存储一行数据的时候不能够超过8k，减去其它列值所占字节数，约等于N。</p>
+<p>使用Antelope文件格式，若字段的值小于等于786字节，不需要溢出页，因为字段的值都在B+树节点中，所以会降低I/O操作。这对于相对较短的BLOB字段有效，但可能由于B+树节点存储过多的数据而导致效率低下。</p>
+<p><strong>Compressed 和 Dynamic</strong></p>
+<p>InnoDB1.0x开始引入心的文件格式（file format，用户可以理解位新的页格式）——Barracuda（图1），这个新的格式拥有两种新的行记录格式：Compressed和Dynamic。</p>
+<p>新的两种记录格式对于存放BLOB中的数据采用了完全的行溢出的方式。如图：</p>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://s2.ax1x.com/2020/03/01/32S0fK.png" alt="32S0fK.png"></p>
+<p>Dynamic行格式，列存储是否放到off-page页，主要取决于行大小，他会把行中最长的一列放到off-page，直到数据页能存放下两行。TEXT或BLOB列&lt;=40bytes时总是存在于数据页。这种方式可以避免compact那样把太多的大列值放到B-tree Node（数据页中只存放20个字节的指针，实际的数据存放在Off Page中，之前的Compact 和 Redundant 两种格式会存放768个字前缀字节）。</p>
+<p>Compressed物理结构上与Dynamic类似，Compressed行记录格式的另一个功能就是存储在其中的行数据会以zlib的算法进行压缩，因此对于BLOB、TEXT、VARCHAR这类大长度数据能够进行有效的存储（减少40%，但对CPU要求更高）。</p>
+<h5 id="数据页结构"><a href="#数据页结构" class="headerlink" title="数据页结构"></a>数据页结构</h5><p>页（Page）是 Innodb 存储引擎用于管理数据的最小磁盘单位。常见的页类型有数据页、Undo 页、系统页、事务数据页等，本文主要分析的是数据页。默认的页大小为 16KB，每个页中至少存储有 2 条或以上的行记录</p>
+<ol>
+<li><p>File Header:文件头部，页的一些通用信息</p>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://s2.ax1x.com/2020/03/01/32P3NR.png" alt="32P3NR.png"></p>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://s2.ax1x.com/2020/03/01/32PXb4.png" alt="32PXb4.png"></p>
+</li>
+<li><p>page Header:页面头部,数据页专有的一些信息</p>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://s2.ax1x.com/2020/03/01/32iVVH.png" alt="32iVVH.png"></p>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://s2.ax1x.com/2020/03/01/32ieIA.png" alt="32ieIA.png"></p>
+</li>
+<li><p>infimum+supremum:行记录最小值和最大值，两个虚拟的行记录</p>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://s2.ax1x.com/2020/03/01/32iMxf.png" alt="32iMxf.png"></p>
+</li>
+<li><p>user recorders:实际存储的行记录内容</p>
+</li>
+<li><p>free space:页中尚未使用的空间</p>
+</li>
+<li><p>Page Directory:页中的某些记录的相对位置</p>
+</li>
+<li><p>File Tailer:校验页是否完整</p>
+</li>
+</ol>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://s2.ax1x.com/2020/03/01/32Cz1f.png" alt="32Cz1f.png"></p>
+<p>上图为 Page 数据结构，File Header 字段用于记录 Page 的头信息，其中比较重要的是 FIL_PAGE_PREV 和 FIL_PAGE_NEXT 字段，通过这两个字段，我们可以找到该页的上一页和下一页，实际上所有页通过两个字段可以形成一条双向链表。Page Header 字段用于记录 Page 的状态信息。接下来的 Infimum 和 Supremum 是两个伪行记录，Infimum（下确界）记录比该页中任何主键值都要小的值，Supremum （上确界）记录比该页中任何主键值都要大的值，这个伪记录分别构成了页中记录的边界。</p>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://s2.ax1x.com/2020/03/01/32PCng.png" alt="32PCng.png"></p>
+<p>User Records 中存放的是实际的数据行记录，具体的行记录结构将在本文的第二节中详细介绍。Free Space 中存放的是空闲空间，被删除的行记录会被记录成空闲空间。Page Directory 记录着与二叉查找相关的信息。File Trailer 存储用于检测数据完整性的校验和等数据。</p>
+<h5 id="约束"><a href="#约束" class="headerlink" title="约束"></a>约束</h5><p>数据完整性</p>
+<ul>
+<li><p>实体完整性：表中有一个主键</p>
+</li>
+<li><p>域完整性：保证数据每列的值满足特定的条件</p>
+<ul>
+<li>选择合适的数据类型确保一个数据值满足特定条件</li>
+<li>外键约束</li>
+<li>编写触发器</li>
+<li>使用DEFAULT约束</li>
+</ul>
+</li>
+<li><p>参照完整性：外键</p>
+</li>
+<li><p>约束类别：</p>
+<ul>
+<li>Primary Key</li>
+<li>Unique Key</li>
+<li>Foreign Key</li>
+<li>Default</li>
+<li>NOT NULL</li>
+</ul>
+</li>
+</ul>
+<h5 id="视图"><a href="#视图" class="headerlink" title="视图"></a>视图</h5><p>抽象的表，虚拟表</p>
+<h5 id="分区表"><a href="#分区表" class="headerlink" title="分区表"></a>分区表</h5><p>将一个表或者索引分解为多个更小、更可管理的部分，逻辑上为一个表或者索引</p>
+<ul>
+<li>RANGE分区</li>
+<li>LIST分区</li>
+<li>HASH分区</li>
+<li>KEY分区</li>
+</ul>
+<h4 id="索引与算法"><a href="#索引与算法" class="headerlink" title="索引与算法"></a>索引与算法</h4><p>常用的索引：</p>
+<ul>
+<li>B+树索引：取得是查找到的数据页而不是数据行</li>
+<li>全文索引：文字段，倒排索引</li>
+<li>哈希索引</li>
+</ul>
+<h4 id="锁"><a href="#锁" class="headerlink" title="锁"></a>锁</h4><p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://s2.ax1x.com/2020/03/01/32VNvt.png" alt="32VNvt.png"></p>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://s2.ax1x.com/2020/03/01/32V4VU.png" alt="32V4VU.png"></p>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://s2.ax1x.com/2020/03/01/32ZVZ8.png" alt="32ZVZ8.png"></p>
+<ul>
+<li>共享锁</li>
+<li>排它锁</li>
+<li>意向共享锁</li>
+<li>意向排它锁</li>
+</ul>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://s2.ax1x.com/2020/03/01/32ZUJJ.png" alt="32ZUJJ.png"></p>
+<p>Information_schema库内Innodb_TRX、Innodb_locks、Innodb_lock_waits</p>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://s2.ax1x.com/2020/03/01/32euTO.png" alt="32euTO.png"></p>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://s2.ax1x.com/2020/03/01/32eU78.png" alt="32eU78.png"></p>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://s2.ax1x.com/2020/03/01/32ecn0.png" alt="32ecn0.png"></p>
+<p>一致性非锁定读：Repeatable read模式</p>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://s2.ax1x.com/2020/03/01/32ehh4.png" alt="32ehh4.png"></p>
+<p>行锁：</p>
+<ul>
+<li>Record Lock：单行</li>
+<li>Gap Lock：间隙锁，一个范围，不包含记录本身</li>
+<li>Next-key Lock：Record Lock+Gap Lock，一个范围，并且锁定记录本身</li>
+</ul>
+<p>锁升级：将锁的粒度降低，锁聚合，行锁–》页锁–》表锁</p>
+<h4 id="事务"><a href="#事务" class="headerlink" title="事务"></a>事务</h4><p>ACID</p>
+<p>分类：</p>
+<ul>
+<li>扁平事务：所有操作处于同一层次</li>
+<li>带有保存点的扁平事务：保存点记录事务中可回滚到的状态点</li>
+<li>链事务：只能回滚到最近一个保存点的扁平事务</li>
+<li>嵌套事务</li>
+<li>分布式事务</li>
+</ul>
+<p><strong>实现</strong></p>
+<ul>
+<li>redo log：保证事务持久性</li>
+<li>undo log：帮助事务回滚以及MVCC</li>
+</ul>
+<h4 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h4><ol>
+<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/shenchaohao12321/category_8075653.html">https://blog.csdn.net/shenchaohao12321/category_8075653.html</a></li>
+</ol>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">平心</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://pingxin0521.gitee.io/2020/02/06/%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0-1-0/">https://pingxin0521.gitee.io/2020/02/06/%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0-1-0/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://pingxin0521.gitee.io" target="_blank">平心de小屋</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a><a class="post-meta__tags" href="/tags/%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/">阅读笔记</a></div><div class="post_share"><div class="social-share" data-image="https://i.loli.net/2020/05/08/PFDRNxj93taz6pw.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2020/02/07/%E5%91%A8%E8%AE%B0-7-0/"><img class="prev-cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/okfOw28KlZFbE7z.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">第八周--RBAC</div></div></a></div><div class="next-post pull-right"><a href="/2020/01/21/Java-%E5%9F%BA%E7%A1%80-3-4-6-3/"><img class="next-cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/gGE57HRvpcKPfDY.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">线程安全集合类分析 阻塞队列和队列（三）</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span> 相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2020/03/23/阅读笔记-1-2/" title="Redis实现与设计 阅读笔记"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/HjVAdIuT7bZJypS.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2020-04-07</div><div class="title">Redis实现与设计 阅读笔记</div></div></a></div><div><a href="/2019/10/06/数据库-MySQL-1-2/" title="MySQL 架构和底层知识"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/vCnKyoFJZ1g4XYR.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2020-02-15</div><div class="title">MySQL 架构和底层知识</div></div></a></div><div><a href="/2019/10/15/数据库-MySQL-15-0/" title="MySQL集群结构"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/gGE57HRvpcKPfDY.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2020-02-16</div><div class="title">MySQL集群结构</div></div></a></div><div><a href="/2019/11/16/数据库-MySQL-15-1-2/" title="MySQL数据库 分库分表  MyCat（三）"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/vCnKyoFJZ1g4XYR.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2020-02-15</div><div class="title">MySQL数据库 分库分表  MyCat（三）</div></div></a></div><div><a href="/2019/10/18/数据库-Redis-1-4/" title="Redis 事务、发布订阅"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/HjVAdIuT7bZJypS.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2019-11-24</div><div class="title">Redis 事务、发布订阅</div></div></a></div><div><a href="/2019/10/19/数据库-Redis-1-5/" title="Redis 高级类型"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/okfOw28KlZFbE7z.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2020-02-14</div><div class="title">Redis 高级类型</div></div></a></div></div></div><hr/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div class="vcomment" id="vcomment"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="card-info-avatar is-center"><img class="avatar-img" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://s2.ax1x.com/2020/02/11/1ovw6J.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/><div class="author-info__name">平心</div><div class="author-info__description">年轻人的life、learn and think</div></div><div class="card-info-data"><div class="card-info-data-item is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">449</div></a></div><div class="card-info-data-item is-center"><a href="/tags/"><div class="headline">标签</div><div class="length-num">77</div></a></div><div class="card-info-data-item is-center"><a href="/categories/"><div class="headline">分类</div><div class="length-num">68</div></a></div></div><a class="button--animated" id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/hanyunpeng0521"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/hanyunpeng0521" target="_blank" title="Github"><i class="fa fa-github"></i></a><a class="social-icon" href="mailto:m13839441583@163.com" target="_blank" title="Email"><i class="fa fa-envelope"></i></a><a class="social-icon" href="/atom.xml" target="_blank" title=""><i class="fa fa-rss"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn card-announcement-animation"></i><span>公告</span></div><div class="announcement_content">为什么呢？开始提问吧</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#MySQL%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84"><span class="toc-number">1.</span> <span class="toc-text">MySQL体系结构</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#InnoDB%E5%AD%98%E5%82%A8%E5%BC%95%E6%93%8E"><span class="toc-number">2.</span> <span class="toc-text">InnoDB存储引擎</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#Innodb%E7%89%B9%E6%80%A7"><span class="toc-number">2.1.</span> <span class="toc-text">Innodb特性</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%90%AF%E5%8A%A8%E3%80%81%E5%85%B3%E9%97%AD%E4%B8%8E%E4%BF%AE%E5%A4%8D"><span class="toc-number">2.2.</span> <span class="toc-text">启动、关闭与修复</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%96%87%E4%BB%B6"><span class="toc-number">3.</span> <span class="toc-text">文件</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%A1%A8"><span class="toc-number">4.</span> <span class="toc-text">表</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E7%B4%A2%E5%BC%95%E7%BB%84%E7%BB%87%E8%A1%A8"><span class="toc-number">4.1.</span> <span class="toc-text">索引组织表</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E9%80%BB%E8%BE%91%E5%AD%98%E5%82%A8%E7%BB%93%E6%9E%84"><span class="toc-number">4.2.</span> <span class="toc-text">逻辑存储结构</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E8%A1%8C%E8%AE%B0%E5%BD%95%E6%A0%BC%E5%BC%8F"><span class="toc-number">4.3.</span> <span class="toc-text">行记录格式</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E9%A1%B5%E7%BB%93%E6%9E%84"><span class="toc-number">4.4.</span> <span class="toc-text">数据页结构</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E7%BA%A6%E6%9D%9F"><span class="toc-number">4.5.</span> <span class="toc-text">约束</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E8%A7%86%E5%9B%BE"><span class="toc-number">4.6.</span> <span class="toc-text">视图</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%88%86%E5%8C%BA%E8%A1%A8"><span class="toc-number">4.7.</span> <span class="toc-text">分区表</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%B4%A2%E5%BC%95%E4%B8%8E%E7%AE%97%E6%B3%95"><span class="toc-number">5.</span> <span class="toc-text">索引与算法</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%94%81"><span class="toc-number">6.</span> <span class="toc-text">锁</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BA%8B%E5%8A%A1"><span class="toc-number">7.</span> <span class="toc-text">事务</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%8F%82%E8%80%83"><span class="toc-number">8.</span> <span class="toc-text">参考</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2021/05/15/node-2-4/" title="Egg.js -- 为企业级框架和应用而生"><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/okfOw28KlZFbE7z.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Egg.js -- 为企业级框架和应用而生"/></a><div class="content"><a class="title" href="/2021/05/15/node-2-4/" title="Egg.js -- 为企业级框架和应用而生">Egg.js -- 为企业级框架和应用而生</a><time datetime="2021-05-15T10:18:59.000Z" title="发表于 2021-05-15 18:18:59">2021-05-15</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/04/30/node-2-3/" title="Koa -- 基于Node.js平台的下一代Web开发框架"><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/HjVAdIuT7bZJypS.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Koa -- 基于Node.js平台的下一代Web开发框架"/></a><div class="content"><a class="title" href="/2021/04/30/node-2-3/" title="Koa -- 基于Node.js平台的下一代Web开发框架">Koa -- 基于Node.js平台的下一代Web开发框架</a><time datetime="2021-04-30T10:18:59.000Z" title="发表于 2021-04-30 18:18:59">2021-04-30</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/04/01/node-2-1/" title="Node.JS web开发前置知识"><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/gGE57HRvpcKPfDY.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Node.JS web开发前置知识"/></a><div class="content"><a class="title" href="/2021/04/01/node-2-1/" title="Node.JS web开发前置知识">Node.JS web开发前置知识</a><time datetime="2021-04-01T03:18:59.000Z" title="发表于 2021-04-01 11:18:59">2021-04-01</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2020/12/26/%E5%91%A8%E8%AE%B0-10-1/" title="第十一周--谷歌浏览器插件"><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/gGE57HRvpcKPfDY.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="第十一周--谷歌浏览器插件"/></a><div class="content"><a class="title" href="/2020/12/26/%E5%91%A8%E8%AE%B0-10-1/" title="第十一周--谷歌浏览器插件">第十一周--谷歌浏览器插件</a><time datetime="2020-12-26T10:18:59.000Z" title="发表于 2020-12-26 18:18:59">2020-12-26</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2020/12/26/%E5%91%A8%E8%AE%B0-10-0/" title="第十一周--浏览器技术"><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/vCnKyoFJZ1g4XYR.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="第十一周--浏览器技术"/></a><div class="content"><a class="title" href="/2020/12/26/%E5%91%A8%E8%AE%B0-10-0/" title="第十一周--浏览器技术">第十一周--浏览器技术</a><time datetime="2020-12-26T06:18:59.000Z" title="发表于 2020-12-26 14:18:59">2020-12-26</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2019 - 2021 By 平心</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div id="local-search"><div class="search-dialog"><div class="search-dialog__title" id="local-search-title">本地搜索</div><div id="local-input-panel"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div></div><hr/><div id="local-search-results"></div><span class="search-close-button"><i class="fas fa-times"></i></span></div><div id="search-mask"></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload/dist/lazyload.iife.min.js"></script><script src="/js/search/local-search.js"></script><div class="js-pjax"><script>function loadValine () {
+  function initValine () {
+    const valine = new Valine(Object.assign({
+      el: '#vcomment',
+      appId: '4lfIXzqxaC1ONs0MJO4oHu07-gzGzoHsz',
+      appKey: 'qw99Bw8FD0KVKU9m457CwWsr',
+      placeholder: 'Please leave your footprints',
+      avatar: 'monsterid',
+      meta: 'nick,mail,link'.split(','),
+      pageSize: '10',
+      lang: 'zh-CN',
+      recordIP: true,
+      serverURLs: '',
+      emojiCDN: '',
+      emojiMaps: "",
+      enableQQ: true,
+      path: window.location.pathname,
+      requiredFields: ["nick,mail"],
+      visitor: false
+    }, null))
+  }
+
+  if (typeof Valine === 'function') initValine() 
+  else getScript('https://cdn.jsdelivr.net/npm/valine/dist/Valine.min.js').then(initValine)
+}
+
+if ('Valine' === 'Valine' || !false) {
+  if (false) btf.loadComment(document.getElementById('vcomment'),loadValine)
+  else setTimeout(loadValine, 0)
+} else {
+  function loadOtherComment () {
+    loadValine()
+  }
+}</script></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>

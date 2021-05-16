@@ -1,0 +1,373 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>第五周--SQL注入 | 平心de小屋</title><meta name="keywords" content="周记"><meta name="author" content="平心"><meta name="copyright" content="平心"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="本周速记方法论 本周来学习一下常见的网站漏洞应对方案：https:&#x2F;&#x2F;www.bilibili.com&#x2F;video&#x2F;av52972331  Sql注入 xss攻击 csrf&#x2F;cros  网站：墨者学院">
+<meta property="og:type" content="article">
+<meta property="og:title" content="第五周--SQL注入">
+<meta property="og:url" content="https://pingxin0521.gitee.io/2019/12/10/%E5%91%A8%E8%AE%B0-4-0/index.html">
+<meta property="og:site_name" content="平心de小屋">
+<meta property="og:description" content="本周速记方法论 本周来学习一下常见的网站漏洞应对方案：https:&#x2F;&#x2F;www.bilibili.com&#x2F;video&#x2F;av52972331  Sql注入 xss攻击 csrf&#x2F;cros  网站：墨者学院">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://i.loli.net/2020/05/08/gGE57HRvpcKPfDY.jpg">
+<meta property="article:published_time" content="2019-12-10T10:18:59.000Z">
+<meta property="article:modified_time" content="2019-12-17T14:42:32.103Z">
+<meta property="article:author" content="平心">
+<meta property="article:tag" content="周记">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.loli.net/2020/05/08/gGE57HRvpcKPfDY.jpg"><link rel="shortcut icon" href="https://s2.ax1x.com/2020/02/11/1ovFOA.png"><link rel="canonical" href="https://pingxin0521.gitee.io/2019/12/10/%E5%91%A8%E8%AE%B0-4-0/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"search.xml","languages":{"hits_empty":"找不到您查询的内容：${query}"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    jQuery: 'https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js',
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+    },
+    fancybox: {
+      js: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css'
+    }
+  },
+  isPhotoFigcaption: true,
+  islazyload: true,
+  isanchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '第五周--SQL注入',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2019-12-17 22:42:32'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    })(window)</script><meta name="generator" content="Hexo 5.4.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="author-avatar"><img class="avatar-img" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://s2.ax1x.com/2020/02/11/1ovw6J.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data"><div class="data-item is-center"><div class="data-item-link"><a href="/archives/"><div class="headline">文章</div><div class="length-num">449</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/tags/"><div class="headline">标签</div><div class="length-num">77</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/categories/"><div class="headline">分类</div><div class="length-num">68</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fa fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fa fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://i.loli.net/2020/05/08/gGE57HRvpcKPfDY.jpg')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">平心de小屋</a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fa fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fa fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">第五周--SQL注入</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2019-12-10T10:18:59.000Z" title="发表于 2019-12-10 18:18:59">2019-12-10</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2019-12-17T14:42:32.103Z" title="更新于 2019-12-17 22:42:32">2019-12-17</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E5%91%A8%E8%AE%B0/">周记</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">4.7k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>16分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="第五周--SQL注入"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h4 id="本周速记"><a href="#本周速记" class="headerlink" title="本周速记"></a>本周速记</h4><p><strong>方法论</strong></p>
+<p>本周来学习一下常见的网站漏洞应对方案：<a target="_blank" rel="noopener" href="https://www.bilibili.com/video/av52972331">https://www.bilibili.com/video/av52972331</a></p>
+<ol>
+<li>Sql注入</li>
+<li>xss攻击</li>
+<li>csrf/cros</li>
+</ol>
+<p>网站：<a target="_blank" rel="noopener" href="https://www.mozhe.cn/bug">墨者学院</a></p>
+<span id="more"></span>
+
+<h4 id="Web应用的漏洞分类"><a href="#Web应用的漏洞分类" class="headerlink" title="Web应用的漏洞分类"></a>Web应用的漏洞分类</h4><p>Web应用攻击是攻击者通过浏览器或攻击工具，在URL或者其它输入区域（如表单等），向Web服务器发送特殊请求，从中发现Web应用程序存在的漏洞，从而进一步操纵和控制网站，查看、修改未授权的信息。</p>
+<ol>
+<li><p>信息泄露漏洞</p>
+<p>信息泄露漏洞是由于Web服务器或应用程序没有正确处理一些特殊请求，泄露Web服务器的一些敏感信息，如用户名、密码、源代码、服务器信息、配置信息等。</p>
+<p>造成信息泄露主要有以下三种原因：</p>
+<ul>
+<li><p>Web服务器配置存在问题，导致一些系统文件或者配置文件暴露在互联网中；</p>
+</li>
+<li><p>Web服务器本身存在漏洞，在浏览器中输入一些特殊的字符，可以访问未授权的文件或者动态脚本文件源码；</p>
+</li>
+<li><p>Web网站的程序编写存在问题，对用户提交请求没有进行适当的过滤，直接使用用户提交上来的数据。</p>
+</li>
+</ul>
+</li>
+<li><p>目录遍历漏洞</p>
+<p>目录遍历漏洞是攻击者向Web服务器发送请求，通过在URL中或在有特殊意义的目录中附加“../”、或者附加“../”的一些变形（如“..”或“..//”甚至其编码），导致攻击者能够访问未授权的目录，以及在Web服务器的根目录以外执行命令。</p>
+</li>
+<li><p>命令执行漏洞</p>
+<p>命令执行漏洞是通过URL发起请求，在Web服务器端执行未授权的命令，获取系统信息，篡改系统配置，控制整个系统，使系统瘫痪等。</p>
+<p>命令执行漏洞主要有两种情况：</p>
+<ul>
+<li>通过目录遍历漏洞，访问系统文件夹，执行指定的系统命令；</li>
+<li>攻击者提交特殊的字符或者命令，Web程序没有进行检测或者绕过Web应用程序过滤，把用户提交的请求作为指令进行解析，导致执行任意命令。</li>
+</ul>
+</li>
+<li><p>文件包含漏洞</p>
+<p>文件包含漏洞是由攻击者向Web服务器发送请求时，在URL添加非法参数，Web服务器端程序变量过滤不严，把非法的文件名作为参数处理。这些非法的文件名可以是服务器本地的某个文件，也可以是远端的某个恶意文件。由于这种漏洞是由PHP变量过滤不严导致的，所以只有基于PHP开发的Web应用程序才有可能存在文件包含漏洞。</p>
+</li>
+<li><p>SQL注入漏洞</p>
+<p>SQL注入漏洞是由于Web应用程序没有对用户输入数据的合法性进行判断，攻击者通过Web页面的输入区域(如URL、表单等) ，用精心构造的SQL语句插入特殊字符和指令，通过和数据库交互获得私密信息或者篡改数据库信息。SQL注入攻击在Web攻击中非常流行，攻击者可以利用SQL注入漏洞获得管理员权限，在网页上加挂木马和各种恶意程序，盗取企业和用户敏感信息</p>
+</li>
+<li><p>跨站脚本漏洞</p>
+<p>跨站脚本漏洞是因为Web应用程序时没有对用户提交的语句和变量进行过滤或限制，攻击者通过Web页面的输入区域向数据库或HTML页面中提交恶意代码，当用户打开有恶意代码的链接或页面时，恶意代码通过浏览器自动执行，从而达到攻击的目的。跨站脚本漏洞危害很大，尤其是目前被广泛使用的网络银行，通过跨站脚本漏洞攻击者可以冒充受害者访问用户重要账户，盗窃企业重要信息。</p>
+<p>根据前期各个漏洞研究机构的调查显示，SQL注入漏洞和跨站脚本漏洞的普遍程度排名前两位，造成的危害也更加巨大。</p>
+</li>
+</ol>
+<h4 id="常见安全漏洞"><a href="#常见安全漏洞" class="headerlink" title="常见安全漏洞"></a>常见安全漏洞</h4><ol>
+<li><p>SQL注入</p>
+<p>几乎每一个网站后台开发人员都听到的一个词，并且都很敏感，但是不知道是什么原因造成的很多程序员却在实际开发过程中经常忽视这个问题。前段时间部门一位新同事，据说是5年工作经验，在对他的代码做评审时，我们发现所有的DAO层实现都是直接拼接SQL和参数，总监多次提醒他这个问题，但他也没有发现，直到总监说出SQL注入这个词。</p>
+<p>实际上这个漏洞很严重，一旦被注入成功，后果不堪设想</p>
+<p>方案一： 编写拦截器过滤请求（不推荐），此方案建议只在对维护中项目或者代码结构比较乱的情况下使用，底层不容易修改或者不方便修改。此方案效率低，效果也不佳。</p>
+<p>方案二：推荐方案，使用预编译的prepareStatement代替statement；使用框架中的setParameter设置参数，此方案可有效处理SQL注入问题。</p>
+</li>
+<li><p> 验证码必须后台校验</p>
+</li>
+</ol>
+<p>   通过机器注册：直接跳过了前端的表单校验，而恰巧这个项目在开发的时候，验证码只在前端做了校验，提交到后台没有做再一次的校验，也就是这个漏洞导致了这堆垃圾注册。</p>
+<p>   解决方案：前台提交数据到后台后做进一步校验，如验证码校验、数据格式校验、验重校验。</p>
+<ol start="3">
+<li><p>防止表单重复提交</p>
+<p>防止表单重复提交其实网上有很多解决方案，并且现在主流的前端框架都可以在页面上做按钮控制，不过做为一个程序员，你们懂得，这并没有什么卵用。个人还是建议采用实际的后台验证法处理。从网上爬文，看到的靠谱的解决方案如下。</p>
+<p>解决方案：token验证，请求页面时生成token并放在session中，提交表单到后台验证token，业务逻辑处理完之后，清除token。如果表单提交了一次，token就没了，再次提交就无法通过了。</p>
+<p>方案分析：此方法和验证码基本上一致，如果验证码在每次表单提交后都清除一次，也能达到这样的效果。</p>
+<p>其他建议：重要的表单页面提交后重定向，取消表单的autocomplete。</p>
+</li>
+<li><p>文件上传格式校验</p>
+<p>黑客攻击网站还有一个常见的方式就是通过文件上传漏洞，比如网站上传图片的功能没有严格校验后缀名。黑客可以通过此功能上传一些脚本文件，上传成功后，通过请求这些脚本文件运行脚本中的功能达到攻击的目的。</p>
+<p>那么如果验证了上传文件的后缀名就可以吗？实际上并不是，举例说我们知道页面引入script标签时src写啥都行，比如<code>http://www.baidu.com/123.jpg</code>，也是可以的，攻击者只需要把一个script文件后缀名改为jpg即可通过后缀验证，后面一路畅通。所以这就提到了验证文件的真实格式。</p>
+<p>解决方案：设置php文件、jsp文件不可直接被访问，这样攻击者上传此类文件也无法执行；通过文件头信息严格验证文件格式，从上传功能开始防范。</p>
+</li>
+<li><p>熟悉使用框架或数据库版本情况 </p>
+<p>实际开发中，我们都使用一些开源框架，但这些框架也不是百分百完善的，比如webwork,struts2就经常爆出一些漏洞，这个需要开发者自行关注。</p>
+<p>解决方案：根据官方发布的方案进行版本升级；根据公开的漏洞执行方式编写拦截器。</p>
+</li>
+<li><p>严禁在生产环境下使用缺省密码</p>
+<p>很多时候一些小网站，新人练手的网站（往往价格很便宜），在开发的过程中都要求很快，往往这些网站问题还是蛮多的。后台验证码处于关闭状态、账号密码常用admin/admin组合，看似方便了操作，实际是危险重重。甚至有时候，数据库链接密码都是root/空，这个危害大家都知道。由于没有验证码，用户密码又使用的缺省的，黑客爆破的概率异常的高，一旦获取了后台管理权限，剩下的就交给你了。</p>
+<p>解决方案：通过配置测试模式和生产模式控制验证码验证，管理员账户必须使用非缺省加密处理，必要时使用物理验证。</p>
+</li>
+<li><p>XSS攻击、CSRF攻击</p>
+<p>XSSS攻击处理方案一般来说也是通过拦截器过滤请求参数，都是常规的处理方案。</p>
+<p>解决方案：从网上爬文看到的基本上是一致的，校验Referer，添加请求token验证，个人觉得此漏洞在大型系统中比较重视，小网站就呵呵了。</p>
+</li>
+</ol>
+<h4 id="SQL注入问题"><a href="#SQL注入问题" class="headerlink" title="SQL注入问题"></a>SQL注入问题</h4><p>用户输入的内容, 在SQL语句拼接过程中, 完成了一条逻辑发生变化的新的SQL语句 !</p>
+<p><code>任意内容‘ or 永真语句 注释符</code>，这种方式实现。通过or表示或，与永为真语句搭配保持前面部分永远真，然后用注释符屏蔽掉后面实现条件永为真的操作。</p>
+<p>例如:  </p>
+<p>原SQL语句拼接为: </p>
+<pre><code>String sql = &quot;select id from user15 where username=&#39;&quot;+user.getUserName()+&quot;&#39; and password=&#39;&quot;+user.getPassWord()+&quot;&#39;&quot;;
+</code></pre>
+<p>用户输入的帐号密码分别为:</p>
+<p>请输入您的帐号:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pingxin</span><br></pre></td></tr></table></figure>
+
+<p>请输入您的密码:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pingxin&#x27; or &#x27;1&#x27;=&#x27;1</span><br></pre></td></tr></table></figure>
+
+<p>组成的SQL语句: </p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select id from user15 where username=&#x27;pingxin&#x27; and password=&#x27;suibian&#x27; or &#x27;1&#x27;=&#x27;1&#x27;</span><br></pre></td></tr></table></figure>
+
+<h5 id="常见SQL注入的方法"><a href="#常见SQL注入的方法" class="headerlink" title="常见SQL注入的方法"></a>常见SQL注入的方法</h5><p><strong>SQL注入步骤</strong></p>
+<ol>
+<li><p>寻找注入点，构造特殊的语句</p>
+<p>传入SQL语句可控参数分为两类 </p>
+<ul>
+<li>数字类型，参数不用被引号括起来，如<code>?id=1</code> </li>
+<li>其他类型，参数要被引号扩起来,如<code>?name=&quot;phone&quot;</code></li>
+</ul>
+</li>
+<li><p>用户构造SQL语句(如：<code>&#39;or 1=1#；admin&#39;#</code>（这个注入又称PHP的万能密码，是已知用户名的情况下，可绕过输入密码）以后再做解释)</p>
+</li>
+<li><p>将SQL语句发送给DBMS数据库</p>
+</li>
+<li><p>DBMS收到返回的结果，并将该请求解释成机器代码指令，执行必要得到操作</p>
+</li>
+<li><p>DBMS接受返回结果，处理后，返回给用户</p>
+</li>
+<li><p>因为用户构造了特殊的SQL语句，必定返回特殊的结果(只要你的SQL语句够灵活)</p>
+</li>
+</ol>
+<p><strong>示例</strong></p>
+<p>mysql数据库</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">CREATE DATABASE IF NOT EXISTS `test`;</span><br><span class="line">use test;</span><br><span class="line">CREATE TABLE IF NOT EXISTS `users` (</span><br><span class="line">`id` int(11) NOT NULL AUTO_INCREMENT,</span><br><span class="line">`username` varchar(64) NOT NULL,</span><br><span class="line">`password` varchar(64) NOT NULL,</span><br><span class="line">`email` varchar(64) NOT NULL,</span><br><span class="line">PRIMARY KEY (`id`),</span><br><span class="line">UNIQUE KEY `username` (`username`)</span><br><span class="line">) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;</span><br></pre></td></tr></table></figure>
+
+<p>添加一条记录用于测试：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">INSERT INTO users (username,password,email) VALUES(&#x27;平心&#x27;,md5(&#x27;test&#x27;),&#x27;m13839441583@163.com&#x27;); </span><br></pre></td></tr></table></figure>
+
+<p>测试SQL拼接情况下的注入</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">select * from users where username=&#x27;&#x27; or 1=1#&#x27; and password=md5(&#x27;&#x27;)</span><br><span class="line">#等价于</span><br><span class="line">select * from users where usrername=&#x27;&#x27; or 1=1</span><br></pre></td></tr></table></figure>
+
+<p>总结了下无非这些情况：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">&#x27;’or 1 = 1 -- and password=&#x27;’</span><br><span class="line">&quot;or &quot;a&quot;=&quot;a</span><br><span class="line">admin&#x27; or &#x27;1&#x27;=&#x27;1</span><br><span class="line">&#x27; or &#x27;&#x27;=&#x27;</span><br><span class="line">&#x27;)or(&#x27;a&#x27;=&#x27;a</span><br><span class="line">or 1=1--</span><br><span class="line">&#x27;or 1=1--</span><br><span class="line">a&#x27;or&#x27; 1=1--</span><br><span class="line">&quot;or 1=1--</span><br><span class="line">&#x27;or&#x27;a&#x27;=&#x27;a</span><br><span class="line">&quot;or&quot;=&quot;a&#x27;=&#x27;a</span><br><span class="line">&#x27;or&#x27;&#x27;=&#x27;</span><br><span class="line">&#x27;or&#x27;=&#x27;or&#x27;</span><br><span class="line">1 or &#x27;1&#x27;=&#x27;1&#x27;=1</span><br><span class="line">1 or &#x27;1&#x27;=&#x27;1&#x27; or 1=1</span><br><span class="line">&#x27;OR 1=1%00</span><br></pre></td></tr></table></figure>
+
+<p><strong>对策</strong></p>
+<p>那么下面我们可以想对策了。</p>
+<ol>
+<li><p>根据规律，我们首先要检测是否含有–，因为正常的表达式中不可能含有注释符号的，只要包含就认为此条sql语句非法。</p>
+</li>
+<li><p>检测是否含有;因为正常的表达式中不可能含有分号的，只要包含就认为此条sql语句非法。</p>
+</li>
+<li><p>接着我们检测是否包含恒等式，例如上面的1=1或者1=’1’或者’abc’=’abc’以及其他各种字符，我们得想个通用的策略。处理步骤：</p>
+<ul>
+<li><p>为了避免单引号的干扰，我们将所有非数字字母等号之外的字符都替换为空格，可以用正则表达式：<code>[^\da-zA-Z\r\n=]</code>，替换后得到</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">or 1 = 1    and password=  </span><br><span class="line">or  a = a</span><br><span class="line">admin  or  1 = 1</span><br><span class="line">or   = </span><br><span class="line">or  a = a</span><br><span class="line">or 1=1  </span><br><span class="line">or 1=1  </span><br><span class="line">a or  1=1  </span><br><span class="line">or 1=1  </span><br><span class="line">or a = a</span><br><span class="line">or = a = a</span><br><span class="line">or  = </span><br><span class="line">or = or </span><br><span class="line">1 or  1 = 1 =1</span><br><span class="line">1 or  1 = 1  or 1=1</span><br><span class="line">OR 1=1 00</span><br></pre></td></tr></table></figure></li>
+<li><p>开始判断是否包含恒等式，同样用正则表达式：<code>\s([^\s]+?)\s*=\s*(\1)\s*</code>，我们尝试匹配到的结果：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line">1.1 = 1	所在行: 1</span><br><span class="line">(1).1 (2).1</span><br><span class="line">2.a = a	所在行: 2</span><br><span class="line">(1).a (2).a</span><br><span class="line">3.1 = 1	所在行: 3</span><br><span class="line">(1).1 (2).1</span><br><span class="line">4.or   = </span><br><span class="line">   or	所在行: 4</span><br><span class="line">(1).or (2).or</span><br><span class="line">5.a = a	所在行: 5</span><br><span class="line">(1).a (2).a</span><br><span class="line">6.1=1	所在行: 6</span><br><span class="line">(1).1 (2).1</span><br><span class="line">7.1=1	所在行: 7</span><br><span class="line">(1).1 (2).1</span><br><span class="line">8.1=1	所在行: 8</span><br><span class="line">(1).1 (2).1</span><br><span class="line">9.1=1	所在行: 9</span><br><span class="line">(1).1 (2).1</span><br><span class="line">10.a = a	所在行: 10</span><br><span class="line">(1).a (2).a</span><br><span class="line">11.a = a	所在行: 11</span><br><span class="line">(1).a (2).a</span><br><span class="line">12.or  = </span><br><span class="line"> or	所在行: 12</span><br><span class="line">(1).or (2).or</span><br><span class="line">13.1 = 1	所在行: 14</span><br><span class="line">(1).1 (2).1</span><br><span class="line">14.1 = 1	所在行: 15</span><br><span class="line">(1).1 (2).1</span><br><span class="line">15.1=1	所在行: 15</span><br><span class="line">(1).1 (2).1</span><br><span class="line">16.1=1	所在行: 16</span><br><span class="line">(1).1 (2).1</span><br></pre></td></tr></table></figure></li>
+</ul>
+<p>全部匹配到了，只要能匹配的都认为这条sql语句有问题，那么选择不执行。这样就避免了sql注入。</p>
+<p>这里有个特殊的注入代码<code>&#39; or &#39;&#39;=&#39;</code>替换后是<code>  or   =</code> ，我们会发现这不会被上面的匹配到，因为等号前后是空的。所以我们还要再来一步将所有空格替换掉，然后判断是否包含<code>or=</code>，包含就认为非法。</p>
+</li>
+</ol>
+<p>总结就是：</p>
+<ol>
+<li>判断是否包含–或者#</li>
+<li>判断是否包含;</li>
+<li>判断是否包含恒等式</li>
+<li>其他特殊的，例如不能含有or=</li>
+</ol>
+<p>包含就认定sql语句非法，拒不执行。网上通常的办法的对每个字段的值进行过滤一大堆关键字特殊字符，个人觉得比较繁琐，经过我这4步后就将注入的问题拒之门外了。</p>
+<h5 id="解决SQL注入问题"><a href="#解决SQL注入问题" class="headerlink" title="解决SQL注入问题"></a>解决SQL注入问题</h5><p>解决方法：</p>
+<ol>
+<li><p>无论是直接使用数据库还是使用如mybatis组件，使用sql的预编译，不要用拼接字符串。</p>
+</li>
+<li><p>后台过滤检测：使用正则表达式过滤传入的参数<strong>；</strong>.字符串过滤</p>
+</li>
+<li><p>前端检测sql常见关键字，如or and drop之类的</p>
+</li>
+</ol>
+<p><strong>sql预编译</strong></p>
+<p>推荐方案，使用预编译的prepareStatement代替statement；使用框架中的setParameter设置参数，此方案可有效处理SQL注入问题。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line">      <span class="function"><span class="keyword">public</span> List&lt;NewsColumn&gt; <span class="title">getColumnListByType</span><span class="params">(String columnType)</span> </span>&#123;</span><br><span class="line">            String jql = <span class="string">&quot; FROM &quot;</span>+NewsColumn.class.getName(，)+<span class="string">&quot; WHERE type=:type &quot;</span>;</span><br><span class="line">            List&lt;NewsColumn&gt; list = entityManager.createQuery(jql).setParameter(<span class="string">&quot;type&quot;</span>, columnType).getResultList();</span><br><span class="line">            <span class="keyword">return</span> list;</span><br><span class="line">      &#125;</span><br></pre></td></tr></table></figure>
+
+<p>Java通过<strong>PreparedStatement</strong>类执行SQL语句时，SQL语句中变量用？来代替，之后对SQL语句进行预编译。PreparedStatement再调用set方式传入下标和变量进行赋值，再执行SQL语句。这期间，SQL预编译后下次传进来的内容，直接针对这些内容操作就好。比如</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select * from user where name = ? and pwd=?</span><br></pre></td></tr></table></figure>
+
+<p>这先把sql语句编译，之后执行。就算传入例如：name：<code>abc‘ or 1=1 #</code>，pwd：<code>111</code>，也会把<code>abc‘ or 1=1 #</code>单独当做一个name值进行匹配。结果就是匹配不到，防止了SQL注入。</p>
+<p><strong>查询过滤器</strong></p>
+<p>代码中增加了过滤器检测表单输入后，sql关键字段会被过滤掉；可以通过AOP或者拦截器过滤。</p>
+<ol>
+<li><p>编写拦截器过滤请求（不推荐），此方案建议只在对维护中项目或者代码结构比较乱的情况下使用，底层不容易修改或者不方便修改。此方案效率低，效果也不佳。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 校验参数，判断是否包含sql关键字表达式</span></span><br><span class="line"><span class="comment"> * 此方法会有误伤</span></span><br><span class="line"><span class="comment"> */</span> </span><br><span class="line">  </span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">boolean</span> <span class="title">sqlValidate</span><span class="params">(String str)</span> </span>&#123;  </span><br><span class="line">        str = str.toLowerCase();<span class="comment">//统一转为小写  </span></span><br><span class="line">        String badSqlStr = <span class="string">&quot;&#x27;|exec|execute|insert|select|delete|update|count|drop|chr|mid|master|truncate|char|declare|sitename|net user|xp_cmdshell|create|drop|&quot;</span></span><br><span class="line">                             +<span class="string">&quot;table|from|grant|use|group_concat|column_name|1=1|=|&quot;</span>   </span><br><span class="line">                             +<span class="string">&quot;information_schema.columns|table_schema|union|where|*|&quot;</span>  </span><br><span class="line">                          +<span class="string">&quot;chr|mid|master|truncate|char|declare|or|;|,|like|//|/|%|#|-|--|+|&quot;</span>;</span><br><span class="line">        String badXssStr = <span class="string">&quot;frame|iframe|script|javascript|=|&lt;|&gt;&quot;</span>;</span><br><span class="line">        </span><br><span class="line">        <span class="comment">//sql 关键词 有空格分隔</span></span><br><span class="line">        String[] badSqlStrs = badSqlStr.split(<span class="string">&quot;\\|&quot;</span>);  </span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; badSqlStrs.length; i++) &#123;  </span><br><span class="line">            <span class="keyword">if</span> (str.indexOf(<span class="string">&quot; &quot;</span>+badSqlStrs[i]) &gt;= <span class="number">0</span> || str.indexOf(badSqlStrs[i]+<span class="string">&quot; &quot;</span>) &gt;= <span class="number">0</span>) &#123;  </span><br><span class="line">                <span class="keyword">return</span> <span class="keyword">true</span>;  </span><br><span class="line">            &#125;  </span><br><span class="line">        &#125;</span><br><span class="line"> </span><br><span class="line">        &#125; </span><br><span class="line">        </span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">false</span>;  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+</ol>
+<h5 id="注入的方法总结"><a href="#注入的方法总结" class="headerlink" title="注入的方法总结"></a>注入的方法总结</h5><ol>
+<li><p>搜索型参数</p>
+<p>判断是否存在SQL注入漏洞，需满足以下四步：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">http://127.0.0.1/sql.php?Parameter=James    #正常查询数据</span><br><span class="line">http://127.0.0.1/sql.php?Parameter=James&#x27;   #页面异常或查询数据为空</span><br><span class="line">http://127.0.0.1/sql.php?Parameter=James%&#x27;and&#x27;%&#x27;=&#x27;  #正常查询数据</span><br><span class="line">http://127.0.0.1/sql.php?Parameter=James%&#x27;and&#x27;a%&#x27;=&#x27;b    #查询数据为空或提示列表为空</span><br></pre></td></tr></table></figure></li>
+<li><p>数字型参数<br>判断是否存在SQL注入漏洞，需满足一下四步：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">http://127.0.0.1/sql.php?Parameter=10001    #正常查询数据</span><br><span class="line">http://127.0.0.1/sql.php?Parameter=10001&#x27;   #页面异常或查询数据为空</span><br><span class="line">http://127.0.0.1/sql.php?Parameter=10001 and 1=1    #正常查询数据</span><br><span class="line">http://127.0.0.1/sql.php?Parameter=10001 and 1=2    #查询数据为空或提示列表为空</span><br></pre></td></tr></table></figure></li>
+<li><p>字符型参数<br>判断是否存在SQL注入漏洞，需满足一下四步：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">http://127.0.0.1/sql.php?Parameter=James    #正常查询数据</span><br><span class="line">http://127.0.0.1/sql.php?Parameter=James&#x27;   #页面异常或查询数据为空</span><br><span class="line">http://127.0.0.1/sql.php?Parameter=James&#x27; and &#x27;1&#x27;=&#x27;1    #正常查询数据</span><br><span class="line">http://127.0.0.1/sql.php?Parameter=James&#x27; and &#x27;1&#x27;=&#x27;2    #查询数据为空或提示列表为空</span><br></pre></td></tr></table></figure></li>
+</ol>
+<h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><ol>
+<li><a target="_blank" rel="noopener" href="https://www.jb51.net/article/108987.htm">有效防止SQL注入的5种方法总结</a></li>
+<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/shanhanyu/article/details/80515892">网站10大常见安全漏洞及解决方案</a></li>
+<li><a target="_blank" rel="noopener" href="https://yq.aliyun.com/articles/645609">一般网站有哪些常见漏洞？</a></li>
+<li><a target="_blank" rel="noopener" href="https://juejin.im/post/5bd5b820e51d456f72531fa8">Web 安全漏洞之 SQL 注入</a></li>
+<li><a target="_blank" rel="noopener" href="https://segmentfault.com/a/1190000007520556">SQL 注入详解</a></li>
+</ol>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">平心</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://pingxin0521.gitee.io/2019/12/10/%E5%91%A8%E8%AE%B0-4-0/">https://pingxin0521.gitee.io/2019/12/10/%E5%91%A8%E8%AE%B0-4-0/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://pingxin0521.gitee.io" target="_blank">平心de小屋</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E5%91%A8%E8%AE%B0/">周记</a></div><div class="post_share"><div class="social-share" data-image="https://i.loli.net/2020/05/08/gGE57HRvpcKPfDY.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2019/12/10/Java-%E6%A1%86%E6%9E%B6-5-1-2-2/"><img class="prev-cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/PFDRNxj93taz6pw.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">Spring MVC 原理 (二)</div></div></a></div><div class="next-post pull-right"><a href="/2019/12/10/Java-%E6%A1%86%E6%9E%B6-5-1-2-1/"><img class="next-cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/PFDRNxj93taz6pw.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">Spring MVC 原理 (一)</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span> 相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2019/11/14/周记-0-0/" title="何为道？"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/gGE57HRvpcKPfDY.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2019-12-15</div><div class="title">何为道？</div></div></a></div><div><a href="/2019/11/14/周记-0-1/" title="第一周--云原生"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/vCnKyoFJZ1g4XYR.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2020-01-04</div><div class="title">第一周--云原生</div></div></a></div><div><a href="/2019/11/15/周记-0-2/" title="第一周--混合云"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/PFDRNxj93taz6pw.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2019-11-15</div><div class="title">第一周--混合云</div></div></a></div><div><a href="/2019/11/14/周记-0-3/" title="第一周--DevOps"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/HjVAdIuT7bZJypS.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2019-11-21</div><div class="title">第一周--DevOps</div></div></a></div><div><a href="/2020/12/26/周记-10-1/" title="第十一周--谷歌浏览器插件"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/gGE57HRvpcKPfDY.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2020-12-26</div><div class="title">第十一周--谷歌浏览器插件</div></div></a></div><div><a href="/2019/11/18/周记-1-1/" title="第二周--BT和BT种子"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/PFDRNxj93taz6pw.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2019-11-28</div><div class="title">第二周--BT和BT种子</div></div></a></div></div></div><hr/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div class="vcomment" id="vcomment"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="card-info-avatar is-center"><img class="avatar-img" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://s2.ax1x.com/2020/02/11/1ovw6J.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/><div class="author-info__name">平心</div><div class="author-info__description">年轻人的life、learn and think</div></div><div class="card-info-data"><div class="card-info-data-item is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">449</div></a></div><div class="card-info-data-item is-center"><a href="/tags/"><div class="headline">标签</div><div class="length-num">77</div></a></div><div class="card-info-data-item is-center"><a href="/categories/"><div class="headline">分类</div><div class="length-num">68</div></a></div></div><a class="button--animated" id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/hanyunpeng0521"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/hanyunpeng0521" target="_blank" title="Github"><i class="fa fa-github"></i></a><a class="social-icon" href="mailto:m13839441583@163.com" target="_blank" title="Email"><i class="fa fa-envelope"></i></a><a class="social-icon" href="/atom.xml" target="_blank" title=""><i class="fa fa-rss"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn card-announcement-animation"></i><span>公告</span></div><div class="announcement_content">为什么呢？开始提问吧</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%9C%AC%E5%91%A8%E9%80%9F%E8%AE%B0"><span class="toc-number">1.</span> <span class="toc-text">本周速记</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Web%E5%BA%94%E7%94%A8%E7%9A%84%E6%BC%8F%E6%B4%9E%E5%88%86%E7%B1%BB"><span class="toc-number">2.</span> <span class="toc-text">Web应用的漏洞分类</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%B8%B8%E8%A7%81%E5%AE%89%E5%85%A8%E6%BC%8F%E6%B4%9E"><span class="toc-number">3.</span> <span class="toc-text">常见安全漏洞</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#SQL%E6%B3%A8%E5%85%A5%E9%97%AE%E9%A2%98"><span class="toc-number">4.</span> <span class="toc-text">SQL注入问题</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%B8%B8%E8%A7%81SQL%E6%B3%A8%E5%85%A5%E7%9A%84%E6%96%B9%E6%B3%95"><span class="toc-number">4.1.</span> <span class="toc-text">常见SQL注入的方法</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E8%A7%A3%E5%86%B3SQL%E6%B3%A8%E5%85%A5%E9%97%AE%E9%A2%98"><span class="toc-number">4.2.</span> <span class="toc-text">解决SQL注入问题</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%B3%A8%E5%85%A5%E7%9A%84%E6%96%B9%E6%B3%95%E6%80%BB%E7%BB%93"><span class="toc-number">4.3.</span> <span class="toc-text">注入的方法总结</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8F%82%E8%80%83"><span class="toc-number"></span> <span class="toc-text">参考</span></a></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2021/05/15/node-2-4/" title="Egg.js -- 为企业级框架和应用而生"><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/okfOw28KlZFbE7z.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Egg.js -- 为企业级框架和应用而生"/></a><div class="content"><a class="title" href="/2021/05/15/node-2-4/" title="Egg.js -- 为企业级框架和应用而生">Egg.js -- 为企业级框架和应用而生</a><time datetime="2021-05-15T10:18:59.000Z" title="发表于 2021-05-15 18:18:59">2021-05-15</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/04/30/node-2-3/" title="Koa -- 基于Node.js平台的下一代Web开发框架"><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/HjVAdIuT7bZJypS.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Koa -- 基于Node.js平台的下一代Web开发框架"/></a><div class="content"><a class="title" href="/2021/04/30/node-2-3/" title="Koa -- 基于Node.js平台的下一代Web开发框架">Koa -- 基于Node.js平台的下一代Web开发框架</a><time datetime="2021-04-30T10:18:59.000Z" title="发表于 2021-04-30 18:18:59">2021-04-30</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/04/01/node-2-1/" title="Node.JS web开发前置知识"><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/gGE57HRvpcKPfDY.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Node.JS web开发前置知识"/></a><div class="content"><a class="title" href="/2021/04/01/node-2-1/" title="Node.JS web开发前置知识">Node.JS web开发前置知识</a><time datetime="2021-04-01T03:18:59.000Z" title="发表于 2021-04-01 11:18:59">2021-04-01</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2020/12/26/%E5%91%A8%E8%AE%B0-10-1/" title="第十一周--谷歌浏览器插件"><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/gGE57HRvpcKPfDY.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="第十一周--谷歌浏览器插件"/></a><div class="content"><a class="title" href="/2020/12/26/%E5%91%A8%E8%AE%B0-10-1/" title="第十一周--谷歌浏览器插件">第十一周--谷歌浏览器插件</a><time datetime="2020-12-26T10:18:59.000Z" title="发表于 2020-12-26 18:18:59">2020-12-26</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2020/12/26/%E5%91%A8%E8%AE%B0-10-0/" title="第十一周--浏览器技术"><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://i.loli.net/2020/05/08/vCnKyoFJZ1g4XYR.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="第十一周--浏览器技术"/></a><div class="content"><a class="title" href="/2020/12/26/%E5%91%A8%E8%AE%B0-10-0/" title="第十一周--浏览器技术">第十一周--浏览器技术</a><time datetime="2020-12-26T06:18:59.000Z" title="发表于 2020-12-26 14:18:59">2020-12-26</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2019 - 2021 By 平心</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div id="local-search"><div class="search-dialog"><div class="search-dialog__title" id="local-search-title">本地搜索</div><div id="local-input-panel"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div></div><hr/><div id="local-search-results"></div><span class="search-close-button"><i class="fas fa-times"></i></span></div><div id="search-mask"></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload/dist/lazyload.iife.min.js"></script><script src="/js/search/local-search.js"></script><div class="js-pjax"><script>function loadValine () {
+  function initValine () {
+    const valine = new Valine(Object.assign({
+      el: '#vcomment',
+      appId: '4lfIXzqxaC1ONs0MJO4oHu07-gzGzoHsz',
+      appKey: 'qw99Bw8FD0KVKU9m457CwWsr',
+      placeholder: 'Please leave your footprints',
+      avatar: 'monsterid',
+      meta: 'nick,mail,link'.split(','),
+      pageSize: '10',
+      lang: 'zh-CN',
+      recordIP: true,
+      serverURLs: '',
+      emojiCDN: '',
+      emojiMaps: "",
+      enableQQ: true,
+      path: window.location.pathname,
+      requiredFields: ["nick,mail"],
+      visitor: false
+    }, null))
+  }
+
+  if (typeof Valine === 'function') initValine() 
+  else getScript('https://cdn.jsdelivr.net/npm/valine/dist/Valine.min.js').then(initValine)
+}
+
+if ('Valine' === 'Valine' || !false) {
+  if (false) btf.loadComment(document.getElementById('vcomment'),loadValine)
+  else setTimeout(loadValine, 0)
+} else {
+  function loadOtherComment () {
+    loadValine()
+  }
+}</script></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
