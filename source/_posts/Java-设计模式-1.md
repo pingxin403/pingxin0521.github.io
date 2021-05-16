@@ -1,0 +1,432 @@
+---
+title: 设计模式入坑
+date: 2019-05-21 16:18:59
+tags:
+ - Java
+ - 设计模式
+categories:
+ - Java
+ - 设计模式
+---
+
+设计模式（Design Pattern）是一套被反复使用、多数人知晓的、经过分类的、代码设计经验的总结。
+
+使用设计模式的目的：为了代码可重用性、让代码更容易被他人理解、保证代码可靠性。 设计模式使代码编写真正工程化；设计模式是软件工程的基石脉络，如同大厦的结构一样。
+
+<!--more-->
+
+设计模式（Design pattern）代表了最佳的实践，通常被有经验的面向对象的软件开发人员所采用。设计模式是软件开发人员在软件开发过程中面临的一般问题的解决方案。这些解决方案是众多软件开发人员经过相当长的一段时间的试验和错误总结出来的。
+
+设计模式是**一套被反复使用的、多数人知晓的、经过分类编目的、代码设计经验的总结**。使用设计模式是为了重用代码、让代码更容易被他人理解、保证代码可靠性。 毫无疑问，设计模式于己于他人于系统都是多赢的，设计模式使代码编制真正工程化，设计模式是软件工程的基石，如同大厦的一块块砖石一样。项目中合理地运用设计模式可以完美地解决很多问题，每种模式在现实中都有相应的原理来与之对应，每种模式都描述了一个在我们周围不断重复发生的问题，以及该问题的核心解决方案，这也是设计模式能被广泛应用的原因。
+
+#### 历史
+
+在 1994 年，由 Erich Gamma、Richard Helm、Ralph Johnson 和 John Vlissides 四人合著出版了一本名为 **Design Patterns - Elements of Reusable Object-Oriented Software（中文译名：设计模式 - 可复用的面向对象软件元素）** 的书，该书首次提到了软件开发中设计模式的概念。
+
+四位作者合称 **GOF（四人帮，全拼 Gang of Four）**。他们所提出的设计模式主要是基于以下的面向对象设计原则。
+
+- 对接口编程而不是对实现编程。
+- 优先使用对象组合而不是继承。
+
+主要的思想就是面对对象构件之间的解耦合。
+
+#### 面向对象特性
+
+**封装（Encapsulation）**
+
+不需要知道对象具体实现细节，通过共有方法暴露对象的功能
+
+**继承（Inheritance）**
+
+使用已经存在的类作为基础类（父类），在此基础上建立新类（子类），子类既可以复用父类的功能，也能进行扩展，从而提高了代码的复用。
+
+另外，Java不像C++一样可以同时继承多个父类，只能够树形的继承，比如：Animal -> Person -> Man，或者通过 接口和内部类 实现多继承！
+
+**多态（Polymorphism）**
+
+一个类实例的相同方法在不同情形下有不同的表现形式，一般有两种
+
+编译时多态(OverLoading) —— 方法重载
+
+运行时多态(OverRidding) —— 继承 + 方法重写 + 父类引用指向子类对象
+
+```java
+class XiaoDi() {
+    fun do() {
+        println("搞事情")
+    }
+}
+
+class DiChaXiaoDi : XiaoDi() {
+    override fun do() {
+        println("给大佬递茶")
+    }
+}
+```
+
+这个时候问题来了，如果有这样两行代码：
+
+```java
+XiaoDi A = new DiChaXiaoDi() 
+ A.do()
+```
+
+**问**：调用的是do后打印的是”搞事情”还是”给大佬递茶”？ 
+
+ 答： new后面是什么类型，动态类型就是什么类型。
+
+#### 类与类的关系
+
+记忆口诀：**鸡湿衣冠剧组**(继承，实现，依赖，关联，聚合，组合) 
+
+前面两个继承和实现基本都知道，而后面的四个只是 **语义层次** 的区别， 
+
+**两个类的相关程度**，**依赖** < **关联** < **聚合** < **组合** 
+
+在此之前，相信很多朋友都没接触过UML类图，可能会看不懂，这个是类和接口
+
+![1.png](https://i.loli.net/2019/06/04/5cf65a29af8f986127.png)
+
+1. 继承/泛化（Generalization）
+
+   继承表示类与类（或者接口与接口）之间的父子关系。一个是父类，一个是子类，用 空心三角箭头的实线 表示从子类指向父类，或子接口指向父接口。
+
+   ```java
+   class Monkey {
+       public void run() {
+           System.out.println("I can run!");
+       }
+   }
+   
+   class ProgramMonkey extends Monkey{
+       public void program() {
+           System.out.println("I can Program!");
+       }
+   }
+   
+   public class Main {
+       public static void main(String[] args) {
+           ProgramMonkey monkey = new ProgramMonkey();
+           monkey.run();
+           monkey.program();
+       }
+   }
+   ```
+
+   如上的意思就是说一开始Monkey猴子只会跑，后来进化成了ProgramMonkey程序猿，具备了新的program技能。也就是说程序猿具备了两项技能。
+
+2. 实现（Realization）
+
+   一个类实现接口，重写相关方法，用 空心三角箭头的虚线 表示
+
+   ```java
+   interface CodeInterface {
+       void code();
+   }
+   
+   class ProgramMonkey implements CodeInterface {
+       public void run() {
+           System.out.println("I can run!");
+       }
+   
+       @Override
+       public void code() {
+           System.out.println("I can coding!");
+       }
+   }
+   
+   public class Main {
+       public static void main(String[] args) {
+           ProgramMonkey monkey = new ProgramMonkey();
+           monkey.run();
+           monkey.code();
+       }
+   }
+   ```
+
+   意思就是说，有一个Code的技能，谁想学习拥有这个技能谁就实现它，我实现了他，我也就具备技能了！
+
+3. 依赖（Dependency）
+
+```java
+class 递茶小弟 {
+    fun 递茶() { 
+        println("给大佬递茶")
+    }
+}
+
+class 大佬 {
+    fun main() {
+        口渴()
+    }
+
+    fun 口渴() {
+        递茶小弟 A = new 递茶小弟()
+        A.递茶()
+    }
+}
+```
+
+大佬口渴了想喝茶，递茶小弟，而递茶小弟只是被当作递茶工具， 没什么卵用，递完茶小弟就可以走了（**不持有引用**）
+
+一般而言，依赖关系在Java语言中体现为**局域变量、方法的形参，或者对静态方法的调用。**
+
+**UML图**(用**实心带箭头虚线**表示，从使用类指向依赖类)：
+
+![2.png](https://i.loli.net/2019/06/04/5cf65a29bf2d063190.png)
+
+4. 关联（Association）
+
+   使一个类知道另一个类的属性和方法。关联可以是双向的，也可以是单向的。在Java语言中，关联关系一般使用成员变量来实现。
+
+   关联、聚合、组合只能配合语义，结合上下文才能够判断出来，而只给出一段代码让我们判断是关联，聚合，还是组合关系，则是无法判断的。
+
+   ```java
+   class 保镖小弟 {
+       fun 护驾() {
+           println("保护大佬")
+       }
+   }
+   
+   class 大佬 {
+       private 保镖小弟 A = new 保镖小弟();
+       fun main() {
+           if(被人怼了) {
+               A.护驾()
+           }
+       }
+   }
+   ```
+
+   大佬一般身边有保镖小弟，这种小弟当然是要随叫随到的，所以要保持联系（持有引用），比起递茶小弟，和大佬间的关系会强一些，一个大佬可以有多个保镖小弟，而一个保镖小弟可能有多个大佬(25仔)。
+
+   具体表现：**成员变量**
+
+   UML图(实心箭头的实线表示，箭头指向被关联类，另外这个可以双向，一对多或多对多)：
+
+   ![3.png](https://i.loli.net/2019/06/04/5cf65a29d70fa16457.png)
+
+5. 聚合（Aggregation）
+
+   和关联一样是通过成员变量来表现的，不过关联是处于同一层次的，而聚合则是整体和局部 层次的，比如：社团 和 小弟，另外即使没有了社团，小弟们依旧可以到别的地方搞事情。用 空心菱形加实线箭头 表示。
+
+   聚合是关联关系的一种，是强的关联关系，聚合是整体和个体之间的关系。与关联关系一样，聚合关系也是通过实例变量实现的，但是关联关系所涉及的两个类是处在同一层次上的，而在聚合关系中，两个类是处在不平等层次上的，一个代表整体，另一个代表部分。
+
+   ```java
+   class Code {
+       public void coding(String str) {
+           System.out.println("Coding with "+ str +" !");
+       }
+   }
+   
+   class ProgramMonkey {
+       private Code mCode;
+   
+       public Code getmCode() {
+           return mCode;
+       }
+   
+       public void setmCode(Code mCode) {
+           this.mCode = mCode;
+       }
+   
+       public ProgramMonkey() {
+       }
+       //也是聚合关系
+       public void programAndroid() {
+           mCode.coding("Java/Android");
+       }
+   }
+   
+   public class Main {
+       public static void main(String[] args) {
+           ProgramMonkey monkey = new ProgramMonkey(new Code());
+           monkey.programAndroid();
+       }
+   }
+   ```
+
+   聚合关系一般**使用setter方法给成员变量赋值。**
+
+6. 组合（Composition）
+
+   和聚合类似，只是程度更加强烈，共生死，组合类负责被组合类的生命周期，比如：社团 和 大佬，如果没了社团，大佬也就就不能存在了。
+
+   组合是关联关系的一种，是比聚合关系强的关系。它要求普通的聚合关系中代表整体的对象负责代表部分对象的生命周期，组合关系是不能共享的。代表整体的对象需要负责保持部分对象和存活，在一些情况下将负责代表部分的对象湮灭掉。代表整体的对象可以将代表部分的对象传递给另一个对象，由后者负责此对象的生命周期。换言之，代表部分的对象在每一个时刻只能与一个对象发生组合关系，由后者排他地负责生命周期。部分和整体的生命周期一样。
+
+   用 实心菱形加实线箭头表示 表示。
+
+   ```java
+   class Code {
+       public void coding(String str) {
+           System.out.println("Coding with "+ str +" !");
+       }
+   }
+   
+   class ProgramMonkey {
+       private Code mCode;
+   
+       public ProgramMonkey(Code mCode) {
+           this.mCode = mCode;
+       }
+   
+       public void programAndroid() {
+           mCode.coding("Java/Android");
+       }
+   }
+   
+   public class Main {
+       public static void main(String[] args) {
+           ProgramMonkey monkey = new ProgramMonkey(new Code());
+           monkey.programAndroid();
+       }
+   }
+   ```
+
+   意思就是说想要成为ProgramMonkey程序猿，你必须具备Code编程能力，没有编程能力，是毛程序员啊（饿死了）；我要是转行了，谁也拿不走我的Code技能；我的技能跟随我的生命，我挂了技能也没了，技能没了，我就挂了！所以说为了表示组合关系，常常会**使用构造方法来达到初始化的目的。**
+
+最后捋一捋，根据这些关系列个大UML图吧：
+
+![4.png](https://i.loli.net/2019/06/04/5cf65a2a41a0c25042.png)
+
+
+
+#### 设计模式七大基本原则
+
+在运用面向对象的思想进行软件设计时，需要遵循的原则一共有7个，他们是：
+
+1. 单一职责原则（Single Responsibility Principle）
+
+   每一个类应该专注于做一件事情。
+
+2. 里氏替换原则（Liskov Substitution Principle）
+
+   超类存在的地方，子类是可以替换的。
+
+3. 依赖倒置原则（Dependence Inversion Principle）
+
+   实现尽量依赖抽象或接口，不依赖具体实现。
+
+4. 接口隔离原则（Interface Segregation Principle）
+
+   应当为客户端提供尽可能小的单独的接口，而不是提供大的总的接口。
+
+5. 迪米特法则（Law Of Demeter）
+
+   又叫最少知识原则，一个软件实体应当尽可能少的与其他实体发生相互作用。
+
+6. 开闭原则（Open Close Principle）
+
+   面向扩展开放，面向修改关闭。
+
+7. 组合/聚合复用原则（Composite/Aggregate Reuse Principle CARP）
+
+   尽量使用合成/聚合达到复用，尽量少用继承。原则： 一个类中有另一个类的对象。
+
+##### 细则
+
+**单一职责原则（Single Responsibility Principle）**
+
+因为：
+
+可以降低类的复杂度，一个类只负责一项职责，其逻辑肯定要比负责多项职责简单的多；提高类的可读性，提高系统的可维护性；变更引起的风险降低，变更是必然的，如果单一职责原则遵守的好，当修改一个功能时，可以显著降低对其他功能的影响。需要说明的一点是单一职责原则不只是面向对象编程思想所特有的，只要是模块化的程序设计，都适用单一职责原则。
+
+所以：
+
+从大局上看Android中的Paint和Canvas等类都遵守单一职责原则，Paint和Canvas各司其职。
+
+**里氏替换原则（Liskov Substitution Principle）**
+
+因为：
+
+里氏替换原则告诉我们，在软件中将一个基类对象替换成它的子类对象，程序将不会产生任何错误和异常，反过来则不成立，如果一个软件实体使用的是一个子类对象的话，那么它不一定能够使用基类对象。里氏替换原则是实现开闭原则的重要方式之一，由于使用基类对象的地方都可以使用子类对象，因此**在程序中尽量使用基类类型来对对象进行定义，而在运行时再确定其子类类型，用子类对象来替换父类对象**。
+
+所以：
+
+使用里氏替换原则时需要注意，**子类的所有方法必须在父类中声明，或子类必须实现父类中声明的所有方法**。尽量把父类设计为抽象类或者接口，让子类继承父类或实现父接口，并实现在父类中声明的方法，运行时，子类实例替换父类实例，我们可以很方便地扩展系统的功能，同时无须修改原有子类的代码，增加新的功能可以通过增加一个新的子类来实现。
+
+从大局看Java的多态就属于这个原则。
+
+**依赖倒置原则（Dependence Inversion Principle）**
+
+因为：
+
+具体依赖抽象，上层依赖下层。假设B是较A低的模块，但B需要使用到A的功能，这个时候，B不应当直接使用A中的具体类；**而应当由B定义一抽象接口，并由A来实现这个抽象接口，B只使用这个抽象接口**；这样就达到了依赖倒置的目的，B也解除了对A的依赖，反过来是A依赖于B定义的抽象接口。通过上层模块难以避免依赖下层模块，假如B也直接依赖A的实现，那么就可能造成循环依赖。
+
+所以：
+
+采用依赖倒置原则可以减少类间的耦合性，提高系统的稳定性，减少并行开发引起的风险，提高代码的可读性和可维护性。
+
+**接口隔离原则（Interface Segregation Principle）**
+
+因为：
+
+提供尽可能小的单独接口，而不要提供大的总接口。暴露行为让后面的实现类知道的越少越好。譬如类ProgramMonkey通过接口CodeInterface依赖类CodeC，类ProgramMaster通过接口CodeInterface依赖类CodeAndroid，如果接口CodeInterface对于类ProgramMonkey和类CodeC来说不是最小接口，则类CodeC和类CodeAndroid必须去实现他们不需要的方法。将臃肿的接口CodeInterface拆分为独立的几个接口，类ProgramMonkey和类ProgramMaster分别与他们需要的接口建立依赖关系。也就是采用接口隔离原则。
+
+所以：
+
+建立单一接口，不要建立庞大的接口，尽量细化接口，接口中的方法尽量少。也就是要为各个类建立专用的接口，而不要试图去建立一个很庞大的接口供所有依赖它的类去调用。依赖几个专用的接口要比依赖一个综合的接口更灵活。接口是设计时对外部设定的约定，通过分散定义多个接口，可以预防外来变更的扩散，提高系统的灵活性和可维护性。
+
+从大局来说Java的接口可以实现多继承就是接口隔离原则的基础保障。
+
+**迪米特法则（Law Of Demeter）**
+
+因为：
+
+类与类之间的关系越密切，耦合度也就越来越大，只有尽量降低类与类之间的耦合才符合设计模式；对于被依赖的类来说，无论逻辑多复杂都要尽量封装在类的内部；每个对象都会与其他对象有耦合关系，我们称出现成员变量、方法参数、方法返回值中的类为直接的耦合依赖，而出现在局部变量中的类则不是直接耦合依赖，也就是说，不是直接耦合依赖的类最好不要作为局部变量的形式出现在类的内部。
+
+所以：
+
+一个对象对另一个对象知道的越少越好，即一个软件实体应当尽可能少的与其他实体发生相互作用，在一个类里能少用多少其他类就少用多少，尤其是局部变量的依赖类，能省略尽量省略。同时如果两个类不必彼此直接通信，那么这两个类就不应当发生直接的相互作用。如果其中一个类需要调用另一个类的某一方法的话，可以通过第三者转发这个调用。
+
+从大局来说Android App开发中的多Fragment与依赖的Activity间交互通信遵守了这一法则。
+
+**开闭原则（Open Close Principle）**
+
+因为：
+
+开放封闭原则主要体现在对扩展开放、对修改封闭，意味着有新的需求或变化时，可以对现有代码进行扩展，以适应新的情况。软件需求总是变化的，世界上没有一个软件的是不变的，因此对软件设计人员来说，**必须在不需要对原有系统进行修改的情况下，实现灵活的系统扩展。**
+
+所以：
+
+可以通过Template Method模式和Strategy模式进行重构，实现对修改封闭，对扩展开放的设计思路。
+封装变化，是实现开放封闭原则的重要手段，对于经常发生变化的状态，一般将其封装为一个抽象，拒绝滥用抽象，只将经常变化的部分进行抽象。
+
+**组合/聚合复用原则（Composite/Aggregate Reuse Principle CARP）**
+
+因为：
+
+其实整个设计模式就是在讲如何类与类之间的组合/聚合。在一个新的对象里面通过关联关系（包括组合关系和聚合关系）使用一些已有的对象，使之成为新对象的一部分，新对象通过委派调用已有对象的方法达到复用其已有功能的目的。也就是，要尽量使用类的合成复用，尽量不要使用继承。
+
+如果为了复用，便使用继承的方式将两个不相干的类联系在一起，违反里氏代换原则，哪是生搬硬套，忽略了继承了缺点。继承复用破坏数据封装性，将基类的实现细节全部暴露给了派生类，基类的内部细节常常对派生类是透明的，白箱复用；虽然简单，但不安全，不能在程序的运行过程中随便改变；基类的实现发生了改变，派生类的实现也不得不改变；从基类继承而来的派生类是静态的，不可能在运行时间内发生改变，因此没有足够的灵活性。
+
+所以：
+
+组合/聚合复用原则可以使系统更加灵活，类与类之间的耦合度降低，一个类的变化对其他类造成的影响相对较少，因此一般首选使用组合/聚合来实现复用；其次才考虑继承，在使用继承时，需要严格遵循里氏代换原则，有效使用继承会有助于对问题的理解，降低复杂度，而滥用继承反而会增加系统构建和维护的难度以及系统的复杂度，因此需要慎重使用继承复用。
+
+#### 设计模式的类型
+
+根据设计模式的参考书 Design Patterns - Elements of Reusable Object-Oriented Software（中文译名：设计模式 - 可复用的面向对象软件元素） 中所提到的，总共有 23 种设计模式。这些模式可以分为三大类：创建型模式（Creational Patterns）、结构型模式（Structural Patterns）、行为型模式（Behavioral Patterns）。当然，我们还会讨论另一类设计模式：J2EE 设计模式。
+
+| 序号 | 模式 & 描述                                                  | 包括                                                         |
+| ---- | ------------------------------------------------------------ | ------------------------------------------------------------ |
+| 1    | **创建型模式** 这些设计模式提供了一种在创建对象的同时隐藏创建逻辑的方式，而不是使用 new 运算符直接实例化对象。这使得程序在判断针对某个给定实例需要创建哪些对象时更加灵活。 | 工厂模式（Factory Pattern） 抽象工厂模式（Abstract Factory Pattern） 单例模式（Singleton Pattern） 建造者模式（Builder Pattern） 原型模式（Prototype Pattern） |
+| 2    | **结构型模式** 这些设计模式关注类和对象的组合。继承的概念被用来组合接口和定义组合对象获得新功能的方式。 | 适配器模式（Adapter Pattern） 桥接模式（Bridge Pattern） 过滤器模式（Filter、Criteria Pattern） 组合模式（Composite Pattern） 装饰器模式（Decorator Pattern） 外观模式（Facade Pattern） 享元模式（Flyweight Pattern） 代理模式（Proxy Pattern） |
+| 3    | **行为型模式** 这些设计模式特别关注对象之间的通信。          | 责任链模式（Chain of Responsibility Pattern） 命令模式（Command Pattern） 解释器模式（Interpreter Pattern） 迭代器模式（Iterator Pattern） 中介者模式（Mediator Pattern） 备忘录模式（Memento Pattern） 观察者模式（Observer Pattern） 状态模式（State Pattern） 空对象模式（Null Object Pattern） 策略模式（Strategy Pattern） 模板模式（Template Pattern） 访问者模式（Visitor Pattern） |
+| 4    | **J2EE 模式** 这些设计模式特别关注表示层。这些模式是由 Sun Java Center 鉴定的。 | MVC 模式（MVC Pattern） 业务代表模式（Business Delegate Pattern） 组合实体模式（Composite Entity Pattern） 数据访问对象模式（Data Access Object Pattern） 前端控制器模式（Front Controller Pattern） 拦截过滤器模式（Intercepting Filter Pattern） 服务定位器模式（Service Locator Pattern） 传输对象模式（Transfer Object Pattern） |
+
+GoF提出有**23种**不同的设计模式，分为三大类：
+
+![4.png](https://i.loli.net/2019/06/04/5cf68601a8b0169954.png)
+
+下面用一个图片来整体描述一下设计模式之间的关系：
+
+![1.jpg](https://i.loli.net/2019/06/04/5cf6616d973ef48504.jpg)
+
+
+
+### 参考
+
+1. [设计模式之面向对象与类基础特征概念](http://blog.csdn.net/yanbober/article/details/45312127#t2) 
+2. [设计模式之面向对象七大基本原则](http://blog.csdn.net/yanbober/article/details/45312243)
+3. [设计模式](https://www.runoob.com/design-pattern/design-pattern-tutorial.html)
