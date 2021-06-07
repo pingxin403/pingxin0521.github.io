@@ -852,10 +852,10 @@ hexo-server@^2.0.0:
     open "^7.0.0"
     serve-static "^1.14.1"
 
-hexo-theme-butterfly@^3.7.7:
-  version "3.7.7"
-  resolved "https://registry.nlark.com/hexo-theme-butterfly/download/hexo-theme-butterfly-3.7.7.tgz#4bcfa566d6b3758cc32a975ab19eaf2b38801570"
-  integrity sha1-S8+lZtazdYzDKpdasZ6vKziAFXA=
+hexo-theme-butterfly@^3.7.8:
+  version "3.7.8"
+  resolved "https://registry.yarnpkg.com/hexo-theme-butterfly/-/hexo-theme-butterfly-3.7.8.tgz#bbe583c86da21044507434ad2b2fd0959c8dbb2a"
+  integrity sha512-Ln466jJjgYs4Km8OaII6wTJ4t1h0m2GrFTkdlJJube2YMB/Jwdg7dyrbb+GhN8OWSFwsFaiw66BlDvN8QvSLUw==
   dependencies:
     hexo-renderer-pug "^1.0.0"
     hexo-renderer-stylus "^2.0.1"
